@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.auth.presentation.dto;
+package com.woowacourse.thankoo.authentication.presentation.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,8 +1,8 @@
-package com.woowacourse.thankoo.auth.presentation;
+package com.woowacourse.thankoo.authentication.presentation;
 
-import com.woowacourse.thankoo.auth.exception.InvalidTokenException;
-import com.woowacourse.thankoo.auth.infrastructure.AuthorizationExtractor;
-import com.woowacourse.thankoo.auth.infrastructure.JwtTokenProvider;
+import com.woowacourse.thankoo.authentication.exception.InvalidTokenException;
+import com.woowacourse.thankoo.authentication.infrastructure.AuthorizationExtractor;
+import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

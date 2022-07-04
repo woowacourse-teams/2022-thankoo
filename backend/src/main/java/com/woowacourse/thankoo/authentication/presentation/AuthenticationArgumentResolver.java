@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.auth.presentation;
+package com.woowacourse.thankoo.authentication.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;

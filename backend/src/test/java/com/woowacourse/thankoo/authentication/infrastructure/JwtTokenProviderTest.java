@@ -1,9 +1,9 @@
-package com.woowacourse.thankoo.auth.infrastructure;
+package com.woowacourse.thankoo.authentication.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.thankoo.auth.exception.InvalidTokenException;
+import com.woowacourse.thankoo.authentication.exception.InvalidTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

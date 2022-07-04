@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.auth.infrastructure;
+package com.woowacourse.thankoo.authentication.infrastructure;
 
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;

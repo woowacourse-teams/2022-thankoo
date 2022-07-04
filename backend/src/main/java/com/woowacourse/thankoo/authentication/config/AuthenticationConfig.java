@@ -1,7 +1,7 @@
-package com.woowacourse.thankoo.auth.config;
+package com.woowacourse.thankoo.authentication.config;
 
-import com.woowacourse.thankoo.auth.presentation.AuthenticationArgumentResolver;
-import com.woowacourse.thankoo.auth.presentation.SignInInterceptor;
+import com.woowacourse.thankoo.authentication.presentation.AuthenticationArgumentResolver;
+import com.woowacourse.thankoo.authentication.presentation.SignInInterceptor;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

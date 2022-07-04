@@ -1,6 +1,6 @@
-package com.woowacourse.thankoo.auth.presentation;
+package com.woowacourse.thankoo.authentication.presentation;
 
-import com.woowacourse.thankoo.auth.exception.InvalidAuthenticationException;
+import com.woowacourse.thankoo.authentication.exception.InvalidAuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 

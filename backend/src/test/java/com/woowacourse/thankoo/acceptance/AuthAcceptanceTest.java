@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.auth.presentation.dto.TokenResponse;
+import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

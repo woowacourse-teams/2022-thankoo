@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.auth.exception;
+package com.woowacourse.thankoo.authentication.exception;
 
 public class InvalidTokenException extends RuntimeException {
 

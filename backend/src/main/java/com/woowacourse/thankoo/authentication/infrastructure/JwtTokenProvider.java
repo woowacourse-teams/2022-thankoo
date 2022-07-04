@@ -1,6 +1,6 @@
-package com.woowacourse.thankoo.auth.infrastructure;
+package com.woowacourse.thankoo.authentication.infrastructure;
 
-import com.woowacourse.thankoo.auth.exception.InvalidTokenException;
+import com.woowacourse.thankoo.authentication.exception.InvalidTokenException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

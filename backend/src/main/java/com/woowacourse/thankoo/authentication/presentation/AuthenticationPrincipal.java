@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.auth.presentation;
+package com.woowacourse.thankoo.authentication.presentation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

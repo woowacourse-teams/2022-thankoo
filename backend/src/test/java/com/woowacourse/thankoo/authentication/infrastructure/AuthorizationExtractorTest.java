@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.auth.infrastructure;
+package com.woowacourse.thankoo.authentication.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
