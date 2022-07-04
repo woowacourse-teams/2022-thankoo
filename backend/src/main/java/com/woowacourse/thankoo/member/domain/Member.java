@@ -25,6 +25,15 @@ public class Member extends BaseEntity {
     @Column(name = "name", length = 50)
     private String name;
 
+    public Member(final Long id, final String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Member(final String name) {
+        this(null, name);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
