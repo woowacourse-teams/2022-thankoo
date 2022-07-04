@@ -18,3 +18,6 @@ security:
     token:
       secret-key: dasdc338hfhghsn21sdf1jvnu4ascasv21908fyhas2a
       expire-length: 1000000
+
+server:
+  port: 8180

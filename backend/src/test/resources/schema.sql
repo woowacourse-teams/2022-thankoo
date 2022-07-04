@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS coupon_history;
+DROP TABLE IF EXISTS coupon;
+DROP TABLE IF EXISTS member;
+
 CREATE TABLE member
 (
     id          BIGINT(0) NOT NULL AUTO_INCREMENT,

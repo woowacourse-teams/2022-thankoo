@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
+import com.woowacourse.thankoo.member.domain.MemberRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ class AuthenticationServiceTest {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @DisplayName("SignIn 시 토큰을 반환한다.")
     @Test
     void signIn() {
@@ -26,5 +31,10 @@ class AuthenticationServiceTest {
                 () -> assertThat(tokenResponse.getAccessToken()).isNotNull(),
                 () -> assertThat(tokenResponse.getMemberId()).isNotNull()
         );
+    }
+
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAllInBatch();
     }
 }

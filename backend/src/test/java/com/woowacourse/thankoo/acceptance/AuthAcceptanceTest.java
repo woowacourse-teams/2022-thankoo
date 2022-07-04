@@ -7,7 +7,6 @@ import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @Sql(scripts = "classpath:truncate.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 public class AuthAcceptanceTest {
 
@@ -35,7 +34,8 @@ public class AuthAcceptanceTest {
     void signIn() {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
-                .when().get("/api/sigin", Map.of("code", "huni"))
+                .queryParam("code", "huni")
+                .when().get("/api/sign-in")
                 .then().log().all()
                 .extract();
 
