@@ -3,6 +3,10 @@ spring:
     hibernate:
       ddl-auto: none
     open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:thankoo-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
