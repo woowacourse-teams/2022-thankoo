@@ -12,3 +12,9 @@ spring:
     url: jdbc:h2:mem:thankoo-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
+
+security:
+  jwt:
+    token:
+      secret-key: dasdc338hfhghsn21sdf1jvnu4ascasv21908fyhas2a
+      expire-length: 1000000
