@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 public class TokenResponse {
 
     private String accessToken;
-    private Long userId;
+    private Long memberId;
 
-    public TokenResponse(final String accessToken, final Long userId) {
+    public TokenResponse(final String accessToken, final Long memberId) {
         this.accessToken = accessToken;
-        this.userId = userId;
+        this.memberId = memberId;
     }
 }
