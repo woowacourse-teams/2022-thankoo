@@ -29,7 +29,7 @@ class CouponTypeTest {
         void ofException() {
             assertThatThrownBy(() -> CouponType.of("invalidValue"))
                     .isInstanceOf(InvalidCouponTypeException.class)
-                    .hasMessageContaining("존재하지 않는 쿠폰 타입입니다.");
+                    .hasMessage("존재하지 않는 쿠폰 타입입니다.");
         }
     }
 }
