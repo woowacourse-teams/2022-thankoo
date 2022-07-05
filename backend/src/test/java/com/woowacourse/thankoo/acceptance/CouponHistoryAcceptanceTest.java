@@ -54,7 +54,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             Long couponHistoryId2 = 쿠폰이_추가됨(쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest2));
             ExtractableResponse<Response> response = 쿠폰을_조회한다(receiverToken.getAccessToken());
 
-            쿠폰이_조회됨(couponHistoryId1, couponHistoryId2, response);
+            쿠폰이_조회됨(couponHistoryId2, couponHistoryId1, response);
         }
     }
 
@@ -77,6 +77,4 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
                                               final String message) {
         return new CouponRequest(receiverId, new ContentRequest(type, title, message));
     }
-
-
 }

@@ -1,4 +1,8 @@
 [[CouponHistory]]
-
 == Send
+
 operation::coupon_history/send[snippets='http-request,http-response']
+
+== Received Coupons
+
+operation::coupon_history/received-coupons[snippets='http-request,http-response']
