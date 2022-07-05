@@ -10,6 +10,11 @@ import { css, Global } from '@emotion/react';
 const rootElement = document.getElementById('root')!;
 const root = createRoot(rootElement);
 
+if (process.env.NODE_ENV === 'development') {
+  const { worker } = require('./mocks/browser');
+  worker.start();
+}
+
 root.render(
   <React.StrictMode>
     <Global styles={css([reset, global])} />
