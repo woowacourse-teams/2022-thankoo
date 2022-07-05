@@ -1,10 +1,10 @@
 package com.woowacourse.thankoo.acceptance;
 
-import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequest.로그인_한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequest.토큰을_반환한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequest.쿠폰을_전송한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequest.쿠폰을_조회한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequest.쿠폰이_추가됨;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.로그인_한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.토큰을_반환한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_전송한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_조회한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰이_추가됨;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;

@@ -17,6 +17,4 @@ public class CouponContentResponse {
         this.title = title;
         this.message = message;
     }
-
-
 }

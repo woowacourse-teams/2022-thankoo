@@ -1,14 +1,14 @@
 package com.woowacourse.thankoo.acceptance.support.fixtures;
 
-import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequest.getWithToken;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequest.postWithToken;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
 
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.apache.http.HttpHeaders;
 
-public class CouponHistoryRequest {
+public class CouponHistoryRequestFixture {
 
     public static ExtractableResponse<Response> 쿠폰을_전송한다(final String accessToken,
                                                          final CouponRequest couponRequest) {

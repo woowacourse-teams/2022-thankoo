@@ -1,22 +1,15 @@
 package com.woowacourse.thankoo.acceptance;
 
-import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequest.로그인_한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequest.토큰을_반환한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.로그인_한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.토큰을_반환한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 @DisplayName("AuthenticationAcceptance 는 ")
 public class AuthenticationAcceptanceTest extends AcceptanceTest {
