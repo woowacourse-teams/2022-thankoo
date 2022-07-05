@@ -18,4 +18,6 @@ export interface CouponContent {
   message: string;
 }
 
-export type CouponType = 'entire' | 'coffee' | 'meal' | 'custom';
+export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' };
+export const couponTypesList = Object.keys(couponTypes);
+export type CouponType = typeof couponTypesList[number];
