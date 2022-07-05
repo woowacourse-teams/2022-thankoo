@@ -1,11 +1,19 @@
 import styled from '@emotion/styled';
+import { Coupon } from '../../types';
 
-const GridViewCoupon = () => {
+const GridViewCoupon = ({ coupon }: { coupon: Coupon }) => {
+  const { sender, content } = coupon;
+
   return (
     <S.Layout>
       <S.Content>
-        <S.Coupon>호호의 커피쿠폰</S.Coupon>
-        <S.Title>고마워 비녀~~</S.Title>
+        <S.Title>{content.title}</S.Title>
+        <S.Coupon>{content.couponType}이미지</S.Coupon>
+        <S.Sender>
+          <S.SenderPrefix>from.</S.SenderPrefix>
+          {sender.name}
+          <S.SenderImage src={sender.imageUrl} />
+        </S.Sender>
       </S.Content>
       <S.SplitLine />
       <S.Tip>사용하기</S.Tip>
@@ -21,34 +29,53 @@ const S = {
     flex-direction: column;
     background: #fff;
     border-radius: 8px;
+
+    width: 155px;
+    height: 200px;
   `,
   Content: styled.div`
     flex: 1;
     border-radius: 8px 8px 0 0;
+    padding: 0.5rem;
+    background-color: #00a05f;
+    color: white;
   `,
   Coupon: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
-    background-color: #00a05f;
     border-radius: 8px 8px 0 0;
-    height: 5rem;
+    height: 4rem;
   `,
   Title: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 10px;
+    font-size: 15px;
     text-align: center;
     height: 2rem;
+    word-break: keep-all;
   `,
-  Tip: styled.div`
+  Sender: styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  `,
+  SenderPrefix: styled.span`
+    font-size: 12px;
+  `,
+  SenderImage: styled.img`
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+  `,
+  Tip: styled.button`
     position: relative;
     text-align: center;
     padding: 15px;
     border-radius: 10px 8px 8px 12px;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 0.1px 3px 1px;
+    border: none;
   `,
   SplitLine: styled.div`
     position: relative;
