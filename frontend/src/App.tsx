@@ -1,18 +1,24 @@
 import styled from '@emotion/styled';
 import Main from './pages/Main';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <MobileDiv>
-      <Main />
-    </MobileDiv>
+    <QueryClientProvider client={queryClient}>
+      <MobileDiv>
+        <Main />
+      </MobileDiv>
+    </QueryClientProvider>
   );
 }
 
 const MobileDiv = styled.div`
-  width: 360px;
-  height: 800px;
-  padding: 1rem;
+  min-width: 360px;
+  max-width: 1080px;
+  margin: 0 auto;
+  height: 100vh;
   background-color: #232323;
 `;
 
