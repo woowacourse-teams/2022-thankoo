@@ -3,11 +3,14 @@ package com.woowacourse.thankoo.acceptance;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequest.로그인_한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequest.토큰을_반환한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequest.postWithToken;
+import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
-import com.woowacourse.thankoo.coupon.presentation.dto.ContentRequest;
-import com.woowacourse.thankoo.coupon.presentation.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
+import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +32,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             TokenResponse receiverToken = 토큰을_반환한다(로그인_한다("hoho"));
 
             CouponRequest couponRequest = new CouponRequest(receiverToken.getMemberId(),
-                    new ContentRequest("coffee", "호호의 카누쿠폰", "커피 타 줄게요"));
+                    new ContentRequest(TYPE, TITLE, MESSAGE));
             ExtractableResponse<Response> response =
                     postWithToken("/api/coupons/send", senderToken.getAccessToken(), couponRequest);
 
