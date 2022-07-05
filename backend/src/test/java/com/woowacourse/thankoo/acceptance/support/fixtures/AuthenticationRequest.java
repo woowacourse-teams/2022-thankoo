@@ -13,5 +13,4 @@ public class AuthenticationRequest {
     public static TokenResponse 토큰을_반환한다(final ExtractableResponse<Response> response) {
         return response.as(TokenResponse.class);
     }
-
 }
