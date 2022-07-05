@@ -22,4 +22,5 @@ public class CouponHistoryController {
         Long id = couponHistoryService.save(senderId, couponRequest);
         return ResponseEntity.created(URI.create("/api/coupons/" + id)).build();
     }
+
 }

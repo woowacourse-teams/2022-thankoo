@@ -5,13 +5,16 @@ import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.CouponHistoryRepository;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponHistoryResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -59,6 +62,24 @@ class CouponHistoryServiceTest {
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
+    }
+
+    @DisplayName("받은 쿠폰을 조회한다.")
+    @Test
+    void getReceivedCoupons() {
+        Member sender = memberRepository.save(new Member("huni"));
+        Member receiver = memberRepository.save(new Member("skrrrr"));
+
+        couponHistoryService.save(sender.getId(), new CouponRequest(receiver.getId(),
+                new ContentRequest(TYPE, TITLE, MESSAGE)));
+
+        List<CouponHistoryResponse> responses = couponHistoryService.getReceivedCoupons(receiver.getId());
+
+        assertAll(
+                () -> assertThat(responses).hasSize(1),
+                () -> assertThat(responses.get(0).getSender().getId()).isEqualTo(sender.getId()),
+                () -> assertThat(responses.get(0).getReceiver().getId()).isEqualTo(receiver.getId())
+        );
     }
 
     @AfterEach

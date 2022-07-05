@@ -12,9 +12,13 @@ public class CouponContentResponse {
     private String title;
     private String message;
 
-    public CouponContentResponse(final String couponType, final String title, final String message) {
+    private CouponContentResponse(final String couponType, final String title, final String message) {
         this.couponType = couponType;
         this.title = title;
         this.message = message;
+    }
+
+    public static CouponContentResponse from(final String couponType, final String title, final String message) {
+        return new CouponContentResponse(couponType, title, message);
     }
 }
