@@ -18,6 +18,7 @@ class JwtTokenProviderTest {
     void createToken() {
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(SECRET_KEY, VALIDITY_IN_MILLISECONDS);
         String token = jwtTokenProvider.createToken("1");
+
         assertThat(token).isNotNull();
     }
 
@@ -39,5 +40,4 @@ class JwtTokenProviderTest {
         assertThatThrownBy(() -> jwtTokenProvider.getPayload(token))
                 .isInstanceOf(InvalidTokenException.class);
     }
-
 }

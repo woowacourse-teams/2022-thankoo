@@ -17,9 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
+@DisplayName("AuthenticationAcceptance 는 ")
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @Sql(scripts = "classpath:truncate.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
-public class AuthAcceptanceTest {
+public class AuthenticationAcceptanceTest {
 
     @LocalServerPort
     private int port;
