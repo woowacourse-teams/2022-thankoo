@@ -19,17 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 @DisplayName("AuthenticationAcceptance 는 ")
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@Sql(scripts = "classpath:truncate.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
-public class AuthenticationAcceptanceTest {
-
-    @LocalServerPort
-    private int port;
-
-    @BeforeEach
-    void setup() {
-        RestAssured.port = port;
-    }
+public class AuthenticationAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("유저가 로그인을 진행하면 알맞은 토큰을 반환한다.")
     @Test

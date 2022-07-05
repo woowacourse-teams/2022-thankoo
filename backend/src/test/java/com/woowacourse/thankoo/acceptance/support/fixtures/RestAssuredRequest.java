@@ -13,4 +13,14 @@ public class RestAssuredRequest {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> postWithToken(final String url, final String token, final Object body) {
+        return RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .body(body)
+                .when().post(url)
+                .then().log().all()
+                .extract();
+    }
 }
