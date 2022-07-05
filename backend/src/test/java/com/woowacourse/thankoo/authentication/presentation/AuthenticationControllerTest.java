@@ -15,46 +15,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.thankoo.authentication.application.AuthenticationService;
-import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
+import com.woowacourse.thankoo.common.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("AuthenticationController 는 ")
-@WebMvcTest(AuthenticationController.class)
-@AutoConfigureRestDocs
-@ExtendWith(RestDocumentationExtension.class)
-@MockBean(JpaMetamodelMappingContext.class)
-class AuthenticationControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @MockBean
-    private AuthenticationService authenticationService;
-
-    @MockBean
-    private JwtTokenProvider jwtTokenProvider;
-
-    @MockBean
-    private AuthenticationContext authenticationContext;
+class AuthenticationControllerTest extends ControllerTest {
 
     @DisplayName("SignIn 시 200 OK 와 토큰을 반환한다.")
     @Test
@@ -82,11 +53,4 @@ class AuthenticationControllerTest {
                 )));
     }
 
-    public OperationResponsePreprocessor getResponsePreprocessor() {
-        return Preprocessors.preprocessResponse(prettyPrint());
-    }
-
-    public OperationRequestPreprocessor getRequestPreprocessor() {
-        return Preprocessors.preprocessRequest(prettyPrint());
-    }
 }

@@ -1,0 +1,4 @@
+[[CouponHistory]]
+
+== Send
+operation::coupon_history/send[snippets='http-request,http-response']

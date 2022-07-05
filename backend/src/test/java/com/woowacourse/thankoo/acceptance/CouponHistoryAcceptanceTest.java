@@ -36,7 +36,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response =
                     postWithToken("/api/coupons/send", senderToken.getAccessToken(), couponRequest);
 
-            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         }
     }
 }
