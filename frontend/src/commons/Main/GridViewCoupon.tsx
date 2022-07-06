@@ -10,7 +10,7 @@ const GridViewCoupon = ({ coupon }: { coupon: Coupon }) => {
         <S.Title>{content.title}</S.Title>
         <S.Coupon>{content.couponType}이미지</S.Coupon>
         <S.Sender>
-          <S.SenderPrefix>from.</S.SenderPrefix>
+          <S.SenderPrefix>from. </S.SenderPrefix>
           {sender.name}
           <S.SenderImage src={sender.imageUrl} />
         </S.Sender>
@@ -63,6 +63,7 @@ const S = {
   `,
   SenderPrefix: styled.span`
     font-size: 12px;
+    margin-right: 5px;
   `,
   SenderImage: styled.img`
     border-radius: 50%;
@@ -87,7 +88,7 @@ const S = {
     ::before {
       content: '';
       position: absolute;
-      width: 9px;
+      width: 10px;
       height: 16px;
       background: #232323;
       z-index: 1;
@@ -95,12 +96,12 @@ const S = {
     }
 
     &::after {
-      left: -5px;
+      left: -6px;
       border-radius: 0 8px 8px 0;
       clip: rect(auto, auto, 285px, auto);
     }
     &::before {
-      right: -5px;
+      right: -6px;
       border-radius: 8px 0 0 8px;
       clip: rect(auto, auto, 285px, auto);
     }
