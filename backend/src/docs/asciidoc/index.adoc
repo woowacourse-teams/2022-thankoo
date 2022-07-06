@@ -9,3 +9,4 @@ endif::[]
 
 = Thankoo
 include::auth.adoc[]
+include::couponHistory.adoc[]
