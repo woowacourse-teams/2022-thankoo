@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-@DisplayName("CouponHistoryService 는")
+@DisplayName("CouponHistoryService 는 ")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CouponHistoryServiceTest {
 

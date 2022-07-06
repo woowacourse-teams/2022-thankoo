@@ -91,7 +91,7 @@ public class CouponHistoryControllerTest extends ControllerTest {
 
         given(couponHistoryService.getReceivedCoupons(anyLong()))
                 .willReturn(couponHistoryResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/members/me/received-coupons")
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

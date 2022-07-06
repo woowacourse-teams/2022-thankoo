@@ -20,6 +20,6 @@ public class CouponHistoryRequestFixture {
     }
 
     public static ExtractableResponse<Response> 쿠폰을_조회한다(final String accessToken) {
-        return getWithToken("/api/members/me/received-coupons", accessToken);
+        return getWithToken("/api/coupons/received", accessToken);
     }
 }
