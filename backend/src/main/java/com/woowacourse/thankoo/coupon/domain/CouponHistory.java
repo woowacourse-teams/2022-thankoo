@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -59,5 +60,34 @@ public class CouponHistory extends BaseEntity {
                          final String title,
                          final String message) {
         this(null, senderId, receiverId, CouponType.of(couponType), title, message);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CouponHistory)) {
+            return false;
+        }
+        CouponHistory that = (CouponHistory) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "CouponHistory{" +
+                "id=" + id +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", couponType=" + couponType +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }
