@@ -1,5 +1,11 @@
 package com.woowacourse.thankoo.member.application;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -32,7 +38,7 @@ class MemberServiceTest {
         @DisplayName("멤버가 존재하지 않으면 생성한다.")
         @Test
         void signInCreateMember() {
-            Long id = memberService.createOrGet("hoho");
+            Long id = memberService.createOrGet(HOHO_NAME);
 
             assertAll(
                     () -> assertThat(id).isNotNull(),
@@ -43,8 +49,8 @@ class MemberServiceTest {
         @DisplayName("멤버가 존재하면 조회한다.")
         @Test
         void signInGetMember() {
-            memberRepository.save(new Member("hoho"));
-            Long id = memberService.createOrGet("hoho");
+            memberRepository.save(HOHO);
+            Long id = memberService.createOrGet(HOHO_NAME);
 
             assertAll(
                     () -> assertThat(id).isNotNull(),
@@ -56,15 +62,15 @@ class MemberServiceTest {
     @DisplayName("본인을 제외한 모든 회원을 조회한다.")
     @Test
     void getMembersExcludeMe() {
-        Member member = memberRepository.save(new Member("hoho"));
-        memberRepository.save(new Member("huni"));
-        memberRepository.save(new Member("skrrr"));
+        Member member = memberRepository.save(HOHO);
+        memberRepository.save(HUNI);
+        memberRepository.save(SKRR);
 
         List<MemberResponse> memberResponses = memberService.getMembersExcludeMe(member.getId());
 
         assertAll(
                 () -> assertThat(memberResponses).hasSize(2),
-                () -> assertThat(memberResponses).extracting("name").containsExactly("huni", "skrrr")
+                () -> assertThat(memberResponses).extracting("name").containsExactly(HUNI_NAME, SKRR_NAME)
         );
     }
 

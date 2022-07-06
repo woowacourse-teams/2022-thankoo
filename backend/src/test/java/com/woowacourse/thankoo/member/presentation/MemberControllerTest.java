@@ -2,7 +2,6 @@ package com.woowacourse.thankoo.member.presentation;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.createMember;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -35,8 +34,7 @@ public class MemberControllerTest extends ControllerTest {
     void getMembersExcludeMe() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        List<MemberResponse> memberResponses = List.of(MemberResponse.of(createMember(1L, LALA)),
-                MemberResponse.of(createMember(2L, HUNI)));
+        List<MemberResponse> memberResponses = List.of(MemberResponse.of(LALA), MemberResponse.of(HUNI));
         given(memberService.getMembersExcludeMe(anyLong()))
                 .willReturn(memberResponses);
 

@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.authentication.application;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -25,7 +26,7 @@ class AuthenticationServiceTest {
     @DisplayName("SignIn 시 토큰을 반환한다.")
     @Test
     void signIn() {
-        TokenResponse tokenResponse = authenticationService.signIn("huni");
+        TokenResponse tokenResponse = authenticationService.signIn(HUNI_NAME);
 
         assertAll(
                 () -> assertThat(tokenResponse.getAccessToken()).isNotNull(),

@@ -1,5 +1,7 @@
 package com.woowacourse.thankoo.coupon.application;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
@@ -43,8 +45,8 @@ class CouponHistoryServiceTest {
         @DisplayName("회원이 존재하면 정상적으로 저장한다.")
         @Test
         void save() {
-            Member sender = memberRepository.save(new Member("huni"));
-            Member receiver = memberRepository.save(new Member("skrrrr"));
+            Member sender = memberRepository.save(HUNI);
+            Member receiver = memberRepository.save(SKRR);
 
             Long id = couponHistoryService.save(sender.getId(), new CouponRequest(receiver.getId(),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
@@ -55,7 +57,7 @@ class CouponHistoryServiceTest {
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")
         @Test
         void saveInvalidMemberException() {
-            Member sender = memberRepository.save(new Member("huni"));
+            Member sender = memberRepository.save(HUNI);
 
             assertThatThrownBy(() -> couponHistoryService.save(sender.getId(), new CouponRequest(0L,
                     new ContentRequest(TYPE, TITLE, MESSAGE))))
@@ -67,8 +69,8 @@ class CouponHistoryServiceTest {
     @DisplayName("받은 쿠폰을 조회한다.")
     @Test
     void getReceivedCoupons() {
-        Member sender = memberRepository.save(new Member("huni"));
-        Member receiver = memberRepository.save(new Member("skrrrr"));
+        Member sender = memberRepository.save(HUNI);
+        Member receiver = memberRepository.save(SKRR);
 
         couponHistoryService.save(sender.getId(), new CouponRequest(receiver.getId(),
                 new ContentRequest(TYPE, TITLE, MESSAGE)));

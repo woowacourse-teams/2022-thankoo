@@ -1,5 +1,11 @@
 package com.woowacourse.thankoo.member.domain;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -23,7 +29,7 @@ class MemberRepositoryTest {
     @DisplayName("멤버를 저장한다.")
     @Test
     void save() {
-        Member member = new Member("lala");
+        Member member = new Member(LALA_NAME);
 
         Member savedMember = memberRepository.save(member);
 
@@ -33,10 +39,10 @@ class MemberRepositoryTest {
     @DisplayName("이름으로 회원을 조회한다.")
     @Test
     void findByName() {
-        Member member = new Member("lala");
+        Member member = new Member(LALA_NAME);
         memberRepository.save(member);
 
-        Optional<Member> foundMember = memberRepository.findByName("lala");
+        Optional<Member> foundMember = memberRepository.findByName(LALA_NAME);
 
         assertAll(
                 () -> assertThat(foundMember).isNotEmpty(),
@@ -47,12 +53,12 @@ class MemberRepositoryTest {
     @DisplayName("이름 순서대로 회원을 조회한다.")
     @Test
     void findAllByOrderByNameAsc() {
-        Member member = memberRepository.save(new Member("lala"));
-        memberRepository.save(new Member("hoho"));
-        memberRepository.save(new Member("huni"));
+        Member member = memberRepository.save(LALA);
+        memberRepository.save(HOHO);
+        memberRepository.save(HUNI);
 
         List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(member.getId());
 
-        assertThat(members).extracting("name").containsExactly("hoho", "huni");
+        assertThat(members).extracting("name").containsExactly(HOHO_NAME, HUNI_NAME);
     }
 }

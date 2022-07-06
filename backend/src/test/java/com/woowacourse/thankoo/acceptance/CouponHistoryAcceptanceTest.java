@@ -5,6 +5,8 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.Authentication
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_전송한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰이_추가됨;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
@@ -33,8 +35,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
         @DisplayName("쿠폰을 보낸다.")
         @Test
         void sendCoupon() {
-            TokenResponse senderToken = 토큰을_반환한다(로그인_한다("huni"));
-            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다("hoho"));
+            TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
+            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
             CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
             ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
@@ -45,8 +47,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
         @DisplayName("쿠폰을 조회한다.")
         @Test
         void getCoupons() {
-            TokenResponse senderToken = 토큰을_반환한다(로그인_한다("huni"));
-            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다("hoho"));
+            TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
+            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
             CouponRequest couponRequest1 = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
             CouponRequest couponRequest2 = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE + "1", MESSAGE);
