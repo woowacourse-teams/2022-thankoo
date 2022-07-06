@@ -1,8 +1,8 @@
 [[CouponHistory]]
-== Send
+== 쿠폰 전송
 
 operation::coupon_history/send[snippets='http-request,http-response']
 
-== Received Coupons
+== 받은 쿠폰 조회
 
 operation::coupon_history/received-coupons[snippets='http-request,http-response']
