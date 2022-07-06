@@ -52,5 +52,4 @@ class AuthenticationControllerTest extends ControllerTest {
                         fieldWithPath("memberId").type(NUMBER).description("memberId")
                 )));
     }
-
 }
