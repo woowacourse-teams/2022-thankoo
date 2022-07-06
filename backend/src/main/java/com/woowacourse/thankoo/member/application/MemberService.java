@@ -24,9 +24,8 @@ public class MemberService {
     }
 
     public List<MemberResponse> getMembersExcludeMe(final Long memberId) {
-        List<Member> members = memberRepository.findAllByOrderByNameAsc();
+        List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(memberId);
         return members.stream()
-                .filter(member -> !member.isSameId(memberId))
                 .map(MemberResponse::of)
                 .collect(Collectors.toList());
     }

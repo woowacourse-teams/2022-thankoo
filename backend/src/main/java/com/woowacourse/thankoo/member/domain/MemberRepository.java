@@ -8,5 +8,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByName(String name);
 
-    List<Member> findAllByOrderByNameAsc();
+    List<Member> findAllByIdNotOrderByNameAsc(Long id);
 }

@@ -47,12 +47,12 @@ class MemberRepositoryTest {
     @DisplayName("이름 순서대로 회원을 조회한다.")
     @Test
     void findAllByOrderByNameAsc() {
-        memberRepository.save(new Member("lala"));
+        Member member = memberRepository.save(new Member("lala"));
         memberRepository.save(new Member("hoho"));
         memberRepository.save(new Member("huni"));
 
-        List<Member> members = memberRepository.findAllByOrderByNameAsc();
+        List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(member.getId());
 
-        assertThat(members).extracting("name").containsExactly("hoho", "huni", "lala");
+        assertThat(members).extracting("name").containsExactly("hoho", "huni");
     }
 }
