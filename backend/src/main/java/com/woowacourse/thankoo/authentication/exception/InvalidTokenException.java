@@ -1,8 +1,11 @@
 package com.woowacourse.thankoo.authentication.exception;
 
-public class InvalidTokenException extends RuntimeException {
+import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.common.exception.UnauthorizedException;
 
-    public InvalidTokenException() {
-        super("유효하지 않은 토큰입니다.");
+public class InvalidTokenException extends UnauthorizedException {
+
+    public InvalidTokenException(final ErrorType errorType) {
+        super(errorType);
     }
 }

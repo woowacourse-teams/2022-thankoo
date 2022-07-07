@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.authentication.infrastructure;
 
 import com.woowacourse.thankoo.authentication.exception.InvalidTokenException;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,7 +45,7 @@ public class JwtTokenProvider {
                     .getBody()
                     .getSubject();
         } catch (JwtException e) {
-            throw new InvalidTokenException();
+            throw new InvalidTokenException(ErrorType.INVALID_TOKEN);
         }
     }
 }

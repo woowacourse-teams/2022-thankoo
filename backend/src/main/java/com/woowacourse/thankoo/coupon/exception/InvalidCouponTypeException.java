@@ -1,8 +1,11 @@
 package com.woowacourse.thankoo.coupon.exception;
 
-public class InvalidCouponTypeException extends RuntimeException {
+import com.woowacourse.thankoo.common.exception.BadRequestException;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 
-    public InvalidCouponTypeException() {
-        super("존재하지 않는 쿠폰 타입입니다.");
+public class InvalidCouponTypeException extends BadRequestException {
+
+    public InvalidCouponTypeException(final ErrorType errorType) {
+        super(errorType);
     }
 }

@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.authentication.presentation;
 
 import com.woowacourse.thankoo.authentication.exception.InvalidAuthenticationException;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -12,14 +13,14 @@ public class AuthenticationContext {
 
     public Long getPrincipal() {
         if (principal == null) {
-            throw new InvalidAuthenticationException("인증되지 않았습니다.");
+            throw new InvalidAuthenticationException(ErrorType.NOT_AUTHENTICATED);
         }
         return principal;
     }
 
     public void setPrincipal(final Long principal) {
         if (this.principal != null) {
-            throw new InvalidAuthenticationException("이미 인증 정보가 존재합니다.");
+            throw new InvalidAuthenticationException(ErrorType.ALREADY_AUTHENTICATED);
         }
         this.principal = principal;
     }

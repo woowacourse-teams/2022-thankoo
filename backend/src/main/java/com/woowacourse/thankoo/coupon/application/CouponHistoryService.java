@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.coupon.application;
 
+import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.CouponHistory;
 import com.woowacourse.thankoo.coupon.domain.CouponHistoryQueryRepository;
@@ -31,7 +32,7 @@ public class CouponHistoryService {
 
     private void validateMember(final Long senderId, final Long receiverId) {
         if (isExistMembers(senderId, receiverId)) {
-            throw new InvalidMemberException();
+            throw new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER);
         }
     }
 
