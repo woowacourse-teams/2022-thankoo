@@ -19,5 +19,6 @@ export interface CouponContent {
 }
 
 export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' };
-export const couponTypesList = Object.keys(couponTypes);
-export type CouponType = typeof couponTypesList[number];
+export const couponTypeValues = Object.values(couponTypes);
+export const couponTypeKeys = Object.keys(couponTypes);
+export type CouponType = typeof couponTypeKeys[number];

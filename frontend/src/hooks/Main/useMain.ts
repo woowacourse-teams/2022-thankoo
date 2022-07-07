@@ -5,7 +5,6 @@ import { CouponType, Coupon } from '../../types';
 
 const useMain = () => {
   const [currentType, setCurrentType] = useState<CouponType>('entire');
-  console.log('useMainCalled', currentType);
 
   const { data, isLoading, error } = useQuery<Coupon[]>('coupon', async () => {
     const { data } = await axios.get('http://localhost:3000/api/members/me/received-coupons');
