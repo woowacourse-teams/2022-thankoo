@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class CouponContent {
 
     private static final int MAX_TITLE_LENGTH = 20;
+    private static final int MAX_MESSAGE_LENGTH = 50;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "coupon_type", nullable = false, length = 20)
@@ -27,6 +28,7 @@ public class CouponContent {
 
     public CouponContent(final CouponType couponType, final String title, final String message) {
         validateTitleLength(title);
+        validateMessageLength(message);
         this.couponType = couponType;
         this.title = title;
         this.message = message;
@@ -35,6 +37,12 @@ public class CouponContent {
     private void validateTitleLength(final String title) {
         if (title.isEmpty() || title.length() > MAX_TITLE_LENGTH) {
             throw new InvalidCouponContentException(ErrorType.INVALID_COUPON_TITLE);
+        }
+    }
+
+    private void validateMessageLength(final String message) {
+        if (message.isEmpty() || message.length() > MAX_MESSAGE_LENGTH) {
+            throw new InvalidCouponContentException(ErrorType.INVALID_COUPON_MESSAGE);
         }
     }
 }
