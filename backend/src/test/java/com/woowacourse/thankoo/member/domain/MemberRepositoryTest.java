@@ -53,9 +53,9 @@ class MemberRepositoryTest {
     @DisplayName("이름 순서대로 회원을 조회한다.")
     @Test
     void findAllByOrderByNameAsc() {
-        Member member = memberRepository.save(LALA);
-        memberRepository.save(HOHO);
-        memberRepository.save(HUNI);
+        Member member = memberRepository.save(new Member(LALA_NAME));
+        memberRepository.save(new Member(HOHO_NAME));
+        memberRepository.save(new Member(HUNI_NAME));
 
         List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(member.getId());
 

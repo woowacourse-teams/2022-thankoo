@@ -4,6 +4,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,15 +63,15 @@ class MemberServiceTest {
     @DisplayName("본인을 제외한 모든 회원을 조회한다.")
     @Test
     void getMembersExcludeMe() {
-        Member member = memberRepository.save(HOHO);
-        memberRepository.save(HUNI);
-        memberRepository.save(SKRR);
+        Member member = memberRepository.save(new Member(LALA_NAME));
+        memberRepository.save(new Member(HOHO_NAME));
+        memberRepository.save(new Member(HUNI_NAME));
 
         List<MemberResponse> memberResponses = memberService.getMembersExcludeMe(member.getId());
 
         assertAll(
                 () -> assertThat(memberResponses).hasSize(2),
-                () -> assertThat(memberResponses).extracting("name").containsExactly(HUNI_NAME, SKRR_NAME)
+                () -> assertThat(memberResponses).extracting("name").containsExactly(HOHO_NAME, HUNI_NAME)
         );
     }
 
