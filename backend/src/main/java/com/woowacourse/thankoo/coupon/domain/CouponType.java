@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.coupon.exception.InvalidCouponTypeException;
+import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
 import java.util.Arrays;
 import lombok.Getter;
 
@@ -21,6 +21,6 @@ public enum CouponType {
         return Arrays.stream(values())
                 .filter(it -> it.getValue().equalsIgnoreCase(name))
                 .findFirst()
-                .orElseThrow(() -> new InvalidCouponTypeException(ErrorType.INVALID_COUPON_TYPE));
+                .orElseThrow(() -> new InvalidCouponContentException(ErrorType.INVALID_COUPON_TYPE));
     }
 }
