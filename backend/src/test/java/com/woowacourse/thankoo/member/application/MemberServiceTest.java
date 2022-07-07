@@ -36,7 +36,7 @@ class MemberServiceTest {
     @Nested
     class SignInTest {
 
-        @DisplayName("멤버가 존재하지 않으면 생성한다.")
+        @DisplayName("회원가 존재하지 않으면 생성한다.")
         @Test
         void signInCreateMember() {
             Long id = memberService.createOrGet(HOHO_NAME);
@@ -47,7 +47,7 @@ class MemberServiceTest {
             );
         }
 
-        @DisplayName("멤버가 존재하면 조회한다.")
+        @DisplayName("회원가 존재하면 조회한다.")
         @Test
         void signInGetMember() {
             memberRepository.save(HOHO);
