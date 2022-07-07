@@ -166,7 +166,7 @@ export const dummyCoupons: Coupon[] = [
       ...users[1],
     },
     content: {
-      couponType: 'meal',
+      couponType: 'coffee',
       title: '저녁식사 함께 해요',
       message: '하하하',
     },
@@ -180,7 +180,7 @@ export const dummyCoupons: Coupon[] = [
       ...users[6],
     },
     content: {
-      couponType: 'coffee',
+      couponType: 'meal',
       title: '커퓌 한좐?',
       message: '하하하',
     },
