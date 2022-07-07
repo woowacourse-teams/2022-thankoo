@@ -47,7 +47,8 @@ public class CouponHistoryQueryRepositoryTest {
         Member sender = memberRepository.save(HUNI);
         Member receiver = memberRepository.save(HOHO);
 
-        couponHistoryRepository.save(new CouponHistory(sender.getId(), receiver.getId(), TYPE, TITLE, MESSAGE));
+        couponHistoryRepository.save(new CouponHistory(sender.getId(), receiver.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE)));
 
         List<MemberCouponHistory> memberCouponHistories = couponHistoryQueryRepository.findByReceiverId(
                 receiver.getId());

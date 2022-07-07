@@ -3,9 +3,8 @@ package com.woowacourse.thankoo.coupon.domain;
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,36 +29,23 @@ public class CouponHistory extends BaseEntity {
     @Column(name = "receiver_id", nullable = false)
     private Long receiverId;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "coupon_type", nullable = false, length = 20)
-    private CouponType couponType;
-
-    @Column(name = "title", nullable = false, length = 50)
-    private String title;
-
-    @Column(name = "message", nullable = false)
-    private String message;
+    @Embedded
+    private CouponContent couponContent;
 
     public CouponHistory(final Long id,
                          final Long senderId,
                          final Long receiverId,
-                         final CouponType couponType,
-                         final String title,
-                         final String message) {
+                         final CouponContent couponContent) {
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
-        this.couponType = couponType;
-        this.title = title;
-        this.message = message;
+        this.couponContent = couponContent;
     }
 
     public CouponHistory(final Long senderId,
                          final Long receiverId,
-                         final String couponType,
-                         final String title,
-                         final String message) {
-        this(null, senderId, receiverId, CouponType.of(couponType), title, message);
+                         final CouponContent couponContent) {
+        this(null, senderId, receiverId, couponContent);
     }
 
     @Override
@@ -85,9 +71,7 @@ public class CouponHistory extends BaseEntity {
                 "id=" + id +
                 ", senderId=" + senderId +
                 ", receiverId=" + receiverId +
-                ", couponType=" + couponType +
-                ", title='" + title + '\'' +
-                ", message='" + message + '\'' +
+                ", couponContent=" + couponContent +
                 '}';
     }
 }

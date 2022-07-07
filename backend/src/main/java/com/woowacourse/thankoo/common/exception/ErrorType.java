@@ -11,7 +11,10 @@ public enum ErrorType {
 
     NOT_FOUND_MEMBER(2001, "존재하지 않는 회원입니다."),
 
-    INVALID_COUPON_TYPE(3001, "존재하지 않는 쿠폰 타입입니다.");
+    INVALID_COUPON_TYPE(3001, "존재하지 않는 쿠폰 타입입니다."),
+    INVALID_COUPON_TITLE(3002, "잘못된 쿠폰 제목입니다."),
+    INVALID_COUPON_MESSAGE(3003, "잘못된 쿠폰 내용입니다.")
+    ;
 
     private final int code;
     private final String message;

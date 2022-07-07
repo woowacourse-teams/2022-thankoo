@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.coupon.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.thankoo.coupon.exception.InvalidCouponTypeException;
+import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class CouponTypeTest {
         @Test
         void ofException() {
             assertThatThrownBy(() -> CouponType.of("invalidValue"))
-                    .isInstanceOf(InvalidCouponTypeException.class)
+                    .isInstanceOf(InvalidCouponContentException.class)
                     .hasMessage("존재하지 않는 쿠폰 타입입니다.");
         }
     }

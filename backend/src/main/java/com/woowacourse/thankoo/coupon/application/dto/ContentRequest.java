@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.coupon.application.dto;
 
+import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,9 @@ public class ContentRequest {
         this.couponType = couponType;
         this.title = title;
         this.message = message;
+    }
+
+    public CouponContent toEntity() {
+        return new CouponContent(couponType, title, message);
     }
 }
