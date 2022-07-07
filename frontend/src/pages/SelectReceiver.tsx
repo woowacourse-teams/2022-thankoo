@@ -5,6 +5,7 @@ import UserSearchInput from '../commons/SelectReceiver/UserSearchInput';
 import ListViewUsers from '../commons/SelectReceiver/ListViewUsers';
 import CheckedUsers from '../commons/SelectReceiver/CheckedUsers';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Link } from 'react-router-dom';
 
 const SelectReceiver = () => {
   const { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser } =
@@ -13,7 +14,9 @@ const SelectReceiver = () => {
   return (
     <S.Container>
       <S.Header>
-        <ArrowBackButton />
+        <Link to='/'>
+          <ArrowBackButton />
+        </Link>
         <S.HeaderText>누구한테 보낼까요?</S.HeaderText>
       </S.Header>
       <S.Body>
@@ -24,7 +27,7 @@ const SelectReceiver = () => {
         )}
       </S.Body>
       <S.LongButton>
-        다 고르셨나요?
+        <Link to='/enter-coupon'>다 고르셨나요?</Link>
         <ArrowForwardIosIcon />
       </S.LongButton>
     </S.Container>
@@ -43,11 +46,11 @@ const S = {
     align-items: flex-start;
     gap: 15px;
     color: white;
-    margin: 10px 0 0 10px;
+    margin: 10px 0 0 2vw;
   `,
   HeaderText: styled.p`
     font-size: 26px;
-    margin-left: 10px;
+    margin-left: calc(1vw + 6px);
   `,
   Body: styled.div`
     display: flex;

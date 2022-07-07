@@ -4,6 +4,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CouponTypesNav from '../commons/Main/CouponTypesNav';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
 import { couponTypeKeys } from '../types';
+import { Link } from 'react-router-dom';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -13,7 +14,9 @@ const EnterCouponContent = () => {
   return (
     <S.Container>
       <S.Header>
-        <ArrowBackButton />
+        <Link to='/select-receiver'>
+          <ArrowBackButton />
+        </Link>
         <S.HeaderText>어떤 쿠폰을 보낼까요?</S.HeaderText>
       </S.Header>
       <S.Body>
