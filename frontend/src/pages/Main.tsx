@@ -3,6 +3,7 @@ import CouponTypesNav from '../commons/Main/CouponTypesNav';
 import ArrowBackButton from '../commons/Header/ArrowBackButton';
 import useMain from '../hooks/Main/useMain';
 import styled from '@emotion/styled';
+import { couponTypeKeys } from '../types';
 
 const Main = () => {
   const { setCurrentType, couponsByType, isLoading, error, currentType } = useMain();
@@ -17,7 +18,11 @@ const Main = () => {
         <S.HeaderText>쿠폰함</S.HeaderText>
       </S.Header>
       <S.Body>
-        <CouponTypesNav onChangeType={setCurrentType} currentType={currentType} />
+        <CouponTypesNav
+          onChangeType={setCurrentType}
+          currentType={currentType}
+          selectableCouponTypes={couponTypeKeys}
+        />
         {couponsByType && <GridViewCoupons coupons={couponsByType} />}
       </S.Body>
     </S.Container>
