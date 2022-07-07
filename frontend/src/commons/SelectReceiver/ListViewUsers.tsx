@@ -35,6 +35,7 @@ const S = {
     margin-top: 7px;
     overflow-y: auto;
     padding-left: 4px;
+    padding-bottom: 20vh;
 
     &::-webkit-scrollbar {
       width: 2px;

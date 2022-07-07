@@ -6,6 +6,7 @@ import ListViewUsers from '../commons/SelectReceiver/ListViewUsers';
 import CheckedUsers from '../commons/SelectReceiver/CheckedUsers';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 const SelectReceiver = () => {
   const { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser } =
@@ -26,12 +27,20 @@ const SelectReceiver = () => {
           <ListViewUsers users={users} isCheckedUser={isCheckedUser} onClickUser={toggleUser} />
         )}
       </S.Body>
-      <S.LongButton>
-        <Link to='/enter-coupon'>다 고르셨나요?</Link>
+
+      <S.LongButton
+        to={checkedUsers.length ? '/enter-coupon' : '#'}
+        disabled={!checkedUsers.length}
+      >
+        다 고르셨나요?
         <ArrowForwardIosIcon />
       </S.LongButton>
     </S.Container>
   );
+};
+
+type ButtonProps = {
+  disabled: boolean;
 };
 
 const S = {
@@ -58,7 +67,7 @@ const S = {
     gap: 1rem;
     padding: 15px 3vw;
     color: white;
-    height: 70vh;
+    height: 82vh;
   `,
   UsersImages: styled.div`
     display: flex;
@@ -86,10 +95,23 @@ const S = {
   UserName: styled.span`
     font-size: 15px;
   `,
-  LongButton: styled.button`
-    background-color: #8e8e8e;
+  LongButton: styled(Link)<ButtonProps>`
+    position: fixed;
+    bottom: 5%;
+    width: 80vw;
+    transition: all ease-in-out 0.1s;
+    ${({ disabled }) =>
+      disabled
+        ? css`
+            background-color: #838383;
+            color: lightgray;
+            cursor: not-allowed;
+          `
+        : css`
+            background-color: #ff6450;
+            color: white;
+          `}
     border: none;
-    color: white;
     border-radius: 30px;
     font-size: 20px;
     margin: 0 3vw;

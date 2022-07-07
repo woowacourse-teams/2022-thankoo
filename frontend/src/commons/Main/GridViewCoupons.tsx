@@ -17,12 +17,12 @@ export default GridViewCoupons;
 const S = {
   Container: styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(155px, 158px));
+    grid-template-columns: repeat(auto-fill, minmax(145px, 150px));
     gap: 30px 15px;
     max-height: 70vh;
     place-items: center;
     justify-content: space-around;
-    overflow-y: hidden;
+    overflow-y: auto;
 
     &::-webkit-scrollbar {
       width: 2px;
