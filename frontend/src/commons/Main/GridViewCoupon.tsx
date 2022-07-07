@@ -1,14 +1,24 @@
 import styled from '@emotion/styled';
 import { Coupon } from '../../types';
 
+const RAND_COLORS = [
+  { bg: 'rgb(242, 244, 246)', color: 'black' },
+  { bg: 'rgb(211, 240, 1)', color: 'black' },
+  { bg: 'rgb(1, 160, 230)', color: 'white' },
+  { bg: 'rgb(240, 110, 200)', color: 'white' },
+  { bg: 'rgb(0, 220, 0)', color: 'black' },
+  { bg: 'rgb(99, 51, 198)', color: 'white' },
+];
+
 const COUPON_COLOR = {
-  coffee: '#0C3C33',
-  meal: '#FF6450',
+  coffee: 'rgb(211, 240, 1)',
+  meal: 'rgb(1, 160, 230)',
 };
 
 const COUPON_IMAGE = {
-  coffee: 'https://cdn-icons-png.flaticon.com/512/3054/3054889.png',
-  meal: 'https://cdn-icons-png.flaticon.com/512/1405/1405021.png',
+  coffee:
+    'https://user-images.githubusercontent.com/41886825/177711095-cb6ff72d-d017-4c13-9a70-918f89eb6aaa.png',
+  meal: 'https://user-images.githubusercontent.com/41886825/177712393-fd41d832-bb76-44c3-a041-f619e9de9272.png',
 };
 
 const GridViewCoupon = ({ coupon }: { coupon: Coupon }) => {
@@ -16,19 +26,16 @@ const GridViewCoupon = ({ coupon }: { coupon: Coupon }) => {
 
   return (
     <S.Layout>
-      <S.Content backgroundColor={COUPON_COLOR[content.couponType]}>
+      <S.Content
+        backgroundColor={RAND_COLORS[sender.id % RAND_COLORS.length].bg}
+        color={RAND_COLORS[sender.id % RAND_COLORS.length].color}
+      >
+        <S.Title>{content.title}</S.Title>
+        <S.SenderName>{sender.name}</S.SenderName>
         <S.Coupon>
           <S.CouponImage src={COUPON_IMAGE[content.couponType]} />
         </S.Coupon>
-        <S.Title>{content.title}</S.Title>
-        <S.Sender>
-          <S.SenderPrefix>from. </S.SenderPrefix>
-          {sender.name}
-          <S.SenderImage src={sender.imageUrl} />
-        </S.Sender>
       </S.Content>
-      <S.SplitLine />
-      <S.Tip>사용하기</S.Tip>
     </S.Layout>
   );
 };
@@ -37,58 +44,52 @@ export default GridViewCoupon;
 
 type ContentProp = {
   backgroundColor: string;
+  color: string;
 };
 
 const S = {
   Layout: styled.div`
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border-radius: 8px;
 
-    width: 155px;
-    height: 215px;
+    width: 145px;
+    height: 145px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   `,
   Content: styled.div<ContentProp>`
     display: flex;
+    align-items: center;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 5px;
+    padding-top: 5px;
     flex: 1;
-    border-radius: 7px 7px 0 0;
-    padding: 1rem 0.5rem;
+    border-radius: 13px;
     background-color: ${({ backgroundColor }) => backgroundColor};
-    color: white;
+    color: ${({ color }) => color};
+
+    cursor: pointer;
+  `,
+  Title: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    text-align: center;
+    height: 2rem;
   `,
   Coupon: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background-color: white;
-    width: 5rem;
-    height: 5rem;
+    width: 4rem;
+    height: 4rem;
     margin: 0 auto;
-    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
   `,
   CouponImage: styled.img`
-    height: 60%;
+    /* width: 100%; */
+    height: 100%;
     object-fit: cover;
-  `,
-  Title: styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 15px;
-    text-align: center;
-    height: 2rem;
-    word-break: keep-all;
-  `,
-  Sender: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
   `,
   SenderPrefix: styled.span``,
   SenderImage: styled.img`
@@ -97,41 +98,15 @@ const S = {
     height: 1.2rem;
     object-fit: cover;
   `,
-  Tip: styled.button`
-    position: relative;
-    text-align: center;
-    padding: 15px;
-    border-radius: 0 0 8px 8px;
-    color: white;
-    background-color: #ff6450;
-    border: none;
-    border-top: 2.5px dashed white;
+  SenderName: styled.div`
+    font-size: 20px;
+    font-weight: 500;
   `,
-  SplitLine: styled.div`
-    position: relative;
-    flex: 0 0 0;
-    margin: 0 5px 0 5px;
-
-    &::after,
-    ::before {
-      content: '';
-      position: absolute;
-      width: 10px;
-      height: 16px;
-      background: #232323;
-      z-index: 1;
-      top: -7px;
-    }
-
-    &::after {
-      left: -6px;
-      border-radius: 0 8px 8px 0;
-      clip: rect(auto, auto, 285px, auto);
-    }
-    &::before {
-      right: -6px;
-      border-radius: 8px 0 0 8px;
-      clip: rect(auto, auto, 285px, auto);
-    }
+  Sender: styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
   `,
 };
