@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import { couponTypes, couponTypesList } from '../../types';
+import { couponTypes } from '../../types';
 
-const CouponTypesNav = ({ onChangeType, currentType }) => {
+const CouponTypesNav = ({ onChangeType, currentType, selectableCouponTypes }) => {
   return (
     <S.Container>
-      {couponTypesList.map(type => (
+      {selectableCouponTypes.map(type => (
         <S.Button
           onClick={() => {
             onChangeType(type);
