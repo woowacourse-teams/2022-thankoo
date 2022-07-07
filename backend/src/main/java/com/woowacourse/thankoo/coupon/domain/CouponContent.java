@@ -34,6 +34,10 @@ public class CouponContent {
         this.message = message;
     }
 
+    public CouponContent(final String type, final String title, final String message) {
+        this(CouponType.of(type), title, message);
+    }
+
     private void validateTitleLength(final String title) {
         if (title.isEmpty() || title.length() > MAX_TITLE_LENGTH) {
             throw new InvalidCouponContentException(ErrorType.INVALID_COUPON_TITLE);

@@ -20,8 +20,6 @@ public class CouponRequest {
     public CouponHistory toEntity(final Long senderId) {
         return new CouponHistory(senderId,
                 receiverId,
-                content.getCouponType(),
-                content.getTitle(),
-                content.getMessage());
+                content.toEntity());
     }
 }
