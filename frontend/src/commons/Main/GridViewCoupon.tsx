@@ -17,9 +17,9 @@ const GridViewCoupon = ({ coupon }: { coupon: Coupon }) => {
   return (
     <S.Layout>
       <S.Content backgroundColor={COUPON_COLOR[content.couponType]}>
-        {/* <S.Coupon>
+        <S.Coupon>
           <S.CouponImage src={COUPON_IMAGE[content.couponType]} />
-        </S.Coupon> */}
+        </S.Coupon>
         <S.Title>{content.title}</S.Title>
         <S.Sender>
           <S.SenderPrefix>from. </S.SenderPrefix>
@@ -55,7 +55,7 @@ const S = {
     justify-content: space-between;
     flex: 1;
     border-radius: 7px 7px 0 0;
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
     background-color: ${({ backgroundColor }) => backgroundColor};
     color: white;
   `,
@@ -88,14 +88,13 @@ const S = {
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
-  `,
-  SenderPrefix: styled.span`
     font-size: 12px;
   `,
+  SenderPrefix: styled.span``,
   SenderImage: styled.img`
     border-radius: 50%;
-    width: 1.7rem;
-    height: 1.7rem;
+    width: 1.2rem;
+    height: 1.2rem;
     object-fit: cover;
   `,
   Tip: styled.button`
@@ -103,13 +102,14 @@ const S = {
     text-align: center;
     padding: 15px;
     border-radius: 0 0 8px 8px;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 0.1px 3px 1px;
+    color: white;
+    background-color: #ff6450;
     border: none;
+    border-top: 2.5px dashed white;
   `,
   SplitLine: styled.div`
     position: relative;
     flex: 0 0 0;
-    border-top: 2px dashed #232323;
     margin: 0 5px 0 5px;
 
     &::after,
