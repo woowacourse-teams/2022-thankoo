@@ -1,0 +1,4 @@
+[[Member]]
+== 본인을 제외한 모든 회원 조회
+
+operation::members/get-members[snippets='http-request,http-response']

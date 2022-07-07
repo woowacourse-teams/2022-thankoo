@@ -1,5 +1,7 @@
 package com.woowacourse.thankoo.coupon.domain;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
@@ -42,8 +44,8 @@ public class CouponHistoryQueryRepositoryTest {
     @DisplayName("받은 coupon history 를 조회한다.")
     @Test
     void findByReceiverId() {
-        Member sender = memberRepository.save(new Member("huni"));
-        Member receiver = memberRepository.save(new Member("hoho"));
+        Member sender = memberRepository.save(HUNI);
+        Member receiver = memberRepository.save(HOHO);
 
         couponHistoryRepository.save(new CouponHistory(sender.getId(), receiver.getId(), TYPE, TITLE, MESSAGE));
 

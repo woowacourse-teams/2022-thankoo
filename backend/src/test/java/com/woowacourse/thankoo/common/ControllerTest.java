@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.common;
 
-
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +9,8 @@ import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationController;
 import com.woowacourse.thankoo.coupon.application.CouponHistoryService;
 import com.woowacourse.thankoo.coupon.presentation.CouponHistoryController;
+import com.woowacourse.thankoo.member.application.MemberService;
+import com.woowacourse.thankoo.member.presentation.MemberController;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -25,7 +26,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest({
         AuthenticationController.class,
-        CouponHistoryController.class
+        CouponHistoryController.class,
+        MemberController.class
 })
 @Import(MockMvcConfig.class)
 @AutoConfigureRestDocs
@@ -50,6 +52,9 @@ public class ControllerTest {
 
     @MockBean
     protected CouponHistoryService couponHistoryService;
+
+    @MockBean
+    protected MemberService memberService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());

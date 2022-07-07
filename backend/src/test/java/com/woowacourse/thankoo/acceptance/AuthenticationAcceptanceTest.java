@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.acceptance;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.로그인_한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.토큰을_반환한다;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -17,7 +18,7 @@ public class AuthenticationAcceptanceTest extends AcceptanceTest {
     @DisplayName("유저가 로그인을 진행하면 알맞은 토큰을 반환한다.")
     @Test
     void signIn() {
-        ExtractableResponse<Response> response = 로그인_한다("huni");
+        ExtractableResponse<Response> response = 로그인_한다(HUNI_NAME);
 
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),

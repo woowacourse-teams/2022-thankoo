@@ -1,10 +1,10 @@
 package com.woowacourse.thankoo.authentication.presentation;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -19,9 +19,6 @@ import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.common.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
-import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
-import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("AuthenticationController 는 ")
@@ -35,7 +32,7 @@ class AuthenticationControllerTest extends ControllerTest {
                 .willReturn(tokenResponse);
 
         ResultActions resultActions = mockMvc.perform(get("/api/sign-in")
-                        .queryParam("code", "skrrr"))
+                        .queryParam("code", SKRR_NAME))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
@@ -52,5 +49,4 @@ class AuthenticationControllerTest extends ControllerTest {
                         fieldWithPath("memberId").type(NUMBER).description("memberId")
                 )));
     }
-
 }

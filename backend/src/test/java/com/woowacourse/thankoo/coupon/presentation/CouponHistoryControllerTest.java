@@ -3,7 +3,6 @@ package com.woowacourse.thankoo.coupon.presentation;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.createMember;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
@@ -79,14 +78,8 @@ public class CouponHistoryControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
         List<CouponHistoryResponse> couponHistoryResponses = List.of(
-                CouponHistoryResponse.of(new MemberCouponHistory(1L,
-                        createMember(1L, HUNI),
-                        createMember(2L, LALA),
-                        TYPE, TITLE, MESSAGE)),
-                CouponHistoryResponse.of(new MemberCouponHistory(2L,
-                        createMember(1L, HUNI),
-                        createMember(2L, LALA),
-                        TYPE, TITLE, MESSAGE))
+                CouponHistoryResponse.of(new MemberCouponHistory(1L, HUNI, LALA, TYPE, TITLE, MESSAGE)),
+                CouponHistoryResponse.of(new MemberCouponHistory(2L, HUNI, LALA, TYPE, TITLE, MESSAGE))
         );
 
         given(couponHistoryService.getReceivedCoupons(anyLong()))
