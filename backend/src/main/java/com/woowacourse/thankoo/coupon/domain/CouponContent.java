@@ -39,14 +39,23 @@ public class CouponContent {
     }
 
     private void validateTitleLength(final String title) {
-        if (title.isEmpty() || title.length() > MAX_TITLE_LENGTH) {
+        if (title.isBlank() || title.length() > MAX_TITLE_LENGTH) {
             throw new InvalidCouponContentException(ErrorType.INVALID_COUPON_TITLE);
         }
     }
 
     private void validateMessageLength(final String message) {
-        if (message.isEmpty() || message.length() > MAX_MESSAGE_LENGTH) {
+        if (message.isBlank() || message.length() > MAX_MESSAGE_LENGTH) {
             throw new InvalidCouponContentException(ErrorType.INVALID_COUPON_MESSAGE);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "CouponContent{" +
+                "couponType=" + couponType +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }
