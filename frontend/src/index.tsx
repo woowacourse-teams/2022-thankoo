@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes } from 'react-router-dom';
 
 import App from './App';
 
@@ -18,6 +19,8 @@ if (process.env.NODE_ENV === 'development') {
 root.render(
   <React.StrictMode>
     <Global styles={css([reset, global])} />
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
