@@ -22,6 +22,6 @@ public class MemberResponse {
     }
 
     public static MemberResponse of(final Member member) {
-        return new MemberResponse(member.getId(), member.getName(), "jayjaehunchoi", "image.com");
+        return new MemberResponse(member.getId(), member.getName(), member.getName(), "thankoo.png");
     }
 }
