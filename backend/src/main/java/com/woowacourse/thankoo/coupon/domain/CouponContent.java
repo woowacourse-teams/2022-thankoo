@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class CouponContent {
 
     private static final int MAX_TITLE_LENGTH = 20;
-    private static final int MAX_MESSAGE_LENGTH = 50;
+    private static final int MAX_MESSAGE_LENGTH = 100;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "coupon_type", nullable = false, length = 20)
