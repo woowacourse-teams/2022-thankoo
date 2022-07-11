@@ -5,14 +5,15 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.Authentication
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_전송한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰이_추가됨;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.INVALID_TOKEN;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
@@ -43,9 +44,12 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             @Test
             void sendCoupon() {
                 TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
-                TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+                TokenResponse receiverToken1 = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+                TokenResponse receiverToken2 = 토큰을_반환한다(로그인_한다(LALA_NAME));
 
-                CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
+                CouponRequest couponRequest =
+                        createCouponRequest(List.of(receiverToken1.getMemberId(), receiverToken2.getMemberId()),
+                                TYPE, TITLE, MESSAGE);
                 ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
 
                 assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -57,7 +61,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
                 TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
                 TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
-                CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE_OVER,
+                CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE,
+                        TITLE_OVER,
                         MESSAGE);
                 ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
 
@@ -70,7 +75,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
                 TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
                 TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
-                CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE,
+                CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
                         MESSAGE_OVER);
                 ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
 
@@ -84,8 +89,10 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
             TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
-            CouponRequest couponRequest1 = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
-            CouponRequest couponRequest2 = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE + "1", MESSAGE);
+            CouponRequest couponRequest1 = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
+                    MESSAGE);
+            CouponRequest couponRequest2 = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE + "1",
+                    MESSAGE);
             Long couponHistoryId1 = 쿠폰이_추가됨(쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest1));
             Long couponHistoryId2 = 쿠폰이_추가됨(쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest2));
             ExtractableResponse<Response> response = 쿠폰을_조회한다(receiverToken.getAccessToken());
@@ -103,7 +110,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
         void sendCouponInvalidToken() {
             TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
-            CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
+            CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
+                    MESSAGE);
             ExtractableResponse<Response> response = 쿠폰을_전송한다(INVALID_TOKEN, couponRequest);
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
@@ -115,7 +123,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
             TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
-            CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
+            CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
+                    MESSAGE);
             쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
             ExtractableResponse<Response> response = 쿠폰을_조회한다(INVALID_TOKEN);
 
@@ -136,10 +145,10 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
         assertThat(couponHistoryIds).containsExactly(couponHistoryId1, couponHistoryId2);
     }
 
-    private CouponRequest createCouponRequest(final Long receiverId,
+    private CouponRequest createCouponRequest(final List<Long> receiverIds,
                                               final String type,
                                               final String title,
                                               final String message) {
-        return new CouponRequest(receiverId, new ContentRequest(type, title, message));
+        return new CouponRequest(receiverIds, new ContentRequest(type, title, message));
     }
 }

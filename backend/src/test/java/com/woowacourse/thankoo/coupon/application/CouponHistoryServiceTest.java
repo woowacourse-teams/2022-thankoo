@@ -1,10 +1,13 @@
 package com.woowacourse.thankoo.coupon.application;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -48,10 +51,24 @@ class CouponHistoryServiceTest {
             Member sender = memberRepository.save(HUNI);
             Member receiver = memberRepository.save(SKRR);
 
-            Long id = couponHistoryService.save(sender.getId(), new CouponRequest(receiver.getId(),
+            List<Long> ids = couponHistoryService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
 
-            assertThat(id).isNotNull();
+            assertThat(ids).hasSize(1);
+        }
+
+        @DisplayName("회원이 존재하면 정상적으로 저장한다.")
+        @Test
+        void saveAll() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME));
+            Member receiver1 = memberRepository.save(new Member(LALA_NAME));
+            Member receiver2 = memberRepository.save(new Member(SKRR_NAME));
+
+            List<Long> ids = couponHistoryService.saveAll(sender.getId(),
+                    new CouponRequest(List.of(receiver1.getId(), receiver2.getId()),
+                            new ContentRequest(TYPE, TITLE, MESSAGE)));
+
+            assertThat(ids).hasSize(2);
         }
 
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")
@@ -59,7 +76,7 @@ class CouponHistoryServiceTest {
         void saveInvalidMemberException() {
             Member sender = memberRepository.save(HUNI);
 
-            assertThatThrownBy(() -> couponHistoryService.save(sender.getId(), new CouponRequest(0L,
+            assertThatThrownBy(() -> couponHistoryService.saveAll(sender.getId(), new CouponRequest(List.of(0L),
                     new ContentRequest(TYPE, TITLE, MESSAGE))))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
@@ -72,7 +89,7 @@ class CouponHistoryServiceTest {
         Member sender = memberRepository.save(HUNI);
         Member receiver = memberRepository.save(SKRR);
 
-        couponHistoryService.save(sender.getId(), new CouponRequest(receiver.getId(),
+        couponHistoryService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                 new ContentRequest(TYPE, TITLE, MESSAGE)));
 
         List<CouponHistoryResponse> responses = couponHistoryService.getReceivedCoupons(receiver.getId());

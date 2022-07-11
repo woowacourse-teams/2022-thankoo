@@ -9,4 +9,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByName(String name);
 
     List<Member> findAllByIdNotOrderByNameAsc(Long id);
+
+    long countByIdIn(List<Long> ids);
 }

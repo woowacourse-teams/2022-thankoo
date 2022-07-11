@@ -24,21 +24,27 @@ public class CouponHistoryService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long save(final Long senderId, final CouponRequest couponRequest) {
-        validateMember(senderId, couponRequest.getReceiverId());
-        CouponHistory couponHistory = couponHistoryRepository.save(couponRequest.toEntity(senderId));
-        return couponHistory.getId();
+    public List<Long> saveAll(final Long senderId, final CouponRequest couponRequest) {
+        validateMember(senderId, couponRequest.getReceiverIds());
+        List<CouponHistory> couponHistories = couponHistoryRepository.saveAll(couponRequest.toEntities(senderId));
+        return toCouponHistoryIds(couponHistories);
     }
 
-    private void validateMember(final Long senderId, final Long receiverId) {
-        if (isExistMembers(senderId, receiverId)) {
+    private void validateMember(final Long senderId, final List<Long> receiverIds) {
+        if (!isExistMembers(senderId, receiverIds)) {
             throw new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER);
         }
     }
 
-    private boolean isExistMembers(final Long senderId, final Long receiverId) {
-        return !memberRepository.existsById(senderId)
-                || !memberRepository.existsById(receiverId);
+    private boolean isExistMembers(final Long senderId, final List<Long> receiverIds) {
+        return memberRepository.existsById(senderId)
+                && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
+    }
+
+    private List<Long> toCouponHistoryIds(final List<CouponHistory> couponHistories) {
+        return couponHistories.stream()
+                .map(CouponHistory::getId)
+                .collect(Collectors.toList());
     }
 
     public List<CouponHistoryResponse> getReceivedCoupons(final Long receiverId) {

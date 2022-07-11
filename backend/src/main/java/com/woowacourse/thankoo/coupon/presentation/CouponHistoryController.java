@@ -24,8 +24,8 @@ public class CouponHistoryController {
     @PostMapping("/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
                                      @RequestBody final CouponRequest couponRequest) {
-        Long id = couponHistoryService.save(senderId, couponRequest);
-        return ResponseEntity.created(URI.create("/api/coupons/" + id)).build();
+        List<Long> ids = couponHistoryService.saveAll(senderId, couponRequest);
+        return ResponseEntity.created(URI.create("/api/coupons/" + ids.get(0))).build();
     }
 
     @GetMapping("/received")

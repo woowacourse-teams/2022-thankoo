@@ -1,11 +1,11 @@
 package com.woowacourse.thankoo.coupon.presentation;
 
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -15,6 +15,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -45,12 +46,12 @@ public class CouponHistoryControllerTest extends ControllerTest {
     void sendCoupon() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        given(couponHistoryService.save(anyLong(), any(CouponRequest.class)))
-                .willReturn(1L);
+        given(couponHistoryService.saveAll(anyLong(), any(CouponRequest.class)))
+                .willReturn(List.of(1L));
 
         ResultActions resultActions = mockMvc.perform(post("/api/coupons/send")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
-                        .content(objectMapper.writeValueAsString(new CouponRequest(1L,
+                        .content(objectMapper.writeValueAsString(new CouponRequest(List.of(1L),
                                 new ContentRequest(TYPE, TITLE, MESSAGE))))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -64,7 +65,7 @@ public class CouponHistoryControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 requestFields(
-                        fieldWithPath("receiverId").type(NUMBER).description("receiverId"),
+                        fieldWithPath("receiverIds").type(ARRAY).description("receiverId"),
                         fieldWithPath("content.couponType").type(STRING).description("couponType"),
                         fieldWithPath("content.title").type(STRING).description("title"),
                         fieldWithPath("content.message").type(STRING).description("message")

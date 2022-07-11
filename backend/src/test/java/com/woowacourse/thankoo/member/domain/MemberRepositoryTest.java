@@ -1,10 +1,7 @@
 package com.woowacourse.thankoo.member.domain;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -60,5 +57,16 @@ class MemberRepositoryTest {
         List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(member.getId());
 
         assertThat(members).extracting("name").containsExactly(HOHO_NAME, HUNI_NAME);
+    }
+
+    @DisplayName("id에 해당하는 회원 개수를 조회한다.")
+    @Test
+    void countByIdIn() {
+        Member lala = memberRepository.save(new Member(LALA_NAME));
+        Member hoho = memberRepository.save(new Member(HOHO_NAME));
+        Member huni = memberRepository.save(new Member(HUNI_NAME));
+
+        long count = memberRepository.countByIdIn(List.of(lala.getId(), hoho.getId(), huni.getId()));
+        assertThat(count).isEqualTo(3);
     }
 }
