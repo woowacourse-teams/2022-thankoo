@@ -3,13 +3,70 @@ import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CouponTypesNav from '../commons/Main/CouponTypesNav';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
-import { couponTypeKeys } from '../types';
-import { Link } from 'react-router-dom';
+import { Coupon, couponTypeKeys, initialCouponState } from '../types';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { authAtom, checkedUsersAtom } from '../recoil/atom';
+import GridViewCoupon from '../commons/Main/GridViewCoupon';
+import { useEffect, useState } from 'react';
+import { css } from '@emotion/react';
+import axios from 'axios';
+import { BASE_URL } from '../constants';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
 const EnterCouponContent = () => {
   const { couponType, setCouponType } = useEnterCouponContent();
+  const checkedUsers = useRecoilValue(checkedUsersAtom);
+  const auth = useRecoilValue(authAtom);
+
+  const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
+
+  //TODO 컴포넌트 분리
+  const [currentCoupon, setCurrentCoupon] = useState<Coupon>({
+    ...initialCouponState,
+    sender: {
+      ...initialCouponState.sender,
+      name: auth.name,
+      id: auth.memberId,
+    },
+    content: {
+      ...initialCouponState.content,
+      couponType,
+    },
+  });
+
+  useEffect(() => {
+    setCurrentCoupon(prev => ({
+      ...prev,
+      content: {
+        couponType,
+        title,
+        message,
+      },
+    }));
+  }, [couponType, title, message]);
+
+  const isFilled = !!title && !!message;
+
+  const navigate = useNavigate();
+
+  const sendCoupon = async () => {
+    const { status, statusText } = await axios({
+      method: 'POST',
+      url: `${BASE_URL}/api/coupons/send`,
+      headers: { Authorization: `Bearer ${auth.accessToken}` },
+      data: {
+        receiverId: checkedUsers[0].id,
+        content: {
+          ...currentCoupon.content,
+        },
+      },
+    });
+
+    navigate('/');
+  };
 
   return (
     <S.Container>
@@ -25,17 +82,26 @@ const EnterCouponContent = () => {
           currentType={couponType}
           selectableCouponTypes={couponTypesWithoutEntire}
         />
-        <S.DummyCouponBox />
+        <S.CouponBox>
+          <GridViewCoupon coupon={currentCoupon} />
+        </S.CouponBox>
         <S.Form>
-          <S.TitleInput type='text' placeholder='제목을 입력해주세요' />
+          <S.TitleInput
+            onChange={e => setTitle(e.target.value)}
+            value={title}
+            type='text'
+            placeholder='제목을 입력해주세요'
+          />
           <S.MessageTextarea
+            onChange={e => setMessage(e.target.value)}
+            value={message}
             maxLength={100}
             placeholder='메세지를 작성해보세요'
           ></S.MessageTextarea>
         </S.Form>
       </S.Body>
-      <S.LongButton>
-        '친구들(7명)' 에게 쿠폰 전송하기
+      <S.LongButton onClick={sendCoupon} disabled={!isFilled}>
+        {checkedUsers.length}명에게 쿠폰 전송하기
         <ArrowForwardIosIcon />
       </S.LongButton>
     </S.Container>
@@ -110,7 +176,6 @@ const S = {
   `,
   LongButton: styled.button`
     border: none;
-    color: white;
     border-radius: 30px;
     font-size: 18px;
     margin: 0 3vw;
@@ -118,14 +183,20 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #ff6450;
+    ${({ disabled }) =>
+      disabled
+        ? css`
+            background-color: #838383;
+            color: lightgray;
+            cursor: not-allowed;
+          `
+        : css`
+            background-color: #ff6450;
+            color: white;
+          `}
   `,
-  DummyCouponBox: styled.div`
-    width: 50vw;
-    height: 30vh;
-    background-color: #8e8e8e;
+  CouponBox: styled.div`
     margin: 0 auto;
-    border-radius: 10px;
   `,
 };
 
