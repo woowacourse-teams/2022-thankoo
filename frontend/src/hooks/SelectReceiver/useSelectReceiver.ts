@@ -1,19 +1,28 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { UserProfile } from '../../types';
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { authAtom, checkedUsersAtom } from '../../recoil/atom';
+import { useRecoilValue } from 'recoil';
+import { BASE_URL } from '../../constants';
 
 const useSelectReceiver = () => {
+  const { accessToken, memberId } = useRecoilValue(authAtom);
   const {
     data: users,
     isLoading,
     error,
   } = useQuery<UserProfile[]>('users', async () => {
-    const { data } = await axios.get('http://localhost:3000/api/members');
+    const { data } = await axios({
+      method: 'get',
+      url: `${BASE_URL}/api/members`,
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
     return data;
   });
 
-  const [checkedUsers, setCheckedUsers] = useState<UserProfile[]>([]);
+  const [checkedUsers, setCheckedUsers] = useRecoilState<UserProfile[]>(checkedUsersAtom);
+
   const checkUser = (user: UserProfile) => {
     setCheckedUsers(prev => [...prev, user]);
   };
@@ -29,7 +38,7 @@ const useSelectReceiver = () => {
   };
 
   const isCheckedUser = (user: UserProfile) =>
-    checkedUsers.some(checkUser => checkUser.id === user.id);
+    checkedUsers?.some(checkUser => checkUser.id === user.id);
 
   return { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser };
 };
