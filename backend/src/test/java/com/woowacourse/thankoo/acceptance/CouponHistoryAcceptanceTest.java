@@ -32,7 +32,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("유저가 로그인하고 ")
     @Nested
-    class LoginAndTest {
+    class SignInAndTest {
 
         @DisplayName("쿠폰을 보낼 때 ")
         @Nested
@@ -56,7 +56,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
                 TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
                 TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
-                CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE_OVER, MESSAGE);
+                CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE_OVER,
+                        MESSAGE);
                 ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
 
                 assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -68,7 +69,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
                 TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
                 TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
 
-                CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE_OVER);
+                CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE,
+                        MESSAGE_OVER);
                 ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
 
                 assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -88,6 +90,37 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> response = 쿠폰을_조회한다(receiverToken.getAccessToken());
 
             쿠폰이_조회됨(couponHistoryId2, couponHistoryId1, response);
+        }
+    }
+
+    @DisplayName("로그인 하지 않고 ")
+    @Nested
+    class NotSignInAndTest {
+
+        @DisplayName("쿠폰 전송에 실패한다.")
+        @Test
+        void sendCouponInvalidToken() {
+            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+
+            CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
+            ExtractableResponse<Response> response = 쿠폰을_전송한다("", couponRequest);
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        }
+
+        @DisplayName("쿠폰 조회에 실패한다.")
+        @Test
+        void getCouponsInvalidToken() {
+            TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
+            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+
+            CouponRequest couponRequest1 = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
+            CouponRequest couponRequest2 = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE + "1", MESSAGE);
+            쿠폰이_추가됨(쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest1));
+            쿠폰이_추가됨(쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest2));
+            ExtractableResponse<Response> response = 쿠폰을_조회한다("");
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         }
     }
 
