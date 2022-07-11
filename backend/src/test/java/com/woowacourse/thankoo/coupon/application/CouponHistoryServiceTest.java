@@ -2,9 +2,9 @@ package com.woowacourse.thankoo.coupon.application;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;

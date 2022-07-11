@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.common.fixtures;
 
-public class TestFixture {
+public class CouponFixture {
 
     public static final String TYPE = "coffee";
     public static final String TITLE = "호호의 카누쿠폰";

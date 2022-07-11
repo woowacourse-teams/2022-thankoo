@@ -3,9 +3,9 @@ package com.woowacourse.thankoo.coupon.presentation;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;

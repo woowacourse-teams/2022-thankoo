@@ -7,11 +7,11 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryR
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰이_추가됨;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE_OVER;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE_OVER;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;

@@ -1,9 +1,9 @@
 package com.woowacourse.thankoo.coupon.domain;
 
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE_OVER;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE_OVER;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
