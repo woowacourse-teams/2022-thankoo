@@ -4,6 +4,8 @@ import com.woowacourse.thankoo.member.domain.Member;
 
 public class MemberFixture {
 
+    public static final String INVALID_TOKEN = "";
+
     public static final String HUNI_NAME = "Huni";
     public static final String LALA_NAME = "Lala";
     public static final String SKRR_NAME = "Skrr";

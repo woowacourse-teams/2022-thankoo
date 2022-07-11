@@ -1,7 +1,9 @@
 package com.woowacourse.thankoo.coupon.domain;
 
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.MESSAGE;
-import static com.woowacourse.thankoo.common.fixtures.TestFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
@@ -11,9 +13,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("CouponContent 는 ")
 class CouponContentTest {
-
-    private static final String TITLE_OVER = "abcdefghijklmnopqrstu";
-    private static final String MESSAGE_OVER = "abcdefghijklmnopqrstabcdefghijklmnopqrst12345678901";
 
     @DisplayName("쿠폰 제목이 조건에 부합하지 않을 경우 예외가 발생한다.")
     @ParameterizedTest
