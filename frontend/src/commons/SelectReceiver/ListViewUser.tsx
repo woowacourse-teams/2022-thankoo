@@ -59,6 +59,7 @@ const S = {
   Checkbox: styled(CheckCircleIcon)<CheckBoxProp>`
     grid-area: cb;
     justify-self: end;
+    fill: #ff6450;
     display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
   `,
 };

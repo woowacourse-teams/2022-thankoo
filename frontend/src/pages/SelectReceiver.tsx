@@ -21,20 +21,24 @@ const SelectReceiver = () => {
         <S.HeaderText>누구한테 보낼까요?</S.HeaderText>
       </S.Header>
       <S.Body>
-        {checkedUsers && <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />}
+        {checkedUsers.length !== 0 && (
+          <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
+        )}
         <UserSearchInput />
         {users && (
           <ListViewUsers users={users} isCheckedUser={isCheckedUser} onClickUser={toggleUser} />
         )}
       </S.Body>
 
-      <S.LongButton
-        to={checkedUsers.length ? '/enter-coupon' : '#'}
-        disabled={!checkedUsers.length}
-      >
-        다 고르셨나요?
-        <ArrowForwardIosIcon />
-      </S.LongButton>
+      <S.SendButtonBox>
+        <S.LongButton
+          to={checkedUsers.length ? '/enter-coupon' : '#'}
+          disabled={!checkedUsers.length}
+        >
+          다 고르셨나요?
+          <ArrowForwardIosIcon />
+        </S.LongButton>
+      </S.SendButtonBox>
     </S.Container>
   );
 };
@@ -95,10 +99,17 @@ const S = {
   UserName: styled.span`
     font-size: 15px;
   `,
+  SendButtonBox: styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
   LongButton: styled(Link)<ButtonProps>`
     position: fixed;
     bottom: 5%;
-    width: 80vw;
+    width: 100%;
+    max-width: 80vw;
     transition: all ease-in-out 0.1s;
     ${({ disabled }) =>
       disabled
@@ -113,9 +124,8 @@ const S = {
           `}
     border: none;
     border-radius: 30px;
-    font-size: 20px;
-    margin: 0 3vw;
-    padding: 10px 20px;
+    font-size: 18px;
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;

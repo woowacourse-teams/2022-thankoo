@@ -12,11 +12,6 @@ const RAND_COLORS = [
   { bg: '#FFF970', color: 'black' },
 ];
 
-const COUPON_COLOR = {
-  coffee: 'rgb(211, 240, 1)',
-  meal: 'rgb(1, 160, 230)',
-};
-
 const COUPON_IMAGE = {
   coffee:
     'https://user-images.githubusercontent.com/41886825/177711095-cb6ff72d-d017-4c13-9a70-918f89eb6aaa.png',

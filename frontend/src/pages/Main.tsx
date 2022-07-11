@@ -59,7 +59,7 @@ const S = {
     padding: 15px;
   `,
   NewCouponButton: styled(SendIcon)`
-    position: fixed;
+    position: absolute;
     bottom: 3%;
     right: 5%;
     background-color: black;

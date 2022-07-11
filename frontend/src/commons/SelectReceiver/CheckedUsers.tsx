@@ -12,6 +12,7 @@ const CheckedUsers = ({
     <S.Container>
       {checkedUsers?.map(user => (
         <S.User
+          key={user.id}
           onClick={() => {
             onClickDelete(user);
           }}
@@ -29,7 +30,7 @@ const S = {
     display: flex;
     gap: 10px;
     padding-top: 3px;
-    padding-bottom: 25px;
+    padding-bottom: 40px;
     overflow: scroll hidden;
 
     ::-webkit-scrollbar {

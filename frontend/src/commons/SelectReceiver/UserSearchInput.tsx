@@ -17,7 +17,7 @@ const S = {
   Container: styled.div`
     display: flex;
     align-items: center;
-    background-color: #838383;
+    background-color: #8c888866;
     border-radius: 4px;
   `,
   Input: styled.input`
@@ -36,7 +36,7 @@ const S = {
       outline: none;
     }
     &::placeholder {
-      color: white;
+      color: #838383;
     }
   `,
   EraseAllButton: styled.button`

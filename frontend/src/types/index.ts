@@ -18,6 +18,27 @@ export interface CouponContent {
   message: string;
 }
 
+export const initialCouponState = {
+  couponHistoryId: 0,
+  sender: {
+    id: 0,
+    name: '',
+    socialNickname: '',
+    imageUrl: '',
+  },
+  receiver: {
+    id: 0,
+    name: '',
+    socialNickname: '',
+    imageUrl: '',
+  },
+  content: {
+    couponType: '',
+    title: '',
+    message: '',
+  },
+};
+
 export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' };
 export const couponTypeValues = Object.values(couponTypes);
 export const couponTypeKeys = Object.keys(couponTypes);
