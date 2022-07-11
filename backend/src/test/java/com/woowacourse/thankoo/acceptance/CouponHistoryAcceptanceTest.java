@@ -97,7 +97,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
     @Nested
     class NotSignInAndTest {
 
-        @DisplayName("쿠폰 전송에 실패한다.")
+        @DisplayName("쿠폰을 전송하면 실패한다.")
         @Test
         void sendCouponInvalidToken() {
             TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
@@ -108,7 +108,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         }
 
-        @DisplayName("쿠폰 조회에 실패한다.")
+        @DisplayName("쿠폰을 조회하면 실패한다.")
         @Test
         void getCouponsInvalidToken() {
             TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
