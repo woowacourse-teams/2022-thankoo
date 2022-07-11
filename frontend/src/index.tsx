@@ -7,6 +7,8 @@ import App from './App';
 import reset from './styles/GlobalReset';
 import global from './styles/GlobalStyled';
 import { css, Global } from '@emotion/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { RecoilRoot } from 'recoil';
 
 const rootElement = document.getElementById('root')!;
 const root = createRoot(rootElement);
@@ -16,11 +18,17 @@ if (process.env.NODE_ENV === 'development') {
   worker.start();
 }
 
+const queryClient = new QueryClient();
+
 root.render(
   <React.StrictMode>
     <Global styles={css([reset, global])} />
     <BrowserRouter>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <App />
+        </RecoilRoot>
+      </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
