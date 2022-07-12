@@ -41,7 +41,7 @@ public class CouponQueryRepositoryTest {
         couponQueryRepository = new CouponQueryRepository(new NamedParameterJdbcTemplate(dataSource));
     }
 
-    @DisplayName("받은 coupon history 를 조회한다.")
+    @DisplayName("받은 coupon 을 조회한다.")
     @Test
     void findByReceiverId() {
         Member sender = memberRepository.save(HUNI);
@@ -50,9 +50,9 @@ public class CouponQueryRepositoryTest {
         couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(TYPE, TITLE, MESSAGE)));
 
-        List<MemberCoupon> memberCouponHistories = couponQueryRepository.findByReceiverId(
+        List<MemberCoupon> memberCoupons = couponQueryRepository.findByReceiverId(
                 receiver.getId());
 
-        assertThat(memberCouponHistories).hasSize(1);
+        assertThat(memberCoupons).hasSize(1);
     }
 }

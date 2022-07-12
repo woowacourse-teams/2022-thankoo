@@ -2,7 +2,6 @@ package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
-import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponQueryRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
@@ -24,10 +23,9 @@ public class CouponService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public List<Long> saveAll(final Long senderId, final CouponRequest couponRequest) {
+    public void saveAll(final Long senderId, final CouponRequest couponRequest) {
         validateMember(senderId, couponRequest.getReceiverIds());
-        List<Coupon> couponHistories = couponRepository.saveAll(couponRequest.toEntities(senderId));
-        return toCouponIds(couponHistories);
+        couponRepository.saveAll(couponRequest.toEntities(senderId));
     }
 
     private void validateMember(final Long senderId, final List<Long> receiverIds) {
@@ -39,12 +37,6 @@ public class CouponService {
     private boolean isExistMembers(final Long senderId, final List<Long> receiverIds) {
         return memberRepository.existsById(senderId)
                 && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
-    }
-
-    private List<Long> toCouponIds(final List<Coupon> couponHistories) {
-        return couponHistories.stream()
-                .map(Coupon::getId)
-                .collect(Collectors.toList());
     }
 
     public List<CouponResponse> getReceivedCoupons(final Long receiverId) {

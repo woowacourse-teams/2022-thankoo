@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -45,8 +46,7 @@ public class CouponControllerTest extends ControllerTest {
     void sendCoupon() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        given(couponService.saveAll(anyLong(), any(CouponRequest.class)))
-                .willReturn(List.of(1L));
+        doNothing().when(couponService).saveAll(anyLong(), any(CouponRequest.class));
 
         ResultActions resultActions = mockMvc.perform(post("/api/coupons/send")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -56,7 +56,7 @@ public class CouponControllerTest extends ControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        resultActions.andDo(document("coupon_history/send",
+        resultActions.andDo(document("coupon/send",
                 getRequestPreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")

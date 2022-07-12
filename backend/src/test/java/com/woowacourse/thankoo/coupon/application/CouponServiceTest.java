@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -50,11 +51,12 @@ class CouponServiceTest {
         void save() {
             Member sender = memberRepository.save(HUNI);
             Member receiver = memberRepository.save(SKRR);
-
-            List<Long> ids = couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
+            couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
 
-            assertThat(ids).hasSize(1);
+            List<Coupon> coupons = couponRepository.findAll();
+
+            assertThat(coupons).hasSize(1);
         }
 
         @DisplayName("회원이 존재하면 정상적으로 저장한다.")
@@ -64,11 +66,12 @@ class CouponServiceTest {
             Member receiver1 = memberRepository.save(new Member(LALA_NAME));
             Member receiver2 = memberRepository.save(new Member(SKRR_NAME));
 
-            List<Long> ids = couponService.saveAll(sender.getId(),
-                    new CouponRequest(List.of(receiver1.getId(), receiver2.getId()),
-                            new ContentRequest(TYPE, TITLE, MESSAGE)));
+            couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver1.getId(), receiver2.getId()),
+                    new ContentRequest(TYPE, TITLE, MESSAGE)));
 
-            assertThat(ids).hasSize(2);
+            List<Coupon> coupons = couponRepository.findAll();
+
+            assertThat(coupons).hasSize(2);
         }
 
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")
