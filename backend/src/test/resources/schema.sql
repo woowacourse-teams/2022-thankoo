@@ -5,6 +5,9 @@ CREATE TABLE member
 (
     id          BIGINT(0) NOT NULL AUTO_INCREMENT,
     name        VARCHAR(50) NOT NULL,
+    email       VARCHAR(350) NOT NULL,
+    social_id   VARCHAR(255) NOT NULL,
+    image_url   VARCHAR(2000) NOT NULL,
     created_at  DATETIME    NOT NULL,
     modified_at DATETIME    NOT NULL,
     PRIMARY KEY (id)

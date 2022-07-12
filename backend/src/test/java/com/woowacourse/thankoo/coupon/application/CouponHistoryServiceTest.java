@@ -1,10 +1,15 @@
 package com.woowacourse.thankoo.coupon.application;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -45,8 +50,8 @@ class CouponHistoryServiceTest {
         @DisplayName("회원이 존재하면 정상적으로 저장한다.")
         @Test
         void save() {
-            Member sender = memberRepository.save(HUNI);
-            Member receiver = memberRepository.save(SKRR);
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
 
             Long id = couponHistoryService.save(sender.getId(), new CouponRequest(receiver.getId(),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
@@ -57,7 +62,7 @@ class CouponHistoryServiceTest {
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")
         @Test
         void saveInvalidMemberException() {
-            Member sender = memberRepository.save(HUNI);
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
 
             assertThatThrownBy(() -> couponHistoryService.save(sender.getId(), new CouponRequest(0L,
                     new ContentRequest(TYPE, TITLE, MESSAGE))))
@@ -69,8 +74,8 @@ class CouponHistoryServiceTest {
     @DisplayName("받은 쿠폰을 조회한다.")
     @Test
     void getReceivedCoupons() {
-        Member sender = memberRepository.save(HUNI);
-        Member receiver = memberRepository.save(SKRR);
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
 
         couponHistoryService.save(sender.getId(), new CouponRequest(receiver.getId(),
                 new ContentRequest(TYPE, TITLE, MESSAGE)));

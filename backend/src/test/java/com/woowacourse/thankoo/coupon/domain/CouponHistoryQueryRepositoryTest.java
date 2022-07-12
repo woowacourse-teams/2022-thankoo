@@ -1,10 +1,15 @@
 package com.woowacourse.thankoo.coupon.domain;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.member.domain.Member;
@@ -44,8 +49,8 @@ public class CouponHistoryQueryRepositoryTest {
     @DisplayName("받은 coupon history 를 조회한다.")
     @Test
     void findByReceiverId() {
-        Member sender = memberRepository.save(HUNI);
-        Member receiver = memberRepository.save(HOHO);
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
 
         couponHistoryRepository.save(new CouponHistory(sender.getId(), receiver.getId(),
                 new CouponContent(TYPE, TITLE, MESSAGE)));

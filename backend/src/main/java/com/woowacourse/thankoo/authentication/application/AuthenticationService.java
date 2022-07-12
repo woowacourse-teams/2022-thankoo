@@ -14,7 +14,7 @@ public class AuthenticationService {
     private final MemberService memberService;
 
     public TokenResponse signIn(final String name) {
-        Long id = memberService.createOrGet(name);
+        Long id = memberService.createOrGet(new GoogleProfileResponse("hoho", "123124124", "url"));
         String token = jwtTokenProvider.createToken(String.valueOf(id));
         return new TokenResponse(token, id);
     }
