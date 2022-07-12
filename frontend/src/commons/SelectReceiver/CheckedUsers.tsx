@@ -12,6 +12,7 @@ const CheckedUsers = ({
     <S.Container>
       {checkedUsers?.map(user => (
         <S.User
+          key={user.id}
           onClick={() => {
             onClickDelete(user);
           }}
@@ -28,12 +29,12 @@ const S = {
   Container: styled.div`
     display: flex;
     gap: 10px;
-    overflow: auto hidden;
+    padding-top: 3px;
+    padding-bottom: 40px;
+    overflow: scroll hidden;
 
     ::-webkit-scrollbar {
-      width: 1px;
-      overflow-x: hidden;
-      background-color: transparent;
+      display: none;
     }
   `,
   UserImage: styled.img`

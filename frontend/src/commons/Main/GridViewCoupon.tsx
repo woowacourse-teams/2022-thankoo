@@ -2,18 +2,15 @@ import styled from '@emotion/styled';
 import { Coupon } from '../../types';
 
 const RAND_COLORS = [
-  { bg: 'rgb(242, 244, 246)', color: 'black' },
-  { bg: 'rgb(211, 240, 1)', color: 'black' },
+  { bg: '#FAC8BF', color: 'black' },
+  { bg: '#C0E4D9', color: 'black' },
   { bg: 'rgb(1, 160, 230)', color: 'white' },
   { bg: 'rgb(240, 110, 200)', color: 'white' },
-  { bg: 'rgb(0, 220, 0)', color: 'black' },
+  { bg: '#FDE893', color: 'black' },
   { bg: 'rgb(99, 51, 198)', color: 'white' },
+  { bg: '#E3C2F1', color: 'black' },
+  { bg: '#FFF970', color: 'black' },
 ];
-
-const COUPON_COLOR = {
-  coffee: 'rgb(211, 240, 1)',
-  meal: 'rgb(1, 160, 230)',
-};
 
 const COUPON_IMAGE = {
   coffee:

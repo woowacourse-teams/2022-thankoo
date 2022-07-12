@@ -4,8 +4,9 @@ import { couponTypes } from '../../types';
 const CouponTypesNav = ({ onChangeType, currentType, selectableCouponTypes }) => {
   return (
     <S.Container>
-      {selectableCouponTypes.map(type => (
+      {selectableCouponTypes.map((type, idx) => (
         <S.Button
+          key={idx}
           onClick={() => {
             onChangeType(type);
           }}

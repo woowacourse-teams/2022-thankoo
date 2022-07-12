@@ -5,6 +5,8 @@ import UserSearchInput from '../commons/SelectReceiver/UserSearchInput';
 import ListViewUsers from '../commons/SelectReceiver/ListViewUsers';
 import CheckedUsers from '../commons/SelectReceiver/CheckedUsers';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Link } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 const SelectReceiver = () => {
   const { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser } =
@@ -13,22 +15,36 @@ const SelectReceiver = () => {
   return (
     <S.Container>
       <S.Header>
-        <ArrowBackButton />
+        <Link to='/'>
+          <ArrowBackButton />
+        </Link>
         <S.HeaderText>누구한테 보낼까요?</S.HeaderText>
       </S.Header>
       <S.Body>
-        {checkedUsers && <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />}
+        {checkedUsers.length !== 0 && (
+          <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
+        )}
         <UserSearchInput />
         {users && (
           <ListViewUsers users={users} isCheckedUser={isCheckedUser} onClickUser={toggleUser} />
         )}
       </S.Body>
-      <S.LongButton>
-        다 고르셨나요?
-        <ArrowForwardIosIcon />
-      </S.LongButton>
+
+      <S.SendButtonBox>
+        <S.LongButton
+          to={checkedUsers.length ? '/enter-coupon' : '#'}
+          disabled={!checkedUsers.length}
+        >
+          다 고르셨나요?
+          <ArrowForwardIosIcon />
+        </S.LongButton>
+      </S.SendButtonBox>
     </S.Container>
   );
+};
+
+type ButtonProps = {
+  disabled: boolean;
 };
 
 const S = {
@@ -43,11 +59,11 @@ const S = {
     align-items: flex-start;
     gap: 15px;
     color: white;
-    margin: 10px 0 0 10px;
+    margin: 10px 0 0 2vw;
   `,
   HeaderText: styled.p`
     font-size: 26px;
-    margin-left: 10px;
+    margin-left: calc(1vw + 6px);
   `,
   Body: styled.div`
     display: flex;
@@ -55,7 +71,7 @@ const S = {
     gap: 1rem;
     padding: 15px 3vw;
     color: white;
-    height: 70vh;
+    height: 82vh;
   `,
   UsersImages: styled.div`
     display: flex;
@@ -83,14 +99,33 @@ const S = {
   UserName: styled.span`
     font-size: 15px;
   `,
-  LongButton: styled.button`
-    background-color: #8e8e8e;
+  SendButtonBox: styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
+  LongButton: styled(Link)<ButtonProps>`
+    position: fixed;
+    bottom: 5%;
+    width: 100%;
+    max-width: 80vw;
+    transition: all ease-in-out 0.1s;
+    ${({ disabled }) =>
+      disabled
+        ? css`
+            background-color: #838383;
+            color: lightgray;
+            cursor: not-allowed;
+          `
+        : css`
+            background-color: #ff6450;
+            color: white;
+          `}
     border: none;
-    color: white;
     border-radius: 30px;
-    font-size: 20px;
-    margin: 0 3vw;
-    padding: 10px 20px;
+    font-size: 18px;
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;

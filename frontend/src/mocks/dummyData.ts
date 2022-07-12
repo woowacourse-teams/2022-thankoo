@@ -1,6 +1,14 @@
 import { Coupon } from '../types';
 
-export const users = [
+interface User {
+  id: number;
+  name: string;
+  socialNickname: string;
+  imageUrl: string;
+  accessToken?: number;
+}
+
+export const users: User[] = [
   {
     id: 1,
     name: '호호',
