@@ -4,7 +4,6 @@ import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincip
 import com.woowacourse.thankoo.coupon.application.CouponHistoryService;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponHistoryResponse;
-import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +23,8 @@ public class CouponHistoryController {
     @PostMapping("/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
                                      @RequestBody final CouponRequest couponRequest) {
-        List<Long> ids = couponHistoryService.saveAll(senderId, couponRequest);
-        return ResponseEntity.created(URI.create("/api/coupons/" + ids.get(0))).build();
+        couponHistoryService.saveAll(senderId, couponRequest);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/received")

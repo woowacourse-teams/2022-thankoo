@@ -23,7 +23,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
@@ -41,7 +40,7 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("CouponHistoryController 는 ")
 public class CouponHistoryControllerTest extends ControllerTest {
 
-    @DisplayName("쿠폰을 전송하면 201 CREATED 와 Location 을 반환한다.")
+    @DisplayName("쿠폰을 전송하면 200 OK 를 반환한다.")
     @Test
     void sendCoupon() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
@@ -55,9 +54,7 @@ public class CouponHistoryControllerTest extends ControllerTest {
                                 new ContentRequest(TYPE, TITLE, MESSAGE))))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpectAll(
-                        status().isCreated(),
-                        header().string(HttpHeaders.LOCATION, "/api/coupons/1"));
+                .andExpect(status().isOk());
 
         resultActions.andDo(document("coupon_history/send",
                 getRequestPreprocessor(),

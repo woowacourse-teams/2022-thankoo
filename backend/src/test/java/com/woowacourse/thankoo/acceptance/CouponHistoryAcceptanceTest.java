@@ -4,7 +4,6 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.Authentication
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.토큰을_반환한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_전송한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_조회한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰이_추가됨;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
@@ -23,7 +22,6 @@ import com.woowacourse.thankoo.coupon.presentation.dto.CouponHistoryResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -52,7 +50,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
                                 TYPE, TITLE, MESSAGE);
                 ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
 
-                assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+                assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             }
 
             @DisplayName("제목이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
@@ -93,11 +91,12 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
                     MESSAGE);
             CouponRequest couponRequest2 = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE + "1",
                     MESSAGE);
-            Long couponHistoryId1 = 쿠폰이_추가됨(쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest1));
-            Long couponHistoryId2 = 쿠폰이_추가됨(쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest2));
+            쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest1);
+            쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest2);
+
             ExtractableResponse<Response> response = 쿠폰을_조회한다(receiverToken.getAccessToken());
 
-            쿠폰이_조회됨(couponHistoryId2, couponHistoryId1, response);
+            쿠폰이_조회됨(response);
         }
     }
 
@@ -132,17 +131,12 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
         }
     }
 
-    private void 쿠폰이_조회됨(final Long couponHistoryId1,
-                         final Long couponHistoryId2,
-                         final ExtractableResponse<Response> response) {
-        List<Long> couponHistoryIds = response.jsonPath()
-                .getList(".", CouponHistoryResponse.class)
-                .stream()
-                .map(CouponHistoryResponse::getCouponHistoryId)
-                .collect(Collectors.toList());
+    private void 쿠폰이_조회됨(final ExtractableResponse<Response> response) {
+        List<CouponHistoryResponse> couponHistoryResponses = response.jsonPath()
+                .getList(".", CouponHistoryResponse.class);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(couponHistoryIds).containsExactly(couponHistoryId1, couponHistoryId2);
+        assertThat(couponHistoryResponses).isNotEmpty();
     }
 
     private CouponRequest createCouponRequest(final List<Long> receiverIds,
