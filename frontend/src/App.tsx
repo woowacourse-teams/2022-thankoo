@@ -21,14 +21,14 @@ function App() {
   return (
     <MobileDiv>
       <Routes>
-        <Route element={<AuthOnly />}>
-          <Route path='/' element={<Main />} />
-          <Route path='/select-receiver' element={<SelectReceiver />} />
-          <Route path='/enter-coupon' element={<EnterCouponContent />} />
-        </Route>
-        <Route element={<UnAuthOnly />}>
-          <Route path='/signin' element={<SignIn />} />
-        </Route>
+        {/* <Route element={<AuthOnly />}> */}
+        <Route path='/' element={<Main />} />
+        <Route path='/select-receiver' element={<SelectReceiver />} />
+        <Route path='/enter-coupon' element={<EnterCouponContent />} />
+        {/* </Route> */}
+        {/* <Route element={<UnAuthOnly />}> */}
+        <Route path='/signin' element={<SignIn />} />
+        {/* </Route> */}
       </Routes>
     </MobileDiv>
   );

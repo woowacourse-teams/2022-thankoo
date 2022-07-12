@@ -1,17 +1,21 @@
-import ArrowBackButton from '../commons/Header/ArrowBackButton';
+import ArrowBackButton from '../components/shared/ArrowBackButton';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import CouponTypesNav from '../commons/Main/CouponTypesNav';
+import CouponTypesNav from '../components/Main/CouponTypesNav';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
 import { Coupon, couponTypeKeys, initialCouponState } from '../types';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { authAtom, checkedUsersAtom } from '../recoil/atom';
-import GridViewCoupon from '../commons/Main/GridViewCoupon';
+import GridViewCoupon from '../components/Main/GridViewCoupon';
 import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import axios from 'axios';
 import { BASE_URL } from '../constants';
+
+import PageLayout from '../components/shared/PageLayout';
+import Header from '../components/shared/Header';
+import HeaderText from '../components/shared/HeaderText';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -69,13 +73,13 @@ const EnterCouponContent = () => {
   };
 
   return (
-    <S.Container>
-      <S.Header>
+    <PageLayout>
+      <Header>
         <Link to='/select-receiver'>
           <ArrowBackButton />
         </Link>
-        <S.HeaderText>어떤 쿠폰을 보낼까요?</S.HeaderText>
-      </S.Header>
+        <HeaderText>어떤 쿠폰을 보낼까요?</HeaderText>
+      </Header>
       <S.Body>
         <CouponTypesNav
           onChangeType={setCouponType}
@@ -104,28 +108,11 @@ const EnterCouponContent = () => {
         {checkedUsers.length}명에게 쿠폰 전송하기
         <ArrowForwardIosIcon />
       </S.LongButton>
-    </S.Container>
+    </PageLayout>
   );
 };
 
 const S = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-  `,
-  Header: styled.header`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    color: white;
-    margin: 10px 0 0 2vw;
-  `,
-  HeaderText: styled.p`
-    font-size: 26px;
-    margin-left: calc(1vw + 6px);
-  `,
   Body: styled.div`
     display: flex;
     flex-direction: column;

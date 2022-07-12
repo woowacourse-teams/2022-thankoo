@@ -1,11 +1,15 @@
-import GridViewCoupons from '../commons/Main/GridViewCoupons';
-import CouponTypesNav from '../commons/Main/CouponTypesNav';
-import ArrowBackButton from '../commons/Header/ArrowBackButton';
+import GridViewCoupons from '../components/Main/GridViewCoupons';
+import CouponTypesNav from '../components/Main/CouponTypesNav';
+import ArrowBackButton from '../components/shared/ArrowBackButton';
 import useMain from '../hooks/Main/useMain';
 import styled from '@emotion/styled';
 import SendIcon from '@mui/icons-material/Send';
+
 import { couponTypeKeys } from '../types';
 import { Link } from 'react-router-dom';
+import PageLayout from '../components/shared/PageLayout';
+import Header from '../components/shared/Header';
+import HeaderText from '../components/shared/HeaderText';
 
 const Main = () => {
   const { setCurrentType, couponsByType, isLoading, error, currentType } = useMain();
@@ -14,11 +18,11 @@ const Main = () => {
   if (error) return <>에러뜸</>;
 
   return (
-    <S.Container>
-      <S.Header>
+    <PageLayout>
+      <Header>
         <ArrowBackButton />
-        <S.HeaderText>쿠폰함</S.HeaderText>
-      </S.Header>
+        <HeaderText>쿠폰함</HeaderText>
+      </Header>
       <S.Body>
         <CouponTypesNav
           onChangeType={setCurrentType}
@@ -30,28 +34,11 @@ const Main = () => {
       <Link to='/select-receiver'>
         <S.NewCouponButton fontSize='small' />
       </Link>
-    </S.Container>
+    </PageLayout>
   );
 };
 
 const S = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-  `,
-  Header: styled.header`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    color: white;
-    margin: 10px 0 0 2vw;
-  `,
-  HeaderText: styled.p`
-    font-size: 22px;
-    margin-left: calc(1vw + 6px);
-  `,
   Body: styled.div`
     display: flex;
     flex-direction: column;
