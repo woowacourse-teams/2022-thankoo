@@ -5,6 +5,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
     "sourceMap": true,
     "outDir": "./dist",
     "isolatedModules": true,
@@ -17,5 +18,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/*"]
+  "include": ["src/*", "src/types/emotion.d.ts"]
 }

@@ -1376,7 +1376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/babel-plugin@npm:^11.7.1":
+"@emotion/babel-plugin@npm:^11.7.1, @emotion/babel-plugin@npm:^11.9.2":
   version: 11.9.2
   resolution: "@emotion/babel-plugin@npm:11.9.2"
   dependencies:
@@ -7364,6 +7364,7 @@ __metadata:
     "@babel/preset-env": ^7.18.6
     "@babel/preset-react": ^7.18.6
     "@babel/preset-typescript": ^7.18.6
+    "@emotion/babel-plugin": ^11.9.2
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.9.3
     "@material-ui/core": ^4.12.4
