@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
-import com.woowacourse.thankoo.coupon.domain.MemberCouponHistory;
-import com.woowacourse.thankoo.coupon.presentation.dto.CouponHistoryResponse;
+import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
@@ -37,15 +37,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
-@DisplayName("CouponHistoryController 는 ")
-public class CouponHistoryControllerTest extends ControllerTest {
+@DisplayName("CouponController 는 ")
+public class CouponControllerTest extends ControllerTest {
 
     @DisplayName("쿠폰을 전송하면 200 OK 를 반환한다.")
     @Test
     void sendCoupon() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        given(couponHistoryService.saveAll(anyLong(), any(CouponRequest.class)))
+        given(couponService.saveAll(anyLong(), any(CouponRequest.class)))
                 .willReturn(List.of(1L));
 
         ResultActions resultActions = mockMvc.perform(post("/api/coupons/send")
@@ -75,28 +75,28 @@ public class CouponHistoryControllerTest extends ControllerTest {
     void getReceivedCoupon() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        List<CouponHistoryResponse> couponHistoryResponses = List.of(
-                CouponHistoryResponse.of(new MemberCouponHistory(1L, HUNI, LALA, TYPE, TITLE, MESSAGE)),
-                CouponHistoryResponse.of(new MemberCouponHistory(2L, HUNI, LALA, TYPE, TITLE, MESSAGE))
+        List<CouponResponse> couponRespons = List.of(
+                CouponResponse.of(new MemberCoupon(1L, HUNI, LALA, TYPE, TITLE, MESSAGE)),
+                CouponResponse.of(new MemberCoupon(2L, HUNI, LALA, TYPE, TITLE, MESSAGE))
         );
 
-        given(couponHistoryService.getReceivedCoupons(anyLong()))
-                .willReturn(couponHistoryResponses);
+        given(couponService.getReceivedCoupons(anyLong()))
+                .willReturn(couponRespons);
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
-                        content().string(objectMapper.writeValueAsString(couponHistoryResponses)));
+                        content().string(objectMapper.writeValueAsString(couponRespons)));
 
-        resultActions.andDo(document("coupon_history/received-coupons",
+        resultActions.andDo(document("coupon/received-coupons",
                 getResponsePreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 responseFields(
-                        fieldWithPath("[].couponHistoryId").type(NUMBER).description("couponHistoryId"),
+                        fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
                         fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
                         fieldWithPath("[].sender.name").type(STRING).description("senderName"),
                         fieldWithPath("[].sender.socialNickname").type(STRING).description("senderSocialNickname"),

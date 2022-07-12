@@ -7,8 +7,8 @@ import com.woowacourse.thankoo.authentication.application.AuthenticationService;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationController;
-import com.woowacourse.thankoo.coupon.application.CouponHistoryService;
-import com.woowacourse.thankoo.coupon.presentation.CouponHistoryController;
+import com.woowacourse.thankoo.coupon.application.CouponService;
+import com.woowacourse.thankoo.coupon.presentation.CouponController;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest({
         AuthenticationController.class,
-        CouponHistoryController.class,
+        CouponController.class,
         MemberController.class
 })
 @Import(MockMvcConfig.class)
@@ -51,7 +51,7 @@ public class ControllerTest {
     protected AuthenticationContext authenticationContext;
 
     @MockBean
-    protected CouponHistoryService couponHistoryService;
+    protected CouponService couponService;
 
     @MockBean
     protected MemberService memberService;

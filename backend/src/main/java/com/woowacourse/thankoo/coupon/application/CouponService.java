@@ -2,10 +2,10 @@ package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
-import com.woowacourse.thankoo.coupon.domain.CouponHistory;
-import com.woowacourse.thankoo.coupon.domain.CouponHistoryQueryRepository;
-import com.woowacourse.thankoo.coupon.domain.CouponHistoryRepository;
-import com.woowacourse.thankoo.coupon.presentation.dto.CouponHistoryResponse;
+import com.woowacourse.thankoo.coupon.domain.Coupon;
+import com.woowacourse.thankoo.coupon.domain.CouponQueryRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;
@@ -17,17 +17,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CouponHistoryService {
+public class CouponService {
 
-    private final CouponHistoryRepository couponHistoryRepository;
-    private final CouponHistoryQueryRepository couponHistoryQueryRepository;
+    private final CouponRepository couponRepository;
+    private final CouponQueryRepository couponQueryRepository;
     private final MemberRepository memberRepository;
 
     @Transactional
     public List<Long> saveAll(final Long senderId, final CouponRequest couponRequest) {
         validateMember(senderId, couponRequest.getReceiverIds());
-        List<CouponHistory> couponHistories = couponHistoryRepository.saveAll(couponRequest.toEntities(senderId));
-        return toCouponHistoryIds(couponHistories);
+        List<Coupon> couponHistories = couponRepository.saveAll(couponRequest.toEntities(senderId));
+        return toCouponIds(couponHistories);
     }
 
     private void validateMember(final Long senderId, final List<Long> receiverIds) {
@@ -41,16 +41,16 @@ public class CouponHistoryService {
                 && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
     }
 
-    private List<Long> toCouponHistoryIds(final List<CouponHistory> couponHistories) {
+    private List<Long> toCouponIds(final List<Coupon> couponHistories) {
         return couponHistories.stream()
-                .map(CouponHistory::getId)
+                .map(Coupon::getId)
                 .collect(Collectors.toList());
     }
 
-    public List<CouponHistoryResponse> getReceivedCoupons(final Long receiverId) {
-        return couponHistoryQueryRepository.findByReceiverId(receiverId)
+    public List<CouponResponse> getReceivedCoupons(final Long receiverId) {
+        return couponQueryRepository.findByReceiverId(receiverId)
                 .stream()
-                .map(CouponHistoryResponse::of)
+                .map(CouponResponse::of)
                 .collect(Collectors.toList());
     }
 }

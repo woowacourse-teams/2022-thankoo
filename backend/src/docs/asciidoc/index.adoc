@@ -10,5 +10,5 @@ endif::[]
 = Thankoo
 
 include::auth.adoc[]
-include::couponHistory.adoc[]
+include::coupon.adoc[]
 include::member.adoc[]

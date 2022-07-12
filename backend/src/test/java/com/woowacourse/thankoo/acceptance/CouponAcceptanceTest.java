@@ -2,8 +2,8 @@ package com.woowacourse.thankoo.acceptance;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.로그인_한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.토큰을_반환한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_전송한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_조회한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_조회한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
-import com.woowacourse.thankoo.coupon.presentation.dto.CouponHistoryResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -27,8 +27,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-@DisplayName("CouponHistoryAcceptance 는 ")
-public class CouponHistoryAcceptanceTest extends AcceptanceTest {
+@DisplayName("CouponAcceptance 는 ")
+public class CouponAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("유저가 로그인하고 ")
     @Nested
@@ -132,11 +132,11 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
     }
 
     private void 쿠폰이_조회됨(final ExtractableResponse<Response> response) {
-        List<CouponHistoryResponse> couponHistoryResponses = response.jsonPath()
-                .getList(".", CouponHistoryResponse.class);
+        List<CouponResponse> couponRespons = response.jsonPath()
+                .getList(".", CouponResponse.class);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(couponHistoryResponses).isNotEmpty();
+        assertThat(couponRespons).isNotEmpty();
     }
 
     private CouponRequest createCouponRequest(final List<Long> receiverIds,

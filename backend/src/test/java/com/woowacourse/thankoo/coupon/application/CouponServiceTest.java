@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
-import com.woowacourse.thankoo.coupon.domain.CouponHistoryRepository;
-import com.woowacourse.thankoo.coupon.presentation.dto.CouponHistoryResponse;
+import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -28,15 +28,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-@DisplayName("CouponHistoryService 는 ")
+@DisplayName("CouponService 는 ")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class CouponHistoryServiceTest {
+class CouponServiceTest {
 
     @Autowired
-    private CouponHistoryService couponHistoryService;
+    private CouponService couponService;
 
     @Autowired
-    private CouponHistoryRepository couponHistoryRepository;
+    private CouponRepository couponRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -51,7 +51,7 @@ class CouponHistoryServiceTest {
             Member sender = memberRepository.save(HUNI);
             Member receiver = memberRepository.save(SKRR);
 
-            List<Long> ids = couponHistoryService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
+            List<Long> ids = couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
 
             assertThat(ids).hasSize(1);
@@ -64,7 +64,7 @@ class CouponHistoryServiceTest {
             Member receiver1 = memberRepository.save(new Member(LALA_NAME));
             Member receiver2 = memberRepository.save(new Member(SKRR_NAME));
 
-            List<Long> ids = couponHistoryService.saveAll(sender.getId(),
+            List<Long> ids = couponService.saveAll(sender.getId(),
                     new CouponRequest(List.of(receiver1.getId(), receiver2.getId()),
                             new ContentRequest(TYPE, TITLE, MESSAGE)));
 
@@ -76,7 +76,7 @@ class CouponHistoryServiceTest {
         void saveInvalidMemberException() {
             Member sender = memberRepository.save(HUNI);
 
-            assertThatThrownBy(() -> couponHistoryService.saveAll(sender.getId(), new CouponRequest(List.of(0L),
+            assertThatThrownBy(() -> couponService.saveAll(sender.getId(), new CouponRequest(List.of(0L),
                     new ContentRequest(TYPE, TITLE, MESSAGE))))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
@@ -89,10 +89,10 @@ class CouponHistoryServiceTest {
         Member sender = memberRepository.save(HUNI);
         Member receiver = memberRepository.save(SKRR);
 
-        couponHistoryService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
+        couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                 new ContentRequest(TYPE, TITLE, MESSAGE)));
 
-        List<CouponHistoryResponse> responses = couponHistoryService.getReceivedCoupons(receiver.getId());
+        List<CouponResponse> responses = couponService.getReceivedCoupons(receiver.getId());
 
         assertAll(
                 () -> assertThat(responses).hasSize(1),
@@ -103,7 +103,7 @@ class CouponHistoryServiceTest {
 
     @AfterEach
     void tearDown() {
-        couponHistoryRepository.deleteAllInBatch();
+        couponRepository.deleteAllInBatch();
         memberRepository.deleteAllInBatch();
     }
 }

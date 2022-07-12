@@ -1,9 +1,9 @@
 package com.woowacourse.thankoo.coupon.presentation;
 
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
-import com.woowacourse.thankoo.coupon.application.CouponHistoryService;
+import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
-import com.woowacourse.thankoo.coupon.presentation.dto.CouponHistoryResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/coupons")
-public class CouponHistoryController {
+public class CouponController {
 
-    private final CouponHistoryService couponHistoryService;
+    private final CouponService couponService;
 
     @PostMapping("/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
                                      @RequestBody final CouponRequest couponRequest) {
-        couponHistoryService.saveAll(senderId, couponRequest);
+        couponService.saveAll(senderId, couponRequest);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/received")
-    public ResponseEntity<List<CouponHistoryResponse>> receivedCoupons(@AuthenticationPrincipal final Long receivedId) {
-        return ResponseEntity.ok(couponHistoryService.getReceivedCoupons(receivedId));
+    public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receivedId) {
+        return ResponseEntity.ok(couponService.getReceivedCoupons(receivedId));
     }
 }

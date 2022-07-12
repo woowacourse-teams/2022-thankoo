@@ -7,7 +7,7 @@ import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
-public class CouponHistoryRequestFixture {
+public class CouponRequestFixture {
 
     public static ExtractableResponse<Response> 쿠폰을_전송한다(final String accessToken,
                                                          final CouponRequest couponRequest) {
