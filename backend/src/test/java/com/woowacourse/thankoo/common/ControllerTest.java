@@ -7,6 +7,7 @@ import com.woowacourse.thankoo.authentication.application.AuthenticationService;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationController;
+import com.woowacourse.thankoo.common.config.JpaConfig;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.presentation.CouponController;
 import com.woowacourse.thankoo.member.application.MemberService;
@@ -32,7 +33,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import(MockMvcConfig.class)
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
-@MockBean(JpaMetamodelMappingContext.class)
 public class ControllerTest {
 
     @Autowired
