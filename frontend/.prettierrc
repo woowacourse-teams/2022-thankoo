@@ -8,5 +8,14 @@
   "useTabs": false,
   "arrowParens": "avoid",
   "bracketSpacing": true,
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "importOrder": [
+    "^(@|pages)(.*|$)",
+    "^(@|components/shared)(.*|$)",
+    "^(@|components)(.*|$)",
+    "^(@|recoil/)(.*|$)",
+    "^(@|hooks)(.*|$)",
+    "^(@|styles)(.*|$)",
+    "^(@|(assets|constants|utils|api))(.*|$)"
+  ]
 }

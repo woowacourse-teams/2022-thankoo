@@ -1,76 +1,32 @@
-import ArrowBackButton from '../components/shared/ArrowBackButton';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Link } from 'react-router-dom';
 import CouponTypesNav from '../components/Main/CouponTypesNav';
-import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
-import { Coupon, couponTypeKeys, initialCouponState } from '../types';
-import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { authAtom, checkedUsersAtom } from '../recoil/atom';
 import GridViewCoupon from '../components/Main/GridViewCoupon';
-import { useEffect, useState } from 'react';
-import { css } from '@emotion/react';
-import axios from 'axios';
-import { BASE_URL } from '../constants';
+import ArrowBackButton from '../components/shared/ArrowBackButton';
+import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
+import { couponTypeKeys } from '../types';
 
-import PageLayout from '../components/shared/PageLayout';
 import Header from '../components/shared/Header';
 import HeaderText from '../components/shared/HeaderText';
+import PageLayout from '../components/shared/PageLayout';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
 const EnterCouponContent = () => {
-  const { couponType, setCouponType } = useEnterCouponContent();
-  const checkedUsers = useRecoilValue(checkedUsersAtom);
-  const auth = useRecoilValue(authAtom);
-
-  const [title, setTitle] = useState('');
-  const [message, setMessage] = useState('');
-
-  //TODO 컴포넌트 분리
-  const [currentCoupon, setCurrentCoupon] = useState<Coupon>({
-    ...initialCouponState,
-    sender: {
-      ...initialCouponState.sender,
-      name: auth.name,
-      id: auth.memberId,
-    },
-    content: {
-      ...initialCouponState.content,
-      couponType,
-    },
-  });
-
-  useEffect(() => {
-    setCurrentCoupon(prev => ({
-      ...prev,
-      content: {
-        couponType,
-        title,
-        message,
-      },
-    }));
-  }, [couponType, title, message]);
-
-  const isFilled = !!title && !!message;
-
-  const navigate = useNavigate();
-
-  const sendCoupon = async () => {
-    const { status, statusText } = await axios({
-      method: 'POST',
-      url: `${BASE_URL}/api/coupons/send`,
-      headers: { Authorization: `Bearer ${auth.accessToken}` },
-      data: {
-        receiverId: checkedUsers[0].id,
-        content: {
-          ...currentCoupon.content,
-        },
-      },
-    });
-
-    navigate('/');
-  };
+  const {
+    couponType,
+    setCouponType,
+    title,
+    message,
+    setTitle,
+    setMessage,
+    isFilled,
+    sendCoupon,
+    checkedUsers,
+    currentCoupon,
+  } = useEnterCouponContent();
 
   return (
     <PageLayout>
