@@ -50,16 +50,18 @@ const S = {
   UserName: styled.div`
     grid-area: un;
     font-size: 20px;
+    color: ${({ theme }) => theme.page.color};
   `,
   UserSubName: styled.div`
     grid-area: sn;
     font-size: 15px;
-    color: #8e8e8e;
+    color: ${({ theme }) => theme.page.subColor};
   `,
   Checkbox: styled(CheckCircleIcon)<CheckBoxProp>`
     grid-area: cb;
     justify-self: end;
-    fill: #ff6450;
+    margin-right: 5px;
+    fill: ${({ theme }) => theme.primary};
     display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
   `,
 };

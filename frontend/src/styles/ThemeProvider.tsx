@@ -2,7 +2,7 @@ import { ThemeProvider as BaseThemeProvider } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 import { themeAtom } from '../recoil/atom';
 
-const PALETTE = {
+const palette = {
   //SUNSET ORANGE
   SUNSET_ORANGE_50: '#fff3f1',
   SUNSET_ORANGE_100: '#ffe4e1',
@@ -28,29 +28,54 @@ const PALETTE = {
   GRAY_900: '#313131',
 
   WHITE: '#FFFFFF',
-  BLACK: '#000000',
+  BLACK: '#232323',
 };
 
-export const COLOR_SET = {
+const mode = 'dark';
+
+export const colorSet = {
   light: {},
   dark: {
+    primary: palette.SUNSET_ORANGE_400,
+    page: {
+      background: palette.BLACK,
+      color: palette.WHITE,
+      subColor: palette.GRAY_300,
+    },
     header: {
-      color: PALETTE.GRAY_50,
+      color: palette.WHITE,
     },
     button: {
-      background: '',
-      color: '',
-      opacity: '',
+      disbaled: {
+        background: palette.GRAY_700,
+        color: palette.GRAY_300,
+      },
+      abled: {
+        background: palette.GRAY_900,
+        color: palette.WHITE,
+      },
+      active: {
+        background: palette.SUNSET_ORANGE_400,
+        color: palette.WHITE,
+      },
+    },
+    input: {
+      background: palette.GRAY_700,
+      color: palette.WHITE,
+      placeholder: palette.GRAY_300,
     },
   },
 };
 
-// const theme = mode === 'dark' ? COLOR_SET.dark : COLOR_SET.light;
-export type Theme = typeof COLOR_SET.dark;
+export const theme = {
+  palette,
+} as const;
+
+export type Theme = typeof colorSet.dark;
 
 export const ThemeProvider = ({ children }) => {
   const [mode] = useRecoilState(themeAtom);
-  const theme = mode === 'dark' ? COLOR_SET.dark : COLOR_SET.light;
+  const theme = mode === 'dark' ? colorSet.dark : colorSet.light;
 
   return <BaseThemeProvider theme={theme}>{children}</BaseThemeProvider>;
 };

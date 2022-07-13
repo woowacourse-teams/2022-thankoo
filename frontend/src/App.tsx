@@ -39,7 +39,7 @@ const MobileDiv = styled.div`
   max-width: 1080px;
   margin: 0 auto;
   height: 100vh;
-  background-color: #232323;
+  background-color: ${({ theme }) => theme.page.background};
   position: relative;
 `;
 

@@ -49,8 +49,8 @@ const S = {
     position: absolute;
     bottom: 3%;
     right: 5%;
-    background-color: black;
-    fill: white;
+    background-color: ${({ theme }) => theme.button.abled.background};
+    fill: ${({ theme }) => theme.button.abled.color};
     border: 1px solid white;
     padding: 0.7rem;
     border-radius: 50%;
@@ -59,8 +59,9 @@ const S = {
     cursor: pointer;
 
     &:hover {
-      background-color: white;
-      fill: black;
+      background-color: ${({ theme }) => theme.button.active.background};
+      fill: ${({ theme }) => theme.button.active.color};
+      border-color: transparent;
       opacity: 1;
     }
   `,

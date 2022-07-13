@@ -1,27 +1,7 @@
-import '@emotion/styled';
 import '@emotion/react';
-import { COLOR_SET } from 'styles/ThemeProvider';
+import { colorSet } from '../styles/ThemeProvider';
 
-const theme = {
-  header: {
-    color: white,
-  },
-};
-
-type CustomTheme = typeof theme;
-
-declare module '@emotion/styled' {
-  export interface Theme extends CustomTheme {}
-}
-
+type ThemeConfig = typeof colorSet.dark;
 declare module '@emotion/react' {
-  export interface Theme {
-    header: {
-      color: string;
-    };
-  }
-}
-
-declare module 'styled' {
-  export interface Theme extends CustomTheme {}
+  export interface Theme extends ThemeConfig {}
 }

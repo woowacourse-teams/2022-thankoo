@@ -74,7 +74,6 @@ const S = {
     flex-direction: column;
     gap: 2rem;
     padding: 15px 3vw;
-    color: white;
     height: 70vh;
     justify-content: center;
   `,
@@ -87,16 +86,16 @@ const S = {
     border: none;
     padding: 5px;
     font-size: 18px;
-    background-color: #8c888866;
-    color: white;
+    background-color: ${({ theme }) => theme.input.background};
+    color: ${({ theme }) => theme.input.color};
     border-radius: 5px;
     padding: 10px;
 
     &::placeholder {
-      color: #8e8e8e;
+      color: ${({ theme }) => theme.input.placeholder};
     }
     &:focus {
-      outline: 3px solid #ff6450;
+      outline: ${({ theme }) => `3px solid ${theme.primary}`};
     }
   `,
   MessageTextarea: styled.textarea`
@@ -105,16 +104,16 @@ const S = {
     border: none;
     padding: 5px;
     font-size: 18px;
-    background-color: #8c888866;
+    background-color: ${({ theme }) => theme.input.background};
+    color: ${({ theme }) => theme.input.color};
     border-radius: 5px;
     padding: 10px;
-    color: white;
 
     &::placeholder {
-      color: #8e8e8e;
+      color: ${({ theme }) => theme.input.placeholder};
     }
     &:focus {
-      outline: 3px solid #ff6450;
+      outline: ${({ theme }) => `3px solid ${theme.primary}`};
     }
   `,
   LongButton: styled.button`
@@ -126,16 +125,16 @@ const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    ${({ disabled }) =>
+    ${({ disabled, theme }) =>
       disabled
         ? css`
-            background-color: #838383;
-            color: lightgray;
+            background-color: ${theme.button.disbaled.background};
+            color: ${theme.button.disbaled.color};
             cursor: not-allowed;
           `
         : css`
-            background-color: #ff6450;
-            color: white;
+            background-color: ${theme.button.active.background};
+            color: ${theme.button.active.color};
           `}
   `,
   CouponBox: styled.div`

@@ -17,7 +17,7 @@ const S = {
   Container: styled.div`
     display: flex;
     align-items: center;
-    background-color: #8c888866;
+    background-color: ${({ theme }) => theme.input.background};
     border-radius: 4px;
   `,
   Input: styled.input`
@@ -30,23 +30,24 @@ const S = {
     background-color: transparent;
     -webkit-appearance: none;
     outline: none;
-    color: white;
+    color: ${({ theme }) => theme.input.color};
 
     &:focus {
       outline: none;
     }
     &::placeholder {
-      color: #838383;
+      color: ${({ theme }) => theme.input.placeholder};
     }
   `,
   EraseAllButton: styled.button`
     border-radius: 50%;
     border: none;
     background-color: transparent;
-    color: white;
+    color: ${({ theme }) => theme.page.color};
     padding: 0 10px;
   `,
   SearchIcon: styled(SearchIcon)`
     padding: 0 5px;
+    color: ${({ theme }) => theme.page.color};
   `,
 };

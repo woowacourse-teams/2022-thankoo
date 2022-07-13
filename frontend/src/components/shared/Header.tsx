@@ -5,7 +5,7 @@ const Header = styled.header`
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
-  color: white;
+  color: ${({ theme }) => theme.header.color};
   margin: 10px 0 0 2vw;
 `;
 

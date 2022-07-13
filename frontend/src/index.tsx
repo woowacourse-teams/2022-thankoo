@@ -9,7 +9,6 @@ import global from './styles/GlobalStyled';
 import { css, Global } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
-import { COLOR_SET } from './styles/ThemeProvider';
 import { ThemeProvider } from './styles/ThemeProvider';
 
 const rootElement = document.getElementById('root')!;
@@ -28,9 +27,9 @@ root.render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
-          {/* <ThemeProvider> */}
-          <App />
-          {/* </ThemeProvider> */}
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </RecoilRoot>
       </QueryClientProvider>
     </BrowserRouter>

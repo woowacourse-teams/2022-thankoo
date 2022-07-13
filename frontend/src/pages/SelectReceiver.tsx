@@ -57,8 +57,6 @@ const S = {
     flex-direction: column;
     gap: 1rem;
     padding: 15px 3vw;
-    color: white;
-    height: 82vh;
   `,
   UsersImages: styled.div`
     display: flex;
@@ -98,16 +96,16 @@ const S = {
     width: 100%;
     max-width: 80vw;
     transition: all ease-in-out 0.1s;
-    ${({ disabled }) =>
+    ${({ disabled, theme }) =>
       disabled
         ? css`
-            background-color: #838383;
-            color: lightgray;
+            background-color: ${theme.button.disbaled.background};
+            color: ${theme.button.disbaled.color};
             cursor: not-allowed;
           `
         : css`
-            background-color: #ff6450;
-            color: white;
+            background-color: ${theme.button.active.background};
+            color: ${theme.button.active.color};
           `}
     border: none;
     border-radius: 30px;

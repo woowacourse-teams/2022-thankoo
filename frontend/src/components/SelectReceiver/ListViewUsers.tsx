@@ -36,6 +36,7 @@ const S = {
     overflow-y: auto;
     padding-left: 4px;
     padding-bottom: 20vh;
+    height: 60vh;
 
     &::-webkit-scrollbar {
       width: 2px;
@@ -54,7 +55,7 @@ const S = {
         background-color: transparent;
       }
       &::-webkit-scrollbar-thumb {
-        background-color: #afafaf;
+        background-color: ${({ theme }) => theme.page.color};
         border-radius: 5px;
       }
     }
