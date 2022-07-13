@@ -7,7 +7,6 @@ import com.woowacourse.thankoo.authentication.application.AuthenticationService;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationController;
-import com.woowacourse.thankoo.common.config.JpaConfig;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.presentation.CouponController;
 import com.woowacourse.thankoo.member.application.MemberService;
@@ -18,7 +17,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
