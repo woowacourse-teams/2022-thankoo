@@ -34,5 +34,4 @@ public enum CouponStatusGroup {
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
-
 }
