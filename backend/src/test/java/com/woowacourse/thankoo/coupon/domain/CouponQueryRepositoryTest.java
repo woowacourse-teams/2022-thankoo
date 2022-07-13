@@ -48,7 +48,7 @@ public class CouponQueryRepositoryTest {
         Member receiver = memberRepository.save(HOHO);
 
         couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE)));
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
 
         List<MemberCoupon> memberCoupons = couponQueryRepository.findByReceiverId(
                 receiver.getId());

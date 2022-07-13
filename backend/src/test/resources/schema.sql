@@ -19,6 +19,7 @@ CREATE TABLE coupon
     coupon_type VARCHAR(20)  NOT NULL,
     title       VARCHAR(50)  NOT NULL,
     message     VARCHAR(255) NOT NULL,
+    status      VARCHAR(20) NOT NULL,
     created_at  DATETIME     NOT NULL,
     modified_at DATETIME     NOT NULL,
     PRIMARY KEY (id),
