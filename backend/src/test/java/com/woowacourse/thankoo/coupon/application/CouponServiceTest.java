@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.application;
 
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
@@ -95,7 +96,7 @@ class CouponServiceTest {
         couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                 new ContentRequest(TYPE, TITLE, MESSAGE)));
 
-        List<CouponResponse> responses = couponService.getReceivedCoupons(receiver.getId(), "not_used");
+        List<CouponResponse> responses = couponService.getReceivedCoupons(receiver.getId(), NOT_USED);
 
         assertAll(
                 () -> assertThat(responses).hasSize(1),

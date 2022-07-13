@@ -2,8 +2,10 @@ package com.woowacourse.thankoo.coupon.presentation;
 
 
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.USED;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
 import static org.mockito.ArgumentMatchers.any;
@@ -70,27 +72,27 @@ public class CouponControllerTest extends ControllerTest {
         ));
     }
 
-    @DisplayName("받은 쿠폰을 조회한다.")
+    @DisplayName("사용하지 않은 받은 쿠폰을 조회한다.")
     @Test
-    void getReceivedCoupon() throws Exception {
+    void getReceivedCouponsNotUsed() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        List<CouponResponse> couponRespons = List.of(
+        List<CouponResponse> couponResponses = List.of(
                 CouponResponse.of(new MemberCoupon(1L, HUNI, LALA, TYPE, TITLE, MESSAGE, "NOT_USED")),
-                CouponResponse.of(new MemberCoupon(2L, HUNI, LALA, TYPE, TITLE, MESSAGE, "NOT_USED"))
+                CouponResponse.of(new MemberCoupon(2L, HUNI, LALA, TYPE, TITLE, MESSAGE, "RESERVED"))
         );
 
         given(couponService.getReceivedCoupons(anyLong(), anyString()))
-                .willReturn(couponRespons);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
+                .willReturn(couponResponses);
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + NOT_USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
-                        content().string(objectMapper.writeValueAsString(couponRespons)));
+                        content().string(objectMapper.writeValueAsString(couponResponses)));
 
-        resultActions.andDo(document("coupon/received-coupons",
+        resultActions.andDo(document("coupon/received-coupons-not-used",
                 getResponsePreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
@@ -107,7 +109,51 @@ public class CouponControllerTest extends ControllerTest {
                         fieldWithPath("[].receiver.imageUrl").type(STRING).description("receiverImageUrl"),
                         fieldWithPath("[].content.couponType").type(STRING).description("couponType"),
                         fieldWithPath("[].content.title").type(STRING).description("title"),
-                        fieldWithPath("[].content.message").type(STRING).description("message")
+                        fieldWithPath("[].content.message").type(STRING).description("message"),
+                        fieldWithPath("[].status").type(STRING).description("status")
+                )
+        ));
+    }
+
+    @DisplayName("사용한 받은 쿠폰을 조회한다.")
+    @Test
+    void getReceivedCouponsUsed() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+        List<CouponResponse> couponResponses = List.of(
+                CouponResponse.of(new MemberCoupon(1L, HUNI, LALA, TYPE, TITLE, MESSAGE, "USED")),
+                CouponResponse.of(new MemberCoupon(2L, HUNI, LALA, TYPE, TITLE, MESSAGE, "EXPIRED"))
+        );
+
+        given(couponService.getReceivedCoupons(anyLong(), anyString()))
+                .willReturn(couponResponses);
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + USED)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(couponResponses)));
+
+        resultActions.andDo(document("coupon/received-coupons-used",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                responseFields(
+                        fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
+                        fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
+                        fieldWithPath("[].sender.name").type(STRING).description("senderName"),
+                        fieldWithPath("[].sender.socialNickname").type(STRING).description("senderSocialNickname"),
+                        fieldWithPath("[].sender.imageUrl").type(STRING).description("senderImageUrl"),
+                        fieldWithPath("[].receiver.id").type(NUMBER).description("receiverId"),
+                        fieldWithPath("[].receiver.name").type(STRING).description("receiverName"),
+                        fieldWithPath("[].receiver.socialNickname").type(STRING).description("receiverSocialNickname"),
+                        fieldWithPath("[].receiver.imageUrl").type(STRING).description("receiverImageUrl"),
+                        fieldWithPath("[].content.couponType").type(STRING).description("couponType"),
+                        fieldWithPath("[].content.title").type(STRING).description("title"),
+                        fieldWithPath("[].content.message").type(STRING).description("message"),
+                        fieldWithPath("[].status").type(STRING).description("status")
                 )
         ));
     }

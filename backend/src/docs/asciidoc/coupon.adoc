@@ -3,6 +3,10 @@
 
 operation::coupon/send[snippets='http-request,http-response']
 
-== 받은 쿠폰 조회
+== 받은 쿠폰 조회 (사용하지 않음)
 
-operation::coupon/received-coupons[snippets='http-request,http-response']
+operation::coupon/received-coupons-not-used[snippets='http-request,http-response']
+
+== 받은 쿠폰 조회 (사용함)
+
+operation::coupon/received-coupons-used[snippets='http-request,http-response']

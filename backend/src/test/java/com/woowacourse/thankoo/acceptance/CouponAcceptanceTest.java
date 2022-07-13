@@ -6,6 +6,7 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestF
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_조회한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
@@ -94,7 +95,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest1);
             쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest2);
 
-            ExtractableResponse<Response> response = 쿠폰을_조회한다(receiverToken.getAccessToken());
+            ExtractableResponse<Response> response = 쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED);
 
             쿠폰이_조회됨(response);
         }
@@ -125,7 +126,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
                     MESSAGE);
             쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
-            ExtractableResponse<Response> response = 쿠폰을_조회한다(INVALID_TOKEN);
+            ExtractableResponse<Response> response = 쿠폰을_조회한다(INVALID_TOKEN, NOT_USED);
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         }

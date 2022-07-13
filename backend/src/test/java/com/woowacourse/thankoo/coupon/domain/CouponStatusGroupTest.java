@@ -1,5 +1,7 @@
 package com.woowacourse.thankoo.coupon.domain;
 
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.USED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -32,8 +34,8 @@ class CouponStatusGroupTest {
 
     private static Stream<Arguments> provideRightStatusNames() {
         return Stream.of(
-                Arguments.of("not_used", List.of(CouponStatus.NOT_USED.name(), CouponStatus.RESERVED.name())),
-                Arguments.of("used", List.of(CouponStatus.USED.name(), CouponStatus.EXPIRED.name()))
+                Arguments.of(NOT_USED, List.of(CouponStatus.NOT_USED.name(), CouponStatus.RESERVED.name())),
+                Arguments.of(USED, List.of(CouponStatus.USED.name(), CouponStatus.EXPIRED.name()))
         );
     }
 }
