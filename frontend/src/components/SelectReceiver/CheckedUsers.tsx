@@ -1,5 +1,5 @@
-import { UserProfile } from '../../types';
 import styled from '@emotion/styled';
+import { UserProfile } from '../../types';
 
 const CheckedUsers = ({
   checkedUsers,
@@ -52,6 +52,7 @@ const S = {
   `,
   UserName: styled.span`
     font-size: 15px;
+    color: ${({ theme }) => theme.page.color};
   `,
 };
 export default CheckedUsers;

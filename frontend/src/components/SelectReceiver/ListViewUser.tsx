@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { UserProfile } from '../../types';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { UserProfile } from '../../types';
 
 const ListViewUser = ({
   user,

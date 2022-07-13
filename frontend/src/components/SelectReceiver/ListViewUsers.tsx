@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import ListViewUser from './ListViewUser';
 import { UserProfile } from '../../types';
+import ListViewUser from './ListViewUser';
 
 const ListViewUsers = ({
   users,
@@ -36,7 +36,6 @@ const S = {
     overflow-y: auto;
     padding-left: 4px;
     padding-bottom: 20vh;
-    height: 60vh;
 
     &::-webkit-scrollbar {
       width: 2px;

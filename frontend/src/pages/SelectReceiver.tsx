@@ -1,16 +1,16 @@
-import ArrowBackButton from '../components/shared/ArrowBackButton';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
-import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
-import ListViewUsers from '../components/SelectReceiver/ListViewUsers';
-import CheckedUsers from '../components/SelectReceiver/CheckedUsers';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
-import { css } from '@emotion/react';
+import CheckedUsers from '../components/SelectReceiver/CheckedUsers';
+import ListViewUsers from '../components/SelectReceiver/ListViewUsers';
+import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
+import ArrowBackButton from '../components/shared/ArrowBackButton';
+import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
 
-import PageLayout from '../components/shared/PageLayout';
 import Header from '../components/shared/Header';
 import HeaderText from '../components/shared/HeaderText';
+import PageLayout from '../components/shared/PageLayout';
 
 const SelectReceiver = () => {
   const { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser } =
@@ -57,6 +57,7 @@ const S = {
     flex-direction: column;
     gap: 1rem;
     padding: 15px 3vw;
+    height: 82vh;
   `,
   UsersImages: styled.div`
     display: flex;

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import GridViewCoupon from './GridViewCoupon';
 import { Coupon } from '../../types';
+import GridViewCoupon from './GridViewCoupon';
 
 const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   return (

@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
-import { authAtom } from '../recoil/atom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { BASE_URL } from '../constants';
+import { authAtom } from '../recoil/atom';
 
 const SignIn = () => {
   const [auth, setAuth] = useRecoilState(authAtom);
