@@ -1,10 +1,10 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import axios from 'axios';
-import { CouponType, Coupon } from '../../types';
-import { authAtom } from '../../recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { BASE_URL } from '../../constants';
+import { authAtom } from '../../recoil/atom';
+import { Coupon, CouponType } from '../../types';
 
 const useMain = () => {
   const { accessToken, memberId } = useRecoilValue(authAtom);

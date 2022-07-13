@@ -27,7 +27,7 @@ const S = {
     border: none;
     background-color: transparent;
 
-    color: ${({ isActive }) => (isActive ? 'white' : '#8e8e8e')};
+    color: ${({ isActive, theme }) => (isActive ? theme.page.color : theme.page.subColor)};
     font-size: 18px;
     font-weight: 600;
   `,

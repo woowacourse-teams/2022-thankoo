@@ -12,7 +12,7 @@ const ArrowBackButton = () => {
 const BackwardButton = styled.button`
   background-color: transparent;
   border: none;
-  color: white;
+  color: ${({ theme }) => theme.page.color};
   padding: 0;
 `;
 

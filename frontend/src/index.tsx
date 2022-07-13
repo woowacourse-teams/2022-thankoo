@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 
@@ -9,6 +9,7 @@ import global from './styles/GlobalStyled';
 import { css, Global } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
+import { ThemeProvider } from './styles/ThemeProvider';
 
 const rootElement = document.getElementById('root')!;
 const root = createRoot(rootElement);
@@ -26,7 +27,9 @@ root.render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </RecoilRoot>
       </QueryClientProvider>
     </BrowserRouter>

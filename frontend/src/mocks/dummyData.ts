@@ -64,6 +64,42 @@ export const users: User[] = [
     socialNickname: '빅터짱짱',
     imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
   },
+  {
+    id: 10,
+    name: '우연',
+    socialNickname: '빅터짱짱',
+    imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
+  },
+  {
+    id: 11,
+    name: '록바',
+    socialNickname: '빅터짱짱',
+    imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
+  },
+  {
+    id: 12,
+    name: '시지프',
+    socialNickname: '빅터짱짱',
+    imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
+  },
+  {
+    id: 13,
+    name: '동키콩',
+    socialNickname: '빅터짱짱',
+    imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
+  },
+  {
+    id: 14,
+    name: '앨버',
+    socialNickname: '빅터짱짱',
+    imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
+  },
+  {
+    id: 15,
+    name: '준찌',
+    socialNickname: '빅터짱짱',
+    imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
+  },
 ];
 
 export const dummyCoupons: Coupon[] = [

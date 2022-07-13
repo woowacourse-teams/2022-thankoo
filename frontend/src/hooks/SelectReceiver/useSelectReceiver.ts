@@ -1,10 +1,9 @@
-import { useQuery } from 'react-query';
 import axios from 'axios';
-import { UserProfile } from '../../types';
-import { useRecoilState } from 'recoil';
-import { authAtom, checkedUsersAtom } from '../../recoil/atom';
-import { useRecoilValue } from 'recoil';
+import { useQuery } from 'react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { BASE_URL } from '../../constants';
+import { authAtom, checkedUsersAtom } from '../../recoil/atom';
+import { UserProfile } from '../../types';
 
 const useSelectReceiver = () => {
   const { accessToken, memberId } = useRecoilValue(authAtom);

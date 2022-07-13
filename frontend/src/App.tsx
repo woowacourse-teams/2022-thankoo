@@ -21,14 +21,14 @@ function App() {
   return (
     <MobileDiv>
       <Routes>
-        <Route element={<AuthOnly />}>
-          <Route path='/' element={<Main />} />
-          <Route path='/select-receiver' element={<SelectReceiver />} />
-          <Route path='/enter-coupon' element={<EnterCouponContent />} />
-        </Route>
-        <Route element={<UnAuthOnly />}>
-          <Route path='/signin' element={<SignIn />} />
-        </Route>
+        {/* <Route element={<AuthOnly />}> */}
+        <Route path='/' element={<Main />} />
+        <Route path='/select-receiver' element={<SelectReceiver />} />
+        <Route path='/enter-coupon' element={<EnterCouponContent />} />
+        {/* </Route> */}
+        {/* <Route element={<UnAuthOnly />}> */}
+        <Route path='/signin' element={<SignIn />} />
+        {/* </Route> */}
       </Routes>
     </MobileDiv>
   );
@@ -39,7 +39,7 @@ const MobileDiv = styled.div`
   max-width: 1080px;
   margin: 0 auto;
   height: 100vh;
-  background-color: #232323;
+  background-color: ${({ theme }) => theme.page.background};
   position: relative;
 `;
 

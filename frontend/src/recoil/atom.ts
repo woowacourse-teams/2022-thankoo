@@ -10,3 +10,8 @@ export const authAtom = atom({
   key: 'authAtom',
   default: { accessToken: '', memberId: 0, name: '' },
 });
+
+export const themeAtom = atom({
+  key: 'themeAtom',
+  default: 'dark',
+});

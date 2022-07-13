@@ -1,25 +1,29 @@
-import ArrowBackButton from '../commons/Header/ArrowBackButton';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
-import UserSearchInput from '../commons/SelectReceiver/UserSearchInput';
-import ListViewUsers from '../commons/SelectReceiver/ListViewUsers';
-import CheckedUsers from '../commons/SelectReceiver/CheckedUsers';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
-import { css } from '@emotion/react';
+import CheckedUsers from '../components/SelectReceiver/CheckedUsers';
+import ListViewUsers from '../components/SelectReceiver/ListViewUsers';
+import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
+import ArrowBackButton from '../components/shared/ArrowBackButton';
+import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
+
+import Header from '../components/shared/Header';
+import HeaderText from '../components/shared/HeaderText';
+import PageLayout from '../components/shared/PageLayout';
 
 const SelectReceiver = () => {
   const { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser } =
     useSelectReceiver();
 
   return (
-    <S.Container>
-      <S.Header>
+    <PageLayout>
+      <Header>
         <Link to='/'>
           <ArrowBackButton />
         </Link>
-        <S.HeaderText>누구한테 보낼까요?</S.HeaderText>
-      </S.Header>
+        <HeaderText>누구한테 보낼까요?</HeaderText>
+      </Header>
       <S.Body>
         {checkedUsers.length !== 0 && (
           <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
@@ -39,7 +43,7 @@ const SelectReceiver = () => {
           <ArrowForwardIosIcon />
         </S.LongButton>
       </S.SendButtonBox>
-    </S.Container>
+    </PageLayout>
   );
 };
 
@@ -48,29 +52,11 @@ type ButtonProps = {
 };
 
 const S = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-  `,
-  Header: styled.header`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    color: white;
-    margin: 10px 0 0 2vw;
-  `,
-  HeaderText: styled.p`
-    font-size: 26px;
-    margin-left: calc(1vw + 6px);
-  `,
   Body: styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding: 15px 3vw;
-    color: white;
     height: 82vh;
   `,
   UsersImages: styled.div`
@@ -111,16 +97,16 @@ const S = {
     width: 100%;
     max-width: 80vw;
     transition: all ease-in-out 0.1s;
-    ${({ disabled }) =>
+    ${({ disabled, theme }) =>
       disabled
         ? css`
-            background-color: #838383;
-            color: lightgray;
+            background-color: ${theme.button.disbaled.background};
+            color: ${theme.button.disbaled.color};
             cursor: not-allowed;
           `
         : css`
-            background-color: #ff6450;
-            color: white;
+            background-color: ${theme.button.active.background};
+            color: ${theme.button.active.color};
           `}
     border: none;
     border-radius: 30px;

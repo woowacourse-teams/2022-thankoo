@@ -1,11 +1,15 @@
-import GridViewCoupons from '../commons/Main/GridViewCoupons';
-import CouponTypesNav from '../commons/Main/CouponTypesNav';
-import ArrowBackButton from '../commons/Header/ArrowBackButton';
-import useMain from '../hooks/Main/useMain';
 import styled from '@emotion/styled';
 import SendIcon from '@mui/icons-material/Send';
-import { couponTypeKeys } from '../types';
+import CouponTypesNav from '../components/Main/CouponTypesNav';
+import GridViewCoupons from '../components/Main/GridViewCoupons';
+import ArrowBackButton from '../components/shared/ArrowBackButton';
+import useMain from '../hooks/Main/useMain';
+
 import { Link } from 'react-router-dom';
+import Header from '../components/shared/Header';
+import HeaderText from '../components/shared/HeaderText';
+import PageLayout from '../components/shared/PageLayout';
+import { couponTypeKeys } from '../types';
 
 const Main = () => {
   const { setCurrentType, couponsByType, isLoading, error, currentType } = useMain();
@@ -14,11 +18,11 @@ const Main = () => {
   if (error) return <>에러뜸</>;
 
   return (
-    <S.Container>
-      <S.Header>
+    <PageLayout>
+      <Header>
         <ArrowBackButton />
-        <S.HeaderText>쿠폰함</S.HeaderText>
-      </S.Header>
+        <HeaderText>쿠폰함</HeaderText>
+      </Header>
       <S.Body>
         <CouponTypesNav
           onChangeType={setCurrentType}
@@ -30,28 +34,11 @@ const Main = () => {
       <Link to='/select-receiver'>
         <S.NewCouponButton fontSize='small' />
       </Link>
-    </S.Container>
+    </PageLayout>
   );
 };
 
 const S = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-  `,
-  Header: styled.header`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    color: white;
-    margin: 10px 0 0 2vw;
-  `,
-  HeaderText: styled.p`
-    font-size: 22px;
-    margin-left: calc(1vw + 6px);
-  `,
   Body: styled.div`
     display: flex;
     flex-direction: column;
@@ -62,8 +49,8 @@ const S = {
     position: absolute;
     bottom: 3%;
     right: 5%;
-    background-color: black;
-    fill: white;
+    background-color: ${({ theme }) => theme.button.abled.background};
+    fill: ${({ theme }) => theme.button.abled.color};
     border: 1px solid white;
     padding: 0.7rem;
     border-radius: 50%;
@@ -72,8 +59,9 @@ const S = {
     cursor: pointer;
 
     &:hover {
-      background-color: white;
-      fill: black;
+      background-color: ${({ theme }) => theme.button.active.background};
+      fill: ${({ theme }) => theme.button.active.color};
+      border-color: transparent;
       opacity: 1;
     }
   `,

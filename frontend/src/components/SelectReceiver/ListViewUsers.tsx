@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import ListViewUser from './ListViewUser';
 import { UserProfile } from '../../types';
+import ListViewUser from './ListViewUser';
 
 const ListViewUsers = ({
   users,
@@ -54,7 +54,7 @@ const S = {
         background-color: transparent;
       }
       &::-webkit-scrollbar-thumb {
-        background-color: #afafaf;
+        background-color: ${({ theme }) => theme.page.color};
         border-radius: 5px;
       }
     }
