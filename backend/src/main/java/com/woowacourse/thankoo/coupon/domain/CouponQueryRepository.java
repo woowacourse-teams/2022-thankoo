@@ -10,15 +10,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class CouponHistoryQueryRepository {
+public class CouponQueryRepository {
 
-    private static final RowMapper<MemberCouponHistory> ROW_MAPPER = rowMapper();
+    private static final RowMapper<MemberCoupon> ROW_MAPPER = rowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static RowMapper<MemberCouponHistory> rowMapper() {
+    private static RowMapper<MemberCoupon> rowMapper() {
         return (rs, rowNum) ->
-                new MemberCouponHistory(rs.getLong("coupon_history_id"),
+                new MemberCoupon(rs.getLong("coupon_id"),
                         new Member(rs.getLong("sender_id"), rs.getString("sender_name")),
                         new Member(rs.getLong("receiver_id"), rs.getString("receiver_name")),
                         rs.getString("coupon_type"),
@@ -26,12 +26,12 @@ public class CouponHistoryQueryRepository {
                         rs.getString("message"));
     }
 
-    public List<MemberCouponHistory> findByReceiverId(final Long receiverId) {
-        String sql = "SELECT c.id as coupon_history_id, "
+    public List<MemberCoupon> findByReceiverId(final Long receiverId) {
+        String sql = "SELECT c.id as coupon_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "r.id as receiver_id, r.name as receiver_name, "
                 + "c.coupon_type, c.title, c.message "
-                + "FROM coupon_history as c "
+                + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
                 + "WHERE c.receiver_id = :receiverId "

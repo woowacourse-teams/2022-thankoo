@@ -1,6 +1,9 @@
 package com.woowacourse.thankoo.coupon.application.dto;
 
-import com.woowacourse.thankoo.coupon.domain.CouponHistory;
+import com.woowacourse.thankoo.coupon.domain.Coupon;
+import com.woowacourse.thankoo.coupon.domain.CouponContent;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,15 +12,18 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CouponRequest {
 
-    private Long receiverId;
+    private List<Long> receiverIds;
     private ContentRequest content;
 
-    public CouponRequest(final Long receiverId, final ContentRequest content) {
-        this.receiverId = receiverId;
+    public CouponRequest(final List<Long> receiverIds, final ContentRequest content) {
+        this.receiverIds = receiverIds;
         this.content = content;
     }
 
-    public CouponHistory toEntity(final Long senderId) {
-        return new CouponHistory(senderId, receiverId, content.toEntity());
+    public List<Coupon> toEntities(final Long senderId) {
+        CouponContent couponContent = content.toEntity();
+        return receiverIds.stream()
+                .map(id -> new Coupon(senderId, id, couponContent))
+                .collect(Collectors.toList());
     }
 }

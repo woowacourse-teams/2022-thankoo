@@ -14,10 +14,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "coupon_history")
+@Table(name = "coupon")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CouponHistory extends BaseEntity {
+public class Coupon extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,19 +32,19 @@ public class CouponHistory extends BaseEntity {
     @Embedded
     private CouponContent couponContent;
 
-    public CouponHistory(final Long id,
-                         final Long senderId,
-                         final Long receiverId,
-                         final CouponContent couponContent) {
+    public Coupon(final Long id,
+                  final Long senderId,
+                  final Long receiverId,
+                  final CouponContent couponContent) {
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.couponContent = couponContent;
     }
 
-    public CouponHistory(final Long senderId,
-                         final Long receiverId,
-                         final CouponContent couponContent) {
+    public Coupon(final Long senderId,
+                  final Long receiverId,
+                  final CouponContent couponContent) {
         this(null, senderId, receiverId, couponContent);
     }
 
@@ -53,10 +53,10 @@ public class CouponHistory extends BaseEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof CouponHistory)) {
+        if (!(o instanceof Coupon)) {
             return false;
         }
-        CouponHistory that = (CouponHistory) o;
+        Coupon that = (Coupon) o;
         return Objects.equals(id, that.id);
     }
 
@@ -67,7 +67,7 @@ public class CouponHistory extends BaseEntity {
 
     @Override
     public String toString() {
-        return "CouponHistory{" +
+        return "Coupon{" +
                 "id=" + id +
                 ", senderId=" + senderId +
                 ", receiverId=" + receiverId +

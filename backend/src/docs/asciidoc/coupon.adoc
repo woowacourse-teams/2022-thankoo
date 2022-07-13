@@ -1,0 +1,8 @@
+[[Coupon]]
+== 쿠폰 전송
+
+operation::coupon/send[snippets='http-request,http-response']
+
+== 받은 쿠폰 조회
+
+operation::coupon/received-coupons[snippets='http-request,http-response']
