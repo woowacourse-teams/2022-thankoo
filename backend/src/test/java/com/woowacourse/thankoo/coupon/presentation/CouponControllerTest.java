@@ -76,11 +76,11 @@ public class CouponControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
         List<CouponResponse> couponRespons = List.of(
-                CouponResponse.of(new MemberCoupon(1L, HUNI, LALA, TYPE, TITLE, MESSAGE)),
-                CouponResponse.of(new MemberCoupon(2L, HUNI, LALA, TYPE, TITLE, MESSAGE))
+                CouponResponse.of(new MemberCoupon(1L, HUNI, LALA, TYPE, TITLE, MESSAGE, "NOT_USED")),
+                CouponResponse.of(new MemberCoupon(2L, HUNI, LALA, TYPE, TITLE, MESSAGE, "NOT_USED"))
         );
 
-        given(couponService.getReceivedCoupons(anyLong()))
+        given(couponService.getReceivedCoupons(anyLong(), anyString()))
                 .willReturn(couponRespons);
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")

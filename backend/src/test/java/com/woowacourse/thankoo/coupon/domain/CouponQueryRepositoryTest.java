@@ -50,8 +50,8 @@ public class CouponQueryRepositoryTest {
         couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
 
-        List<MemberCoupon> memberCoupons = couponQueryRepository.findByReceiverId(
-                receiver.getId());
+        List<MemberCoupon> memberCoupons = couponQueryRepository.findByReceiverIdAndStatus(
+                receiver.getId(), CouponStatusGroup.findStatusNames("not_used"));
 
         assertThat(memberCoupons).hasSize(1);
     }

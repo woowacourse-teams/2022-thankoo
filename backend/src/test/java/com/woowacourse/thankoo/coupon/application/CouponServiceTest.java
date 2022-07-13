@@ -95,7 +95,7 @@ class CouponServiceTest {
         couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                 new ContentRequest(TYPE, TITLE, MESSAGE)));
 
-        List<CouponResponse> responses = couponService.getReceivedCoupons(receiver.getId());
+        List<CouponResponse> responses = couponService.getReceivedCoupons(receiver.getId(), "not_used");
 
         assertAll(
                 () -> assertThat(responses).hasSize(1),

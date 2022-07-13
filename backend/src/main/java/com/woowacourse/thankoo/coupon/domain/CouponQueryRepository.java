@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -23,20 +24,25 @@ public class CouponQueryRepository {
                         new Member(rs.getLong("receiver_id"), rs.getString("receiver_name")),
                         rs.getString("coupon_type"),
                         rs.getString("title"),
-                        rs.getString("message"));
+                        rs.getString("message"),
+                        rs.getString("status"));
     }
 
-    public List<MemberCoupon> findByReceiverId(final Long receiverId) {
+    public List<MemberCoupon> findByReceiverIdAndStatus(final Long receiverId,
+                                                        final List<String> couponStatuses) {
         String sql = "SELECT c.id as coupon_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "r.id as receiver_id, r.name as receiver_name, "
-                + "c.coupon_type, c.title, c.message "
+                + "c.coupon_type, c.title, c.message, c.status "
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
                 + "WHERE c.receiver_id = :receiverId "
+                + "AND c.status IN (:couponStatuses) "
                 + "ORDER BY c.id DESC";
 
-        return jdbcTemplate.query(sql, new MapSqlParameterSource("receiverId", receiverId), ROW_MAPPER);
+        SqlParameterSource parameters = new MapSqlParameterSource("receiverId", receiverId)
+                .addValue("couponStatuses", couponStatuses);
+        return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
     }
 }
