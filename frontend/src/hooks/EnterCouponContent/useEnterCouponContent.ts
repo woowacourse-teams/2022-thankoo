@@ -48,7 +48,7 @@ const useEnterCouponContent = () => {
       url: `${BASE_URL}/api/coupons/send`,
       headers: { Authorization: `Bearer ${auth.accessToken}` },
       data: {
-        receiverId: checkedUsers[0].id,
+        receiverIds: checkedUsers.map(user => user.id),
         content: {
           ...currentCoupon.content,
         },
