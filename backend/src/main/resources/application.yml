@@ -8,3 +8,14 @@ spring:
     url: jdbc:h2:mem:thankoo-local;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
+#  config:
+#    location: /thankoo-backend-secret/application-prod.yml
+
+
+#security:
+#  jwt:
+#    token:
+#      secret-key: FC1F1AE8239B2A0016BA1682C61278935E330DB4211280454C7B3FA9A18FC587
+#      expire-length: 1000000
+#logging:
+#  level: debug
