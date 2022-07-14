@@ -1,9 +1,19 @@
 import axios from 'axios';
+import { assemble, disassemble } from 'hangul-js';
+import { useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { BASE_URL } from '../../constants';
 import { authAtom, checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
+
+const findMatches = (keyword, users) =>
+  users
+    ?.filter(word => {
+      const regex = new RegExp(keyword, 'gi');
+      return word.name.match(regex);
+    })
+    .map(user => ({ ...user, name: assemble(user.name) }));
 
 const useSelectReceiver = () => {
   const { accessToken, memberId } = useRecoilValue(authAtom);
@@ -39,7 +49,33 @@ const useSelectReceiver = () => {
   const isCheckedUser = (user: UserProfile) =>
     checkedUsers?.some(checkUser => checkUser.id === user.id);
 
-  return { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser };
+  const [keyword, setKeyword] = useState('');
+  const onChangeKeyword = e => {
+    setKeyword(e.target.value);
+  };
+  const parsedNameUsers = useMemo(
+    () =>
+      users?.map(user => ({
+        ...user,
+        name: disassemble(user.name as string).join(''),
+      })),
+    [users?.length]
+  );
+  const parsedKeyword = disassemble(keyword).join('');
+  const matchedUsers = findMatches(parsedKeyword, parsedNameUsers);
+
+  return {
+    users,
+    isLoading,
+    error,
+    checkedUsers,
+    toggleUser,
+    uncheckUser,
+    isCheckedUser,
+    keyword,
+    onChangeKeyword,
+    matchedUsers,
+  };
 };
 
 export default useSelectReceiver;

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 
-const UserSearchInput = () => {
+const UserSearchInput = ({ value, onChange }) => {
   return (
     <S.Container>
       <S.SearchIcon />
-      <S.Input placeholder='검색/직접 입력'></S.Input>
+      <S.Input placeholder='검색/직접 입력' value={value} onChange={onChange}></S.Input>
       <S.EraseAllButton>X</S.EraseAllButton>
     </S.Container>
   );
