@@ -11,17 +11,17 @@ public class MemberResponse {
 
     private Long id;
     private String name;
-    private String socialNickname;
+    private String email;
     private String imageUrl;
 
-    private MemberResponse(final Long id, final String name, final String socialNickname, final String imageUrl) {
+    private MemberResponse(final Long id, final String name, final String email, final String imageUrl) {
         this.id = id;
         this.name = name;
-        this.socialNickname = socialNickname;
+        this.email = email;
         this.imageUrl = imageUrl;
     }
 
     public static MemberResponse of(final Member member) {
-        return new MemberResponse(member.getId(), member.getName(), member.getName(), "thankoo.png");
+        return new MemberResponse(member.getId(), member.getName(), member.getEmail(), "thankoo.png");
     }
 }

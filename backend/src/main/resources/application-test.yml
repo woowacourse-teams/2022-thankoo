@@ -1,0 +1,32 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:thankoo-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+
+security:
+  jwt:
+    token:
+      secret-key: dasdc338hfhghsn21sdf1jvnu4ascasv21908fyhas2a
+      expire-length: 1000000
+
+oauth:
+  google:
+    client-id: client-id
+    client-secret: client-secret
+    grant-type: authorization_code
+    redirect-uri: /callback
+    token-url: http://localhost:8180/oauth/token
+    profile-url: http://localhost:8180/userinfo/me
+
+server:
+  port: 8180

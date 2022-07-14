@@ -6,8 +6,8 @@ import io.restassured.response.Response;
 
 public class AuthenticationRequestFixture {
 
-    public static ExtractableResponse<Response> 로그인_한다(final String name) {
-        return RestAssuredRequestFixture.get("/api/sign-in?code=" + name);
+    public static ExtractableResponse<Response> 로그인_한다(final String code) {
+        return RestAssuredRequestFixture.get("/api/sign-in?code=" + code);
     }
 
     public static TokenResponse 토큰을_반환한다(final ExtractableResponse<Response> response) {

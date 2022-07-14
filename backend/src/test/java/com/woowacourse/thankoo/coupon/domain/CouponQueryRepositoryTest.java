@@ -4,8 +4,13 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
@@ -42,8 +47,8 @@ public class CouponQueryRepositoryTest {
     @DisplayName("사용하지 않은 받은 coupon 을 조회한다.")
     @Test
     void findByReceiverIdAndStatusNotUsed() {
-        Member sender = memberRepository.save(HUNI);
-        Member receiver = memberRepository.save(HOHO);
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
 
         couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
@@ -61,8 +66,8 @@ public class CouponQueryRepositoryTest {
     @DisplayName("사용한 받은 coupon 을 조회한다.")
     @Test
     void findByReceiverIdAndStatusUsed() {
-        Member sender = memberRepository.save(HUNI);
-        Member receiver = memberRepository.save(HOHO);
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
 
         couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));

@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.member.application;
 
+import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
@@ -17,9 +18,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long createOrGet(final String name) {
-        Member member = memberRepository.findByName(name)
-                .orElseGet(() -> memberRepository.save(new Member(name)));
+    public Long createOrGet(final GoogleProfileResponse googleProfileResponse) {
+        Member member = memberRepository.findBySocialId(googleProfileResponse.getSocialId())
+                .orElseGet(() -> memberRepository.save(GoogleProfileResponse.toEntity(googleProfileResponse)));
         return member.getId();
     }
 
