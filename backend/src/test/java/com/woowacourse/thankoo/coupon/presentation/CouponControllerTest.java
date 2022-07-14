@@ -84,8 +84,8 @@ public class CouponControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        Member huni = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-        Member lala = new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
         List<CouponResponse> couponResponses = List.of(
                 CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED")),
                 CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED"))
@@ -110,11 +110,11 @@ public class CouponControllerTest extends ControllerTest {
                         fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
                         fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
                         fieldWithPath("[].sender.name").type(STRING).description("senderName"),
-                        fieldWithPath("[].sender.socialNickname").type(STRING).description("senderSocialNickname"),
+                        fieldWithPath("[].sender.email").type(STRING).description("sendEmail"),
                         fieldWithPath("[].sender.imageUrl").type(STRING).description("senderImageUrl"),
                         fieldWithPath("[].receiver.id").type(NUMBER).description("receiverId"),
                         fieldWithPath("[].receiver.name").type(STRING).description("receiverName"),
-                        fieldWithPath("[].receiver.socialNickname").type(STRING).description("receiverSocialNickname"),
+                        fieldWithPath("[].receiver.email").type(STRING).description("receiverEmail"),
                         fieldWithPath("[].receiver.imageUrl").type(STRING).description("receiverImageUrl"),
                         fieldWithPath("[].content.couponType").type(STRING).description("couponType"),
                         fieldWithPath("[].content.title").type(STRING).description("title"),
