@@ -9,11 +9,10 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.authentication.application.GoogleProfileResponse;
+import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
@@ -43,7 +42,8 @@ class MemberServiceTest {
         @DisplayName("회원가 존재하지 않으면 생성한다.")
         @Test
         void signInCreateMember() {
-            Long id = memberService.createOrGet(new GoogleProfileResponse("yhh1056", "1234", "image.com"));
+            Long id = memberService.createOrGet(new GoogleProfileResponse("1056", "example@email.com",
+                    "image.com"));
 
             assertAll(
                     () -> assertThat(id).isNotNull(),

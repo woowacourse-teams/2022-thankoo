@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.member.application;
 
-import com.woowacourse.thankoo.authentication.application.GoogleProfileResponse;
+import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
