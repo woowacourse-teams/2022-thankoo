@@ -26,7 +26,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @DisplayName("MemberService 는 ")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class MemberServiceTest {
 
     @Autowired
@@ -55,7 +55,7 @@ class MemberServiceTest {
         @Test
         void signInGetMember() {
             memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
-            Long id = memberService.createOrGet(new GoogleProfileResponse(HOHO_NAME, HOHO_SOCIAL_ID, IMAGE_URL));
+            Long id = memberService.createOrGet(new GoogleProfileResponse(HOHO_SOCIAL_ID, HOHO_EMAIL, IMAGE_URL));
 
             assertAll(
                     () -> assertThat(id).isNotNull(),

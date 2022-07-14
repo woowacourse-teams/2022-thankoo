@@ -5,14 +5,14 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.Authentication
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_전송한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponHistoryRequestFixture.쿠폰이_추가됨;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.INVALID_TOKEN;
+import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_HOHO;
+import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_SKRR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
@@ -42,8 +42,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             @DisplayName("정상적으로 쿠폰을 보낸다.")
             @Test
             void sendCoupon() {
-                TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
-                TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+                TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
+                TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
 
                 CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
                 ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
@@ -54,8 +54,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             @DisplayName("제목이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
             @Test
             void sendCouponTitleException() {
-                TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
-                TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+                TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
+                TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
 
                 CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE_OVER,
                         MESSAGE);
@@ -67,8 +67,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
             @DisplayName("내용이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
             @Test
             void sendCouponMessageException() {
-                TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
-                TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+                TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
+                TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
 
                 CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE,
                         MESSAGE_OVER);
@@ -81,8 +81,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
         @DisplayName("쿠폰을 조회한다.")
         @Test
         void getCoupons() {
-            TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
-            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+            TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
+            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
 
             CouponRequest couponRequest1 = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
             CouponRequest couponRequest2 = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE + "1", MESSAGE);
@@ -101,7 +101,7 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
         @DisplayName("쿠폰을 전송하면 실패한다.")
         @Test
         void sendCouponInvalidToken() {
-            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
 
             CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
             ExtractableResponse<Response> response = 쿠폰을_전송한다(INVALID_TOKEN, couponRequest);
@@ -112,8 +112,8 @@ public class CouponHistoryAcceptanceTest extends AcceptanceTest {
         @DisplayName("쿠폰을 조회하면 실패한다.")
         @Test
         void getCouponsInvalidToken() {
-            TokenResponse senderToken = 토큰을_반환한다(로그인_한다(HUNI_NAME));
-            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(HOHO_NAME));
+            TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
+            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
 
             CouponRequest couponRequest = createCouponRequest(receiverToken.getMemberId(), TYPE, TITLE, MESSAGE);
             쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);

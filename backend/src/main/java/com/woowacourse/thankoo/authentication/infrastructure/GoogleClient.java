@@ -19,22 +19,26 @@ import org.springframework.web.client.RestTemplate;
 public class GoogleClient {
 
     private static final RestTemplate REST_TEMPLATE = new RestTemplate();
-    private static final String TOKEN_REQUEST_URL = "https://oauth2.googleapis.com/token";
-    private static final String USER_INFO_REQUEST_URL = "https://www.googleapis.com/userinfo/v2/me";
 
     private final String clientId;
     private final String clientSecret;
     private final String grantType;
     private final String redirectUri;
+    private final String tokenRequestUrl;
+    private final String userInfoRequestUrl;
 
     public GoogleClient(@Value("${oauth.google.client-id}") final String clientId,
                         @Value("${oauth.google.client-secret}") final String clientSecret,
                         @Value("${oauth.google.grant-type}") final String grantType,
-                        @Value("${oauth.google.redirect-uri}") final String redirectUri) {
+                        @Value("${oauth.google.redirect-uri}") final String redirectUri,
+                        @Value("${oauth.google.token-url}") final String tokenRequestUrl,
+                        @Value("${oauth.google.profile-url}") final String userInfoRequestUrl) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.grantType = grantType;
         this.redirectUri = redirectUri;
+        this.tokenRequestUrl = tokenRequestUrl;
+        this.userInfoRequestUrl = userInfoRequestUrl;
     }
 
     public String getAccessToken(final String code) {
@@ -43,6 +47,13 @@ public class GoogleClient {
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(parameters, headers);
         GoogleTokenResponse tokenResponse = requestGoogleToken(httpEntity);
         return Objects.requireNonNull(tokenResponse).getAccessToken();
+    }
+
+    private HttpHeaders getUrlEncodedHeader() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+        headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        return headers;
     }
 
     private MultiValueMap<String, String> getGoogleRequestParameters(final String code) {
@@ -57,31 +68,24 @@ public class GoogleClient {
 
     private GoogleTokenResponse requestGoogleToken(final HttpEntity<MultiValueMap<String, String>> entity) {
         return REST_TEMPLATE
-                .exchange(TOKEN_REQUEST_URL,
+                .exchange(tokenRequestUrl,
                         HttpMethod.POST,
                         entity,
                         GoogleTokenResponse.class)
                 .getBody();
     }
 
-    private HttpHeaders getUrlEncodedHeader() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        return headers;
-    }
-
     public GoogleProfileResponse getProfile(final String accessToken) {
         HttpHeaders userInfoHeaders = new HttpHeaders();
-        userInfoHeaders.setBearerAuth(accessToken);
+        userInfoHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
         return requestProfile(new HttpEntity<>(userInfoHeaders));
     }
 
     private GoogleProfileResponse requestProfile(final HttpEntity<GoogleProfileResponse> httpEntity) {
         return REST_TEMPLATE
-                .exchange(USER_INFO_REQUEST_URL,
+                .exchange(userInfoRequestUrl,
                         HttpMethod.GET,
-                        new HttpEntity<>(httpEntity),
+                        httpEntity,
                         GoogleProfileResponse.class)
                 .getBody();
     }

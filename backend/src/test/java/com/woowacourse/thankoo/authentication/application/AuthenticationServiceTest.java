@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.authentication.application;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_HOHO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @DisplayName("AuthenticationService 는 ")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 class AuthenticationServiceTest {
 
     @Autowired
@@ -26,7 +26,7 @@ class AuthenticationServiceTest {
     @DisplayName("SignIn 시 토큰을 반환한다.")
     @Test
     void signIn() {
-        TokenResponse tokenResponse = authenticationService.signIn(HUNI_NAME);
+        TokenResponse tokenResponse = authenticationService.signIn(CODE_HOHO);
 
         assertAll(
                 () -> assertThat(tokenResponse.getAccessToken()).isNotNull(),
