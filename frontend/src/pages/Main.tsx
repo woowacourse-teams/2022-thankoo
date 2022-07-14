@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import SendIcon from '@mui/icons-material/Send';
+import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import CouponTypesNav from '../components/Main/CouponTypesNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
-import ArrowBackButton from '../components/shared/ArrowBackButton';
 import useMain from '../hooks/Main/useMain';
 
 import { Link } from 'react-router-dom';
-import Header from '../components/shared/Header';
-import HeaderText from '../components/shared/HeaderText';
-import PageLayout from '../components/shared/PageLayout';
+import Header from '../components/@shared/Header';
+import HeaderText from '../components/@shared/HeaderText';
+import PageLayout from '../components/@shared/PageLayout';
 import { couponTypeKeys } from '../types';
 
 const Main = () => {
