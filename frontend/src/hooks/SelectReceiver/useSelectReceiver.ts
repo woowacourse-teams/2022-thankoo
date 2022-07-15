@@ -30,6 +30,7 @@ const useSelectReceiver = () => {
     return data;
   });
 
+  const [keyword, setKeyword] = useState('');
   const [checkedUsers, setCheckedUsers] = useRecoilState<UserProfile[]>(checkedUsersAtom);
 
   const checkUser = (user: UserProfile) => {
@@ -49,10 +50,6 @@ const useSelectReceiver = () => {
   const isCheckedUser = (user: UserProfile) =>
     checkedUsers?.some(checkUser => checkUser.id === user.id);
 
-  const [keyword, setKeyword] = useState('');
-  const onChangeKeyword = e => {
-    setKeyword(e.target.value);
-  };
   const parsedNameUsers = useMemo(
     () =>
       users?.map(user => ({
@@ -73,7 +70,7 @@ const useSelectReceiver = () => {
     uncheckUser,
     isCheckedUser,
     keyword,
-    onChangeKeyword,
+    setKeyword,
     matchedUsers,
   };
 };

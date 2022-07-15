@@ -22,7 +22,7 @@ const SelectReceiver = () => {
     uncheckUser,
     isCheckedUser,
     keyword,
-    onChangeKeyword,
+    setKeyword,
     matchedUsers,
   } = useSelectReceiver();
 
@@ -38,7 +38,7 @@ const SelectReceiver = () => {
         {checkedUsers.length !== 0 && (
           <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
         )}
-        <UserSearchInput value={keyword} onChange={onChangeKeyword} />
+        <UserSearchInput value={keyword} setKeyword={setKeyword} />
         {users && (
           <ListViewUsers
             users={matchedUsers}

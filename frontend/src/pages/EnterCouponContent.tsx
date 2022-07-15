@@ -2,15 +2,15 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
+import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import CouponTypesNav from '../components/Main/CouponTypesNav';
 import GridViewCoupon from '../components/Main/GridViewCoupon';
-import ArrowBackButton from '../components/shared/ArrowBackButton';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
 import { couponTypeKeys } from '../types';
 
-import Header from '../components/shared/Header';
-import HeaderText from '../components/shared/HeaderText';
-import PageLayout from '../components/shared/PageLayout';
+import Header from '../components/@shared/Header';
+import HeaderText from '../components/@shared/HeaderText';
+import PageLayout from '../components/@shared/PageLayout';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
