@@ -1,7 +1,12 @@
 package com.woowacourse.thankoo.member.presentation;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -18,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
+import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import java.util.List;
 import org.apache.http.HttpHeaders;
@@ -34,7 +40,9 @@ public class MemberControllerTest extends ControllerTest {
     void getMembersExcludeMe() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        List<MemberResponse> memberResponses = List.of(MemberResponse.of(LALA), MemberResponse.of(HUNI));
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+        List<MemberResponse> memberResponses = List.of(MemberResponse.of(lala), MemberResponse.of(huni));
         given(memberService.getMembersExcludeMe(anyLong()))
                 .willReturn(memberResponses);
 
@@ -54,7 +62,7 @@ public class MemberControllerTest extends ControllerTest {
                 responseFields(
                         fieldWithPath("[].id").type(NUMBER).description("id"),
                         fieldWithPath("[].name").type(STRING).description("name"),
-                        fieldWithPath("[].socialNickname").type(STRING).description("socialNickname"),
+                        fieldWithPath("[].email").type(STRING).description("email"),
                         fieldWithPath("[].imageUrl").type(STRING).description("imageUrl")
                 )));
     }

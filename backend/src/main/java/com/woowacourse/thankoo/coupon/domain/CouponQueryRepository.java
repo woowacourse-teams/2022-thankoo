@@ -20,8 +20,12 @@ public class CouponQueryRepository {
     private static RowMapper<MemberCoupon> rowMapper() {
         return (rs, rowNum) ->
                 new MemberCoupon(rs.getLong("coupon_id"),
-                        new Member(rs.getLong("sender_id"), rs.getString("sender_name")),
-                        new Member(rs.getLong("receiver_id"), rs.getString("receiver_name")),
+                        new Member(rs.getLong("sender_id"), rs.getString("sender_name"),
+                                rs.getString("email"), rs.getString("social_id"),
+                                rs.getString("image_url")),
+                        new Member(rs.getLong("receiver_id"), rs.getString("receiver_name"),
+                                rs.getString("email"), rs.getString("social_id"),
+                                rs.getString("image_url")),
                         rs.getString("coupon_type"),
                         rs.getString("title"),
                         rs.getString("message"),
@@ -32,6 +36,8 @@ public class CouponQueryRepository {
                                                         final List<String> couponStatuses) {
         String sql = "SELECT c.id as coupon_id, "
                 + "s.id as sender_id, s.name as sender_name, "
+                + "s.email as sender_email, s.social_id as sender_social_id,"
+                + "s.image_url as sender_image_url,"
                 + "r.id as receiver_id, r.name as receiver_name, "
                 + "c.coupon_type, c.title, c.message, c.status "
                 + "FROM coupon as c "

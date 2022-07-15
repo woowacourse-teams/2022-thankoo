@@ -25,13 +25,24 @@ public class Member extends BaseEntity {
     @Column(name = "name", length = 50)
     private String name;
 
-    public Member(final Long id, final String name) {
+    private String email;
+
+    @Column(name = "social_id")
+    private String socialId;
+
+    @Column(name = "image_url", length = 2_000)
+    private String imageUrl;
+
+    public Member(final Long id, final String name, final String email, final String socialId, final String imageUrl) {
         this.id = id;
         this.name = name;
+        this.email = email;
+        this.socialId = socialId;
+        this.imageUrl = imageUrl;
     }
 
-    public Member(final String name) {
-        this(null, name);
+    public Member(final String nickname, final String email, final String socialId, final String imageUrl) {
+        this(null, nickname, email, socialId, imageUrl);
     }
 
     @Override
@@ -56,6 +67,9 @@ public class Member extends BaseEntity {
         return "Member{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", socialId='" + socialId + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }

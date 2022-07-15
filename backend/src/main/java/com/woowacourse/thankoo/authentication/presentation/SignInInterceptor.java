@@ -25,6 +25,7 @@ public class SignInInterceptor implements HandlerInterceptor {
         if (CorsUtils.isPreFlightRequest(request)) {
             return true;
         }
+
         String accessToken = AuthorizationExtractor.extract(request)
                 .orElseThrow(() -> new InvalidTokenException(ErrorType.INVALID_TOKEN));
         authenticationContext.setPrincipal(Long.valueOf(jwtTokenProvider.getPayload(accessToken)));
