@@ -1,19 +1,11 @@
 import axios from 'axios';
-import { assemble, disassemble } from 'hangul-js';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { BASE_URL } from '../../constants';
 import { authAtom, checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
-
-const findMatches = (keyword, users) =>
-  users
-    ?.filter(word => {
-      const regex = new RegExp(keyword, 'gi');
-      return word.name.match(regex);
-    })
-    .map(user => ({ ...user, name: assemble(user.name) }));
+import useFilterMatchedUser from '../useFilterMatchedUser';
 
 const useSelectReceiver = () => {
   const { accessToken, memberId } = useRecoilValue(authAtom);
@@ -50,16 +42,7 @@ const useSelectReceiver = () => {
   const isCheckedUser = (user: UserProfile) =>
     checkedUsers?.some(checkUser => checkUser.id === user.id);
 
-  const parsedNameUsers = useMemo(
-    () =>
-      users?.map(user => ({
-        ...user,
-        name: disassemble(user.name as string).join(''),
-      })),
-    [users?.length]
-  );
-  const parsedKeyword = disassemble(keyword).join('');
-  const matchedUsers = findMatches(parsedKeyword, parsedNameUsers);
+  const matchedUsers = useFilterMatchedUser(keyword, users);
 
   return {
     users,
