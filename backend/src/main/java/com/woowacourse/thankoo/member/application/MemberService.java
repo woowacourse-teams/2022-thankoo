@@ -20,7 +20,7 @@ public class MemberService {
     @Transactional
     public Long createOrGet(final GoogleProfileResponse googleProfileResponse) {
         Member member = memberRepository.findBySocialId(googleProfileResponse.getSocialId())
-                .orElseGet(() -> memberRepository.save(GoogleProfileResponse.toEntity(googleProfileResponse)));
+                .orElseGet(() -> memberRepository.save(googleProfileResponse.toEntity()));
         return member.getId();
     }
 

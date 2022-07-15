@@ -39,7 +39,7 @@ class MemberServiceTest {
     @Nested
     class SignInTest {
 
-        @DisplayName("회원가 존재하지 않으면 생성한다.")
+        @DisplayName("회원이 존재하지 않으면 생성한다.")
         @Test
         void signInCreateMember() {
             Long id = memberService.createOrGet(new GoogleProfileResponse("1056", "example@email.com",

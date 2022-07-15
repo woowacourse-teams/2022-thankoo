@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class GoogleProfileResponse {
 
+    public static final String DELIMITER = "@";
+
     @JsonProperty("id")
     private String socialId;
     private String email;
@@ -23,13 +25,12 @@ public class GoogleProfileResponse {
         this.imageUrl = imageUrl;
     }
 
-    public static Member toEntity(final GoogleProfileResponse googleProfileResponse) {
-        String nickname = splitNameFromEmail(googleProfileResponse.email);
-        return new Member(nickname, googleProfileResponse.getEmail(), googleProfileResponse.getSocialId(),
-                googleProfileResponse.getImageUrl());
+    public Member toEntity() {
+        String nickname = splitNameFromEmail(email);
+        return new Member(nickname, email, socialId, imageUrl);
     }
 
     private static String splitNameFromEmail(final String email) {
-        return email.split("@")[0];
+        return email.split(DELIMITER)[0];
     }
 }

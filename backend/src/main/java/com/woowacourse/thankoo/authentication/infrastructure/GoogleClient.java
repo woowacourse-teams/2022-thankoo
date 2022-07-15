@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @Getter
 public class GoogleClient {
 
+    public static final String AUTHORIZATION_TYPE = "Bearer ";
     private static final RestTemplate REST_TEMPLATE = new RestTemplate();
 
     private final String clientId;
@@ -77,7 +78,7 @@ public class GoogleClient {
 
     public GoogleProfileResponse getProfile(final String accessToken) {
         HttpHeaders userInfoHeaders = new HttpHeaders();
-        userInfoHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        userInfoHeaders.add(HttpHeaders.AUTHORIZATION, AUTHORIZATION_TYPE + accessToken);
         return requestProfile(new HttpEntity<>(userInfoHeaders));
     }
 

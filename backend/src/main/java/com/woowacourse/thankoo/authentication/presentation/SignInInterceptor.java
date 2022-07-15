@@ -26,10 +26,6 @@ public class SignInInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if (request.getRequestURI().startsWith("/api/sign-in")) {
-            return true;
-        }
-
         String accessToken = AuthorizationExtractor.extract(request)
                 .orElseThrow(() -> new InvalidTokenException(ErrorType.INVALID_TOKEN));
         authenticationContext.setPrincipal(Long.valueOf(jwtTokenProvider.getPayload(accessToken)));

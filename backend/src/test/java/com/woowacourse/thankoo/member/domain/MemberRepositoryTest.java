@@ -27,7 +27,7 @@ class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @DisplayName("회원를 저장한다.")
+    @DisplayName("회원을 저장한다.")
     @Test
     void save() {
         Member member = new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL);
