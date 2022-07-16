@@ -54,6 +54,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.27.2"],\
             ["babel-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:8.2.5"],\
             ["emotion-reset", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:3.0.1"],\
+            ["file-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:6.2.0"],\
             ["html-webpack-plugin", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:5.5.0"],\
             ["msw", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:0.43.0"],\
             ["react", "npm:18.2.0"],\
@@ -6123,6 +6124,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["file-loader", [\
+        ["npm:6.2.0", {\
+          "packageLocation": "./.yarn/cache/file-loader-npm-6.2.0-4b02fd87d5-faf43eecf2.zip/node_modules/file-loader/",\
+          "packageDependencies": [\
+            ["file-loader", "npm:6.2.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:6.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/file-loader-virtual-470e262dc8/0/cache/file-loader-npm-6.2.0-4b02fd87d5-faf43eecf2.zip/node_modules/file-loader/",\
+          "packageDependencies": [\
+            ["file-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:6.2.0"],\
+            ["@types/webpack", null],\
+            ["loader-utils", "npm:2.0.2"],\
+            ["schema-utils", "npm:3.1.1"],\
+            ["webpack", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:5.73.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/webpack",\
+            "webpack"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["fill-range", [\
         ["npm:7.0.1", {\
           "packageLocation": "./.yarn/cache/fill-range-npm-7.0.1-b8b1817caa-cc283f4e65.zip/node_modules/fill-range/",\
@@ -9716,6 +9741,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.27.2"],\
             ["babel-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:8.2.5"],\
             ["emotion-reset", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:3.0.1"],\
+            ["file-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:6.2.0"],\
             ["html-webpack-plugin", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:5.5.0"],\
             ["msw", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:0.43.0"],\
             ["react", "npm:18.2.0"],\
