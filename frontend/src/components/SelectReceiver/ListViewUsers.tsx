@@ -13,7 +13,7 @@ const ListViewUsers = ({
 }) => {
   return (
     <S.Container>
-      {users.map(user => (
+      {users?.map(user => (
         <ListViewUser
           key={user.id}
           user={user}

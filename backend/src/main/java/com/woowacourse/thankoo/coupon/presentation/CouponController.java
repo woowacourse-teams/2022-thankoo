@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,7 +29,8 @@ public class CouponController {
     }
 
     @GetMapping("/received")
-    public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receivedId) {
-        return ResponseEntity.ok(couponService.getReceivedCoupons(receivedId));
+    public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receivedId,
+                                                                @RequestParam final String status) {
+        return ResponseEntity.ok(couponService.getReceivedCoupons(receivedId, status));
     }
 }

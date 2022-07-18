@@ -4651,6 +4651,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hangul-js@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "hangul-js@npm:0.2.6"
+  checksum: 949b62cce2b9ce0e6101b2dbe640f3087ad92f1ff8c0361e26683cbf201b915cba6cc0de396d16935236fbfd1fef2249a83ead8cdecfd92df0d7187fd4cb939d
+  languageName: node
+  linkType: hard
+
 "has-flag@npm:^3.0.0":
   version: 3.0.0
   resolution: "has-flag@npm:3.0.0"
@@ -7419,6 +7426,7 @@ __metadata:
     babel-loader: ^8.2.5
     emotion-reset: ^3.0.1
     file-loader: ^6.2.0
+    hangul-js: ^0.2.6
     html-webpack-plugin: ^5.5.0
     msw: ^0.43.0
     react: ^18.2.0

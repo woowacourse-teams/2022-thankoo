@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.coupon.presentation.dto;
 
 import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
+import java.util.Locale;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +15,18 @@ public class CouponResponse {
     private MemberResponse sender;
     private MemberResponse receiver;
     private CouponContentResponse content;
+    private String status;
 
     private CouponResponse(final Long couponId,
                            final MemberResponse sender,
                            final MemberResponse receiver,
-                           final CouponContentResponse content) {
+                           final CouponContentResponse content,
+                           final String status) {
         this.couponId = couponId;
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
+        this.status = status;
     }
 
     public static CouponResponse of(final MemberCoupon memberCoupon) {
@@ -31,7 +35,8 @@ public class CouponResponse {
                 MemberResponse.of(memberCoupon.getReceiver()),
                 CouponContentResponse.from(memberCoupon.getCouponType(),
                         memberCoupon.getTitle(),
-                        memberCoupon.getMessage())
+                        memberCoupon.getMessage()),
+                memberCoupon.getStatus().toLowerCase(Locale.ROOT)
         );
     }
 }
