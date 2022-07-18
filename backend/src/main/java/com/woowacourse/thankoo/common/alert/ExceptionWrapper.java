@@ -19,4 +19,13 @@ public class ExceptionWrapper {
         this.exceptionLineNumber = exceptionLineNumber;
         this.message = message;
     }
+
+    public static ExceptionWrapper extractExceptionWrapper(final Exception calledException) {
+        StackTraceElement[] exceptionStackTrace = calledException.getStackTrace();
+        String exceptionClassName = exceptionStackTrace[0].getClassName();
+        String exceptionMethodName = exceptionStackTrace[0].getMethodName();
+        int exceptionLineNumber = exceptionStackTrace[0].getLineNumber();
+        String message = calledException.getMessage();
+        return new ExceptionWrapper(exceptionClassName, exceptionMethodName, exceptionLineNumber, message);
+    }
 }
