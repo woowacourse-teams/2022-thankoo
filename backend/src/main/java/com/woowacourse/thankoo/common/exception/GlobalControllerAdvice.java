@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.common.exception;
 
 import static com.woowacourse.thankoo.common.exception.ErrorType.UNHANDLED_EXCEPTION;
 
+import com.woowacourse.thankoo.common.alert.SlackLogger;
 import com.woowacourse.thankoo.common.exception.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class GlobalControllerAdvice {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getCode(), e.getMessage()));
     }
 
+    @SlackLogger
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> unHandledExceptionHandler(Exception e) {
         log.error("Not Expected Exception is Occured", e);
