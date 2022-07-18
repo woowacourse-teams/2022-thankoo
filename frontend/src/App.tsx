@@ -1,34 +1,42 @@
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import styled from '@emotion/styled';
-import Main from './pages/Main';
-import SignIn from './pages/SignIn';
-import SelectReceiver from './pages/SelectReceiver';
-import EnterCouponContent from './pages/EnterCouponContent';
 import { useRecoilValue } from 'recoil';
+import { ROUTE_PATH } from './constants';
+import EnterCouponContent from './pages/EnterCouponContent';
+import Main from './pages/Main';
+import SelectReceiver from './pages/SelectReceiver';
+import SignIn from './pages/SignIn';
 import { authAtom } from './recoil/atom';
 
 const AuthOnly = () => {
-  const { accessToken } = useRecoilValue(authAtom);
-  return accessToken ? <Outlet /> : <Navigate to='/signin' />;
+  const storageToken = localStorage.getItem('token');
+  const { accessToken: tokenState } = useRecoilValue(authAtom);
+  const accessToken = storageToken || tokenState;
+
+  return accessToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.SIGN_IN}`} />;
 };
+
 const UnAuthOnly = () => {
-  const { accessToken } = useRecoilValue(authAtom);
-  return !accessToken ? <Outlet /> : <Navigate to='/' />;
+  const storageToken = localStorage.getItem('token');
+  const { accessToken: tokenState } = useRecoilValue(authAtom);
+  const accessToken = storageToken || tokenState;
+
+  return !accessToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.EXACT_MAIN}`} />;
 };
 
 function App() {
   return (
     <MobileDiv>
       <Routes>
-        {/* <Route element={<AuthOnly />}> */}
-        <Route path='/' element={<Main />} />
-        <Route path='/select-receiver' element={<SelectReceiver />} />
-        <Route path='/enter-coupon' element={<EnterCouponContent />} />
-        {/* </Route> */}
-        {/* <Route element={<UnAuthOnly />}> */}
-        <Route path='/signin' element={<SignIn />} />
-        {/* </Route> */}
+        <Route element={<AuthOnly />}>
+          <Route path={`${ROUTE_PATH.MAIN}`} element={<Main />} />
+          <Route path={`${ROUTE_PATH.SELECT_RECEIVER}`} element={<SelectReceiver />} />
+          <Route path={`${ROUTE_PATH.ENTER_COUPON}`} element={<EnterCouponContent />} />
+        </Route>
+        <Route element={<UnAuthOnly />}>
+          <Route path={`${ROUTE_PATH.SIGN_IN}`} element={<SignIn />} />
+        </Route>
       </Routes>
     </MobileDiv>
   );
