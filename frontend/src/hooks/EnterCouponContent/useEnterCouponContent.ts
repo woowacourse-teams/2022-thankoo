@@ -22,7 +22,6 @@ const useEnterCouponContent = () => {
     ...initialCouponState,
     sender: {
       ...initialCouponState.sender,
-      name: auth.name,
       id: auth.memberId,
     },
     content: {

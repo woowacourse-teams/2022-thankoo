@@ -8,7 +8,7 @@ export const checkedUsersAtom = atom<UserProfile[]>({
 
 export const authAtom = atom({
   key: 'authAtom',
-  default: { accessToken: '', memberId: 0, name: '' },
+  default: { accessToken: '', memberId: 0 },
 });
 
 export const themeAtom = atom({
