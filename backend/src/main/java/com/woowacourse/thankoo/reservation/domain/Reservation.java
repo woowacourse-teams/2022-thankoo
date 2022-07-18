@@ -33,7 +33,6 @@ public class Reservation extends BaseEntity {
     private LocalDateTime meetingTime;
 
     @Column(name = "time_zone", length = 20, nullable = false)
-    @Enumerated(EnumType.STRING)
     private String timeZone;
 
     @Column(name = "status", length = 20, nullable = false)
