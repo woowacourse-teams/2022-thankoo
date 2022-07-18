@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Profile("prod")
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class SlackLoggerAspect {
 
     private final AuthenticationContext authenticationContext;
