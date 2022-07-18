@@ -1,13 +1,6 @@
 <included>
     <property name="LOG_PATTERN" value="%-5level %d{yy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%M:%line] - %msg%n"/>
 
-    <appender name="console-logger" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <charset>utf-8</charset>
-            <pattern>${LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
-
     <appender name="error-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>error</level>
