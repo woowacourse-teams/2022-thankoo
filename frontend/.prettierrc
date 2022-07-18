@@ -11,7 +11,7 @@
   "jsxSingleQuote": true,
   "importOrder": [
     "^(@|pages)(.*|$)",
-    "^(@|components/shared)(.*|$)",
+    "^(@|components/@shared)(.*|$)",
     "^(@|components)(.*|$)",
     "^(@|recoil/)(.*|$)",
     "^(@|hooks)(.*|$)",
