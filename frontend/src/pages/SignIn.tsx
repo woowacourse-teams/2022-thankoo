@@ -27,7 +27,7 @@ const SignIn = () => {
     }
   }, [userCode]);
 
-  const onclick = () => {
+  const redirectGoogleAuth = () => {
     window.location.href = GOOGLE_AUTH_URL;
   };
 
@@ -35,7 +35,7 @@ const SignIn = () => {
     <PageLayout>
       <S.Body>
         <BirdLogoWhite size='120rem' />
-        <S.SignInButton onClick={onclick}>
+        <S.SignInButton onClick={redirectGoogleAuth}>
           <S.GoogleIcon />
           Google로 계속하기
         </S.SignInButton>
