@@ -2,19 +2,29 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
+import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import CheckedUsers from '../components/SelectReceiver/CheckedUsers';
 import ListViewUsers from '../components/SelectReceiver/ListViewUsers';
 import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
-import ArrowBackButton from '../components/shared/ArrowBackButton';
 import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
 
-import Header from '../components/shared/Header';
-import HeaderText from '../components/shared/HeaderText';
-import PageLayout from '../components/shared/PageLayout';
+import Header from '../components/@shared/Header';
+import HeaderText from '../components/@shared/HeaderText';
+import PageLayout from '../components/@shared/PageLayout';
 
 const SelectReceiver = () => {
-  const { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser } =
-    useSelectReceiver();
+  const {
+    users,
+    isLoading,
+    error,
+    checkedUsers,
+    toggleUser,
+    uncheckUser,
+    isCheckedUser,
+    keyword,
+    setKeyword,
+    matchedUsers,
+  } = useSelectReceiver();
 
   return (
     <PageLayout>
@@ -28,9 +38,13 @@ const SelectReceiver = () => {
         {checkedUsers.length !== 0 && (
           <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
         )}
-        <UserSearchInput />
+        <UserSearchInput value={keyword} setKeyword={setKeyword} />
         {users && (
-          <ListViewUsers users={users} isCheckedUser={isCheckedUser} onClickUser={toggleUser} />
+          <ListViewUsers
+            users={matchedUsers}
+            isCheckedUser={isCheckedUser}
+            onClickUser={toggleUser}
+          />
         )}
       </S.Body>
 

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckIcon from '@mui/icons-material/Check';
 import { UserProfile } from '../../types';
 
 const ListViewUser = ({
@@ -57,11 +57,15 @@ const S = {
     font-size: 15px;
     color: ${({ theme }) => theme.page.subColor};
   `,
-  Checkbox: styled(CheckCircleIcon)<CheckBoxProp>`
+  Checkbox: styled(CheckIcon)<CheckBoxProp>`
     grid-area: cb;
     justify-self: end;
     margin-right: 5px;
-    fill: ${({ theme }) => theme.primary};
+    border-radius: 50%;
+    background-color: ${({ theme }) => theme.primary};
+    border: 1px solid black;
+    fill: white;
+    padding: 1px;
     display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
   `,
 };

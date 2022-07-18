@@ -54,6 +54,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.27.2"],\
             ["babel-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:8.2.5"],\
             ["emotion-reset", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:3.0.1"],\
+            ["hangul-js", "npm:0.2.6"],\
             ["html-webpack-plugin", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:5.5.0"],\
             ["msw", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:0.43.0"],\
             ["react", "npm:18.2.0"],\
@@ -6479,6 +6480,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["hangul-js", [\
+        ["npm:0.2.6", {\
+          "packageLocation": "./.yarn/cache/hangul-js-npm-0.2.6-f0b063efbb-949b62cce2.zip/node_modules/hangul-js/",\
+          "packageDependencies": [\
+            ["hangul-js", "npm:0.2.6"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["has", [\
         ["npm:1.0.3", {\
           "packageLocation": "./.yarn/cache/has-npm-1.0.3-b7f00631c1-b9ad53d53b.zip/node_modules/has/",\
@@ -9716,6 +9726,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.27.2"],\
             ["babel-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:8.2.5"],\
             ["emotion-reset", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:3.0.1"],\
+            ["hangul-js", "npm:0.2.6"],\
             ["html-webpack-plugin", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:5.5.0"],\
             ["msw", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:0.43.0"],\
             ["react", "npm:18.2.0"],\

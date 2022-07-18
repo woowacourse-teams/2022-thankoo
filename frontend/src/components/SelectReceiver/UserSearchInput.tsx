@@ -1,12 +1,24 @@
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
 
-const UserSearchInput = () => {
+const UserSearchInput = ({ value, setKeyword }) => {
   return (
     <S.Container>
       <S.SearchIcon />
-      <S.Input placeholder='검색/직접 입력'></S.Input>
-      <S.EraseAllButton>X</S.EraseAllButton>
+      <S.Input
+        placeholder='검색/직접 입력'
+        value={value}
+        onChange={e => {
+          setKeyword(e.target.value);
+        }}
+      ></S.Input>
+      <S.EraseAllButton
+        onClick={() => {
+          setKeyword('');
+        }}
+      >
+        X
+      </S.EraseAllButton>
     </S.Container>
   );
 };
