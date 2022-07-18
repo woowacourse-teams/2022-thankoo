@@ -3,6 +3,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageLayout from '../components/@shared/PageLayout';
+import { ROUTE_PATH } from '../constants';
 import { flexCenter } from '../styles/mixIn';
 import BirdLogoWhite from './../components/@shared/LogoWhite';
 import useSignIn from './../hooks/SignIn/useSignIn';
@@ -18,7 +19,7 @@ const SignIn = () => {
       try {
         refetchToken().then(({ data }) => {
           saveAuth(data);
-          navigate('/');
+          navigate(`${ROUTE_PATH.EXACT_MAIN}`);
         });
       } catch (e) {
         alert('로그인에 실패하였습니다.');
