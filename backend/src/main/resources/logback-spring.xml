@@ -1,0 +1,10 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProfile name="prod">
+        <property name="LOG_PATH" value="/home/ubuntu/logs"/>
+        <include resource="logback/logger-template.xml"/>
+        <logger name="com.woowacourse.thankoo" level="ERROR">
+            <appender-ref ref="error-logger"/>
+        </logger>
+    </springProfile>
+</configuration>
