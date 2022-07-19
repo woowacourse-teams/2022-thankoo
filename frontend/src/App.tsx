@@ -29,11 +29,11 @@ function App() {
   return (
     <MobileDiv>
       <Routes>
-        <Route element={<AuthOnly />}>
-          <Route path={`${ROUTE_PATH.MAIN}`} element={<Main />} />
-          <Route path={`${ROUTE_PATH.SELECT_RECEIVER}`} element={<SelectReceiver />} />
-          <Route path={`${ROUTE_PATH.ENTER_COUPON}`} element={<EnterCouponContent />} />
-        </Route>
+        {/* <Route element={<AuthOnly />}> */}
+        <Route path={`${ROUTE_PATH.MAIN}`} element={<Main />} />
+        <Route path={`${ROUTE_PATH.SELECT_RECEIVER}`} element={<SelectReceiver />} />
+        <Route path={`${ROUTE_PATH.ENTER_COUPON}`} element={<EnterCouponContent />} />
+        {/* </Route> */}
         <Route element={<UnAuthOnly />}>
           <Route path={`${ROUTE_PATH.SIGN_IN}`} element={<SignIn />} />
         </Route>

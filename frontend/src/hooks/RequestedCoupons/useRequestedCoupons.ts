@@ -20,7 +20,15 @@ const useRequestedCoupons = () => {
   );
   const [clickedCoupons, setClickedCoupons] = useState<Coupon[]>([]);
 
-  return {};
+  return {
+    orderBy,
+    setOrderBy,
+    requestedCoupons,
+    clickedCoupons,
+    setClickedCoupons,
+    orderByList,
+    orderByObject,
+  };
 };
 
 export default useRequestedCoupons;
