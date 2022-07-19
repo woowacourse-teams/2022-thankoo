@@ -30,7 +30,7 @@ const CreateReservation = () => {
   );
 
   const meetingDate = e => {
-    setDate(e.target.value + 'T00:00');
+    setDate(e.target.value + ` 00:00`);
   };
 
   const sendReservation = () => {
@@ -44,10 +44,14 @@ const CreateReservation = () => {
         <HeaderText>언제 만날까요?</HeaderText>
       </Header>
       <S.Body>
-        <S.Label>직접 입력하기</S.Label>
-        <input type='date' onChange={meetingDate} />
-        <button>오늘쓰기</button>
-        <S.Label>달력에서 고르기</S.Label>
+        <S.Area>
+          <S.Label>직접 입력하기</S.Label>
+          <input type='date' onChange={meetingDate} />
+          <button>오늘쓰기</button>
+        </S.Area>
+        <S.Area>
+          <S.Label>달력에서 고르기</S.Label>
+        </S.Area>
       </S.Body>
       <S.LongButton disabled={!isFilled} onClick={sendReservation}>
         약속 신청하기
@@ -61,8 +65,13 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
     padding: 15px;
+  `,
+  Area: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   `,
   Label: styled.div`
     font-size: 16px;
