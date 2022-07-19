@@ -61,6 +61,7 @@ public class Reservation extends BaseEntity {
                        final Coupon coupon) {
         validateReservationMember(memberId, coupon);
         validateMeetingTime(meetingTime);
+        validateCouponStatus(coupon);
         this.id = id;
         this.meetingDate = meetingDate;
         this.meetingTime = meetingTime;
@@ -79,6 +80,12 @@ public class Reservation extends BaseEntity {
     private void validateMeetingTime(final LocalDateTime meetingTime) {
         if (LocalDateTime.now().isAfter(meetingTime)) {
             throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_MEETING_TIME);
+        }
+    }
+
+    private void validateCouponStatus(final Coupon coupon) {
+        if (!coupon.isNotUsed()) {
+            throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_COUPON_STATUS);
         }
     }
 
