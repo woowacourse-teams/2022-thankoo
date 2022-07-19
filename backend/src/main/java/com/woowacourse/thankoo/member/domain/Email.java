@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.member.domain;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -12,21 +13,21 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Name {
+public class Email {
 
-    private static final int NAME_MAX_LENGTH = 20;
+    private static final String EMAIL_REGEX_PATTERN = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
 
-    @Column(name = "name", length = 50)
+    @Column(name = "email")
     private String value;
 
-    public Name(final String value) {
-        validateName(value);
+    public Email(final String value) {
+        validateEmail(value);
         this.value = value;
     }
 
-    private void validateName(final String name) {
-        if (name.isBlank() || name.length() > NAME_MAX_LENGTH) {
-            throw new InvalidMemberException(ErrorType.INVALID_MEMBER_NAME);
+    private void validateEmail(final String email) {
+        if (email.isBlank() || !Pattern.matches(EMAIL_REGEX_PATTERN, email)) {
+            throw new InvalidMemberException(ErrorType.INVALID_MEMBER_EMAIL);
         }
     }
 
@@ -35,11 +36,11 @@ public class Name {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Name)) {
+        if (!(o instanceof Email)) {
             return false;
         }
-        Name name = (Name) o;
-        return Objects.equals(value, name.value);
+        Email email = (Email) o;
+        return Objects.equals(value, email.value);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class Name {
 
     @Override
     public String toString() {
-        return "Name{" +
+        return "Email{" +
                 "value='" + value + '\'' +
                 '}';
     }
