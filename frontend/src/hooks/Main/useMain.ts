@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { BASE_URL } from '../../constants/api';
 import { authAtom } from '../../recoil/atom';
 import { Coupon, CouponType } from '../../types';
 import { API_PATH } from '../../constants/api';

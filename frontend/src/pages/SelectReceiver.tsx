@@ -11,7 +11,7 @@ import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
-import { ROUTE_PATH } from '../constants';
+import { ROUTE_PATH } from '../constants/routes';
 
 const SelectReceiver = () => {
   const {
