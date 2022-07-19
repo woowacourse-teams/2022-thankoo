@@ -22,6 +22,7 @@ public class MemberResponse {
     }
 
     public static MemberResponse of(final Member member) {
-        return new MemberResponse(member.getId(), member.getName(), member.getEmail(), member.getImageUrl());
+        return new MemberResponse(member.getId(), member.getName().getValue(), member.getEmail().getValue(),
+                member.getImageUrl());
     }
 }
