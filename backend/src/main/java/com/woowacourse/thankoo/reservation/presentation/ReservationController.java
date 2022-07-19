@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class PresentationController {
+public class ReservationController {
 
     private final ReservationService reservationService;
 
