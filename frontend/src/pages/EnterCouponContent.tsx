@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
-import CouponTypesNav from '../components/Main/CouponTypesNav';
+import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupon from '../components/Main/GridViewCoupon';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
 import { couponTypeKeys } from '../types';
@@ -11,6 +11,7 @@ import { couponTypeKeys } from '../types';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
+import { couponTypes } from '../types/index';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -37,10 +38,11 @@ const EnterCouponContent = () => {
         <HeaderText>어떤 쿠폰을 보낼까요?</HeaderText>
       </Header>
       <S.Body>
-        <CouponTypesNav
-          onChangeType={setCouponType}
-          currentType={couponType}
-          selectableCouponTypes={couponTypesWithoutEntire}
+        <TabsNav
+          onChangeTab={setCouponType}
+          currentTab={couponType}
+          tabList={couponTypes}
+          selectableTabs={couponTypesWithoutEntire}
         />
         <S.CouponBox>
           <GridViewCoupon coupon={currentCoupon} />

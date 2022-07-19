@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../constants/api';
 
 export const createReservationHandler = [
   rest.post(`${BASE_URL}/api/reservations`, (req, res, ctx) => {

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { BASE_URL } from '../../constants';
+import { BASE_URL } from '../../constants/api';
 import { authAtom } from '../../recoil/atom';
 
 const useCreateReservation = () => {

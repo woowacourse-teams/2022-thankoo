@@ -1,9 +1,9 @@
 import { rest } from 'msw';
-import { BASE_URL } from '../constants';
+import { API_PATH } from '../constants/api';
 import { users } from './dummyData';
 
 export const selectReceiverPageHandlers = [
-  rest.get(`${BASE_URL}/api/members`, (req, res, ctx) => {
+  rest.get(`${API_PATH.MEMBERS}`, (req, res, ctx) => {
     const accessToken = req.headers.get('authorization')?.split(' ')[1];
 
     const acceptMeUsers = users.filter(

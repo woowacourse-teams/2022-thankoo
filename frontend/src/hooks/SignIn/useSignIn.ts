@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { BACKEND_URL } from '../../constants';
+import { API_PATH } from '../../constants/api';
 import { authAtom } from '../../recoil/atom';
 
 const useSignIn = () => {
@@ -15,7 +15,7 @@ const useSignIn = () => {
     async () => {
       const res = await axios({
         method: 'GET',
-        url: `${BACKEND_URL}/api/sign-in?code=${userCode}`,
+        url: `${API_PATH.SIGN_IN(userCode)}`,
       });
       return res.data;
     },

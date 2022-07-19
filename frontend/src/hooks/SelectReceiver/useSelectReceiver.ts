@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { BASE_URL } from '../../constants';
 import { authAtom, checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
 import useFilterMatchedUser from '../useFilterMatchedUser';
+import { API_PATH } from '../../constants/api';
 
 const useSelectReceiver = () => {
   const { accessToken, memberId } = useRecoilValue(authAtom);
@@ -16,7 +16,7 @@ const useSelectReceiver = () => {
   } = useQuery<UserProfile[]>('users', async () => {
     const { data } = await axios({
       method: 'get',
-      url: `${BASE_URL}/api/members`,
+      url: `${API_PATH.MEMBERS}`,
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return data;
