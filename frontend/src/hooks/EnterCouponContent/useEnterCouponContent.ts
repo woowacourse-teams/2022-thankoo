@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { BASE_URL } from '../../constants';
 import { authAtom, checkedUsersAtom } from '../../recoil/atom';
 import { Coupon, CouponType, initialCouponState } from '../../types';
+import { API_PATH } from '../../constants/api';
 
 const useEnterCouponContent = () => {
   const auth = useRecoilValue(authAtom);
@@ -44,7 +45,7 @@ const useEnterCouponContent = () => {
   const sendCoupon = async () => {
     const { status, statusText } = await axios({
       method: 'POST',
-      url: `${BASE_URL}/api/coupons/send`,
+      url: `${API_PATH.SEND_COUPON}`,
       headers: { Authorization: `Bearer ${auth.accessToken}` },
       data: {
         receiverIds: checkedUsers.map(user => user.id),

@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { BASE_URL } from '../../constants';
 import { authAtom } from '../../recoil/atom';
 import { Coupon, CouponType } from '../../types';
+import { API_PATH } from '../../constants/api';
 
 const useMain = () => {
   const { accessToken, memberId } = useRecoilValue(authAtom);
@@ -13,7 +14,7 @@ const useMain = () => {
   const { data, isLoading, error } = useQuery<Coupon[]>('coupon', async () => {
     const { data } = await axios({
       method: 'get',
-      url: `${BASE_URL}/api/coupons/received`,
+      url: `${API_PATH.RECEIVED_COUPONS}`,
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return data;

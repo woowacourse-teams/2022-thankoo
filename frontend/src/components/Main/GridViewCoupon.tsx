@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COUPON_IMAGE, RAND_COLORS } from '../../constants';
+import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
 import { Coupon } from '../../types';
 
 const GridViewCoupon = ({ coupon }: { coupon: Coupon }) => {
