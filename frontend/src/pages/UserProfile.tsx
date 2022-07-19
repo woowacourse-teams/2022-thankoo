@@ -3,7 +3,7 @@ import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 
 const userImageSrc =
@@ -12,14 +12,17 @@ const userImageSrc =
 const UserProfile = () => {
   const [isNameEdit, setIsNameEdit] = useState(false);
   const [name, setName] = useState('스컬');
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const showNameInput = () => {
-    setIsNameEdit(prev => !prev);
-  };
 
   const submitChangeName = () => {
-    setIsNameEdit(false);
+    //추후 submit 로직 작성 예정
+  };
+
+  const handleClickModifyNameButton = () => {
+    if (isNameEdit) {
+      submitChangeName();
+    }
+
+    setIsNameEdit(prev => !prev);
   };
 
   return (
@@ -50,7 +53,9 @@ const UserProfile = () => {
             ) : (
               <div>{name}</div>
             )}
-            <S.ModifyNameButton onClick={showNameInput}>수정</S.ModifyNameButton>
+            <S.ModifyNameButton onClick={handleClickModifyNameButton}>
+              {isNameEdit ? '저장' : '수정'}
+            </S.ModifyNameButton>
           </S.UserInfoItem>
           <S.UserInfoItem>
             <S.Bold>생년월일</S.Bold>
