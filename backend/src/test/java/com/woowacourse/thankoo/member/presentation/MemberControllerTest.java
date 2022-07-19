@@ -66,4 +66,36 @@ public class MemberControllerTest extends ControllerTest {
                         fieldWithPath("[].imageUrl").type(STRING).description("imageUrl")
                 )));
     }
+
+    @DisplayName("내 정보를 조회한다.")
+    @Test
+    void getMember() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+        MemberResponse memberResponse = MemberResponse.of(
+                new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+
+        given(memberService.getMember(anyLong()))
+                .willReturn(memberResponse);
+
+        ResultActions resultActions = mockMvc.perform(get("/api/members/me")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(memberResponse)));
+
+        resultActions.andDo(document("members/get-member",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                responseFields(
+                        fieldWithPath("id").type(NUMBER).description("id"),
+                        fieldWithPath("name").type(STRING).description("name"),
+                        fieldWithPath("email").type(STRING).description("email"),
+                        fieldWithPath("imageUrl").type(STRING).description("imageUrl")
+                )));
+    }
 }
