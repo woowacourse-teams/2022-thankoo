@@ -15,6 +15,7 @@ public enum ErrorType {
     INVALID_COUPON_TITLE(3002, "잘못된 쿠폰 제목입니다."),
     INVALID_COUPON_MESSAGE(3003, "잘못된 쿠폰 내용입니다."),
     INVALID_COUPON_STATUS(3004, "잘못된 쿠폰 상태입니다."),
+    NOT_FOUND_COUPON(3005, "존재하지 않는 쿠폰입니다."),
 
     INVALID_MEETING_TIME(4001, "유효하지 않은 일정입니다."),
 
