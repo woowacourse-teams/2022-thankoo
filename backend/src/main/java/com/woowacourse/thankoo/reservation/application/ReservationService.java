@@ -23,14 +23,15 @@ public class ReservationService {
     private final CouponRepository couponRepository;
 
     @Transactional
-    public void reserve(Long memberId, ReservationRequest reservationRequest) {
+    public Long reserve(Long memberId, ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
         if (!coupon.isSameReceiver(memberId)) {
             throw new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER);
         }
-        reservationRepository.save(
+        Reservation reservation = reservationRepository.save(
                 new Reservation(reservationRequest.getStartAt(), TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
                         coupon.getId()));
+        return reservation.getId();
     }
 }
