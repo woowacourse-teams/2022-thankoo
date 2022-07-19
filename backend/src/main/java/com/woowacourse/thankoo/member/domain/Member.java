@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseEntity {
 
     private static final int NAME_MAX_LENGTH = 20;
+    private static final String EMAIL_REGEX_PATTERN = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +42,7 @@ public class Member extends BaseEntity {
 
     public Member(final Long id, final String name, final String email, final String socialId, final String imageUrl) {
         validateName(name);
+        validateEmail(email);
         this.id = id;
         this.name = name;
         this.email = email;
@@ -59,6 +62,12 @@ public class Member extends BaseEntity {
     private void validateName(final String name) {
         if (name.isBlank() || name.length() > NAME_MAX_LENGTH) {
             throw new InvalidMemberException(ErrorType.INVALID_MEMBER_NAME);
+        }
+    }
+
+    private void validateEmail(final String email) {
+        if (email.isBlank() || !Pattern.matches(EMAIL_REGEX_PATTERN, email)) {
+            throw new InvalidMemberException(ErrorType.INVALID_MEMBER_EMAIL);
         }
     }
 

@@ -21,10 +21,19 @@ class MemberTest {
     @DisplayName("올바르지 않은 이름으로 생성하면 예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = {" ", "abcdefghijkabcdefghijk1"})
-    void updateBlankNameException(String name) {
+    void createWithInvalidNameException(String name) {
         assertThatThrownBy(() -> new Member(name, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL))
                 .isInstanceOf(InvalidMemberException.class)
                 .hasMessage("올바르지 않은 이름입니다.");
+    }
+
+    @DisplayName("올바르지 않은 이메일로 생성하면 예외가 발생한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {" ", "abcdefghijkabcdefghijk1", "abc@abc"})
+    void createWithInvalidEmailException(String email) {
+        assertThatThrownBy(() -> new Member(HUNI_NAME, email, HUNI_SOCIAL_ID, IMAGE_URL))
+                .isInstanceOf(InvalidMemberException.class)
+                .hasMessage("올바르지 않은 이메일 형식입니다.");
     }
 
     @Nested
@@ -51,5 +60,4 @@ class MemberTest {
 
         }
     }
-
 }
