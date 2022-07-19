@@ -14,7 +14,7 @@ import PageLayout from './../components/@shared/PageLayout';
 
 const CreateReservation = () => {
   const [date, setDate] = useState('');
-  const { accessToken, memberId } = useRecoilValue(authAtom);
+  const { accessToken } = useRecoilValue(authAtom);
   const isFilled = true;
 
   const { mutate } = useMutation((Date: string) =>
@@ -34,6 +34,7 @@ const CreateReservation = () => {
   };
 
   const sendReservation = () => {
+    console.log('acc', accessToken);
     mutate(date);
   };
 
