@@ -1,7 +1,5 @@
 package com.woowacourse.thankoo.common.fixtures;
 
-import com.woowacourse.thankoo.member.domain.Member;
-
 public class MemberFixture {
 
     public static final String INVALID_TOKEN = "";
@@ -11,12 +9,15 @@ public class MemberFixture {
     public static final String SKRR_NAME = "Skrr";
     public static final String HOHO_NAME = "Hoho";
 
-    public static final Member HUNI = createMember(1L, HUNI_NAME);
-    public static final Member LALA = createMember(2L, LALA_NAME);
-    public static final Member SKRR = createMember(3L, SKRR_NAME);
-    public static final Member HOHO = createMember(4L, HOHO_NAME);
+    public static final String HUNI_EMAIL= "Huni@email.com";
+    public static final String LALA_EMAIL= "Lala@email.com";
+    public static final String SKRR_EMAIL= "Skrr@email.com";
+    public static final String HOHO_EMAIL= "Hoho@email.com";
 
-    private static Member createMember(final Long id, final String name) {
-        return new Member(id, name);
-    }
+    public static final String HUNI_SOCIAL_ID = "1234";
+    public static final String LALA_SOCIAL_ID = "1235";
+    public static final String SKRR_SOCIAL_ID = "1236";
+    public static final String HOHO_SOCIAL_ID = "1237";
+
+    public static final String IMAGE_URL = "image.com";
 }

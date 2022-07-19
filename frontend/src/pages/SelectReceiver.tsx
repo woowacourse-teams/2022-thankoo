@@ -13,8 +13,18 @@ import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 
 const SelectReceiver = () => {
-  const { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser } =
-    useSelectReceiver();
+  const {
+    users,
+    isLoading,
+    error,
+    checkedUsers,
+    toggleUser,
+    uncheckUser,
+    isCheckedUser,
+    keyword,
+    setKeyword,
+    matchedUsers,
+  } = useSelectReceiver();
 
   return (
     <PageLayout>
@@ -28,9 +38,13 @@ const SelectReceiver = () => {
         {checkedUsers.length !== 0 && (
           <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
         )}
-        <UserSearchInput />
+        <UserSearchInput value={keyword} setKeyword={setKeyword} />
         {users && (
-          <ListViewUsers users={users} isCheckedUser={isCheckedUser} onClickUser={toggleUser} />
+          <ListViewUsers
+            users={matchedUsers}
+            isCheckedUser={isCheckedUser}
+            onClickUser={toggleUser}
+          />
         )}
       </S.Body>
 

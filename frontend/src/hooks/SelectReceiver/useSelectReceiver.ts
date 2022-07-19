@@ -1,9 +1,11 @@
 import axios from 'axios';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { BASE_URL } from '../../constants';
 import { authAtom, checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
+import useFilterMatchedUser from '../useFilterMatchedUser';
 
 const useSelectReceiver = () => {
   const { accessToken, memberId } = useRecoilValue(authAtom);
@@ -20,6 +22,7 @@ const useSelectReceiver = () => {
     return data;
   });
 
+  const [keyword, setKeyword] = useState('');
   const [checkedUsers, setCheckedUsers] = useRecoilState<UserProfile[]>(checkedUsersAtom);
 
   const checkUser = (user: UserProfile) => {
@@ -39,7 +42,20 @@ const useSelectReceiver = () => {
   const isCheckedUser = (user: UserProfile) =>
     checkedUsers?.some(checkUser => checkUser.id === user.id);
 
-  return { users, isLoading, error, checkedUsers, toggleUser, uncheckUser, isCheckedUser };
+  const matchedUsers = useFilterMatchedUser(keyword, users);
+
+  return {
+    users,
+    isLoading,
+    error,
+    checkedUsers,
+    toggleUser,
+    uncheckUser,
+    isCheckedUser,
+    keyword,
+    setKeyword,
+    matchedUsers,
+  };
 };
 
 export default useSelectReceiver;

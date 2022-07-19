@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.CouponQueryRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponStatusGroup;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -39,8 +40,9 @@ public class CouponService {
                 && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
     }
 
-    public List<CouponResponse> getReceivedCoupons(final Long receiverId) {
-        return couponQueryRepository.findByReceiverId(receiverId)
+    public List<CouponResponse> getReceivedCoupons(final Long receiverId, final String status) {
+        List<String> statusNames = CouponStatusGroup.findStatusNames(status);
+        return couponQueryRepository.findByReceiverIdAndStatus(receiverId, statusNames)
                 .stream()
                 .map(CouponResponse::of)
                 .collect(Collectors.toList());

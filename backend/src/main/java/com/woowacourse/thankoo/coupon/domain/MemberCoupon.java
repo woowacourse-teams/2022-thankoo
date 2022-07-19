@@ -12,18 +12,21 @@ public class MemberCoupon {
     private final String couponType;
     private final String title;
     private final String message;
+    private final String status;
 
     public MemberCoupon(final Long couponId,
                         final Member sender,
                         final Member receiver,
                         final String couponType,
                         final String title,
-                        final String message) {
+                        final String message,
+                        final String status) {
         this.couponId = couponId;
         this.sender = sender;
         this.receiver = receiver;
         this.couponType = couponType;
         this.title = title;
         this.message = message;
+        this.status = status;
     }
 }
