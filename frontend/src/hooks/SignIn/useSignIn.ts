@@ -29,7 +29,7 @@ const useSignIn = () => {
     }
   );
 
-  const saveAuth = data => {
+  const saveAuth = (data: { accessToken: string; memberId: number }) => {
     const { accessToken, memberId } = data;
 
     localStorage.setItem('token', accessToken);

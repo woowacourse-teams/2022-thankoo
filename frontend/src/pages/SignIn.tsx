@@ -17,8 +17,8 @@ const SignIn = () => {
   useEffect(() => {
     if (userCode) {
       try {
-        refetchToken().then(({ data }) => {
-          saveAuth(data);
+        refetchToken().then(({ data: userAuth }) => {
+          saveAuth(userAuth);
           navigate(`${ROUTE_PATH.EXACT_MAIN}`);
         });
       } catch (e) {
