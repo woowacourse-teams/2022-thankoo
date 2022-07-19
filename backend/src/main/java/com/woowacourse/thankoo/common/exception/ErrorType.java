@@ -10,6 +10,8 @@ public enum ErrorType {
     INVALID_TOKEN(1003, "유효하지 않은 토큰입니다."),
 
     NOT_FOUND_MEMBER(2001, "존재하지 않는 회원입니다."),
+    INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),
+    INVALID_MEMBER_EMAIL(2002, "올바르지 않은 이메일 형식입니다."),
 
     INVALID_COUPON_TYPE(3001, "존재하지 않는 쿠폰 타입입니다."),
     INVALID_COUPON_TITLE(3002, "잘못된 쿠폰 제목입니다."),

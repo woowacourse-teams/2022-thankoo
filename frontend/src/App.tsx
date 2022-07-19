@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from './constants/routes';
+import CreateReservation from './pages/CreateReservation';
 import EnterCouponContent from './pages/EnterCouponContent';
 import Main from './pages/Main';
 import SelectReceiver from './pages/SelectReceiver';
@@ -30,12 +31,13 @@ function App() {
   return (
     <MobileDiv>
       <Routes>
-        {/* <Route element={<AuthOnly />}> */}
-        <Route path={`${ROUTE_PATH.MAIN}`} element={<Main />} />
-        <Route path={`${ROUTE_PATH.SELECT_RECEIVER}`} element={<SelectReceiver />} />
-        <Route path={`${ROUTE_PATH.ENTER_COUPON}`} element={<EnterCouponContent />} />
-        <Route path={`${ROUTE_PATH.PROFILE}`} element={<UserProfile />} />
-        {/* </Route> */}
+        <Route element={<AuthOnly />}>
+          <Route path={`${ROUTE_PATH.MAIN}`} element={<Main />} />
+          <Route path={`${ROUTE_PATH.SELECT_RECEIVER}`} element={<SelectReceiver />} />
+          <Route path={`${ROUTE_PATH.ENTER_COUPON_CONTENT}`} element={<EnterCouponContent />} />
+          <Route path={`${ROUTE_PATH.CREATE_RESERVATION}`} element={<CreateReservation />} />
+          <Route path={`${ROUTE_PATH.PROFILE}`} element={<UserProfile />} />
+        </Route>
         <Route element={<UnAuthOnly />}>
           <Route path={`${ROUTE_PATH.SIGN_IN}`} element={<SignIn />} />
         </Route>

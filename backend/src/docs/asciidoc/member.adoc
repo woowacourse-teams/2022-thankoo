@@ -6,3 +6,7 @@ operation::members/get-members[snippets='http-request,http-response']
 == 내 정보 조회
 
 operation::members/get-member[snippets='http-request,http-response']
+
+== 회원 이름 변경
+
+operation::members/update-member-name[snippets='http-request,http-response']

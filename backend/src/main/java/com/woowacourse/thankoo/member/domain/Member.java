@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.member.domain;
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,11 +23,11 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 50)
-    private String name;
+    @Embedded
+    private Name name;
 
-    @Column(name = "email")
-    private String email;
+    @Embedded
+    private Email email;
 
     @Column(name = "social_id")
     private String socialId;
@@ -36,14 +37,18 @@ public class Member extends BaseEntity {
 
     public Member(final Long id, final String name, final String email, final String socialId, final String imageUrl) {
         this.id = id;
-        this.name = name;
-        this.email = email;
+        this.name = new Name(name);
+        this.email = new Email(email);
         this.socialId = socialId;
         this.imageUrl = imageUrl;
     }
 
     public Member(final String name, final String email, final String socialId, final String imageUrl) {
         this(null, name, email, socialId, imageUrl);
+    }
+
+    public void updateName(final String name) {
+        this.name = new Name(name);
     }
 
     @Override
