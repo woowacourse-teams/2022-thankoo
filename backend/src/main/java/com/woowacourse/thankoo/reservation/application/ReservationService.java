@@ -29,9 +29,7 @@ public class ReservationService {
         if (!coupon.isSameReceiver(memberId)) {
             throw new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER);
         }
-        Reservation reservation = reservationRepository.save(
-                new Reservation(reservationRequest.getStartAt(), TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
-                        coupon.getId()));
+        Reservation reservation = reservationRepository.save(reservationRequest.toEntity());
         return reservation.getId();
     }
 }
