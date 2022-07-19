@@ -57,11 +57,11 @@ public class Coupon extends BaseEntity {
         this(null, senderId, receiverId, couponContent, couponStatus);
     }
 
-    public boolean isSameCouponStatus(CouponStatus couponStatus) {
+    public boolean isSameCouponStatus(final CouponStatus couponStatus) {
         return this.couponStatus == couponStatus;
     }
 
-    public boolean isSameReceiver(Long memberId) {
+    public boolean isSameReceiver(final Long memberId) {
         return receiverId.equals(memberId);
     }
 

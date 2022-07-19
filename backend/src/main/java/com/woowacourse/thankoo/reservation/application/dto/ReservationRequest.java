@@ -1,9 +1,6 @@
 package com.woowacourse.thankoo.reservation.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.woowacourse.thankoo.reservation.domain.Reservation;
-import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
-import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,7 +20,4 @@ public class ReservationRequest {
         this.startAt = startAt;
     }
 
-    public Reservation toEntity() {
-        return new Reservation(startAt, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, couponId);
-    }
 }
