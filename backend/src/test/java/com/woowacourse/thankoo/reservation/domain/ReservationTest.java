@@ -20,6 +20,7 @@ class ReservationTest {
         @Test
         void isValidMeetingTime() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
+
             assertThatNoException()
                     .isThrownBy(
                             () -> new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, 1L)
@@ -30,6 +31,7 @@ class ReservationTest {
         @Test
         void invalidMeetingTime() {
             LocalDateTime futureDate = LocalDateTime.now().minusDays(1L);
+
             assertThatThrownBy(
                     () -> new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, 1L))
                     .isInstanceOf(InvalidReservationException.class)
