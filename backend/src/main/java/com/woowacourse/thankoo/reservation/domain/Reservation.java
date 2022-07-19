@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.reservation.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -48,6 +50,7 @@ public class Reservation extends BaseEntity {
                        final TimeZoneType timeZone,
                        final ReservationStatus reservationStatus,
                        final Long couponId) {
+        validateMeetingTime(meetingTime);
         this.id = id;
         this.meetingDate = meetingDate;
         this.meetingTime = meetingTime;
@@ -56,12 +59,17 @@ public class Reservation extends BaseEntity {
         this.couponId = couponId;
     }
 
-    public Reservation(final LocalDate meetingDate,
-                       final LocalDateTime meetingTime,
+    private void validateMeetingTime(final LocalDateTime meetingTime) {
+        if (LocalDateTime.now().isAfter(meetingTime)) {
+            throw new InvalidReservationException(ErrorType.INVALID_MEETING_TIME);
+        }
+    }
+
+    public Reservation(final LocalDateTime meetingTime,
                        final TimeZoneType timeZone,
                        final ReservationStatus reservationStatus,
                        final Long couponId) {
-        this(null, meetingDate, meetingTime, timeZone, reservationStatus, couponId);
+        this(null, meetingTime.toLocalDate(), meetingTime, timeZone, reservationStatus, couponId);
     }
 
     @Override
