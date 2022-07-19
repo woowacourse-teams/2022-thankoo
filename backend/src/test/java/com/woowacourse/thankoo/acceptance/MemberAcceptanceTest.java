@@ -70,8 +70,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = putWithToken("/api/members/me", tokenResponse.getAccessToken(),
                 new MemberNameRequest(HUNI_NAME));
 
-        MemberResponse memberResponse = getWithToken("/api/members/me", tokenResponse.getAccessToken()).as(
-                MemberResponse.class);
+        MemberResponse memberResponse = getWithToken("/api/members/me", tokenResponse.getAccessToken())
+                .as(MemberResponse.class);
 
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value()),

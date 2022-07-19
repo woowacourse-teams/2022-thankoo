@@ -97,7 +97,7 @@ class MemberServiceTest {
     @DisplayName("회원 이름을 수정할 때 ")
     class UpdateNameTest {
 
-        @DisplayName("정상적으로 이름을 수정한다.")
+        @DisplayName("회원이 존재하면 정상적으로 이름을 수정한다.")
         @Test
         void updateMemberName() {
             Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
