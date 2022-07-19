@@ -5,7 +5,7 @@ export const ROUTE_PATH = {
   MAIN: '/*',
   EXACT_MAIN: '/',
   SELECT_RECEIVER: '/select-receiver',
-  ENTER_COUPON: '/enter-coupon',
+  ENTER_COUPON_CONTENT: '/enter-coupon-content',
   SIGN_IN: '/sign-in',
   CREATE_RESERVATION: '/create-reservation',
 };
