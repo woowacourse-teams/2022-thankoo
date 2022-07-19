@@ -5,4 +5,5 @@ export const ROUTE_PATH = {
   ENTER_COUPON: '/enter-coupon',
   SIGN_IN: '/sign-in',
   REQUESTED_COUPONS: '/requested-coupons',
+  PROFILE: '/profile',
 };
