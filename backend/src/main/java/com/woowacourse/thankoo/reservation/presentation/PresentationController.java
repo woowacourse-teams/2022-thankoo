@@ -19,7 +19,7 @@ public class PresentationController {
     @PostMapping("/api/reservations")
     public ResponseEntity<Void> reserve(@AuthenticationPrincipal final Long memberId,
                                         @RequestBody final ReservationRequest reservationRequest) {
-        Long reserveId = reservationService.reserve(memberId, reservationRequest);
+        Long reserveId = reservationService.save(memberId, reservationRequest);
         return ResponseEntity.created(URI.create("/api/reservations/" + reserveId)).build();
     }
 }

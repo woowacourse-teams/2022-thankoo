@@ -33,7 +33,7 @@ class ReservationServiceTest {
     @Test
     void isExistedCoupon() {
         Long memberId = 1L;
-        assertThatThrownBy(() -> reservationService.reserve(memberId,
+        assertThatThrownBy(() -> reservationService.save(memberId,
                 new ReservationRequest(3L, LocalDateTime.of(1999, 3, 28, 18, 30))))
                 .isInstanceOf(InvalidCouponException.class)
                 .hasMessage("존재하지 않는 쿠폰입니다.");
@@ -48,7 +48,7 @@ class ReservationServiceTest {
         Coupon coupon = couponRepository.save(
                 new Coupon(1L, receiverId, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
 
-        assertThatThrownBy(() -> reservationService.reserve(invalidReceiverId,
+        assertThatThrownBy(() -> reservationService.save(invalidReceiverId,
                 new ReservationRequest(coupon.getId(), LocalDateTime.of(1999, 3, 28, 18, 30))))
                 .isInstanceOf(InvalidMemberException.class)
                 .hasMessage("존재하지 않는 회원입니다.");
