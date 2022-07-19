@@ -34,4 +34,15 @@ public class RestAssuredRequestFixture {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> putWithToken(final String url, final String token, final Object body) {
+        return RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(body)
+                .when().put(url)
+                .then().log().all()
+                .extract();
+    }
 }
