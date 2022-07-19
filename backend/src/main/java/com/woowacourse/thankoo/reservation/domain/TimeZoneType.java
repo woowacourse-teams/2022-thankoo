@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum TimeZoneType {
-    SEOUL("Asia/Seoul");
+
+    ASIA_SEOUL("Asia/Seoul");
 
     private final String id;
 
