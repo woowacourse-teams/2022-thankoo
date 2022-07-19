@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { BASE_URL } from '../../constants';
 import { authAtom, checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
 import useFilterMatchedUser from '../useFilterMatchedUser';
