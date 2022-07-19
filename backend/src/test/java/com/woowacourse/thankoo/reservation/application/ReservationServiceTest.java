@@ -2,14 +2,26 @@ package com.woowacourse.thankoo.reservation.application;
 
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
+import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import java.time.LocalDateTime;
@@ -28,6 +40,26 @@ class ReservationServiceTest {
 
     @Autowired
     private CouponRepository couponRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @DisplayName("예약을 생성한다.")
+    @Test
+    void save() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+        Coupon coupon = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+        Coupon foundCoupon = couponRepository.findById(coupon.getId()).get();
+
+        assertAll(
+                () -> assertThat(reservationId).isNotNull(),
+                () -> assertThat(foundCoupon.getCouponStatus()).isEqualTo(CouponStatus.RESERVED)
+        );
+    }
 
     @DisplayName("예약시 쿠폰이 존재하는지 검증한다.")
     @Test

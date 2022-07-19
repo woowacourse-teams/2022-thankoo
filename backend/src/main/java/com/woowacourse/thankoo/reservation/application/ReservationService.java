@@ -37,6 +37,7 @@ public class ReservationService {
                 ReservationStatus.WAITING,
                 foundMember.getId(),
                 coupon);
+        reservation.reserve();
 
         return reservationRepository.save(reservation).getId();
     }

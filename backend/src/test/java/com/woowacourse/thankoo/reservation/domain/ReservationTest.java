@@ -21,11 +21,11 @@ import org.junit.jupiter.params.provider.EnumSource.Mode;
 @DisplayName("Reservation 는 ")
 class ReservationTest {
 
-    @DisplayName("일정 요청을 할 때 ")
+    @DisplayName("예약을 요청을 할 때 ")
     @Nested
     class MeetingValidationTest {
 
-        @DisplayName("일정 요청이 가능한 기간이면 통과한다.")
+        @DisplayName("예약 요청이 가능한 기간이면 통과한다.")
         @Test
         void isValidMeetingTime() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
@@ -44,7 +44,7 @@ class ReservationTest {
                     );
         }
 
-        @DisplayName("일정 요청이 불가능한 기간이면 예외가 발생한다.")
+        @DisplayName("예약 요청이 불가능한 기간이면 예외가 발생한다.")
         @Test
         void invalidMeetingTime() {
             LocalDateTime futureDate = LocalDateTime.now().minusDays(1L);

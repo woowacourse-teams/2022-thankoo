@@ -97,6 +97,10 @@ public class Reservation extends BaseEntity {
         this(null, meetingTime.toLocalDate(), meetingTime, timeZone, reservationStatus, memberId, coupon);
     }
 
+    public void reserve() {
+        coupon.reserve();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

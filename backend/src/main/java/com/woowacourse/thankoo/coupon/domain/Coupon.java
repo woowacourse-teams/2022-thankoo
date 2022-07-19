@@ -65,6 +65,10 @@ public class Coupon extends BaseEntity {
         return receiverId.equals(memberId);
     }
 
+    public void reserve() {
+        couponStatus = CouponStatus.RESERVED;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
