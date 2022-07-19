@@ -1,42 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import axios from 'axios';
-import { useState } from 'react';
-import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
-import { BASE_URL } from '../constants';
-import { authAtom } from '../recoil/atom';
 import ArrowBackButton from './../components/@shared/ArrowBackButton';
 import Header from './../components/@shared/Header';
 import HeaderText from './../components/@shared/HeaderText';
 import PageLayout from './../components/@shared/PageLayout';
+import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
 
 const CreateReservation = () => {
-  const [date, setDate] = useState('');
-  const { accessToken } = useRecoilValue(authAtom);
-  const isFilled = true;
-
-  const { mutate } = useMutation((Date: string) =>
-    axios({
-      method: 'post',
-      url: `${BASE_URL}/api/reservations`,
-      headers: { Authorization: `Bearer ${accessToken}` },
-      data: {
-        couponId: '1',
-        startAt: Date,
-      },
-    })
-  );
-
-  const meetingDate = e => {
-    setDate(e.target.value + ` 00:00`);
-  };
-
-  const sendReservation = () => {
-    console.log('acc', accessToken);
-    mutate(date);
-  };
+  const { isFilled, setReservationDate, sendReservation } = useCreateReservation();
 
   return (
     <PageLayout>
@@ -47,8 +19,7 @@ const CreateReservation = () => {
       <S.Body>
         <S.Area>
           <S.Label>직접 입력하기</S.Label>
-          <input type='date' onChange={meetingDate} />
-          <button>오늘쓰기</button>
+          <input type='date' onChange={setReservationDate} />
         </S.Area>
         <S.Area>
           <S.Label>달력에서 고르기</S.Label>
