@@ -53,8 +53,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.as(MemberResponse.class)).usingRecursiveComparison().
-                        ignoringFields("id")
+                () -> assertThat(response.as(MemberResponse.class)).usingRecursiveComparison()
+                        .ignoringFields("id")
                         .isEqualTo(MemberResponse.of(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL)))
         );
     }
