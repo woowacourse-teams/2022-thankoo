@@ -1,106 +1,95 @@
 import styled from '@emotion/styled';
-import axios from 'axios';
-import { useState } from 'react';
+import GoogleIcon from '@mui/icons-material/Google';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { BASE_URL } from '../constants';
-import { authAtom } from '../recoil/atom';
+import PageLayout from '../components/@shared/PageLayout';
+import { ROUTE_PATH } from '../constants';
+import { flexCenter } from '../styles/mixIn';
+import BirdLogoWhite from './../components/@shared/LogoWhite';
+import useSignIn from './../hooks/SignIn/useSignIn';
+
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=135992368964-20ad4ul4e3mmia6iok3r9dpg6bshp4uq.apps.googleusercontent.com&redirect_uri=http://localhost:3000/sign-in&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid`;
 
 const SignIn = () => {
-  const [auth, setAuth] = useRecoilState(authAtom);
-  const [id, setId] = useState('');
   const navigate = useNavigate();
+  const { refetchToken, userCode, saveAuth } = useSignIn();
 
-  const login = async (e, id) => {
-    e.preventDefault();
-
-    try {
-      const { data, statusText } = await axios({
-        method: 'GET',
-        url: `${BASE_URL}/api/sign-in?code=${id}`,
-      });
-      const { accessToken, memberId } = data;
-      await setAuth({ accessToken, memberId, name: id });
-      navigate('/');
-    } catch (error) {
-      alert('잘못된 유저 정보');
+  useEffect(() => {
+    if (userCode) {
+      try {
+        refetchToken().then(({ data: userAuth }) => {
+          saveAuth(userAuth);
+          navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+        });
+      } catch (e) {
+        alert('로그인에 실패하였습니다.');
+      }
     }
+  }, [userCode]);
+
+  const redirectGoogleAuth = () => {
+    window.location.href = GOOGLE_AUTH_URL;
   };
 
   return (
-    <S.Container>
-      <S.Header>
-        <S.HeaderText>로그인 하시겠어요?</S.HeaderText>
-      </S.Header>
+    <PageLayout>
       <S.Body>
-        <S.AutoForm onSubmit={e => login(e, id)}>
-          <S.AuthInput
-            placeholder='아이디'
-            onChange={e => {
-              setId(e.target.value);
-            }}
-            value={id}
-          />
-          <S.AuthInput type='password' placeholder='비밀번호' />
-          <S.SignInButton>확인</S.SignInButton>
-        </S.AutoForm>
+        <BirdLogoWhite size='120rem' />
+        <S.SignInButton onClick={redirectGoogleAuth}>
+          <S.GoogleIcon />
+          Google로 계속하기
+        </S.SignInButton>
       </S.Body>
-    </S.Container>
+    </PageLayout>
   );
 };
 
 const S = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    justify-content: center;
-    height: 100vh;
-    gap: 30px;
-    width: 80vw;
-    margin: 0 auto;
-  `,
-  Header: styled.header`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    color: white;
-    text-align: left;
-  `,
-  HeaderText: styled.p`
-    font-size: 25px;
-  `,
   Body: styled.div`
-    text-align: left;
-    width: 80vw;
-  `,
-  AutoForm: styled.form`
+    ${flexCenter}
+
+    height: 90vh;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+    gap: 8rem;
   `,
-  AuthInput: styled.input`
-    background-color: #8c888866;
-    box-shadow: none;
-    max-width: 400px;
-    outline: none;
+  Introduction: styled.div`
+    width: 100%;
+    font-size: 40px;
+    word-break: keep-all;
+    text-align: center;
+    line-height: 4rem;
+    color: ${({ theme }) => theme.page.color};
+  `,
+  GoogleIcon: styled(GoogleIcon)`
+    fill: white;
+  `,
+  SignInButton: styled.div`
+    ${flexCenter};
+    gap: 10px;
+    width: 280px;
+    height: 36px;
+    border-radius: 12px;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    font-size: 15px;
-    &::placeholder {
-      color: #8e8e8e;
+
+    background-color: ${({ theme }) => theme.button.abled.background};
+    color: ${({ theme }) => theme.button.abled.color};
+
+    -webkit-animation: glowing 2s ease-in-out infinite alternate;
+    -moz-animation: glowing 2s ease-in-out infinite alternate;
+    animation: glowing 2s ease-in-out infinite alternate;
+
+    @-webkit-keyframes glowing {
+      from {
+        box-shadow: 0 0 0px #fff, 0 0 2px #fff, 0 0 4px #ff6450, 0 0 6px #e49364, 0 0 8px #ff6450;
+      }
+      to {
+        box-shadow: 0 0 0px #fff, 0 0 2px #ff6450, 0 0 4px #ff6450, 0 0 6px #ff6450, 0 0 8px #ff6450;
+      }
     }
-  `,
-  SignInButton: styled.button`
-    background-color: #ff6450;
-    max-width: 420px;
-    border: none;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
+
+    cursor: pointer;
   `,
 };
 

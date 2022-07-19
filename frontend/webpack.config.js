@@ -24,6 +24,14 @@ module.exports = {
         test: /\.tsx?$/,
         use: ['babel-loader', 'ts-loader'],
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
 

@@ -18,5 +18,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/*", "src/types/emotion.d.ts"]
+  "include": ["src", "src/*", "src/types/emotion.d.ts"]
 }
