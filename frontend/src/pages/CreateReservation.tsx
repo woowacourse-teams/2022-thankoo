@@ -15,7 +15,7 @@ const CreateReservation = () => {
   return (
     <PageLayout>
       <Header>
-        <Link to={`${ROUTE_PATH.ENTER_COUPON_CONTENT}`}>
+        <Link to={`${ROUTE_PATH.EXACT_MAIN}`}>
           <ArrowBackButton />
         </Link>
         <HeaderText>언제 만날까요?</HeaderText>
