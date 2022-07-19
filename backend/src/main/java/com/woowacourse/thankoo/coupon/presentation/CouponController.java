@@ -29,8 +29,13 @@ public class CouponController {
     }
 
     @GetMapping("/received")
-    public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receivedId,
+    public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receiverId,
                                                                 @RequestParam final String status) {
-        return ResponseEntity.ok(couponService.getReceivedCoupons(receivedId, status));
+        return ResponseEntity.ok(couponService.getReceivedCoupons(receiverId, status));
+    }
+
+    @GetMapping("/sent")
+    public ResponseEntity<List<CouponResponse>> sentCoupons(@AuthenticationPrincipal final Long senderId) {
+        return ResponseEntity.ok(couponService.getSentCoupons(senderId));
     }
 }

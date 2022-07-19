@@ -14,7 +14,11 @@ public class CouponRequestFixture {
         return postWithToken("/api/coupons/send", accessToken, couponRequest);
     }
 
-    public static ExtractableResponse<Response> 쿠폰을_조회한다(final String accessToken, final String status) {
+    public static ExtractableResponse<Response> 받은_쿠폰을_조회한다(final String accessToken, final String status) {
         return getWithToken("/api/coupons/received?status=" + status, accessToken);
+    }
+
+    public static ExtractableResponse<Response> 보낸_쿠폰을_조회한다(final String accessToken) {
+        return getWithToken("/api/coupons/sent", accessToken);
     }
 }
