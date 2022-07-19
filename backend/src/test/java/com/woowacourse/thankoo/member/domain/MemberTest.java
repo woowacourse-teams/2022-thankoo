@@ -46,7 +46,7 @@ class MemberTest {
             Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
             member.updateName(LALA_NAME);
 
-            assertThat(member.getName()).isEqualTo(LALA_NAME);
+            assertThat(member.getName().getValue()).isEqualTo(LALA_NAME);
         }
 
         @DisplayName("올바르지 않은 이름으로 변경하면 예외가 발생한다.")

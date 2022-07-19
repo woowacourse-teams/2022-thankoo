@@ -107,7 +107,7 @@ class MemberServiceTest {
 
             assertAll(
                     () -> assertThat(foundMember).isNotNull(),
-                    () -> assertThat(foundMember.getName()).isEqualTo(HUNI_NAME)
+                    () -> assertThat(foundMember.getName().getValue()).isEqualTo(HUNI_NAME)
             );
         }
 

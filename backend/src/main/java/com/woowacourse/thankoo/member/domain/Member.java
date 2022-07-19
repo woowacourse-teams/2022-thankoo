@@ -6,6 +6,7 @@ import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,8 +29,8 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 50)
-    private String name;
+    @Embedded
+    private Name name;
 
     @Column(name = "email")
     private String email;
@@ -41,10 +42,9 @@ public class Member extends BaseEntity {
     private String imageUrl;
 
     public Member(final Long id, final String name, final String email, final String socialId, final String imageUrl) {
-        validateName(name);
         validateEmail(email);
         this.id = id;
-        this.name = name;
+        this.name = new Name(name);
         this.email = email;
         this.socialId = socialId;
         this.imageUrl = imageUrl;
@@ -55,14 +55,7 @@ public class Member extends BaseEntity {
     }
 
     public void updateName(final String name) {
-        validateName(name);
-        this.name = name;
-    }
-
-    private void validateName(final String name) {
-        if (name.isBlank() || name.length() > NAME_MAX_LENGTH) {
-            throw new InvalidMemberException(ErrorType.INVALID_MEMBER_NAME);
-        }
+        this.name = new Name(name);
     }
 
     private void validateEmail(final String email) {
