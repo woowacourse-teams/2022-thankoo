@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { BASE_URL } from '../../constants';
+import { BASE_URL } from '../../constants/api';
 import { authAtom, checkedUsersAtom } from '../../recoil/atom';
 import { Coupon, CouponType, initialCouponState } from '../../types';
 import { API_PATH } from '../../constants/api';

@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../constants/api';
 import { dummyCoupons } from './dummyData';
 
 export const mainPageHandler = [
