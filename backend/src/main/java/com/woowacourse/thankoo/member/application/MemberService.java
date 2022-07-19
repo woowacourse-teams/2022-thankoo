@@ -1,8 +1,10 @@
 package com.woowacourse.thankoo.member.application;
 
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,5 +31,11 @@ public class MemberService {
         return members.stream()
                 .map(MemberResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    public MemberResponse getMember(final Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+        return MemberResponse.of(member);
     }
 }

@@ -79,6 +79,17 @@ class MemberServiceTest {
         );
     }
 
+    @DisplayName("내 정보를 조회한다.")
+    @Test
+    void getMember() {
+        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+
+        MemberResponse memberResponse = memberService.getMember(member.getId());
+
+        assertThat(memberResponse).usingRecursiveComparison()
+                .isEqualTo(MemberResponse.of(member));
+    }
+
     @AfterEach
     void tearDown() {
         memberRepository.deleteAllInBatch();

@@ -42,8 +42,8 @@ public class Member extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    public Member(final String nickname, final String email, final String socialId, final String imageUrl) {
-        this(null, nickname, email, socialId, imageUrl);
+    public Member(final String name, final String email, final String socialId, final String imageUrl) {
+        this(null, name, email, socialId, imageUrl);
     }
 
     @Override
