@@ -11,6 +11,7 @@ import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
+import { ROUTE_PATH } from '../constants';
 
 const SelectReceiver = () => {
   const {
@@ -50,7 +51,7 @@ const SelectReceiver = () => {
 
       <S.SendButtonBox>
         <S.LongButton
-          to={checkedUsers.length ? '/enter-coupon' : '#'}
+          to={checkedUsers.length ? `${ROUTE_PATH.ENTER_COUPON_CONTENT}` : '#'}
           disabled={!checkedUsers.length}
         >
           다 고르셨나요?
