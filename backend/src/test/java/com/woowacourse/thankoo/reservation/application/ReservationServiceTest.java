@@ -12,6 +12,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,8 @@ class ReservationServiceTest {
     @Test
     void isExistedCoupon() {
         Long memberId = 1L;
-        assertThatThrownBy(() -> reservationService.reserve(memberId, new ReservationRequest(3L, "1999-03-28T18:30")))
+        assertThatThrownBy(() -> reservationService.reserve(memberId,
+                new ReservationRequest(3L, LocalDateTime.of(1999, 3, 28, 18, 30))))
                 .isInstanceOf(InvalidCouponException.class)
                 .hasMessage("존재하지 않는 쿠폰입니다.");
     }
@@ -47,7 +49,7 @@ class ReservationServiceTest {
                 new Coupon(1L, receiverId, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
 
         assertThatThrownBy(() -> reservationService.reserve(invalidReceiverId,
-                new ReservationRequest(coupon.getId(), "1999-03-28T18:30")))
+                new ReservationRequest(coupon.getId(), LocalDateTime.of(1999, 3, 28, 18, 30))))
                 .isInstanceOf(InvalidMemberException.class)
                 .hasMessage("존재하지 않는 회원입니다.");
     }
