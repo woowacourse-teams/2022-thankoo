@@ -1,0 +1,55 @@
+package com.woowacourse.thankoo.member.domain;
+
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+@DisplayName("Member 는 ")
+class MemberTest {
+
+    @DisplayName("올바르지 않은 이름으로 생성하면 예외가 발생한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {" ", "abcdefghijkabcdefghijk1"})
+    void updateBlankNameException(String name) {
+        assertThatThrownBy(() -> new Member(name, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL))
+                .isInstanceOf(InvalidMemberException.class)
+                .hasMessage("올바르지 않은 이름입니다.");
+    }
+
+    @Nested
+    @DisplayName("이름을 변경할 때 ")
+    class UpdateNameTest {
+
+        @DisplayName("정상적인 이름으로 변경하면 변경에 성공한다.")
+        @Test
+        void updateName() {
+            Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+            member.updateName(LALA_NAME);
+
+            assertThat(member.getName()).isEqualTo(LALA_NAME);
+        }
+
+        @DisplayName("올바르지 않은 이름으로 변경하면 예외가 발생한다.")
+        @ParameterizedTest
+        @ValueSource(strings = {" ", "abcdefghijkabcdefghijk1"})
+        void updateBlankNameException(String name) {
+            Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+            assertThatThrownBy(() -> member.updateName(name))
+                    .isInstanceOf(InvalidMemberException.class)
+                    .hasMessage("올바르지 않은 이름입니다.");
+
+        }
+    }
+
+}

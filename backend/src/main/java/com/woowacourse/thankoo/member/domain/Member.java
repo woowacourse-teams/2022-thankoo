@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.member.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Member extends BaseEntity {
+
+    private static final int NAME_MAX_LENGTH = 20;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +39,7 @@ public class Member extends BaseEntity {
     private String imageUrl;
 
     public Member(final Long id, final String name, final String email, final String socialId, final String imageUrl) {
+        validateName(name);
         this.id = id;
         this.name = name;
         this.email = email;
@@ -44,6 +49,17 @@ public class Member extends BaseEntity {
 
     public Member(final String name, final String email, final String socialId, final String imageUrl) {
         this(null, name, email, socialId, imageUrl);
+    }
+
+    public void updateName(final String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    private void validateName(final String name) {
+        if (name.isBlank() || name.length() > NAME_MAX_LENGTH) {
+            throw new InvalidMemberException(ErrorType.INVALID_MEMBER_NAME);
+        }
     }
 
     @Override
