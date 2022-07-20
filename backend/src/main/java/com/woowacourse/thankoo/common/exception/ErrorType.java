@@ -22,6 +22,9 @@ public enum ErrorType {
     INVALID_RESERVATION_MEETING_TIME(4001, "유효하지 않은 일정입니다."),
     INVALID_RESERVATION_MEMBER_MISMATCH(4002, "예약을 요청할 수 없는 회원입니다."),
     INVALID_RESERVATION_COUPON_STATUS(4003, "예약 요청이 불가능한 쿠폰입니다."),
+    NOT_FOUND_RESERVATION(4004, "존재하지 않는 예약입니다."),
+    NOT_FOUND_RESERVATION_STATUS(4005, "존재하지 않는 예약 상태입니다."),
+    CAN_NOT_CHANGE_RESERVATION_STATUS(4006, "예약 상태를 변경할 수 없습니다."),
 
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 

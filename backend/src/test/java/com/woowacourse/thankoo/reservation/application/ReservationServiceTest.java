@@ -24,7 +24,10 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
+import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
+import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
+import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -62,7 +65,7 @@ class ReservationServiceTest {
 
         assertAll(
                 () -> assertThat(reservationId).isNotNull(),
-                () -> assertThat(foundCoupon.getCouponStatus()).isEqualTo(CouponStatus.RESERVED)
+                () -> assertThat(foundCoupon.getCouponStatus()).isEqualTo(CouponStatus.RESERVING)
         );
     }
 
@@ -90,6 +93,22 @@ class ReservationServiceTest {
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L))))
                 .isInstanceOf(InvalidMemberException.class)
                 .hasMessage("존재하지 않는 회원입니다.");
+    }
+
+    @DisplayName("예약을 승인한다.")
+    @Test
+    void updateStatusAccept() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+        Coupon coupon = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+
+        reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
+
+        Reservation foundReservation = reservationRepository.findById(reservationId).get();
+        assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT);
     }
 
     @AfterEach

@@ -8,10 +8,12 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
+import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
+import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +31,7 @@ public class ReservationService {
     public Long save(Long memberId, ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
-        Member foundMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+        Member foundMember = findMemberById(memberId);
 
         Reservation reservation = new Reservation(reservationRequest.getStartAt(),
                 TimeZoneType.ASIA_SEOUL,
@@ -40,5 +41,20 @@ public class ReservationService {
         reservation.reserve();
 
         return reservationRepository.save(reservation).getId();
+    }
+
+    @Transactional
+    public void updateStatus(final Long memberId,
+                             final Long reservationId,
+                             final ReservationStatusRequest reservationStatusRequest) {
+        Member foundMember = findMemberById(memberId);
+        Reservation foundReservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
+        foundReservation.updateStatus(foundMember, reservationStatusRequest.getStatus());
+    }
+
+    private Member findMemberById(final Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 }

@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.reservation.domain;
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
+import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -72,7 +73,7 @@ public class Reservation extends BaseEntity {
     }
 
     private void validateReservationMember(final Long memberId, final Coupon coupon) {
-        if (!coupon.isSameReceiver(memberId)) {
+        if (!coupon.isReceiver(memberId)) {
             throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_MEMBER_MISMATCH);
         }
     }
@@ -99,6 +100,37 @@ public class Reservation extends BaseEntity {
 
     public void reserve() {
         coupon.reserve();
+    }
+
+    public void updateStatus(final Member member, final String status) {
+        ReservationStatus updateReservationStatus = ReservationStatus.from(status);
+        validateReservation(member, updateReservationStatus);
+        validateCouponStatus();
+
+        reservationStatus = updateReservationStatus;
+        if (reservationStatus.isDeny()) {
+            coupon.denied();
+            return;
+        }
+        coupon.accepted();
+    }
+
+    private void validateReservation(final Member member, final ReservationStatus reservationStatus) {
+        if (!this.reservationStatus.isWaiting()) {
+            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
+        }
+        if (reservationStatus.isWaiting()) {
+            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
+        }
+        if (!coupon.isSender(member.getId())) {
+            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
+        }
+    }
+
+    private void validateCouponStatus() {
+        if (!coupon.canAcceptReservation()) {
+            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
+        }
     }
 
     @Override

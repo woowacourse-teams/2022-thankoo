@@ -73,6 +73,18 @@ public class Coupon extends BaseEntity {
         couponStatus = CouponStatus.RESERVING;
     }
 
+    public boolean canAcceptReservation() {
+        return couponStatus.isReserving();
+    }
+
+    public void denied() {
+        couponStatus = CouponStatus.NOT_USED;
+    }
+
+    public void accepted() {
+        couponStatus = CouponStatus.RESERVED;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
