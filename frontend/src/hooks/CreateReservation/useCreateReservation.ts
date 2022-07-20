@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { BASE_URL } from '../../constants/api';
+import { API_PATH } from '../../constants/api';
 import { authAtom } from '../../recoil/atom';
 
 const useCreateReservation = () => {
@@ -13,7 +13,7 @@ const useCreateReservation = () => {
   const { mutate } = useMutation((Date: string) =>
     axios({
       method: 'post',
-      url: `${BASE_URL}/api/reservations`,
+      url: `${API_PATH.RESERVATIONS}`,
       headers: { Authorization: `Bearer ${accessToken}` },
       data: {
         couponId: '1',
