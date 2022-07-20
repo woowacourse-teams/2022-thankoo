@@ -10,7 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ExtendWith(DataClearExtension.class)
-public abstract class AcceptanceTest {
+abstract class AcceptanceTest {
 
     @LocalServerPort
     private int port;
