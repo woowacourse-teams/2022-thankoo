@@ -8,9 +8,9 @@ import EnterCouponContent from './pages/EnterCouponContent';
 import Main from './pages/Main';
 import SelectReceiver from './pages/SelectReceiver';
 import SignIn from './pages/SignIn';
-import { authAtom } from './recoil/atom';
 import UserProfile from './pages/UserProfile';
 import Reservations from './pages/Reservations';
+import { authAtom } from './recoil/atom';
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');

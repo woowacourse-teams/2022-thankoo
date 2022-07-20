@@ -11,6 +11,8 @@ import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.presentation.CouponController;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
+import com.woowacourse.thankoo.reservation.application.ReservationService;
+import com.woowacourse.thankoo.reservation.presentation.ReservationController;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -26,7 +28,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest({
         AuthenticationController.class,
         CouponController.class,
-        MemberController.class
+        MemberController.class,
+        ReservationController.class
 })
 @Import(MockMvcConfig.class)
 @AutoConfigureRestDocs
@@ -53,6 +56,9 @@ public class ControllerTest {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected ReservationService reservationService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());

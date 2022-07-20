@@ -5,5 +5,9 @@ public enum CouponStatus {
     NOT_USED,
     RESERVED,
     USED,
-    EXPIRED
+    EXPIRED;
+
+    public boolean isNotUsed() {
+        return this == NOT_USED;
+    }
 }

@@ -169,4 +169,50 @@ public class CouponControllerTest extends ControllerTest {
                 )
         ));
     }
+
+    @DisplayName("보낸 쿠폰을 조회한다.")
+    @Test
+    void getSentCoupons() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+
+        List<CouponResponse> couponResponses = List.of(
+                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "USED")),
+                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED"))
+        );
+
+        given(couponService.getSentCoupons(anyLong()))
+                .willReturn(couponResponses);
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/sent")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(couponResponses)));
+
+        resultActions.andDo(document("coupon/sent-coupons",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                responseFields(
+                        fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
+                        fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
+                        fieldWithPath("[].sender.name").type(STRING).description("senderName"),
+                        fieldWithPath("[].sender.email").type(STRING).description("senderEmail"),
+                        fieldWithPath("[].sender.imageUrl").type(STRING).description("senderImageUrl"),
+                        fieldWithPath("[].receiver.id").type(NUMBER).description("receiverId"),
+                        fieldWithPath("[].receiver.name").type(STRING).description("receiverName"),
+                        fieldWithPath("[].receiver.email").type(STRING).description("receiverEmail"),
+                        fieldWithPath("[].receiver.imageUrl").type(STRING).description("receiverImageUrl"),
+                        fieldWithPath("[].content.couponType").type(STRING).description("couponType"),
+                        fieldWithPath("[].content.title").type(STRING).description("title"),
+                        fieldWithPath("[].content.message").type(STRING).description("message"),
+                        fieldWithPath("[].status").type(STRING).description("status")
+                )
+        ));
+    }
 }
