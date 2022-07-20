@@ -1,7 +1,6 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import styled from '@emotion/styled';
-import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from './constants/routes';
 import CreateReservation from './pages/CreateReservation';
 import EnterCouponContent from './pages/EnterCouponContent';
@@ -9,22 +8,17 @@ import Main from './pages/Main';
 import SelectReceiver from './pages/SelectReceiver';
 import SignIn from './pages/SignIn';
 import UserProfile from './pages/UserProfile';
-import { authAtom } from './recoil/atom';
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');
-  const { accessToken: tokenState } = useRecoilValue(authAtom);
-  const accessToken = storageToken || tokenState;
 
-  return accessToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.SIGN_IN}`} />;
+  return storageToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.SIGN_IN}`} />;
 };
 
 const UnAuthOnly = () => {
   const storageToken = localStorage.getItem('token');
-  const { accessToken: tokenState } = useRecoilValue(authAtom);
-  const accessToken = storageToken || tokenState;
 
-  return !accessToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.EXACT_MAIN}`} />;
+  return !storageToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.EXACT_MAIN}`} />;
 };
 
 function App() {
