@@ -9,10 +9,10 @@ public class MemberFixture {
     public static final String SKRR_NAME = "Skrr";
     public static final String HOHO_NAME = "Hoho";
 
-    public static final String HUNI_EMAIL= "Huni@email.com";
-    public static final String LALA_EMAIL= "Lala@email.com";
-    public static final String SKRR_EMAIL= "Skrr@email.com";
-    public static final String HOHO_EMAIL= "Hoho@email.com";
+    public static final String HUNI_EMAIL = "Huni@email.com";
+    public static final String LALA_EMAIL = "Lala@email.com";
+    public static final String SKRR_EMAIL = "Skrr@email.com";
+    public static final String HOHO_EMAIL = "Hoho@email.com";
 
     public static final String HUNI_SOCIAL_ID = "1234";
     public static final String LALA_SOCIAL_ID = "1235";

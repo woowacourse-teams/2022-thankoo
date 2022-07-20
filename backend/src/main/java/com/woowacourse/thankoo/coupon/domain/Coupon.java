@@ -57,6 +57,18 @@ public class Coupon extends BaseEntity {
         this(null, senderId, receiverId, couponContent, couponStatus);
     }
 
+    public boolean isNotUsed() {
+        return couponStatus.isNotUsed();
+    }
+
+    public boolean isSameReceiver(final Long memberId) {
+        return receiverId.equals(memberId);
+    }
+
+    public void reserve() {
+        couponStatus = CouponStatus.RESERVED;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
