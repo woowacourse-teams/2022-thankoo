@@ -20,7 +20,7 @@ const Reservations = () => {
         <HeaderText>요청된 쿠폰함</HeaderText>
       </Header>
       <S.Body>
-        <S.OrderTabsNav
+        <TabsNav
           selectableTabs={orderByList}
           currentTab={orderBy}
           tabList={orderByObject}
@@ -36,25 +36,21 @@ const Reservations = () => {
   );
 };
 
-{
-}
-
 export default Reservations;
 
 const S = {
   Body: styled.section`
-    padding: 5rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 15px;
     color: white;
+    gap: 15px;
   `,
   ListView: styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 0 5px;
-    height: 60vh;
+    height: 70vh;
     overflow: auto;
-  `,
-  OrderTabsNav: styled(TabsNav)`
-    margin-bottom: 8px;
   `,
 };
