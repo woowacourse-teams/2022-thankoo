@@ -65,4 +65,7 @@ task createDocument(type: Copy) {
 
 bootJar {
     dependsOn createDocument
+    from ("build/asciidoc/html5/index.html") {
+        into 'BOOT-INF/classes/static'
+    }
 }
