@@ -2,8 +2,9 @@ package com.woowacourse.thankoo.acceptance;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.로그인_한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.토큰을_반환한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.받은_쿠폰을_조회한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.보낸_쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_조회한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
@@ -82,9 +83,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             }
         }
 
-        @DisplayName("쿠폰을 조회한다.")
+        @DisplayName("받은 쿠폰을 조회한다.")
         @Test
-        void getCoupons() {
+        void getReceivedCoupons() {
             TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
             TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
 
@@ -95,9 +96,27 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest1);
             쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest2);
 
-            ExtractableResponse<Response> response = 쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED);
+            ExtractableResponse<Response> response = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED);
 
-            쿠폰이_조회됨(response);
+            받은_쿠폰이_조회됨(response);
+        }
+
+        @DisplayName("보낸 쿠폰을 조회한다.")
+        @Test
+        void getSentCoupons() {
+            TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
+            TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
+
+            CouponRequest couponRequest1 = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
+                    MESSAGE);
+            CouponRequest couponRequest2 = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE + "1",
+                    MESSAGE);
+            쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest1);
+            쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest2);
+
+            ExtractableResponse<Response> response = 보낸_쿠폰을_조회한다(senderToken.getAccessToken());
+
+            보낸_쿠폰이_조회됨(response);
         }
     }
 
@@ -117,7 +136,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         }
 
-        @DisplayName("쿠폰을 조회하면 실패한다.")
+        @DisplayName("받은 쿠폰을 조회하면 실패한다.")
         @Test
         void getCouponsInvalidToken() {
             TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
@@ -126,18 +145,26 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
                     MESSAGE);
             쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
-            ExtractableResponse<Response> response = 쿠폰을_조회한다(INVALID_TOKEN, NOT_USED);
+            ExtractableResponse<Response> response = 받은_쿠폰을_조회한다(INVALID_TOKEN, NOT_USED);
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         }
     }
 
-    private void 쿠폰이_조회됨(final ExtractableResponse<Response> response) {
-        List<CouponResponse> couponRespons = response.jsonPath()
+    private void 받은_쿠폰이_조회됨(final ExtractableResponse<Response> response) {
+        List<CouponResponse> couponResponses = response.jsonPath()
                 .getList(".", CouponResponse.class);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(couponRespons).isNotEmpty();
+        assertThat(couponResponses).isNotEmpty();
+    }
+
+    private void 보낸_쿠폰이_조회됨(final ExtractableResponse<Response> response) {
+        List<CouponResponse> couponResponses = response.jsonPath()
+                .getList(".", CouponResponse.class);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(couponResponses).isNotEmpty();
     }
 
     private CouponRequest createCouponRequest(final List<Long> receiverIds,

@@ -51,4 +51,21 @@ public class CouponQueryRepository {
                 .addValue("couponStatuses", couponStatuses);
         return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
     }
+
+    public List<MemberCoupon> findBySenderId(final Long senderId) {
+        String sql = "SELECT c.id as coupon_id, "
+                + "s.id as sender_id, s.name as sender_name, "
+                + "s.email as sender_email, s.social_id as sender_social_id,"
+                + "s.image_url as sender_image_url,"
+                + "r.id as receiver_id, r.name as receiver_name, "
+                + "c.coupon_type, c.title, c.message, c.status "
+                + "FROM coupon as c "
+                + "JOIN member as s ON c.sender_id = s.id "
+                + "JOIN member as r ON c.receiver_id = r.id "
+                + "WHERE c.sender_id = :senderId "
+                + "ORDER BY c.id DESC";
+
+        SqlParameterSource parameters = new MapSqlParameterSource("senderId", senderId);
+        return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
+    }
 }

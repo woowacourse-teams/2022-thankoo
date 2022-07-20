@@ -47,4 +47,11 @@ public class CouponService {
                 .map(CouponResponse::of)
                 .collect(Collectors.toList());
     }
+
+    public List<CouponResponse> getSentCoupons(final Long senderId) {
+        return couponQueryRepository.findBySenderId(senderId)
+                .stream()
+                .map(CouponResponse::of)
+                .collect(Collectors.toList());
+    }
 }

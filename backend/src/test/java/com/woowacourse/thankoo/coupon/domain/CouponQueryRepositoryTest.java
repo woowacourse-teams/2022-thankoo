@@ -81,4 +81,21 @@ public class CouponQueryRepositoryTest {
 
         assertThat(memberCoupons).hasSize(2);
     }
+
+    @DisplayName("보낸 coupon 을 조회한다.")
+    @Test
+    void findBySenderId() {
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
+        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
+        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
+        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
+
+        List<MemberCoupon> memberCoupons = couponQueryRepository.findBySenderId(sender.getId());
+
+        assertThat(memberCoupons).hasSize(3);
+    }
 }
