@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { authAtom, checkedUsersAtom } from '../../recoil/atom';
+import { useRecoilState } from 'recoil';
+import { API_PATH } from '../../constants/api';
+import { checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
 import useFilterMatchedUser from '../useFilterMatchedUser';
-import { API_PATH } from '../../constants/api';
 
 const useSelectReceiver = () => {
-  const { accessToken, memberId } = useRecoilValue(authAtom);
+  const accessToken = localStorage.getItem('token');
+
   const {
     data: users,
     isLoading,

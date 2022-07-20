@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
 import { Coupon } from '../../types/index';
-import CheckIcon from '@mui/icons-material/Check';
 
 const ListViewCoupon = ({
   coupon,

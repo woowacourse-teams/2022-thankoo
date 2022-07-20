@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import { API_PATH } from '../../constants/api';
-import { authAtom } from '../../recoil/atom';
 
 const useSignIn = () => {
-  const [auth, setAuth] = useRecoilState(authAtom);
   const location = useLocation();
   const userCode = location.search.substring(6).split('&')[0];
 
@@ -29,14 +26,11 @@ const useSignIn = () => {
     }
   );
 
-  const saveAuth = (data: { accessToken: string; memberId: number }) => {
-    const { accessToken, memberId } = data;
-
+  const saveAuth = (accessToken: string) => {
     localStorage.setItem('token', accessToken);
-    setAuth({ accessToken: accessToken, memberId: memberId });
   };
 
-  return { refetchToken, userCode, data, setAuth, auth, saveAuth };
+  return { refetchToken, userCode, data, saveAuth };
 };
 
 export default useSignIn;
