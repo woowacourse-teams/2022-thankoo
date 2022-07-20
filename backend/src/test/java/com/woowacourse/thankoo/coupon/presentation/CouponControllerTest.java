@@ -64,7 +64,7 @@ public class CouponControllerTest extends ControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        resultActions.andDo(document("coupon/send",
+        resultActions.andDo(document("coupons/send",
                 getRequestPreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
@@ -101,7 +101,7 @@ public class CouponControllerTest extends ControllerTest {
                         status().isOk(),
                         content().string(objectMapper.writeValueAsString(couponResponses)));
 
-        resultActions.andDo(document("coupon/received-coupons-not-used",
+        resultActions.andDo(document("coupons/received-coupons-not-used",
                 getResponsePreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
@@ -147,7 +147,7 @@ public class CouponControllerTest extends ControllerTest {
                         status().isOk(),
                         content().string(objectMapper.writeValueAsString(couponResponses)));
 
-        resultActions.andDo(document("coupon/received-coupons-used",
+        resultActions.andDo(document("coupons/received-coupons-used",
                 getResponsePreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
@@ -193,7 +193,7 @@ public class CouponControllerTest extends ControllerTest {
                         status().isOk(),
                         content().string(objectMapper.writeValueAsString(couponResponses)));
 
-        resultActions.andDo(document("coupon/sent-coupons",
+        resultActions.andDo(document("coupons/sent-coupons",
                 getResponsePreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")

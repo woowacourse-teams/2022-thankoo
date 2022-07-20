@@ -1,4 +1,8 @@
 [[Reservation]]
 == 예약 전송
 
-operation::reservation/reserve[snippets='http-request,http-response']
+operation::reservations/reserve[snippets='http-request,http-response']
+
+== 예약 승인
+
+operation::reservations/update-reservation-status[snippets='http-request,http-response']
