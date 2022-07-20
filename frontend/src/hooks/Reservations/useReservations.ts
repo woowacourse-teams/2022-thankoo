@@ -2,15 +2,14 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { API_PATH } from '../../constants/api';
-import { Coupon } from '../../types';
 
 const orderByList = ['date', 'name'];
 const orderByObject = { date: '날짜 순', name: '이름 순' };
 
-const useRequestedCoupons = () => {
+const useResrvations = () => {
   const [orderBy, setOrderBy] = useState('date');
-  const { data: requestedCoupons } = useQuery(
-    'requested',
+  const { data: reservations } = useQuery(
+    'reservations',
     async () => {
       const { data } = await axios({ method: 'get', url: `${API_PATH.RESERVATIONS}` });
 
@@ -18,17 +17,16 @@ const useRequestedCoupons = () => {
     },
     { refetchOnWindowFocus: false }
   );
-  const [clickedCoupons, setClickedCoupons] = useState<Coupon[]>([]);
+
+  // reservations?.sort();
 
   return {
     orderBy,
     setOrderBy,
-    requestedCoupons,
-    clickedCoupons,
-    setClickedCoupons,
+    reservations,
     orderByList,
     orderByObject,
   };
 };
 
-export default useRequestedCoupons;
+export default useResrvations;

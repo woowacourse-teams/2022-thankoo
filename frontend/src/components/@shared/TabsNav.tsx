@@ -6,11 +6,19 @@ interface TabsNavProps {
   currentTab: string;
   tabList: {};
   selectableTabs: any[];
+  className?: string;
 }
 
-const TabsNav = ({ children, onChangeTab, currentTab, tabList, selectableTabs }: TabsNavProps) => {
+const TabsNav = ({
+  children,
+  onChangeTab,
+  currentTab,
+  tabList,
+  selectableTabs,
+  className,
+}: TabsNavProps) => {
   return (
-    <S.Container>
+    <S.Container className={className}>
       <div>
         {selectableTabs.map((tab, idx) => (
           <S.Button
