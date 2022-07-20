@@ -46,7 +46,7 @@ const UserProfile = () => {
                 }}
                 onKeyDown={e => {
                   if (e.code === 'Enter') {
-                    submitChangeName();
+                    handleClickModifyNameButton();
                   }
                 }}
               />
