@@ -5,44 +5,30 @@ import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import TabsNav from '../components/@shared/TabsNav';
-import ListViewCoupon from '../components/RequestedCoupons/ListViewCoupon';
-import useRequestedCoupons from '../hooks/RequestedCoupons/useRequestedCoupons';
+import Reservation from '../components/Reservations/Reservation';
+import useReservations from '../hooks/Reservations/useReservations';
 
-const RequestedCoupons = () => {
-  const {
-    clickedCoupons,
-    requestedCoupons,
-    orderBy,
-    setClickedCoupons,
-    setOrderBy,
-    orderByList,
-    orderByObject,
-  } = useRequestedCoupons();
+const Reservations = () => {
+  const { reservations, orderBy, setOrderBy, orderByList, orderByObject } = useReservations();
 
   return (
     <PageLayout>
       <Header>
-        <Link to='/select-receiver'>
+        <Link to='/'>
           <ArrowBackButton />
         </Link>
         <HeaderText>요청된 쿠폰함</HeaderText>
       </Header>
       <S.Body>
-        <TabsNav
+        <S.OrderTabsNav
           selectableTabs={orderByList}
           currentTab={orderBy}
           tabList={orderByObject}
           onChangeTab={setOrderBy}
         />
         <S.ListView>
-          {requestedCoupons?.map(coupon => (
-            <ListViewCoupon
-              coupon={coupon}
-              onClickCoupon={() => {
-                setClickedCoupons(prev => [...prev, coupon.couponHistoryId]);
-              }}
-              isClickedCoupon={clickedCoupons.includes(coupon.couponHistoryId)}
-            />
+          {reservations?.map(coupon => (
+            <Reservation coupon={coupon} onClickReservation={() => {}} />
           ))}
         </S.ListView>
       </S.Body>
@@ -50,17 +36,25 @@ const RequestedCoupons = () => {
   );
 };
 
-export default RequestedCoupons;
+{
+}
+
+export default Reservations;
 
 const S = {
   Body: styled.section`
-    padding: 3rem 0;
+    padding: 5rem 0 2rem;
     color: white;
   `,
   ListView: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    padding: 10px 0;
+    gap: 10px;
+    padding: 0 5px;
+    height: 60vh;
+    overflow: auto;
+  `,
+  OrderTabsNav: styled(TabsNav)`
+    margin-bottom: 8px;
   `,
 };
