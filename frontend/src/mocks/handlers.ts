@@ -1,11 +1,11 @@
 import { createReservationHandler } from './createReservationHandler';
 import { mainPageHandler } from './mainPageHandler';
-import { requestedCouponsHanlders } from './requestedCouponsHandlers';
+import { reservationsHanlders } from './reservationsHandlers';
 import { selectReceiverPageHandlers } from './selectReceiverPageHandlers';
 
 export const handlers = [
   ...mainPageHandler,
   ...selectReceiverPageHandlers,
-  ...requestedCouponsHanlders,
+  ...reservationsHanlders,
   ...createReservationHandler,
 ];

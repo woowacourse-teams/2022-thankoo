@@ -7,4 +7,5 @@ export const ROUTE_PATH = {
   REQUESTED_COUPONS: '/requested-coupons',
   PROFILE: '/profile',
   CREATE_RESERVATION: '/create-reservation',
+  RESERVATIONS: '/reservations',
 };

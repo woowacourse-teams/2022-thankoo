@@ -10,6 +10,7 @@ import SelectReceiver from './pages/SelectReceiver';
 import SignIn from './pages/SignIn';
 import { authAtom } from './recoil/atom';
 import UserProfile from './pages/UserProfile';
+import Reservations from './pages/Reservations';
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');
@@ -37,6 +38,7 @@ function App() {
           <Route path={`${ROUTE_PATH.ENTER_COUPON_CONTENT}`} element={<EnterCouponContent />} />
           <Route path={`${ROUTE_PATH.CREATE_RESERVATION}`} element={<CreateReservation />} />
           <Route path={`${ROUTE_PATH.PROFILE}`} element={<UserProfile />} />
+          <Route path={`${ROUTE_PATH.RESERVATIONS}`} element={<Reservations />} />
         </Route>
         <Route element={<UnAuthOnly />}>
           <Route path={`${ROUTE_PATH.SIGN_IN}`} element={<SignIn />} />
