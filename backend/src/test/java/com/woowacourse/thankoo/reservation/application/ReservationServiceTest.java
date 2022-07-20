@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.support.DataClearExtension;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -24,9 +25,12 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
+import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -37,6 +41,9 @@ class ReservationServiceTest {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -85,5 +92,12 @@ class ReservationServiceTest {
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L))))
                 .isInstanceOf(InvalidMemberException.class)
                 .hasMessage("존재하지 않는 회원입니다.");
+    }
+
+    @AfterEach
+    void tearDown() {
+        reservationRepository.deleteAllInBatch();
+        couponRepository.deleteAllInBatch();
+        memberRepository.deleteAllInBatch();
     }
 }
