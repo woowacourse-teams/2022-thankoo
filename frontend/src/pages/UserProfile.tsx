@@ -5,6 +5,7 @@ import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import { useState } from 'react';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
+import { Link } from 'react-router-dom';
 
 const userImageSrc =
   'https://play-lh.googleusercontent.com/_UlrII71s6BOdJvQtAcFIeIljaYlMoPNmbTPFBRxU1jhEPfdJk9X7RKiuUnbFVvCmQ=w600-h300-pc0xffffff-pd';
@@ -28,7 +29,9 @@ const UserProfile = () => {
   return (
     <PageLayout>
       <Header>
-        <ArrowBackButton />
+        <Link to='/'>
+          <ArrowBackButton />
+        </Link>
         <HeaderText>내 정보</HeaderText>
       </Header>
       <S.Body>
