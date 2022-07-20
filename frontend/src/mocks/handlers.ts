@@ -1,6 +1,6 @@
 import { createReservationHandler } from './createReservationHandler';
 import { mainPageHandler } from './mainPageHandler';
-import { requestedCouponsHanlders } from './requestedCouponsHandlers';
+import { reservationsHanlders } from './reservationsHandlers';
 import { selectReceiverPageHandlers } from './selectReceiverPageHandlers';
 import { sendCouponHandler } from './sendCouponHandler';
 import { signInHandler } from './signInHandler';
@@ -10,6 +10,6 @@ export const handlers = [
   ...mainPageHandler,
   ...selectReceiverPageHandlers,
   ...sendCouponHandler,
-  ...requestedCouponsHanlders,
+  ...reservationsHanlders,
   ...createReservationHandler,
 ];

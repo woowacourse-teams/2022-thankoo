@@ -5,6 +5,7 @@ import { ROUTE_PATH } from './constants/routes';
 import CreateReservation from './pages/CreateReservation';
 import EnterCouponContent from './pages/EnterCouponContent';
 import Main from './pages/Main';
+import Reservations from './pages/Reservations';
 import SelectReceiver from './pages/SelectReceiver';
 import SignIn from './pages/SignIn';
 import UserProfile from './pages/UserProfile';
@@ -31,6 +32,7 @@ function App() {
           <Route path={`${ROUTE_PATH.ENTER_COUPON_CONTENT}`} element={<EnterCouponContent />} />
           <Route path={`${ROUTE_PATH.CREATE_RESERVATION}`} element={<CreateReservation />} />
           <Route path={`${ROUTE_PATH.PROFILE}`} element={<UserProfile />} />
+          <Route path={`${ROUTE_PATH.RESERVATIONS}`} element={<Reservations />} />
         </Route>
         <Route element={<UnAuthOnly />}>
           <Route path={`${ROUTE_PATH.SIGN_IN}`} element={<SignIn />} />

@@ -3,32 +3,31 @@ import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
 import { Coupon } from '../../types/index';
 
-const ListViewCoupon = ({
+const ListViewReservation = ({
   coupon,
-  isClickedCoupon,
-  onClickCoupon,
+  onClickReservation,
 }: {
   coupon: Coupon;
-  isClickedCoupon: boolean;
-  onClickCoupon: () => void;
+  onClickReservation: (string) => void;
 }) => {
   const { sender, content } = coupon;
 
   return (
     <S.Container
-      onClick={onClickCoupon}
+      onClick={() => {
+        onClickReservation(coupon);
+      }}
       backgroundColor={RAND_COLORS[sender.id % RAND_COLORS.length].bg}
       color={RAND_COLORS[sender.id % RAND_COLORS.length].color}
     >
       <S.CouponImage src={COUPON_IMAGE[content.couponType]} />
       <S.UserName>{sender.name}</S.UserName>
       <S.RequestedDate>2022.07.21</S.RequestedDate>
-      <S.Checkbox isChecked={isClickedCoupon} />
     </S.Container>
   );
 };
 
-export default ListViewCoupon;
+export default ListViewReservation;
 
 type ContentProp = {
   backgroundColor: string;
@@ -42,12 +41,13 @@ const S = {
     grid-template-areas:
       'ci un cb'
       'ci ed cb';
-    grid-template-columns: 17% 63% 20%;
+    grid-template-columns: 22% 58% 20%;
     gap: 2px 0;
     padding: 1rem;
     border-radius: 5px;
     background-color: ${({ backgroundColor }) => backgroundColor};
     color: ${({ color }) => color};
+    align-items: center;
     cursor: pointer;
   `,
   CouponImage: styled.img`
