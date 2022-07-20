@@ -24,7 +24,9 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
+import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ class ReservationServiceTest {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -85,5 +90,12 @@ class ReservationServiceTest {
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L))))
                 .isInstanceOf(InvalidMemberException.class)
                 .hasMessage("존재하지 않는 회원입니다.");
+    }
+
+    @AfterEach
+    void tearDown() {
+        reservationRepository.deleteAllInBatch();
+        couponRepository.deleteAllInBatch();
+        memberRepository.deleteAllInBatch();
     }
 }
