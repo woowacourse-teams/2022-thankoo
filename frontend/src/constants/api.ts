@@ -13,5 +13,7 @@ export const API_PATH = {
   MEMBERS: `${API_PREFIX}/members`,
   PROFILE: `${API_PREFIX}/members/me`,
   RESERVATIONS: `${API_PREFIX}/reservations`,
+  RESERVATIONS_SENT: `${API_PREFIX}/reservations/sent`,
+  RESERVATIONS_RECEIVED: `${API_PREFIX}/reservations/received`,
   SIGN_IN: userCode => `${API_PREFIX}/sign-in?code=${userCode}`,
 };
