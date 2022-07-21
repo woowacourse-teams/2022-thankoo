@@ -54,7 +54,7 @@ class ReservationAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
-    @DisplayName("회원이 받은 쿠폰으로 요청한 예약을 조회한다.")
+    @DisplayName("회원이 받은 쿠폰으로 보낸 예약을 조회한다.")
     @Test
     void getReservations() {
         TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));

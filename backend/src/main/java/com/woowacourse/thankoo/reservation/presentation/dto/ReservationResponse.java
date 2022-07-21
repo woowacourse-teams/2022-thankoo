@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 public class ReservationResponse {
 
     private Long reservationId;
-    private String name;
+    private String memberName;
     private String couponType;
     private LocalDateTime meetingTime;
 
-    public ReservationResponse(Long reservationId, String name, String couponType, LocalDateTime meetingTime) {
+    public ReservationResponse(Long reservationId, String memberName, String couponType, LocalDateTime meetingTime) {
         this.reservationId = reservationId;
-        this.name = name;
+        this.memberName = memberName;
         this.couponType = couponType;
         this.meetingTime = meetingTime;
     }

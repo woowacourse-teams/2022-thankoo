@@ -61,13 +61,13 @@ class ReservationControllerTest extends ControllerTest {
         ));
     }
 
-    @DisplayName("예약 요청 리스트를 조회한다.")
+    @DisplayName("회원이 보낸 예약을 조회한다.")
     @Test
-    void getReservations() throws Exception {
+    void getReceivedReservations() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        given(reservationService.getReservations(anyLong()))
+        given(reservationService.getReceivedReservations(anyLong()))
                 .willReturn(List.of(
                         new ReservationResponse(1L, TITLE, TYPE, LocalDateTime.now()),
                         new ReservationResponse(2L, TITLE, TYPE, LocalDateTime.now()),
@@ -83,7 +83,7 @@ class ReservationControllerTest extends ControllerTest {
         resultActions.andDo(document("reservation/get-reservations",
                 responseFields(
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
-                        fieldWithPath("[].name").type(STRING).description("name"),
+                        fieldWithPath("[].memberName").type(STRING).description("memberName"),
                         fieldWithPath("[].couponType").type(STRING).description("couponType"),
                         fieldWithPath("[].meetingTime").type(STRING).description("meetingTime")
                 )

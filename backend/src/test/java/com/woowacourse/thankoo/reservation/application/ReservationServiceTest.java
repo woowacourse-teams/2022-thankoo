@@ -97,7 +97,7 @@ class ReservationServiceTest {
                 .hasMessage("존재하지 않는 회원입니다.");
     }
 
-    @DisplayName("예약을 조회한다.")
+    @DisplayName("보낸 예약을 조회한다.")
     @Test
     void getReservations() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
@@ -117,7 +117,7 @@ class ReservationServiceTest {
         reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon3.getId(), LocalDateTime.now().plusDays(1L)));
 
-        List<ReservationResponse> reservations = reservationService.getReservations(receiver.getId());
+        List<ReservationResponse> reservations = reservationService.getReceivedReservations(receiver.getId());
 
         assertThat(reservations.size()).isEqualTo(3);
     }

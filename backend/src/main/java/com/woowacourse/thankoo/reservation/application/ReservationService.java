@@ -46,10 +46,10 @@ public class ReservationService {
         return reservationRepository.save(reservation).getId();
     }
 
-    public List<ReservationResponse> getReservations(Long memberId) {
+    public List<ReservationResponse> getReceivedReservations(Long memberId) {
         Member foundMember = findMemberById(memberId);
 
-        return reservationRepository.findByMemberId(memberId).stream()
+        return reservationRepository.findByReceiverId(memberId).stream()
                 .map(reservation -> ReservationResponse.from(reservation, foundMember))
                 .collect(Collectors.toList());
     }
