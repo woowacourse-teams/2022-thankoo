@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.acceptance;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.로그인_한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.AuthenticationRequestFixture.토큰을_반환한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.createCouponRequest;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.받은_쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.보낸_쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
@@ -18,7 +19,6 @@ import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_SKRR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
-import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import io.restassured.response.ExtractableResponse;
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("CouponAcceptance 는 ")
-public class CouponAcceptanceTest extends AcceptanceTest {
+class CouponAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("유저가 로그인하고 ")
     @Nested
@@ -165,12 +165,5 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(couponResponses).isNotEmpty();
-    }
-
-    private CouponRequest createCouponRequest(final List<Long> receiverIds,
-                                              final String type,
-                                              final String title,
-                                              final String message) {
-        return new CouponRequest(receiverIds, new ContentRequest(type, title, message));
     }
 }

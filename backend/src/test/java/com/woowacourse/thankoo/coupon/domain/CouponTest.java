@@ -25,6 +25,6 @@ class CouponTest {
         Coupon coupon = new Coupon(1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
 
-        assertThat(coupon.isSameReceiver(2L)).isTrue();
+        assertThat(coupon.isReceiver(2L)).isTrue();
     }
 }

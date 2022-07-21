@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public enum CouponStatusGroup {
 
-    NOT_USED("not-used", Arrays.asList(CouponStatus.NOT_USED, CouponStatus.RESERVED)),
+    NOT_USED("not-used", Arrays.asList(CouponStatus.NOT_USED, CouponStatus.RESERVING, CouponStatus.RESERVED)),
     USED("used", Arrays.asList(CouponStatus.USED, CouponStatus.EXPIRED));
 
     private final String title;

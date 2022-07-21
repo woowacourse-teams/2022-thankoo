@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("AuthenticationAcceptance 는 ")
-public class AuthenticationAcceptanceTest extends AcceptanceTest {
+class AuthenticationAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("유저가 로그인을 진행하면 알맞은 토큰을 반환한다.")
     @Test
