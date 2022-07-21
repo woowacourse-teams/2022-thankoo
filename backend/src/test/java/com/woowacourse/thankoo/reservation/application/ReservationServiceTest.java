@@ -97,6 +97,7 @@ class ReservationServiceTest {
                 .hasMessage("존재하지 않는 회원입니다.");
     }
 
+    @DisplayName("예약을 조회한다.")
     @Test
     void getReservations() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
