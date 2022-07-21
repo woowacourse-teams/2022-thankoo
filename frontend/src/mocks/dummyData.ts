@@ -3,8 +3,8 @@ import { Coupon } from '../types';
 interface User {
   id: number;
   name: string;
-  socialNickname: string;
   imageUrl: string;
+  email: string;
   accessToken?: number;
 }
 
@@ -12,92 +12,92 @@ export const users: User[] = [
   {
     id: 1,
     name: '호호',
-    socialNickname: 'hoho',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/474x/da/2f/0f/da2f0fa7ba08867419e7f9e83b55d936.jpg',
   },
   {
     id: 2,
     name: '후니',
-    socialNickname: 'jayjaehunchoi',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/474x/1b/92/34/1b92345b60c29ee6f1e80f9904c7029e.jpg',
   },
   {
     id: 3,
     name: '비녀',
-    socialNickname: 'bineyo',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/564x/c3/0b/58/c30b582f771d2854cfec9ce33e5155c7.jpg',
   },
   {
     id: 4,
     name: '라라',
-    socialNickname: 'why_not_sure',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/474x/50/ef/5e/50ef5ed72977adc8bc615e9da4407e21.jpg',
   },
   {
     id: 5,
     name: '스컬',
-    socialNickname: 'skrrrrrr',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/474x/2c/69/db/2c69db2e20a48710da16803f89b02e57.jpg',
   },
   {
     id: 6,
     name: '후이',
-    socialNickname: 'huii',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/474x/fd/37/3f/fd373fa6f93b4a8cca3aaf94f1dcda40.jpg',
   },
   {
     id: 7,
     name: '나인',
-    socialNickname: '9999',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/474x/dd/0f/84/dd0f844b653f8df5d8515f7bde6a47e9.jpg',
   },
   {
     id: 8,
     name: '마르코',
-    socialNickname: 'xXzizonMarcoXx',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/474x/e4/b5/99/e4b599b2c51956d0673a8f7f9134424e.jpg',
   },
 
   {
     id: 9,
     name: '빅터',
-    socialNickname: '빅터짱짱',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
   },
   {
     id: 10,
     name: '우연',
-    socialNickname: '빅터짱짱',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
   },
   {
     id: 11,
     name: '록바',
-    socialNickname: '빅터짱짱',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
   },
   {
     id: 12,
     name: '시지프',
-    socialNickname: '빅터짱짱',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
   },
   {
     id: 13,
     name: '동키콩',
-    socialNickname: '빅터짱짱',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
   },
   {
     id: 14,
+    email: 'hoho@gmail.com',
     name: '앨버',
-    socialNickname: '빅터짱짱',
     imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
   },
   {
     id: 15,
+    email: 'hoho@gmail.com',
     name: '준찌',
-    socialNickname: '빅터짱짱',
     imageUrl: 'https://i.pinimg.com/564x/48/b4/41/48b4411bc8f5b0619d7a1b426ff86e82.jpg',
   },
 ];

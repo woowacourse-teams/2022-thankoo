@@ -7,8 +7,8 @@ export interface Coupon {
 
 export interface UserProfile {
   id: number;
-  name: String;
-  socialNickname: String;
+  name: string;
+  email: string;
   imageUrl: string;
 }
 
@@ -23,13 +23,13 @@ export const initialCouponState = {
   sender: {
     id: 0,
     name: '',
-    socialNickname: '',
+    email: '',
     imageUrl: '',
   },
   receiver: {
     id: 0,
     name: '',
-    socialNickname: '',
+    email: '',
     imageUrl: '',
   },
   content: {

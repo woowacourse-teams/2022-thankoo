@@ -1,5 +1,6 @@
 import { createReservationHandler } from './createReservationHandler';
 import { mainPageHandler } from './mainPageHandler';
+import { profileHandler } from './profileHandlers';
 import { reservationsHanlders } from './reservationsHandlers';
 import { selectReceiverPageHandlers } from './selectReceiverPageHandlers';
 import { sendCouponHandler } from './sendCouponHandler';
@@ -12,4 +13,5 @@ export const handlers = [
   ...sendCouponHandler,
   ...reservationsHanlders,
   ...createReservationHandler,
+  ...profileHandler,
 ];
