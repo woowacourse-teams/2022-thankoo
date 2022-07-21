@@ -39,4 +39,11 @@ class ReservationStatusTest {
     void isWaiting(ReservationStatus reservationStatus, boolean isWaiting) {
         assertThat(reservationStatus.isWaiting()).isEqualTo(isWaiting);
     }
+
+    @DisplayName("DENY 인지 확인한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"WAITING:false", "DENY:true", "ACCEPT:false"}, delimiter = ':')
+    void isDeny(ReservationStatus reservationStatus, boolean isWaiting) {
+        assertThat(reservationStatus.isDeny()).isEqualTo(isWaiting);
+    }
 }

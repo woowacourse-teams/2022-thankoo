@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.EnumSource.Mode;
 @DisplayName("Reservation 는 ")
 class ReservationTest {
 
-    @DisplayName("예약을 요청을 할 때 ")
+    @DisplayName("예약을 생성 할 때 ")
     @Nested
     class MeetingValidationTest {
 
