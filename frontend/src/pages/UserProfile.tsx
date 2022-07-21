@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
-import { useEffect, useState } from 'react';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
-import { Link } from 'react-router-dom';
 import useProfile from '../hooks/Profile/useProfile';
-import { BASE_URL } from '../constants/api';
 
 const UserProfile = () => {
   const { profile, editUserName } = useProfile();
@@ -56,7 +55,7 @@ const UserProfile = () => {
         <HeaderText>내 정보</HeaderText>
       </Header>
       <S.Body>
-        <ProfileUserImage src={`${BASE_URL}/${profile?.imageUrl}`} />
+        <ProfileUserImage src={`${profile?.imageUrl}`} />
         <S.UserInfoBox>
           <S.UserInfoItem>
             <S.Bold>이름</S.Bold>

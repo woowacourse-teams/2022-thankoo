@@ -30,7 +30,6 @@ const S = {
     display: flex;
     gap: 10px;
     padding-top: 3px;
-    padding-bottom: 40px;
     overflow: scroll hidden;
 
     ::-webkit-scrollbar {
