@@ -4,7 +4,7 @@ import ListViewReservation from './ListViewReservation';
 
 const Reservation = ({ coupon }: { coupon: Coupon }) => {
   //TODO Reservation 승낙, 거절 api 파서 coupon써서 보내면 될듯
-
+  //PUT /api/reservations/{reservationId}
   return (
     <Slider>
       <Slider.Inner>
