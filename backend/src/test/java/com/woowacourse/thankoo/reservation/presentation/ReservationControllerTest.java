@@ -1,5 +1,7 @@
 package com.woowacourse.thankoo.reservation.presentation;
 
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -8,19 +10,23 @@ import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
+import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +36,7 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("ReservationController 는 ")
 class ReservationControllerTest extends ControllerTest {
 
-    @DisplayName("예약을 전송한다.")
+    @DisplayName("예약을 요청한다.")
     @Test
     void reserve() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
@@ -51,6 +57,64 @@ class ReservationControllerTest extends ControllerTest {
                 requestFields(
                         fieldWithPath("couponId").type(NUMBER).description("couponId"),
                         fieldWithPath("startAt").type(STRING).description("startAt")
+                )
+        ));
+    }
+
+    @DisplayName("회원이 받은 예약을 조회한다.")
+    @Test
+    void getReceivedReservations() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+
+        given(reservationQueryService.getReceivedReservations(anyLong()))
+                .willReturn(List.of(
+                        new ReservationResponse(1L, TITLE, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(2L, TITLE, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(3L, TITLE, TYPE, LocalDateTime.now())
+                ));
+
+        ResultActions resultActions = mockMvc.perform(get("/api/reservations/received")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("reservation/get-received-reservations",
+                responseFields(
+                        fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
+                        fieldWithPath("[].memberName").type(STRING).description("memberName"),
+                        fieldWithPath("[].couponType").type(STRING).description("couponType"),
+                        fieldWithPath("[].meetingTime").type(STRING).description("meetingTime")
+                )
+        ));
+    }
+
+    @DisplayName("회원이 보낸 예약을 조회한다.")
+    @Test
+    void getSentReservations() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+
+        given(reservationQueryService.getSentReservations(anyLong()))
+                .willReturn(List.of(
+                        new ReservationResponse(1L, TITLE, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(2L, TITLE, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(3L, TITLE, TYPE, LocalDateTime.now())
+                ));
+
+        ResultActions resultActions = mockMvc.perform(get("/api/reservations/sent")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("reservation/get-sent-reservations",
+                responseFields(
+                        fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
+                        fieldWithPath("[].memberName").type(STRING).description("memberName"),
+                        fieldWithPath("[].couponType").type(STRING).description("couponType"),
+                        fieldWithPath("[].meetingTime").type(STRING).description("meetingTime")
                 )
         ));
     }
@@ -76,6 +140,7 @@ class ReservationControllerTest extends ControllerTest {
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
+
                 requestFields(
                         fieldWithPath("status").type(STRING).description("status")
                 )));
