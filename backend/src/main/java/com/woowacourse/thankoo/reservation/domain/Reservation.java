@@ -115,16 +115,17 @@ public class Reservation extends BaseEntity {
         coupon.accepted();
     }
 
-    private void validateReservation(final Member member, final ReservationStatus reservationStatus) {
-        if (!this.reservationStatus.isWaiting()) {
+    private void validateReservation(final Member member, final ReservationStatus updateReservationStatus) {
+        if (isInsufficientReservationStatus(member.getId(), updateReservationStatus)) {
             throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
         }
-        if (reservationStatus.isWaiting()) {
-            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
-        }
-        if (!coupon.isSender(member.getId())) {
-            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
-        }
+    }
+
+    private boolean isInsufficientReservationStatus(final Long memberId,
+                                                    final ReservationStatus updateReservationStatus) {
+        return !this.reservationStatus.isWaiting()
+                || updateReservationStatus.isWaiting()
+                || !coupon.isSender(memberId);
     }
 
     private void validateCouponStatus() {
