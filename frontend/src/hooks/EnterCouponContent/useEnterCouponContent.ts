@@ -10,18 +10,14 @@ import { Coupon, CouponType, initialCouponState, UserProfile } from '../../types
 
 const useEnterCouponContent = () => {
   const accessToken = localStorage.getItem('token');
-  const { data: userProfile } = useQuery<UserProfile>(
-    'profile',
-    async () => {
-      const res = await axios({
-        method: 'GET',
-        url: `${API_PATH.PROFILE}`,
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      return res.data;
-    },
-    { notifyOnChangeProps: ['data', 'isSuccess'] }
-  );
+  const { data: userProfile } = useQuery<UserProfile>('profile', async () => {
+    const res = await axios({
+      method: 'GET',
+      url: `${API_PATH.PROFILE}`,
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return res.data;
+  });
 
   const checkedUsers = useRecoilValue(checkedUsersAtom);
 
@@ -46,6 +42,13 @@ const useEnterCouponContent = () => {
   });
 
   useEffect(() => {
+    if (userProfile) {
+      const newCouponSender = { ...currentCoupon.sender, id: userProfile.id };
+      setCurrentCoupon(prev => ({
+        ...prev,
+        sender: newCouponSender,
+      }));
+    }
     setCurrentCoupon(prev => ({
       ...prev,
       content: {
@@ -54,7 +57,7 @@ const useEnterCouponContent = () => {
         message,
       },
     }));
-  }, [couponType, title, message]);
+  }, [userProfile, couponType, title, message]);
 
   const sendCoupon = async () => {
     const { status, statusText } = await axios({
