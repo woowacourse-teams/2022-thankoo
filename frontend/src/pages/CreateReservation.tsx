@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
+import Time from '../components/@shared/Time';
 import ArrowBackButton from './../components/@shared/ArrowBackButton';
 import Header from './../components/@shared/Header';
 import HeaderText from './../components/@shared/HeaderText';
@@ -10,7 +11,15 @@ import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
 
 const CreateReservation = () => {
-  const { isFilled, setReservationDate, sendReservation } = useCreateReservation();
+  const {
+    isFilled,
+    setReservationDate,
+    sendReservation,
+    yesterday,
+    date,
+    time,
+    setReservationTime,
+  } = useCreateReservation();
 
   return (
     <PageLayout>
@@ -23,7 +32,8 @@ const CreateReservation = () => {
       <S.Body>
         <S.Area>
           <S.Label>직접 입력하기</S.Label>
-          <input type='date' onChange={setReservationDate} />
+          <input type='date' value={date} onChange={setReservationDate} min={yesterday} />
+          <Time value={time} min='10:00:00' max='22:00:00' required onChange={setReservationTime} />
         </S.Area>
         <S.Area>
           <S.Label>달력에서 고르기</S.Label>
@@ -55,7 +65,7 @@ const S = {
     color: ${({ theme }) => theme.header.color};
   `,
   Calander: styled.div`
-    height: 24rem;
+    height: 21rem;
     background-color: white;
   `,
   LongButton: styled.button`
