@@ -29,7 +29,7 @@ const useCreateReservation = () => {
   };
 
   const sendReservation = () => {
-    mutate(`${date} ${time}`);
+    mutate(`${date} ${time}:00`);
   };
 
   const setReservationTime = e => {

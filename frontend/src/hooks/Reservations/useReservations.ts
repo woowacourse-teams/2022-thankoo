@@ -24,8 +24,6 @@ const useResrvations = () => {
     { refetchOnWindowFocus: false }
   );
 
-  // reservations?.sort();
-
   return {
     orderBy,
     setOrderBy,
