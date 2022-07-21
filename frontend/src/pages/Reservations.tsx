@@ -28,7 +28,7 @@ const Reservations = () => {
         />
         <S.ListView>
           {reservations?.map(coupon => (
-            <Reservation coupon={coupon} onClickReservation={() => {}} />
+            <Reservation coupon={coupon} />
           ))}
         </S.ListView>
       </S.Body>
