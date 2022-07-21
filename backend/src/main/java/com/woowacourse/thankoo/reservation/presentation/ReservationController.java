@@ -31,7 +31,7 @@ public class ReservationController {
         return ResponseEntity.created(URI.create("/api/reservations/" + reserveId)).build();
     }
 
-    @GetMapping
+    @GetMapping("/received")
     public ResponseEntity<List<ReservationResponse>> getReservations(@AuthenticationPrincipal Long memberId) {
         return ResponseEntity.ok(reservationService.getReservations(memberId));
     }

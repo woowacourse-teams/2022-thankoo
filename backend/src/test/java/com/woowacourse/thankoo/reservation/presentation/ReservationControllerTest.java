@@ -74,7 +74,7 @@ class ReservationControllerTest extends ControllerTest {
                         new ReservationResponse(3L, TITLE, TYPE, LocalDateTime.now())
                 ));
 
-        ResultActions resultActions = mockMvc.perform(get("/api/reservations")
+        ResultActions resultActions = mockMvc.perform(get("/api/reservations/received")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

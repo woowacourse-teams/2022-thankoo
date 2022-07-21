@@ -18,7 +18,7 @@ public class ReservationRequestFixture {
     }
 
     public static ExtractableResponse<Response> 예약을_조회한다(final String token) {
-        return getWithToken("/api/reservations", token);
+        return getWithToken("/api/reservations/received", token);
     }
 
     public static ExtractableResponse<Response> 예약을_승인한다(final String reservationId, final String token) {
