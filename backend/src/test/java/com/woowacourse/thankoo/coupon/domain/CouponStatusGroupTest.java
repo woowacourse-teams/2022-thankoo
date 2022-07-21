@@ -34,7 +34,7 @@ class CouponStatusGroupTest {
 
     private static Stream<Arguments> provideRightStatusNames() {
         return Stream.of(
-                Arguments.of(NOT_USED, List.of(CouponStatus.NOT_USED.name(), CouponStatus.RESERVED.name())),
+                Arguments.of(NOT_USED, List.of(CouponStatus.NOT_USED.name(), CouponStatus.RESERVING.name(), CouponStatus.RESERVED.name())),
                 Arguments.of(USED, List.of(CouponStatus.USED.name(), CouponStatus.EXPIRED.name()))
         );
     }

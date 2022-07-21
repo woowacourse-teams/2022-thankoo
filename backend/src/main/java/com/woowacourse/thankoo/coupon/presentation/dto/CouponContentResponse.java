@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.coupon.presentation.dto;
 
+import java.util.Locale;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,6 @@ public class CouponContentResponse {
     }
 
     public static CouponContentResponse from(final String couponType, final String title, final String message) {
-        return new CouponContentResponse(couponType, title, message);
+        return new CouponContentResponse(couponType.toLowerCase(Locale.ROOT), title, message);
     }
 }

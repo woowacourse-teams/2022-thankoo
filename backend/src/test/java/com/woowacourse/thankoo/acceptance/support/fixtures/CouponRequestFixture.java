@@ -3,9 +3,11 @@ package com.woowacourse.thankoo.acceptance.support.fixtures;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
 
+import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.List;
 
 public class CouponRequestFixture {
 
@@ -20,5 +22,12 @@ public class CouponRequestFixture {
 
     public static ExtractableResponse<Response> 보낸_쿠폰을_조회한다(final String accessToken) {
         return getWithToken("/api/coupons/sent", accessToken);
+    }
+
+    public static CouponRequest createCouponRequest(final List<Long> receiverIds,
+                                                    final String type,
+                                                    final String title,
+                                                    final String message) {
+        return new CouponRequest(receiverIds, new ContentRequest(type, title, message));
     }
 }

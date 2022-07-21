@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("MemberAcceptance 는 ")
-public class MemberAcceptanceTest extends AcceptanceTest {
+class MemberAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("본인을 제외한 모든 회원을 조회한다.")
     @Test
