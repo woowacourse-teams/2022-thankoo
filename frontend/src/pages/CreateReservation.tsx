@@ -35,10 +35,10 @@ const CreateReservation = () => {
           <input type='date' value={date} onChange={setReservationDate} min={yesterday} />
           <Time value={time} min='10:00:00' max='22:00:00' required onChange={setReservationTime} />
         </S.Area>
-        <S.Area>
+        {/* <S.Area>
           <S.Label>달력에서 고르기</S.Label>
           <S.Calander>달력이 들어갈 자리 입니다.</S.Calander>
-        </S.Area>
+        </S.Area> */}
       </S.Body>
       <S.LongButton disabled={!isFilled} onClick={sendReservation}>
         약속 신청하기
@@ -52,8 +52,10 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    height: 70%;
     gap: 2rem;
-    padding: 15px;
+    padding: 0 15px;
   `,
   Area: styled.div`
     display: flex;
@@ -61,7 +63,7 @@ const S = {
     gap: 1rem;
   `,
   Label: styled.div`
-    font-size: 16px;
+    font-size: 21px;
     color: ${({ theme }) => theme.header.color};
   `,
   Calander: styled.div`
@@ -69,12 +71,16 @@ const S = {
     background-color: white;
   `,
   LongButton: styled.button`
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
     border: none;
     border-radius: 30px;
     font-size: 18px;
-    margin: 0 3vw;
     padding: 10px 20px;
     display: flex;
+    width: 90%;
     justify-content: space-between;
     align-items: center;
     ${({ disabled, theme }) =>
