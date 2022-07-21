@@ -4,7 +4,6 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredReq
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.putWithToken;
 
-import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import io.restassured.response.ExtractableResponse;
@@ -17,7 +16,11 @@ public class ReservationRequestFixture {
         return postWithToken("/api/reservations", token, reservationRequest);
     }
 
-    public static ExtractableResponse<Response> 예약을_조회한다(final String token) {
+    public static ExtractableResponse<Response> 보낸_예약을_조회한다(final String token) {
+        return getWithToken("/api/reservations/sent", token);
+    }
+
+    public static ExtractableResponse<Response> 받은_예약을_조회한다(final String token) {
         return getWithToken("/api/reservations/received", token);
     }
 

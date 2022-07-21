@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.reservation.presentation;
 
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
+import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final ReservationQueryService reservationQueryService;
 
     @PostMapping
     public ResponseEntity<Void> reserve(@AuthenticationPrincipal final Long memberId,
@@ -33,12 +35,12 @@ public class ReservationController {
 
     @GetMapping("/received")
     public ResponseEntity<List<ReservationResponse>> getReceivedReservations(@AuthenticationPrincipal Long memberId) {
-        return ResponseEntity.ok(reservationService.getReceivedReservations(memberId));
+        return ResponseEntity.ok(reservationQueryService.getReceivedReservations(memberId));
     }
 
     @GetMapping("/sent")
     public ResponseEntity<List<ReservationResponse>> getSentReservations(@AuthenticationPrincipal Long memberId) {
-        return ResponseEntity.ok(reservationService.getSentReservations(memberId));
+        return ResponseEntity.ok(reservationQueryService.getSentReservations(memberId));
     }
 
     @PutMapping("/{reservationId}")

@@ -67,7 +67,7 @@ class ReservationControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        given(reservationService.getReceivedReservations(anyLong()))
+        given(reservationQueryService.getReceivedReservations(anyLong()))
                 .willReturn(List.of(
                         new ReservationResponse(1L, TITLE, TYPE, LocalDateTime.now()),
                         new ReservationResponse(2L, TITLE, TYPE, LocalDateTime.now()),
@@ -96,7 +96,7 @@ class ReservationControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        given(reservationService.getSentReservations(anyLong()))
+        given(reservationQueryService.getSentReservations(anyLong()))
                 .willReturn(List.of(
                         new ReservationResponse(1L, TITLE, TYPE, LocalDateTime.now()),
                         new ReservationResponse(2L, TITLE, TYPE, LocalDateTime.now()),

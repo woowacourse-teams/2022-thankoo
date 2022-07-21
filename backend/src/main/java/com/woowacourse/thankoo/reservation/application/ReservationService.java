@@ -16,7 +16,6 @@ import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +33,7 @@ public class ReservationService {
     public Long save(Long memberId, ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
-        Member foundMember = findMemberById(memberId);
+        Member foundMember = getMemberById(memberId);
 
         Reservation reservation = new Reservation(reservationRequest.getStartAt(),
                 TimeZoneType.ASIA_SEOUL,
@@ -46,40 +45,26 @@ public class ReservationService {
         return reservationRepository.save(reservation).getId();
     }
 
-    public List<ReservationResponse> getReceivedReservations(Long memberId) {
-        findMemberById(memberId);
-        return reservationRepository.findByReceiverId(memberId).stream()
-                .map(this::toReceivedReservationResponse)
-                .collect(Collectors.toList());
-    }
-
-    private ReservationResponse toReceivedReservationResponse(Reservation reservation) {
-        return ReservationResponse.from(reservation, findMemberById(reservation.getCoupon().getReceiverId()));
-    }
-
-    public List<ReservationResponse> getSentReservations(Long memberId) {
-        findMemberById(memberId);
-        return reservationRepository.findByReceiverId(memberId).stream()
-                .map(this::toSentReservationResponse)
-                .collect(Collectors.toList());
-    }
-
-    private ReservationResponse toSentReservationResponse(Reservation reservation) {
-        return ReservationResponse.from(reservation, findMemberById(reservation.getCoupon().getSenderId()));
-    }
-
     @Transactional
     public void updateStatus(final Long memberId,
                              final Long reservationId,
                              final ReservationStatusRequest reservationStatusRequest) {
-        Member foundMember = findMemberById(memberId);
+        Member foundMember = getMemberById(memberId);
         Reservation foundReservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
         foundReservation.updateStatus(foundMember, reservationStatusRequest.getStatus());
     }
 
-    private Member findMemberById(final Long memberId) {
+    private Member getMemberById(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+    }
+
+    public List<ReservationResponse> getSentReservations(long anyLong) {
+        return null;
+    }
+
+    public List<ReservationResponse> getReceivedReservations(long anyLong) {
+        return null;
     }
 }

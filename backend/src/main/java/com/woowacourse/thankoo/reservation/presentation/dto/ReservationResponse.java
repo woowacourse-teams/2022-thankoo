@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.reservation.presentation.dto;
 
-import com.woowacourse.thankoo.member.domain.Member;
-import com.woowacourse.thankoo.reservation.domain.Reservation;
+import com.woowacourse.thankoo.reservation.domain.ReservationCoupon;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,17 +15,20 @@ public class ReservationResponse {
     private String couponType;
     private LocalDateTime meetingTime;
 
-    public ReservationResponse(Long reservationId, String memberName, String couponType, LocalDateTime meetingTime) {
+    public ReservationResponse(final Long reservationId,
+                               final String memberName,
+                               final String couponType,
+                               final LocalDateTime meetingTime) {
         this.reservationId = reservationId;
         this.memberName = memberName;
         this.couponType = couponType;
         this.meetingTime = meetingTime;
     }
 
-    public static ReservationResponse from(Reservation reservation, Member foundMember) {
-        return new ReservationResponse(reservation.getId(),
-                foundMember.getName().getValue(),
-                reservation.getCoupon().getCouponContent().getCouponType().name(),
-                reservation.getMeetingTime());
+    public static ReservationResponse from(final ReservationCoupon reservationCoupon) {
+        return new ReservationResponse(reservationCoupon.getReservationId(),
+                reservationCoupon.getMemberName(),
+                reservationCoupon.getCouponType(),
+                reservationCoupon.getMeetingTime());
     }
 }

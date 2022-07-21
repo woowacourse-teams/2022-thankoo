@@ -5,9 +5,10 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.Authentication
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.createCouponRequest;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.받은_쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.받은_예약을_조회한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.보낸_예약을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.에약을_요청한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_승인한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_조회한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
@@ -56,7 +57,7 @@ class ReservationAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("회원이 받은 쿠폰으로 보낸 예약을 조회한다.")
     @Test
-    void getReservations() {
+    void getSentReservations() {
         TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
         TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
 
@@ -74,7 +75,32 @@ class ReservationAcceptanceTest extends AcceptanceTest {
         에약을_요청한다(receiverToken.getAccessToken(),
                 new ReservationRequest(couponResponse2.getCouponId(), LocalDateTime.now().plusDays(1L)));
 
-        ExtractableResponse<Response> response = 예약을_조회한다(receiverToken.getAccessToken());
+        ExtractableResponse<Response> response = 보낸_예약을_조회한다(receiverToken.getAccessToken());
+
+        예약이_조회됨(response);
+    }
+
+    @DisplayName("회원이 보낸 쿠폰으로 받은 예약을 조회한다.")
+    @Test
+    void getReceivedReservations() {
+        TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
+        TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
+
+        CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE, MESSAGE);
+        쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+        쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+
+        CouponResponse couponResponse1 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
+                .getList(".", CouponResponse.class).get(0);
+        CouponResponse couponResponse2 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
+                .getList(".", CouponResponse.class).get(1);
+
+        에약을_요청한다(receiverToken.getAccessToken(),
+                new ReservationRequest(couponResponse1.getCouponId(), LocalDateTime.now().plusDays(1L)));
+        에약을_요청한다(receiverToken.getAccessToken(),
+                new ReservationRequest(couponResponse2.getCouponId(), LocalDateTime.now().plusDays(1L)));
+
+        ExtractableResponse<Response> response = 받은_예약을_조회한다(senderToken.getAccessToken());
 
         예약이_조회됨(response);
     }
