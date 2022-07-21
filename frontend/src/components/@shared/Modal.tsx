@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
+import { useRecoilValue } from 'recoil';
 import Portal from '../../Portal';
+import { modalContentAtom } from '../../recoil/atom';
 
-const Modal = ({ children }) => {
+const Modal = () => {
+  const modalContent = useRecoilValue(modalContentAtom);
+
   return (
     <Portal>
-      <S.Container>{children}</S.Container>
+      <S.Container>{modalContent}</S.Container>
     </Portal>
   );
 };

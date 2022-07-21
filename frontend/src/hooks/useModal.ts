@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { modalContentAtom, modalVisibleAtom } from '../recoil/atom';
 
 const useModal = () => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useRecoilState(modalVisibleAtom);
+  const [modalContent, setModalContent] = useRecoilState(modalContentAtom);
 
   const show = () => {
     setVisible(true);
@@ -10,7 +13,7 @@ const useModal = () => {
     setVisible(false);
   };
 
-  return { show, close, visible };
+  return { show, close, visible, setModalContent };
 };
 
 export default useModal;

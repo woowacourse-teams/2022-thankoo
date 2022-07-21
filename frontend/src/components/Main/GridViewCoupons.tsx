@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
 import { Coupon } from '../../types';
-import MainCoupon from './MainCoupon';
+import CouponDetails from './CouponDetails';
+import GridViewCoupon from './GridViewCoupon';
+import ModalWrapper from './ModalWrapper';
 
 const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   return (
     <S.Container>
       {coupons.map(coupon => (
-        <MainCoupon coupon={coupon} />
+        <ModalWrapper modalContent={<CouponDetails coupon={coupon} />}>
+          <GridViewCoupon coupon={coupon} />
+        </ModalWrapper>
       ))}
     </S.Container>
   );

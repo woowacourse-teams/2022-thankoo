@@ -1,24 +1,21 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routes';
+import useModal from '../../hooks/useModal';
 import { Coupon } from '../../types';
 import CloseButton from '../@shared/CloseButton';
 import GridViewCoupon from './GridViewCoupon';
 
-const CouponDetails = ({ coupon, closeModal }: { coupon: Coupon; closeModal: any }) => {
+const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
   const { sender, content } = coupon;
+  const { close } = useModal();
 
   return (
     <S.Container>
       <S.Modal>
         <S.Header>
           <span></span>
-          <CloseButton
-            onClick={() => {
-              closeModal();
-            }}
-            color='white'
-          />
+          <CloseButton onClick={close} color='white' />
         </S.Header>
         <S.CouponArea>
           <GridViewCoupon coupon={coupon} />
