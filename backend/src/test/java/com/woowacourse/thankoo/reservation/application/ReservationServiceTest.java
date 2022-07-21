@@ -119,7 +119,10 @@ class ReservationServiceTest {
 
         List<ReservationResponse> reservations = reservationService.getReceivedReservations(receiver.getId());
 
-        assertThat(reservations.size()).isEqualTo(3);
+        assertAll(
+                () -> assertThat(reservations.size()).isEqualTo(3),
+                () -> assertThat(reservations).extracting("memberName").containsOnly(LALA_NAME)
+        );
     }
 
     @DisplayName("예약을 승인한다.")

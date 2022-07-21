@@ -13,10 +13,10 @@ import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
+import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,11 +47,15 @@ public class ReservationService {
     }
 
     public List<ReservationResponse> getReceivedReservations(Long memberId) {
-        Member foundMember = findMemberById(memberId);
+        findMemberById(memberId);
 
         return reservationRepository.findByReceiverId(memberId).stream()
-                .map(reservation -> ReservationResponse.from(reservation, foundMember))
+                .map(this::toReservationResponse)
                 .collect(Collectors.toList());
+    }
+
+    private ReservationResponse toReservationResponse(Reservation reservation) {
+        return ReservationResponse.from(reservation, findMemberById(reservation.getCoupon().getSenderId()));
     }
 
     @Transactional
