@@ -19,7 +19,7 @@ const ListViewUser = ({
     >
       <S.UserImage src={user.imageUrl} />
       <S.UserName>{user.name}</S.UserName>
-      <S.UserSubName>{user.socialNickname}</S.UserSubName>
+      <S.UserSubName>{user.email}</S.UserSubName>
 
       <S.Checkbox isChecked={isCheckedUser(user)} />
     </S.Container>

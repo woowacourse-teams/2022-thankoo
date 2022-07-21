@@ -1,19 +1,13 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { API_PATH } from '../../constants/api';
-
-type Profile = {
-  id: number;
-  name: string;
-  email: string;
-  imageUrl: string;
-};
+import { UserProfile } from '../../types';
 
 const useProfile = () => {
   const accessToken = localStorage.getItem('token');
   const queryClient = useQueryClient();
 
-  const { data: profile } = useQuery<Profile>(
+  const { data: profile } = useQuery<UserProfile>(
     'profile',
     async () => {
       const { data } = await axios({

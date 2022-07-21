@@ -12,7 +12,7 @@ import { BASE_URL } from '../constants/api';
 const UserProfile = () => {
   const { profile, editUserName } = useProfile();
   const [isNameEdit, setIsNameEdit] = useState(false);
-  const [name, setName] = useState('');
+  const [name, setName] = useState<string>('');
 
   useEffect(() => {
     if (!profile) {
