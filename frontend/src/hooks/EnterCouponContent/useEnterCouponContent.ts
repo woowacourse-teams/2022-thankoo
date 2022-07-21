@@ -43,7 +43,11 @@ const useEnterCouponContent = () => {
 
   useEffect(() => {
     if (userProfile) {
-      const newCouponSender = { ...currentCoupon.sender, id: userProfile.id };
+      const newCouponSender = {
+        ...currentCoupon.sender,
+        id: userProfile.id,
+        name: userProfile.name,
+      };
       setCurrentCoupon(prev => ({
         ...prev,
         sender: newCouponSender,
