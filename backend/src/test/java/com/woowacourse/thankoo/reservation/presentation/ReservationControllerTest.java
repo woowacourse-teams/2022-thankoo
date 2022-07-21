@@ -80,7 +80,7 @@ class ReservationControllerTest extends ControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        resultActions.andDo(document("reservation/get-received-reservations",
+        resultActions.andDo(document("reservations/get-received-reservations",
                 responseFields(
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName"),
@@ -109,7 +109,7 @@ class ReservationControllerTest extends ControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        resultActions.andDo(document("reservation/get-sent-reservations",
+        resultActions.andDo(document("reservations/get-sent-reservations",
                 responseFields(
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName"),
