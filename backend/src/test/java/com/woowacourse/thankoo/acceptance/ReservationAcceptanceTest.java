@@ -33,7 +33,28 @@ import org.springframework.http.HttpStatus;
 @DisplayName("ReservationAcceptance 는 ")
 class ReservationAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("예약 요청을 조회한다.")
+    @DisplayName("사용되지 않은 쿠폰으로 예약을 요청한다.")
+    @Test
+    void reserve() {
+        TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
+        TokenResponse receiverToken = 토큰을_반환한다(로그인_한다(CODE_HOHO));
+
+        CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE, MESSAGE);
+        쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+        쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+
+        CouponResponse couponResponse1 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
+                .getList(".", CouponResponse.class).get(0);
+        CouponResponse couponResponse2 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
+                .getList(".", CouponResponse.class).get(1);
+
+        ExtractableResponse<Response> response = 에약을_요청한다(receiverToken.getAccessToken(),
+                new ReservationRequest(couponResponse1.getCouponId(), LocalDateTime.now().plusDays(1L)));
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+    }
+
+    @DisplayName("회원이 받은 쿠폰으로 요청한 예약을 조회한다.")
     @Test
     void getReservations() {
         TokenResponse senderToken = 토큰을_반환한다(로그인_한다(CODE_SKRR));
@@ -49,11 +70,9 @@ class ReservationAcceptanceTest extends AcceptanceTest {
                 .getList(".", CouponResponse.class).get(1);
 
         에약을_요청한다(receiverToken.getAccessToken(),
-                new ReservationRequest(couponResponse1.getCouponId(), LocalDateTime.now().plusDays(1L)))
-                .header(HttpHeaders.LOCATION);
+                new ReservationRequest(couponResponse1.getCouponId(), LocalDateTime.now().plusDays(1L)));
         에약을_요청한다(receiverToken.getAccessToken(),
-                new ReservationRequest(couponResponse2.getCouponId(), LocalDateTime.now().plusDays(1L)))
-                .header(HttpHeaders.LOCATION);
+                new ReservationRequest(couponResponse2.getCouponId(), LocalDateTime.now().plusDays(1L)));
 
         ExtractableResponse<Response> response = 예약을_조회한다(receiverToken.getAccessToken());
 

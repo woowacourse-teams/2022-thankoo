@@ -36,7 +36,7 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("ReservationController 는 ")
 class ReservationControllerTest extends ControllerTest {
 
-    @DisplayName("예약을 전송한다.")
+    @DisplayName("예약을 요청한다.")
     @Test
     void reserve() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
