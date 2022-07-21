@@ -3,22 +3,43 @@ import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import { Link } from 'react-router-dom';
-
-const userImageSrc =
-  'https://play-lh.googleusercontent.com/_UlrII71s6BOdJvQtAcFIeIljaYlMoPNmbTPFBRxU1jhEPfdJk9X7RKiuUnbFVvCmQ=w600-h300-pc0xffffff-pd';
+import useProfile from '../hooks/Profile/useProfile';
+import { BASE_URL } from '../constants/api';
 
 const UserProfile = () => {
+  const { profile, editUserName } = useProfile();
   const [isNameEdit, setIsNameEdit] = useState(false);
-  const [name, setName] = useState('스컬');
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    if (!profile) {
+      return;
+    }
+
+    setName(profile.name);
+  }, [profile?.name]);
 
   const submitChangeName = () => {
-    //추후 submit 로직 작성 예정
+    if (!name.length || name === profile?.name) {
+      return;
+    }
+
+    editUserName.mutate(name);
   };
 
   const handleClickModifyNameButton = () => {
+    if (name.length === 0) {
+      if (!profile) {
+        return;
+      }
+
+      setName(profile?.name);
+      return;
+    }
+
     if (isNameEdit) {
       submitChangeName();
     }
@@ -35,7 +56,7 @@ const UserProfile = () => {
         <HeaderText>내 정보</HeaderText>
       </Header>
       <S.Body>
-        <ProfileUserImage src={userImageSrc} />
+        <ProfileUserImage src={`${BASE_URL}/${profile?.imageUrl}`} />
         <S.UserInfoBox>
           <S.UserInfoItem>
             <S.Bold>이름</S.Bold>
@@ -60,13 +81,13 @@ const UserProfile = () => {
               {isNameEdit ? '저장' : '수정'}
             </S.ModifyNameButton>
           </S.UserInfoItem>
-          <S.UserInfoItem>
+          {/* <S.UserInfoItem>
             <S.Bold>생년월일</S.Bold>
             <span>1999.01.01</span>
-          </S.UserInfoItem>
+          </S.UserInfoItem> */}
           <S.UserInfoItem>
             <S.Bold>이메일</S.Bold>
-            <span>abc@abc.com</span>
+            <span>{profile?.email}</span>
           </S.UserInfoItem>
         </S.UserInfoBox>
         <S.UserCouponInfo>
