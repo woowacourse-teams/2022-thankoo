@@ -10,9 +10,12 @@ import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import { couponTypeKeys, couponTypes } from '../types';
+import useModal from '../hooks/useModal';
+import Modal from '../components/@shared/Modal';
 
 const Main = () => {
   const { setCurrentType, couponsByType, isLoading, error, currentType } = useMain();
+  const { visible } = useModal();
 
   if (isLoading) return <>로딩중</>;
   if (error) return <>에러뜸</>;
@@ -35,6 +38,7 @@ const Main = () => {
       <Link to='/select-receiver'>
         <S.NewCouponButton fontSize='small' />
       </Link>
+      {visible && <Modal />}
     </PageLayout>
   );
 };
