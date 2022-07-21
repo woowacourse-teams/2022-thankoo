@@ -48,13 +48,23 @@ public class ReservationService {
 
     public List<ReservationResponse> getReceivedReservations(Long memberId) {
         findMemberById(memberId);
-
         return reservationRepository.findByReceiverId(memberId).stream()
-                .map(this::toReservationResponse)
+                .map(this::toReceivedReservationResponse)
                 .collect(Collectors.toList());
     }
 
-    private ReservationResponse toReservationResponse(Reservation reservation) {
+    private ReservationResponse toReceivedReservationResponse(Reservation reservation) {
+        return ReservationResponse.from(reservation, findMemberById(reservation.getCoupon().getReceiverId()));
+    }
+
+    public List<ReservationResponse> getSentReservations(Long memberId) {
+        findMemberById(memberId);
+        return reservationRepository.findByReceiverId(memberId).stream()
+                .map(this::toSentReservationResponse)
+                .collect(Collectors.toList());
+    }
+
+    private ReservationResponse toSentReservationResponse(Reservation reservation) {
         return ReservationResponse.from(reservation, findMemberById(reservation.getCoupon().getSenderId()));
     }
 

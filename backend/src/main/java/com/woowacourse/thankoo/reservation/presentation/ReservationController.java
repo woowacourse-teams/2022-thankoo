@@ -36,6 +36,11 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getReceivedReservations(memberId));
     }
 
+    @GetMapping("/sent")
+    public ResponseEntity<List<ReservationResponse>> getSentReservations(@AuthenticationPrincipal Long memberId) {
+        return ResponseEntity.ok(reservationService.getSentReservations(memberId));
+    }
+
     @PutMapping("/{reservationId}")
     public ResponseEntity<Void> updateStatus(@AuthenticationPrincipal final Long memberId,
                                              @PathVariable final Long reservationId,

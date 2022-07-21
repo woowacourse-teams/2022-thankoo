@@ -61,7 +61,7 @@ class ReservationControllerTest extends ControllerTest {
         ));
     }
 
-    @DisplayName("회원이 보낸 예약을 조회한다.")
+    @DisplayName("회원이 받은 예약을 조회한다.")
     @Test
     void getReceivedReservations() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
@@ -80,7 +80,36 @@ class ReservationControllerTest extends ControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        resultActions.andDo(document("reservation/get-reservations",
+        resultActions.andDo(document("reservation/get-received-reservations",
+                responseFields(
+                        fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
+                        fieldWithPath("[].memberName").type(STRING).description("memberName"),
+                        fieldWithPath("[].couponType").type(STRING).description("couponType"),
+                        fieldWithPath("[].meetingTime").type(STRING).description("meetingTime")
+                )
+        ));
+    }
+
+    @DisplayName("회원이 보낸 예약을 조회한다.")
+    @Test
+    void getSentReservations() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+
+        given(reservationService.getSentReservations(anyLong()))
+                .willReturn(List.of(
+                        new ReservationResponse(1L, TITLE, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(2L, TITLE, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(3L, TITLE, TYPE, LocalDateTime.now())
+                ));
+
+        ResultActions resultActions = mockMvc.perform(get("/api/reservations/sent")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("reservation/get-sent-reservations",
                 responseFields(
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName"),
