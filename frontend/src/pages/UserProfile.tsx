@@ -6,6 +6,7 @@ import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
+import SignOutButton from '../components/Profile/SignOutButton';
 import useProfile from '../hooks/Profile/useProfile';
 
 const UserProfile = () => {
@@ -52,7 +53,10 @@ const UserProfile = () => {
         <Link to='/'>
           <ArrowBackButton />
         </Link>
-        <HeaderText>내 정보</HeaderText>
+        <S.SubHeader>
+          <HeaderText>내 정보</HeaderText>
+          <SignOutButton />
+        </S.SubHeader>
       </Header>
       <S.Body>
         <ProfileUserImage src={`${profile?.imageUrl}`} />
@@ -112,7 +116,6 @@ const S = {
     flex-direction: column;
     margin: 0 2rem;
   `,
-
   UserInfoBox: styled.div`
     display: flex;
     flex-direction: column;
@@ -162,5 +165,11 @@ const S = {
     ::placeholder {
       color: ${({ theme }) => theme.input.placeholder};
     }
+  `,
+  SubHeader: styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
   `,
 };
