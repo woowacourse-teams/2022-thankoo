@@ -1,15 +1,19 @@
-import { Coupon } from '../../types';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
-const Reservation = ({ coupon }: { coupon: Coupon }) => {
-  //TODO Reservation 승낙, 거절 api 파서 coupon써서 보내면 될듯
-  //PUT /api/reservations/{reservationId}
+const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => {
+  console.log(couponType, meetingTime, memberName, reservationId);
+
   return (
     <Slider>
       <Slider.Inner>
         <Slider.Content>
-          <ListViewReservation coupon={coupon} />
+          <ListViewReservation
+            couponType={couponType}
+            meetingTime={meetingTime}
+            memberName={memberName}
+            reservationId={reservationId}
+          />
         </Slider.Content>
         <Slider.Options>
           <Slider.OptionItem

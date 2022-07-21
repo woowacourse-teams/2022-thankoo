@@ -1,19 +1,16 @@
 import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
-import { Coupon } from '../../types/index';
 
-const ListViewReservation = ({ coupon }: { coupon: Coupon }) => {
-  const { sender, content } = coupon;
-
+const ListViewReservation = ({ memberName, reservationId, couponType, meetingTime }) => {
   return (
     <S.Container
-      backgroundColor={RAND_COLORS[sender.id % RAND_COLORS.length].bg}
-      color={RAND_COLORS[sender.id % RAND_COLORS.length].color}
+      backgroundColor={RAND_COLORS[reservationId % RAND_COLORS.length].bg}
+      color={RAND_COLORS[reservationId % RAND_COLORS.length].color}
     >
-      <S.CouponImage src={COUPON_IMAGE[content.couponType]} />
-      <S.UserName>{sender.name}</S.UserName>
-      <S.RequestedDate>2022.07.21</S.RequestedDate>
+      <S.CouponImage src={COUPON_IMAGE[couponType]} />
+      <S.UserName>{memberName}</S.UserName>
+      <S.RequestedDate>{meetingTime}</S.RequestedDate>
     </S.Container>
   );
 };

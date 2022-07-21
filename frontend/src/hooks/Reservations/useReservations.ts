@@ -15,7 +15,7 @@ const useResrvations = () => {
     async () => {
       const { data } = await axios({
         method: 'get',
-        url: `${API_PATH.RESERVATIONS}`,
+        url: `${API_PATH.RESERVATIONS_RECEIVED}`,
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
