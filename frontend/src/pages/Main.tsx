@@ -1,17 +1,16 @@
 import styled from '@emotion/styled';
-import SendIcon from '@mui/icons-material/Send';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/useMain';
 
-import { Link } from 'react-router-dom';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
-import PageLayout from '../components/@shared/PageLayout';
-import { couponTypeKeys, couponTypes } from '../types';
-import useModal from '../hooks/useModal';
 import Modal from '../components/@shared/Modal';
+import PageLayout from '../components/@shared/PageLayout';
+import useModal from '../hooks/useModal';
+import { couponTypeKeys, couponTypes } from '../types';
+import BottomNavBar from './../components/@shared/BottomNavBar';
 
 const Main = () => {
   const { setCurrentType, couponsByType, isLoading, error, currentType } = useMain();
@@ -35,10 +34,9 @@ const Main = () => {
         />
         {couponsByType && <GridViewCoupons coupons={couponsByType} />}
       </S.Body>
-      <Link to='/select-receiver'>
-        <S.NewCouponButton fontSize='small' />
-      </Link>
+
       {visible && <Modal />}
+      <BottomNavBar />
     </PageLayout>
   );
 };
@@ -49,26 +47,6 @@ const S = {
     flex-direction: column;
     gap: 1rem;
     padding: 15px;
-  `,
-  NewCouponButton: styled(SendIcon)`
-    position: absolute;
-    bottom: 3%;
-    right: 5%;
-    background-color: ${({ theme }) => theme.button.abled.background};
-    fill: ${({ theme }) => theme.button.abled.color};
-    border: 1px solid white;
-    padding: 0.7rem;
-    border-radius: 50%;
-    transform: rotate(-45deg) scale(1.4);
-    opacity: 0.9;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.button.active.background};
-      fill: ${({ theme }) => theme.button.active.color};
-      border-color: transparent;
-      opacity: 1;
-    }
   `,
 };
 
