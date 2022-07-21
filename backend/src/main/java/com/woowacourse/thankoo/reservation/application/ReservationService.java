@@ -12,6 +12,9 @@ import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
+import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +43,14 @@ public class ReservationService {
         reservation.reserve();
 
         return reservationRepository.save(reservation).getId();
+    }
+
+    public List<ReservationResponse> getReservations(Long memberId) {
+        Member foundMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+
+        return reservationRepository.findByMemberId(memberId).stream()
+                .map(reservation -> ReservationResponse.from(reservation, foundMember))
+                .collect(Collectors.toList());
     }
 }

@@ -25,7 +25,9 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
+import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,6 +92,31 @@ class ReservationServiceTest {
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L))))
                 .isInstanceOf(InvalidMemberException.class)
                 .hasMessage("존재하지 않는 회원입니다.");
+    }
+
+    @Test
+    void getReservations() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+
+        Coupon coupon1 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Coupon coupon2 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Coupon coupon3 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+
+        reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon1.getId(), LocalDateTime.now().plusDays(1L)));
+        reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon2.getId(), LocalDateTime.now().plusDays(1L)));
+        reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon3.getId(), LocalDateTime.now().plusDays(1L)));
+
+        List<ReservationResponse> reservations = reservationService.getReservations(receiver.getId());
+
+        assertThat(reservations.size()).isEqualTo(3);
+
     }
 
     @AfterEach
