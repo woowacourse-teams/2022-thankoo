@@ -3,20 +3,11 @@ import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
 import { Coupon } from '../../types/index';
 
-const ListViewReservation = ({
-  coupon,
-  onClickReservation,
-}: {
-  coupon: Coupon;
-  onClickReservation: (string) => void;
-}) => {
+const ListViewReservation = ({ coupon }: { coupon: Coupon }) => {
   const { sender, content } = coupon;
 
   return (
     <S.Container
-      onClick={() => {
-        onClickReservation(coupon);
-      }}
       backgroundColor={RAND_COLORS[sender.id % RAND_COLORS.length].bg}
       color={RAND_COLORS[sender.id % RAND_COLORS.length].color}
     >
