@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useRecoilValue } from 'recoil';
 import { API_PATH } from '../../constants/api';
-import { authAtom } from '../../recoil/atom';
 import { Coupon, CouponType } from '../../types';
 
 const useMain = () => {
-  const { accessToken, memberId } = useRecoilValue(authAtom);
+  const accessToken = localStorage.getItem('token');
+
   const [currentType, setCurrentType] = useState<CouponType>('entire');
 
   const { data, isLoading, error } = useQuery<Coupon[]>('coupon', async () => {

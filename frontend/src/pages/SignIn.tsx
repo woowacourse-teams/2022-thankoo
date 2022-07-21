@@ -6,9 +6,8 @@ import PageLayout from '../components/@shared/PageLayout';
 import { ROUTE_PATH } from '../constants/routes';
 import { flexCenter } from '../styles/mixIn';
 import BirdLogoWhite from './../components/@shared/LogoWhite';
+import { GOOGLE_AUTH_URL } from './../constants/googleAuth';
 import useSignIn from './../hooks/SignIn/useSignIn';
-
-const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=135992368964-20ad4ul4e3mmia6iok3r9dpg6bshp4uq.apps.googleusercontent.com&redirect_uri=http://thankoo.co.kr/sign-in&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid`;
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -17,8 +16,9 @@ const SignIn = () => {
   useEffect(() => {
     if (userCode) {
       try {
-        refetchToken().then(({ data: userAuth }) => {
-          saveAuth(userAuth);
+        refetchToken().then(({ data }) => {
+          const accessToken = data.accessToken;
+          saveAuth(accessToken);
           navigate(`${ROUTE_PATH.EXACT_MAIN}`);
         });
       } catch (e) {

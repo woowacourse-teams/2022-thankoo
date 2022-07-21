@@ -1,13 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
 import { API_PATH } from '../../constants/api';
-import { authAtom } from '../../recoil/atom';
 
 const useCreateReservation = () => {
   const [date, setDate] = useState('');
-  const { accessToken } = useRecoilValue(authAtom);
+  const accessToken = localStorage.getItem('token');
   const isFilled = date;
 
   const { mutate } = useMutation((Date: string) =>

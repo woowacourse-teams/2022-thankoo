@@ -1,14 +1,24 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { authAtom, checkedUsersAtom } from '../../recoil/atom';
-import { Coupon, CouponType, initialCouponState } from '../../types';
 import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
+import { checkedUsersAtom } from '../../recoil/atom';
+import { Coupon, CouponType, initialCouponState, UserProfile } from '../../types';
 
 const useEnterCouponContent = () => {
-  const auth = useRecoilValue(authAtom);
+  const accessToken = localStorage.getItem('token');
+  const { data: userProfile } = useQuery<UserProfile>('profile', async () => {
+    const res = await axios({
+      method: 'GET',
+      url: `${API_PATH.PROFILE}`,
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return res.data;
+  });
+
   const checkedUsers = useRecoilValue(checkedUsersAtom);
 
   const [couponType, setCouponType] = useState<CouponType>('coffee');
@@ -23,7 +33,7 @@ const useEnterCouponContent = () => {
     ...initialCouponState,
     sender: {
       ...initialCouponState.sender,
-      id: auth.memberId,
+      id: userProfile?.id ?? 0,
     },
     content: {
       ...initialCouponState.content,
@@ -32,6 +42,13 @@ const useEnterCouponContent = () => {
   });
 
   useEffect(() => {
+    if (userProfile) {
+      const newCouponSender = { ...currentCoupon.sender, id: userProfile.id };
+      setCurrentCoupon(prev => ({
+        ...prev,
+        sender: newCouponSender,
+      }));
+    }
     setCurrentCoupon(prev => ({
       ...prev,
       content: {
@@ -40,13 +57,13 @@ const useEnterCouponContent = () => {
         message,
       },
     }));
-  }, [couponType, title, message]);
+  }, [userProfile, couponType, title, message]);
 
   const sendCoupon = async () => {
     const { status, statusText } = await axios({
       method: 'POST',
       url: `${API_PATH.SEND_COUPON}`,
-      headers: { Authorization: `Bearer ${auth.accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
       data: {
         receiverIds: checkedUsers.map(user => user.id),
         content: {
