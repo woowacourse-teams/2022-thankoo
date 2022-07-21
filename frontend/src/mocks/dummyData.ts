@@ -5,6 +5,7 @@ interface User {
   name: string;
   socialNickname: string;
   imageUrl: string;
+  email?: String;
   accessToken?: number;
 }
 
@@ -13,6 +14,7 @@ export const users: User[] = [
     id: 1,
     name: '호호',
     socialNickname: 'hoho',
+    email: 'hoho@gmail.com',
     imageUrl: 'https://i.pinimg.com/474x/da/2f/0f/da2f0fa7ba08867419e7f9e83b55d936.jpg',
   },
   {
