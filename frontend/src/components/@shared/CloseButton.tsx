@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import CloseIcon from '@mui/icons-material/Close';
 
-const CloseButton = ({ color }) => {
+const CloseButton = ({ onClick, color }) => {
   return (
-    <S.CloseModalButton>
+    <S.CloseModalButton onClick={onClick}>
       <S.CloseModalIcon color={color} />
     </S.CloseModalButton>
   );

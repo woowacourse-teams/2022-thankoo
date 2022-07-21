@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { Coupon } from '../../types';
-import GridViewCoupon from './GridViewCoupon';
+import MainCoupon from './MainCoupon';
 
 const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   return (
     <S.Container>
       {coupons.map(coupon => (
-        <GridViewCoupon key={coupon.couponHistoryId} coupon={coupon} />
+        <MainCoupon coupon={coupon} />
       ))}
     </S.Container>
   );

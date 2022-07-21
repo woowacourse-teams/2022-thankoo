@@ -1,17 +1,24 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+import { ROUTE_PATH } from '../../constants/routes';
 import { Coupon } from '../../types';
 import CloseButton from '../@shared/CloseButton';
 import GridViewCoupon from './GridViewCoupon';
 
-const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
+const CouponDetails = ({ coupon, closeModal }: { coupon: Coupon; closeModal: any }) => {
   const { sender, content } = coupon;
 
   return (
     <S.Container>
       <S.Modal>
         <S.Header>
-          <span>D-49</span>
-          <CloseButton color='white' />
+          <span></span>
+          <CloseButton
+            onClick={() => {
+              closeModal();
+            }}
+            color='white'
+          />
         </S.Header>
         <S.CouponArea>
           <GridViewCoupon coupon={coupon} />
@@ -19,12 +26,14 @@ const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
         <S.Contents>
           <S.SpaceBetween>
             <S.Sender>{sender.name}</S.Sender>
-            <span>2022.02.22</span>
+            {/* <span>2022.02.22</span> */}
           </S.SpaceBetween>
           <S.Message>{content.message}</S.Message>
         </S.Contents>
         <S.Footer>
-          <S.Button>사용하기</S.Button>
+          <S.UseCouponLink to={`${ROUTE_PATH.CREATE_RESERVATION}`}>
+            <S.Button>사용하기</S.Button>
+          </S.UseCouponLink>
         </S.Footer>
       </S.Modal>
     </S.Container>
@@ -96,5 +105,8 @@ const S = {
     padding: 0.5rem;
     font-size: 15px;
     height: fit-content;
+  `,
+  UseCouponLink: styled(Link)`
+    width: 100%;
   `,
 };
