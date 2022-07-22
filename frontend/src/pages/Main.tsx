@@ -22,6 +22,7 @@ const Main = () => {
     <>
       <PageLayout>
         <Header>
+          <div style={{ padding: '15px 0' }}></div>
           <HeaderText>쿠폰함</HeaderText>
         </Header>
         <S.Body>
