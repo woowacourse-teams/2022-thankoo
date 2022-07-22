@@ -1,7 +1,9 @@
 package com.woowacourse.thankoo.reservation.presentation;
 
-import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -69,9 +71,9 @@ class ReservationControllerTest extends ControllerTest {
 
         given(reservationQueryService.getReceivedReservations(anyLong()))
                 .willReturn(List.of(
-                        new ReservationResponse(1L, TITLE, TYPE, LocalDateTime.now()),
-                        new ReservationResponse(2L, TITLE, TYPE, LocalDateTime.now()),
-                        new ReservationResponse(3L, TITLE, TYPE, LocalDateTime.now())
+                        new ReservationResponse(1L, HUNI_NAME, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(2L, LALA_NAME, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(3L, HOHO_NAME, TYPE, LocalDateTime.now())
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/api/reservations/received")
@@ -99,9 +101,9 @@ class ReservationControllerTest extends ControllerTest {
 
         given(reservationQueryService.getSentReservations(anyLong()))
                 .willReturn(List.of(
-                        new ReservationResponse(1L, TITLE, TYPE, LocalDateTime.now()),
-                        new ReservationResponse(2L, TITLE, TYPE, LocalDateTime.now()),
-                        new ReservationResponse(3L, TITLE, TYPE, LocalDateTime.now())
+                        new ReservationResponse(1L, HUNI_NAME, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(2L, LALA_NAME, TYPE, LocalDateTime.now()),
+                        new ReservationResponse(3L, HOHO_NAME, TYPE, LocalDateTime.now())
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/api/reservations/sent")
