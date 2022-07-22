@@ -28,7 +28,7 @@ const Reservations = () => {
         />
         <S.ListView>
           {reservations[orderBy]?.map(reservation => (
-            <Reservation key={reservation.reservationId} {...reservation} />
+            <Reservation key={reservation.reservationId} order={orderBy} {...reservation} />
           ))}
         </S.ListView>
       </S.Body>

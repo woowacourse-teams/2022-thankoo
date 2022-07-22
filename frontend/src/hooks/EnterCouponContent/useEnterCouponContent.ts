@@ -39,7 +39,7 @@ const useEnterCouponContent = () => {
       ...initialCouponState.content,
       couponType,
     },
-    status: 'not-used',
+    status: 'not_used',
   });
 
   useEffect(() => {
