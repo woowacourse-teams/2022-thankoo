@@ -21,3 +21,8 @@ export const modalContentAtom = atom<any>({
   key: 'modalContentAtom',
   default: null,
 });
+
+export const targetCouponAtom = atom<any>({
+  key: 'targetCouponAtom',
+  default: null,
+});

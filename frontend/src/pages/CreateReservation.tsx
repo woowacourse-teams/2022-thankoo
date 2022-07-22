@@ -40,7 +40,12 @@ const CreateReservation = () => {
           <S.Calander>달력이 들어갈 자리 입니다.</S.Calander>
         </S.Area> */}
       </S.Body>
-      <S.LongButton disabled={!isFilled} onClick={sendReservation}>
+      <S.LongButton
+        disabled={!isFilled}
+        onClick={() => {
+          sendReservation();
+        }}
+      >
         약속 신청하기
         <ArrowForwardIosIcon />
       </S.LongButton>

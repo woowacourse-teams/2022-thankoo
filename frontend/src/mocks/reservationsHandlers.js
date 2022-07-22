@@ -37,7 +37,6 @@ export const reservationsHanlders = [
     );
   }),
   rest.get(`${API_PATH.RESERVATIONS_SENT}`, (req, res, ctx) => {
-    console.log('sent');
     return res(
       ctx.status(200),
       ctx.json([
