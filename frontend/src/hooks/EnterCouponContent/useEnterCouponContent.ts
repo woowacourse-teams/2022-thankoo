@@ -76,7 +76,12 @@ const useEnterCouponContent = () => {
       },
     });
 
-    navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+    navigate(`${ROUTE_PATH.ON_SUCCESS}`);
+    setTimeout(() => {
+      navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+    }, 1500);
+
+    //navigate(`${ROUTE_PATH.EXACT_MAIN}`);
   };
 
   return {
