@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { API_PATH } from '../../constants/api';
 import { targetCouponAtom } from '../../recoil/atom';
-import { ROUTE_PATH } from './../../constants/routes';
+import useOnSuccess from './../useOnSuccess';
 
 const yesterday = new Date().toISOString().split('T')[0];
 
 const useCreateReservation = () => {
   const navigate = useNavigate();
+  const { successNavigate } = useOnSuccess();
   const couponId = useRecoilValue(targetCouponAtom);
   const [date, setDate] = useState(yesterday);
   const [time, setTime] = useState('10:00');
@@ -31,10 +32,7 @@ const useCreateReservation = () => {
       }),
     {
       onSuccess: () => {
-        navigate(`${ROUTE_PATH.ON_SUCCESS}`);
-        setTimeout(() => {
-          navigate('/');
-        }, 1500);
+        successNavigate('/');
       },
     }
   );
