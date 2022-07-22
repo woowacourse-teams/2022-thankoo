@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/useMain';
@@ -23,7 +22,6 @@ const Main = () => {
     <>
       <PageLayout>
         <Header>
-          <ArrowBackButton />
           <HeaderText>쿠폰함</HeaderText>
         </Header>
         <S.Body>
