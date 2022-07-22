@@ -33,7 +33,7 @@ const useMain = () => {
       COUPON_STATUS_PRIORITY[coupon1.status] - COUPON_STATUS_PRIORITY[coupon2.status]
   );
 
-  return { setCurrentType, couponsByType, isLoading, error, currentType };
+  return { setCurrentType, orderedCoupons, isLoading, error, currentType };
 };
 
 export default useMain;

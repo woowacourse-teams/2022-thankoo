@@ -5,6 +5,7 @@ import { ROUTE_PATH } from './constants/routes';
 import CreateReservation from './pages/CreateReservation';
 import EnterCouponContent from './pages/EnterCouponContent';
 import Main from './pages/Main';
+import OnSuccessPage from './pages/OnSuccessPage';
 import Reservations from './pages/Reservations';
 import SelectReceiver from './pages/SelectReceiver';
 import SignIn from './pages/SignIn';
@@ -26,6 +27,7 @@ function App() {
   return (
     <MobileDiv>
       <Routes>
+        <Route path={`${ROUTE_PATH.ON_SUCCESS}`} element={<OnSuccessPage />} />
         <Route element={<AuthOnly />}>
           <Route path={`${ROUTE_PATH.MAIN}`} element={<Main />} />
           <Route path={`${ROUTE_PATH.SELECT_RECEIVER}`} element={<SelectReceiver />} />

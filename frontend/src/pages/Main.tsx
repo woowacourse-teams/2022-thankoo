@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/useMain';
@@ -13,7 +12,7 @@ import { couponTypeKeys, couponTypes } from '../types';
 import BottomNavBar from './../components/@shared/BottomNavBar';
 
 const Main = () => {
-  const { setCurrentType, couponsByType, isLoading, error, currentType } = useMain();
+  const { setCurrentType, orderedCoupons, isLoading, error, currentType } = useMain();
   const { visible } = useModal();
 
   if (isLoading) return <>로딩중</>;
@@ -23,7 +22,6 @@ const Main = () => {
     <>
       <PageLayout>
         <Header>
-          <ArrowBackButton />
           <HeaderText>쿠폰함</HeaderText>
         </Header>
         <S.Body>
@@ -33,7 +31,7 @@ const Main = () => {
             tabList={couponTypes}
             selectableTabs={couponTypeKeys}
           />
-          {couponsByType && <GridViewCoupons coupons={couponsByType} />}
+          {orderedCoupons && <GridViewCoupons coupons={orderedCoupons} />}
         </S.Body>
 
         {visible && <Modal />}

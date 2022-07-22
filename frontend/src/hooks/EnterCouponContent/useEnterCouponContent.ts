@@ -7,9 +7,12 @@ import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { Coupon, CouponType, initialCouponState, UserProfile } from '../../types';
+import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
   const accessToken = localStorage.getItem('token');
+  const { successNavigate } = useOnSuccess();
+
   const { data: userProfile } = useQuery<UserProfile>('profile', async () => {
     const res = await axios({
       method: 'GET',
@@ -77,7 +80,7 @@ const useEnterCouponContent = () => {
       },
     });
 
-    navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+    successNavigate(`${ROUTE_PATH.EXACT_MAIN}`);
   };
 
   return {
