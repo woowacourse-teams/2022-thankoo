@@ -1,4 +1,5 @@
 export const ROUTE_PATH = {
+  ON_SUCCESS: '/success',
   MAIN: '/*',
   EXACT_MAIN: '/',
   SELECT_RECEIVER: '/select-receiver',
