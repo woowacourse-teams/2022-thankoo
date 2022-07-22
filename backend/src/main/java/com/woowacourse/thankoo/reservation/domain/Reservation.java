@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,14 +34,8 @@ public class Reservation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "meeting_date", nullable = false)
-    private LocalDate meetingDate;
-
-    @Column(name = "meeting_time", nullable = false)
-    private LocalDateTime meetingTime;
-
-    @Column(name = "time_zone", length = 20, nullable = false)
-    private String timeZone;
+    @Embedded
+    private ReservationTime reservationTime;
 
     @Column(name = "status", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
@@ -54,22 +49,29 @@ public class Reservation extends BaseEntity {
     private Coupon coupon;
 
     public Reservation(final Long id,
-                       final LocalDate meetingDate,
-                       final LocalDateTime meetingTime,
-                       final TimeZoneType timeZone,
+                       final ReservationTime reservationTime,
                        final ReservationStatus reservationStatus,
                        final Long memberId,
                        final Coupon coupon) {
         validateReservationMember(memberId, coupon);
-        validateMeetingTime(meetingTime);
         validateCouponStatus(coupon);
         this.id = id;
-        this.meetingDate = meetingDate;
-        this.meetingTime = meetingTime;
-        this.timeZone = timeZone.getId();
+        this.reservationTime = reservationTime;
         this.reservationStatus = reservationStatus;
         this.memberId = memberId;
         this.coupon = coupon;
+    }
+
+    public Reservation(final LocalDateTime meetingTime,
+                       final TimeZoneType timeZone,
+                       final ReservationStatus reservationStatus,
+                       final Long memberId,
+                       final Coupon coupon) {
+        this(null,
+                new ReservationTime(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
+                reservationStatus,
+                memberId,
+                coupon);
     }
 
     private void validateReservationMember(final Long memberId, final Coupon coupon) {
@@ -78,24 +80,10 @@ public class Reservation extends BaseEntity {
         }
     }
 
-    private void validateMeetingTime(final LocalDateTime meetingTime) {
-        if (LocalDateTime.now().isAfter(meetingTime)) {
-            throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_MEETING_TIME);
-        }
-    }
-
     private void validateCouponStatus(final Coupon coupon) {
         if (!coupon.isNotUsed()) {
             throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_COUPON_STATUS);
         }
-    }
-
-    public Reservation(final LocalDateTime meetingTime,
-                       final TimeZoneType timeZone,
-                       final ReservationStatus reservationStatus,
-                       final Long memberId,
-                       final Coupon coupon) {
-        this(null, meetingTime.toLocalDate(), meetingTime, timeZone, reservationStatus, memberId, coupon);
     }
 
     public void reserve() {
@@ -155,11 +143,10 @@ public class Reservation extends BaseEntity {
     public String toString() {
         return "Reservation{" +
                 "id=" + id +
-                ", meetingDate=" + meetingDate +
-                ", meetingTime=" + meetingTime +
-                ", TimeZone='" + timeZone +
+                ", reservationTime=" + reservationTime +
                 ", reservationStatus=" + reservationStatus +
-                ", coupon=" + coupon +
+                ", memberId=" + memberId +
+                ", couponId=" + coupon.getId() +
                 '}';
     }
 }
