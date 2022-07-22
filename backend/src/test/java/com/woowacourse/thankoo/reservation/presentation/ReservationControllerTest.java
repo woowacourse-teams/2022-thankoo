@@ -81,6 +81,7 @@ class ReservationControllerTest extends ControllerTest {
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("reservations/get-received-reservations",
+                getResponsePreprocessor(),
                 responseFields(
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName"),
@@ -110,6 +111,7 @@ class ReservationControllerTest extends ControllerTest {
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("reservations/get-sent-reservations",
+                getResponsePreprocessor(),
                 responseFields(
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName"),
@@ -136,7 +138,7 @@ class ReservationControllerTest extends ControllerTest {
                         status().isNoContent());
 
         resultActions.andDo(document("reservations/update-reservation-status",
-                getResponsePreprocessor(),
+                getRequestPreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
