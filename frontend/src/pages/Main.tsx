@@ -13,7 +13,7 @@ import { couponTypeKeys, couponTypes } from '../types';
 import BottomNavBar from './../components/@shared/BottomNavBar';
 
 const Main = () => {
-  const { setCurrentType, couponsByType, isLoading, error, currentType } = useMain();
+  const { setCurrentType, orderedCoupons, isLoading, error, currentType } = useMain();
   const { visible } = useModal();
 
   if (isLoading) return <>로딩중</>;
@@ -33,7 +33,7 @@ const Main = () => {
             tabList={couponTypes}
             selectableTabs={couponTypeKeys}
           />
-          {couponsByType && <GridViewCoupons coupons={couponsByType} />}
+          {orderedCoupons && <GridViewCoupons coupons={orderedCoupons} />}
         </S.Body>
 
         {visible && <Modal />}
