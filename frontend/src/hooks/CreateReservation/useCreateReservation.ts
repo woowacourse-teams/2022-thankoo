@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { API_PATH } from '../../constants/api';
 import { targetCouponAtom } from '../../recoil/atom';
+import useOnSuccess from './../useOnSuccess';
 
 const yesterday = new Date().toISOString().split('T')[0];
 
 const useCreateReservation = () => {
   const navigate = useNavigate();
+  const { successNavigate } = useOnSuccess();
   const couponId = useRecoilValue(targetCouponAtom);
   const queryClient = useQueryClient();
   const [date, setDate] = useState(yesterday);
@@ -18,7 +20,7 @@ const useCreateReservation = () => {
   const accessToken = localStorage.getItem('token');
   const isFilled = date;
 
-  const { mutate } = useMutation(
+  const mutateCreateReservation = useMutation(
     () =>
       axios({
         method: 'post',
@@ -31,6 +33,7 @@ const useCreateReservation = () => {
       }),
     {
       onSuccess: () => {
+        successNavigate('/');
         queryClient.invalidateQueries('coupon');
       },
     }
@@ -41,9 +44,7 @@ const useCreateReservation = () => {
   };
 
   const sendReservation = async () => {
-    await mutate();
-
-    navigate('/');
+    await mutateCreateReservation.mutate();
   };
 
   const setReservationTime = e => {
