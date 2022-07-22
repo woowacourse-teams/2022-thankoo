@@ -116,6 +116,7 @@ export const dummyCoupons: Coupon[] = [
       title: '후니가 보내는 커피쿠폰',
       message: '고마워 호호~~',
     },
+    status: 'not-used',
   },
   {
     couponId: 2, // Number (coupon history id)
@@ -130,6 +131,7 @@ export const dummyCoupons: Coupon[] = [
       title: '호호가 보내는 식사쿠폰',
       message: '고마워 후니~~',
     },
+    status: 'not-used',
   },
   {
     couponId: 3, // Number (coupon history id)
@@ -144,6 +146,8 @@ export const dummyCoupons: Coupon[] = [
       title: '숟갈이 보내는 미숟갈',
       message: '고마워 후니~~~',
     },
+
+    status: 'reserving',
   },
   {
     couponId: 4, // Number (coupon history id)
@@ -158,6 +162,7 @@ export const dummyCoupons: Coupon[] = [
       title: '라라가 보내는 식사쿠폰',
       message: '밥한끼 합시다',
     },
+    status: 'reserved',
   },
   {
     couponId: 5, // Number (coupon history id)
@@ -172,6 +177,7 @@ export const dummyCoupons: Coupon[] = [
       title: '비녀가 보내는 식사쿠폰',
       message: '커피 한잔 할래요',
     },
+    status: 'reserved',
   },
   {
     couponId: 6, // Number (coupon history id)
@@ -186,6 +192,7 @@ export const dummyCoupons: Coupon[] = [
       title: '후이 후니 식사해요',
       message: '고마워 후니~~',
     },
+    status: 'reserving',
   },
   {
     couponId: 7, // Number (coupon history id)
@@ -200,6 +207,8 @@ export const dummyCoupons: Coupon[] = [
       title: '도와줘서 고마워요 후니',
       message: '고마워 후니~~',
     },
+
+    status: 'not-used',
   },
   {
     couponId: 8,
@@ -214,6 +223,8 @@ export const dummyCoupons: Coupon[] = [
       title: '저녁식사 함께 해요',
       message: '하하하',
     },
+
+    status: 'reserving',
   },
   {
     couponId: 9,
@@ -228,5 +239,7 @@ export const dummyCoupons: Coupon[] = [
       title: '커퓌 한좐?',
       message: '하하하',
     },
+
+    status: 'not-used',
   },
 ];

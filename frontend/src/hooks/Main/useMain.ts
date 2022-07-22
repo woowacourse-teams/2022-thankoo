@@ -4,6 +4,12 @@ import { useQuery } from 'react-query';
 import { API_PATH } from '../../constants/api';
 import { Coupon, CouponType } from '../../types';
 
+const COUPON_STATUS_PRIORITY = {
+  'not-used': 0,
+  reserving: 1,
+  reserved: 2,
+};
+
 const useMain = () => {
   const accessToken = localStorage.getItem('token');
 
@@ -20,6 +26,11 @@ const useMain = () => {
 
   const couponsByType = data?.filter(
     coupon => coupon.content.couponType === currentType || currentType === 'entire'
+  );
+
+  const orderedCoupons = couponsByType?.sort(
+    (coupon1, coupon2) =>
+      COUPON_STATUS_PRIORITY[coupon1.status] - COUPON_STATUS_PRIORITY[coupon2.status]
   );
 
   return { setCurrentType, couponsByType, isLoading, error, currentType };
