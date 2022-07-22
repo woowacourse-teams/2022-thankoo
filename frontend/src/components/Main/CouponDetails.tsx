@@ -28,7 +28,7 @@ const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
           <S.Message>{content.message}</S.Message>
         </S.Contents>
         <S.Footer>
-          <S.UseCouponLink to={`${ROUTE_PATH.CREATE_RESERVATION}`}>
+          <S.UseCouponLink onClick={close} to={`${ROUTE_PATH.CREATE_RESERVATION}`}>
             <S.Button>예약하기</S.Button>
           </S.UseCouponLink>
         </S.Footer>
