@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.reservation.presentation.dto;
 
 import com.woowacourse.thankoo.reservation.domain.ReservationCoupon;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class ReservationResponse {
                                final LocalDateTime meetingTime) {
         this.reservationId = reservationId;
         this.memberName = memberName;
-        this.couponType = couponType;
+        this.couponType = couponType.toLowerCase(Locale.ROOT);
         this.meetingTime = meetingTime;
     }
 
