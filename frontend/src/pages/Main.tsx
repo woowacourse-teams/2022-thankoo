@@ -20,24 +20,26 @@ const Main = () => {
   if (error) return <>에러뜸</>;
 
   return (
-    <PageLayout>
-      <Header>
-        <ArrowBackButton />
-        <HeaderText>쿠폰함</HeaderText>
-      </Header>
-      <S.Body>
-        <TabsNav
-          onChangeTab={setCurrentType}
-          currentTab={currentType}
-          tabList={couponTypes}
-          selectableTabs={couponTypeKeys}
-        />
-        {couponsByType && <GridViewCoupons coupons={couponsByType} />}
-      </S.Body>
+    <>
+      <PageLayout>
+        <Header>
+          <ArrowBackButton />
+          <HeaderText>쿠폰함</HeaderText>
+        </Header>
+        <S.Body>
+          <TabsNav
+            onChangeTab={setCurrentType}
+            currentTab={currentType}
+            tabList={couponTypes}
+            selectableTabs={couponTypeKeys}
+          />
+          {couponsByType && <GridViewCoupons coupons={couponsByType} />}
+        </S.Body>
 
-      {visible && <Modal />}
+        {visible && <Modal />}
+      </PageLayout>
       <BottomNavBar />
-    </PageLayout>
+    </>
   );
 };
 

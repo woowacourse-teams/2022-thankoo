@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { API_PATH } from '../../constants/api';
 
 const orderByList = ['date', 'name'];
-const orderByObject = { date: '날짜 순', name: '이름 순' };
+const orderByObject = { date: '받은 예약', name: '보낸 예약' };
 
 const useResrvations = () => {
   const accessToken = localStorage.getItem('token');
@@ -15,7 +15,7 @@ const useResrvations = () => {
     async () => {
       const { data } = await axios({
         method: 'get',
-        url: `${API_PATH.RESERVATIONS}`,
+        url: `${API_PATH.RESERVATIONS_RECEIVED}`,
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
@@ -23,8 +23,6 @@ const useResrvations = () => {
     },
     { refetchOnWindowFocus: false }
   );
-
-  // reservations?.sort();
 
   return {
     orderBy,

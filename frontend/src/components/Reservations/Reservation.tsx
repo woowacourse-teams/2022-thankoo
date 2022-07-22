@@ -1,19 +1,19 @@
-import { Coupon } from '../../types';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
-const Reservation = ({
-  coupon,
-  onClickReservation,
-}: {
-  coupon: Coupon;
-  onClickReservation: (string) => void;
-}) => {
+const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => {
+  console.log(couponType, meetingTime, memberName, reservationId);
+
   return (
     <Slider>
       <Slider.Inner>
         <Slider.Content>
-          <ListViewReservation coupon={coupon} onClickReservation={onClickReservation} />
+          <ListViewReservation
+            couponType={couponType}
+            meetingTime={meetingTime}
+            memberName={memberName}
+            reservationId={reservationId}
+          />
         </Slider.Content>
         <Slider.Options>
           <Slider.OptionItem

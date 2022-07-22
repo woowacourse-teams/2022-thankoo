@@ -17,6 +17,10 @@ const BottomNavBar = () => {
 
 const S = {
   Bar: styled.div`
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
     background-color: ${({ theme }) => theme.page.background};
     display: flex;
     justify-content: space-around;

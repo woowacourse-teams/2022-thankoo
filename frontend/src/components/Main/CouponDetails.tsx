@@ -29,7 +29,7 @@ const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
         </S.Contents>
         <S.Footer>
           <S.UseCouponLink to={`${ROUTE_PATH.CREATE_RESERVATION}`}>
-            <S.Button>사용하기</S.Button>
+            <S.Button>예약하기</S.Button>
           </S.UseCouponLink>
         </S.Footer>
       </S.Modal>
@@ -41,16 +41,20 @@ export default CouponDetails;
 
 const S = {
   Container: styled.section`
-    width: 100%;
-    height: 100%;
+    width: 18rem;
+    height: 24rem;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+
+    border-radius: 5px;
+    background-color: #232323;
+    padding: 1rem;
   `,
   Modal: styled.div`
-    width: 70%;
-    height: 65%;
+    width: 100%;
+    height: 100%;
     border-radius: 5px;
     background-color: #232323;
     padding: 1rem;
@@ -60,6 +64,7 @@ const S = {
     align-items: center;
     justify-content: space-between;
     height: 10%;
+    width: 108%;
   `,
   CouponArea: styled.div`
     display: flex;
@@ -99,7 +104,7 @@ const S = {
     background-color: ${({ theme }) => theme.primary};
     color: ${({ theme }) => theme.button.abled.color};
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.7rem;
     font-size: 15px;
     height: fit-content;
   `,

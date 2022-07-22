@@ -11,6 +11,7 @@ import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.presentation.CouponController;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
+import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.presentation.ReservationController;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,6 +60,9 @@ public class ControllerTest {
 
     @MockBean
     protected ReservationService reservationService;
+
+    @MockBean
+    protected ReservationQueryService reservationQueryService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());

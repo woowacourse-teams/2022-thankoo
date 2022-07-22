@@ -8,8 +8,31 @@ import TabsNav from '../components/@shared/TabsNav';
 import Reservation from '../components/Reservations/Reservation';
 import useReservations from '../hooks/Reservations/useReservations';
 
+// [
+//   {
+//     reservationId: 1,
+//     memberName: '호호의 카누쿠폰',
+//     couponType: 'coffee',
+//     meetingTime: '2022-07-21T12:40:41.617785',
+//   },
+//   {
+//     reservationId: 2,
+//     memberName: '호호의 카누쿠폰',
+//     couponType: 'coffee',
+//     meetingTime: '2022-07-21T12:40:41.617808',
+//   },
+//   {
+//     reservationId: 3,
+//     memberName: '호호의 카누쿠폰',
+//     couponType: 'coffee',
+//     meetingTime: '2022-07-21T12:40:41.617813',
+//   },
+// ];
+
 const Reservations = () => {
   const { reservations, orderBy, setOrderBy, orderByList, orderByObject } = useReservations();
+
+  console.log(reservations);
 
   return (
     <PageLayout>
@@ -27,8 +50,8 @@ const Reservations = () => {
           onChangeTab={setOrderBy}
         />
         <S.ListView>
-          {reservations?.map(coupon => (
-            <Reservation coupon={coupon} onClickReservation={() => {}} />
+          {reservations?.map(reservation => (
+            <Reservation {...reservation} />
           ))}
         </S.ListView>
       </S.Body>
