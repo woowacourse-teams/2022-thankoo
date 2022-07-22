@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { API_PATH } from '../../constants/api';
@@ -11,22 +11,29 @@ const yesterday = new Date().toISOString().split('T')[0];
 const useCreateReservation = () => {
   const navigate = useNavigate();
   const couponId = useRecoilValue(targetCouponAtom);
+  const queryClient = useQueryClient();
   const [date, setDate] = useState(yesterday);
   const [time, setTime] = useState('10:00');
 
   const accessToken = localStorage.getItem('token');
   const isFilled = date;
 
-  const { mutate } = useMutation(() =>
-    axios({
-      method: 'post',
-      url: `${API_PATH.RESERVATIONS}`,
-      headers: { Authorization: `Bearer ${accessToken}` },
-      data: {
-        couponId,
-        startAt: `${date} ${time}:00`,
+  const { mutate } = useMutation(
+    () =>
+      axios({
+        method: 'post',
+        url: `${API_PATH.RESERVATIONS}`,
+        headers: { Authorization: `Bearer ${accessToken}` },
+        data: {
+          couponId,
+          startAt: `${date} ${time}:00`,
+        },
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('coupon');
       },
-    })
+    }
   );
 
   const setReservationDate = e => {
