@@ -1,8 +1,11 @@
+export type CouponStatus = 'expired' | 'used' | 'reserving' | 'reserved' | 'not-used';
+
 export interface Coupon {
   couponId: number;
   sender: UserProfile;
   receiver: UserProfile;
   content: CouponContent;
+  status: CouponStatus;
 }
 
 export interface UserProfile {
