@@ -12,7 +12,7 @@ const MyPageButton = () => {
 };
 
 const StyledButton = styled(PersonIcon)`
-  transform: scale(1.4);
+  transform: scale(1.2);
   border-radius: 50%;
   padding: 0.5rem;
 

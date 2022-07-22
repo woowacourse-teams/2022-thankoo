@@ -2,8 +2,6 @@ import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
 const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => {
-  console.log(couponType, meetingTime, memberName, reservationId);
-
   return (
     <Slider>
       <Slider.Inner>

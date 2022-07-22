@@ -22,7 +22,7 @@ const CreateReservation = () => {
   } = useCreateReservation();
 
   return (
-    <PageLayout>
+    <S.PageLayout>
       <Header>
         <Link to={`${ROUTE_PATH.EXACT_MAIN}`}>
           <ArrowBackButton />
@@ -44,11 +44,14 @@ const CreateReservation = () => {
         약속 신청하기
         <ArrowForwardIosIcon />
       </S.LongButton>
-    </PageLayout>
+    </S.PageLayout>
   );
 };
 
 const S = {
+  PageLayout: styled(PageLayout)`
+    height: 100%;
+  `,
   Body: styled.div`
     display: flex;
     flex-direction: column;

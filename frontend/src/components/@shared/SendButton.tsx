@@ -12,7 +12,7 @@ const SendButton = () => {
 };
 
 const StyledButton = styled(SendIcon)`
-  transform: rotate(-45deg) scale(1.4);
+  transform: rotate(-45deg);
   border-radius: 50%;
   padding: 0.5rem;
 

@@ -1,17 +1,18 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import { API_PATH } from '../../constants/api';
 
-const orderByList = ['date', 'name'];
-const orderByObject = { date: '받은 예약', name: '보낸 예약' };
+const orderByList = ['received', 'sent'];
+const orderByObject = { received: '받은 예약', sent: '보낸 예약' };
 
 const useResrvations = () => {
   const accessToken = localStorage.getItem('token');
+  const queryClient = useQueryClient();
 
-  const [orderBy, setOrderBy] = useState('date');
-  const { data: reservations } = useQuery(
-    'reservations',
+  const [orderBy, setOrderBy] = useState('received');
+  const { data: reservationsReceived } = useQuery(
+    'reservationsReceived',
     async () => {
       const { data } = await axios({
         method: 'get',
@@ -21,13 +22,27 @@ const useResrvations = () => {
 
       return data;
     },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false, retry: false }
   );
+  const { data: reservationSent } = useQuery('reservationsSent', async () => {
+    const { data } = await axios({
+      method: 'get',
+      url: `${API_PATH.RESERVATIONS_SENT}`,
+
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    return data;
+  });
+
+  useEffect(() => {
+    queryClient.invalidateQueries('reservations');
+  }, [orderBy]);
 
   return {
     orderBy,
     setOrderBy,
-    reservations,
+    reservations: { received: reservationsReceived, sent: reservationSent },
     orderByList,
     orderByObject,
   };
