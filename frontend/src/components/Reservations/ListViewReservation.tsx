@@ -3,6 +3,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
 
 const ListViewReservation = ({ memberName, reservationId, couponType, meetingTime }) => {
+  const date = meetingTime.split('T')[0].split('-');
+  const time = meetingTime.split('T')[1].split('.')[0].slice(0, 5);
+
   return (
     <S.Container
       backgroundColor={RAND_COLORS[reservationId % RAND_COLORS.length].bg}
@@ -10,7 +13,7 @@ const ListViewReservation = ({ memberName, reservationId, couponType, meetingTim
     >
       <S.CouponImage src={COUPON_IMAGE[couponType]} />
       <S.UserName>{memberName}</S.UserName>
-      <S.RequestedDate>{meetingTime}</S.RequestedDate>
+      <S.RequestedDate>{`${date[1]}월 ${date[2]}일`}</S.RequestedDate>
     </S.Container>
   );
 };
@@ -30,7 +33,7 @@ const S = {
       'ci un cb'
       'ci ed cb';
     grid-template-columns: 22% 58% 20%;
-    gap: 2px 0;
+    gap: 5px 0;
     padding: 1rem;
     border-radius: 5px;
     background-color: ${({ backgroundColor }) => backgroundColor};

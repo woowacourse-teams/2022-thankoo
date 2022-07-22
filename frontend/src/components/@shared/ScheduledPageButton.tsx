@@ -12,7 +12,7 @@ const ScheduledPageButton = () => {
 };
 
 const StyledButton = styled(EventAvailableIcon)`
-  transform: scale(1.4);
+  transform: scale(1.1);
   border-radius: 50%;
   padding: 0.5rem;
 
@@ -24,5 +24,8 @@ const StyledButton = styled(EventAvailableIcon)`
     background-color: ${({ theme }) => theme.button.active.background};
   }
 `;
+StyledButton.defaultProps = {
+  fontSize: 'medium',
+};
 
 export default ScheduledPageButton;

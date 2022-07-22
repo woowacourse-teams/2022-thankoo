@@ -21,13 +21,10 @@ const S = {
     bottom: 0px;
     left: 0px;
     width: 100%;
-    background-color: ${({ theme }) => theme.page.background};
     display: flex;
     justify-content: space-around;
+    border-top: 0.5px solid #8e8e8e90;
     align-items: center;
-
-    border-top: 2px solid ${({ theme }) => theme.page.color};
-    border-radius: 16px 16px 0 0;
   `,
   Button: styled.button`
     width: 4rem;
