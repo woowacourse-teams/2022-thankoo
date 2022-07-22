@@ -6,7 +6,7 @@ import ListViewReservation from './ListViewReservation';
 
 type status = 'deny' | 'accept';
 
-const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => {
+const Reservation = ({ couponType, meetingTime, memberName, reservationId, order }) => {
   const accessToken = localStorage.getItem('token');
   const queryClient = useQueryClient();
 
@@ -18,6 +18,9 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => 
       data: { status },
     });
   });
+
+  const option1 = order === 'received' ? '거절' : '취소';
+  const option2 = order === 'received' ? '승인' : '수정';
 
   return (
     <Slider>
@@ -38,7 +41,7 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => 
               queryClient.invalidateQueries(['reservationsReceived', 'reservationsSent']);
             }}
           >
-            거절
+            {option1}
           </Slider.OptionItem>
           <Slider.OptionItem
             isAccept={true}
@@ -47,7 +50,7 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => 
               queryClient.invalidateQueries(['reservationsReceived', 'reservationsSent']);
             }}
           >
-            승낙
+            {option2}
           </Slider.OptionItem>
         </Slider.Options>
       </Slider.Inner>

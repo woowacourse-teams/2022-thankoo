@@ -1,4 +1,4 @@
-export type CouponStatus = 'expired' | 'used' | 'reserving' | 'reserved' | 'not-used';
+export type CouponStatus = 'expired' | 'used' | 'reserving' | 'reserved' | 'not_used';
 
 export interface Coupon {
   couponId: number;

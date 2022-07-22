@@ -5,7 +5,7 @@ import { API_PATH } from '../../constants/api';
 import { Coupon, CouponType } from '../../types';
 
 const COUPON_STATUS_PRIORITY = {
-  'not-used': 0,
+  not_used: 0,
   reserving: 1,
   reserved: 2,
 };

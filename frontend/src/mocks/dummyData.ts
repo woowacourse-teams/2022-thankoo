@@ -116,7 +116,7 @@ export const dummyCoupons: Coupon[] = [
       title: '후니가 보내는 커피쿠폰',
       message: '고마워 호호~~',
     },
-    status: 'not-used',
+    status: 'not_used',
   },
   {
     couponId: 2, // Number (coupon history id)
@@ -131,7 +131,7 @@ export const dummyCoupons: Coupon[] = [
       title: '호호가 보내는 식사쿠폰',
       message: '고마워 후니~~',
     },
-    status: 'not-used',
+    status: 'not_used',
   },
   {
     couponId: 3, // Number (coupon history id)
@@ -208,7 +208,7 @@ export const dummyCoupons: Coupon[] = [
       message: '고마워 후니~~',
     },
 
-    status: 'not-used',
+    status: 'not_used',
   },
   {
     couponId: 8,
@@ -240,6 +240,6 @@ export const dummyCoupons: Coupon[] = [
       message: '하하하',
     },
 
-    status: 'not-used',
+    status: 'not_used',
   },
 ];
