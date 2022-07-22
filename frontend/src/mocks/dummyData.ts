@@ -104,7 +104,7 @@ export const users: User[] = [
 
 export const dummyCoupons: Coupon[] = [
   {
-    couponHistoryId: 1, // Number (coupon history id)
+    couponId: 1,
     sender: {
       ...users[0],
     },
@@ -118,7 +118,7 @@ export const dummyCoupons: Coupon[] = [
     },
   },
   {
-    couponHistoryId: 2, // Number (coupon history id)
+    couponId: 2, // Number (coupon history id)
     sender: {
       ...users[1],
     },
@@ -132,7 +132,7 @@ export const dummyCoupons: Coupon[] = [
     },
   },
   {
-    couponHistoryId: 3, // Number (coupon history id)
+    couponId: 3, // Number (coupon history id)
     sender: {
       ...users[4],
     },
@@ -146,7 +146,7 @@ export const dummyCoupons: Coupon[] = [
     },
   },
   {
-    couponHistoryId: 4, // Number (coupon history id)
+    couponId: 4, // Number (coupon history id)
     sender: {
       ...users[3],
     },
@@ -160,7 +160,7 @@ export const dummyCoupons: Coupon[] = [
     },
   },
   {
-    couponHistoryId: 5, // Number (coupon history id)
+    couponId: 5, // Number (coupon history id)
     sender: {
       ...users[2],
     },
@@ -174,7 +174,7 @@ export const dummyCoupons: Coupon[] = [
     },
   },
   {
-    couponHistoryId: 6, // Number (coupon history id)
+    couponId: 6, // Number (coupon history id)
     sender: {
       ...users[5],
     },
@@ -188,7 +188,7 @@ export const dummyCoupons: Coupon[] = [
     },
   },
   {
-    couponHistoryId: 7, // Number (coupon history id)
+    couponId: 7, // Number (coupon history id)
     sender: {
       ...users[6],
     },
@@ -202,7 +202,7 @@ export const dummyCoupons: Coupon[] = [
     },
   },
   {
-    couponHistoryId: 8,
+    couponId: 8,
     sender: {
       ...users[7],
     },
@@ -216,7 +216,7 @@ export const dummyCoupons: Coupon[] = [
     },
   },
   {
-    couponHistoryId: 9,
+    couponId: 9,
     sender: {
       ...users[8],
     },

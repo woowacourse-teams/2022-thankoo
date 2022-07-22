@@ -1,5 +1,5 @@
 export interface Coupon {
-  couponHistoryId: number;
+  couponId: number;
   sender: UserProfile;
   receiver: UserProfile;
   content: CouponContent;
@@ -19,7 +19,7 @@ export interface CouponContent {
 }
 
 export const initialCouponState = {
-  couponHistoryId: 0,
+  couponId: 0,
   sender: {
     id: 0,
     name: '',
