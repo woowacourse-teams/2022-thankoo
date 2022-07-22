@@ -17,13 +17,14 @@ const BottomNavBar = () => {
 
 const S = {
   Bar: styled.div`
-    position: fixed;
+    position: absolute;
     bottom: 0px;
     left: 0px;
     width: 100%;
     display: flex;
     justify-content: space-around;
     border-top: 0.5px solid #8e8e8e90;
+    background-color: #232323;
     align-items: center;
   `,
   Button: styled.button`
