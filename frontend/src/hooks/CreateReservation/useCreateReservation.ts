@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { API_PATH } from '../../constants/api';
@@ -13,6 +13,7 @@ const useCreateReservation = () => {
   const navigate = useNavigate();
   const { successNavigate } = useOnSuccess();
   const couponId = useRecoilValue(targetCouponAtom);
+  const queryClient = useQueryClient();
   const [date, setDate] = useState(yesterday);
   const [time, setTime] = useState('10:00');
 
@@ -33,6 +34,7 @@ const useCreateReservation = () => {
     {
       onSuccess: () => {
         successNavigate('/');
+        queryClient.invalidateQueries('coupon');
       },
     }
   );

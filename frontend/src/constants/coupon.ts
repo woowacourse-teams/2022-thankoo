@@ -14,3 +14,9 @@ export const COUPON_IMAGE = {
     'https://user-images.githubusercontent.com/41886825/177711095-cb6ff72d-d017-4c13-9a70-918f89eb6aaa.png',
   meal: 'https://user-images.githubusercontent.com/41886825/177712393-fd41d832-bb76-44c3-a041-f619e9de9272.png',
 };
+
+export const COUPON_STATUS_BUTTON_TEXT = {
+  'not-used': '예약 하기',
+  reserving: '예약 중',
+  reserved: '예약 완료',
+};

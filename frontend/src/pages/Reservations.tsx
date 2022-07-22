@@ -17,7 +17,7 @@ const Reservations = () => {
         <Link to='/'>
           <ArrowBackButton />
         </Link>
-        <HeaderText>요청된 쿠폰함</HeaderText>
+        <HeaderText>예약 목록</HeaderText>
       </Header>
       <S.Body>
         <TabsNav

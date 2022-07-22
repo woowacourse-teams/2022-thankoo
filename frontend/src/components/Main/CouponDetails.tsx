@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
 import { ROUTE_PATH } from '../../constants/routes';
 import useModal from '../../hooks/useModal';
 import { targetCouponAtom } from '../../recoil/atom';
@@ -9,7 +10,7 @@ import CloseButton from '../@shared/CloseButton';
 import GridViewCoupon from './GridViewCoupon';
 
 const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
-  const { sender, content, couponId } = coupon;
+  const { sender, content, couponId, status } = coupon;
   const { close } = useModal();
   const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
 
@@ -38,7 +39,7 @@ const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
             }}
             to={`${ROUTE_PATH.CREATE_RESERVATION}`}
           >
-            <S.Button>예약하기</S.Button>
+            <S.Button>{COUPON_STATUS_BUTTON_TEXT[status]}</S.Button>
           </S.UseCouponLink>
         </S.Footer>
       </S.Modal>

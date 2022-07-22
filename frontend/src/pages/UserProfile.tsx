@@ -96,11 +96,11 @@ const UserProfile = () => {
         <S.UserCouponInfo>
           <S.UserCouponInfoItem>
             <span>보낸 쿠폰 수</span>
-            <span>512</span>
+            <span>0</span>
           </S.UserCouponInfoItem>
           <S.UserCouponInfoItem>
             <span>받은 쿠폰 수</span>
-            <span>15</span>
+            <span>0</span>
           </S.UserCouponInfoItem>
         </S.UserCouponInfo>
       </S.Body>
