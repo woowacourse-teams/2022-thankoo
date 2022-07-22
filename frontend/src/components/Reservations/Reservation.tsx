@@ -1,7 +1,24 @@
+import axios from 'axios';
+import { useMutation, useQueryClient } from 'react-query';
+import { API_PATH } from '../../constants/api';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
+type status = 'deny' | 'accept';
+
 const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => {
+  const accessToken = localStorage.getItem('token');
+  const queryClient = useQueryClient();
+
+  const handleReservation = useMutation(async (status: status) => {
+    await axios({
+      method: 'put',
+      url: `${API_PATH.RESERVATIONS}/${reservationId}`,
+      headers: { Authorization: `Bearer ${accessToken}` },
+      data: { status },
+    });
+  });
+
   return (
     <Slider>
       <Slider.Inner>
@@ -17,7 +34,8 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => 
           <Slider.OptionItem
             isAccept={false}
             onClick={() => {
-              console.log('거절');
+              handleReservation.mutate('deny');
+              queryClient.invalidateQueries(['reservationsReceived', 'reservationsSent']);
             }}
           >
             거절
@@ -25,7 +43,8 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId }) => 
           <Slider.OptionItem
             isAccept={true}
             onClick={() => {
-              console.log('승낙');
+              handleReservation.mutate('accept');
+              queryClient.invalidateQueries(['reservationsReceived', 'reservationsSent']);
             }}
           >
             승낙
