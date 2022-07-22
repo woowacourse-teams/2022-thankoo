@@ -10,14 +10,22 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId, order
   const accessToken = localStorage.getItem('token');
   const queryClient = useQueryClient();
 
-  const handleReservation = useMutation(async (status: status) => {
-    await axios({
-      method: 'put',
-      url: `${API_PATH.RESERVATIONS}/${reservationId}`,
-      headers: { Authorization: `Bearer ${accessToken}` },
-      data: { status },
-    });
-  });
+  const handleReservation = useMutation(
+    async (status: status) => {
+      await axios({
+        method: 'put',
+        url: `${API_PATH.RESERVATIONS}/${reservationId}`,
+        headers: { Authorization: `Bearer ${accessToken}` },
+        data: { status },
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('reservationsReceived');
+        queryClient.invalidateQueries('reservationsSent');
+      },
+    }
+  );
 
   const option1 = order === 'received' ? '거절' : '취소';
   const option2 = order === 'received' ? '승인' : '수정';
@@ -38,7 +46,6 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId, order
             isAccept={false}
             onClick={() => {
               handleReservation.mutate('deny');
-              queryClient.invalidateQueries(['reservationsReceived', 'reservationsSent']);
             }}
           >
             {option1}
@@ -47,7 +54,6 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId, order
             isAccept={true}
             onClick={() => {
               handleReservation.mutate('accept');
-              queryClient.invalidateQueries(['reservationsReceived', 'reservationsSent']);
             }}
           >
             {option2}

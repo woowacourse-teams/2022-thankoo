@@ -61,4 +61,7 @@ export const reservationsHanlders = [
       ])
     );
   }),
+  rest.put(`${API_PATH.RESERVATIONS}/:id`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({}));
+  }),
 ];
