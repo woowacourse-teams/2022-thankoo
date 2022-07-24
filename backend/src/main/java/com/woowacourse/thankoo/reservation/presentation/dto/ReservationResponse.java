@@ -16,10 +16,10 @@ public class ReservationResponse {
     private String couponType;
     private LocalDateTime meetingTime;
 
-    public ReservationResponse(final Long reservationId,
-                               final String memberName,
-                               final String couponType,
-                               final LocalDateTime meetingTime) {
+    private ReservationResponse(final Long reservationId,
+                                final String memberName,
+                                final String couponType,
+                                final LocalDateTime meetingTime) {
         this.reservationId = reservationId;
         this.memberName = memberName;
         this.couponType = couponType.toLowerCase(Locale.ROOT);

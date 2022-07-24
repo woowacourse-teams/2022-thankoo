@@ -9,7 +9,7 @@ public enum TimeZoneType {
 
     private final String id;
 
-    TimeZoneType(String id) {
+    TimeZoneType(final String id) {
         this.id = id;
     }
 }

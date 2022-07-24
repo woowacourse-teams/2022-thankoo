@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
+import com.woowacourse.thankoo.reservation.domain.ReservationCoupon;
 import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -71,9 +72,9 @@ class ReservationControllerTest extends ControllerTest {
 
         given(reservationQueryService.getReceivedReservations(anyLong()))
                 .willReturn(List.of(
-                        new ReservationResponse(1L, HUNI_NAME, TYPE, LocalDateTime.now()),
-                        new ReservationResponse(2L, LALA_NAME, TYPE, LocalDateTime.now()),
-                        new ReservationResponse(3L, HOHO_NAME, TYPE, LocalDateTime.now())
+                        ReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now())),
+                        ReservationResponse.from(new ReservationCoupon(2L, LALA_NAME, TYPE, LocalDateTime.now())),
+                        ReservationResponse.from(new ReservationCoupon(3L, HOHO_NAME, TYPE, LocalDateTime.now()))
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/api/reservations/received")
@@ -101,9 +102,9 @@ class ReservationControllerTest extends ControllerTest {
 
         given(reservationQueryService.getSentReservations(anyLong()))
                 .willReturn(List.of(
-                        new ReservationResponse(1L, HUNI_NAME, TYPE, LocalDateTime.now()),
-                        new ReservationResponse(2L, LALA_NAME, TYPE, LocalDateTime.now()),
-                        new ReservationResponse(3L, HOHO_NAME, TYPE, LocalDateTime.now())
+                        ReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now())),
+                        ReservationResponse.from(new ReservationCoupon(2L, LALA_NAME, TYPE, LocalDateTime.now())),
+                        ReservationResponse.from(new ReservationCoupon(3L, HOHO_NAME, TYPE, LocalDateTime.now()))
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/api/reservations/sent")

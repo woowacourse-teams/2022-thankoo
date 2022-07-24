@@ -13,8 +13,6 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ReservationQueryRepository {
 
-    private static final RowMapper<ReservationCoupon> ROW_MAPPER = rowMapper();
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static RowMapper<ReservationCoupon> rowMapper() {

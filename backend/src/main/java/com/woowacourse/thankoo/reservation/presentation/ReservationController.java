@@ -34,12 +34,13 @@ public class ReservationController {
     }
 
     @GetMapping("/received")
-    public ResponseEntity<List<ReservationResponse>> getReceivedReservations(@AuthenticationPrincipal Long memberId) {
+    public ResponseEntity<List<ReservationResponse>> getReceivedReservations(
+            @AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(reservationQueryService.getReceivedReservations(memberId));
     }
 
     @GetMapping("/sent")
-    public ResponseEntity<List<ReservationResponse>> getSentReservations(@AuthenticationPrincipal Long memberId) {
+    public ResponseEntity<List<ReservationResponse>> getSentReservations(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(reservationQueryService.getSentReservations(memberId));
     }
 

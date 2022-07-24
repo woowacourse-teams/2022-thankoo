@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponse> badRequestExceptionHandler(BadRequestException e) {
+    public ResponseEntity<ErrorResponse> badRequestExceptionHandler(final BadRequestException e) {
         log.error("Bad Request Exception", e);
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getCode(), e.getMessage()));
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorResponse> unauthorizedExceptionHandler(UnauthorizedException e) {
+    public ResponseEntity<ErrorResponse> unauthorizedExceptionHandler(final UnauthorizedException e) {
         log.error("Unauthorized Exception", e);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getCode(), e.getMessage()));
     }
 
     @SlackLogger
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> unHandledExceptionHandler(Exception e) {
-        log.error("Not Expected Exception is Occured", e);
+    public ResponseEntity<ErrorResponse> unHandledExceptionHandler(final Exception e) {
+        log.error("Not Expected Exception is Occurred", e);
         return ResponseEntity.internalServerError().body(new ErrorResponse(UNHANDLED_EXCEPTION.getCode(),
                 UNHANDLED_EXCEPTION.getMessage()));
     }
