@@ -16,7 +16,7 @@ public class ReservationResponse {
     private String couponType;
     private LocalDateTime meetingTime;
 
-    public ReservationResponse(final Long reservationId,
+    private ReservationResponse(final Long reservationId,
                                final String memberName,
                                final String couponType,
                                final LocalDateTime meetingTime) {
