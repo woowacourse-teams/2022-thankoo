@@ -17,9 +17,9 @@ public class ReservationResponse {
     private LocalDateTime meetingTime;
 
     private ReservationResponse(final Long reservationId,
-                               final String memberName,
-                               final String couponType,
-                               final LocalDateTime meetingTime) {
+                                final String memberName,
+                                final String couponType,
+                                final LocalDateTime meetingTime) {
         this.reservationId = reservationId;
         this.memberName = memberName;
         this.couponType = couponType.toLowerCase(Locale.ROOT);
