@@ -14,8 +14,6 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,13 +56,5 @@ public class ReservationService {
     private Member getMemberById(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
-    }
-
-    public List<ReservationResponse> getSentReservations(long anyLong) {
-        return null;
-    }
-
-    public List<ReservationResponse> getReceivedReservations(long anyLong) {
-        return null;
     }
 }
