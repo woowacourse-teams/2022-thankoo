@@ -27,7 +27,7 @@ public class ReservationQueryService {
         return toReservationResponses(receivedReservations);
     }
 
-    private List<ReservationResponse> toReservationResponses(List<ReservationCoupon> receivedReservations) {
+    private List<ReservationResponse> toReservationResponses(final List<ReservationCoupon> receivedReservations) {
         return receivedReservations.stream()
                 .map(ReservationResponse::from)
                 .collect(Collectors.toList());

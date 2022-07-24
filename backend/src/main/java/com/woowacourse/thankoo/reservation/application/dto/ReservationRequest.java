@@ -15,7 +15,7 @@ public class ReservationRequest {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startAt;
 
-    public ReservationRequest(final long couponId, final LocalDateTime startAt) {
+    public ReservationRequest(final Long couponId, final LocalDateTime startAt) {
         this.couponId = couponId;
         this.startAt = startAt;
     }

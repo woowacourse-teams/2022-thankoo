@@ -28,7 +28,7 @@ public class ReservationService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long save(Long memberId, ReservationRequest reservationRequest) {
+    public Long save(final Long memberId, final ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
         Member foundMember = getMemberById(memberId);
