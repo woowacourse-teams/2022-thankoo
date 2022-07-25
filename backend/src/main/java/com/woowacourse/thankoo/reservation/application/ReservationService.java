@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class ReservationService {
 
@@ -27,7 +27,6 @@ public class ReservationService {
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
 
-    @Transactional
     public Long save(final Long memberId, final ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
@@ -43,7 +42,6 @@ public class ReservationService {
         return reservationRepository.save(reservation).getId();
     }
 
-    @Transactional
     public void updateStatus(final Long memberId,
                              final Long reservationId,
                              final ReservationStatusRequest reservationStatusRequest) {
