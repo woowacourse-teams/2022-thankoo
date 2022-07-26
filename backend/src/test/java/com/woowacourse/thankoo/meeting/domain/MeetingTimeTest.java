@@ -1,7 +1,8 @@
-package com.woowacourse.thankoo.reservation.domain;
+package com.woowacourse.thankoo.meeting.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

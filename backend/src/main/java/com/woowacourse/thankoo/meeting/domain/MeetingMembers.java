@@ -28,4 +28,14 @@ public class MeetingMembers {
             throw new InvalidMeetingException(ErrorType.INVALID_MEETING_MEMBER_COUNT);
         }
     }
+
+    public boolean notContainsExactly(final Long receiverId, final Long senderId) {
+        return meetingMembers.stream()
+                .anyMatch(meetingMember -> !hasMember(receiverId, senderId, meetingMember));
+    }
+
+    private boolean hasMember(final Long receiverId, final Long senderId, final MeetingMember meetingMember) {
+        return meetingMember.isSameMemberId(receiverId) || meetingMember.isSameMemberId(senderId);
+    }
+
 }

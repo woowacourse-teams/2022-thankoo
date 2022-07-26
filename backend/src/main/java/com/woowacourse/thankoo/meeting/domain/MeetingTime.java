@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.reservation.domain;
+package com.woowacourse.thankoo.meeting.domain;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;

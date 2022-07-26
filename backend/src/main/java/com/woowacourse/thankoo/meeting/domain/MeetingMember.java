@@ -43,6 +43,10 @@ public class MeetingMember {
         this(null, member, reservation);
     }
 
+    public boolean isSameMemberId(final Long memberId) {
+        return member.isSameId(memberId);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

@@ -51,6 +51,10 @@ public class Member extends BaseEntity {
         this.name = new Name(name);
     }
 
+    public boolean isSameId(final Long id) {
+        return this.id.equals(id);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
