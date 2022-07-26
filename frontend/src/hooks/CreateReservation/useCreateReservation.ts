@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { requestInstance } from '../../api';
+import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { targetCouponAtom } from '../../recoil/atom';
 import useOnSuccess from './../useOnSuccess';

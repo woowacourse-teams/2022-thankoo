@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { useLocation } from 'react-router-dom';
-import { requestInstance } from '../../api';
+import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 
 const useSignIn = () => {

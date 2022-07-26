@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { requestInstance } from '../../api';
+import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';

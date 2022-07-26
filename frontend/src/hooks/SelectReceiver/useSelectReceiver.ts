@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { requestInstance } from '../../api';
+import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';

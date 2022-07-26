@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { requestInstance } from '../../api';
+import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { Coupon, CouponType } from '../../types';
 

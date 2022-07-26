@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { requestInstance } from '../../api';
+import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
