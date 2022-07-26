@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -32,15 +33,12 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @DisplayName("ReservationService 는 ")
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@ApplicationTest
 class ReservationServiceTest {
 
     @Autowired
@@ -113,12 +111,5 @@ class ReservationServiceTest {
 
         Reservation foundReservation = reservationRepository.findById(reservationId).get();
         assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT);
-    }
-
-    @AfterEach
-    void tearDown() {
-        reservationRepository.deleteAllInBatch();
-        couponRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
     }
 }

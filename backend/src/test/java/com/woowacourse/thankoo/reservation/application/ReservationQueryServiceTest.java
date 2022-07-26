@@ -17,6 +17,7 @@ import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -27,15 +28,12 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @DisplayName("ReservationQueryService 는 ")
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@ApplicationTest
 class ReservationQueryServiceTest {
 
     @Autowired
@@ -117,12 +115,5 @@ class ReservationQueryServiceTest {
                 () -> assertThat(reservations).hasSize(1),
                 () -> assertThat(reservations).extracting("memberName").containsOnly(SKRR_NAME)
         );
-    }
-
-    @AfterEach
-    void tearDown() {
-        reservationRepository.deleteAllInBatch();
-        couponRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
     }
 }
