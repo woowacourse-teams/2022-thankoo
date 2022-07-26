@@ -115,8 +115,7 @@ const S = {
   LongButton: styled(Link)<ButtonProps>`
     position: fixed;
     bottom: 5%;
-    width: 100%;
-    max-width: 80vw;
+    width: 80vw;
     transition: all ease-in-out 0.1s;
     ${({ disabled, theme }) =>
       disabled
