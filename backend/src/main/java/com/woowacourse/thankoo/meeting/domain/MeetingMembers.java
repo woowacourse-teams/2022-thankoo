@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
@@ -15,7 +16,7 @@ public class MeetingMembers {
 
     private static final int STANDARD_MEMBER_COUNT = 2;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.PERSIST)
     private List<MeetingMember> meetingMembers = new ArrayList<>();
 
     public MeetingMembers(final List<MeetingMember> meetingMembers) {
