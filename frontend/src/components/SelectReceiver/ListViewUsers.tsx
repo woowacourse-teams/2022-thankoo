@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { useRecoilValue } from 'recoil';
+import { checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
 import ListViewUser from './ListViewUser';
 
@@ -11,6 +13,8 @@ const ListViewUsers = ({
   onClickUser: (user: UserProfile) => void;
   isCheckedUser: (user: UserProfile) => boolean;
 }) => {
+  const checkedUsers = useRecoilValue(checkedUsersAtom);
+
   return (
     <S.Container>
       {users?.map(user => (
@@ -21,6 +25,13 @@ const ListViewUsers = ({
           isCheckedUser={isCheckedUser}
         />
       ))}
+      {checkedUsers.length > 0 && (
+        <div>
+          <br />
+          <br />
+          <br />
+        </div>
+      )}
     </S.Container>
   );
 };
@@ -35,7 +46,7 @@ const S = {
     margin-top: 7px;
     overflow-y: auto;
     padding-left: 4px;
-    padding-bottom: 20vh;
+    height: 63vh;
 
     &::-webkit-scrollbar {
       width: 2px;

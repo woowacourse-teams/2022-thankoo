@@ -39,7 +39,9 @@ const SelectReceiver = () => {
         {checkedUsers.length !== 0 && (
           <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
         )}
-        <UserSearchInput value={keyword} setKeyword={setKeyword} />
+        <S.InputWrapper>
+          <UserSearchInput value={keyword} setKeyword={setKeyword} />
+        </S.InputWrapper>
         {users && (
           <ListViewUsers
             users={matchedUsers}
@@ -68,11 +70,15 @@ type ButtonProps = {
 
 const S = {
   Body: styled.div`
-    display: flex;
+    display: block;
+    overflow: hidden;
     flex-direction: column;
     gap: 1rem;
     padding: 15px 3vw;
     height: 82vh;
+  `,
+  InputWrapper: styled.div`
+    margin: 15px 0;
   `,
   UsersImages: styled.div`
     display: flex;
