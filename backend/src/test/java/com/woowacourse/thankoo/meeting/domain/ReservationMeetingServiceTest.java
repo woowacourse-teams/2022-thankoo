@@ -21,7 +21,6 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
-import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
@@ -60,9 +59,8 @@ class ReservationMeetingServiceTest {
                 new Coupon(huni.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Long reservationId = reservationService.save(skrr.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .get();
-        reservationMeetingService.create(reservation);
+
+        reservationMeetingService.create(reservationId);
 
         assertThat(meetingRepository.findAll()).hasSize(1);
     }

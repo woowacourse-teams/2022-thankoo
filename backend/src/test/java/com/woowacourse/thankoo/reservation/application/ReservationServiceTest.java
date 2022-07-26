@@ -24,6 +24,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
+import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
@@ -46,6 +47,9 @@ class ReservationServiceTest {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private MeetingRepository meetingRepository;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -110,6 +114,10 @@ class ReservationServiceTest {
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
         Reservation foundReservation = reservationRepository.findById(reservationId).get();
-        assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT);
+
+        assertAll(
+                () -> assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT),
+                () -> assertThat(meetingRepository.findAll()).hasSize(1)
+        );
     }
 }

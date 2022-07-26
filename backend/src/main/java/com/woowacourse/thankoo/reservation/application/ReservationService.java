@@ -26,6 +26,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
+    private final ReservedMeetingCreator reservedMeetingCreator;
 
     public Long save(final Long memberId, final ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
@@ -48,7 +49,7 @@ public class ReservationService {
         Member foundMember = getMemberById(memberId);
         Reservation foundReservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
-        foundReservation.updateStatus(foundMember, reservationStatusRequest.getStatus());
+        foundReservation.updateStatus(foundMember, reservationStatusRequest.getStatus(), reservedMeetingCreator);
     }
 
     private Member getMemberById(final Long memberId) {

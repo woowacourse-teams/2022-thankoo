@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.domain.MeetingTime;
 import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -90,7 +91,9 @@ public class Reservation extends BaseEntity {
         coupon.reserve();
     }
 
-    public void updateStatus(final Member member, final String status) {
+    public void updateStatus(final Member member,
+                             final String status,
+                             final ReservedMeetingCreator reservedMeetingCreator) {
         ReservationStatus updateReservationStatus = ReservationStatus.from(status);
         validateReservation(member, updateReservationStatus);
         validateCouponStatus();
@@ -101,6 +104,7 @@ public class Reservation extends BaseEntity {
             return;
         }
         coupon.accepted();
+        reservedMeetingCreator.create(id);
     }
 
     private void validateReservation(final Member member, final ReservationStatus updateReservationStatus) {

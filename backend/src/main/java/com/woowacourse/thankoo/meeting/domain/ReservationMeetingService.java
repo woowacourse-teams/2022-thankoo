@@ -7,20 +7,27 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
+import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
+import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
 public class ReservationMeetingService implements ReservedMeetingCreator {
 
-    private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
+    private final ReservationRepository reservationRepository;
+    private final MemberRepository memberRepository;
 
+    @Transactional
     @Override
-    public void create(final Reservation reservation) {
+    public void create(final Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
         Coupon coupon = reservation.getCoupon();
         MeetingMembers meetingMembers =
                 new MeetingMembers(
