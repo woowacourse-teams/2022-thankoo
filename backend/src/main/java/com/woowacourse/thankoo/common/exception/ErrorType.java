@@ -26,6 +26,9 @@ public enum ErrorType {
     NOT_FOUND_RESERVATION_STATUS(4005, "존재하지 않는 예약 상태입니다."),
     CAN_NOT_CHANGE_RESERVATION_STATUS(4006, "예약 상태를 변경할 수 없습니다."),
 
+    INVALID_MEETING_MEMBER(5001, "잘못된 미팅 참여자입니다."),
+    INVALID_MEETING_MEMBER_COUNT(5002, "미팅 참여자는 두명이어야 합니다."),
+
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 
     private final int code;
