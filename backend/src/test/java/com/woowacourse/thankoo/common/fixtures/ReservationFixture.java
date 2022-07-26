@@ -13,6 +13,7 @@ public class ReservationFixture {
 
     /**
      * member must have id
+     * coupon status is not used
      *
      * @param reservationId
      * @param receiver
