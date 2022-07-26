@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { requestInstance } from '../../api';
 import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
@@ -10,14 +10,12 @@ import { Coupon, CouponType, initialCouponState, UserProfile } from '../../types
 import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
-  const accessToken = localStorage.getItem('token');
   const { successNavigate } = useOnSuccess();
 
   const { data: userProfile } = useQuery<UserProfile>('profile', async () => {
-    const res = await axios({
+    const res = await requestInstance({
       method: 'GET',
       url: `${API_PATH.PROFILE}`,
-      headers: { Authorization: `Bearer ${accessToken}` },
     });
     return res.data;
   });
@@ -29,8 +27,6 @@ const useEnterCouponContent = () => {
   const [message, setMessage] = useState('');
 
   const isFilled = !!title && !!message;
-
-  const navigate = useNavigate();
 
   const [currentCoupon, setCurrentCoupon] = useState<Coupon>({
     ...initialCouponState,
@@ -68,10 +64,9 @@ const useEnterCouponContent = () => {
   }, [userProfile, couponType, title, message]);
 
   const sendCoupon = async () => {
-    const { status, statusText } = await axios({
+    const { status, statusText } = await requestInstance({
       method: 'POST',
       url: `${API_PATH.SEND_COUPON}`,
-      headers: { Authorization: `Bearer ${accessToken}` },
       data: {
         receiverIds: checkedUsers.map(user => user.id),
         content: {
