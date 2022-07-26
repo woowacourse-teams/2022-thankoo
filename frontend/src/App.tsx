@@ -48,7 +48,6 @@ function App() {
 
 const MobileDiv = styled.div`
   min-width: 360px;
-  max-width: 1080px;
   margin: 0 auto;
   height: 100vh;
   background-color: ${({ theme }) => theme.page.background};

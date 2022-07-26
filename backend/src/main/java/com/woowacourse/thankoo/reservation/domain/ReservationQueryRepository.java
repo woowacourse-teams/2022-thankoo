@@ -13,28 +13,26 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ReservationQueryRepository {
 
-    private static final RowMapper<ReservationCoupon> ROW_MAPPER = rowMapper();
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static RowMapper<ReservationCoupon> rowMapper() {
         return (rs, rowNum) -> new ReservationCoupon(rs.getLong("reservation_id"),
                 rs.getString("name"),
                 rs.getString("coupon_type"),
-                rs.getTimestamp("meeting_time").toLocalDateTime());
+                rs.getTimestamp("time").toLocalDateTime());
     }
 
     public List<ReservationCoupon> findReceivedReservations(final Long senderId, final LocalDateTime dateTime) {
-        String sql = "SELECT r.id as reservation_id, r.meeting_time, "
+        String sql = "SELECT r.id as reservation_id, r.time, "
                 + "c.coupon_type, mr.name "
                 + "FROM reservation as r "
                 + "JOIN coupon as c ON r.coupon_id = c.id "
                 + "JOIN member as ms ON c.sender_id = ms.id "
                 + "JOIN member as mr ON c.receiver_id = mr.id "
                 + "WHERE r.status = :status "
-                + "AND r.meeting_time >= :dateTime "
+                + "AND r.time >= :dateTime "
                 + "AND c.sender_id = :senderId "
-                + "ORDER BY r.meeting_date ASC";
+                + "ORDER BY r.date ASC";
 
         SqlParameterSource parameters = new MapSqlParameterSource("senderId", senderId)
                 .addValue("status", "WAITING")
@@ -43,16 +41,16 @@ public class ReservationQueryRepository {
     }
 
     public List<ReservationCoupon> findSentReservations(final Long receiverId, final LocalDateTime dateTime) {
-        String sql = "SELECT r.id as reservation_id, r.meeting_time, "
+        String sql = "SELECT r.id as reservation_id, r.time, "
                 + "c.coupon_type, ms.name "
                 + "FROM reservation as r "
                 + "JOIN coupon as c ON r.coupon_id = c.id "
                 + "JOIN member as ms ON c.sender_id = ms.id "
                 + "JOIN member as mr ON c.receiver_id = mr.id "
                 + "WHERE r.status = :status "
-                + "AND r.meeting_time >= :dateTime "
+                + "AND r.time >= :dateTime "
                 + "AND c.receiver_id = :receiverId "
-                + "ORDER BY r.meeting_date ASC";
+                + "ORDER BY r.date ASC";
 
         SqlParameterSource parameters = new MapSqlParameterSource("receiverId", receiverId)
                 .addValue("status", "WAITING")

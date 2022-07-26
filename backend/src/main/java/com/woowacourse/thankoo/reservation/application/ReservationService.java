@@ -14,14 +14,12 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class ReservationService {
 
@@ -29,8 +27,7 @@ public class ReservationService {
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
 
-    @Transactional
-    public Long save(Long memberId, ReservationRequest reservationRequest) {
+    public Long save(final Long memberId, final ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
         Member foundMember = getMemberById(memberId);
@@ -45,7 +42,6 @@ public class ReservationService {
         return reservationRepository.save(reservation).getId();
     }
 
-    @Transactional
     public void updateStatus(final Long memberId,
                              final Long reservationId,
                              final ReservationStatusRequest reservationStatusRequest) {
@@ -58,13 +54,5 @@ public class ReservationService {
     private Member getMemberById(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
-    }
-
-    public List<ReservationResponse> getSentReservations(long anyLong) {
-        return null;
-    }
-
-    public List<ReservationResponse> getReceivedReservations(long anyLong) {
-        return null;
     }
 }

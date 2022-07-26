@@ -52,6 +52,7 @@ const S = {
   UserName: styled.span`
     font-size: 15px;
     color: ${({ theme }) => theme.page.color};
+    word-break: keep-all;
   `,
 };
 export default CheckedUsers;

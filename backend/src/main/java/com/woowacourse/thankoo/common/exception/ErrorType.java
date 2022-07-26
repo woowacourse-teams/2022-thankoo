@@ -11,7 +11,7 @@ public enum ErrorType {
 
     NOT_FOUND_MEMBER(2001, "존재하지 않는 회원입니다."),
     INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),
-    INVALID_MEMBER_EMAIL(2002, "올바르지 않은 이메일 형식입니다."),
+    INVALID_MEMBER_EMAIL(2003, "올바르지 않은 이메일 형식입니다."),
 
     INVALID_COUPON_TYPE(3001, "존재하지 않는 쿠폰 타입입니다."),
     INVALID_COUPON_TITLE(3002, "잘못된 쿠폰 제목입니다."),
@@ -25,6 +25,9 @@ public enum ErrorType {
     NOT_FOUND_RESERVATION(4004, "존재하지 않는 예약입니다."),
     NOT_FOUND_RESERVATION_STATUS(4005, "존재하지 않는 예약 상태입니다."),
     CAN_NOT_CHANGE_RESERVATION_STATUS(4006, "예약 상태를 변경할 수 없습니다."),
+
+    INVALID_MEETING_MEMBER(5001, "잘못된 미팅 참여자입니다."),
+    INVALID_MEETING_MEMBER_COUNT(5002, "미팅 참여자는 두명이어야 합니다."),
 
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 

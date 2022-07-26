@@ -23,7 +23,7 @@ public class SlackLoggerAspect {
     private final AlertSender alertSender;
 
     @Before("@annotation(com.woowacourse.thankoo.common.alert.SlackLogger)")
-    public void sendLogForError(JoinPoint joinPoint) {
+    public void sendLogForError(final JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         if (args.length != 1 || !(args[0] instanceof Exception)) {
             log.warn("Slack Logger Failed : Invalid Used");
