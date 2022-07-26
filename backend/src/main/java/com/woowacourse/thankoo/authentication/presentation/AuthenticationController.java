@@ -15,7 +15,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @GetMapping("/api/sign-in")
-    public ResponseEntity<TokenResponse> signIn(@RequestParam String code) {
+    public ResponseEntity<TokenResponse> signIn(@RequestParam final String code) {
         return ResponseEntity.ok(authenticationService.signIn(code));
     }
 }

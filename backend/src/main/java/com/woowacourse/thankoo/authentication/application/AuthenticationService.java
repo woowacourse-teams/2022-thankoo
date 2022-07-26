@@ -17,8 +17,7 @@ public class AuthenticationService {
     private final GoogleClient googleClient;
 
     public TokenResponse signIn(final String code) {
-        String accessToken = googleClient.getAccessToken(code);
-        GoogleProfileResponse profileResponse = googleClient.getProfile(accessToken);
+        GoogleProfileResponse profileResponse = googleClient.getProfileResponse(code);
         Long id = memberService.createOrGet(profileResponse);
         String token = jwtTokenProvider.createToken(String.valueOf(id));
         return new TokenResponse(token, id);

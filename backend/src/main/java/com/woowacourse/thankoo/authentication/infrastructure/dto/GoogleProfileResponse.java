@@ -12,7 +12,7 @@ public class GoogleProfileResponse {
 
     public static final String DELIMITER = "@";
 
-    @JsonProperty("id")
+    @JsonProperty("sub")
     private String socialId;
     private String email;
 
