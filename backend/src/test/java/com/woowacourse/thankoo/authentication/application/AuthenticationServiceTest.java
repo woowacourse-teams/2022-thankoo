@@ -5,6 +5,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_HOHO;
+import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HOHO_TOKEN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -46,6 +47,19 @@ class AuthenticationServiceTest {
     void signIn() {
         memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
         TokenResponse tokenResponse = authenticationService.signIn(CODE_HOHO);
+
+        assertAll(
+                () -> assertThat(tokenResponse.isJoined()).isTrue(),
+                () -> assertThat(tokenResponse.getAccessToken()).isNotNull(),
+                () -> assertThat(tokenResponse.getMemberId()).isNotNull(),
+                () -> assertThat(tokenResponse.getEmail()).isEqualTo(HOHO_EMAIL)
+        );
+    }
+
+    @DisplayName("회원 가입한다.")
+    @Test
+    void signUp() {
+        TokenResponse tokenResponse = authenticationService.signUp(HOHO_TOKEN, HOHO_NAME);
 
         assertAll(
                 () -> assertThat(tokenResponse.isJoined()).isTrue(),

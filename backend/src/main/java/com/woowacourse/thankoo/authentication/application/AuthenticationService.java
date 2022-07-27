@@ -21,11 +21,17 @@ public class AuthenticationService {
         String idToken = googleClient.getIdToken(code);
         GoogleProfileResponse profileResponse = googleClient.getProfileResponse(idToken);
         return memberService.findBySocialId(profileResponse.getSocialId())
-                .map(this::toOldMemberTokenResponse)
-                .orElseGet(() -> TokenResponse.ofNew(idToken, profileResponse));
+                .map(this::toSignedUpMemberTokenResponse)
+                .orElseGet(() -> TokenResponse.ofFirstSignIn(idToken, profileResponse));
     }
 
-    private TokenResponse toOldMemberTokenResponse(final Member member) {
-        return TokenResponse.ofOld(jwtTokenProvider.createToken(String.valueOf(member.getId())), member);
+    public TokenResponse signUp(final String idToken, final String name) {
+        GoogleProfileResponse profileResponse = googleClient.getProfileResponse(idToken);
+        Member savedMember = memberService.save(profileResponse.toEntity(name));
+        return toSignedUpMemberTokenResponse(savedMember);
+    }
+
+    private TokenResponse toSignedUpMemberTokenResponse(final Member member) {
+        return TokenResponse.ofSignedUp(jwtTokenProvider.createToken(String.valueOf(member.getId())), member);
     }
 }

@@ -38,6 +38,14 @@ class MemberServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @DisplayName("회원을 저장한다.")
+    @Test
+    void save() {
+        Member savedMember = memberService.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+
+        assertThat(savedMember.getId()).isNotNull();
+    }
+
     @DisplayName("소셜 id로 회원을 조회한다.")
     @Test
     void findBySocialId() {

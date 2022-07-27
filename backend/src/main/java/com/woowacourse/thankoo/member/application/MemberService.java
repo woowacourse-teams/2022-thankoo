@@ -21,6 +21,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
+    public Member save(final Member member) {
+        return memberRepository.save(member);
+    }
+
     public Optional<Member> findBySocialId(final String socialId) {
         return memberRepository.findBySocialId(socialId);
     }

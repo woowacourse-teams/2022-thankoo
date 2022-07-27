@@ -22,11 +22,11 @@ public class TokenResponse {
         this.email = email;
     }
 
-    public static TokenResponse ofNew(final String idToken, final GoogleProfileResponse profileResponse) {
+    public static TokenResponse ofFirstSignIn(final String idToken, final GoogleProfileResponse profileResponse) {
         return new TokenResponse(false, idToken, null, profileResponse.getEmail());
     }
 
-    public static TokenResponse ofOld(final String accessToken, final Member member) {
+    public static TokenResponse ofSignedUp(final String accessToken, final Member member) {
         return new TokenResponse(true, accessToken, member.getId(), member.getEmail().getValue());
     }
 }
