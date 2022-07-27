@@ -11,15 +11,15 @@ import useSignIn from './../hooks/SignIn/useSignIn';
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { refetchToken, userCode, saveAuth } = useSignIn();
+  const { refetchToken, userCode } = useSignIn();
 
   useEffect(() => {
     if (userCode) {
       try {
-        refetchToken().then(({ data }) => {
-          const accessToken = data.accessToken;
-          saveAuth(accessToken);
-          navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+        refetchToken().then(() => {
+          //const accessToken = data.accessToken; // data : token, isjoined, email, name
+          //saveAuth(accessToken);// 이거를 어떻게든 전달받고
+          navigate(ROUTE_PATH.ENTER_NICKNAME); // nickname -> exactmain으로 signIn하고
         });
       } catch (e) {
         alert('로그인에 실패하였습니다.');

@@ -11,6 +11,7 @@ import Reservations from './pages/Reservations';
 import SelectReceiver from './pages/SelectReceiver';
 import SignIn from './pages/SignIn';
 import UserProfile from './pages/UserProfile';
+import EnterNickname from './pages/EnterNickname';
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');
@@ -28,18 +29,19 @@ function App() {
   return (
     <MobileDiv>
       <Routes>
-        <Route path={`${ROUTE_PATH.ON_SUCCESS}`} element={<OnSuccessPage />} />
-        <Route path={`${ROUTE_PATH.ON_FAILURE}`} element={<OnFailurePage />} />
+        <Route path={ROUTE_PATH.ON_SUCCESS} element={<OnSuccessPage />} />
+        <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
         <Route element={<AuthOnly />}>
-          <Route path={`${ROUTE_PATH.MAIN}`} element={<Main />} />
-          <Route path={`${ROUTE_PATH.SELECT_RECEIVER}`} element={<SelectReceiver />} />
-          <Route path={`${ROUTE_PATH.ENTER_COUPON_CONTENT}`} element={<EnterCouponContent />} />
-          <Route path={`${ROUTE_PATH.CREATE_RESERVATION}`} element={<CreateReservation />} />
-          <Route path={`${ROUTE_PATH.PROFILE}`} element={<UserProfile />} />
-          <Route path={`${ROUTE_PATH.RESERVATIONS}`} element={<Reservations />} />
+          <Route path={ROUTE_PATH.MAIN} element={<Main />} />
+          <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
+          <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
+          <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
+          <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
+          <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
         </Route>
         <Route element={<UnAuthOnly />}>
-          <Route path={`${ROUTE_PATH.SIGN_IN}`} element={<SignIn />} />
+          <Route path={ROUTE_PATH.SIGN_IN} element={<SignIn />} />
+          <Route path={ROUTE_PATH.ENTER_NICKNAME} element={<EnterNickname />} />
         </Route>
       </Routes>
     </MobileDiv>

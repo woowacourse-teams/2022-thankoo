@@ -3,6 +3,11 @@ import { useLocation } from 'react-router-dom';
 import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 
+const saveAuth = (accessToken: string) => {
+  requestInstance.prototype.updateAuth(accessToken);
+  localStorage.setItem('token', accessToken);
+};
+
 const useSignIn = () => {
   const location = useLocation();
   const userCode = location.search.substring(6).split('&')[0];
@@ -26,12 +31,7 @@ const useSignIn = () => {
     }
   );
 
-  const saveAuth = (accessToken: string) => {
-    requestInstance.prototype.updateAuth(accessToken);
-    localStorage.setItem('token', accessToken);
-  };
-
-  return { refetchToken, userCode, data, saveAuth };
+  return { refetchToken, userCode, data };
 };
 
 export default useSignIn;
