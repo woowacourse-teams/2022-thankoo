@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReservationMeetingService implements ReservedMeetingCreator {
 
     private final MeetingRepository meetingRepository;
-    private final ReservationRepository reservationRepository;
     private final MemberRepository memberRepository;
 
     @Transactional
