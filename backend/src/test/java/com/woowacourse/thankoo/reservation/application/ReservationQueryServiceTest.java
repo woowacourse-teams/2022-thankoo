@@ -43,9 +43,6 @@ class ReservationQueryServiceTest {
     private ReservationService reservationService;
 
     @Autowired
-    private ReservationRepository reservationRepository;
-
-    @Autowired
     private CouponRepository couponRepository;
 
     @Autowired
