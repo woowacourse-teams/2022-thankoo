@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.member.application;
 
-import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -8,6 +7,7 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,10 +21,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long createOrGet(final GoogleProfileResponse googleProfileResponse) {
-        Member member = memberRepository.findBySocialId(googleProfileResponse.getSocialId())
-                .orElseGet(() -> memberRepository.save(googleProfileResponse.toEntity()));
-        return member.getId();
+    public Optional<Member> findBySocialId(final String socialId) {
+        return memberRepository.findBySocialId(socialId);
     }
 
     public List<MemberResponse> getMembersExcludeMe(final Long memberId) {

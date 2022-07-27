@@ -47,13 +47,12 @@ public class GoogleClient {
         this.userInfoRequestUrl = userInfoRequestUrl;
     }
 
-    public GoogleProfileResponse getProfileResponse(final String code) {
+    public String getIdToken(final String code) {
         HttpHeaders headers = getUrlEncodedHeader();
         MultiValueMap<String, String> parameters = getGoogleRequestParameters(code);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(parameters, headers);
         GoogleTokenResponse tokenResponse = requestGoogleToken(httpEntity);
-
-        return toGoogleProfileResponse(tokenResponse.getIdToken());
+        return tokenResponse.getIdToken();
     }
 
     private HttpHeaders getUrlEncodedHeader() {
@@ -80,6 +79,10 @@ public class GoogleClient {
                         entity,
                         GoogleTokenResponse.class)
                 .getBody();
+    }
+
+    public GoogleProfileResponse getProfileResponse(final String idToken) {
+        return toGoogleProfileResponse(idToken);
     }
 
     private GoogleProfileResponse toGoogleProfileResponse(final String idToken) {
