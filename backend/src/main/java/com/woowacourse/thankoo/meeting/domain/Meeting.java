@@ -80,8 +80,7 @@ public class Meeting extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
-    private void validateCouponOwners(final List<Member> members,
-                                      final Coupon coupon) {
+    private void validateCouponOwners(final List<Member> members, final Coupon coupon) {
         if (isMemberNotOwnsCoupon(members, coupon)) {
             throw new InvalidMeetingException(ErrorType.INVALID_MEETING_MEMBER);
         }

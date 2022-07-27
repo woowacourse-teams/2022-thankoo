@@ -104,7 +104,7 @@ public class Reservation extends BaseEntity {
             return;
         }
         coupon.accepted();
-        reservedMeetingCreator.create(id);
+        reservedMeetingCreator.create(this);
     }
 
     private void validateReservation(final Member member, final ReservationStatus updateReservationStatus) {

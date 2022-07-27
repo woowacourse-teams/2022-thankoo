@@ -21,6 +21,8 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
+import com.woowacourse.thankoo.reservation.domain.Reservation;
+import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,10 +42,14 @@ class ReservationMeetingServiceTest {
     private ReservationService reservationService;
 
     @Autowired
+    private ReservationRepository reservationRepository;
+
+    @Autowired
     private CouponRepository couponRepository;
 
     @Autowired
     private MemberRepository memberRepository;
+
 
     @DisplayName("미팅을 생성한다.")
     @Test
@@ -55,8 +61,10 @@ class ReservationMeetingServiceTest {
                 new Coupon(huni.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Long reservationId = reservationService.save(skrr.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+        Reservation reservation = reservationRepository.findWithCouponById(reservationId)
+                .get();
 
-        reservationMeetingService.create(reservationId);
+        reservationMeetingService.create(reservation);
 
         assertThat(meetingRepository.findAll()).hasSize(1);
     }
