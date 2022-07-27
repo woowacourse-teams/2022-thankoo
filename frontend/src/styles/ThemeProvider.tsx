@@ -36,7 +36,7 @@ const mode = 'dark';
 export const colorSet = {
   light: {},
   dark: {
-    primary: palette.SUNSET_ORANGE_400,
+    primary: 'tomato',
     page: {
       background: palette.BLACK,
       color: palette.WHITE,
