@@ -5,6 +5,20 @@ type AuthErrorResponse = {
   data: { errorCode: number };
 };
 
+const queryErrorHandler = error => {
+  authErrorHandler(error);
+};
+const mutateErrorHandler = error => {
+  authErrorHandler(error);
+};
+const retryHandler = (failureCount, error) => {
+  if (error.response.data.errorCode === 1003) {
+    return false;
+  }
+
+  return true;
+};
+
 const authErrorHandler = (error: AxiosError) => {
   const {
     data: { errorCode },
@@ -15,22 +29,8 @@ const authErrorHandler = (error: AxiosError) => {
     window.location.reload();
   }
 };
-const retryHandler = (failureCount, error) => {
-  if (error.response.data.errorCode === 1003) {
-    return false;
-  }
 
-  return true;
-};
-
-const queryErrorHandler = error => {
-  authErrorHandler(error);
-};
-const mutateErrorHandler = error => {
-  authErrorHandler(error);
-};
-
-export const defaultQueryClientOptions = {
+const defaultQueryClientOptions = {
   queries: {
     onError: queryErrorHandler,
     retry: retryHandler,
