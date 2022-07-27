@@ -1,4 +1,4 @@
-import { Axios, AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { QueryClient } from 'react-query';
 
 type AuthErrorResponse = {
@@ -6,13 +6,6 @@ type AuthErrorResponse = {
 };
 
 const authErrorHandler = (error: AxiosError) => {
-  // error.
-};
-console.log('queryClient');
-
-const queryErrorHandler = error => {
-  console.log('error', error);
-
   const {
     data: { errorCode },
   } = error?.response as AuthErrorResponse;
@@ -22,16 +15,29 @@ const queryErrorHandler = error => {
     window.location.reload();
   }
 };
+const retryHandler = (failureCount, error) => {
+  if (error.response.data.errorCode === 1003) {
+    return false;
+  }
+
+  return true;
+};
+
+const queryErrorHandler = error => {
+  authErrorHandler(error);
+};
 const mutateErrorHandler = error => {
-  error.status;
+  authErrorHandler(error);
 };
 
 export const defaultQueryClientOptions = {
   queries: {
     onError: queryErrorHandler,
+    retry: retryHandler,
   },
   mutations: {
     onError: mutateErrorHandler,
+    retry: retryHandler,
   },
 };
 

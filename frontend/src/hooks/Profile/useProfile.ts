@@ -16,7 +16,9 @@ const useProfile = () => {
 
       return data;
     },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   const editUserName = useMutation(

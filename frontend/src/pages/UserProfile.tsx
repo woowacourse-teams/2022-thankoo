@@ -8,6 +8,7 @@ import PageLayout from '../components/@shared/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
 import useProfile from '../hooks/Profile/useProfile';
+import defaultUser from '../images/default_user.jpeg';
 
 const UserProfile = () => {
   const { profile, editUserName } = useProfile();
@@ -59,7 +60,7 @@ const UserProfile = () => {
         </S.SubHeader>
       </Header>
       <S.Body>
-        <ProfileUserImage src={`${profile?.imageUrl}`} />
+        <ProfileUserImage src={profile ? `${profile?.imageUrl}` : defaultUser} />
         <S.UserInfoBox>
           <S.UserInfoItem>
             <S.Bold>이름</S.Bold>
@@ -84,10 +85,6 @@ const UserProfile = () => {
               {isNameEdit ? '저장' : '수정'}
             </S.ModifyNameButton>
           </S.UserInfoItem>
-          {/* <S.UserInfoItem>
-            <S.Bold>생년월일</S.Bold>
-            <span>1999.01.01</span>
-          </S.UserInfoItem> */}
           <S.UserInfoItem>
             <S.Bold>이메일</S.Bold>
             <span>{profile?.email}</span>
