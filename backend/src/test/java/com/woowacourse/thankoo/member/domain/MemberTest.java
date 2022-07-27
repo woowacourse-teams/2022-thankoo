@@ -36,11 +36,11 @@ class MemberTest {
                 .hasMessage("올바르지 않은 이메일 형식입니다.");
     }
 
-    @DisplayName("동일한 id를 판별한다.")
+    @DisplayName("둘 중 동일한 id를 판별한다.")
     @Test
     void isSameId() {
         Member member = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-        assertThat(member.isSameId(1L)).isTrue();
+        assertThat(member.isOwner(1L, 2L)).isTrue();
     }
 
     @Nested

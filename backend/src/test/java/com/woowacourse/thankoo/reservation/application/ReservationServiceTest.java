@@ -120,4 +120,24 @@ class ReservationServiceTest {
                 () -> assertThat(meetingRepository.findAll()).hasSize(1)
         );
     }
+
+    @DisplayName("예약을 거절한다.")
+    @Test
+    void updateStatusDeny() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+        Coupon coupon = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+
+        reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("deny"));
+
+        Reservation foundReservation = reservationRepository.findById(reservationId).get();
+
+        assertAll(
+                () -> assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.DENY),
+                () -> assertThat(meetingRepository.findAll()).hasSize(0)
+        );
+    }
 }

@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.meeting.domain;
 
 import com.woowacourse.thankoo.member.domain.Member;
-import com.woowacourse.thankoo.reservation.domain.Reservation;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,21 +29,17 @@ public class MeetingMember {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
+    @JoinColumn(name = "meeting_id")
+    private Meeting meeting;
 
-    public MeetingMember(final Long id, final Member member, final Reservation reservation) {
+    public MeetingMember(final Long id, final Member member, final Meeting meeting) {
         this.id = id;
         this.member = member;
-        this.reservation = reservation;
+        this.meeting = meeting;
     }
 
-    public MeetingMember(final Member member, final Reservation reservation) {
-        this(null, member, reservation);
-    }
-
-    public boolean isSameMemberId(final Long memberId) {
-        return member.isSameId(memberId);
+    public MeetingMember(final Member member, final Meeting meeting) {
+        this(null, member, meeting);
     }
 
     @Override
@@ -69,7 +64,7 @@ public class MeetingMember {
         return "MeetingMember{" +
                 "id=" + id +
                 ", member=" + member.getId() +
-                ", reservation=" + reservation.getId() +
+                ", meeting=" + meeting.getId() +
                 '}';
     }
 }

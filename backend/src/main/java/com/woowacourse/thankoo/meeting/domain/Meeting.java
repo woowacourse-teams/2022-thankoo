@@ -4,8 +4,11 @@ import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
+import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -47,33 +50,45 @@ public class Meeting extends BaseEntity {
     private Coupon coupon;
 
     public Meeting(final Long id,
-                   final MeetingMembers meetingMembers,
+                   final List<Member> members,
                    final MeetingTime meetingTime,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
-        validateMeetingMember(meetingMembers, coupon);
+        validateCouponOwners(members, coupon);
         this.id = id;
-        this.meetingMembers = meetingMembers;
+        this.meetingMembers = new MeetingMembers(convertToMeetingMember(members));
         this.meetingTime = meetingTime;
         this.meetingStatus = meetingStatus;
         this.coupon = coupon;
     }
 
-    public Meeting(final MeetingMembers meetingMembers,
+    public Meeting(final List<Member> members,
                    final LocalDateTime meetingTime,
                    final TimeZoneType timeZone,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
         this(null,
-                meetingMembers,
+                members,
                 new MeetingTime(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
                 meetingStatus,
                 coupon);
     }
 
-    private void validateMeetingMember(final MeetingMembers meetingMembers, final Coupon coupon) {
-        if (meetingMembers.notContainsExactly(coupon.getReceiverId(), coupon.getSenderId())) {
+    private List<MeetingMember> convertToMeetingMember(final List<Member> members) {
+        return members.stream()
+                .map(member -> new MeetingMember(member, this))
+                .collect(Collectors.toList());
+    }
+
+    private void validateCouponOwners(final List<Member> members,
+                                      final Coupon coupon) {
+        if (isMemberNotOwnsCoupon(members, coupon)) {
             throw new InvalidMeetingException(ErrorType.INVALID_MEETING_MEMBER);
         }
+    }
+
+    private boolean isMemberNotOwnsCoupon(final List<Member> members, final Coupon coupon) {
+        return members.stream()
+                .anyMatch(member -> !member.isOwner(coupon.getReceiverId(), coupon.getSenderId()));
     }
 }

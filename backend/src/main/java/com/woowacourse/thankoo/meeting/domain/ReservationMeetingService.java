@@ -29,13 +29,9 @@ public class ReservationMeetingService implements ReservedMeetingCreator {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
         Coupon coupon = reservation.getCoupon();
-        MeetingMembers meetingMembers =
-                new MeetingMembers(
-                        List.of(new MeetingMember(getMemberById(coupon.getSenderId()), reservation),
-                                new MeetingMember(getMemberById(coupon.getReceiverId()), reservation))
-                );
+        List<Member> members = List.of(getMemberById(coupon.getSenderId()), getMemberById(coupon.getReceiverId()));
         MeetingTime meetingTime = reservation.getMeetingTime();
-        Meeting meeting = new Meeting(meetingMembers, meetingTime.getTime(), TimeZoneType.ASIA_SEOUL,
+        Meeting meeting = new Meeting(members, meetingTime.getTime(), TimeZoneType.ASIA_SEOUL,
                 MeetingStatus.ON_PROGRESS, coupon);
 
         meetingRepository.save(meeting);

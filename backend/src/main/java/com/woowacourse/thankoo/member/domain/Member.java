@@ -51,7 +51,11 @@ public class Member extends BaseEntity {
         this.name = new Name(name);
     }
 
-    public boolean isSameId(final Long id) {
+    public boolean isOwner(final Long receiverId, final Long senderId) {
+        return isSameId(receiverId) || isSameId(senderId);
+    }
+
+    private boolean isSameId(final Long id) {
         return this.id.equals(id);
     }
 
