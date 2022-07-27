@@ -1,24 +1,21 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
+import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
 import useFilterMatchedUser from '../useFilterMatchedUser';
 
 const useSelectReceiver = () => {
-  const accessToken = localStorage.getItem('token');
-
   const {
     data: users,
     isLoading,
     error,
   } = useQuery<UserProfile[]>('users', async () => {
-    const { data } = await axios({
+    const { data } = await requestInstance({
       method: 'get',
       url: `${API_PATH.MEMBERS}`,
-      headers: { Authorization: `Bearer ${accessToken}` },
     });
     return data;
   });
