@@ -65,6 +65,6 @@ class MeetingTest {
                         MeetingStatus.ON_PROGRESS,
                         coupon))
                 .isInstanceOf(InvalidMeetingException.class)
-                .hasMessage("미팅 참여자는 두명이어야 합니다.");
+                .hasMessage("미팅 참여자는 두 명이어야 합니다.");
     }
 }
