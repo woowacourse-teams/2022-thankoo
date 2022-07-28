@@ -11,10 +11,12 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.fake.FakeReservedMeetingCreator;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
+import com.woowacourse.thankoo.meeting.domain.MeetingTime;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
@@ -121,7 +123,7 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.updateStatus(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
-                            "accept"))
+                            "accept", new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
@@ -140,7 +142,7 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.updateStatus(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
-                            "waiting"))
+                            "waiting", new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
@@ -159,7 +161,8 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.updateStatus(
-                            new Member(receiverId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept"))
+                            new Member(receiverId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
+                            new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
@@ -178,7 +181,8 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.updateStatus(
-                            new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept"))
+                            new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
+                            new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
@@ -192,11 +196,14 @@ class ReservationTest {
 
             Coupon coupon = new Coupon(senderId, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
+            Reservation reservation = new Reservation(1L,
+                    new MeetingTime(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
+                    ReservationStatus.WAITING,
                     receiverId, coupon);
             reservation.reserve();
 
-            reservation.updateStatus(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept");
+            reservation.updateStatus(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
+                    new FakeReservedMeetingCreator());
 
             assertAll(
                     () -> assertThat(reservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT),
