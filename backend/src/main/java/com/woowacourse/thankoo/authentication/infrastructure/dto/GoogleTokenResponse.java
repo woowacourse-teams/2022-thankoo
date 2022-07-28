@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class GoogleTokenResponse {
 
-    @JsonProperty("access_token")
-    private String accessToken;
+    @JsonProperty("id_token")
+    private String idToken;
 
-    public GoogleTokenResponse(final String accessToken) {
-        this.accessToken = accessToken;
+    public GoogleTokenResponse(final String idToken) {
+        this.idToken = idToken;
     }
 }

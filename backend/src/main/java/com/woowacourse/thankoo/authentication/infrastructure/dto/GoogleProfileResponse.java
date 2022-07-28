@@ -12,7 +12,7 @@ public class GoogleProfileResponse {
 
     public static final String DELIMITER = "@";
 
-    @JsonProperty("id")
+    @JsonProperty("sub")
     private String socialId;
     private String email;
 
@@ -25,12 +25,7 @@ public class GoogleProfileResponse {
         this.imageUrl = imageUrl;
     }
 
-    public Member toEntity() {
-        String nickname = splitNameFromEmail(email);
-        return new Member(nickname, email, socialId, imageUrl);
-    }
-
-    private static String splitNameFromEmail(final String email) {
-        return email.split(DELIMITER)[0];
+    public Member toEntity(final String name) {
+        return new Member(name, email, socialId, imageUrl);
     }
 }
