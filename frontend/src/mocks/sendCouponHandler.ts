@@ -1,11 +1,8 @@
 import { rest } from 'msw';
 import { API_PATH } from '../constants/api';
-import { users } from './dummyData';
 
 export const sendCouponHandler = [
-  rest.get(`${API_PATH.PROFILE}`, (req, res, ctx) => {
-    const tempUserProfile = users[0];
-
-    return res(ctx.status(200), ctx.json(tempUserProfile));
+  rest.post(`${API_PATH.SEND_COUPON}`, (req, res, ctx) => {
+    return res(ctx.status(200));
   }),
 ];
