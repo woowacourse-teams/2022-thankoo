@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const mode = process.env.NODE_ENV || 'development';
 
+console.log('webpack', process.env.NODE_ENV);
+
 module.exports = {
   mode,
   devServer: {

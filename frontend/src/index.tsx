@@ -21,6 +21,8 @@ if (process.env.NODE_ENV === 'development') {
   worker.start();
 }
 
+console.log('index process.env.NODE_ENV', process.env.NODE_ENV);
+
 root.render(
   <React.StrictMode>
     <Global styles={css([reset, global])} />
