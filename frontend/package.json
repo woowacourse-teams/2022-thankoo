@@ -4,10 +4,10 @@
   "main": "src/index.tsx",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack server --mode development --open --hot",
-    "build": "webpack --mode production",
-    "prestart": "cross-env NODE_ENV=production npm run build",
-    "start": "webpack --mode development"
+    "local": "webpack server --mode development --env  MODE=local --open --hot",
+    "dev": "webpack server --mode development --env MODE=development --open --hot",
+    "prod": "webpack server --mode development --open --hot",
+    "build": "webpack --mode production"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

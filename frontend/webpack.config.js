@@ -4,8 +4,17 @@ const webpack = require('webpack');
 const mode = process.env.NODE_ENV || 'development';
 const dotenv = require('dotenv');
 
-module.exports = () => {
+module.exports = env => {
+  const { MODE } = env;
+
   dotenv.config();
+
+  if (MODE === 'local') {
+    dotenv.config({ path: './env/.env.local' });
+  }
+  if (MODE === 'dev') {
+    dotenv.config({ path: './env/.env.dev' });
+  }
 
   return {
     mode,
