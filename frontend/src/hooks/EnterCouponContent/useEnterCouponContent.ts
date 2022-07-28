@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import { useRecoilValue } from 'recoil';
+import { useMutation, useQuery } from 'react-query';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
@@ -10,6 +10,7 @@ import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
   const { successNavigate } = useOnSuccess();
+  const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
 
   const { data: userProfile } = useQuery<UserProfile>('profile', async () => {
     const res = await requestInstance({
@@ -61,21 +62,25 @@ const useEnterCouponContent = () => {
       },
     }));
   }, [userProfile, couponType, title, message]);
-
-  const sendCoupon = async () => {
-    const { status, statusText } = await requestInstance({
-      method: 'POST',
-      url: `${API_PATH.SEND_COUPON}`,
-      data: {
-        receiverIds: checkedUsers.map(user => user.id),
-        content: {
-          ...currentCoupon.content,
+  const sendCoupon = useMutation(
+    async () =>
+      await requestInstance({
+        method: 'POST',
+        url: `${API_PATH.SEND_COUPON}`,
+        data: {
+          receiverIds: checkedUsers.map(user => user.id),
+          content: {
+            ...currentCoupon.content,
+          },
         },
+      }),
+    {
+      onSuccess: () => {
+        resetCheckedUsers();
+        successNavigate(`${ROUTE_PATH.EXACT_MAIN}`);
       },
-    });
-
-    successNavigate(`${ROUTE_PATH.EXACT_MAIN}`);
-  };
+    }
+  );
 
   return {
     couponType,
