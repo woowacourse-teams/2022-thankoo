@@ -44,6 +44,13 @@ class MemberTest {
         assertThat(member.hasSameId(List.of(1L, 2L))).isTrue();
     }
 
+    @DisplayName("동일한 id를 판별한다.")
+    @Test
+    void isSameId() {
+        Member member = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        assertThat(member.isSameId(1L)).isTrue();
+    }
+
     @Nested
     @DisplayName("이름을 변경할 때 ")
     class UpdateNameTest {

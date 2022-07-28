@@ -2,7 +2,9 @@ package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.member.domain.Member;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -67,5 +69,25 @@ public class CouponQueryRepository {
 
         SqlParameterSource parameters = new MapSqlParameterSource("senderId", senderId);
         return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
+    }
+
+    public Optional<MemberCoupon> findByCouponId(final Long couponId) {
+        String sql = "SELECT c.id as coupon_id, "
+                + "s.id as sender_id, s.name as sender_name, "
+                + "s.email as sender_email, s.social_id as sender_social_id,"
+                + "s.image_url as sender_image_url,"
+                + "r.id as receiver_id, r.name as receiver_name, "
+                + "c.coupon_type, c.title, c.message, c.status "
+                + "FROM coupon as c "
+                + "JOIN member as s ON c.sender_id = s.id "
+                + "JOIN member as r ON c.receiver_id = r.id "
+                + "WHERE c.id = :couponId ";
+
+        SqlParameterSource parameters = new MapSqlParameterSource("couponId", couponId);
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, parameters, ROW_MAPPER));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 }
