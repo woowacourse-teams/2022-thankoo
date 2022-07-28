@@ -1,7 +1,4 @@
-const BACK_SERVER = 'http://54.180.102.68';
-const DEV_SERVER = 'http://localhost:3000';
-
-export const BASE_URL = process.env.NODE_ENV === 'development' ? DEV_SERVER : BACK_SERVER;
+export const BASE_URL = process.env.API_URL;
 
 export const API_PATH = {
   RECEIVED_COUPONS_NOT_USED: `/api/coupons/received?status=not-used`,
