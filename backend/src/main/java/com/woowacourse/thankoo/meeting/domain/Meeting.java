@@ -63,13 +63,12 @@ public class Meeting extends BaseEntity {
     }
 
     public Meeting(final List<Member> members,
-                   final LocalDateTime meetingTime,
-                   final TimeZoneType timeZone,
+                   final MeetingTime meetingTime,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
         this(null,
                 members,
-                new MeetingTime(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
+                meetingTime,
                 meetingStatus,
                 coupon);
     }
