@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.member.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -51,12 +52,9 @@ public class Member extends BaseEntity {
         this.name = new Name(name);
     }
 
-    public boolean isOwner(final Long receiverId, final Long senderId) {
-        return isSameId(receiverId) || isSameId(senderId);
-    }
-
-    private boolean isSameId(final Long id) {
-        return this.id.equals(id);
+    public boolean hasSameId(final List<Long> ids) {
+        return ids.stream()
+                .anyMatch(id::equals);
     }
 
     @Override

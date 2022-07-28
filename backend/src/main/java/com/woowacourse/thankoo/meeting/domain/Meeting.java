@@ -5,8 +5,6 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import com.woowacourse.thankoo.member.domain.Member;
-import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -82,7 +80,7 @@ public class Meeting extends BaseEntity {
 
     private boolean isMemberNotOwnsCoupon(final List<Member> members, final Coupon coupon) {
         return members.stream()
-                .anyMatch(member -> !member.isOwner(coupon.getReceiverId(), coupon.getSenderId()));
+                .anyMatch(member -> !member.hasSameId(List.of(coupon.getReceiverId(), coupon.getSenderId())));
     }
 
     private List<MeetingMember> convertToMeetingMember(final List<Member> members) {
