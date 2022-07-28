@@ -17,7 +17,7 @@ const BottomNavBar = () => {
 
 const S = {
   Bar: styled.div`
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     left: 0px;
     width: 100%;
@@ -26,6 +26,7 @@ const S = {
     border-top: 0.5px solid #8e8e8e90;
     background-color: #232323;
     align-items: center;
+    z-index: 50;
   `,
   Button: styled.button`
     width: 4rem;

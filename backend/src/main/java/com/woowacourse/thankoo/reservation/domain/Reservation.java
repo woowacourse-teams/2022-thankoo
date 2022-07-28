@@ -3,7 +3,9 @@ package com.woowacourse.thankoo.reservation.domain;
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
+import com.woowacourse.thankoo.meeting.domain.MeetingTime;
 import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -34,7 +36,7 @@ public class Reservation extends BaseEntity {
     private Long id;
 
     @Embedded
-    private ReservationTime reservationTime;
+    private MeetingTime meetingTime;
 
     @Column(name = "status", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
@@ -48,14 +50,14 @@ public class Reservation extends BaseEntity {
     private Coupon coupon;
 
     public Reservation(final Long id,
-                       final ReservationTime reservationTime,
+                       final MeetingTime meetingTime,
                        final ReservationStatus reservationStatus,
                        final Long memberId,
                        final Coupon coupon) {
         validateReservationMember(memberId, coupon);
         validateCouponStatus(coupon);
         this.id = id;
-        this.reservationTime = reservationTime;
+        this.meetingTime = meetingTime;
         this.reservationStatus = reservationStatus;
         this.memberId = memberId;
         this.coupon = coupon;
@@ -67,7 +69,7 @@ public class Reservation extends BaseEntity {
                        final Long memberId,
                        final Coupon coupon) {
         this(null,
-                new ReservationTime(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
+                new MeetingTime(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
                 reservationStatus,
                 memberId,
                 coupon);
@@ -89,7 +91,9 @@ public class Reservation extends BaseEntity {
         coupon.reserve();
     }
 
-    public void updateStatus(final Member member, final String status) {
+    public void updateStatus(final Member member,
+                             final String status,
+                             final ReservedMeetingCreator reservedMeetingCreator) {
         ReservationStatus updateReservationStatus = ReservationStatus.from(status);
         validateReservation(member, updateReservationStatus);
         validateCouponStatus();
@@ -100,6 +104,7 @@ public class Reservation extends BaseEntity {
             return;
         }
         coupon.accepted();
+        reservedMeetingCreator.create(this);
     }
 
     private void validateReservation(final Member member, final ReservationStatus updateReservationStatus) {
@@ -142,7 +147,7 @@ public class Reservation extends BaseEntity {
     public String toString() {
         return "Reservation{" +
                 "id=" + id +
-                ", reservationTime=" + reservationTime +
+                ", reservationTime=" + meetingTime +
                 ", reservationStatus=" + reservationStatus +
                 ", memberId=" + memberId +
                 ", couponId=" + coupon.getId() +

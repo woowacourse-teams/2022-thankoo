@@ -18,11 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
+import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
@@ -32,15 +34,12 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @DisplayName("ReservationService 는 ")
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@ApplicationTest
 class ReservationServiceTest {
 
     @Autowired
@@ -48,6 +47,9 @@ class ReservationServiceTest {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private MeetingRepository meetingRepository;
 
     @Autowired
     private CouponRepository couponRepository;
@@ -112,13 +114,30 @@ class ReservationServiceTest {
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
         Reservation foundReservation = reservationRepository.findById(reservationId).get();
-        assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT);
+
+        assertAll(
+                () -> assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT),
+                () -> assertThat(meetingRepository.findAll()).hasSize(1)
+        );
     }
 
-    @AfterEach
-    void tearDown() {
-        reservationRepository.deleteAllInBatch();
-        couponRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
+    @DisplayName("예약을 거절한다.")
+    @Test
+    void updateStatusDeny() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+        Coupon coupon = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+
+        reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("deny"));
+
+        Reservation foundReservation = reservationRepository.findById(reservationId).get();
+
+        assertAll(
+                () -> assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.DENY),
+                () -> assertThat(meetingRepository.findAll()).hasSize(0)
+        );
     }
 }

@@ -71,17 +71,20 @@ const S = {
   Container: styled.div``,
   Inner: styled.div`
     display: flex;
+    position: relative;
   `,
   Content: styled.div`
     width: 100%;
   `,
   Options: styled.div<OptionsProps>`
     display: flex;
-    width: ${({ show }) => (show ? '200px' : 0)};
+    position: absolute;
+    height: 100%;
+    right: 0;
+    width: ${({ show }) => (show ? '100px' : 0)};
     transition: all ease-in-out 0.1s;
-    button {
-      display: ${({ show }) => (show ? 'block' : 'none')};
-    }
+    border-radius: 0 3px 3px 0;
+    overflow: hidden;
   `,
   OptionItem: styled.button<OptionItemProps>`
     background-color: ${({ theme, isAccept }) => (isAccept ? `${theme.primary}` : '#8e8e8e')};
@@ -89,7 +92,6 @@ const S = {
     font-weight: bold;
     word-break: keep-all;
     padding: 10px;
-    border-radius: 3px;
     border: none;
     width: 100%;
   `,

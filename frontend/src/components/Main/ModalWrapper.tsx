@@ -1,21 +1,23 @@
+import styled from '@emotion/styled';
 import useModal from '../../hooks/useModal';
-import Modal from '../@shared/Modal';
 
 const ModalWrapper = ({ children, modalContent }) => {
   const { visible, show, setModalContent } = useModal();
 
   return (
-    <>
-      <div
-        onClick={() => {
-          show();
-          setModalContent(modalContent);
-        }}
-      >
-        {children}
-      </div>
-    </>
+    <Container
+      onClick={() => {
+        show();
+        setModalContent(modalContent);
+      }}
+    >
+      {children}
+    </Container>
   );
 };
 
 export default ModalWrapper;
+
+const Container = styled.div`
+  cursor: pointer;
+`;

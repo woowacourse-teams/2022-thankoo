@@ -10,8 +10,8 @@ export const handlers = [
   ...signInHandler,
   ...mainPageHandler,
   ...selectReceiverPageHandlers,
-  ...sendCouponHandler,
   ...reservationsHanlders,
   ...createReservationHandler,
+  ...sendCouponHandler,
   ...profileHandler,
 ];

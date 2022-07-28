@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
+import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
@@ -7,15 +7,13 @@ import ListViewReservation from './ListViewReservation';
 type status = 'deny' | 'accept';
 
 const Reservation = ({ couponType, meetingTime, memberName, reservationId, order }) => {
-  const accessToken = localStorage.getItem('token');
   const queryClient = useQueryClient();
 
   const handleReservation = useMutation(
     async (status: status) => {
-      await axios({
+      await requestInstance({
         method: 'put',
         url: `${API_PATH.RESERVATIONS}/${reservationId}`,
-        headers: { Authorization: `Bearer ${accessToken}` },
         data: { status },
       });
     },

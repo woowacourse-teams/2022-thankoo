@@ -28,11 +28,13 @@ const S = {
     top: 0;
     left: 0;
     background-color: #00000082;
+    z-index: 100;
   `,
   Content: styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
+    z-index: 1000;
     transform: translate(-50%, -50%);
   `,
 };
