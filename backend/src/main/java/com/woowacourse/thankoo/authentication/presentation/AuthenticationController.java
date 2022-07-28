@@ -28,7 +28,7 @@ public class AuthenticationController {
     @PostMapping("/api/sign-up")
     public ResponseEntity<TokenResponse> signUp(@RequestHeader(name = HttpHeaders.AUTHORIZATION) final String idToken,
                                                 @RequestBody final SignUpRequest signUpRequest) {
-        return ResponseEntity.created(URI.create("/api/members/me"))
-                .body(authenticationService.signUp(idToken, signUpRequest.getName()));
+        TokenResponse tokenResponse = authenticationService.signUp(idToken, signUpRequest.getName());
+        return ResponseEntity.created(URI.create("/api/members/me")).body(tokenResponse);
     }
 }
