@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -35,35 +34,6 @@ class MemberServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
-
-    @DisplayName("SignIn 요청이 왔을 때 ")
-    @Nested
-    class SignInTest {
-
-        @DisplayName("회원이 존재하지 않으면 생성한다.")
-        @Test
-        void signInCreateMember() {
-            Long id = memberService.createOrGet(new GoogleProfileResponse("1056", "example@email.com",
-                    "image.com"));
-
-            assertAll(
-                    () -> assertThat(id).isNotNull(),
-                    () -> assertThat(memberRepository.findAll()).hasSize(1)
-            );
-        }
-
-        @DisplayName("회원이 존재하면 조회한다.")
-        @Test
-        void signInGetMember() {
-            memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
-            Long id = memberService.createOrGet(new GoogleProfileResponse(HOHO_SOCIAL_ID, HOHO_EMAIL, IMAGE_URL));
-
-            assertAll(
-                    () -> assertThat(id).isNotNull(),
-                    () -> assertThat(memberRepository.findAll()).hasSize(1)
-            );
-        }
-    }
 
     @DisplayName("본인을 제외한 모든 회원을 조회한다.")
     @Test

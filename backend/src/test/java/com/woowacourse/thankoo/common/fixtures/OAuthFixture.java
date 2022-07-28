@@ -1,16 +1,5 @@
 package com.woowacourse.thankoo.common.fixtures;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
-
-import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,34 +10,18 @@ public class OAuthFixture {
     public static final String CODE_LALA = "code_lala";
     public static final String CODE_HUNI = "code_huni";
 
-    public static final String TOKEN_HOHO = "token_hoho";
-    public static final String TOKEN_SKRR = "token_skrr";
-    public static final String TOKEN_LALA = "token_lala";
-    public static final String TOKEN_HUNI = "token_huni";
+    public static final String HOHO_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJob2hvQGVtYWlsLmNvbSIsInBpY3R1cmUiOiJpbWFnZS5jb20ifQ.3lOADGvl15qYXZS45MYCZ-h09qXLCNHtYtgijgxo9qA";
+    public static final String SKRR_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJza3JyQGVtYWlsLmNvbSIsInBpY3R1cmUiOiJpbWFnZS5jb20ifQ.qe6YgIqP8sZUw1GJ82r5NoRoPRab_kSxRex257mzVxI";
+    public static final String LALA_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZW1haWwiOiJsYWxhQGVtYWlsLmNvbSIsInBpY3R1cmUiOiJpbWFnZS5jb20ifQ.5nbOQp4BdgFVY_ri8Fx9K0E4b83YWE_1St7XsxlimqU";
+    public static final String HUNI_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0IiwiZW1haWwiOiJodW5pQGVtYWlsLmNvbSIsInBpY3R1cmUiOiJpbWFnZS5jb20ifQ.vqiYqkY6wpc_v1SeUkRFKl68oM_UaHWTR2xuM-k3r_E";
 
-    public static final GoogleProfileResponse PROFILE_HOHO = new GoogleProfileResponse(HOHO_SOCIAL_ID, HOHO_EMAIL,
-            IMAGE_URL);
-    public static final GoogleProfileResponse PROFILE_SKRR = new GoogleProfileResponse(SKRR_SOCIAL_ID, SKRR_EMAIL,
-            IMAGE_URL);
-    public static final GoogleProfileResponse PROFILE_LALA = new GoogleProfileResponse(LALA_SOCIAL_ID, LALA_EMAIL,
-            IMAGE_URL);
-    public static final GoogleProfileResponse PROFILE_HUNI = new GoogleProfileResponse(HUNI_SOCIAL_ID, HUNI_EMAIL,
-            IMAGE_URL);
-
-    public static final Map<String, String> CACHED_OAUTH_TOKEN;
-    public static final Map<String, GoogleProfileResponse> CACHED_OAUTH_PROFILE;
+    public static final Map<String, String> CACHED_OAUTH_PROFILE;
 
     static {
-        CACHED_OAUTH_TOKEN = new HashMap<>();
-        CACHED_OAUTH_TOKEN.put(CODE_HOHO, TOKEN_HOHO);
-        CACHED_OAUTH_TOKEN.put(CODE_SKRR, TOKEN_SKRR);
-        CACHED_OAUTH_TOKEN.put(CODE_LALA, TOKEN_LALA);
-        CACHED_OAUTH_TOKEN.put(CODE_HUNI, TOKEN_HUNI);
-
         CACHED_OAUTH_PROFILE = new HashMap<>();
-        CACHED_OAUTH_PROFILE.put(TOKEN_HOHO, PROFILE_HOHO);
-        CACHED_OAUTH_PROFILE.put(TOKEN_SKRR, PROFILE_SKRR);
-        CACHED_OAUTH_PROFILE.put(TOKEN_LALA, PROFILE_LALA);
-        CACHED_OAUTH_PROFILE.put(TOKEN_HUNI, PROFILE_HUNI);
+        CACHED_OAUTH_PROFILE.put(CODE_HOHO, HOHO_TOKEN);
+        CACHED_OAUTH_PROFILE.put(CODE_SKRR, SKRR_TOKEN);
+        CACHED_OAUTH_PROFILE.put(CODE_LALA, LALA_TOKEN);
+        CACHED_OAUTH_PROFILE.put(CODE_HUNI, HUNI_TOKEN);
     }
 }
