@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
   worker.start();
 }
 
-console.log('index process.env.NODE_ENV', process.env.NODE_ENV);
+console.log('index process.env.NODE_ENV', process.env.API_URL);
 
 root.render(
   <React.StrictMode>
