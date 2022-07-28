@@ -25,6 +25,7 @@ public class GoogleClient {
     private static final String AUTHORIZATION_TYPE = "Bearer ";
     private static final RestTemplate REST_TEMPLATE = new RestTemplate();
     private static final String JWT_DELIMITER = "\\.";
+    private static final int PAYLOAD = 1;
 
     private final String clientId;
     private final String clientSecret;
@@ -88,7 +89,7 @@ public class GoogleClient {
     private GoogleProfileResponse toGoogleProfileResponse(final String idToken) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> profile = objectMapper.readValue(decode(getPayload(idToken)), Map.class);
+            Map<String, String> profile = objectMapper.readValue(getProfileFromToken(idToken), Map.class);
             String socialId = profile.get("sub");
             String email = profile.get("email");
             String imageUrl = profile.get("picture");
@@ -99,8 +100,12 @@ public class GoogleClient {
         }
     }
 
-    private String getPayload(final String jwt) {
-        return jwt.split(JWT_DELIMITER)[1];
+    private String getProfileFromToken(final String token) {
+        return decode(getPayload(token));
+    }
+
+    private String getPayload(final String token) {
+        return token.split(JWT_DELIMITER)[PAYLOAD];
     }
 
     private String decode(final String payload) {
