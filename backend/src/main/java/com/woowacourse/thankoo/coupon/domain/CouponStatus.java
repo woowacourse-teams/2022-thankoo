@@ -12,6 +12,10 @@ public enum CouponStatus {
         return this == NOT_USED;
     }
 
+    public boolean isInReserve() {
+        return isReserving() || this == RESERVED;
+    }
+
     public boolean isReserving() {
         return this == RESERVING;
     }

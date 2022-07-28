@@ -28,6 +28,7 @@ public enum ErrorType {
 
     INVALID_MEETING_MEMBER(5001, "잘못된 미팅 참여자입니다."),
     INVALID_MEETING_MEMBER_COUNT(5002, "미팅 참여자는 두 명이어야 합니다."),
+    NOT_FOUND_MEETING(5003, "존재하지 않는 미팅입니다."),
 
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 
