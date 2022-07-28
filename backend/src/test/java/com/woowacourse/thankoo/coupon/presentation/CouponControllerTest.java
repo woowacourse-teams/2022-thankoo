@@ -91,7 +91,7 @@ public class CouponControllerTest extends ControllerTest {
                 CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED"))
         );
 
-        given(couponService.getReceivedCoupons(anyLong(), anyString()))
+        given(couponQueryService.getReceivedCoupons(anyLong(), anyString()))
                 .willReturn(couponResponses);
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + NOT_USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -137,7 +137,7 @@ public class CouponControllerTest extends ControllerTest {
                 CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED"))
         );
 
-        given(couponService.getReceivedCoupons(anyLong(), anyString()))
+        given(couponQueryService.getReceivedCoupons(anyLong(), anyString()))
                 .willReturn(couponResponses);
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -183,7 +183,7 @@ public class CouponControllerTest extends ControllerTest {
                 CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED"))
         );
 
-        given(couponService.getSentCoupons(anyLong()))
+        given(couponQueryService.getSentCoupons(anyLong()))
                 .willReturn(couponResponses);
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/sent")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")

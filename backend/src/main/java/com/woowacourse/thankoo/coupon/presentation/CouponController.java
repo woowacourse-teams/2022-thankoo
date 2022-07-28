@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.presentation;
 
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
+import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CouponController {
 
     private final CouponService couponService;
+    private final CouponQueryService couponQueryService;
 
     @PostMapping("/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
@@ -31,11 +33,11 @@ public class CouponController {
     @GetMapping("/received")
     public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receiverId,
                                                                 @RequestParam final String status) {
-        return ResponseEntity.ok(couponService.getReceivedCoupons(receiverId, status));
+        return ResponseEntity.ok(couponQueryService.getReceivedCoupons(receiverId, status));
     }
 
     @GetMapping("/sent")
     public ResponseEntity<List<CouponResponse>> sentCoupons(@AuthenticationPrincipal final Long senderId) {
-        return ResponseEntity.ok(couponService.getSentCoupons(senderId));
+        return ResponseEntity.ok(couponQueryService.getSentCoupons(senderId));
     }
 }

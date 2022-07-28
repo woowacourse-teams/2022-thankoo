@@ -7,6 +7,7 @@ import com.woowacourse.thankoo.authentication.application.AuthenticationService;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationController;
+import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.presentation.CouponController;
 import com.woowacourse.thankoo.member.application.MemberService;
@@ -54,6 +55,9 @@ public class ControllerTest {
 
     @MockBean
     protected CouponService couponService;
+
+    @MockBean
+    protected CouponQueryService couponQueryService;
 
     @MockBean
     protected MemberService memberService;
