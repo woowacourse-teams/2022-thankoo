@@ -6,6 +6,7 @@ import App from './App';
 
 import { css, Global } from '@emotion/react';
 import { QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 import reset from './styles/GlobalReset';
 import global from './styles/GlobalStyled';
@@ -30,6 +31,7 @@ root.render(
             <App />
           </ThemeProvider>
         </RecoilRoot>
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>

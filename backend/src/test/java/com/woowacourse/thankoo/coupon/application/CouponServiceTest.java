@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -27,16 +28,13 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @DisplayName("CouponService 는 ")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ApplicationTest
 class CouponServiceTest {
 
     @Autowired
@@ -126,11 +124,5 @@ class CouponServiceTest {
                 () -> assertThat(responses.get(0).getSender().getId()).isEqualTo(sender.getId()),
                 () -> assertThat(responses.get(0).getReceiver().getId()).isEqualTo(receiver.getId())
         );
-    }
-
-    @AfterEach
-    void tearDown() {
-        couponRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
     }
 }

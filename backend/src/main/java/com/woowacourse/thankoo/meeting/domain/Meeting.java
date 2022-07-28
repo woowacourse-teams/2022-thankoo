@@ -4,8 +4,10 @@ import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
-import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
-import java.time.LocalDateTime;
+import com.woowacourse.thankoo.member.domain.Member;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -47,33 +49,70 @@ public class Meeting extends BaseEntity {
     private Coupon coupon;
 
     public Meeting(final Long id,
-                   final MeetingMembers meetingMembers,
+                   final List<Member> members,
                    final MeetingTime meetingTime,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
-        validateMeetingMember(meetingMembers, coupon);
+        validateCouponOwners(members, coupon);
         this.id = id;
-        this.meetingMembers = meetingMembers;
+        this.meetingMembers = new MeetingMembers(convertToMeetingMember(members));
         this.meetingTime = meetingTime;
         this.meetingStatus = meetingStatus;
         this.coupon = coupon;
     }
 
-    public Meeting(final MeetingMembers meetingMembers,
-                   final LocalDateTime meetingTime,
-                   final TimeZoneType timeZone,
+    public Meeting(final List<Member> members,
+                   final MeetingTime meetingTime,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
         this(null,
-                meetingMembers,
-                new MeetingTime(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
+                members,
+                meetingTime,
                 meetingStatus,
                 coupon);
     }
 
-    private void validateMeetingMember(final MeetingMembers meetingMembers, final Coupon coupon) {
-        if (meetingMembers.notContainsExactly(coupon.getReceiverId(), coupon.getSenderId())) {
+    private void validateCouponOwners(final List<Member> members, final Coupon coupon) {
+        if (isMemberNotOwnsCoupon(members, coupon)) {
             throw new InvalidMeetingException(ErrorType.INVALID_MEETING_MEMBER);
         }
+    }
+
+    private boolean isMemberNotOwnsCoupon(final List<Member> members, final Coupon coupon) {
+        return members.stream()
+                .anyMatch(member -> !member.hasSameId(List.of(coupon.getReceiverId(), coupon.getSenderId())));
+    }
+
+    private List<MeetingMember> convertToMeetingMember(final List<Member> members) {
+        return members.stream()
+                .map(member -> new MeetingMember(member, this))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Meeting)) {
+            return false;
+        }
+        Meeting meeting = (Meeting) o;
+        return Objects.equals(id, meeting.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Meeting{" +
+                "id=" + id +
+                ", meetingTime=" + meetingTime +
+                ", meetingStatus=" + meetingStatus +
+                ", coupon=" + coupon +
+                '}';
     }
 }

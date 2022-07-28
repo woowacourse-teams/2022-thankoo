@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -36,11 +37,11 @@ class MemberTest {
                 .hasMessage("올바르지 않은 이메일 형식입니다.");
     }
 
-    @DisplayName("동일한 id를 판별한다.")
+    @DisplayName("둘 중 동일한 id를 판별한다.")
     @Test
-    void isSameId() {
+    void hasSameId() {
         Member member = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-        assertThat(member.isSameId(1L)).isTrue();
+        assertThat(member.hasSameId(List.of(1L, 2L))).isTrue();
     }
 
     @Nested
