@@ -12,8 +12,8 @@ module.exports = env => {
   if (MODE === 'local') {
     dotenv.config({ path: './env/.env.local' });
   }
-  if (MODE === 'dev') {
-    dotenv.config({ path: './env/.env.dev' });
+  if (MODE === 'development') {
+    dotenv.config({ path: './env/.env.development' });
   }
 
   return {

@@ -16,7 +16,7 @@ import { queryClient } from './apis/queryClient';
 const rootElement = document.getElementById('root')!;
 const root = createRoot(rootElement);
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'local') {
   const { worker } = require('./mocks/browser');
   worker.start();
 }
