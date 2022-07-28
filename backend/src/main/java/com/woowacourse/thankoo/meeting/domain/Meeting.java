@@ -8,6 +8,7 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -73,12 +74,6 @@ public class Meeting extends BaseEntity {
                 coupon);
     }
 
-    private List<MeetingMember> convertToMeetingMember(final List<Member> members) {
-        return members.stream()
-                .map(member -> new MeetingMember(member, this))
-                .collect(Collectors.toList());
-    }
-
     private void validateCouponOwners(final List<Member> members, final Coupon coupon) {
         if (isMemberNotOwnsCoupon(members, coupon)) {
             throw new InvalidMeetingException(ErrorType.INVALID_MEETING_MEMBER);
@@ -88,5 +83,38 @@ public class Meeting extends BaseEntity {
     private boolean isMemberNotOwnsCoupon(final List<Member> members, final Coupon coupon) {
         return members.stream()
                 .anyMatch(member -> !member.isOwner(coupon.getReceiverId(), coupon.getSenderId()));
+    }
+
+    private List<MeetingMember> convertToMeetingMember(final List<Member> members) {
+        return members.stream()
+                .map(member -> new MeetingMember(member, this))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Meeting)) {
+            return false;
+        }
+        Meeting meeting = (Meeting) o;
+        return Objects.equals(id, meeting.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Meeting{" +
+                "id=" + id +
+                ", meetingTime=" + meetingTime +
+                ", meetingStatus=" + meetingStatus +
+                ", coupon=" + coupon +
+                '}';
     }
 }
