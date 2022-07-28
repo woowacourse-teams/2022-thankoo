@@ -7,7 +7,6 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,15 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
-    @Transactional
-    public Member save(final Member member) {
-        return memberRepository.save(member);
-    }
-
-    public Optional<Member> findBySocialId(final String socialId) {
-        return memberRepository.findBySocialId(socialId);
-    }
 
     public List<MemberResponse> getMembersExcludeMe(final Long memberId) {
         List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(memberId);

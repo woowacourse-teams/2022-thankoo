@@ -19,7 +19,6 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -37,26 +36,6 @@ class MemberServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
-
-    @DisplayName("회원을 저장한다.")
-    @Test
-    void save() {
-        Member savedMember = memberService.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
-
-        assertThat(savedMember.getId()).isNotNull();
-    }
-
-    @DisplayName("소셜 id로 회원을 조회한다.")
-    @Test
-    void findBySocialId() {
-        memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
-        Optional<Member> member = memberService.findBySocialId(HOHO_SOCIAL_ID);
-
-        assertAll(
-                () -> assertThat(member.get()).isNotNull(),
-                () -> assertThat(memberRepository.findAll()).hasSize(1)
-        );
-    }
 
     @DisplayName("본인을 제외한 모든 회원을 조회한다.")
     @Test

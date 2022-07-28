@@ -4,30 +4,33 @@ import com.woowacourse.thankoo.authentication.infrastructure.GoogleClient;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
-import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final GoogleClient googleClient;
 
     public TokenResponse signIn(final String code) {
         String idToken = googleClient.getIdToken(code);
         GoogleProfileResponse profileResponse = googleClient.getProfileResponse(idToken);
-        return memberService.findBySocialId(profileResponse.getSocialId())
+        return memberRepository.findBySocialId(profileResponse.getSocialId())
                 .map(this::toSignedUpMemberTokenResponse)
                 .orElseGet(() -> TokenResponse.ofFirstSignIn(idToken, profileResponse));
     }
 
+    @Transactional
     public TokenResponse signUp(final String idToken, final String name) {
         GoogleProfileResponse profileResponse = googleClient.getProfileResponse(idToken);
-        Member savedMember = memberService.save(profileResponse.toEntity(name));
+        Member savedMember = memberRepository.save(profileResponse.toEntity(name));
         return toSignedUpMemberTokenResponse(savedMember);
     }
 
