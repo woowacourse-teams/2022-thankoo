@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
+import EmptyContent from '../components/@shared/EmptyContent';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
@@ -27,9 +28,13 @@ const Reservations = () => {
           onChangeTab={setOrderBy}
         />
         <S.ListView>
-          {reservations[orderBy]?.map(reservation => (
-            <Reservation key={reservation.reservationId} order={orderBy} {...reservation} />
-          ))}
+          {reservations[orderBy]?.length > 0 ? (
+            reservations[orderBy].map(reservation => (
+              <Reservation key={reservation.reservationId} order={orderBy} {...reservation} />
+            ))
+          ) : (
+            <EmptyContent />
+          )}
         </S.ListView>
       </S.Body>
     </PageLayout>

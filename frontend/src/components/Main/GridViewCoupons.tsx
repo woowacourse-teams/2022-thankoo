@@ -1,15 +1,26 @@
 import styled from '@emotion/styled';
-import { Coupon } from '../../types';
+import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
+import { Coupon, CouponStatus } from '../../types';
 import CouponDetails from './CouponDetails';
 import GridViewCoupon from './GridViewCoupon';
 import ModalWrapper from './ModalWrapper';
+
+const strapStatus = ['reserving', 'reserved'];
 
 const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   return (
     <S.Container>
       {coupons.map(coupon => (
         <ModalWrapper modalContent={<CouponDetails coupon={coupon} />}>
-          <GridViewCoupon coupon={coupon} />
+          <S.Relative>
+            {strapStatus.includes(coupon.status) && (
+              <S.StatusStrap status={coupon.status}>
+                {COUPON_STATUS_BUTTON_TEXT[coupon.status]}
+              </S.StatusStrap>
+            )}
+
+            <GridViewCoupon coupon={coupon} />
+          </S.Relative>
         </ModalWrapper>
       ))}
     </S.Container>
@@ -17,6 +28,10 @@ const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
 };
 
 export default GridViewCoupons;
+
+type StatusStrapProps = {
+  status: CouponStatus;
+};
 
 const S = {
   Container: styled.div`
@@ -49,5 +64,20 @@ const S = {
         border-radius: 5px;
       }
     }
+  `,
+  Relative: styled.div`
+    overflow: hidden;
+    position: relative;
+  `,
+  StatusStrap: styled.div<StatusStrapProps>`
+    position: absolute;
+    bottom: 3%;
+    right: -18%;
+    color: white;
+    font-size: 13px;
+    z-index: 1;
+    transform: rotate(-40deg);
+    background-color: ${({ status }) => (status === 'reserving' ? 'tomato' : 'dimgray')};
+    padding: 8px 28px;
   `,
 };
