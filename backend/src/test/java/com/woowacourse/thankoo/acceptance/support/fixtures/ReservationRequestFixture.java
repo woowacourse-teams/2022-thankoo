@@ -11,7 +11,7 @@ import io.restassured.response.Response;
 
 public class ReservationRequestFixture {
 
-    public static ExtractableResponse<Response> 에약을_요청한다(final String token,
+    public static ExtractableResponse<Response> 예약을_요청한다(final String token,
                                                          final ReservationRequest reservationRequest) {
         return postWithToken("/api/reservations", token, reservationRequest);
     }
@@ -26,5 +26,9 @@ public class ReservationRequestFixture {
 
     public static ExtractableResponse<Response> 예약을_승인한다(final String reservationId, final String token) {
         return putWithToken("/api/reservations/" + reservationId, token, new ReservationStatusRequest("accept"));
+    }
+
+    public static ExtractableResponse<Response> 만남을_조회한다(final String token) {
+        return getWithToken("/api/meetings", token);
     }
 }

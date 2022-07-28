@@ -1,0 +1,4 @@
+[[Meeting]]
+== 만남 조회
+
+operation::meetings/get-meetings[snippets='http-request,http-response']

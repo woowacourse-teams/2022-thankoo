@@ -50,7 +50,6 @@ class ReservationMeetingServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
-
     @DisplayName("미팅을 생성한다.")
     @Test
     void createMeeting() {

@@ -9,6 +9,8 @@ import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationController;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.presentation.CouponController;
+import com.woowacourse.thankoo.meeting.application.MeetingService;
+import com.woowacourse.thankoo.meeting.presentation.MeetingController;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
 import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
@@ -30,7 +32,8 @@ import org.springframework.test.web.servlet.MockMvc;
         AuthenticationController.class,
         CouponController.class,
         MemberController.class,
-        ReservationController.class
+        ReservationController.class,
+        MeetingController.class
 })
 @Import(MockMvcConfig.class)
 @AutoConfigureRestDocs
@@ -63,6 +66,9 @@ public class ControllerTest {
 
     @MockBean
     protected ReservationQueryService reservationQueryService;
+
+    @MockBean
+    protected MeetingService meetingService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());
