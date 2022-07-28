@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.member.application;
 
-import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -19,13 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
-    @Transactional
-    public Long createOrGet(final GoogleProfileResponse googleProfileResponse) {
-        Member member = memberRepository.findBySocialId(googleProfileResponse.getSocialId())
-                .orElseGet(() -> memberRepository.save(googleProfileResponse.toEntity()));
-        return member.getId();
-    }
 
     public List<MemberResponse> getMembersExcludeMe(final Long memberId) {
         List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(memberId);
