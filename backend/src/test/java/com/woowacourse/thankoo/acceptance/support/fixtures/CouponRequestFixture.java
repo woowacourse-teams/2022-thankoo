@@ -24,6 +24,10 @@ public class CouponRequestFixture {
         return getWithToken("/api/coupons/sent", accessToken);
     }
 
+    public static ExtractableResponse<Response> 쿠폰_단건_정보를_조회한다(final Long couponId, final String token) {
+        return getWithToken("api/coupons/" + couponId, token);
+    }
+
     public static CouponRequest createCouponRequest(final List<Long> receiverIds,
                                                     final String type,
                                                     final String title,

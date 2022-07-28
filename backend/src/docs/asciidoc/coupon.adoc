@@ -14,3 +14,7 @@ operation::coupons/received-coupons-used[snippets='http-request,http-response']
 == 보낸 쿠폰 조회
 
 operation::coupons/sent-coupons[snippets='http-request,http-response']
+
+== 단건 쿠폰 조회
+
+operation::coupons/get-coupon[snippets='http-request,http-response']
