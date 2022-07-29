@@ -132,6 +132,7 @@ class CouponQueryServiceTest {
 
             reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
+
             assertThat(couponQueryService.getCouponDetail(receiver.getId(), coupon.getId())
                     .getTime()).usingRecursiveComparison()
                     .isEqualTo(timeResponse);
@@ -147,6 +148,7 @@ class CouponQueryServiceTest {
                     receiver.getId(),
                     new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
+
             assertThat(couponQueryService.getCouponDetail(receiver.getId(), coupon.getId()).getTime()).isNull();
         }
     }

@@ -91,6 +91,4 @@ class TimeClientTest {
             assertThat(timeResponse.getMeetingTime()).isEqualTo(meeting.getMeetingTime().getTime());
         }
     }
-
-
 }
