@@ -54,7 +54,11 @@ public class Member extends BaseEntity {
 
     public boolean hasSameId(final List<Long> ids) {
         return ids.stream()
-                .anyMatch(id::equals);
+                .anyMatch(this::isSameId);
+    }
+
+    public boolean isSameId(final Long id) {
+        return this.id.equals(id);
     }
 
     @Override

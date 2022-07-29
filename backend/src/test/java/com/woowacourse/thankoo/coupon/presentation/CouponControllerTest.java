@@ -34,11 +34,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
+import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.domain.CouponStatus;
+import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.meeting.domain.MeetingTime;
 import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
@@ -91,7 +98,7 @@ public class CouponControllerTest extends ControllerTest {
                 CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED"))
         );
 
-        given(couponService.getReceivedCoupons(anyLong(), anyString()))
+        given(couponQueryService.getReceivedCoupons(anyLong(), anyString()))
                 .willReturn(couponResponses);
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + NOT_USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -137,7 +144,7 @@ public class CouponControllerTest extends ControllerTest {
                 CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED"))
         );
 
-        given(couponService.getReceivedCoupons(anyLong(), anyString()))
+        given(couponQueryService.getReceivedCoupons(anyLong(), anyString()))
                 .willReturn(couponResponses);
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -183,7 +190,7 @@ public class CouponControllerTest extends ControllerTest {
                 CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED"))
         );
 
-        given(couponService.getSentCoupons(anyLong()))
+        given(couponQueryService.getSentCoupons(anyLong()))
                 .willReturn(couponResponses);
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/sent")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -212,6 +219,56 @@ public class CouponControllerTest extends ControllerTest {
                         fieldWithPath("[].content.title").type(STRING).description("title"),
                         fieldWithPath("[].content.message").type(STRING).description("message"),
                         fieldWithPath("[].status").type(STRING).description("status")
+                )
+        ));
+    }
+
+    @DisplayName("단일 쿠폰을 조회한다.")
+    @Test
+    void getCoupon() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+
+        LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);
+        CouponDetailResponse couponDetailResponse = CouponDetailResponse.from(
+                new MemberCoupon(1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
+                        CouponStatus.RESERVING.name()),
+                TimeResponse.of(new MeetingTime(localDateTime.toLocalDate(), localDateTime,
+                        TimeZoneType.ASIA_SEOUL.getId())));
+
+        given(couponQueryService.getCouponDetail(anyLong(), anyLong()))
+                .willReturn(couponDetailResponse);
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(couponDetailResponse)));
+
+        resultActions.andDo(document("coupons/get-coupon",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                responseFields(
+                        fieldWithPath("coupon.couponId").type(NUMBER).description("couponId"),
+                        fieldWithPath("coupon.sender.id").type(NUMBER).description("senderId"),
+                        fieldWithPath("coupon.sender.name").type(STRING).description("senderName"),
+                        fieldWithPath("coupon.sender.email").type(STRING).description("senderEmail"),
+                        fieldWithPath("coupon.sender.imageUrl").type(STRING).description("senderImageUrl"),
+                        fieldWithPath("coupon.receiver.id").type(NUMBER).description("receiverId"),
+                        fieldWithPath("coupon.receiver.name").type(STRING).description("receiverName"),
+                        fieldWithPath("coupon.receiver.email").type(STRING).description("receiverEmail"),
+                        fieldWithPath("coupon.receiver.imageUrl").type(STRING).description("receiverImageUrl"),
+                        fieldWithPath("coupon.content.couponType").type(STRING).description("couponType"),
+                        fieldWithPath("coupon.content.title").type(STRING).description("title"),
+                        fieldWithPath("coupon.content.message").type(STRING).description("message"),
+                        fieldWithPath("coupon.status").type(STRING).description("status"),
+                        fieldWithPath("time.meetingTime").type(STRING).description("date"),
+                        fieldWithPath("time.timeZone").type(STRING).description("timeZone")
                 )
         ));
     }

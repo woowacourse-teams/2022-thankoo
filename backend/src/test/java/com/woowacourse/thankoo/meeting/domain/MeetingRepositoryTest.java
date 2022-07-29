@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.reservation.domain;
+package com.woowacourse.thankoo.meeting.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
@@ -20,13 +20,19 @@ import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import com.woowacourse.thankoo.reservation.domain.Reservation;
+import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@DisplayName("ReservationRepository 는 ")
+@DisplayName("MeetingRepository 는 ")
 @RepositoryTest
-class ReservationRepositoryTest {
+class MeetingRepositoryTest {
+
+    @Autowired
+    private MeetingRepository meetingRepository;
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -37,33 +43,26 @@ class ReservationRepositoryTest {
     @Autowired
     private CouponRepository couponRepository;
 
-    @DisplayName("예약을 조회한다.")
+    @DisplayName("쿠폰으로 만남을 조회한다.")
     @Test
-    void findWithCouponById() {
+    void findMeetingByCoupon() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
         Coupon coupon = couponRepository.save(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Long reservationId = reservationRepository.save(ReservationFixture.createReservation(null, receiver, coupon))
-                .getId();
-        Reservation reservation = reservationRepository.findWithCouponById(reservationId)
-                .get();
-        assertThat(reservation.getCoupon()).isEqualTo(coupon);
-    }
-
-    @DisplayName("쿠폰으로 예약을 조회한다.")
-    @Test
-    void findReservationByCoupon() {
-        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
-        Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Reservation savedReservation = reservationRepository.save(
+        Reservation reservation = reservationRepository.save(
                 ReservationFixture.createReservation(null, receiver, coupon));
+        Meeting savedMeeting = meetingRepository.save(
+                new Meeting(
+                        List.of(sender, receiver),
+                        reservation.getMeetingTime(),
+                        MeetingStatus.ON_PROGRESS,
+                        coupon)
+        );
+        Meeting foundMeeting = meetingRepository.findTopByCoupon_IdAndMeetingStatus(coupon.getId(),
+                        MeetingStatus.ON_PROGRESS)
+                .get();
 
-        Reservation foundReservation = reservationRepository.findTopByCouponIdAndReservationStatus(coupon.getId(),
-                ReservationStatus.WAITING).get();
-
-        assertThat(foundReservation).isEqualTo(savedReservation);
+        assertThat(foundMeeting).isEqualTo(savedMeeting);
     }
 }
