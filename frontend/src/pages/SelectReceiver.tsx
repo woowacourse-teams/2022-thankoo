@@ -116,6 +116,7 @@ const S = {
     position: fixed;
     bottom: 5%;
     width: 80vw;
+    max-width: 680px;
     transition: all ease-in-out 0.1s;
     ${({ disabled, theme }) =>
       disabled

@@ -47,7 +47,7 @@ const useSignIn = () => {
           console.log(data);
           const accessToken = data.accessToken;
           saveAuth(accessToken);
-          navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+          navigate(`${ROUTE_PATH.ENTER_NICKNAME}`);
         });
       } catch (e) {
         alert('로그인에 실패하였습니다.');
