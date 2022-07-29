@@ -50,4 +50,20 @@ class ReservationRepositoryTest {
                 .get();
         assertThat(reservation.getCoupon()).isEqualTo(coupon);
     }
+
+    @DisplayName("쿠폰으로 예약을 조회한다.")
+    @Test
+    void findReservationByCoupon() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+        Coupon coupon = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Reservation savedReservation = reservationRepository.save(
+                ReservationFixture.createReservation(null, receiver, coupon));
+
+        Reservation foundReservation = reservationRepository.findTopByCouponIdAndReservationStatus(coupon.getId(),
+                ReservationStatus.WAITING).get();
+
+        assertThat(foundReservation).isEqualTo(savedReservation);
+    }
 }

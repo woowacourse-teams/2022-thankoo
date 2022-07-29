@@ -1,3 +1,6 @@
+env
+.env
+
 ##zero-install
 .yarn/*
 !.yarn/cache

@@ -35,8 +35,8 @@ function App() {
           <Route path={`${ROUTE_PATH.SELECT_RECEIVER}`} element={<SelectReceiver />} />
           <Route path={`${ROUTE_PATH.ENTER_COUPON_CONTENT}`} element={<EnterCouponContent />} />
           <Route path={`${ROUTE_PATH.CREATE_RESERVATION}`} element={<CreateReservation />} />
-          <Route path={`${ROUTE_PATH.PROFILE}`} element={<UserProfile />} />
           <Route path={`${ROUTE_PATH.RESERVATIONS}`} element={<Reservations />} />
+          <Route path={`${ROUTE_PATH.PROFILE}`} element={<UserProfile />} />
         </Route>
         <Route element={<UnAuthOnly />}>
           <Route path={`${ROUTE_PATH.SIGN_IN}`} element={<SignIn />} />

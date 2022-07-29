@@ -12,6 +12,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -97,5 +98,21 @@ public class CouponQueryRepositoryTest {
         List<MemberCoupon> memberCoupons = couponQueryRepository.findBySenderId(sender.getId());
 
         assertThat(memberCoupons).hasSize(3);
+    }
+
+    @DisplayName("쿠폰을 조회한다.")
+    @Test
+    void findById() {
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
+        Coupon coupon = couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
+
+        MemberCoupon memberCoupon = couponQueryRepository.findByCouponId(coupon.getId()).get();
+
+        assertAll(
+                () -> assertThat(memberCoupon).isNotNull(),
+                () -> assertThat(memberCoupon.getCouponId()).isEqualTo(coupon.getId())
+        );
     }
 }

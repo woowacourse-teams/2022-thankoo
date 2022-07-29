@@ -12,11 +12,11 @@ import reset from './styles/GlobalReset';
 import global from './styles/GlobalStyled';
 import { ThemeProvider } from './styles/ThemeProvider';
 import { queryClient } from './apis/queryClient';
+import './assets/favicon/favicon.ico';
 
 const rootElement = document.getElementById('root')!;
 const root = createRoot(rootElement);
-
-if (process.env.NODE_ENV === 'development') {
+if (process.env.MODE === 'local') {
   const { worker } = require('./mocks/browser');
   worker.start();
 }

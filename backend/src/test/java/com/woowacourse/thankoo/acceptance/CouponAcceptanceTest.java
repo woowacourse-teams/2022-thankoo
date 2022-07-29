@@ -5,7 +5,9 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.Authentication
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.createCouponRequest;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.받은_쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.보낸_쿠폰을_조회한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰_단건_정보를_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.에약을_요청한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
@@ -23,12 +25,16 @@ import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HOHO_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HUNI_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -124,6 +130,27 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             보낸_쿠폰이_조회됨(response);
         }
+
+        @DisplayName("회원이 보낸 쿠폰으로 받은 예약을 조회한다.")
+        @Test
+        void getReservationByCoupon() {
+            TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
+            TokenResponse receiverToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HOHO, HOHO_TOKEN, HOHO_NAME));
+
+            CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
+                    MESSAGE);
+            쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+
+            CouponResponse couponResponse = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
+                    .getList(".", CouponResponse.class).get(0);
+
+            에약을_요청한다(receiverToken.getAccessToken(),
+                    new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(1L)));
+
+            ExtractableResponse<Response> response = 쿠폰_단건_정보를_조회한다(couponResponse.getCouponId(),
+                    receiverToken.getAccessToken());
+            단건_예약이_조회됨(response);
+        }
     }
 
     @DisplayName("로그인 하지 않고 ")
@@ -171,5 +198,14 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(couponResponses).isNotEmpty();
+    }
+
+    private void 단건_예약이_조회됨(final ExtractableResponse<Response> response) {
+        CouponDetailResponse couponDetailResponse = response.as(CouponDetailResponse.class);
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(couponDetailResponse.getCoupon()).isNotNull(),
+                () -> assertThat(couponDetailResponse.getTime()).isNotNull()
+        );
     }
 }
