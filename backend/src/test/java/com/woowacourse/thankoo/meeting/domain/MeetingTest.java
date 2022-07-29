@@ -38,14 +38,33 @@ class MeetingTest {
         Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
         Reservation reservation = createReservation(1L, skrr, coupon);
-        MeetingMembers meetingMembers = new MeetingMembers(List.of(
-                new MeetingMember(huni, reservation),
-                new MeetingMember(lala, reservation))
-        );
 
         assertThatThrownBy(
-                () -> new Meeting(1L, meetingMembers, reservation.getMeetingTime(), MeetingStatus.ON_PROGRESS, coupon))
+                () -> new Meeting(1L,
+                        List.of(huni, lala),
+                        reservation.getMeetingTime(),
+                        MeetingStatus.ON_PROGRESS,
+                        coupon))
                 .isInstanceOf(InvalidMeetingException.class)
                 .hasMessage("잘못된 미팅 참여자입니다.");
+    }
+
+    @DisplayName("회원이 두 명이 아닐 경우 예외가 발생한다.")
+    @Test
+    void validateMemberCountException() {
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+        Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                CouponStatus.NOT_USED);
+        Reservation reservation = createReservation(1L, skrr, coupon);
+
+        assertThatThrownBy(
+                () -> new Meeting(1L,
+                        List.of(huni),
+                        reservation.getMeetingTime(),
+                        MeetingStatus.ON_PROGRESS,
+                        coupon))
+                .isInstanceOf(InvalidMeetingException.class)
+                .hasMessage("미팅 참여자는 두 명이어야 합니다.");
     }
 }

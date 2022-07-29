@@ -62,7 +62,12 @@ const EnterCouponContent = () => {
           ></S.MessageTextarea>
         </S.Form>
       </S.Body>
-      <S.LongButton onClick={sendCoupon} disabled={!isFilled}>
+      <S.LongButton
+        onClick={() => {
+          sendCoupon.mutate();
+        }}
+        disabled={!isFilled}
+      >
         {checkedUsers.length}명에게 쿠폰 전송하기
         <ArrowForwardIosIcon />
       </S.LongButton>

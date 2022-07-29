@@ -8,7 +8,7 @@ import PageLayout from '../components/@shared/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
 import useProfile from '../hooks/Profile/useProfile';
-import defaultUser from '../images/default_user.jpeg';
+import defaultUser from '../assets/images/default_user.jpeg';
 
 const UserProfile = () => {
   const { profile, editUserName } = useProfile();

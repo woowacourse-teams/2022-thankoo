@@ -1,8 +1,12 @@
 package com.woowacourse.thankoo.authentication.infrastructure;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleTokenResponse;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Map;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -18,8 +22,10 @@ import org.springframework.web.client.RestTemplate;
 @Getter
 public class GoogleClient {
 
-    public static final String AUTHORIZATION_TYPE = "Bearer ";
+    private static final String AUTHORIZATION_TYPE = "Bearer ";
     private static final RestTemplate REST_TEMPLATE = new RestTemplate();
+    private static final String JWT_DELIMITER = "\\.";
+    private static final int PAYLOAD = 1;
 
     private final String clientId;
     private final String clientSecret;
@@ -42,12 +48,12 @@ public class GoogleClient {
         this.userInfoRequestUrl = userInfoRequestUrl;
     }
 
-    public String getAccessToken(final String code) {
+    public String getIdToken(final String code) {
         HttpHeaders headers = getUrlEncodedHeader();
         MultiValueMap<String, String> parameters = getGoogleRequestParameters(code);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(parameters, headers);
         GoogleTokenResponse tokenResponse = requestGoogleToken(httpEntity);
-        return Objects.requireNonNull(tokenResponse).getAccessToken();
+        return tokenResponse.getIdToken();
     }
 
     private HttpHeaders getUrlEncodedHeader() {
@@ -76,18 +82,33 @@ public class GoogleClient {
                 .getBody();
     }
 
-    public GoogleProfileResponse getProfile(final String accessToken) {
-        HttpHeaders userInfoHeaders = new HttpHeaders();
-        userInfoHeaders.add(HttpHeaders.AUTHORIZATION, AUTHORIZATION_TYPE + accessToken);
-        return requestProfile(new HttpEntity<>(userInfoHeaders));
+    public GoogleProfileResponse getProfileResponse(final String idToken) {
+        return toGoogleProfileResponse(idToken);
     }
 
-    private GoogleProfileResponse requestProfile(final HttpEntity<GoogleProfileResponse> httpEntity) {
-        return REST_TEMPLATE
-                .exchange(userInfoRequestUrl,
-                        HttpMethod.GET,
-                        httpEntity,
-                        GoogleProfileResponse.class)
-                .getBody();
+    private GoogleProfileResponse toGoogleProfileResponse(final String idToken) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, String> profile = objectMapper.readValue(getProfileFromToken(idToken), Map.class);
+            String socialId = profile.get("sub");
+            String email = profile.get("email");
+            String imageUrl = profile.get("picture");
+
+            return new GoogleProfileResponse(socialId, email, imageUrl);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getProfileFromToken(final String token) {
+        return decode(getPayload(token));
+    }
+
+    private String getPayload(final String token) {
+        return token.split(JWT_DELIMITER)[PAYLOAD];
+    }
+
+    private String decode(final String payload) {
+        return new String(Base64.getUrlDecoder().decode(payload), StandardCharsets.UTF_8);
     }
 }

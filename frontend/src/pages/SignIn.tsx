@@ -1,35 +1,12 @@
 import styled from '@emotion/styled';
 import GoogleIcon from '@mui/icons-material/Google';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import PageLayout from '../components/@shared/PageLayout';
-import { ROUTE_PATH } from '../constants/routes';
 import { flexCenter } from '../styles/mixIn';
 import BirdLogoWhite from './../components/@shared/LogoWhite';
-import { GOOGLE_AUTH_URL } from './../constants/googleAuth';
 import useSignIn from './../hooks/SignIn/useSignIn';
 
 const SignIn = () => {
-  const navigate = useNavigate();
-  const { refetchToken, userCode } = useSignIn();
-
-  useEffect(() => {
-    if (userCode) {
-      try {
-        refetchToken().then(() => {
-          //const accessToken = data.accessToken; // data : token, isjoined, email, name
-          //saveAuth(accessToken);// 이거를 어떻게든 전달받고
-          navigate(ROUTE_PATH.ENTER_NICKNAME); // nickname -> exactmain으로 signIn하고
-        });
-      } catch (e) {
-        alert('로그인에 실패하였습니다.');
-      }
-    }
-  }, [userCode]);
-
-  const redirectGoogleAuth = () => {
-    window.location.href = GOOGLE_AUTH_URL;
-  };
+  const { redirectGoogleAuth } = useSignIn();
 
   return (
     <PageLayout>

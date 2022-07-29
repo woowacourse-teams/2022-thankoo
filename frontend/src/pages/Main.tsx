@@ -10,6 +10,7 @@ import PageLayout from '../components/@shared/PageLayout';
 import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
 import BottomNavBar from './../components/@shared/BottomNavBar';
+import EmptyContent from '../components/@shared/EmptyContent';
 
 const Main = () => {
   const { setCurrentType, orderedCoupons, isLoading, error, currentType } = useMain();
@@ -32,7 +33,7 @@ const Main = () => {
             tabList={couponTypes}
             selectableTabs={couponTypeKeys}
           />
-          {orderedCoupons && <GridViewCoupons coupons={orderedCoupons} />}
+          {orderedCoupons?.length ? <GridViewCoupons coupons={orderedCoupons} /> : <EmptyContent />}
         </S.Body>
 
         {visible && <Modal />}

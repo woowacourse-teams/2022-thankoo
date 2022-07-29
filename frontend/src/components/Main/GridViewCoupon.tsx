@@ -1,21 +1,14 @@
 import styled from '@emotion/styled';
-import { COUPON_IMAGE, COUPON_STATUS_BUTTON_TEXT, RAND_COLORS } from '../../constants/coupon';
-import { Coupon, CouponStatus } from '../../types';
-
-const opacityStatus = ['reserving', 'reserved'];
+import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
+import { Coupon } from '../../types';
 
 const GridViewCoupon = ({ coupon }: { coupon: Coupon }) => {
   const { sender, content, status } = coupon;
 
   return (
     <S.Layout>
-      {opacityStatus.includes(status) && (
-        <S.StatusText>{COUPON_STATUS_BUTTON_TEXT[status]}</S.StatusText>
-      )}
-
       <S.Content
         backgroundColor={RAND_COLORS[sender.id % RAND_COLORS.length].bg}
-        status={status}
         color={RAND_COLORS[sender.id % RAND_COLORS.length].color}
       >
         <S.Title>{content.title}</S.Title>
@@ -33,7 +26,6 @@ export default GridViewCoupon;
 type ContentProp = {
   backgroundColor: string;
   color: string;
-  status: CouponStatus;
 };
 
 const S = {
@@ -56,10 +48,7 @@ const S = {
     border-radius: 13px;
     background-color: ${({ backgroundColor }) => backgroundColor};
     color: ${({ color }) => color};
-    opacity: ${({ status }) => opacityStatus.includes(status) && 0.4};
     position: relative;
-
-    cursor: ${({ status }) => (opacityStatus.includes(status) ? 'unset' : 'pointer')};
   `,
   StatusText: styled.div`
     position: absolute;
