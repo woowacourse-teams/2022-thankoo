@@ -44,9 +44,13 @@ const useSignIn = () => {
     if (userCode) {
       try {
         refetchToken().then(({ data }) => {
-          console.log(data);
-          const accessToken = data.accessToken;
-          saveAuth(accessToken);
+          const { accessToken } = data;
+
+          if (data.joined) {
+            saveAuth(accessToken);
+            navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+            return;
+          }
           navigate(`${ROUTE_PATH.ENTER_NICKNAME}`);
         });
       } catch (e) {

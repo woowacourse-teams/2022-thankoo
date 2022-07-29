@@ -7,8 +7,18 @@ export const signInHandler = [
       ctx.status(200),
       ctx.json({
         accessToken: null,
-        isjoined: false,
-        email: 'hoho@gmail.com',
+        joined: false,
+        email: 'skrr@gmail.com',
+      })
+    );
+  }),
+  rest.post(API_PATH.SIGN_UP, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        joined: true,
+        accessToken: 'accessToken',
+        memberId: 1,
+        email: 'skrr@email.com',
       })
     );
   }),

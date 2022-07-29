@@ -1,41 +1,12 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { requestInstance } from '../apis/axios';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import Input from '../components/@shared/Input';
 import PageLayout from '../components/@shared/PageLayout';
-import { ROUTE_PATH } from '../constants/routes';
-import { saveAuth } from '../utils/auth';
+import useEnterNickname from '../hooks/EnterNickname/useEnterNickname';
 
 const EnterNickname = () => {
-  //useQueryClinet로 email, nickname, token
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const [nickname, setNickname] = useState('');
-  // const { email, memberId } = queryClient.getQueryData('token') as any;
-
-  // const onclick = () => {
-  //   //받아온걸 바탕으로 api 요청을 보냄
-  //   const data = useQuery(
-  //     '닉네임입력',
-  //     () => {
-  //       const { data } = requestInstance({
-  //         method: 'post',
-  //       });
-
-  //       return data;
-  //     },
-  //     {
-  //       onSuccess: ({ accessToken }) => {
-  //         saveAuth(accessToken);
-  //         navigate(ROUTE_PATH.EXACT_MAIN); //redirect to exactMain
-  //       },
-  //     }
-  //   );
-  // };
+  const { email, nickname, setNickname, signUpWithNickname } = useEnterNickname();
 
   return (
     <S.PageLayout>
@@ -43,10 +14,10 @@ const EnterNickname = () => {
         <HeaderText>회원가입을 완료해주세요!</HeaderText>
       </Header>
       <S.Body>
-        <S.Form>
+        <S.Form onSubmit={signUpWithNickname}>
           <S.FlexColumn>
             <S.Label htmlFor='email'>이메일</S.Label>
-            <S.Email>hoho@gmail.com</S.Email>
+            <S.Email>{email}</S.Email>
           </S.FlexColumn>
           <S.FlexColumn>
             <S.Label htmlFor='nickname'>닉네임</S.Label>
