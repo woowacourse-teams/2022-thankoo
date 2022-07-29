@@ -61,7 +61,7 @@ class ReservationRepositoryTest {
         Reservation savedReservation = reservationRepository.save(
                 ReservationFixture.createReservation(null, receiver, coupon));
 
-        Reservation foundReservation = reservationRepository.findTopByCoupon_IdAndReservationStatus(coupon.getId(),
+        Reservation foundReservation = reservationRepository.findTopByCouponIdAndReservationStatus(coupon.getId(),
                 ReservationStatus.WAITING).get();
 
         assertThat(foundReservation).isEqualTo(savedReservation);

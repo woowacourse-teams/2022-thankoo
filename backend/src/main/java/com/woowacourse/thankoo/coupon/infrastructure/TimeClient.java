@@ -39,7 +39,7 @@ public class TimeClient {
     }
 
     private Reservation getReservation(final Long couponId) {
-        return reservationRepository.findTopByCoupon_IdAndReservationStatus(couponId, ReservationStatus.WAITING)
+        return reservationRepository.findTopByCouponIdAndReservationStatus(couponId, ReservationStatus.WAITING)
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
     }
 
