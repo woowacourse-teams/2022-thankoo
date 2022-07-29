@@ -7,13 +7,12 @@ const mode = process.env.NODE_ENV || 'development';
 module.exports = env => {
   const { MODE } = env;
 
-  dotenv.config();
-
   if (MODE === 'local') {
     dotenv.config({ path: './env/.env.local' });
-  }
-  if (MODE === 'development') {
+  } else if (MODE === 'development') {
     dotenv.config({ path: './env/.env.development' });
+  } else {
+    dotenv.config();
   }
 
   return {
