@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { requestInstance } from '../../apis/axios';
@@ -27,8 +27,8 @@ const useEnterNickname = () => {
         headers: { Authorization: data?.accessToken },
       }),
     {
-      onSuccess: (data: any) => {
-        saveAuth(data.accessToken);
+      onSuccess: (res: any) => {
+        saveAuth(res.data.accessToken);
         navigate(ROUTE_PATH.EXACT_MAIN);
       },
     }
@@ -39,7 +39,7 @@ const useEnterNickname = () => {
     signUp.mutate();
   };
 
-  return { signUpWithNickname, setNickname, nickname, email: data.email };
+  return { signUpWithNickname, setNickname, nickname, email: data?.email };
 };
 
 export default useEnterNickname;
