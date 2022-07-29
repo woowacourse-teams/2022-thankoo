@@ -6,6 +6,11 @@ import { API_PATH } from '../../constants/api';
 import { GOOGLE_AUTH_URL } from '../../constants/googleAuth';
 import { ROUTE_PATH } from '../../constants/routes';
 
+const saveAuth = (accessToken: string) => {
+  requestInstance.prototype.updateAuth(accessToken);
+  localStorage.setItem('token', accessToken);
+};
+
 const useSignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,10 +44,14 @@ const useSignIn = () => {
     if (userCode) {
       try {
         refetchToken().then(({ data }) => {
-          console.log(data);
-          const accessToken = data.accessToken;
-          saveAuth(accessToken);
-          navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+          const { accessToken } = data;
+
+          if (data.joined) {
+            saveAuth(accessToken);
+            navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+            return;
+          }
+          navigate(`${ROUTE_PATH.ENTER_NICKNAME}`);
         });
       } catch (e) {
         alert('로그인에 실패하였습니다.');
