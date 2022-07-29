@@ -1,9 +1,13 @@
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { requestInstance } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
+import { GOOGLE_AUTH_URL } from '../../constants/googleAuth';
+import { ROUTE_PATH } from '../../constants/routes';
 
 const useSignIn = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const userCode = location.search.substring(6).split('&')[0];
 
@@ -31,7 +35,26 @@ const useSignIn = () => {
     localStorage.setItem('token', accessToken);
   };
 
-  return { refetchToken, userCode, data, saveAuth };
+  useEffect(() => {
+    if (userCode) {
+      try {
+        refetchToken().then(({ data }) => {
+          console.log(data);
+          const accessToken = data.accessToken;
+          saveAuth(accessToken);
+          navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+        });
+      } catch (e) {
+        alert('로그인에 실패하였습니다.');
+      }
+    }
+  }, [userCode]);
+
+  const redirectGoogleAuth = () => {
+    window.location.href = GOOGLE_AUTH_URL;
+  };
+
+  return { refetchToken, userCode, data, saveAuth, redirectGoogleAuth };
 };
 
 export default useSignIn;
