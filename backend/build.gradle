@@ -63,9 +63,13 @@ task createDocument(type: Copy) {
     into file("src/main/resources/static")
 }
 
-bootJar {
+task buildDocument(type: Copy) {
     dependsOn createDocument
-    from ("build/asciidoc/html5/index.html") {
-        into 'BOOT-INF/classes/static'
-    }
+
+    from file("build/asciidoc/html5/index.html")
+    into file("build/resources/main/static")
+}
+
+bootJar {
+    dependsOn buildDocument
 }
