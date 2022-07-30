@@ -4,7 +4,7 @@ const CLIENT_ID =
 const REDIRECT_URL =
   process.env.NODE_ENV === 'development'
     ? 'redirect_uri=http://localhost:3000/sign-in'
-    : 'redirect_uri=http://thankoo.co.kr/sign-in';
+    : 'redirect_uri=https://thankoo.co.kr/sign-in';
 const RESPONSE_TYPE = 'response_type=code';
 const SCOPE =
   'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid';
