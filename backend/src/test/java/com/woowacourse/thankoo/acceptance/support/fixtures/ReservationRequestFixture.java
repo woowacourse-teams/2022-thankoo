@@ -10,7 +10,8 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 public class ReservationRequestFixture {
-    public static ExtractableResponse<Response> 에약을_요청한다(final String token,
+
+    public static ExtractableResponse<Response> 예약을_요청한다(final String token,
                                                          final ReservationRequest reservationRequest) {
         return postWithToken("/api/reservations", token, reservationRequest);
     }

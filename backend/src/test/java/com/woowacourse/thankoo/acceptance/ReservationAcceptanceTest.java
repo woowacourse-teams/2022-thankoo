@@ -7,8 +7,8 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestF
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.받은_예약을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.보낸_예약을_조회한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.에약을_요청한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_승인한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_요청한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
@@ -53,7 +53,7 @@ class ReservationAcceptanceTest extends AcceptanceTest {
         CouponResponse couponResponse2 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
                 .getList(".", CouponResponse.class).get(1);
 
-        ExtractableResponse<Response> response = 에약을_요청한다(receiverToken.getAccessToken(),
+        ExtractableResponse<Response> response = 예약을_요청한다(receiverToken.getAccessToken(),
                 new ReservationRequest(couponResponse1.getCouponId(), LocalDateTime.now().plusDays(1L)));
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
@@ -74,9 +74,9 @@ class ReservationAcceptanceTest extends AcceptanceTest {
         CouponResponse couponResponse2 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
                 .getList(".", CouponResponse.class).get(1);
 
-        에약을_요청한다(receiverToken.getAccessToken(),
+        예약을_요청한다(receiverToken.getAccessToken(),
                 new ReservationRequest(couponResponse1.getCouponId(), LocalDateTime.now().plusDays(1L)));
-        에약을_요청한다(receiverToken.getAccessToken(),
+        예약을_요청한다(receiverToken.getAccessToken(),
                 new ReservationRequest(couponResponse2.getCouponId(), LocalDateTime.now().plusDays(1L)));
 
         ExtractableResponse<Response> response = 보낸_예약을_조회한다(receiverToken.getAccessToken());
@@ -99,9 +99,9 @@ class ReservationAcceptanceTest extends AcceptanceTest {
         CouponResponse couponResponse2 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
                 .getList(".", CouponResponse.class).get(1);
 
-        에약을_요청한다(receiverToken.getAccessToken(),
+        예약을_요청한다(receiverToken.getAccessToken(),
                 new ReservationRequest(couponResponse1.getCouponId(), LocalDateTime.now().plusDays(1L)));
-        에약을_요청한다(receiverToken.getAccessToken(),
+        예약을_요청한다(receiverToken.getAccessToken(),
                 new ReservationRequest(couponResponse2.getCouponId(), LocalDateTime.now().plusDays(1L)));
 
         ExtractableResponse<Response> response = 받은_예약을_조회한다(senderToken.getAccessToken());
@@ -121,7 +121,7 @@ class ReservationAcceptanceTest extends AcceptanceTest {
         CouponResponse couponResponse = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
                 .getList(".", CouponResponse.class).get(0);
 
-        String reservationId = 에약을_요청한다(receiverToken.getAccessToken(),
+        String reservationId = 예약을_요청한다(receiverToken.getAccessToken(),
                 new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(1L)))
                 .header(HttpHeaders.LOCATION).split("reservations/")[1];
 

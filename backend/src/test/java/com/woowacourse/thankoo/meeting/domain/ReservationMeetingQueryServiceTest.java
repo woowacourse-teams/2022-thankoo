@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("ReservationMeetingService 는 ")
 @ApplicationTest
-class ReservationMeetingServiceTest {
+class ReservationMeetingQueryServiceTest {
 
     @Autowired
     private ReservationMeetingService reservationMeetingService;
@@ -49,7 +49,6 @@ class ReservationMeetingServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
-
 
     @DisplayName("미팅을 생성한다.")
     @Test

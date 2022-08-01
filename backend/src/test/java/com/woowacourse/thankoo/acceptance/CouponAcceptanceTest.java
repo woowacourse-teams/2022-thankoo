@@ -7,7 +7,7 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestF
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.보낸_쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰_단건_정보를_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.에약을_요청한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_요청한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
@@ -144,7 +144,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
             CouponResponse couponResponse = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
                     .getList(".", CouponResponse.class).get(0);
 
-            에약을_요청한다(receiverToken.getAccessToken(),
+            예약을_요청한다(receiverToken.getAccessToken(),
                     new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(1L)));
 
             ExtractableResponse<Response> response = 쿠폰_단건_정보를_조회한다(couponResponse.getCouponId(),
