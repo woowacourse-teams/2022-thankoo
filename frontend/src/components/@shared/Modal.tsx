@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import Portal from '../../Portal';
 import { modalContentAtom } from '../../recoil/atom';
@@ -7,14 +8,19 @@ import useModal from './../../hooks/useModal';
 const Modal = () => {
   const modalContent = useRecoilValue(modalContentAtom);
   const { close } = useModal();
+  const ref = useRef<any>();
+
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
 
   return (
     <Portal>
       <section
+        tabIndex={0}
+        ref={ref}
         onKeyDown={e => {
-          if (e.nativeEvent.key === 'Escape') {
-            close();
-          }
+          if (e.nativeEvent.key === 'Escape') close();
         }}
       >
         <S.Dimmer onClick={() => close()} />

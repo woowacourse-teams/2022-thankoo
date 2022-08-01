@@ -1,23 +1,11 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { requestInstance } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
 import { Coupon } from '../../types';
 import ConponDetailsNotUsed from './ConponDetails.notUsed';
 import CouponDetailsReserve from './CouponDetails.reserve';
 
 const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
   const { couponId, status } = coupon;
-
-  const { data } = useQuery(['couponDetail', status], async () => {
-    const res = await requestInstance({
-      method: 'get',
-      url: `${API_PATH.GET_COUPON_DETAIL(couponId)}`,
-    });
-    return res.data;
-  });
 
   return (
     <S.Container>

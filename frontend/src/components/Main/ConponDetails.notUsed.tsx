@@ -1,15 +1,11 @@
 import styled from '@emotion/styled';
 import CloseButton from '../@shared/CloseButton';
 import GridViewCoupon from './GridViewCoupon';
-import { Coupon } from '../../types';
 import { useRecoilState } from 'recoil';
 import { targetCouponAtom } from '../../recoil/atom';
 import { ROUTE_PATH } from '../../constants/routes';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
 import { Link } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { requestInstance } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
 import useModal from '../../hooks/useModal';
 import { useNotUsedCouponDetail } from '../../hooks/Main/useCouponDetail';
 
@@ -18,6 +14,7 @@ const ConponDetailsNotUsed = ({ couponId }: { couponId: number }) => {
   const { close } = useModal();
   const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
   const { coupon, isLoading, isError } = useNotUsedCouponDetail(couponId);
+
   if (isLoading) {
     return <></>;
   }
