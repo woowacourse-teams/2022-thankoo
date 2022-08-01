@@ -22,13 +22,14 @@ const EnterNickname = () => {
           <S.FlexColumn>
             <S.Label htmlFor='nickname'>닉네임</S.Label>
             <Input
+              type='text'
               id='nickname'
               value={nickname}
               setValue={setNickname}
               placeholder='닉네임을 입력해주세요'
             />
           </S.FlexColumn>
-          <S.Button>회원가입 완료</S.Button>
+          <S.Button type='submit'>회원가입 완료</S.Button>
         </S.Form>
       </S.Body>
     </S.PageLayout>

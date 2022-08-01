@@ -60,7 +60,7 @@ const S = {
       color: ${({ theme }) => theme.input.placeholder};
     }
   `,
-  EraseAllButton: styled.button`
+  EraseAllButton: styled.span`
     border-radius: 50%;
     border: none;
     background-color: transparent;

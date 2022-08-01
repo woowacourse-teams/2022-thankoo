@@ -19,7 +19,7 @@ const TabsNav = ({
 }: TabsNavProps) => {
   return (
     <S.Container className={className}>
-      <div>
+      <S.ButtonWrapper>
         {selectableTabs.map((tab, idx) => (
           <S.Button
             key={idx}
@@ -31,7 +31,7 @@ const TabsNav = ({
             {tabList[tab]}
           </S.Button>
         ))}
-      </div>
+      </S.ButtonWrapper>
       {children}
     </S.Container>
   );
@@ -44,9 +44,14 @@ const S = {
     display: flex;
     justify-content: space-between;
   `,
+  ButtonWrapper: styled.div`
+    display: flex;
+    gap: 10px;
+  `,
   Button: styled.button<ButtonProp>`
     border: none;
     background-color: transparent;
+    padding: 0;
 
     color: ${({ isActive, theme }) => (isActive ? theme.page.color : theme.page.subColor)};
     font-size: 18px;
