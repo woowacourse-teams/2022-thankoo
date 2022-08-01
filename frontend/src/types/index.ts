@@ -7,7 +7,13 @@ export interface Coupon {
   content: CouponContent;
   status: CouponStatus;
 }
-
+export interface Reservation {
+  coupon: Coupon;
+  time: {
+    meetingTime: string;
+    timeZone: string;
+  };
+}
 export interface UserProfile {
   id: number;
   name: string;

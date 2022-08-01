@@ -12,4 +12,6 @@ export const API_PATH = {
   RESERVATIONS_RECEIVED: `/api/reservations/received`,
   SIGN_IN: userCode => `/api/sign-in?code=${userCode}`,
   SIGN_UP: '/api/sign-up',
+  COUPON_DETAIL: '/api/coupons',
+  GET_COUPON_DETAIL: couponId => `/api/coupons/${couponId}`,
 };

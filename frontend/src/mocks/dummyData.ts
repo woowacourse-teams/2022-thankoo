@@ -146,7 +146,6 @@ export const dummyCoupons: Coupon[] = [
       title: '숟갈이 보내는 미숟갈',
       message: '고마워 후니~~~',
     },
-
     status: 'reserving',
   },
   {
@@ -208,7 +207,7 @@ export const dummyCoupons: Coupon[] = [
       message: '고마워 후니~~',
     },
 
-    status: 'not_used',
+    status: 'used',
   },
   {
     couponId: 8,
@@ -240,6 +239,6 @@ export const dummyCoupons: Coupon[] = [
       message: '하하하',
     },
 
-    status: 'not_used',
+    status: 'used',
   },
 ];

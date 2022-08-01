@@ -10,7 +10,13 @@ const Modal = () => {
 
   return (
     <Portal>
-      <section>
+      <section
+        onKeyDown={e => {
+          if (e.nativeEvent.key === 'Escape') {
+            close();
+          }
+        }}
+      >
         <S.Dimmer onClick={() => close()} />
         <S.Content>{modalContent}</S.Content>
       </section>
