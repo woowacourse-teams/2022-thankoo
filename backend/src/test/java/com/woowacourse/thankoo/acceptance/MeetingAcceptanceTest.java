@@ -5,7 +5,7 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.Authentication
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.createCouponRequest;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.받은_쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.미팅을_조회한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.MeetingRequestFixture.미팅을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_승인한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_요청한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
