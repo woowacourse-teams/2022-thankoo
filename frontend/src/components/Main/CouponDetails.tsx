@@ -1,47 +1,32 @@
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
-import { ROUTE_PATH } from '../../constants/routes';
-import useModal from '../../hooks/useModal';
-import { targetCouponAtom } from '../../recoil/atom';
+import { requestInstance } from '../../apis/axios';
+import { API_PATH } from '../../constants/api';
 import { Coupon } from '../../types';
-import CloseButton from '../@shared/CloseButton';
-import GridViewCoupon from './GridViewCoupon';
+import ConponDetailsNotUsed from './ConponDetails.notUsed';
+import CouponDetailsReserve from './CouponDetails.reserve';
 
 const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
-  const { sender, content, couponId, status } = coupon;
-  const { close } = useModal();
-  const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
+  const { couponId, status } = coupon;
+
+  const { data } = useQuery(['couponDetail', status], async () => {
+    const res = await requestInstance({
+      method: 'get',
+      url: `${API_PATH.GET_COUPON_DETAIL(couponId)}`,
+    });
+    return res.data;
+  });
 
   return (
     <S.Container>
       <S.Modal>
-        <S.Header>
-          <span></span>
-          <CloseButton onClick={close} color='white' />
-        </S.Header>
-        <S.CouponArea>
-          <GridViewCoupon coupon={coupon} />
-        </S.CouponArea>
-        <S.Contents>
-          <S.SpaceBetween>
-            <S.Sender>{sender.name}</S.Sender>
-            {/* <span>2022.02.22</span> */}
-          </S.SpaceBetween>
-          <S.Message>{content.message}</S.Message>
-        </S.Contents>
-        <S.Footer>
-          <S.UseCouponLink
-            onClick={() => {
-              setTargetCouponId(couponId);
-              close();
-            }}
-            to={`${ROUTE_PATH.CREATE_RESERVATION}`}
-          >
-            <S.Button>{COUPON_STATUS_BUTTON_TEXT[status]}</S.Button>
-          </S.UseCouponLink>
-        </S.Footer>
+        {status === 'not_used' ? (
+          <ConponDetailsNotUsed couponId={couponId} />
+        ) : (
+          <CouponDetailsReserve couponId={couponId} />
+        )}
       </S.Modal>
     </S.Container>
   );
