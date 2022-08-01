@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { requestInstance } from '../../apis/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
@@ -11,7 +11,7 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId, order
 
   const handleReservation = useMutation(
     async (status: status) => {
-      await requestInstance({
+      await client({
         method: 'put',
         url: `${API_PATH.RESERVATIONS}/${reservationId}`,
         data: { status },

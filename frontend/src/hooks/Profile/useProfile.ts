@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { requestInstance } from '../../apis/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { UserProfile } from '../../types';
 
@@ -9,7 +9,7 @@ const useProfile = () => {
   const { data: profile } = useQuery<UserProfile>(
     'profile',
     async () => {
-      const { data } = await requestInstance({
+      const { data } = await client({
         method: 'get',
         url: `${API_PATH.PROFILE}`,
       });
@@ -23,7 +23,7 @@ const useProfile = () => {
 
   const editUserName = useMutation(
     (name: string) =>
-      requestInstance({
+      client({
         method: 'put',
         url: `${API_PATH.PROFILE}`,
         data: {

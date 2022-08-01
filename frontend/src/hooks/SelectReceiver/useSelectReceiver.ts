@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { requestInstance } from '../../apis/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
@@ -13,7 +13,7 @@ const useSelectReceiver = () => {
     isLoading,
     error,
   } = useQuery<UserProfile[]>('users', async () => {
-    const { data } = await requestInstance({
+    const { data } = await client({
       method: 'get',
       url: `${API_PATH.MEMBERS}`,
     });

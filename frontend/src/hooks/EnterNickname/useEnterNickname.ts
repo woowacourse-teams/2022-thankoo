@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { requestInstance } from '../../apis/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
 import { saveAuth } from '../../utils/auth';
@@ -20,7 +20,7 @@ const useEnterNickname = () => {
 
   const signUp = useMutation(
     async () =>
-      await requestInstance({
+      await client({
         method: 'post',
         url: API_PATH.SIGN_UP,
         data: { name: nickname },

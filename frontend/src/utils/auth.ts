@@ -1,6 +1,6 @@
-import { requestInstance } from '../apis/axios';
+import { client } from '../apis/axios';
 
 export const saveAuth = (accessToken: string) => {
-  requestInstance.prototype.updateAuth(accessToken);
+  client.prototype.updateAuth(accessToken);
   localStorage.setItem('token', accessToken);
 };

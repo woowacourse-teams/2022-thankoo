@@ -6,13 +6,7 @@ const defaultHeader = storedAccessToken && {
   headers: { Authorization: `Bearer ${storedAccessToken}` },
 };
 
-export const requestInstance = axios.create({
+export const client = axios.create({
   baseURL: BASE_URL,
   ...defaultHeader,
 });
-
-requestInstance.prototype.updateAuth = function (accessToken) {
-  this.constructor.defaults.headers = {
-    Authorization: `Bearer ${accessToken}`,
-  };
-};
