@@ -41,7 +41,7 @@ class MeetingControllerTest extends ControllerTest {
                 new MeetingResponse(2L, LocalDateTime.now().plusDays(1L), CouponType.MEAL.name(), HOHO_NAME),
                 new MeetingResponse(3L, LocalDateTime.now().plusDays(1L), CouponType.COFFEE.name(), SKRR_NAME)
         );
-        given(meetingService.findMeetings(anyLong()))
+        given(meetingQueryService.findMeetings(anyLong()))
                 .willReturn(responses);
 
         ResultActions resultActions = mockMvc.perform(get("/api/meetings")

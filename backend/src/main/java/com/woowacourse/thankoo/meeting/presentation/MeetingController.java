@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.meeting.presentation;
 
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
-import com.woowacourse.thankoo.meeting.application.MeetingService;
+import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
 import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MeetingController {
 
-    private final MeetingService meetingService;
+    private final MeetingQueryService meetingQueryService;
 
     @GetMapping("/api/meetings")
     public ResponseEntity<List<MeetingResponse>> getMeetings(@AuthenticationPrincipal final Long memberId) {
-        return ResponseEntity.ok(meetingService.findMeetings(memberId));
+        return ResponseEntity.ok(meetingQueryService.findMeetings(memberId));
     }
 }

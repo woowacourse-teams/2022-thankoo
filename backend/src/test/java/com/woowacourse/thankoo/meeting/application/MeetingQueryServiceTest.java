@@ -34,10 +34,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("MeetingService 는 ")
 @ApplicationTest
-class MeetingServiceTest {
+class MeetingQueryServiceTest {
 
     @Autowired
-    private MeetingService meetingService;
+    private MeetingQueryService meetingQueryService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -65,7 +65,7 @@ class MeetingServiceTest {
 
         reservation.updateStatus(sender, ReservationStatus.ACCEPT.name(), reservedMeetingCreator);
 
-        List<MeetingResponse> meetingResponses = meetingService.findMeetings(receiver.getId());
+        List<MeetingResponse> meetingResponses = meetingQueryService.findMeetings(receiver.getId());
 
         assertAll(
                 () -> assertThat(meetingResponses).hasSize(1),

@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.meeting.domain;
 
+import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,12 +22,13 @@ public class MeetingQueryRepository {
                 new MeetingCoupon(
                         rs.getLong("id"),
                         rs.getTimestamp("time").toLocalDateTime(),
+                        TimeZoneType.of(rs.getString("time_zone")),
                         rs.getString("coupon_type"),
                         rs.getString("name"));
     }
 
     public List<MeetingCoupon> findMeetingsByMemberId(final Long memberId) {
-        String sql = "SELECT mt.id, mt.time, c.coupon_type, m.name "
+        String sql = "SELECT mt.id, mt.time, mt.time_zone, c.coupon_type, m.name "
                 + "FROM meeting_member AS mm "
                 + "JOIN meeting AS mt ON mm.meeting_id = mt.id "
                 + "JOIN coupon AS c ON mt.coupon_id = c.id "

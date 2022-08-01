@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MeetingService {
+public class MeetingQueryService {
 
     private final MeetingQueryRepository meetingQueryRepository;
 
