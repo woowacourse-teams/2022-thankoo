@@ -2,16 +2,19 @@ import { ReactNode } from 'react';
 import { atom } from 'recoil';
 import { UserProfile } from '../types';
 
+//checked users
 export const checkedUsersAtom = atom<UserProfile[]>({
   key: 'checkedUsersAtom',
   default: [],
 });
 
+//theme
 export const themeAtom = atom({
   key: 'themeAtom',
   default: 'dark',
 });
 
+//modal
 export const modalVisibleAtom = atom({
   key: 'modalVisibleAtom',
   default: false,

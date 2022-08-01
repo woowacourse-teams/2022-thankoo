@@ -10,4 +10,5 @@ export const ROUTE_PATH = {
   PROFILE: '/profile',
   CREATE_RESERVATION: '/create-reservation',
   RESERVATIONS: '/reservations',
+  ENTER_NICKNAME: '/enter-nickname',
 };
