@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("MeetingController 는 ")
 class MeetingControllerTest extends ControllerTest {
 
-    @DisplayName("회원의 만남을 조회한다.")
+    @DisplayName("회원의 미팅을 조회한다.")
     @Test
     void getMeetings() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))

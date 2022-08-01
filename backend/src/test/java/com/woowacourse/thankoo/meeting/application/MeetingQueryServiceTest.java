@@ -51,7 +51,7 @@ class MeetingQueryServiceTest {
     @Autowired
     private ReservedMeetingCreator reservedMeetingCreator;
 
-    @DisplayName("회원의 만남을 조회한다.")
+    @DisplayName("회원의 미팅을 조회한다.")
     @Test
     void findMeetings() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));

@@ -5,7 +5,7 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.Authentication
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.createCouponRequest;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.받은_쿠폰을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰을_전송한다;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.만남을_조회한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.미팅을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_승인한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_요청한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
@@ -38,7 +38,7 @@ import org.springframework.http.HttpStatus;
 @DisplayName("MeetingAcceptance 는 ")
 public class MeetingAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("예약이 승인되어 진행중인 만남을 조회한다.")
+    @DisplayName("예약이 승인되어 진행중인 미팅을 조회한다.")
     @Test
     void getMeetingsOnProgress() {
         TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
@@ -61,7 +61,7 @@ public class MeetingAcceptanceTest extends AcceptanceTest {
             예약을_승인한다(reservationId, senderToken.getAccessToken());
         }
 
-        ExtractableResponse<Response> response = 만남을_조회한다(receiverToken.getAccessToken());
+        ExtractableResponse<Response> response = 미팅을_조회한다(receiverToken.getAccessToken());
 
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),

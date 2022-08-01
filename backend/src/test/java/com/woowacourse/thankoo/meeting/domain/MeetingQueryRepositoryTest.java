@@ -63,6 +63,7 @@ class MeetingQueryRepositoryTest {
         reservedMeetingCreator = new ReservationMeetingService(meetingRepository, memberRepository);
     }
 
+    @DisplayName("회원의 미팅을 조회한다.")
     @Test
     void findMeetingsByMemberId() {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));

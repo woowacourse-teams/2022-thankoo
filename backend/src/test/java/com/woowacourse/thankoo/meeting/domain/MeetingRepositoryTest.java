@@ -43,7 +43,7 @@ class MeetingRepositoryTest {
     @Autowired
     private CouponRepository couponRepository;
 
-    @DisplayName("쿠폰으로 만남을 조회한다.")
+    @DisplayName("쿠폰으로 미팅을 조회한다.")
     @Test
     void findMeetingByCoupon() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
