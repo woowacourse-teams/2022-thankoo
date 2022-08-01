@@ -6,7 +6,7 @@ const formatingRawDate = date => date.split('T')[0] + ' ' + date.split('T')[1].s
 
 export const useReservationDetail = couponId => {
   const { data, isLoading, isError } = useQuery(
-    'reservationDetail',
+    ['reservationDetail', couponId],
     async () => {
       const { data } = await requestInstance({
         method: 'get',
@@ -29,7 +29,7 @@ export const useReservationDetail = couponId => {
 };
 
 export const useNotUsedCouponDetail = couponId => {
-  const { data, isLoading, isError } = useQuery('notUsedDetail', async () => {
+  const { data, isLoading, isError } = useQuery(['notUsedDetail', couponId], async () => {
     const { data } = await requestInstance({
       method: 'get',
       url: `${API_PATH.GET_COUPON_DETAIL(couponId)}`,
