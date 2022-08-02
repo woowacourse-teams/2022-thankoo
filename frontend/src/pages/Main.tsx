@@ -60,7 +60,7 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 15px;
+    padding: 5px 3vw;
   `,
   LoopIcon: styled(LoopIcon)`
     font-size: 1.3rem;

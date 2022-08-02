@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
+import { COUPON_STATUS_BUTTON_TEXT, COUPON_STATUS_STRAP_TEXT } from '../../constants/coupon';
 import { Coupon, CouponStatus } from '../../types';
-import CouponDetails from './CouponDetails';
+import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
 import ModalWrapper from './ModalWrapper';
 
@@ -11,11 +11,11 @@ const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   return (
     <S.Container>
       {coupons.map(coupon => (
-        <ModalWrapper modalContent={<CouponDetails coupon={coupon} />}>
+        <ModalWrapper modalContent={<CouponDetail coupon={coupon} />}>
           <S.Relative>
             {strapStatus.includes(coupon.status) && (
               <S.StatusStrap status={coupon.status}>
-                {COUPON_STATUS_BUTTON_TEXT[coupon.status]}
+                {COUPON_STATUS_STRAP_TEXT[coupon.status]}
               </S.StatusStrap>
             )}
 
@@ -71,7 +71,7 @@ const S = {
   `,
   StatusStrap: styled.div<StatusStrapProps>`
     position: absolute;
-    bottom: 3%;
+    bottom: 4%;
     right: -18%;
     color: white;
     font-size: 13px;
