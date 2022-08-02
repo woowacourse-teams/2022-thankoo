@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.reservation.presentation.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.woowacourse.thankoo.reservation.domain.ReservationCoupon;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -14,6 +15,8 @@ public class ReservationResponse {
     private Long reservationId;
     private String memberName;
     private String couponType;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingTime;
 
     private ReservationResponse(final Long reservationId,
