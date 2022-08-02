@@ -106,12 +106,12 @@ class ReservationTest {
 
     @DisplayName("예약 상태를 변경할 때 ")
     @Nested
-    class UpdateReservationStatusTest {
+    class AnswerTest {
 
         @DisplayName("예약 상태가 대기 중이 아닐 경우 예외가 발생한다.")
         @ParameterizedTest
         @EnumSource(value = ReservationStatus.class, names = {"WAITING"}, mode = Mode.EXCLUDE)
-        void updateStatusReservationNotWaitingException(ReservationStatus reservationStatus) {
+        void answerReservationNotWaitingException(ReservationStatus reservationStatus) {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
@@ -122,7 +122,7 @@ class ReservationTest {
             reservation.reserve();
 
             assertThatThrownBy(
-                    () -> reservation.updateStatus(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                    () -> reservation.answer(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
                             "accept", new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
@@ -130,7 +130,7 @@ class ReservationTest {
 
         @DisplayName("불가능한 상태로 변경 요청할 경우 예외가 발생한다.")
         @Test
-        void updateStatusInvalidStatusException() {
+        void answerInvalidStatusException() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
@@ -141,7 +141,7 @@ class ReservationTest {
             reservation.reserve();
 
             assertThatThrownBy(
-                    () -> reservation.updateStatus(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                    () -> reservation.answer(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
                             "waiting", new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
@@ -149,7 +149,7 @@ class ReservationTest {
 
         @DisplayName("예약 승인 회원과 쿠폰 발급자가 다를 경우 예외가 발생한다.")
         @Test
-        void updateStatusMemberNotMatchException() {
+        void answerMemberNotMatchException() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
@@ -160,7 +160,7 @@ class ReservationTest {
             reservation.reserve();
 
             assertThatThrownBy(
-                    () -> reservation.updateStatus(
+                    () -> reservation.answer(
                             new Member(receiverId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
                             new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
@@ -169,7 +169,7 @@ class ReservationTest {
 
         @DisplayName("coupon 의 상태가 예약 중이 아닐 경우 예외가 발생한다.")
         @Test
-        void updateStatusCouponStatusException() {
+        void answerCouponStatusException() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
             Long senderId = 1L;
@@ -180,7 +180,7 @@ class ReservationTest {
                     receiverId, coupon);
 
             assertThatThrownBy(
-                    () -> reservation.updateStatus(
+                    () -> reservation.answer(
                             new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
                             new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
@@ -189,7 +189,7 @@ class ReservationTest {
 
         @DisplayName("정상적으로 예약을 승인한다.")
         @Test
-        void updateStatus() {
+        void answer() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
             Long senderId = 1L;
@@ -202,7 +202,7 @@ class ReservationTest {
                     receiverId, coupon);
             reservation.reserve();
 
-            reservation.updateStatus(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
+            reservation.answer(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
                     new FakeReservedMeetingCreator());
 
             assertAll(

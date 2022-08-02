@@ -22,13 +22,8 @@ import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
-import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
-import com.woowacourse.thankoo.reservation.domain.Reservation;
-import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
-import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
-import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -50,9 +45,6 @@ class MeetingQueryServiceTest {
 
     @Autowired
     private CouponRepository couponRepository;
-
-    @Autowired
-    private ReservationRepository reservationRepository;
 
     @DisplayName("회원의 미팅을 조회한다.")
     @Test

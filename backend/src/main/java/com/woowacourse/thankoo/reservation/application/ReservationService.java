@@ -49,7 +49,7 @@ public class ReservationService {
         Member foundMember = getMemberById(memberId);
         Reservation foundReservation = reservationRepository.findWithCouponById(reservationId)
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
-        foundReservation.updateStatus(foundMember, reservationStatusRequest.getStatus(), reservedMeetingCreator);
+        foundReservation.answer(foundMember, reservationStatusRequest.getStatus(), reservedMeetingCreator);
     }
 
     private Member getMemberById(final Long memberId) {
