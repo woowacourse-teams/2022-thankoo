@@ -41,5 +41,8 @@ const S = {
     border-radius: 5px;
     background-color: #232323;
     padding: 1rem;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
   `,
 };

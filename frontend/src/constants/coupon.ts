@@ -17,6 +17,14 @@ export const COUPON_IMAGE = {
 
 export const COUPON_STATUS_BUTTON_TEXT = {
   not_used: '예약 하기',
+  reserving: '예약 취소',
+  reserved: '사용 완료',
+  used: '이미 사용된 쿠폰입니다',
+  expired: '만료된 쿠폰입니다',
+};
+
+export const COUPON_STATUS_STRAP_TEXT = {
+  not_used: '예약 하기',
   reserving: '예약 중',
   reserved: '예약 완료',
   used: '이미 사용된 쿠폰입니다',

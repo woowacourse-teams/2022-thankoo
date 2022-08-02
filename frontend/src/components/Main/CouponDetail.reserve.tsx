@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import CloseButton from '../@shared/CloseButton';
-import GridViewCoupon from './GridViewCoupon';
 import { useRecoilState } from 'recoil';
 import { targetCouponAtom } from '../../recoil/atom';
 import { ROUTE_PATH } from '../../constants/routes';
@@ -23,26 +22,33 @@ const CouponDetailReserve = ({ couponId }: { couponId: number }) => {
         <span></span>
         <CloseButton onClick={close} color='white' />
       </S.Header>
-      <S.CouponArea>
-        <GridViewCoupon coupon={coupon} />
-      </S.CouponArea>
       <S.Contents>
-        <S.SpaceBetween>
-          <S.Sender>{coupon.sender.name}</S.Sender>
-        </S.SpaceBetween>
-        <span>{time.meetingTime}</span>
-        <S.Message>{coupon.content.message}</S.Message>
+        <S.MeetingMembers>
+          <S.Label>만날 사람</S.Label>
+          <S.MeetingMembersWrapper>
+            <S.MeetingMemberImg src={coupon.sender.imageUrl} />
+            <S.Sender>{coupon.sender.name}</S.Sender>
+          </S.MeetingMembersWrapper>
+        </S.MeetingMembers>
+        <S.DateWrapper>
+          <S.FlexColumn>
+            <S.Label>날짜</S.Label>
+            <S.ContentText>{time.meetingTime.date}</S.ContentText>
+          </S.FlexColumn>
+          <S.FlexColumn>
+            <S.Label>시간</S.Label>
+            <S.ContentText>{time.meetingTime.time}</S.ContentText>
+          </S.FlexColumn>
+        </S.DateWrapper>
+        <S.Message>
+          <S.Label>메세지</S.Label>
+          <S.ContentText>{coupon.content.message}</S.ContentText>
+        </S.Message>
       </S.Contents>
       <S.Footer>
-        <S.UseCouponLink
-          onClick={() => {
-            setTargetCouponId(couponId);
-            close();
-          }}
-          to={`${ROUTE_PATH.CREATE_RESERVATION}`}
-        >
-          <S.Button>{COUPON_STATUS_BUTTON_TEXT[coupon.status]}</S.Button>
-        </S.UseCouponLink>
+        <S.Button onClick={() => alert('구현 예정입니다')}>
+          {COUPON_STATUS_BUTTON_TEXT[coupon.status]}
+        </S.Button>
       </S.Footer>
     </>
   );
@@ -56,36 +62,66 @@ const S = {
     height: 10%;
     width: 108%;
   `,
-  CouponArea: styled.div`
+  MeetingMembers: styled.div`
     display: flex;
+    flex-direction: column;
+  `,
+  MeetingMembersWrapper: styled.div`
+    display: flex;
+    padding: 1rem 0;
+    gap: 10px;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 30%;
+  `,
+  MeetingMemberImg: styled.img`
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+  `,
+  Label: styled.span`
+    font-size: 12px;
+    color: #8e8e8e;
+  `,
+  ContentText: styled.span`
+    font-size: 15px;
   `,
   Contents: styled.div`
     display: flex;
     flex-direction: column;
-    height: 45%;
+    /* height: 45%; */
     justify-content: center;
+    height: 100%;
+    span {
+      font-size: 15px;
+    }
   `,
-  SpaceBetween: styled.div`
+  DateWrapper: styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex: 1;
   `,
+  FlexColumn: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  `,
   Sender: styled.span`
-    font-size: 20px;
+    font-size: 18px;
   `,
   Message: styled.div`
+    display: flex;
+    flex-flow: column;
     font-size: 15px;
     overflow-y: auto;
     flex: 1;
+    gap: 5px;
   `,
   Footer: styled.div`
     display: flex;
     justify-content: center;
-    height: 15%;
+    /* height: 15%; */
     align-items: flex-end;
   `,
   Button: styled.button`
