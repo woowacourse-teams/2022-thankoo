@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
@@ -17,7 +17,26 @@ const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
   const [page, setPage] = useState(true);
   const { close } = useModal();
 
-  const pageRefs = useRef();
+  const pageRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  const getPageRef = (page: number) => (el: HTMLDivElement | null) => {
+    pageRefs.current[page] = el;
+
+    return pageRefs.current[page];
+  };
+
+  useEffect(() => {
+    if (page) {
+      pageRefs.current[0]?.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+    if (!page) {
+      pageRefs.current[1]?.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }, [page]);
 
   return (
     <S.Container>
@@ -27,8 +46,8 @@ const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
           <CloseButton onClick={close} color='white' />
         </S.Header>
         <S.PageSlider>
-          <ConponDetailNotUsed couponId={couponId} />
-          <CouponDetailReserve couponId={couponId} />
+          <ConponDetailNotUsed couponId={couponId} ref={getPageRef(0)} />
+          <CouponDetailReserve couponId={couponId} ref={getPageRef(1)} />
         </S.PageSlider>
         <S.DotWrapper>
           <S.Dot

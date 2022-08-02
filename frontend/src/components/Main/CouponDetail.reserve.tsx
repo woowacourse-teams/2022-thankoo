@@ -1,15 +1,19 @@
 import styled from '@emotion/styled';
+import { forwardRef, LegacyRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useReservationDetail } from '../../hooks/Main/useCouponDetail';
 
-const CouponDetailReserve = ({ couponId }: { couponId: number }) => {
+const CouponDetailReserve = (
+  { couponId }: { couponId: number },
+  ref: LegacyRef<HTMLDivElement>
+) => {
   //todo: couponDetailNotUsed에서도 재사용
   const { coupon, time, isLoading } = useReservationDetail(couponId);
 
   if (isLoading) return <></>;
 
   return (
-    <S.Contents>
+    <S.Contents ref={ref}>
       <S.MeetingMembers>
         <S.Label>만날 사람</S.Label>
         <S.MeetingMembersWrapper>
@@ -116,4 +120,4 @@ const S = {
   `,
 };
 
-export default CouponDetailReserve;
+export default forwardRef(CouponDetailReserve);

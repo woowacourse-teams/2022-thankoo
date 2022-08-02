@@ -1,8 +1,12 @@
 import styled from '@emotion/styled';
+import { forwardRef, LegacyRef } from 'react';
 import { useNotUsedCouponDetail } from '../../hooks/Main/useCouponDetail';
 import GridViewCoupon from './GridViewCoupon';
 
-const ConponDetailNotUsed = ({ couponId }: { couponId: number }) => {
+const ConponDetailNotUsed = (
+  { couponId }: { couponId: number },
+  ref: LegacyRef<HTMLDivElement>
+) => {
   //todo: couponDetailNotUsed에서도 재사용
   const { coupon, isLoading, isError } = useNotUsedCouponDetail(couponId);
 
@@ -11,7 +15,7 @@ const ConponDetailNotUsed = ({ couponId }: { couponId: number }) => {
   }
 
   return (
-    <S.Contents>
+    <S.Contents ref={ref}>
       <S.CouponArea>
         <GridViewCoupon coupon={coupon} />
       </S.CouponArea>
@@ -26,7 +30,6 @@ const ConponDetailNotUsed = ({ couponId }: { couponId: number }) => {
     </S.Contents>
   );
 };
-
 const S = {
   CouponArea: styled.div`
     display: flex;
@@ -69,4 +72,4 @@ const S = {
   `,
 };
 
-export default ConponDetailNotUsed;
+export default forwardRef(ConponDetailNotUsed);
