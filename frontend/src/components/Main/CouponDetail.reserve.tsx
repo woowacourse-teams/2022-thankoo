@@ -1,27 +1,15 @@
 import styled from '@emotion/styled';
-import CloseButton from '../@shared/CloseButton';
-import { useRecoilState } from 'recoil';
-import { targetCouponAtom } from '../../recoil/atom';
-import { ROUTE_PATH } from '../../constants/routes';
-import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
 import { Link } from 'react-router-dom';
-import useModal from '../../hooks/useModal';
 import { useReservationDetail } from '../../hooks/Main/useCouponDetail';
 
 const CouponDetailReserve = ({ couponId }: { couponId: number }) => {
   //todo: couponDetailNotUsed에서도 재사용
-  const { close } = useModal();
-  const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
   const { coupon, time, isLoading } = useReservationDetail(couponId);
 
   if (isLoading) return <></>;
 
   return (
     <>
-      <S.Header>
-        <span></span>
-        <CloseButton onClick={close} color='white' />
-      </S.Header>
       <S.Contents>
         <S.MeetingMembers>
           <S.Label>만날 사람</S.Label>
@@ -40,16 +28,7 @@ const CouponDetailReserve = ({ couponId }: { couponId: number }) => {
             <S.ContentText>{time.meetingTime.time}</S.ContentText>
           </S.FlexColumn>
         </S.DateWrapper>
-        <S.Message>
-          <S.Label>메세지</S.Label>
-          <S.ContentText>{coupon.content.message}</S.ContentText>
-        </S.Message>
       </S.Contents>
-      <S.Footer>
-        <S.Button onClick={() => alert('구현 예정입니다')}>
-          {COUPON_STATUS_BUTTON_TEXT[coupon.status]}
-        </S.Button>
-      </S.Footer>
     </>
   );
 };
@@ -89,7 +68,6 @@ const S = {
   Contents: styled.div`
     display: flex;
     flex-direction: column;
-    /* height: 45%; */
     justify-content: center;
     height: 100%;
     span {

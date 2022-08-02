@@ -1,18 +1,9 @@
 import styled from '@emotion/styled';
-import CloseButton from '../@shared/CloseButton';
 import GridViewCoupon from './GridViewCoupon';
-import { useRecoilState } from 'recoil';
-import { targetCouponAtom } from '../../recoil/atom';
-import { ROUTE_PATH } from '../../constants/routes';
-import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
-import { Link } from 'react-router-dom';
-import useModal from '../../hooks/useModal';
 import { useNotUsedCouponDetail } from '../../hooks/Main/useCouponDetail';
 
 const ConponDetailNotUsed = ({ couponId }: { couponId: number }) => {
   //todo: couponDetailNotUsed에서도 재사용
-  const { close } = useModal();
-  const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
   const { coupon, isLoading, isError } = useNotUsedCouponDetail(couponId);
 
   if (isLoading) {
@@ -20,54 +11,34 @@ const ConponDetailNotUsed = ({ couponId }: { couponId: number }) => {
   }
 
   return (
-    <>
-      <S.Header>
-        <span></span>
-        <CloseButton onClick={close} color='white' />
-      </S.Header>
+    <S.Contents>
       <S.CouponArea>
         <GridViewCoupon coupon={coupon} />
       </S.CouponArea>
-      <S.Contents>
-        <S.SpaceBetween>
-          <S.Sender>{coupon.sender.name}</S.Sender>
-        </S.SpaceBetween>
+      <S.FlexColumn>
+        <S.Label>보낸 사람</S.Label>
+        <S.Sender>{coupon.sender.name}</S.Sender>
+      </S.FlexColumn>
+      <S.FlexColumn>
+        <S.Label>메세지</S.Label>
         <S.Message>{coupon.content.message}</S.Message>
-      </S.Contents>
-      <S.Footer>
-        <S.UseCouponLink
-          onClick={() => {
-            setTargetCouponId(couponId);
-            close();
-          }}
-          to={`${ROUTE_PATH.CREATE_RESERVATION}`}
-        >
-          <S.Button>{COUPON_STATUS_BUTTON_TEXT[coupon.status]}</S.Button>
-        </S.UseCouponLink>
-      </S.Footer>
-    </>
+      </S.FlexColumn>
+    </S.Contents>
   );
 };
 
 const S = {
-  Header: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 10%;
-    width: 108%;
-  `,
   CouponArea: styled.div`
     display: flex;
-    align-items: center;
     justify-content: center;
-    height: 30%;
+    height: fit-content;
+    transform: scale(0.8);
   `,
   Contents: styled.div`
     display: flex;
     flex-direction: column;
-    height: 45%;
     justify-content: center;
+    gap: 10px;
   `,
   SpaceBetween: styled.div`
     display: flex;
@@ -76,31 +47,24 @@ const S = {
     flex: 1;
   `,
   Sender: styled.span`
-    font-size: 20px;
+    font-size: 15px;
   `,
-  Message: styled.div`
+  Message: styled.span`
     font-size: 15px;
     overflow-y: auto;
-    flex: 1;
+    height: 60px;
   `,
-  Footer: styled.div`
-    display: flex;
-    justify-content: center;
-    height: 15%;
-    align-items: flex-end;
+  Label: styled.span`
+    font-size: 12px;
+    color: #8e8e8e;
   `,
-  Button: styled.button`
-    border: none;
-    border-radius: 4px;
-    background-color: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.button.abled.color};
-    width: 100%;
-    padding: 0.7rem;
+  ContentText: styled.span`
     font-size: 15px;
-    height: fit-content;
   `,
-  UseCouponLink: styled(Link)`
-    width: 100%;
+  FlexColumn: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   `,
 };
 
