@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import GridViewCoupon from './GridViewCoupon';
 import { useNotUsedCouponDetail } from '../../hooks/Main/useCouponDetail';
+import GridViewCoupon from './GridViewCoupon';
 
 const ConponDetailNotUsed = ({ couponId }: { couponId: number }) => {
   //todo: couponDetailNotUsed에서도 재사용
@@ -39,6 +39,7 @@ const S = {
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+    width: 100%;
   `,
   SpaceBetween: styled.div`
     display: flex;

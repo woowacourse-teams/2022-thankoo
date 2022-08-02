@@ -9,27 +9,25 @@ const CouponDetailReserve = ({ couponId }: { couponId: number }) => {
   if (isLoading) return <></>;
 
   return (
-    <>
-      <S.Contents>
-        <S.MeetingMembers>
-          <S.Label>만날 사람</S.Label>
-          <S.MeetingMembersWrapper>
-            <S.MeetingMemberImg src={coupon.sender.imageUrl} />
-            <S.Sender>{coupon.sender.name}</S.Sender>
-          </S.MeetingMembersWrapper>
-        </S.MeetingMembers>
-        <S.DateWrapper>
-          <S.FlexColumn>
-            <S.Label>날짜</S.Label>
-            <S.ContentText>{time.meetingTime.date}</S.ContentText>
-          </S.FlexColumn>
-          <S.FlexColumn>
-            <S.Label>시간</S.Label>
-            <S.ContentText>{time.meetingTime.time}</S.ContentText>
-          </S.FlexColumn>
-        </S.DateWrapper>
-      </S.Contents>
-    </>
+    <S.Contents>
+      <S.MeetingMembers>
+        <S.Label>만날 사람</S.Label>
+        <S.MeetingMembersWrapper>
+          <S.MeetingMemberImg src={coupon.sender.imageUrl} />
+          <S.Sender>{coupon.sender.name}</S.Sender>
+        </S.MeetingMembersWrapper>
+      </S.MeetingMembers>
+      <S.DateWrapper>
+        <S.FlexColumn>
+          <S.Label>날짜</S.Label>
+          <S.ContentText>{time.meetingTime.date}</S.ContentText>
+        </S.FlexColumn>
+        <S.FlexColumn>
+          <S.Label>시간</S.Label>
+          <S.ContentText>{time.meetingTime.time}</S.ContentText>
+        </S.FlexColumn>
+      </S.DateWrapper>
+    </S.Contents>
   );
 };
 
@@ -70,6 +68,7 @@ const S = {
     flex-direction: column;
     justify-content: center;
     height: 100%;
+    width: 100%;
     span {
       font-size: 15px;
     }

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
@@ -17,6 +17,8 @@ const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
   const [page, setPage] = useState(true);
   const { close } = useModal();
 
+  const pageRefs = useRef();
+
   return (
     <S.Container>
       <S.Modal>
@@ -25,11 +27,8 @@ const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
           <CloseButton onClick={close} color='white' />
         </S.Header>
         <S.PageSlider>
-          {page ? (
-            <ConponDetailNotUsed couponId={couponId} />
-          ) : (
-            <CouponDetailReserve couponId={couponId} />
-          )}
+          <ConponDetailNotUsed couponId={couponId} />
+          <CouponDetailReserve couponId={couponId} />
         </S.PageSlider>
         <S.DotWrapper>
           <S.Dot
@@ -93,7 +92,15 @@ const S = {
     flex-flow: column;
   `,
   PageSlider: styled.div`
-    height: 100%;
+    width: 100%;
+    display: -webkit-inline-box;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    & > div {
+      scroll-margin: 0;
+      scroll-snap-align: start;
+    }
   `,
   DotWrapper: styled.div`
     margin: 10px auto;
