@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
@@ -5,6 +6,11 @@ import { UserProfile } from '../../types';
 
 const useProfile = () => {
   const queryClient = useQueryClient();
+  const [isNameEdit, setIsNameEdit] = useState(false);
+  const [name, setName] = useState<string>('');
+  const onChangeName = e => {
+    setName(e.target.value);
+  };
 
   const { data: profile } = useQuery<UserProfile>(
     'profile',
@@ -18,8 +24,36 @@ const useProfile = () => {
     },
     {
       refetchOnWindowFocus: false,
+      onSuccess: profile => {
+        setName(profile.name);
+      },
     }
   );
+
+  const submitModifyName = () => {
+    if (!name.length || name === profile?.name) {
+      return;
+    }
+
+    editUserName.mutate(name);
+  };
+
+  const handleClickModifyNameButton = () => {
+    if (name.length === 0) {
+      if (!profile) {
+        return;
+      }
+
+      setName(profile?.name);
+      return;
+    }
+
+    if (isNameEdit) {
+      submitModifyName();
+    }
+
+    setIsNameEdit(prev => !prev);
+  };
 
   const editUserName = useMutation(
     (name: string) =>
@@ -37,7 +71,7 @@ const useProfile = () => {
     }
   );
 
-  return { profile, editUserName };
+  return { profile, editUserName, isNameEdit, name, handleClickModifyNameButton, onChangeName };
 };
 
 export default useProfile;
