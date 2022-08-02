@@ -127,7 +127,7 @@ class CouponQueryServiceTest {
                     new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
-            TimeResponse timeResponse = new TimeResponse(LocalDateTime.now().plusDays(1L),
+            TimeResponse timeResponse = TimeResponse.from(LocalDateTime.now().plusDays(1L),
                     TimeZoneType.ASIA_SEOUL.getId());
 
             reservationService.save(receiver.getId(),

@@ -21,7 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
+import com.woowacourse.thankoo.meeting.domain.MeetingCoupon;
 import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
+import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;
@@ -39,9 +41,12 @@ class MeetingControllerTest extends ControllerTest {
                 .willReturn("1");
 
         List<MeetingResponse> responses = List.of(
-                new MeetingResponse(1L, LocalDateTime.now().plusDays(1L), CouponType.COFFEE.name(), LALA_NAME),
-                new MeetingResponse(2L, LocalDateTime.now().plusDays(1L), CouponType.MEAL.name(), HOHO_NAME),
-                new MeetingResponse(3L, LocalDateTime.now().plusDays(1L), CouponType.COFFEE.name(), SKRR_NAME)
+                MeetingResponse.of(new MeetingCoupon(1L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                        CouponType.COFFEE.name(), LALA_NAME)),
+                MeetingResponse.of(new MeetingCoupon(2L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                        CouponType.MEAL.name(), HOHO_NAME)),
+                MeetingResponse.of(new MeetingCoupon(3L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                        CouponType.COFFEE.name(), SKRR_NAME))
         );
         given(meetingQueryService.findMeetings(anyLong()))
                 .willReturn(responses);
@@ -58,7 +63,8 @@ class MeetingControllerTest extends ControllerTest {
                 ),
                 responseFields(
                         fieldWithPath("[].id").type(NUMBER).description("id"),
-                        fieldWithPath("[].meetingTime").type(STRING).description("meetingTime"),
+                        fieldWithPath("[].time.meetingTime").type(STRING).description("meetingTime"),
+                        fieldWithPath("[].time.timeZone").type(STRING).description("timeZone"),
                         fieldWithPath("[].couponType").type(STRING).description("couponType"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName")
                 )
