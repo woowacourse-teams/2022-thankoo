@@ -28,7 +28,7 @@ import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.ReservationCoupon;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
+import com.woowacourse.thankoo.reservation.presentation.dto.SimpleReservationResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;
@@ -73,11 +73,11 @@ class ReservationControllerTest extends ControllerTest {
 
         given(reservationQueryService.getReceivedReservations(anyLong()))
                 .willReturn(List.of(
-                        ReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now(),
+                        SimpleReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())),
-                        ReservationResponse.from(new ReservationCoupon(2L, LALA_NAME, TYPE, LocalDateTime.now(),
+                        SimpleReservationResponse.from(new ReservationCoupon(2L, LALA_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())),
-                        ReservationResponse.from(new ReservationCoupon(3L, HOHO_NAME, TYPE, LocalDateTime.now(),
+                        SimpleReservationResponse.from(new ReservationCoupon(3L, HOHO_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())))
                 );
 
@@ -107,11 +107,11 @@ class ReservationControllerTest extends ControllerTest {
 
         given(reservationQueryService.getSentReservations(anyLong()))
                 .willReturn(List.of(
-                        ReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now(),
+                        SimpleReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())),
-                        ReservationResponse.from(new ReservationCoupon(2L, LALA_NAME, TYPE, LocalDateTime.now(),
+                        SimpleReservationResponse.from(new ReservationCoupon(2L, LALA_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())),
-                        ReservationResponse.from(new ReservationCoupon(3L, HOHO_NAME, TYPE, LocalDateTime.now(),
+                        SimpleReservationResponse.from(new ReservationCoupon(3L, HOHO_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())))
                 );
 
@@ -127,7 +127,8 @@ class ReservationControllerTest extends ControllerTest {
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName"),
                         fieldWithPath("[].couponType").type(STRING).description("couponType"),
-                        fieldWithPath("[].meetingTime").type(STRING).description("meetingTime")
+                        fieldWithPath("[].time.meetingTime").type(STRING).description("meetingTime"),
+                        fieldWithPath("[].time.timeZone").type(STRING).description("timeZone")
                 )
         ));
     }

@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.meeting.domain.MeetingCoupon;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
+import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,13 +40,16 @@ class MeetingControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        List<MeetingResponse> responses = List.of(
-                MeetingResponse.of(new MeetingCoupon(1L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
-                        CouponType.COFFEE.name(), LALA_NAME)),
-                MeetingResponse.of(new MeetingCoupon(2L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
-                        CouponType.MEAL.name(), HOHO_NAME)),
-                MeetingResponse.of(new MeetingCoupon(3L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
-                        CouponType.COFFEE.name(), SKRR_NAME))
+        List<SimpleMeetingResponse> responses = List.of(
+                SimpleMeetingResponse.of(
+                        new MeetingCoupon(1L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                                CouponType.COFFEE.name(), LALA_NAME)),
+                SimpleMeetingResponse.of(
+                        new MeetingCoupon(2L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                                CouponType.MEAL.name(), HOHO_NAME)),
+                SimpleMeetingResponse.of(
+                        new MeetingCoupon(3L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                                CouponType.COFFEE.name(), SKRR_NAME))
         );
         given(meetingQueryService.findMeetings(anyLong()))
                 .willReturn(responses);

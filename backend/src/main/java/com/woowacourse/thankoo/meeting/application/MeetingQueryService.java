@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.meeting.application;
 
 import com.woowacourse.thankoo.meeting.domain.MeetingQueryRepository;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
+import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,9 @@ public class MeetingQueryService {
 
     private final MeetingQueryRepository meetingQueryRepository;
 
-    public List<MeetingResponse> findMeetings(final Long memberId) {
+    public List<SimpleMeetingResponse> findMeetings(final Long memberId) {
         return meetingQueryRepository.findMeetingsByMemberId(memberId).stream()
-                .map(MeetingResponse::of)
+                .map(SimpleMeetingResponse::of)
                 .collect(Collectors.toList());
     }
 }

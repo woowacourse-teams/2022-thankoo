@@ -1,7 +1,11 @@
 package com.woowacourse.thankoo.meeting.presentation.dto;
 
 import com.woowacourse.thankoo.common.dto.TimeResponse;
-import com.woowacourse.thankoo.meeting.domain.MeetingCoupon;
+import com.woowacourse.thankoo.meeting.domain.Meeting;
+import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,25 +14,34 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MeetingResponse {
 
-    private Long id;
+    private Long meetingId;
+    private List<MemberResponse> members;
     private TimeResponse time;
-    private String couponType;
-    private String memberName;
+    private String status;
 
-    private MeetingResponse(final Long id,
+    private MeetingResponse(final Long meetingId,
+                            final List<MemberResponse> members,
                             final TimeResponse time,
-                            final String couponType,
-                            final String memberName) {
-        this.id = id;
+                            final String status) {
+        this.meetingId = meetingId;
+        this.members = members;
         this.time = time;
-        this.couponType = couponType;
-        this.memberName = memberName;
+        this.status = status.toLowerCase(Locale.ROOT);
     }
 
-    public static MeetingResponse of(final MeetingCoupon meetingCoupon) {
-        return new MeetingResponse(meetingCoupon.getId(),
-                TimeResponse.of(meetingCoupon.getMeetingTime()),
-                meetingCoupon.getCouponType(),
-                meetingCoupon.getMemberName());
+    public static MeetingResponse of(final Meeting meeting) {
+        List<MemberResponse> memberResponses = toMemberResponses(
+                meeting);
+        return new MeetingResponse(meeting.getId(),
+                memberResponses,
+                TimeResponse.of(meeting.getMeetingTime()),
+                meeting.getMeetingStatus().name());
+    }
+
+    private static List<MemberResponse> toMemberResponses(final Meeting meeting) {
+        return meeting.getMeetingMembers().getMeetingMembers()
+                .stream()
+                .map(meetingMember -> MemberResponse.of(meetingMember.getMember()))
+                .collect(Collectors.toList());
     }
 }

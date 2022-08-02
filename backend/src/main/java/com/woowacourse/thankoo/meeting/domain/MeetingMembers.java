@@ -9,16 +9,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class MeetingMembers {
 
     private static final int STANDARD_MEMBER_COUNT = 2;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<MeetingMember> meetingMembers = new ArrayList<>();
+    private final List<MeetingMember> meetingMembers = new ArrayList<>();
 
     public MeetingMembers(final List<MeetingMember> meetingMembers) {
         validateMemberCount(meetingMembers);

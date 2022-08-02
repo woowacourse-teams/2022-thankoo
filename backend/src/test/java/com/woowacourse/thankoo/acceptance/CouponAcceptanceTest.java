@@ -44,56 +44,33 @@ import org.springframework.http.HttpStatus;
 @DisplayName("CouponAcceptance 는 ")
 class CouponAcceptanceTest extends AcceptanceTest {
 
+    private void 받은_쿠폰이_조회됨(final ExtractableResponse<Response> response) {
+        List<CouponResponse> couponResponses = response.jsonPath()
+                .getList(".", CouponResponse.class);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(couponResponses).isNotEmpty();
+    }
+
+    private void 보낸_쿠폰이_조회됨(final ExtractableResponse<Response> response) {
+        List<CouponResponse> couponResponses = response.jsonPath()
+                .getList(".", CouponResponse.class);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(couponResponses).isNotEmpty();
+    }
+
+    private void 단건_예약이_조회됨(final ExtractableResponse<Response> response) {
+        CouponDetailResponse couponDetailResponse = response.as(CouponDetailResponse.class);
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(couponDetailResponse.getCoupon()).isNotNull()
+        );
+    }
+
     @DisplayName("유저가 로그인하고 ")
     @Nested
     class SignInAndTest {
-
-        @DisplayName("쿠폰을 보낼 때 ")
-        @Nested
-        class SendAndTest {
-
-            @DisplayName("정상적으로 쿠폰을 보낸다.")
-            @Test
-            void sendCoupon() {
-                TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HUNI, HUNI_TOKEN, HUNI_NAME));
-                TokenResponse receiverToken1 = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
-                TokenResponse receiverToken2 = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HOHO, HOHO_TOKEN, HOHO_NAME));
-
-                CouponRequest couponRequest =
-                        createCouponRequest(List.of(receiverToken1.getMemberId(), receiverToken2.getMemberId()),
-                                TYPE, TITLE, MESSAGE);
-                ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
-
-                assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            }
-
-            @DisplayName("제목이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
-            @Test
-            void sendCouponTitleException() {
-                TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
-                TokenResponse receiverToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HOHO, HOHO_TOKEN, HOHO_NAME));
-
-                CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE,
-                        TITLE_OVER,
-                        MESSAGE);
-                ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
-
-                assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-            }
-
-            @DisplayName("내용이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
-            @Test
-            void sendCouponMessageException() {
-                TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
-                TokenResponse receiverToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HOHO, HOHO_TOKEN, HOHO_NAME));
-
-                CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
-                        MESSAGE_OVER);
-                ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
-
-                assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-            }
-        }
 
         @DisplayName("받은 쿠폰을 조회한다.")
         @Test
@@ -151,6 +128,53 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     receiverToken.getAccessToken());
             단건_예약이_조회됨(response);
         }
+
+        @DisplayName("쿠폰을 보낼 때 ")
+        @Nested
+        class SendAndTest {
+
+            @DisplayName("정상적으로 쿠폰을 보낸다.")
+            @Test
+            void sendCoupon() {
+                TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HUNI, HUNI_TOKEN, HUNI_NAME));
+                TokenResponse receiverToken1 = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
+                TokenResponse receiverToken2 = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HOHO, HOHO_TOKEN, HOHO_NAME));
+
+                CouponRequest couponRequest =
+                        createCouponRequest(List.of(receiverToken1.getMemberId(), receiverToken2.getMemberId()),
+                                TYPE, TITLE, MESSAGE);
+                ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+
+                assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            }
+
+            @DisplayName("제목이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
+            @Test
+            void sendCouponTitleException() {
+                TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
+                TokenResponse receiverToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HOHO, HOHO_TOKEN, HOHO_NAME));
+
+                CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE,
+                        TITLE_OVER,
+                        MESSAGE);
+                ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+
+                assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            }
+
+            @DisplayName("내용이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
+            @Test
+            void sendCouponMessageException() {
+                TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
+                TokenResponse receiverToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HOHO, HOHO_TOKEN, HOHO_NAME));
+
+                CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE,
+                        MESSAGE_OVER);
+                ExtractableResponse<Response> response = 쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+
+                assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+            }
+        }
     }
 
     @DisplayName("로그인 하지 않고 ")
@@ -182,30 +206,5 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         }
-    }
-
-    private void 받은_쿠폰이_조회됨(final ExtractableResponse<Response> response) {
-        List<CouponResponse> couponResponses = response.jsonPath()
-                .getList(".", CouponResponse.class);
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(couponResponses).isNotEmpty();
-    }
-
-    private void 보낸_쿠폰이_조회됨(final ExtractableResponse<Response> response) {
-        List<CouponResponse> couponResponses = response.jsonPath()
-                .getList(".", CouponResponse.class);
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(couponResponses).isNotEmpty();
-    }
-
-    private void 단건_예약이_조회됨(final ExtractableResponse<Response> response) {
-        CouponDetailResponse couponDetailResponse = response.as(CouponDetailResponse.class);
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(couponDetailResponse.getCoupon()).isNotNull(),
-                () -> assertThat(couponDetailResponse.getTime()).isNotNull()
-        );
     }
 }
