@@ -13,6 +13,6 @@ public class MeetingRequestFixture {
     }
 
     public static ExtractableResponse<Response> 미팅을_완료한다(final Long meetingId, final String token) {
-        return putWithToken("/api/meetings/" + meetingId, token, null);
+        return putWithToken("/api/meetings/" + meetingId, token);
     }
 }

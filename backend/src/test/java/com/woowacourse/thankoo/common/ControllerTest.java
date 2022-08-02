@@ -11,6 +11,7 @@ import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.presentation.CouponController;
 import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
+import com.woowacourse.thankoo.meeting.application.MeetingService;
 import com.woowacourse.thankoo.meeting.presentation.MeetingController;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
@@ -73,6 +74,9 @@ public class ControllerTest {
 
     @MockBean
     protected MeetingQueryService meetingQueryService;
+
+    @MockBean
+    protected MeetingService meetingService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());
