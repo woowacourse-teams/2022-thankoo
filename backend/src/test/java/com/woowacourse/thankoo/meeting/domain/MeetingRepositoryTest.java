@@ -59,7 +59,7 @@ class MeetingRepositoryTest {
                         MeetingStatus.ON_PROGRESS,
                         coupon)
         );
-        Meeting foundMeeting = meetingRepository.findTopByCoupon_IdAndMeetingStatus(coupon.getId(),
+        Meeting foundMeeting = meetingRepository.findTopByCouponIdAndMeetingStatus(coupon.getId(),
                         MeetingStatus.ON_PROGRESS)
                 .get();
 

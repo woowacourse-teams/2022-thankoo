@@ -9,8 +9,13 @@ endif::[]
 
 = Thankoo
 
+== Auth
 include::auth.adoc[]
-include::coupon.adoc[]
+== Member
 include::member.adoc[]
+== Coupon
+include::coupon.adoc[]
+== Reservation
 include::reservation.adoc[]
+== Meeting
 include::meeting.adoc[]

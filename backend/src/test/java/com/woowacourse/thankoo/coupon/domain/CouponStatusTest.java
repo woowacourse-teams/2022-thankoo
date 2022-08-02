@@ -33,4 +33,12 @@ class CouponStatusTest {
 
         assertThat(couponStatus.isReserving()).isTrue();
     }
+
+    @DisplayName("쿠폰이 예약된 상태인지 확인한다.")
+    @Test
+    void isReserved() {
+        CouponStatus couponStatus = CouponStatus.RESERVED;
+
+        assertThat(couponStatus.isReserved()).isTrue();
+    }
 }

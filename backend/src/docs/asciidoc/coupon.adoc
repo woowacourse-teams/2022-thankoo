@@ -1,20 +1,20 @@
 [[Coupon]]
-== 쿠폰 전송
+=== 쿠폰 전송
 
 operation::coupons/send[snippets='http-request,http-response']
 
-== 받은 쿠폰 조회 (사용하지 않음)
+=== 받은 쿠폰 조회 (사용하지 않음)
 
 operation::coupons/received-coupons-not-used[snippets='http-request,http-response']
 
-== 받은 쿠폰 조회 (사용함)
+=== 받은 쿠폰 조회 (사용함)
 
 operation::coupons/received-coupons-used[snippets='http-request,http-response']
 
-== 보낸 쿠폰 조회
+=== 보낸 쿠폰 조회
 
 operation::coupons/sent-coupons[snippets='http-request,http-response']
 
-== 단건 쿠폰 조회
+=== 단건 쿠폰 조회
 
 operation::coupons/get-coupon[snippets='http-request,http-response']
