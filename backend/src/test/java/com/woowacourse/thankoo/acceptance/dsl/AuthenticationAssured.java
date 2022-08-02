@@ -5,6 +5,8 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredReq
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.acceptance.dsl.common.RequestDsl;
+import com.woowacourse.thankoo.acceptance.dsl.common.ResponseDsl;
 import com.woowacourse.thankoo.authentication.application.dto.SignUpRequest;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import io.restassured.response.ExtractableResponse;
@@ -22,9 +24,7 @@ public class AuthenticationAssured {
         return new AuthenticationRequestDsl();
     }
 
-    public static class AuthenticationRequestDsl {
-
-        private ExtractableResponse<Response> response;
+    public static class AuthenticationRequestDsl extends RequestDsl {
 
         public AuthenticationRequestDsl 회원가입_한다(final String idToken, final String name) {
             response = postWithToken("/api/sign-up", idToken, new SignUpRequest(name));
@@ -36,23 +36,15 @@ public class AuthenticationAssured {
             return this;
         }
 
-        public void done() {
-            if (response == null) {
-                throw new RuntimeException("request cannot be done before returning ExtractableResponse");
-            }
-        }
-
         public AuthenticationResponseDsl response() {
             return new AuthenticationResponseDsl(response);
         }
     }
 
-    public static class AuthenticationResponseDsl {
-
-        private final ExtractableResponse<Response> response;
+    public static class AuthenticationResponseDsl extends ResponseDsl {
 
         public AuthenticationResponseDsl(final ExtractableResponse<Response> response) {
-            this.response = response;
+            super(response);
         }
 
         public AuthenticationResponseDsl status(final int code) {
