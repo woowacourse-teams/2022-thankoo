@@ -1,6 +1,11 @@
-import { requestInstance } from '../apis/axios';
+import { client } from '../apis/axios';
 
 export const saveAuth = (accessToken: string) => {
-  requestInstance.prototype.updateAuth(accessToken);
+  client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
   localStorage.setItem('token', accessToken);
+};
+
+export const clearAuth = () => {
+  client.defaults.headers['Authorization'] = '';
+  localStorage.removeItem('token');
 };

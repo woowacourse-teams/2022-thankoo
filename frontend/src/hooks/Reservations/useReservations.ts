@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { requestInstance } from '../../apis/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 
 const orderByList = ['received', 'sent'];
@@ -13,7 +13,7 @@ const useResrvations = () => {
   const { data: reservationsReceived } = useQuery(
     'reservationsReceived',
     async () => {
-      const { data } = await requestInstance({
+      const { data } = await client({
         method: 'get',
         url: `${API_PATH.RESERVATIONS_RECEIVED}`,
       });
@@ -23,7 +23,7 @@ const useResrvations = () => {
     { refetchOnWindowFocus: false, retry: false }
   );
   const { data: reservationSent } = useQuery('reservationsSent', async () => {
-    const { data } = await requestInstance({
+    const { data } = await client({
       method: 'get',
       url: `${API_PATH.RESERVATIONS_SENT}`,
     });

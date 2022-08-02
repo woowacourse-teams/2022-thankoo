@@ -1,15 +1,11 @@
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { requestInstance } from '../../apis/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { GOOGLE_AUTH_URL } from '../../constants/googleAuth';
 import { ROUTE_PATH } from '../../constants/routes';
-
-const saveAuth = (accessToken: string) => {
-  requestInstance.prototype.updateAuth(accessToken);
-  localStorage.setItem('token', accessToken);
-};
+import { saveAuth } from '../../utils/auth';
 
 const useSignIn = () => {
   const navigate = useNavigate();
@@ -19,7 +15,7 @@ const useSignIn = () => {
   const { data, refetch: refetchToken } = useQuery(
     'token',
     async () => {
-      const res = await requestInstance({
+      const res = await client({
         method: 'GET',
         url: `${API_PATH.SIGN_IN(userCode)}`,
       });
@@ -35,17 +31,11 @@ const useSignIn = () => {
     }
   );
 
-  const saveAuth = (accessToken: string) => {
-    requestInstance.prototype.updateAuth(accessToken);
-    localStorage.setItem('token', accessToken);
-  };
-
   useEffect(() => {
     if (userCode) {
       try {
         refetchToken().then(({ data }) => {
           const { accessToken } = data;
-
           if (data.joined) {
             saveAuth(accessToken);
             navigate(`${ROUTE_PATH.EXACT_MAIN}`);

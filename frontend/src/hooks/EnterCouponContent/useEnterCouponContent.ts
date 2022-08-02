@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { requestInstance } from '../../apis/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
@@ -13,7 +13,7 @@ const useEnterCouponContent = () => {
   const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
 
   const { data: userProfile } = useQuery<UserProfile>('profile', async () => {
-    const res = await requestInstance({
+    const res = await client({
       method: 'GET',
       url: `${API_PATH.PROFILE}`,
     });
@@ -64,7 +64,7 @@ const useEnterCouponContent = () => {
   }, [userProfile, couponType, title, message]);
   const sendCoupon = useMutation(
     async () =>
-      await requestInstance({
+      await client({
         method: 'POST',
         url: `${API_PATH.SEND_COUPON}`,
         data: {

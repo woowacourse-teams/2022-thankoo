@@ -8,7 +8,7 @@ import { ROUTE_PATH } from '../../constants/routes';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { requestInstance } from '../../apis/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import useModal from '../../hooks/useModal';
 import { useReservationDetail } from '../../hooks/Main/useCouponDetail';

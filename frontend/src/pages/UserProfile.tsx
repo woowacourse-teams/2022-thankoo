@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Header from '../components/@shared/Header';
@@ -11,42 +10,7 @@ import useProfile from '../hooks/Profile/useProfile';
 import defaultUser from '../assets/images/default_user.jpeg';
 
 const UserProfile = () => {
-  const { profile, editUserName } = useProfile();
-  const [isNameEdit, setIsNameEdit] = useState(false);
-  const [name, setName] = useState<string>('');
-
-  useEffect(() => {
-    if (!profile) {
-      return;
-    }
-
-    setName(profile.name);
-  }, [profile?.name]);
-
-  const submitChangeName = () => {
-    if (!name.length || name === profile?.name) {
-      return;
-    }
-
-    editUserName.mutate(name);
-  };
-
-  const handleClickModifyNameButton = () => {
-    if (name.length === 0) {
-      if (!profile) {
-        return;
-      }
-
-      setName(profile?.name);
-      return;
-    }
-
-    if (isNameEdit) {
-      submitChangeName();
-    }
-
-    setIsNameEdit(prev => !prev);
-  };
+  const { profile, isNameEdit, name, handleClickModifyNameButton, onChangeName } = useProfile();
 
   return (
     <PageLayout>
@@ -69,9 +33,7 @@ const UserProfile = () => {
                 type='text'
                 value={name}
                 placeholder='이름을 입력해주세요'
-                onChange={e => {
-                  setName(e.target.value);
-                }}
+                onChange={onChangeName}
                 onKeyDown={e => {
                   if (e.code === 'Enter') {
                     handleClickModifyNameButton();
