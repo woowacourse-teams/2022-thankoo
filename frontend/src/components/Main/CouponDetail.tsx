@@ -94,6 +94,7 @@ const S = {
   PageSlider: styled.div`
     width: 100%;
     display: -webkit-inline-box;
+    display: ms;
     overflow-x: scroll;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
@@ -101,6 +102,11 @@ const S = {
       scroll-margin: 0;
       scroll-snap-align: start;
     }
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   `,
   DotWrapper: styled.div`
     margin: 10px auto;
