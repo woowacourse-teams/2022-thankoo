@@ -4,7 +4,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_HOHO;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HOHO_TOKEN;
 
-import com.woowacourse.thankoo.acceptance.dsl.AuthenticationAssured;
+import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

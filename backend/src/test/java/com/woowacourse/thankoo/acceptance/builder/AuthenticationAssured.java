@@ -1,12 +1,12 @@
-package com.woowacourse.thankoo.acceptance.dsl;
+package com.woowacourse.thankoo.acceptance.builder;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.get;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.acceptance.dsl.common.RequestDsl;
-import com.woowacourse.thankoo.acceptance.dsl.common.ResponseDsl;
+import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
+import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
 import com.woowacourse.thankoo.authentication.application.dto.SignUpRequest;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import io.restassured.response.ExtractableResponse;
@@ -20,34 +20,34 @@ public class AuthenticationAssured {
         this.response = response;
     }
 
-    public static AuthenticationRequestDsl request() {
-        return new AuthenticationRequestDsl();
+    public static AuthenticationRequestBuilder request() {
+        return new AuthenticationRequestBuilder();
     }
 
-    public static class AuthenticationRequestDsl extends RequestDsl {
+    public static class AuthenticationRequestBuilder extends RequestBuilder {
 
-        public AuthenticationRequestDsl 회원가입_한다(final String idToken, final String name) {
+        public AuthenticationRequestBuilder 회원가입_한다(final String idToken, final String name) {
             response = postWithToken("/api/sign-up", idToken, new SignUpRequest(name));
             return this;
         }
 
-        public AuthenticationRequestDsl 로그인_한다(final String code) {
+        public AuthenticationRequestBuilder 로그인_한다(final String code) {
             response = get("/api/sign-in?code=" + code);
             return this;
         }
 
-        public AuthenticationResponseDsl response() {
-            return new AuthenticationResponseDsl(response);
+        public AuthenticationResponseBuilder response() {
+            return new AuthenticationResponseBuilder(response);
         }
     }
 
-    public static class AuthenticationResponseDsl extends ResponseDsl {
+    public static class AuthenticationResponseBuilder extends ResponseBuilder {
 
-        public AuthenticationResponseDsl(final ExtractableResponse<Response> response) {
+        public AuthenticationResponseBuilder(final ExtractableResponse<Response> response) {
             super(response);
         }
 
-        public AuthenticationResponseDsl status(final int code) {
+        public AuthenticationResponseBuilder status(final int code) {
             assertThat(response.statusCode()).isEqualTo(code);
             return this;
         }

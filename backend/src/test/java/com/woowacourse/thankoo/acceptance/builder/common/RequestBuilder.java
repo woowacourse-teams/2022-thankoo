@@ -1,9 +1,9 @@
-package com.woowacourse.thankoo.acceptance.dsl.common;
+package com.woowacourse.thankoo.acceptance.builder.common;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
-public abstract class RequestDsl {
+public abstract class RequestBuilder {
 
     protected ExtractableResponse<Response> response;
 

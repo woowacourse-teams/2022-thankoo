@@ -1,14 +1,14 @@
-package com.woowacourse.thankoo.acceptance.dsl.common;
+package com.woowacourse.thankoo.acceptance.builder.common;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
 
-public abstract class ResponseDsl {
+public abstract class ResponseBuilder {
 
     protected final ExtractableResponse<Response> response;
 
-    public ResponseDsl(final ExtractableResponse<Response> response) {
+    public ResponseBuilder(final ExtractableResponse<Response> response) {
         this.response = response;
     }
 
