@@ -76,5 +76,4 @@ public class MemberAssured {
             return this;
         }
     }
-
 }
