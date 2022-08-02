@@ -100,7 +100,7 @@ public class Reservation extends BaseEntity {
 
         reservationStatus = updateReservationStatus;
         if (reservationStatus.isDeny()) {
-            coupon.denied();
+            coupon.rollBack();
             return;
         }
         coupon.accepted();
@@ -124,6 +124,18 @@ public class Reservation extends BaseEntity {
         if (!coupon.canAcceptReservation()) {
             throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
         }
+    }
+
+    public void cancel(final Member member) {
+        if (!member.isSameId(memberId)) {
+            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
+        }
+        if (!reservationStatus.isWaiting()) {
+            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
+        }
+
+        coupon.rollBack();
+        reservationStatus = ReservationStatus.CANCELED;
     }
 
     @Override
