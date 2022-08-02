@@ -18,7 +18,7 @@ public class MeetingMembers {
     private static final int STANDARD_MEMBER_COUNT = 2;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private final List<MeetingMember> meetingMembers = new ArrayList<>();
+    private List<MeetingMember> meetingMembers = new ArrayList<>();
 
     public MeetingMembers(final List<MeetingMember> meetingMembers) {
         validateMemberCount(meetingMembers);
