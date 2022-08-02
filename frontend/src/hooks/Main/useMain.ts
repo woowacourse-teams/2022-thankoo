@@ -5,9 +5,9 @@ import { API_PATH } from '../../constants/api';
 import { Coupon, CouponType } from '../../types';
 
 const COUPON_STATUS_PRIORITY = {
-  not_used: 0,
-  reserving: 1,
-  reserved: 2,
+  not_used: 2,
+  reserving: 0,
+  reserved: 1,
 };
 const SENT_OR_RECEIVED_API_PATH = {
   받은: API_PATH.RECEIVED_COUPONS_NOT_USED,
