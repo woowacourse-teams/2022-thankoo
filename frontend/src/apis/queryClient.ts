@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { QueryClient } from 'react-query';
+import { clearAuth } from '../utils/auth';
 
 type AuthErrorResponse = {
   data: { errorCode: number };
@@ -25,7 +26,7 @@ const authErrorHandler = (error: AxiosError) => {
   } = error?.response as AuthErrorResponse;
 
   if (errorCode === 1003) {
-    localStorage.removeItem('token');
+    clearAuth();
     window.location.reload();
   }
 };
