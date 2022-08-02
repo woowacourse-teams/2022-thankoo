@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.common.fake.FakeReservedMeetingCreator;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
@@ -236,8 +237,8 @@ class ReservationTest {
             reservation.reserve();
 
             assertThatThrownBy(() -> reservation.cancel(sender))
-                    .isInstanceOf(InvalidReservationException.class)
-                    .hasMessage("예약 상태를 변경할 수 없습니다.");
+                    .isInstanceOf(ForbiddenException.class)
+                    .hasMessage("권한이 없습니다.");
         }
 
         @DisplayName("예약자가 아닐 경우 실패한다.")

@@ -19,6 +19,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.createReservation;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
@@ -91,8 +92,8 @@ class MeetingTest {
                     coupon);
 
             assertThatThrownBy(() -> meeting.complete(other))
-                    .isInstanceOf(InvalidMeetingException.class)
-                    .hasMessage("잘못된 미팅 참여자입니다.");
+                    .isInstanceOf(ForbiddenException.class)
+                    .hasMessage("권한이 없습니다.");
         }
 
         @DisplayName("미팅이 진행 중이 아닐 경우 예외가 발생한다.")

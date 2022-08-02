@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.reservation.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.domain.MeetingTime;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -128,7 +129,7 @@ public class Reservation extends BaseEntity {
 
     public void cancel(final Member member) {
         if (!member.isSameId(memberId)) {
-            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
+            throw new ForbiddenException(ErrorType.FORBIDDEN);
         }
         if (!reservationStatus.isWaiting()) {
             throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);

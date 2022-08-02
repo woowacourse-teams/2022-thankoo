@@ -33,6 +33,7 @@ public enum ErrorType {
     INVALID_MEETING_TIME_ZONE(5004, "잘못된 타임존입니다."),
     INVALID_MEETING_STATUS(5005, "완료할 수 없는 상태입니다."),
 
+    FORBIDDEN(9001, "권한이 없습니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 
     private final int code;

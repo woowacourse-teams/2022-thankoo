@@ -26,6 +26,12 @@ public class GlobalControllerAdvice {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getCode(), e.getMessage()));
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> forbiddenExceptionHandler(final ForbiddenException e) {
+        log.error("Forbidden Exception", e);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getCode(), e.getMessage()));
+    }
+
     @SlackLogger
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> unHandledExceptionHandler(final Exception e) {
