@@ -14,11 +14,11 @@ public class MeetingScheduleTask {
 
     public static final LocalDate COMPLETE_JOB_DATE = LocalDate.now().minusDays(1L);
 
-    private final MeetingScheduleRepository meetingRepository;
+    private final MeetingScheduleRepository meetingScheduleRepository;
 
     @Scheduled(cron = "0 0 2 * * *")
     @Transactional
     public void executeCompleteMeeting() {
-        meetingRepository.expire(MeetingStatus.FINISHED.name(), COMPLETE_JOB_DATE, MeetingStatus.ON_PROGRESS.name());
+        meetingScheduleRepository.expire(MeetingStatus.FINISHED.name(), COMPLETE_JOB_DATE, MeetingStatus.ON_PROGRESS.name());
     }
 }
