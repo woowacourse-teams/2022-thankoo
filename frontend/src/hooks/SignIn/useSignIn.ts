@@ -5,6 +5,7 @@ import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { GOOGLE_AUTH_URL } from '../../constants/googleAuth';
 import { ROUTE_PATH } from '../../constants/routes';
+import { saveAuth } from '../../utils/auth';
 
 const useSignIn = () => {
   const navigate = useNavigate();
@@ -30,17 +31,11 @@ const useSignIn = () => {
     }
   );
 
-  const saveAuth = (accessToken: string) => {
-    client.defaults.headers['Authorization'] = accessToken;
-    localStorage.setItem('token', accessToken);
-  };
-
   useEffect(() => {
     if (userCode) {
       try {
         refetchToken().then(({ data }) => {
           const { accessToken } = data;
-
           if (data.joined) {
             saveAuth(accessToken);
             navigate(`${ROUTE_PATH.EXACT_MAIN}`);

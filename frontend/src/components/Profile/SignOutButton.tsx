@@ -1,14 +1,15 @@
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routes';
+import { clearAuth } from '../../utils/auth';
 
 const SignOutButton = () => {
   const navigate = useNavigate();
-
   const signOut = () => {
-    localStorage.removeItem('token');
+    clearAuth();
     navigate(`${ROUTE_PATH.SIGN_IN}`);
   };
+
   return <S.Container onClick={signOut}>로그아웃</S.Container>;
 };
 
