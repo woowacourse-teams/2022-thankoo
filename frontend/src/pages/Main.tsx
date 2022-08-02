@@ -3,6 +3,7 @@ import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/useMain';
 
+import LoopIcon from '@mui/icons-material/Loop';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import Modal from '../components/@shared/Modal';
@@ -13,7 +14,15 @@ import BottomNavBar from './../components/@shared/BottomNavBar';
 import EmptyContent from '../components/@shared/EmptyContent';
 
 const Main = () => {
-  const { setCurrentType, orderedCoupons, isLoading, error, currentType } = useMain();
+  const {
+    setCurrentType,
+    orderedCoupons,
+    isLoading,
+    error,
+    currentType,
+    sentOrReceived,
+    toggleSentOrReceived,
+  } = useMain();
   const { visible } = useModal();
 
   if (isLoading) return <>로딩중</>;
@@ -24,7 +33,10 @@ const Main = () => {
       <PageLayout>
         <Header>
           <div style={{ padding: '15px 0' }}></div>
-          <HeaderText>쿠폰함</HeaderText>
+          <HeaderText onClick={toggleSentOrReceived}>
+            {sentOrReceived} 쿠폰함
+            <S.LoopIcon />
+          </HeaderText>
         </Header>
         <S.Body>
           <TabsNav
@@ -49,6 +61,10 @@ const S = {
     flex-direction: column;
     gap: 1rem;
     padding: 15px;
+  `,
+  LoopIcon: styled(LoopIcon)`
+    font-size: 1.3rem;
+    margin-top: 4px;
   `,
 };
 

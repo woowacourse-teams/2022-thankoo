@@ -9,14 +9,19 @@ const COUPON_STATUS_PRIORITY = {
   reserving: 1,
   reserved: 2,
 };
+const SENT_OR_RECEIVED_API_PATH = {
+  받은: API_PATH.RECEIVED_COUPONS_NOT_USED,
+  보낸: API_PATH.SENT_COUPONS,
+};
 
 const useMain = () => {
+  const [sentOrReceived, setSentOrReceived] = useState('받은');
   const [currentType, setCurrentType] = useState<CouponType>('entire');
 
-  const { data, isLoading, error } = useQuery<Coupon[]>('coupon', async () => {
+  const { data, isLoading, error } = useQuery<Coupon[]>(['coupon', sentOrReceived], async () => {
     const { data } = await client({
       method: 'get',
-      url: `${API_PATH.RECEIVED_COUPONS_NOT_USED}`,
+      url: SENT_OR_RECEIVED_API_PATH[sentOrReceived],
     });
     return data;
   });
@@ -30,7 +35,19 @@ const useMain = () => {
       COUPON_STATUS_PRIORITY[coupon1.status] - COUPON_STATUS_PRIORITY[coupon2.status]
   );
 
-  return { setCurrentType, orderedCoupons, isLoading, error, currentType };
+  const toggleSentOrReceived = () => {
+    setSentOrReceived(prev => (prev === '받은' ? '보낸' : '받은'));
+  };
+
+  return {
+    setCurrentType,
+    orderedCoupons,
+    isLoading,
+    error,
+    currentType,
+    sentOrReceived,
+    toggleSentOrReceived,
+  };
 };
 
 export default useMain;
