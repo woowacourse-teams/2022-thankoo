@@ -51,4 +51,11 @@ public class ReservationController {
         reservationService.updateStatus(memberId, reservationId, reservationStatusRequest);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{reservationId}/cancel")
+    public ResponseEntity<Void> cancel(@AuthenticationPrincipal final Long memberId,
+                                       @PathVariable final Long reservationId) {
+        reservationService.cancel(memberId, reservationId);
+        return ResponseEntity.noContent().build();
+    }
 }
