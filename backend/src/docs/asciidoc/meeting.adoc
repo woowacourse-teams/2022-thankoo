@@ -1,4 +1,17 @@
 [[Meeting]]
+[cols=2*,options=header]
+|===
+|Status
+|Explain
+
+|on_progress
+|만남은 생성 됐지만 아직 만남 완료 버튼이 눌리지 않은 경우
+
+|finished
+|만남 완료된 경우
+
+|===
+
 === 미팅 조회
 
 operation::meetings/get-meetings[snippets='http-request,http-response']
