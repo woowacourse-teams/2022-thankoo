@@ -1,19 +1,15 @@
 import styled from '@emotion/styled';
 import CloseButton from '../@shared/CloseButton';
 import GridViewCoupon from './GridViewCoupon';
-import { Reservation } from '../../types';
 import { useRecoilState } from 'recoil';
 import { targetCouponAtom } from '../../recoil/atom';
 import { ROUTE_PATH } from '../../constants/routes';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
 import { Link } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
 import useModal from '../../hooks/useModal';
 import { useReservationDetail } from '../../hooks/Main/useCouponDetail';
 
-const CouponDetailsReserve = ({ couponId }: { couponId: number }) => {
+const CouponDetailReserve = ({ couponId }: { couponId: number }) => {
   //todo: couponDetailNotUsed에서도 재사용
   const { close } = useModal();
   const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
@@ -107,4 +103,4 @@ const S = {
   `,
 };
 
-export default CouponDetailsReserve;
+export default CouponDetailReserve;

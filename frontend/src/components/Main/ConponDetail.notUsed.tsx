@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import useModal from '../../hooks/useModal';
 import { useNotUsedCouponDetail } from '../../hooks/Main/useCouponDetail';
 
-const ConponDetailsNotUsed = ({ couponId }: { couponId: number }) => {
+const ConponDetailNotUsed = ({ couponId }: { couponId: number }) => {
   //todo: couponDetailNotUsed에서도 재사용
   const { close } = useModal();
   const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
@@ -47,7 +47,6 @@ const ConponDetailsNotUsed = ({ couponId }: { couponId: number }) => {
       </S.Footer>
     </>
   );
-  return <></>;
 };
 
 const S = {
@@ -105,4 +104,4 @@ const S = {
   `,
 };
 
-export default ConponDetailsNotUsed;
+export default ConponDetailNotUsed;

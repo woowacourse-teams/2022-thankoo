@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
 import { Coupon, CouponStatus } from '../../types';
-import CouponDetails from './CouponDetails';
+import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
 import ModalWrapper from './ModalWrapper';
 
@@ -11,7 +11,7 @@ const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   return (
     <S.Container>
       {coupons.map(coupon => (
-        <ModalWrapper modalContent={<CouponDetails coupon={coupon} />}>
+        <ModalWrapper modalContent={<CouponDetail coupon={coupon} />}>
           <S.Relative>
             {strapStatus.includes(coupon.status) && (
               <S.StatusStrap status={coupon.status}>

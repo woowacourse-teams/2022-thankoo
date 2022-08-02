@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { Coupon } from '../../types';
-import ConponDetailsNotUsed from './ConponDetails.notUsed';
-import CouponDetailsReserve from './CouponDetails.reserve';
+import ConponDetailsNotUsed from './ConponDetail.notUsed';
+import CouponDetailsReserve from './CouponDetail.reserve';
 
-const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
+const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
   const { couponId, status } = coupon;
 
   return (
@@ -20,7 +20,7 @@ const CouponDetails = ({ coupon }: { coupon: Coupon }) => {
   );
 };
 
-export default CouponDetails;
+export default CouponDetail;
 
 const S = {
   Container: styled.section`
@@ -41,5 +41,5 @@ const S = {
     border-radius: 5px;
     background-color: #232323;
     padding: 1rem;
-  `
+  `,
 };
