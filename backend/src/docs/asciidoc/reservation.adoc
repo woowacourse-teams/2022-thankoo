@@ -1,16 +1,16 @@
 [[Reservation]]
-== 예약 전송
+=== 예약 전송
 
 operation::reservations/reserve[snippets='http-request,http-response']
 
-== 보낸 예약 조회
+=== 보낸 예약 조회
 
 operation::reservations/get-received-reservations/[snippets='http-request,http-response']
 
-== 받은 예약 조회
+=== 받은 예약 조회
 
 operation::reservations/get-sent-reservations/[snippets='http-request,http-response']
 
-== 예약 승인
+=== 예약 승인
 
 operation::reservations/update-reservation-status[snippets='http-request,http-response']
