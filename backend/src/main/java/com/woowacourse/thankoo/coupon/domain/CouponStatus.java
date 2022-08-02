@@ -24,10 +24,14 @@ public enum CouponStatus {
     }
 
     public boolean isInReserve() {
-        return isReserving() || this == RESERVED;
+        return isReserving() || isReserved();
     }
 
     public boolean isReserving() {
         return this == RESERVING;
+    }
+
+    public boolean isReserved() {
+        return this == RESERVED;
     }
 }
