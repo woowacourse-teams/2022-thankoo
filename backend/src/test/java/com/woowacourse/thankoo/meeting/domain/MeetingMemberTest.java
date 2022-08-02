@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("MeetingMember 는 ")
 class MeetingMemberTest {
 
-    @DisplayName("참여자이다.")
+    @DisplayName("멤버가 참여자 인지를 검증한다.")
     @Test
     void has() {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
