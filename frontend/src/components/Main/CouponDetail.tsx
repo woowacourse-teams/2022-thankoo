@@ -93,12 +93,14 @@ const S = {
   `,
   PageSlider: styled.div`
     width: 100%;
-    display: -webkit-inline-box;
-    display: ms;
+    display: flex;
+    flex-wrap: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
+
     & > div {
+      flex: 0 0 auto;
       scroll-margin: 0;
       scroll-snap-align: start;
     }
