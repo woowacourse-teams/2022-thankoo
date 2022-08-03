@@ -14,10 +14,8 @@ import io.restassured.response.Response;
 
 public class AuthenticationAssured {
 
-    private final ExtractableResponse<Response> response;
+    private AuthenticationAssured() {
 
-    public AuthenticationAssured(final ExtractableResponse<Response> response) {
-        this.response = response;
     }
 
     public static AuthenticationRequestBuilder request() {

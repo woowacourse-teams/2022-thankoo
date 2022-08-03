@@ -16,10 +16,8 @@ import java.util.List;
 
 public class MemberAssured {
 
-    private final ExtractableResponse<Response> response;
+    private MemberAssured() {
 
-    public MemberAssured(final ExtractableResponse<Response> response) {
-        this.response = response;
     }
 
     public static MemberRequestBuilder request() {
@@ -38,7 +36,8 @@ public class MemberAssured {
             return this;
         }
 
-        public MemberRequestBuilder 내_정보를_수정한다(final TokenResponse tokenResponse, final MemberNameRequest memberNameRequest) {
+        public MemberRequestBuilder 내_정보를_수정한다(final TokenResponse tokenResponse,
+                                               final MemberNameRequest memberNameRequest) {
             response = putWithToken("/api/members/me", tokenResponse.getAccessToken(), memberNameRequest);
             return this;
         }

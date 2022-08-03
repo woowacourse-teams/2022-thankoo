@@ -8,20 +8,23 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
 
 public class ReservationAssured {
 
-    private final ExtractableResponse<Response> response;
+    private ReservationAssured() {
+    }
 
-    public ReservationAssured(final ExtractableResponse<Response> response) {
-        this.response = response;
+    public static ReservationRequest 예약_요청(final CouponResponse couponResponse, final Long days) {
+        return new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(days));
     }
 
     public static ReservationRequestBuilder request() {

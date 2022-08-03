@@ -2,25 +2,37 @@ package com.woowacourse.thankoo.acceptance.builder;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
+import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.Arrays;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 
 public class CouponAssured {
 
-    private final ExtractableResponse<Response> response;
+    private CouponAssured() {
+    }
 
-    public CouponAssured(final ExtractableResponse<Response> response) {
-        this.response = response;
+    public static CouponRequest createCouponRequest(final List<Long> receiverIds,
+                                                    final String type,
+                                                    final String title,
+                                                    final String message) {
+        return new CouponRequest(receiverIds, new ContentRequest(type, title, message));
+    }
+
+    public static CouponRequest 쿠폰_요청(final Long... ids) {
+        return createCouponRequest(Arrays.asList(ids), TYPE, TITLE, MESSAGE);
     }
 
     public static CouponRequestBuilder request() {

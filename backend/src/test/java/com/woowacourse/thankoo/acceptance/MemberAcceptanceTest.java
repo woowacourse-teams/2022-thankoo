@@ -11,8 +11,6 @@ import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_LALA;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HUNI_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.LALA_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.MemberAssured;

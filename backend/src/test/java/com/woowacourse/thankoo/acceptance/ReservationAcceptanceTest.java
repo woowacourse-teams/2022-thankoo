@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.acceptance;
 
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰_요청;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약_요청;
+import static com.woowacourse.thankoo.acceptance.builder.CouponAssured.쿠폰_요청;
+import static com.woowacourse.thankoo.acceptance.builder.ReservationAssured.예약_요청;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;

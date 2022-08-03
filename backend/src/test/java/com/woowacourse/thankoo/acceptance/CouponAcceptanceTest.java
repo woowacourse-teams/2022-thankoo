@@ -1,12 +1,8 @@
 package com.woowacourse.thankoo.acceptance;
 
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.createCouponRequest;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.CouponRequestFixture.쿠폰_요청;
-import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약_요청;
-import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.acceptance.builder.CouponAssured.쿠폰_요청;
+import static com.woowacourse.thankoo.acceptance.builder.ReservationAssured.예약_요청;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
-import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
-import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.INVALID_TOKEN;
@@ -21,9 +17,7 @@ import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.CouponAssured;
 import com.woowacourse.thankoo.acceptance.builder.ReservationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
-import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -137,9 +131,6 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .response()
                         .body(TokenResponse.class);
 
-                CouponRequest couponRequest =
-                        createCouponRequest(List.of(receiverToken1.getMemberId(), receiverToken2.getMemberId()),
-                                TYPE, TITLE, MESSAGE);
                 CouponAssured.request()
                         .쿠폰을_전송한다(senderToken.getAccessToken(),
                                 쿠폰_요청(receiverToken1.getMemberId(), receiverToken2.getMemberId()))
