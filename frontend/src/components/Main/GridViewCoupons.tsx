@@ -38,7 +38,7 @@ const S = {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(145px, 150px));
     gap: 30px 15px;
-    max-height: 70vh;
+    max-height: 69vh;
     place-items: center;
     justify-content: space-around;
     overflow-y: overlay;

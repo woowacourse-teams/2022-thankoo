@@ -47,7 +47,7 @@ const S = {
   Body: styled.section`
     display: flex;
     flex-direction: column;
-    padding: 2rem 15px;
+    padding: 5px 3vw;
     color: white;
     gap: 15px;
   `,
