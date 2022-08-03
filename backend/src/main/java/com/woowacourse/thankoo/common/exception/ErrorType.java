@@ -8,6 +8,7 @@ public enum ErrorType {
     NOT_AUTHENTICATED(1001, "인증되지 않았습니다."),
     ALREADY_AUTHENTICATED(1002, "이미 인증정보가 존재합니다."),
     INVALID_TOKEN(1003, "유효하지 않은 토큰입니다."),
+    FORBIDDEN(1004, "권한이 없습니다."),
 
     NOT_FOUND_MEMBER(2001, "존재하지 않는 회원입니다."),
     INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),
@@ -33,7 +34,6 @@ public enum ErrorType {
     INVALID_MEETING_TIME_ZONE(5004, "잘못된 타임존입니다."),
     INVALID_MEETING_STATUS(5005, "완료할 수 없는 상태입니다."),
 
-    FORBIDDEN(9001, "권한이 없습니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 
     private final int code;
