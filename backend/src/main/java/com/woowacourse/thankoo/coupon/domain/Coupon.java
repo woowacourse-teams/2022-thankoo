@@ -79,7 +79,7 @@ public class Coupon extends BaseEntity {
         return couponStatus.isReserving();
     }
 
-    public void denied() {
+    public void rollBack() {
         couponStatus = CouponStatus.NOT_USED;
     }
 

@@ -6,11 +6,15 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.common.fake.FakeReservedMeetingCreator;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
@@ -123,7 +127,7 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
-                            "accept", new FakeReservedMeetingCreator()))
+                            ReservationStatus.ACCEPT, new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
@@ -142,7 +146,7 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
-                            "waiting", new FakeReservedMeetingCreator()))
+                            ReservationStatus.WAITING, new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
@@ -161,7 +165,8 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.update(
-                            new Member(receiverId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
+                            new Member(receiverId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                            ReservationStatus.ACCEPT,
                             new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
@@ -181,7 +186,8 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.update(
-                            new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
+                            new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                            ReservationStatus.ACCEPT,
                             new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
@@ -202,7 +208,8 @@ class ReservationTest {
                     receiverId, coupon);
             reservation.reserve();
 
-            reservation.update(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL), "accept",
+            reservation.update(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                    ReservationStatus.ACCEPT,
                     new FakeReservedMeetingCreator());
 
             assertAll(
@@ -211,4 +218,51 @@ class ReservationTest {
             );
         }
     }
+
+    @DisplayName("예약을 취소할 떄 ")
+    @Nested
+    class CancelTest {
+
+        @DisplayName("예약자가 아닐 경우 실패한다.")
+        @Test
+        void memberNotOwnerException() {
+            LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
+            Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+            Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+
+            Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
+                    new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED);
+            Reservation reservation = new Reservation(1L,
+                    new MeetingTime(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
+                    ReservationStatus.WAITING,
+                    receiver.getId(), coupon);
+            reservation.reserve();
+
+            assertThatThrownBy(() -> reservation.cancel(sender))
+                    .isInstanceOf(ForbiddenException.class)
+                    .hasMessage("권한이 없습니다.");
+        }
+
+        @DisplayName("예약 상태가 waiting이 아닐 경우 실패한다.")
+        @Test
+        void reservationNotWaitingException() {
+            LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
+            Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+            Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+
+            Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
+                    new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED);
+            Reservation reservation = new Reservation(1L,
+                    new MeetingTime(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
+                    ReservationStatus.ACCEPT,
+                    receiver.getId(), coupon);
+
+            assertThatThrownBy(() -> reservation.cancel(receiver))
+                    .isInstanceOf(InvalidReservationException.class)
+                    .hasMessage("예약 상태를 변경할 수 없습니다.");
+        }
+    }
+
 }

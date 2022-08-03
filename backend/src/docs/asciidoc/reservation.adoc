@@ -34,3 +34,6 @@ operation::reservations/get-sent-reservations/[snippets='http-request,http-respo
 === 예약 승인
 
 operation::reservations/update-reservation-status[snippets='http-request,http-response']
+
+=== 예약 취소
+operation::reservations/cancel[snippets='http-request,http-response']

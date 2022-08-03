@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
+import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -35,6 +36,7 @@ import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -139,5 +141,62 @@ class ReservationServiceTest {
                 () -> assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.DENY),
                 () -> assertThat(meetingRepository.findAll()).hasSize(0)
         );
+    }
+
+    @DisplayName("예약을 취소할 때 ")
+    @Nested
+    class CancelTest {
+
+        @DisplayName("예약자가 취소하면 성공한다.")
+        @Test
+        void cancel() {
+            Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+            Coupon coupon = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Long reservationId = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+
+            reservationService.cancel(receiver.getId(), reservationId);
+
+            Reservation foundReservation = reservationRepository.findById(reservationId).get();
+
+            assertAll(
+                    () -> assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED),
+                    () -> assertThat(couponRepository.findById(coupon.getId()).get().getCouponStatus()).isEqualTo(
+                            NOT_USED)
+            );
+        }
+
+        @DisplayName("예약자가 아닌 멤버가 취소하면 실패한다.")
+        @Test
+        void memberNotRequestMemberException() {
+            Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+            Coupon coupon = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Long reservationId = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+
+            assertThatThrownBy(() -> reservationService.cancel(sender.getId(), reservationId))
+                    .isInstanceOf(ForbiddenException.class)
+                    .hasMessage("권한이 없습니다.");
+        }
+
+        @DisplayName("예약 대기 중이 아닐경우 취소하면 실패한다.")
+        @Test
+        void reservationNotWaitingException() {
+            Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+            Coupon coupon = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Long reservationId = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+
+            reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("deny"));
+            assertThatThrownBy(() -> reservationService.cancel(receiver.getId(), reservationId))
+                    .isInstanceOf(InvalidReservationException.class)
+                    .hasMessage("예약 상태를 변경할 수 없습니다.");
+        }
     }
 }
