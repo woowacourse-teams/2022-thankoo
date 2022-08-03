@@ -11,5 +11,5 @@ public interface MeetingScheduleRepository extends MeetingRepository {
      */
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE Meeting m SET m.status = ? WHERE m.date = ? AND m.status = ?", nativeQuery = true)
-    void updateMeetingStatus(String updatedStatus, LocalDate date, String originStatus);
+    void updateMeetingStatus(String modifyStatus, LocalDate date, String originStatus);
 }

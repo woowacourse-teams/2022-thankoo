@@ -1,7 +1,9 @@
 package com.woowacourse.thankoo.common.schedule;
 
+import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.FINISHED;
+import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.ON_PROGRESS;
+
 import com.woowacourse.thankoo.meeting.domain.MeetingScheduleRepository;
-import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +21,6 @@ public class MeetingScheduleTask {
     @Scheduled(cron = "0 0 2 * * *")
     @Transactional
     public void executeCompleteMeeting() {
-        meetingScheduleRepository.updateMeetingStatus(MeetingStatus.FINISHED.name(), COMPLETE_JOB_DATE, MeetingStatus.ON_PROGRESS.name());
+        meetingScheduleRepository.updateMeetingStatus(FINISHED.name(), COMPLETE_JOB_DATE, ON_PROGRESS.name());
     }
 }
