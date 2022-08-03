@@ -9,6 +9,9 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.EnumSource.Mode;
 
 @DisplayName("Coupon 은 ")
 class CouponTest {
@@ -94,14 +97,14 @@ class CouponTest {
     class UseTest {
 
         @DisplayName("예약된 상태가 아닐경우 예외가 발생한다.")
-        @Test
-        void fail() {
+        @ParameterizedTest
+        @EnumSource(value = CouponStatus.class, names = "RESERVED", mode = Mode.EXCLUDE)
+        void fail(CouponStatus couponStatus) {
             Coupon coupon = new Coupon(1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
-                    CouponStatus.RESERVING);
+                    couponStatus);
 
             assertThatThrownBy(coupon::use)
-                    .isInstanceOf(InvalidCouponException.class)
-                    .hasMessage("잘못된 쿠폰 상태입니다.");
+                    .isInstanceOf(InvalidCouponException.class);
         }
 
         @DisplayName("예약된 상태이면 쿠폰을 사용한다")

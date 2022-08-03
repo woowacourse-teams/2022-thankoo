@@ -19,6 +19,6 @@ public class MeetingScheduleTask {
     @Scheduled(cron = "0 0 2 * * *")
     @Transactional
     public void executeCompleteMeeting() {
-        meetingScheduleRepository.expire(MeetingStatus.FINISHED.name(), COMPLETE_JOB_DATE, MeetingStatus.ON_PROGRESS.name());
+        meetingScheduleRepository.updateMeetingStatus(MeetingStatus.FINISHED.name(), COMPLETE_JOB_DATE, MeetingStatus.ON_PROGRESS.name());
     }
 }

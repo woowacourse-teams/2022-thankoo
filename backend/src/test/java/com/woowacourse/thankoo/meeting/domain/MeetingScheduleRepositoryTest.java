@@ -65,7 +65,7 @@ public class MeetingScheduleRepositoryTest {
                         coupon)
         );
 
-        meetingScheduleRepository.expire(
+        meetingScheduleRepository.updateMeetingStatus(
                 MeetingStatus.FINISHED.name(),
                 meeting.getMeetingTime().getDate(),
                 ON_PROGRESS.name());
