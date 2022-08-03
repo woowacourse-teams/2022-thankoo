@@ -48,7 +48,8 @@ public class ReservationService {
                              final ReservationStatusRequest reservationStatusRequest) {
         Member foundMember = getMemberById(memberId);
         Reservation reservation = getReservationById(reservationId);
-        reservation.update(foundMember, reservationStatusRequest.getStatus(), reservedMeetingCreator);
+        ReservationStatus futureStatus = ReservationStatus.from(reservationStatusRequest.getStatus());
+        reservation.update(foundMember, futureStatus, reservedMeetingCreator);
     }
 
     public void cancel(final Long memberId,

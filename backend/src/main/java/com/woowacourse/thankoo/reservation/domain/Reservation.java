@@ -93,13 +93,12 @@ public class Reservation extends BaseEntity {
     }
 
     public void update(final Member member,
-                       final String status,
+                       final ReservationStatus futureStatus,
                        final ReservedMeetingCreator reservedMeetingCreator) {
-        ReservationStatus updateReservationStatus = ReservationStatus.from(status);
-        validateReservation(member, updateReservationStatus);
+        validateReservation(member, futureStatus);
         validateCouponStatus();
 
-        reservationStatus = updateReservationStatus;
+        reservationStatus = futureStatus;
         if (reservationStatus.isDeny()) {
             coupon.rollBack();
             return;
@@ -108,16 +107,16 @@ public class Reservation extends BaseEntity {
         reservedMeetingCreator.create(this);
     }
 
-    private void validateReservation(final Member member, final ReservationStatus updateReservationStatus) {
-        if (isInsufficientReservationStatus(member.getId(), updateReservationStatus)) {
+    private void validateReservation(final Member member, final ReservationStatus futureStatus) {
+        if (isInsufficientReservationStatus(member.getId(), futureStatus)) {
             throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
         }
     }
 
     private boolean isInsufficientReservationStatus(final Long memberId,
-                                                    final ReservationStatus updateReservationStatus) {
+                                                    final ReservationStatus futureStatus) {
         return !this.reservationStatus.isWaiting()
-                || updateReservationStatus.isWaiting()
+                || futureStatus.isWaiting()
                 || !coupon.isSender(memberId);
     }
 
