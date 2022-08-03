@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
-import useMain from '../hooks/Main/useMain';
+import useMain from '../hooks/Main/domain/useMain';
 
 import LoopIcon from '@mui/icons-material/Loop';
 import Header from '../components/@shared/Header';

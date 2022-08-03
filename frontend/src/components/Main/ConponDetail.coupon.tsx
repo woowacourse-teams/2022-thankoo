@@ -1,35 +1,41 @@
 import styled from '@emotion/styled';
 import { forwardRef, LegacyRef } from 'react';
-import { useNotUsedCouponDetail } from '../../hooks/Main/useCouponDetail';
 import GridViewCoupon from './GridViewCoupon';
+import CouponLayout from '../@shared/CouponLayout';
+import { Coupon } from '../../types';
+import { useRecoilValue } from 'recoil';
+import { sentOrReceivedAtom } from '../../recoil/atom';
 
-const ConponDetailNotUsed = (
-  { couponId }: { couponId: number },
-  ref: LegacyRef<HTMLDivElement>
-) => {
-  //todo: couponDetailNotUsed에서도 재사용
-  const { coupon, isLoading, isError } = useNotUsedCouponDetail(couponId);
-
-  if (isLoading) {
-    return <></>;
-  }
+const ConponDetailNotUsed = ({ coupon }: { coupon: Coupon }, ref: LegacyRef<HTMLDivElement>) => {
+  const sentOrReceived = useRecoilValue(sentOrReceivedAtom);
+  const isSent = sentOrReceived === '보낸';
 
   return (
     <S.Contents ref={ref}>
       <S.CouponArea>
-        <GridViewCoupon coupon={coupon} />
+        {sentOrReceived === '보낸' ? (
+          <CouponLayout
+            id={coupon?.receiver.id}
+            couponType={coupon?.content.couponType}
+            name={coupon?.receiver.name}
+            title={coupon?.content.title}
+          />
+        ) : (
+          <GridViewCoupon coupon={coupon as Coupon} />
+        )}
       </S.CouponArea>
       <S.FlexColumn>
-        <S.Label>보낸 사람</S.Label>
-        <S.Sender>{coupon.sender.name}</S.Sender>
+        <S.Label>{isSent ? '받은' : '보낸'} 사람</S.Label>
+        <S.Sender>{isSent ? coupon?.receiver.name : coupon?.sender.name}</S.Sender>
       </S.FlexColumn>
       <S.FlexColumn>
-        <S.Label>메세지</S.Label>
-        <S.Message>{coupon.content.message}</S.Message>
+        <S.Label>{isSent && '내가 보낸 '}메세지</S.Label>
+        <S.Message>{coupon?.content.message}</S.Message>
       </S.FlexColumn>
     </S.Contents>
   );
 };
+
 const S = {
   CouponArea: styled.div`
     display: flex;

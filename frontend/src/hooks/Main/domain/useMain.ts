@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
-import { Coupon, CouponType } from '../../types';
+import { useRecoilState } from 'recoil';
+import { client } from '../../../apis/axios';
+import { API_PATH } from '../../../constants/api';
+import { sentOrReceivedAtom } from '../../../recoil/atom';
+import { Coupon, CouponType } from '../../../types';
 
 const COUPON_STATUS_PRIORITY = {
   not_used: 2,
@@ -15,7 +17,7 @@ const SENT_OR_RECEIVED_API_PATH = {
 };
 
 const useMain = () => {
-  const [sentOrReceived, setSentOrReceived] = useState('받은');
+  const [sentOrReceived, setSentOrReceived] = useRecoilState(sentOrReceivedAtom);
   const [currentType, setCurrentType] = useState<CouponType>('entire');
 
   const { data, isLoading, error } = useQuery<Coupon[]>(['coupon', sentOrReceived], async () => {
@@ -26,7 +28,16 @@ const useMain = () => {
     return data;
   });
 
-  const couponsByType = data?.filter(
+  const edittedCouponsBySentOrReceived =
+    sentOrReceived === '보낸'
+      ? data?.map(coupon => {
+          const tempSender = coupon.sender;
+          const tempReceiver = coupon.receiver;
+          return { ...coupon, receiver: tempSender, sender: tempReceiver };
+        })
+      : data;
+
+  const couponsByType = edittedCouponsBySentOrReceived?.filter(
     coupon => coupon.content.couponType === currentType || currentType === 'entire'
   );
 

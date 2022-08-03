@@ -1,19 +1,27 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
 import { ROUTE_PATH } from '../../constants/routes';
-import { useCouponDetail } from '../../hooks/Main/useCouponDetail';
-import { Coupon } from '../../types';
+import { useCouponDetail } from '../../hooks/Main/domain/useCouponDetail';
+import { useGetCouponDetail } from '../../hooks/Main/queries/couponDetail';
+import { sentOrReceivedAtom } from '../../recoil/atom';
+import { Coupon, CouponDetail } from '../../types';
 import CloseButton from '../@shared/CloseButton';
 import useModal from './../../hooks/useModal';
-import ConponDetailNotUsed from './ConponDetail.notUsed';
-import CouponDetailReserve from './CouponDetail.reserve';
+import CouponDetailCoupon from './ConponDetail.coupon';
+import CouponDetailReservation from './CouponDetail.reservation';
 
-const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
-  const { syncPageWithScroll, couponId, setPageRef, page, setPage, setTargetCouponId } =
-    useCouponDetail(coupon);
-
+const CouponDetail = ({ couponId }: { couponId: number }) => {
+  const { syncPageWithScroll, setPageRef, page, setPage, setTargetCouponId } =
+    useCouponDetail(couponId);
+  const { data, isError, isLoading } = useGetCouponDetail(couponId);
+  const sentOrReceived = useRecoilValue(sentOrReceivedAtom);
   const { close } = useModal();
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <S.Container>
@@ -23,8 +31,14 @@ const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
           <CloseButton onClick={close} color='white' />
         </S.Header>
         <S.PageSlider onScroll={syncPageWithScroll}>
-          <ConponDetailNotUsed couponId={couponId} ref={setPageRef(0)} />
-          <CouponDetailReserve couponId={couponId} ref={setPageRef(1)} />
+          <CouponDetailCoupon coupon={data?.coupon as Coupon} ref={setPageRef(0)} />
+          {data?.coupon.status !== 'not_used' ? (
+            <CouponDetailReservation couponDetail={data as CouponDetail} ref={setPageRef(1)} />
+          ) : (
+            <S.EmptyReservationPage ref={setPageRef(1)}>
+              아직 예약 정보가 없습니다.
+            </S.EmptyReservationPage>
+          )}
         </S.PageSlider>
         <S.DotWrapper>
           <S.Dot
@@ -41,15 +55,17 @@ const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
           />
         </S.DotWrapper>
         <S.Footer>
-          <S.UseCouponLink
-            onClick={() => {
-              setTargetCouponId(couponId);
-              close();
-            }}
-            to={`${ROUTE_PATH.CREATE_RESERVATION}`}
-          >
-            <S.Button>{COUPON_STATUS_BUTTON_TEXT[coupon.status]}</S.Button>
-          </S.UseCouponLink>
+          {sentOrReceived === '받은' && (
+            <S.UseCouponLink
+              onClick={() => {
+                setTargetCouponId(couponId);
+                close();
+              }}
+              to={`${ROUTE_PATH.CREATE_RESERVATION}`}
+            >
+              <S.Button>{COUPON_STATUS_BUTTON_TEXT[data?.coupon.status as string]}</S.Button>
+            </S.UseCouponLink>
+          )}
         </S.Footer>
       </S.Modal>
     </S.Container>
@@ -60,8 +76,9 @@ export default CouponDetail;
 
 const S = {
   Container: styled.section`
+    position: relative;
     width: 18rem;
-    height: 26rem;
+    height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,8 +151,10 @@ const S = {
   Button: styled.button`
     border: none;
     border-radius: 4px;
-    background-color: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.button.abled.color};
+    background-color: ${({ theme, disabled }) =>
+      disabled ? theme.button.disbaled.background : theme.primary};
+    color: ${({ theme, disabled }) =>
+      disabled ? theme.button.disbaled.color : theme.button.abled.color};
     width: 100%;
     padding: 0.7rem;
     font-size: 15px;
@@ -143,5 +162,11 @@ const S = {
   `,
   UseCouponLink: styled(Link)`
     width: 100%;
+  `,
+  EmptyReservationPage: styled.div`
+    width: 100%;
+    display: flex;
+    align-self: center;
+    justify-content: center;
   `,
 };

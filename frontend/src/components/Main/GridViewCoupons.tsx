@@ -11,7 +11,10 @@ const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   return (
     <S.Container>
       {coupons.map(coupon => (
-        <ModalWrapper modalContent={<CouponDetail coupon={coupon} />}>
+        <ModalWrapper
+          key={coupon.couponId}
+          modalContent={<CouponDetail couponId={coupon.couponId} />}
+        >
           <S.Relative>
             {strapStatus.includes(coupon.status) && (
               <S.StatusStrap status={coupon.status}>
