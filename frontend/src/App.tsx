@@ -61,6 +61,7 @@ const MobileDiv = styled.div`
   height: 100vh;
   background-color: ${({ theme }) => theme.page.background};
   position: relative;
+  overflow: hidden;
 
   .slide-enter {
     opacity: 0;
