@@ -8,7 +8,7 @@ import CouponDetailCoupon from './ConponDetail.coupon';
 import CouponDetailReservation from './CouponDetail.reservation';
 
 const CouponDetail = ({ couponId }: { couponId: number }) => {
-  const { handleClickOnCouponStatus, couponDetail, isLoading, sentOrReceived, buttonText } =
+  const { handleClickOnCouponStatus, couponDetail, isLoading, sentOrReceived, buttonText, close } =
     useCouponDetail(couponId);
 
   if (isLoading) {

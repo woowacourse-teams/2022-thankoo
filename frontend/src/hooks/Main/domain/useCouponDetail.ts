@@ -26,26 +26,25 @@ export const useCouponDetail = (couponId: number) => {
       if (confirm('만남은 즐거우셨나요? 해당 쿠폰을 사용 완료하겠습니다')) {
         alert('사용 완료 기능은 구현중입니다.');
       }
-      close();
+      //   close();
     },
     reserving: () => {
       if (confirm('예약을 취소하시겠습니까?')) {
         alert('예약 취소 기능은 구현중입니다.');
       }
-      close();
+      //   close();
     },
   };
 
   const buttonText = COUPON_STATUS_BUTTON_TEXT[couponDetail?.coupon.status as string];
 
   return {
-    page,
-    setPage,
     handleClickOnCouponStatus: handleClickOnCouponStatus[couponDetail?.coupon.status as string],
     sentOrReceived,
     couponDetail,
     isLoading,
     isError,
     buttonText,
+    close,
   };
 };

@@ -18,6 +18,13 @@ export type MeetingTime = {
   timeZone: string;
 };
 
+export interface Meeting {
+  meetingId: number;
+  couponType: CouponType;
+  time: MeetingTime | null;
+  memberName: string;
+}
+
 export type Reservation = {
   reservationId: number;
   status: CouponStatus;
