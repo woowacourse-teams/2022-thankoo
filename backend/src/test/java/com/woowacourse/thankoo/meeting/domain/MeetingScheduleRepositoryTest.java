@@ -47,7 +47,7 @@ public class MeetingScheduleRepositoryTest {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    @DisplayName("원하는 날짜의 미팅 목록을 조회한다.")
+    @DisplayName("원하는 날짜의 미팅을 완료 처리한다..")
     @Test
     void findAllByMeetingTimeDateBetween() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
