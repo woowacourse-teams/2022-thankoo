@@ -35,11 +35,12 @@ export const useCouponDetail = (coupon: Coupon) => {
   }, [page]);
 
   const syncPageWithScroll = e => {
-    if (e.currentTarget.firstElementChild?.getBoundingClientRect().x > -50) {
+    if (e.currentTarget.firstElementChild?.getBoundingClientRect().x > 59) {
       setPage(true);
-      return;
     }
-    setPage(false);
+    if (e.currentTarget.firstElementChild?.getBoundingClientRect().x < -195) {
+      setPage(false);
+    }
   };
 
   return { syncPageWithScroll, couponId, setPageRef, page, setPage, setTargetCouponId };
