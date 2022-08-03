@@ -50,12 +50,21 @@ public class ReservationAssured {
         }
 
         public ReservationRequestBuilder 예약에_응답한다(final String token, final String answer) {
+            response = putWithToken(getLocation(), token, new ReservationStatusRequest(answer));
+            return this;
+        }
+
+        public ReservationRequestBuilder 예약을_취소한다(final String token) {
+            response = putWithToken(getLocation() + "/cancel", token);
+            return this;
+        }
+
+        private String getLocation() {
             String location = response.header(HttpHeaders.LOCATION);
             if (location == null) {
                 throw new RuntimeException("request Reservation First");
             }
-            response = putWithToken(location, token, new ReservationStatusRequest(answer));
-            return this;
+            return location;
         }
 
         public ReservationResponseBuilder response() {
