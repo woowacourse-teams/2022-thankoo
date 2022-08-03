@@ -1,42 +1,19 @@
 import styled from '@emotion/styled';
-import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../constants/coupon';
 import { ROUTE_PATH } from '../../constants/routes';
-import useModal from '../../hooks/useModal';
-import { targetCouponAtom } from '../../recoil/atom';
+import { useCouponDetail } from '../../hooks/Main/useCouponDetail';
 import { Coupon } from '../../types';
 import CloseButton from '../@shared/CloseButton';
+import useModal from './../../hooks/useModal';
 import ConponDetailNotUsed from './ConponDetail.notUsed';
 import CouponDetailReserve from './CouponDetail.reserve';
 
 const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
-  const { couponId, status } = coupon;
-  const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
-  const [page, setPage] = useState(true);
+  const { syncPageWithScroll, couponId, setPageRef, page, setPage, setTargetCouponId } =
+    useCouponDetail(coupon);
+
   const { close } = useModal();
-
-  const pageRefs = useRef<Array<HTMLDivElement | null>>([]);
-
-  const getPageRef = (page: number) => (el: HTMLDivElement | null) => {
-    pageRefs.current[page] = el;
-
-    return pageRefs.current[page];
-  };
-
-  useEffect(() => {
-    if (page) {
-      pageRefs.current[0]?.scrollIntoView({
-        behavior: 'smooth',
-      });
-    }
-    if (!page) {
-      pageRefs.current[1]?.scrollIntoView({
-        behavior: 'smooth',
-      });
-    }
-  }, [page]);
 
   return (
     <S.Container>
@@ -45,9 +22,9 @@ const CouponDetail = ({ coupon }: { coupon: Coupon }) => {
           <span></span>
           <CloseButton onClick={close} color='white' />
         </S.Header>
-        <S.PageSlider>
-          <ConponDetailNotUsed couponId={couponId} ref={getPageRef(0)} />
-          <CouponDetailReserve couponId={couponId} ref={getPageRef(1)} />
+        <S.PageSlider onScroll={syncPageWithScroll}>
+          <ConponDetailNotUsed couponId={couponId} ref={setPageRef(0)} />
+          <CouponDetailReserve couponId={couponId} ref={setPageRef(1)} />
         </S.PageSlider>
         <S.DotWrapper>
           <S.Dot
