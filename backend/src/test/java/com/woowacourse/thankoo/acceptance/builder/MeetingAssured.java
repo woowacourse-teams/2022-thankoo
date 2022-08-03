@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
+import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -45,8 +45,8 @@ public class MeetingAssured {
         }
 
         public void 미팅이_조회됨(final int size) {
-            List<MeetingResponse> meetingResponses = bodies(MeetingResponse.class);
-            assertThat(meetingResponses).hasSize(size);
+            List<SimpleMeetingResponse> simpleMeetingResponses = bodies(SimpleMeetingResponse.class);
+            assertThat(simpleMeetingResponses).hasSize(size);
         }
     }
 }

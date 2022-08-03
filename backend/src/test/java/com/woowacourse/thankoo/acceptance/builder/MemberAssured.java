@@ -53,6 +53,11 @@ public class MemberAssured {
             super(response);
         }
 
+        public MemberResponseBuilder status(final int code) {
+            assertThat(response.statusCode()).isEqualTo(code);
+            return this;
+        }
+
         public void 조회_성공한다(final String... names) {
             if (names.length == 0) {
                 throw new RuntimeException("name should exist");
@@ -65,14 +70,9 @@ public class MemberAssured {
         }
 
         public void 내_정보_이다(final MemberResponse memberResponse) {
-            assertThat(response.as(MemberResponse.class)).usingRecursiveComparison()
+            assertThat(body(MemberResponse.class)).usingRecursiveComparison()
                     .ignoringFields("id")
                     .isEqualTo(memberResponse);
-        }
-
-        public MemberResponseBuilder status(final int code) {
-            assertThat(response.statusCode()).isEqualTo(code);
-            return this;
         }
     }
 }

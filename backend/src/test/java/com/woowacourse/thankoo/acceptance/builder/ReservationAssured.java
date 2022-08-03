@@ -11,7 +11,7 @@ import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
+import com.woowacourse.thankoo.reservation.presentation.dto.SimpleReservationResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDateTime;
@@ -84,11 +84,11 @@ public class ReservationAssured {
         }
 
         public void 예약이_조회됨(final int size) {
-            List<ReservationResponse> reservationResponses = bodies(ReservationResponse.class);
+            List<SimpleReservationResponse> simpleReservationResponses = bodies(SimpleReservationResponse.class);
 
             assertAll(
-                    () -> assertThat(reservationResponses).isNotEmpty(),
-                    () -> assertThat(reservationResponses).hasSize(size)
+                    () -> assertThat(simpleReservationResponses).isNotEmpty(),
+                    () -> assertThat(simpleReservationResponses).hasSize(size)
             );
         }
     }

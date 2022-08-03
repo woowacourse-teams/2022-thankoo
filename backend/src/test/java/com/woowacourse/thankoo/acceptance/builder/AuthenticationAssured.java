@@ -51,7 +51,7 @@ public class AuthenticationAssured {
         }
 
         public void 새_회원_이다() {
-            TokenResponse tokenResponse = response.as(TokenResponse.class);
+            TokenResponse tokenResponse = body(TokenResponse.class);
             assertAll(
                     () -> assertThat(tokenResponse.getAccessToken()).isNotNull(),
                     () -> assertThat(tokenResponse.isJoined()).isFalse()
@@ -59,7 +59,7 @@ public class AuthenticationAssured {
         }
 
         public void 기존_회원_이다() {
-            TokenResponse tokenResponse = response.as(TokenResponse.class);
+            TokenResponse tokenResponse = body(TokenResponse.class);
             assertAll(
                     () -> assertThat(tokenResponse.getAccessToken()).isNotNull(),
                     () -> assertThat(tokenResponse.isJoined()).isTrue()

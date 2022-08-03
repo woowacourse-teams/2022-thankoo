@@ -35,6 +35,13 @@ public class CouponAssured {
         return createCouponRequest(Arrays.asList(ids), TYPE, TITLE, MESSAGE);
     }
 
+    public static CouponRequest 잘못된_쿠폰_요청(final String type,
+                                          final String title,
+                                          final String message,
+                                          final Long... ids) {
+        return createCouponRequest(Arrays.asList(ids), type, title, message);
+    }
+
     public static CouponRequestBuilder request() {
         return new CouponRequestBuilder();
     }
@@ -85,11 +92,21 @@ public class CouponAssured {
             );
         }
 
-        public void 단건_쿠폰이_조회됨() {
+        public void 단건_쿠폰과_예약이_조회됨() {
             CouponDetailResponse couponDetailResponse = body(CouponDetailResponse.class);
             assertAll(
                     () -> assertThat(couponDetailResponse.getCoupon()).isNotNull(),
-                    () -> assertThat(couponDetailResponse.getTime()).isNotNull()
+                    () -> assertThat(couponDetailResponse.getReservation()).isNotNull(),
+                    () -> assertThat(couponDetailResponse.getMeeting()).isNull()
+            );
+        }
+
+        public void 단건_쿠폰과_미팅이_조회됨() {
+            CouponDetailResponse couponDetailResponse = body(CouponDetailResponse.class);
+            assertAll(
+                    () -> assertThat(couponDetailResponse.getCoupon()).isNotNull(),
+                    () -> assertThat(couponDetailResponse.getMeeting()).isNotNull(),
+                    () -> assertThat(couponDetailResponse.getReservation()).isNull()
             );
         }
     }

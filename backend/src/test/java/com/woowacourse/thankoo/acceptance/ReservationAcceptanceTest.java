@@ -164,4 +164,30 @@ class ReservationAcceptanceTest extends AcceptanceTest {
                 .response()
                 .status(HttpStatus.NO_CONTENT.value());
     }
+
+    @DisplayName("예약을 요청한 멤버가 예약을 취소한다.")
+    @Test
+    void cancel() {
+        TokenResponse senderToken = AuthenticationAssured.request()
+                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                .로그인_한다(CODE_SKRR)
+                .response()
+                .body(TokenResponse.class);
+
+        TokenResponse receiverToken = AuthenticationAssured.request()
+                .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                .response()
+                .body(TokenResponse.class);
+
+        CouponResponse couponResponse = CouponAssured.request()
+                .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                .response()
+                .bodies(CouponResponse.class).get(0);
+        ReservationAssured.request()
+                .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponse, 1L))
+                .예약을_취소한다(receiverToken.getAccessToken())
+                .response()
+                .status(HttpStatus.NO_CONTENT.value());
+    }
 }
