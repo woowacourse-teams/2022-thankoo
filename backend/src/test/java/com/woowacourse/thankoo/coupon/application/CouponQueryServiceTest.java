@@ -26,12 +26,14 @@ import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
+import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -116,7 +118,7 @@ class CouponQueryServiceTest {
                     .hasMessage("올바르지 않은 회원입니다.");
         }
 
-        @DisplayName("쿠폰 상태가 예약 중일 때 시간을 함께 조회한다.")
+        @DisplayName("쿠폰 상태가 예약 중일 때 예약 정보를 함께 조회한다.")
         @Test
         void getCouponWithReserving() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
@@ -127,18 +129,43 @@ class CouponQueryServiceTest {
                     new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
-            TimeResponse timeResponse = new TimeResponse(LocalDateTime.now().plusDays(1L),
+            TimeResponse timeResponse = TimeResponse.from(LocalDateTime.now().plusDays(1L),
                     TimeZoneType.ASIA_SEOUL.getId());
 
-            reservationService.save(receiver.getId(),
+            Long reservationId = reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
 
-            assertThat(couponQueryService.getCouponDetail(receiver.getId(), coupon.getId())
-                    .getTime()).usingRecursiveComparison()
-                    .isEqualTo(timeResponse);
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    coupon.getId());
+
+            assertThat(couponDetailResponse.getReservation()
+                    .getReservationId())
+                    .isEqualTo(reservationId);
         }
 
-        @DisplayName("쿠폰 상태가 사용되지 않았을 때 시간을 조회하지 않는다.")
+        @DisplayName("쿠폰 상태가 예약 됨일 때 미팅 정보를 함께 조회한다.")
+        @Test
+        void getCouponWithMeeting() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+
+            Coupon coupon = couponRepository.save(new Coupon(sender.getId(),
+                    receiver.getId(),
+                    new CouponContent(TYPE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED));
+
+            TimeResponse timeResponse = TimeResponse.from(LocalDateTime.now().plusDays(1L),
+                    TimeZoneType.ASIA_SEOUL.getId());
+
+            Long reservationId = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
+            reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
+
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(), coupon.getId());
+            assertThat(couponDetailResponse.getMeeting()).isNotNull();
+        }
+
+        @DisplayName("쿠폰 상태가 사용되지 않았을 때 쿠폰만 조회한다.")
         @Test
         void getCouponNoTime() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
@@ -149,7 +176,11 @@ class CouponQueryServiceTest {
                     new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
-            assertThat(couponQueryService.getCouponDetail(receiver.getId(), coupon.getId()).getTime()).isNull();
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(), coupon.getId());
+            assertAll(
+                    () -> assertThat(couponDetailResponse.getReservation()).isNull(),
+                    () -> assertThat(couponDetailResponse.getMeeting()).isNull()
+            );
         }
     }
 }

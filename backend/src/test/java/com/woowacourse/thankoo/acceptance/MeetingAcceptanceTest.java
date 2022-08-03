@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
+import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -66,7 +66,7 @@ public class MeetingAcceptanceTest extends AcceptanceTest {
 
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(response.body().jsonPath().getList(".", MeetingResponse.class)).hasSize(3)
+                () -> assertThat(response.body().jsonPath().getList(".", SimpleMeetingResponse.class)).hasSize(3)
         );
     }
 
@@ -88,9 +88,9 @@ public class MeetingAcceptanceTest extends AcceptanceTest {
                 .header(HttpHeaders.LOCATION).split("reservations/")[1];
         예약을_승인한다(reservationId, senderToken.getAccessToken());
 
-        List<MeetingResponse> meetingResponses = 미팅을_조회한다(senderToken.getAccessToken()).jsonPath()
-                .getList(".", MeetingResponse.class);
-        ExtractableResponse<Response> response = 미팅을_완료한다(meetingResponses.get(0).getId(),
+        List<SimpleMeetingResponse> simpleMeetingRespons = 미팅을_조회한다(senderToken.getAccessToken()).jsonPath()
+                .getList(".", SimpleMeetingResponse.class);
+        ExtractableResponse<Response> response = 미팅을_완료한다(simpleMeetingRespons.get(0).getMeetingId(),
                 senderToken.getAccessToken());
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
