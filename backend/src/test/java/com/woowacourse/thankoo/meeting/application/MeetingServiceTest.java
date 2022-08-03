@@ -83,7 +83,7 @@ class MeetingServiceTest {
                     .hasMessage("잘못된 미팅 참여자입니다.");
         }
 
-        @DisplayName("성공한다.")
+        @DisplayName("미팅 참여자가 맞을 경우 성공한다.")
         @Test
         void success() {
             Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));

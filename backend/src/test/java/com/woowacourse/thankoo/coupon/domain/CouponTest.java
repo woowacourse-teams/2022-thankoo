@@ -104,7 +104,7 @@ class CouponTest {
                     .hasMessage("잘못된 쿠폰 상태입니다.");
         }
 
-        @DisplayName("쿠폰을 사용한다.")
+        @DisplayName("예약된 상태이면 쿠폰을 사용한다")
         @Test
         void success() {
             Coupon coupon = new Coupon(1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
