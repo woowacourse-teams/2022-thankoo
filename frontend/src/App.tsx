@@ -32,7 +32,7 @@ function App() {
   return (
     <MobileDiv>
       <TransitionGroup component={null}>
-        <CSSTransition key={location.pathname} classNames={'slide'} timeout={300}>
+        <CSSTransition key={location?.pathname} classNames={'slide'} timeout={300}>
           <Routes>
             <Route path={ROUTE_PATH.ON_SUCCESS} element={<OnSuccessPage />} />
             <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
@@ -70,7 +70,7 @@ const MobileDiv = styled.div`
     opacity: 1;
     transform: translateX(0);
 
-    transition: transform 300ms ease-in-out;
+    transition: transform 200ms ease-in-out;
   }
   .slide-exit {
     opacity: 1;
@@ -80,7 +80,7 @@ const MobileDiv = styled.div`
     opacity: 0;
     transform: translateX(-100%);
 
-    transition: transform 300ms ease-in-out;
+    transition: transform 200ms ease-in-out;
   }
 `;
 export default App;
