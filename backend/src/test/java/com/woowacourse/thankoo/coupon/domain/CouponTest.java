@@ -104,7 +104,8 @@ class CouponTest {
                     couponStatus);
 
             assertThatThrownBy(coupon::use)
-                    .isInstanceOf(InvalidCouponException.class);
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("잘못된 쿠폰 상태입니다.");
         }
 
         @DisplayName("예약된 상태이면 쿠폰을 사용한다")
