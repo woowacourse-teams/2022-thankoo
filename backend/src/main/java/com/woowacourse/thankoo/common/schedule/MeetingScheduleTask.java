@@ -30,20 +30,20 @@ public class MeetingScheduleTask {
         List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndMeetingTime_Date(
                 ON_PROGRESS, LocalDate.now().minusDays(DAY));
 
-        List<Long> meetingIds = collectMeetingIds(meetings);
-        List<Long> couponIds = collectCouponIds(meetings);
+        List<Long> meetingIds = getMeetingIds(meetings);
+        List<Long> couponIds = getCouponIds(meetings);
 
         meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetingIds);
         couponRepository.updateCouponStatus(CouponStatus.USED, couponIds);
     }
 
-    private List<Long> collectMeetingIds(final List<Meeting> meetings) {
+    private List<Long> getMeetingIds(final List<Meeting> meetings) {
         return meetings.stream()
                 .map(Meeting::getId)
                 .collect(Collectors.toList());
     }
 
-    private List<Long> collectCouponIds(final List<Meeting> meetings) {
+    private List<Long> getCouponIds(final List<Meeting> meetings) {
         return meetings.stream()
                 .map(meeting -> meeting.getCoupon().getId())
                 .collect(Collectors.toList());
