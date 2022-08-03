@@ -4,10 +4,12 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredReq
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.putWithToken;
 
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.time.LocalDateTime;
 
 public class ReservationRequestFixture {
 
@@ -28,7 +30,7 @@ public class ReservationRequestFixture {
         return putWithToken("/api/reservations/" + reservationId, token, new ReservationStatusRequest("accept"));
     }
 
-    public static ExtractableResponse<Response> 예약을_취소한다(final String reservationId, final String token) {
-        return putWithToken("/api/reservations/" + reservationId + "/cancel", token);
+    public static ReservationRequest 예약_요청(final CouponResponse couponResponse, final Long days) {
+        return new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(days));
     }
 }

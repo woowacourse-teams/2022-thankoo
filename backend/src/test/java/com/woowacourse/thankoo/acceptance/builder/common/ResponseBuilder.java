@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class ResponseBuilder {
 
-    protected final ExtractableResponse<Response> response;
+    protected ExtractableResponse<Response> response;
 
     public ResponseBuilder(final ExtractableResponse<Response> response) {
         this.response = response;

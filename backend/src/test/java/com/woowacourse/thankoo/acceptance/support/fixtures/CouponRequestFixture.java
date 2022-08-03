@@ -2,11 +2,15 @@ package com.woowacourse.thankoo.acceptance.support.fixtures;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.Arrays;
 import java.util.List;
 
 public class CouponRequestFixture {
@@ -33,5 +37,9 @@ public class CouponRequestFixture {
                                                     final String title,
                                                     final String message) {
         return new CouponRequest(receiverIds, new ContentRequest(type, title, message));
+    }
+
+    public static CouponRequest 쿠폰_요청(final Long ... ids) {
+        return createCouponRequest(Arrays.asList(ids), TYPE, TITLE, MESSAGE);
     }
 }
