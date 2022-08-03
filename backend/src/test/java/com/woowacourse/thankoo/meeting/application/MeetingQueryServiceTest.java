@@ -59,11 +59,11 @@ class MeetingQueryServiceTest {
 
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-        List<SimpleMeetingResponse> simpleMeetingRespons = meetingQueryService.findMeetings(receiver.getId());
+        List<SimpleMeetingResponse> simpleMeetingResponse = meetingQueryService.findMeetings(receiver.getId());
 
         assertAll(
-                () -> assertThat(simpleMeetingRespons).hasSize(1),
-                () -> assertThat(simpleMeetingRespons).extracting("memberName").containsOnly(LALA_NAME)
+                () -> assertThat(simpleMeetingResponse).hasSize(1),
+                () -> assertThat(simpleMeetingResponse).extracting("memberName").containsOnly(LALA_NAME)
         );
     }
 }
