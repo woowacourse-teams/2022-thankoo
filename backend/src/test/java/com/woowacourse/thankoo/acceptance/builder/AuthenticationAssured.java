@@ -34,6 +34,14 @@ public class AuthenticationAssured {
             return this;
         }
 
+        public TokenResponse token() {
+            if (response == null) {
+                throw new RuntimeException("sign up or sign in first");
+            }
+
+            return response.as(TokenResponse.class);
+        }
+
         public AuthenticationResponseBuilder response() {
             return new AuthenticationResponseBuilder(response);
         }

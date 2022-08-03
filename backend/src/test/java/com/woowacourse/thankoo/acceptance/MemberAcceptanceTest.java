@@ -28,15 +28,9 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("본인을 제외한 모든 회원을 조회한다.")
     @Test
     void getMembersExcludeMe() {
-        AuthenticationAssured.request()
-                .회원가입_한다(LALA_TOKEN, LALA_NAME)
-                .done();
-
-        AuthenticationAssured.request()
-                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
-                .done();
-
         TokenResponse tokenResponse = AuthenticationAssured.request()
+                .회원가입_한다(LALA_TOKEN, LALA_NAME)
+                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
                 .회원가입_한다(HUNI_TOKEN, HUNI_NAME)
                 .로그인_한다(CODE_HUNI)
                 .response()
@@ -55,8 +49,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         TokenResponse tokenResponse = AuthenticationAssured.request()
                 .회원가입_한다(LALA_TOKEN, LALA_NAME)
                 .로그인_한다(CODE_LALA)
-                .response()
-                .body(TokenResponse.class);
+                .token();
 
         MemberAssured.request()
                 .내_정보를_조회한다(tokenResponse)
@@ -71,8 +64,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         TokenResponse tokenResponse = AuthenticationAssured.request()
                 .회원가입_한다(LALA_TOKEN, LALA_NAME)
                 .로그인_한다(CODE_LALA)
-                .response()
-                .body(TokenResponse.class);
+                .token();
 
         MemberAssured.request()
                 .내_정보를_수정한다(tokenResponse, new MemberNameRequest(HUNI_NAME))

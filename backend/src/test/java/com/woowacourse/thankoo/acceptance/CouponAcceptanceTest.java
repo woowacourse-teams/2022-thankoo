@@ -205,13 +205,11 @@ class CouponAcceptanceTest extends AcceptanceTest {
                 TokenResponse senderToken = AuthenticationAssured.request()
                         .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
                         .로그인_한다(CODE_SKRR)
-                        .response()
-                        .body(TokenResponse.class);
+                        .token();
 
                 TokenResponse receiverToken = AuthenticationAssured.request()
                         .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
-                        .response()
-                        .body(TokenResponse.class);
+                        .token();
 
                 CouponAssured.request()
                         .쿠폰을_전송한다(senderToken.getAccessToken(),
@@ -231,8 +229,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
         void sendCouponInvalidToken() {
             TokenResponse receiverToken = AuthenticationAssured.request()
                     .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
-                    .response()
-                    .body(TokenResponse.class);
+                    .token();
 
             CouponAssured.request()
                     .쿠폰을_전송한다(INVALID_TOKEN, 쿠폰_요청(receiverToken.getMemberId()))
@@ -246,13 +243,11 @@ class CouponAcceptanceTest extends AcceptanceTest {
             TokenResponse senderToken = AuthenticationAssured.request()
                     .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
                     .로그인_한다(CODE_SKRR)
-                    .response()
-                    .body(TokenResponse.class);
+                    .token();
 
             TokenResponse receiverToken = AuthenticationAssured.request()
                     .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
-                    .response()
-                    .body(TokenResponse.class);
+                    .token();
 
             CouponAssured.request()
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
