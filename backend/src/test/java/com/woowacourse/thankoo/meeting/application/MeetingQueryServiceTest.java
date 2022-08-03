@@ -21,11 +21,9 @@ import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
-import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
-import com.woowacourse.thankoo.reservation.domain.Reservation;
-import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
-import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
-import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
+import com.woowacourse.thankoo.reservation.application.ReservationService;
+import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
+import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -40,16 +38,13 @@ class MeetingQueryServiceTest {
     private MeetingQueryService meetingQueryService;
 
     @Autowired
+    private ReservationService reservationService;
+
+    @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
     private CouponRepository couponRepository;
-
-    @Autowired
-    private ReservationRepository reservationRepository;
-
-    @Autowired
-    private ReservedMeetingCreator reservedMeetingCreator;
 
     @DisplayName("회원의 미팅을 조회한다.")
     @Test
@@ -58,12 +53,11 @@ class MeetingQueryServiceTest {
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
         Coupon coupon = couponRepository.save(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Reservation reservation = reservationRepository.save(
-                new Reservation(LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
-                        ReservationStatus.WAITING, receiver.getId(), coupon));
-        reservation.reserve();
 
-        reservation.updateStatus(sender, ReservationStatus.ACCEPT.name(), reservedMeetingCreator);
+        Long reservationId = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+
+        reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
         List<MeetingResponse> meetingResponses = meetingQueryService.findMeetings(receiver.getId());
 

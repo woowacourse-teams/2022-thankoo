@@ -6,10 +6,12 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -59,6 +61,26 @@ class MeetingControllerTest extends ControllerTest {
                         fieldWithPath("[].meetingTime").type(STRING).description("meetingTime"),
                         fieldWithPath("[].couponType").type(STRING).description("couponType"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName")
+                )
+        ));
+    }
+
+    @DisplayName("회원의 미팅을 완료한다.")
+    @Test
+    void complete() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+
+        doNothing().when(meetingService).complete(anyLong(), anyLong());
+
+        ResultActions resultActions = mockMvc.perform(put("/api/meetings/1")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("meetings/complete",
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 )
         ));
     }

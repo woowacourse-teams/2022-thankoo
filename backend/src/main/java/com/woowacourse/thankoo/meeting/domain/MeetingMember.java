@@ -42,6 +42,10 @@ public class MeetingMember {
         this(null, member, meeting);
     }
 
+    public boolean has(final Member member) {
+        return this.member.equals(member);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

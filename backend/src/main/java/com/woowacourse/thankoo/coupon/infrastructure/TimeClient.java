@@ -44,7 +44,7 @@ public class TimeClient {
     }
 
     private Meeting getMeeting(final Long couponId) {
-        return meetingRepository.findTopByCoupon_IdAndMeetingStatus(couponId, MeetingStatus.ON_PROGRESS)
+        return meetingRepository.findTopByCouponIdAndMeetingStatus(couponId, MeetingStatus.ON_PROGRESS)
                 .orElseThrow(() -> new InvalidMeetingException(ErrorType.NOT_FOUND_MEETING));
     }
 }

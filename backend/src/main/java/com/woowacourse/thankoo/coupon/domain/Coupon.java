@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -83,6 +85,21 @@ public class Coupon extends BaseEntity {
 
     public void accepted() {
         couponStatus = CouponStatus.RESERVED;
+    }
+
+    public boolean isReserved() {
+        return couponStatus.isReserved();
+    }
+
+    public void use() {
+        validateCouponStatusWhenUsing();
+        couponStatus = CouponStatus.USED;
+    }
+
+    private void validateCouponStatusWhenUsing() {
+        if (!couponStatus.isReserved()) {
+            throw new InvalidCouponException(ErrorType.INVALID_COUPON_STATUS);
+        }
     }
 
     @Override

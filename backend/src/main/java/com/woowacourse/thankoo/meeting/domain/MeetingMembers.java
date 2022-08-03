@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.meeting.domain;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
+import com.woowacourse.thankoo.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -28,5 +29,10 @@ public class MeetingMembers {
         if (meetingMembers.size() != STANDARD_MEMBER_COUNT) {
             throw new InvalidMeetingException(ErrorType.INVALID_MEETING_MEMBER_COUNT);
         }
+    }
+
+    public boolean have(final Member member) {
+        return meetingMembers.stream()
+                .anyMatch(meetingMember -> meetingMember.has(member));
     }
 }

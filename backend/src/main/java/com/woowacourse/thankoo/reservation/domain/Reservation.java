@@ -91,9 +91,9 @@ public class Reservation extends BaseEntity {
         coupon.reserve();
     }
 
-    public void updateStatus(final Member member,
-                             final String status,
-                             final ReservedMeetingCreator reservedMeetingCreator) {
+    public void update(final Member member,
+                       final String status,
+                       final ReservedMeetingCreator reservedMeetingCreator) {
         ReservationStatus updateReservationStatus = ReservationStatus.from(status);
         validateReservation(member, updateReservationStatus);
         validateCouponStatus();

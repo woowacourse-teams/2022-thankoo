@@ -89,6 +89,29 @@ public class Meeting extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
+    public void complete(final Member member) {
+        validateCompleteMember(member);
+        validateMeetingStatusWhenComplete();
+        meetingStatus = MeetingStatus.FINISHED;
+        coupon.use();
+    }
+
+    private void validateCompleteMember(final Member member) {
+        if (!isAttendee(member)) {
+            throw new InvalidMeetingException(ErrorType.INVALID_MEETING_MEMBER);
+        }
+    }
+
+    private void validateMeetingStatusWhenComplete() {
+        if (!meetingStatus.isOnProgress()) {
+            throw new InvalidMeetingException(ErrorType.INVALID_MEETING_STATUS);
+        }
+    }
+
+    private boolean isAttendee(final Member member) {
+        return meetingMembers.have(member);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
