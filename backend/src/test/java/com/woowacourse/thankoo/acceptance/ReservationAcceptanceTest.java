@@ -9,6 +9,7 @@ import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationReq
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.보낸_예약을_조회한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_승인한다;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_요청한다;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.ReservationRequestFixture.예약을_취소한다;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
@@ -48,13 +49,11 @@ class ReservationAcceptanceTest extends AcceptanceTest {
         쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
         쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
 
-        CouponResponse couponResponse1 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
+        CouponResponse couponResponse = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
                 .getList(".", CouponResponse.class).get(0);
-        CouponResponse couponResponse2 = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
-                .getList(".", CouponResponse.class).get(1);
 
         ExtractableResponse<Response> response = 예약을_요청한다(receiverToken.getAccessToken(),
-                new ReservationRequest(couponResponse1.getCouponId(), LocalDateTime.now().plusDays(1L)));
+                new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(1L)));
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
@@ -127,6 +126,26 @@ class ReservationAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> response = 예약을_승인한다(reservationId, senderToken.getAccessToken());
 
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @DisplayName("예약을 요청한 멤버가 예약을 취소한다.")
+    @Test
+    void cancel() {
+        TokenResponse senderToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_SKRR, SKRR_TOKEN, SKRR_NAME));
+        TokenResponse receiverToken = 토큰을_반환한다(회원가입_후_로그인_한다(CODE_HOHO, HOHO_TOKEN, HOHO_NAME));
+
+        CouponRequest couponRequest = createCouponRequest(List.of(receiverToken.getMemberId()), TYPE, TITLE, MESSAGE);
+        쿠폰을_전송한다(senderToken.getAccessToken(), couponRequest);
+
+        CouponResponse couponResponse = 받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED).jsonPath()
+                .getList(".", CouponResponse.class).get(0);
+
+        String reservationId = 예약을_요청한다(receiverToken.getAccessToken(),
+                new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(1L)))
+                .header(HttpHeaders.LOCATION).split("reservations/")[1];
+
+        ExtractableResponse<Response> response = 예약을_취소한다(reservationId, receiverToken.getAccessToken());
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 

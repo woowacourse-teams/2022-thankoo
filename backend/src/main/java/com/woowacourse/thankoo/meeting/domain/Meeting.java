@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.meeting.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -98,7 +99,7 @@ public class Meeting extends BaseEntity {
 
     private void validateCompleteMember(final Member member) {
         if (!isAttendee(member)) {
-            throw new InvalidMeetingException(ErrorType.INVALID_MEETING_MEMBER);
+            throw new ForbiddenException(ErrorType.FORBIDDEN);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.woowacourse.thankoo.meeting.domain.MeetingTime;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TimeResponse {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingTime;
     private String timeZone;
 

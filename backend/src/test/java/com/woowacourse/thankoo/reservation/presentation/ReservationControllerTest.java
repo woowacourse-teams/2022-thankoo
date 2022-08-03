@@ -150,4 +150,24 @@ class ReservationControllerTest extends ControllerTest {
                         fieldWithPath("status").type(STRING).description("status")
                 )));
     }
+
+    @DisplayName("예약을 취소한다.")
+    @Test
+    void cancel() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+        doNothing().when(reservationService).cancel(anyLong(), anyLong());
+
+        ResultActions resultActions = mockMvc.perform(put("/api/reservations/1/cancel")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(
+                        status().isNoContent());
+
+        resultActions.andDo(document("reservations/cancel",
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                )));
+    }
 }

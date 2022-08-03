@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.reservation.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.domain.MeetingTime;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -92,31 +93,30 @@ public class Reservation extends BaseEntity {
     }
 
     public void update(final Member member,
-                       final String status,
+                       final ReservationStatus futureStatus,
                        final ReservedMeetingCreator reservedMeetingCreator) {
-        ReservationStatus updateReservationStatus = ReservationStatus.from(status);
-        validateReservation(member, updateReservationStatus);
+        validateReservation(member, futureStatus);
         validateCouponStatus();
 
-        reservationStatus = updateReservationStatus;
+        reservationStatus = futureStatus;
         if (reservationStatus.isDeny()) {
-            coupon.denied();
+            coupon.rollBack();
             return;
         }
         coupon.accepted();
         reservedMeetingCreator.create(this);
     }
 
-    private void validateReservation(final Member member, final ReservationStatus updateReservationStatus) {
-        if (isInsufficientReservationStatus(member.getId(), updateReservationStatus)) {
+    private void validateReservation(final Member member, final ReservationStatus futureStatus) {
+        if (isInsufficientReservationStatus(member.getId(), futureStatus)) {
             throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
         }
     }
 
     private boolean isInsufficientReservationStatus(final Long memberId,
-                                                    final ReservationStatus updateReservationStatus) {
+                                                    final ReservationStatus futureStatus) {
         return !this.reservationStatus.isWaiting()
-                || updateReservationStatus.isWaiting()
+                || futureStatus.isWaiting()
                 || !coupon.isSender(memberId);
     }
 
@@ -124,6 +124,18 @@ public class Reservation extends BaseEntity {
         if (!coupon.canAcceptReservation()) {
             throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
         }
+    }
+
+    public void cancel(final Member member) {
+        if (!member.isSameId(memberId)) {
+            throw new ForbiddenException(ErrorType.FORBIDDEN);
+        }
+        if (!reservationStatus.isWaiting()) {
+            throw new InvalidReservationException(ErrorType.CAN_NOT_CHANGE_RESERVATION_STATUS);
+        }
+
+        coupon.rollBack();
+        reservationStatus = ReservationStatus.CANCELED;
     }
 
     @Override
