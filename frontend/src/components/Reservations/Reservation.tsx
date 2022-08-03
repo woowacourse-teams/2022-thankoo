@@ -19,14 +19,32 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('reservationsReceived');
-        queryClient.invalidateQueries('reservationsSent');
+        queryClient.invalidateQueries('reservations');
       },
     }
   );
 
   const option1 = order === 'received' ? '거절' : '취소';
   const option2 = order === 'received' ? '승인' : '수정';
+
+  const handleClickOption = {
+    received: [
+      () => {
+        // handleReservation.mutate('deny');
+        alert(`예약 거절은 구현중입니다.`);
+      },
+      () => {
+        handleReservation.mutate('accept');
+      },
+    ],
+    sent: [
+      () => {
+        if (confirm('예약을 취소하시겠습니까?')) {
+          alert('보낸 예약 취소는 구현중입니다.');
+        }
+      },
+    ],
+  };
 
   return (
     <Slider>
@@ -40,22 +58,20 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
           />
         </Slider.Content>
         <Slider.Options>
-          <Slider.OptionItem
-            isAccept={false}
-            onClick={() => {
-              handleReservation.mutate('deny');
-            }}
-          >
-            {option1}
-          </Slider.OptionItem>
-          <Slider.OptionItem
-            isAccept={true}
-            onClick={() => {
-              handleReservation.mutate('accept');
-            }}
-          >
-            {option2}
-          </Slider.OptionItem>
+          {order === 'received' ? (
+            <>
+              <Slider.OptionItem isAccept={false} onClick={handleClickOption[order][0]}>
+                {option1}
+              </Slider.OptionItem>
+              <Slider.OptionItem isAccept={true} onClick={handleClickOption[order][1]}>
+                {option2}
+              </Slider.OptionItem>
+            </>
+          ) : (
+            <Slider.OptionItem isAccept={false} onClick={handleClickOption[order][0]}>
+              {option1}
+            </Slider.OptionItem>
+          )}
         </Slider.Options>
       </Slider.Inner>
     </Slider>

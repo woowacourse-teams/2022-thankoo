@@ -4,15 +4,12 @@ import { useCouponDetail } from '../../hooks/Main/domain/useCouponDetail';
 import { Coupon, CouponDetail } from '../../types';
 import CloseButton from '../@shared/CloseButton';
 import PageSlider from '../@shared/PageSlider';
-import useModal from './../../hooks/useModal';
 import CouponDetailCoupon from './ConponDetail.coupon';
 import CouponDetailReservation from './CouponDetail.reservation';
 
 const CouponDetail = ({ couponId }: { couponId: number }) => {
   const { handleClickOnCouponStatus, couponDetail, isLoading, sentOrReceived, buttonText } =
     useCouponDetail(couponId);
-
-  const { close } = useModal();
 
   if (isLoading) {
     return <></>;
