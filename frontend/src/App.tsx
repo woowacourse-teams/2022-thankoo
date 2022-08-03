@@ -12,6 +12,7 @@ import SelectReceiver from './pages/SelectReceiver';
 import SignIn from './pages/SignIn';
 import UserProfile from './pages/UserProfile';
 import EnterNickname from './pages/EnterNickname';
+import Meetings from './pages/Meetings';
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');
@@ -38,6 +39,7 @@ function App() {
           <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
           <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
           <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
+          <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
         </Route>
         <Route element={<UnAuthOnly />}>
           <Route path={ROUTE_PATH.SIGN_IN} element={<SignIn />} />

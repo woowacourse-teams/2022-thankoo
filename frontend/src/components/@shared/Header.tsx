@@ -4,7 +4,7 @@ const Header = styled.header`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 7px;
+  gap: 13px;
   color: ${({ theme }) => theme.header.color};
   margin: 10px 3vw;
 `;
