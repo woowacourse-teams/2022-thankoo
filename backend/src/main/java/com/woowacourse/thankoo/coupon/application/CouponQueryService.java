@@ -61,7 +61,8 @@ public class CouponQueryService {
         }
     }
 
-    private CouponDetailResponse getCouponDetailResponse(final Long couponId, final MemberCoupon memberCoupon,
+    private CouponDetailResponse getCouponDetailResponse(final Long couponId,
+                                                         final MemberCoupon memberCoupon,
                                                          final CouponStatus couponStatus) {
         if (couponStatus.isReserved()) {
             return CouponDetailResponse.from(memberCoupon, couponClient.getMeetingResponse(couponId));

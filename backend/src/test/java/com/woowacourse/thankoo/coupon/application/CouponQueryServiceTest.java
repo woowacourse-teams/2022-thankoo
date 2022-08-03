@@ -26,6 +26,7 @@ import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -134,8 +135,11 @@ class CouponQueryServiceTest {
             Long reservationId = reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
 
-            assertThat(couponQueryService.getCouponDetail(receiver.getId(), coupon.getId())
-                    .getReservation().getReservationId())
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    coupon.getId());
+
+            assertThat(couponDetailResponse.getReservation()
+                    .getReservationId())
                     .isEqualTo(reservationId);
         }
 
@@ -157,8 +161,8 @@ class CouponQueryServiceTest {
                     new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            assertThat(couponQueryService.getCouponDetail(receiver.getId(), coupon.getId())
-                    .getMeeting()).isNotNull();
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(), coupon.getId());
+            assertThat(couponDetailResponse.getMeeting()).isNotNull();
         }
 
         @DisplayName("쿠폰 상태가 사용되지 않았을 때 쿠폰만 조회한다.")
@@ -172,11 +176,10 @@ class CouponQueryServiceTest {
                     new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(), coupon.getId());
             assertAll(
-                    () -> assertThat(couponQueryService.getCouponDetail(receiver.getId(), coupon.getId())
-                            .getReservation()).isNull(),
-                    () -> assertThat(
-                            couponQueryService.getCouponDetail(receiver.getId(), coupon.getId()).getMeeting()).isNull()
+                    () -> assertThat(couponDetailResponse.getReservation()).isNull(),
+                    () -> assertThat(couponDetailResponse.getMeeting()).isNull()
             );
         }
     }
