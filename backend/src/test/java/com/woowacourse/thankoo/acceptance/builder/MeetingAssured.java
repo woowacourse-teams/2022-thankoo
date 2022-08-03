@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.acceptance.builder;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.putWithToken;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
@@ -24,6 +25,16 @@ public class MeetingAssured {
 
         public MeetingRequestBuilder 미팅을_조회한다(final String token) {
             response = getWithToken("/api/meetings", token);
+            return this;
+        }
+
+        public MeetingRequestBuilder 미팅을_완료한다(final String token) {
+            if (response == null) {
+                throw new RuntimeException("get meeting first");
+            }
+
+            List<SimpleMeetingResponse> responses = response.jsonPath().getList("", SimpleMeetingResponse.class);
+            response = putWithToken("/api/meetings/" + responses.get(0).getMeetingId(), token);
             return this;
         }
 

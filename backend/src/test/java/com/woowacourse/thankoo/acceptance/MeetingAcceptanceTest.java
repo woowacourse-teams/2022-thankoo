@@ -57,4 +57,35 @@ public class MeetingAcceptanceTest extends AcceptanceTest {
                 .status(HttpStatus.OK.value())
                 .미팅이_조회됨(3);
     }
+
+    @DisplayName("미팅의 참여자가 미팅을 완료한다.")
+    @Test
+    void completeMeeting() {
+        TokenResponse senderToken = AuthenticationAssured.request()
+                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                .로그인_한다(CODE_SKRR)
+                .token();
+
+        TokenResponse receiverToken = AuthenticationAssured.request()
+                .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                .token();
+
+        CouponResponse couponResponse = CouponAssured.request()
+                .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                .response()
+                .bodies(CouponResponse.class)
+                .get(0);
+
+        ReservationAssured.request()
+                .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponse, 1L))
+                .예약에_응답한다(senderToken.getAccessToken(), ACCEPT)
+                .done();
+
+        MeetingAssured.request()
+                .미팅을_조회한다(receiverToken.getAccessToken())
+                .미팅을_완료한다(senderToken.getAccessToken())
+                .response()
+                .status(HttpStatus.NO_CONTENT.value());
+    }
 }

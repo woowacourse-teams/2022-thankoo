@@ -30,6 +30,6 @@ public class MeetingController {
     public ResponseEntity<Void> complete(@AuthenticationPrincipal final Long memberId,
                                          @PathVariable final Long meetingId) {
         meetingService.complete(memberId, meetingId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
