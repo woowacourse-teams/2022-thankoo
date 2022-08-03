@@ -241,7 +241,7 @@ class ReservationTest {
                     .hasMessage("권한이 없습니다.");
         }
 
-        @DisplayName("예약자가 아닐 경우 실패한다.")
+        @DisplayName("예약 상태가 waiting이 아닐 경우 실패한다.")
         @Test
         void reservationNotWaitingException() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
