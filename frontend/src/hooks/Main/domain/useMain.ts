@@ -1,32 +1,20 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { client } from '../../../apis/axios';
-import { API_PATH } from '../../../constants/api';
 import { sentOrReceivedAtom } from '../../../recoil/atom';
-import { Coupon, CouponType } from '../../../types';
+import { CouponType } from '../../../types';
+import { useGetCoupons } from '../queries/coupons';
 
 const COUPON_STATUS_PRIORITY = {
   not_used: 2,
   reserving: 0,
   reserved: 1,
 };
-const SENT_OR_RECEIVED_API_PATH = {
-  받은: API_PATH.RECEIVED_COUPONS_NOT_USED,
-  보낸: API_PATH.SENT_COUPONS,
-};
 
 const useMain = () => {
   const [sentOrReceived, setSentOrReceived] = useRecoilState(sentOrReceivedAtom);
   const [currentType, setCurrentType] = useState<CouponType>('entire');
 
-  const { data, isLoading, error } = useQuery<Coupon[]>(['coupon', sentOrReceived], async () => {
-    const { data } = await client({
-      method: 'get',
-      url: SENT_OR_RECEIVED_API_PATH[sentOrReceived],
-    });
-    return data;
-  });
+  const { data, isLoading, error } = useGetCoupons(sentOrReceived);
 
   const edittedCouponsBySentOrReceived =
     sentOrReceived === '보낸'

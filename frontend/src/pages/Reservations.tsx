@@ -28,8 +28,8 @@ const Reservations = () => {
           onChangeTab={setOrderBy}
         />
         <S.ListView>
-          {reservations[orderBy]?.length > 0 ? (
-            reservations[orderBy].map(reservation => (
+          {reservations?.length > 0 ? (
+            reservations.map(reservation => (
               <Reservation key={reservation.reservationId} order={orderBy} {...reservation} />
             ))
           ) : (

@@ -9,11 +9,20 @@ export interface Coupon {
 }
 export interface CouponDetail {
   coupon: Coupon;
-  time: {
-    meetingTime: string;
-    timeZone: string;
-  } | null;
+  meeting: null;
+  reservation: Reservation;
 }
+
+export type MeetingTime = {
+  meetingTime: string;
+  timeZone: string;
+};
+
+export type Reservation = {
+  reservationId: number;
+  status: CouponStatus;
+  time: MeetingTime | null;
+};
 export interface UserProfile {
   id: number;
   name: string;

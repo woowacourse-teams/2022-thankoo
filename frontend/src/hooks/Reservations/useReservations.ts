@@ -10,26 +10,18 @@ const useResrvations = () => {
   const queryClient = useQueryClient();
 
   const [orderBy, setOrderBy] = useState('received');
-  const { data: reservationsReceived } = useQuery(
-    'reservationsReceived',
+  const { data: reservations } = useQuery(
+    ['reservations', orderBy],
     async () => {
       const { data } = await client({
         method: 'get',
-        url: `${API_PATH.RESERVATIONS_RECEIVED}`,
+        url: orderBy === 'received' ? API_PATH.RESERVATIONS_RECEIVED : API_PATH.RESERVATIONS_SENT,
       });
 
       return data;
     },
     { refetchOnWindowFocus: false, retry: false }
   );
-  const { data: reservationSent } = useQuery('reservationsSent', async () => {
-    const { data } = await client({
-      method: 'get',
-      url: `${API_PATH.RESERVATIONS_SENT}`,
-    });
-
-    return data;
-  });
 
   useEffect(() => {
     queryClient.invalidateQueries('reservations');
@@ -38,7 +30,7 @@ const useResrvations = () => {
   return {
     orderBy,
     setOrderBy,
-    reservations: { received: reservationsReceived, sent: reservationSent },
+    reservations,
     orderByList,
     orderByObject,
   };

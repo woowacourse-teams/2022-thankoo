@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import CouponDetail from '../../../components/Main/CouponDetail';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../../constants/coupon';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { sentOrReceivedAtom, targetCouponAtom } from '../../../recoil/atom';

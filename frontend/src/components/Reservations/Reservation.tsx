@@ -6,7 +6,7 @@ import ListViewReservation from './ListViewReservation';
 
 type status = 'deny' | 'accept';
 
-const Reservation = ({ couponType, meetingTime, memberName, reservationId, order }) => {
+const Reservation = ({ couponType, time, memberName, reservationId, order }) => {
   const queryClient = useQueryClient();
 
   const handleReservation = useMutation(
@@ -34,7 +34,7 @@ const Reservation = ({ couponType, meetingTime, memberName, reservationId, order
         <Slider.Content>
           <ListViewReservation
             couponType={couponType}
-            meetingTime={meetingTime}
+            meetingTime={time.meetingTime}
             memberName={memberName}
             reservationId={reservationId}
           />

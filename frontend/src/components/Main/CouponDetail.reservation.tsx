@@ -7,9 +7,10 @@ const CouponDetailReserve = (
   { couponDetail }: { couponDetail: CouponDetail },
   ref: LegacyRef<HTMLDivElement>
 ) => {
-  const { coupon, time: timeResponse } = couponDetail;
-  const date = timeResponse?.meetingTime.split(' ')[0];
-  const time = timeResponse?.meetingTime.split(' ')[1].slice(0, 5);
+  const { coupon, reservation } = couponDetail;
+  const { time: RawTime } = reservation;
+  const date = RawTime?.meetingTime.split(' ')[0];
+  const time = RawTime?.meetingTime.split(' ')[1].slice(0, 5);
 
   return (
     <S.Contents ref={ref}>
