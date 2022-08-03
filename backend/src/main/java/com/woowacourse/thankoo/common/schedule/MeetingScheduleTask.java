@@ -1,10 +1,15 @@
 package com.woowacourse.thankoo.common.schedule;
 
-import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.FINISHED;
 import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.ON_PROGRESS;
 
-import com.woowacourse.thankoo.meeting.domain.MeetingScheduleRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponStatus;
+import com.woowacourse.thankoo.meeting.domain.Meeting;
+import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
+import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,13 +19,33 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MeetingScheduleTask {
 
-    public static final LocalDate COMPLETE_JOB_DATE = LocalDate.now().minusDays(1L);
+    public static final Long DAY = 1L;
 
-    private final MeetingScheduleRepository meetingScheduleRepository;
+    private final MeetingRepository meetingRepository;
+    private final CouponRepository couponRepository;
 
     @Scheduled(cron = "0 0 2 * * *")
     @Transactional
     public void executeCompleteMeeting() {
-        meetingScheduleRepository.updateMeetingStatus(FINISHED.name(), COMPLETE_JOB_DATE, ON_PROGRESS.name());
+        List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndMeetingTime_Date(
+                ON_PROGRESS, LocalDate.now().minusDays(DAY));
+
+        List<Long> meetingIds = collectMeetingIds(meetings);
+        List<Long> couponIds = collectCouponIds(meetings);
+
+        meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetingIds);
+        couponRepository.updateCouponStatus(CouponStatus.USED, couponIds);
+    }
+
+    private List<Long> collectMeetingIds(final List<Meeting> meetings) {
+        return meetings.stream()
+                .map(Meeting::getId)
+                .collect(Collectors.toList());
+    }
+
+    private List<Long> collectCouponIds(final List<Meeting> meetings) {
+        return meetings.stream()
+                .map(meeting -> meeting.getCoupon().getId())
+                .collect(Collectors.toList());
     }
 }
