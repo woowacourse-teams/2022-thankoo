@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SimpleMeetingResponse {
 
-    private Long id;
+    private Long meetingId;
     private TimeResponse time;
     private String couponType;
     private String memberName;
 
-    private SimpleMeetingResponse(final Long id,
+    private SimpleMeetingResponse(final Long meetingId,
                                   final TimeResponse time,
                                   final String couponType,
                                   final String memberName) {
-        this.id = id;
+        this.meetingId = meetingId;
         this.time = time;
         this.couponType = couponType;
         this.memberName = memberName;

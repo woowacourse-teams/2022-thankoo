@@ -65,7 +65,7 @@ class MeetingControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 responseFields(
-                        fieldWithPath("[].id").type(NUMBER).description("id"),
+                        fieldWithPath("[].meetingId").type(NUMBER).description("id"),
                         fieldWithPath("[].time.meetingTime").type(STRING).description("meetingTime"),
                         fieldWithPath("[].time.timeZone").type(STRING).description("timeZone"),
                         fieldWithPath("[].couponType").type(STRING).description("couponType"),

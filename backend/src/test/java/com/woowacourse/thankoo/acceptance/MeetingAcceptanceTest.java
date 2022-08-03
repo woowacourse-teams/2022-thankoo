@@ -90,7 +90,7 @@ public class MeetingAcceptanceTest extends AcceptanceTest {
 
         List<SimpleMeetingResponse> simpleMeetingRespons = 미팅을_조회한다(senderToken.getAccessToken()).jsonPath()
                 .getList(".", SimpleMeetingResponse.class);
-        ExtractableResponse<Response> response = 미팅을_완료한다(simpleMeetingRespons.get(0).getId(),
+        ExtractableResponse<Response> response = 미팅을_완료한다(simpleMeetingRespons.get(0).getMeetingId(),
                 senderToken.getAccessToken());
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
