@@ -26,17 +26,10 @@ public class MeetingTime {
     private String timeZone;
 
     public MeetingTime(final LocalDate date, final LocalDateTime time, final String timeZone) {
-        validateTime(time);
         validateEqualDate(date, time);
         this.date = date;
         this.time = time;
         this.timeZone = timeZone;
-    }
-
-    private void validateTime(final LocalDateTime meetingTime) {
-        if (LocalDateTime.now().isAfter(meetingTime)) {
-            throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_MEETING_TIME);
-        }
     }
 
     private void validateEqualDate(final LocalDate meetingDate, final LocalDateTime meetingTime) {

@@ -57,25 +57,6 @@ class ReservationTest {
                     );
         }
 
-        @DisplayName("예약 요청이 불가능한 기간이면 예외가 발생한다.")
-        @Test
-        void invalidMeetingTime() {
-            LocalDateTime futureDate = LocalDateTime.now().minusDays(1L);
-            Long receiverId = 2L;
-
-            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
-                    CouponStatus.NOT_USED);
-
-            assertThatThrownBy(
-                    () -> new Reservation(futureDate,
-                            TimeZoneType.ASIA_SEOUL,
-                            ReservationStatus.WAITING,
-                            receiverId,
-                            coupon))
-                    .isInstanceOf(InvalidReservationException.class)
-                    .hasMessage("유효하지 않은 일정입니다.");
-        }
-
         @DisplayName("쿠폰 수신인과 예약 요청자가 다르면 예외가 발생한다.")
         @Test
         void invalidReservationMember() {
