@@ -2,15 +2,15 @@ import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
 
 const PageSlider = ({ children, ...rest }) => {
-  const [page, setPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const pageRefs = useRef<Array<HTMLDivElement | null>>([]);
   const childrenLengthArray = Array.from({ length: children.length }, (_, i) => i);
 
   useEffect(() => {
-    pageRefs.current[page]?.scrollIntoView({
+    pageRefs.current[currentPage]?.scrollIntoView({
       behavior: 'smooth',
     });
-  }, [page]);
+  }, [currentPage]);
 
   const setPageRef = (page: number) => (el: HTMLDivElement | null) => {
     pageRefs.current[page] = el;
@@ -23,7 +23,7 @@ const PageSlider = ({ children, ...rest }) => {
     for (const idx of childrenLengthArray) {
       const pageX = e.currentTarget.children[idx]?.getBoundingClientRect().x;
       if (pageX === parentWidthX) {
-        setPage(idx);
+        setCurrentPage(idx);
         break;
       }
     }
@@ -41,9 +41,9 @@ const PageSlider = ({ children, ...rest }) => {
           <S.Dot
             key={`dot-${idx}`}
             onClick={() => {
-              setPage(idx);
+              setCurrentPage(idx);
             }}
-            className={page === idx ? 'active' : ''}
+            className={currentPage === idx ? 'active' : ''}
           />
         ))}
       </S.DotsWrapper>

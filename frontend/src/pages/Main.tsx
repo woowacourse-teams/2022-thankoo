@@ -25,7 +25,7 @@ const Main = () => {
   } = useMain();
   const { visible } = useModal();
 
-  if (isLoading) return <>로딩중</>;
+  if (isLoading) return <div>로딩중</div>;
   if (error) return <>에러뜸</>;
 
   return (

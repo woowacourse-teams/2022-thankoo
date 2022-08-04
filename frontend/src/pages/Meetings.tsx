@@ -28,7 +28,7 @@ const Meetings = () => {
       Number(new Date(m2.time?.meetingTime as string))
   );
   const diffWithNearestDate = Math.floor(
-    (Number(new Date(meetings?.[0].time?.meetingTime as string)) - Number(new Date())) /
+    (Number(new Date(meetings?.[0]?.time?.meetingTime as string)) - Number(new Date())) /
       (1000 * 60 * 60 * 24)
   );
 
@@ -43,31 +43,33 @@ const Meetings = () => {
           <ArrowBackButton />
         </Link>
         <HeaderText>
-          {!isNaN(diffWithNearestDate) && diffWithNearestDate === 0
-            ? '오늘 예정된 약속이 있습니다'
-            : `${diffWithNearestDate}일 뒤 약속이 있습니다`}
+          {meetings?.length
+            ? !isNaN(diffWithNearestDate) && diffWithNearestDate === 0
+              ? '오늘 예정된 약속이 있습니다'
+              : `${diffWithNearestDate}일 뒤 약속이 있습니다`
+            : '예정된 약속이 없습니다.'}
         </HeaderText>
       </Header>
       <S.Body>
         {meetings?.map((meeting, idx) => (
           <S.Meeting key={idx}>
             {diffWithNearestDate === 0 && idx === 0 && <S.TodayStrap>오늘</S.TodayStrap>}
-            <div style={{ width: '40px' }}>
+            <div>
               <S.CouponTypeImage src={COUPON_IMAGE[meeting.couponType.toLocaleLowerCase()]} />
             </div>
             <S.MeetingDetail>
               <S.DetailWrapper>
                 <S.Label>만날 사람</S.Label>
-                <div>{meeting.memberName}</div>
+                <span>{meeting.memberName}</span>
               </S.DetailWrapper>
               <S.DateWrapper>
                 <S.DetailWrapper>
                   <S.Label>날짜</S.Label>
-                  <div>{meeting.time?.meetingTime.split(' ')[0]}</div>
+                  <span>{meeting.time?.meetingTime.split(' ')[0]}</span>
                 </S.DetailWrapper>
                 <S.DetailWrapper>
                   <S.Label>시간</S.Label>
-                  <div>{meeting.time?.meetingTime.split(' ')[1].slice(0, 5)}</div>
+                  <span>{meeting.time?.meetingTime.split(' ')[1].slice(0, 5)}</span>
                 </S.DetailWrapper>
               </S.DateWrapper>
             </S.MeetingDetail>

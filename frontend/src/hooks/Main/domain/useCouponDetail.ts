@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { COUPON_STATUS_BUTTON_TEXT } from '../../../constants/coupon';
@@ -9,7 +8,6 @@ import { useGetCouponDetail } from '../queries/couponDetail';
 
 export const useCouponDetail = (couponId: number) => {
   const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
-  const [page, setPage] = useState(true);
   const { close } = useModal();
 
   const { data: couponDetail, isError, isLoading } = useGetCouponDetail(couponId);
