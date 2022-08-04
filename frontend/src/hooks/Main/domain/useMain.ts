@@ -35,10 +35,6 @@ const useMain = () => {
       COUPON_STATUS_PRIORITY[coupon1.status] - COUPON_STATUS_PRIORITY[coupon2.status]
   );
 
-  const toggleSentOrReceived = () => {
-    setSentOrReceived(prev => (prev === '받은' ? '보낸' : '받은'));
-  };
-
   return {
     setCurrentType,
     orderedCoupons,
@@ -46,7 +42,7 @@ const useMain = () => {
     error,
     currentType,
     sentOrReceived,
-    toggleSentOrReceived,
+    setSentOrReceived,
   };
 };
 
