@@ -8,17 +8,23 @@ import ModalWrapper from './ModalWrapper';
 const strapStatus = ['reserving', 'reserved'];
 
 const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
+  const isOnReserve = status => strapStatus.includes(status);
+  const isCompleted = status => status === 'used';
+
   return (
     <S.Container>
       {coupons.map(coupon => (
-        <ModalWrapper modalContent={<CouponDetail coupon={coupon} />}>
+        <ModalWrapper
+          key={coupon.couponId}
+          modalContent={<CouponDetail couponId={coupon.couponId} />}
+        >
           <S.Relative>
-            {strapStatus.includes(coupon.status) && (
+            {isOnReserve(coupon.status) && (
               <S.StatusStrap status={coupon.status}>
                 {COUPON_STATUS_STRAP_TEXT[coupon.status]}
               </S.StatusStrap>
             )}
-
+            {coupon.status === 'used' && <S.CompleteDeem>사용 완료</S.CompleteDeem>}
             <GridViewCoupon coupon={coupon} />
           </S.Relative>
         </ModalWrapper>
@@ -79,5 +85,18 @@ const S = {
     transform: rotate(-40deg);
     background-color: ${({ status }) => (status === 'reserving' ? 'tomato' : 'dimgray')};
     padding: 8px 28px;
+  `,
+  CompleteDeem: styled.div`
+    position: absolute;
+    background-color: #232323b2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
   `,
 };

@@ -1,34 +1,35 @@
 import styled from '@emotion/styled';
 import { forwardRef, LegacyRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useReservationDetail } from '../../hooks/Main/useCouponDetail';
+import { CouponDetail } from '../../types';
 
 const CouponDetailReserve = (
-  { couponId }: { couponId: number },
+  { couponDetail }: { couponDetail: CouponDetail },
   ref: LegacyRef<HTMLDivElement>
 ) => {
-  //todo: couponDetailNotUsed에서도 재사용
-  const { coupon, time, isLoading } = useReservationDetail(couponId);
-
-  if (isLoading) return <></>;
+  const { coupon, reservation, meeting } = couponDetail;
+  const { time: RawTime } = reservation ||
+    meeting || { time: { meetingTime: new Date().toLocaleString() } };
+  const date = RawTime?.meetingTime.split(' ')[0];
+  const time = RawTime?.meetingTime.split(' ')[1].slice(0, 5);
 
   return (
     <S.Contents ref={ref}>
       <S.MeetingMembers>
         <S.Label>만날 사람</S.Label>
         <S.MeetingMembersWrapper>
-          <S.MeetingMemberImg src={coupon.sender.imageUrl} />
-          <S.Sender>{coupon.sender.name}</S.Sender>
+          <S.MeetingMemberImg src={coupon?.sender.imageUrl} />
+          <S.Sender>{coupon?.sender.name}</S.Sender>
         </S.MeetingMembersWrapper>
       </S.MeetingMembers>
       <S.DateWrapper>
         <S.FlexColumn>
           <S.Label>날짜</S.Label>
-          <S.ContentText>{time.meetingTime.date}</S.ContentText>
+          <S.ContentText>{date}</S.ContentText>
         </S.FlexColumn>
         <S.FlexColumn>
           <S.Label>시간</S.Label>
-          <S.ContentText>{time.meetingTime.time}</S.ContentText>
+          <S.ContentText>{time}</S.ContentText>
         </S.FlexColumn>
       </S.DateWrapper>
     </S.Contents>
@@ -36,12 +37,16 @@ const CouponDetailReserve = (
 };
 
 const S = {
-  Header: styled.div`
+  Contents: styled.div`
+    position: relative;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 10%;
-    width: 108%;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    span {
+      font-size: 15px;
+    }
   `,
   MeetingMembers: styled.div`
     display: flex;
@@ -67,21 +72,10 @@ const S = {
   ContentText: styled.span`
     font-size: 15px;
   `,
-  Contents: styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    span {
-      font-size: 15px;
-    }
-  `,
   DateWrapper: styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex: 1;
   `,
   FlexColumn: styled.div`
     display: flex;
@@ -96,7 +90,6 @@ const S = {
     flex-flow: column;
     font-size: 15px;
     overflow-y: auto;
-    flex: 1;
     gap: 5px;
   `,
   Footer: styled.div`

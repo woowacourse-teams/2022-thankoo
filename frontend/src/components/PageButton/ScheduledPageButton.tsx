@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { Link } from 'react-router-dom';
-import { ROUTE_PATH } from './../../constants/routes';
+import { ROUTE_PATH } from '../../constants/routes';
 
 const ScheduledPageButton = () => {
   return (
-    <Link to={`${ROUTE_PATH.RESERVATIONS}`}>
+    <Link to={ROUTE_PATH.MEETINGS}>
       <StyledButton />
     </Link>
   );

@@ -35,10 +35,6 @@ const CreateReservation = () => {
           <input type='date' value={date} onChange={setReservationDate} min={yesterday} />
           <Time value={time} min='10:00:00' max='22:00:00' required onChange={setReservationTime} />
         </S.Area>
-        {/* <S.Area>
-          <S.Label>달력에서 고르기</S.Label>
-          <S.Calander>달력이 들어갈 자리 입니다.</S.Calander>
-        </S.Area> */}
       </S.Body>
       <S.LongButton
         disabled={!isFilled}
