@@ -45,24 +45,10 @@ const Main = () => {
             <S.Dropdown show={dropdownShow}>
               <div
                 onClick={() => {
-                  setSentOrReceived('보낸');
+                  setSentOrReceived(prev => (prev === '보낸' ? '받은' : '보낸'));
                 }}
               >
-                보낸 쿠폰함
-              </div>
-              <hr
-                style={{
-                  backgroundColor: '#838383',
-                  margin: '10px 0',
-                  border: '0.5px solid #838383',
-                }}
-              />
-              <div
-                onClick={() => {
-                  setSentOrReceived('받은');
-                }}
-              >
-                받은 쿠폰함
+                {sentOrReceived === '보낸' ? '받은' : '보낸'} 쿠폰함
               </div>
             </S.Dropdown>
           </S.HeaderText>
@@ -110,8 +96,8 @@ const S = {
     position: absolute;
     display: ${({ show }) => (show ? 'flex' : 'none')};
     top: -30%;
-    left: 100%;
-    width: 138%;
+    left: 82%;
+    width: 100%;
     justify-content: center;
     & > div {
       font-size: 14px;

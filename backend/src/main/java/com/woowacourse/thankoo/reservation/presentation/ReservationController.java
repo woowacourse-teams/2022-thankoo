@@ -8,6 +8,7 @@ import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequ
 import com.woowacourse.thankoo.reservation.presentation.dto.SimpleReservationResponse;
 import java.net.URI;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class ReservationController {
 
     @PostMapping
     public ResponseEntity<Void> reserve(@AuthenticationPrincipal final Long memberId,
-                                        @RequestBody final ReservationRequest reservationRequest) {
+                                        @RequestBody @Valid final ReservationRequest reservationRequest) {
         Long reserveId = reservationService.save(memberId, reservationRequest);
         return ResponseEntity.created(URI.create("/api/reservations/" + reserveId)).build();
     }

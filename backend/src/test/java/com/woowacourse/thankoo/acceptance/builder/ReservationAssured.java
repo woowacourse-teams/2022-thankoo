@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
+import com.woowacourse.thankoo.common.exception.dto.ErrorResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
@@ -25,6 +26,10 @@ public class ReservationAssured {
 
     public static ReservationRequest 예약_요청(final CouponResponse couponResponse, final Long days) {
         return new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(days));
+    }
+
+    public static ReservationRequest 잘못된_예약_일정_요청(final CouponResponse couponResponse, final LocalDateTime localDateTime) {
+        return new ReservationRequest(couponResponse.getCouponId(), localDateTime);
     }
 
     public static ReservationRequestBuilder request() {
@@ -90,6 +95,11 @@ public class ReservationAssured {
                     () -> assertThat(simpleReservationResponses).isNotEmpty(),
                     () -> assertThat(simpleReservationResponses).hasSize(size)
             );
+        }
+
+        public void 예약_요청_실패됨(final int code) {
+            ErrorResponse errorResponse = body(ErrorResponse.class);
+            assertThat(errorResponse.getErrorCode()).isEqualTo(code);
         }
     }
 }

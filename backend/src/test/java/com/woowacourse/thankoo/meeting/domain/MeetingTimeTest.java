@@ -12,16 +12,6 @@ import org.junit.jupiter.api.Test;
 @DisplayName("ReservationTime 은 ")
 class MeetingTimeTest {
 
-    @DisplayName("예약 시간이 오늘보다 이전인 경우 예외가 발생한다.")
-    @Test
-    void validateMeetingTime() {
-        LocalDateTime localDateTime = LocalDateTime.now().minusDays(1L);
-        assertThatThrownBy(
-                () -> new MeetingTime(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()))
-                .isInstanceOf(InvalidReservationException.class)
-                .hasMessage("유효하지 않은 일정입니다.");
-    }
-
     @DisplayName("예약 시간과 날짜가 동일하지 않을 경우 예외가 발생한다.")
     @Test
     void validateMeetingDateEquals() {
