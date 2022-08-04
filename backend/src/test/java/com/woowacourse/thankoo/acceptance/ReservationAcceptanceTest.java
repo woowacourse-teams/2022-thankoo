@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.acceptance;
 
 import static com.woowacourse.thankoo.acceptance.builder.CouponAssured.쿠폰_요청;
 import static com.woowacourse.thankoo.acceptance.builder.ReservationAssured.예약_요청;
+import static com.woowacourse.thankoo.acceptance.builder.ReservationAssured.잘못된_예약_일정_요청;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
@@ -47,6 +48,31 @@ class ReservationAcceptanceTest extends AcceptanceTest {
                 .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponse, 1L))
                 .response()
                 .status(HttpStatus.CREATED.value());
+    }
+
+    @DisplayName("예약 요청 시간이 현재 시간 이전일 경우 요청 에러가 발생한다..")
+    @Test
+    void reserveTimeFail() {
+        TokenResponse senderToken = AuthenticationAssured.request()
+                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                .로그인_한다(CODE_SKRR)
+                .token();
+
+        TokenResponse receiverToken = AuthenticationAssured.request()
+                .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                .token();
+
+        CouponResponse couponResponse = CouponAssured.request()
+                .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                .response()
+                .bodies(CouponResponse.class).get(0);
+
+        ReservationAssured.request()
+                .예약을_요청한다(receiverToken.getAccessToken(), 잘못된_예약_일정_요청(couponResponse, 1L))
+                .response()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .예약_요청_실패됨(6001);
     }
 
     @DisplayName("회원이 받은 쿠폰으로 보낸 예약을 조회한다.")
