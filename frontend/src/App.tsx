@@ -1,10 +1,13 @@
 import { useLocation } from 'react-router-dom';
 
 import styled from '@emotion/styled';
+import Modal from './components/@shared/Modal';
+import useModal from './hooks/useModal';
 import Router from './routes/Router';
 
 function App() {
   const location = useLocation();
+  const { visible } = useModal();
 
   return (
     <MobileDiv>
@@ -13,6 +16,8 @@ function App() {
       <Router />
       {/* </CSSTransition> */}
       {/* </TransitionGroup> */}
+
+      {visible && <Modal />}
     </MobileDiv>
   );
 }
