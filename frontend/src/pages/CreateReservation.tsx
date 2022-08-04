@@ -10,17 +10,11 @@ import PageLayout from './../components/@shared/PageLayout';
 import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const CreateReservation = () => {
-  const {
-    isFilled,
-    setReservationDate,
-    sendReservation,
-    yesterday,
-    date,
-    time,
-    setReservationTime,
-  } = useCreateReservation();
+  const { isFilled, setReservationDate, sendReservation, yesterday, date, time, setTime } =
+    useCreateReservation();
 
   return (
     <S.PageLayout>
@@ -32,15 +26,18 @@ const CreateReservation = () => {
       </Header>
       <S.Body>
         <S.Area>
-          <S.Label>날짜 입력</S.Label>
-          <input type='date' value={date} onChange={setReservationDate} min={yesterday} />
+          <S.Label>
+            <S.CalendarIcon />
+            날짜 입력
+          </S.Label>
+          <S.DateInput type='date' value={date} onChange={setReservationDate} min={yesterday} />
         </S.Area>
         <S.TimeArea>
-          <S.TimeLabel>
-            <AccessAlarmsIcon />
+          <S.Label>
+            <S.TimeIcon />
             시간 선택
-          </S.TimeLabel>
-          <Time />
+          </S.Label>
+          <Time setSelectedTime={setTime} selectedTime={time} selectedDate={date} />
         </S.TimeArea>
       </S.Body>
       <S.LongButton
@@ -66,12 +63,38 @@ const S = {
     justify-content: center;
     height: 70%;
     gap: 2rem;
-    padding: 5px 3vw;
+    padding: 15px 3vw;
   `,
   Area: styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  `,
+  CalendarIcon: styled(CalendarMonthIcon)`
+    transform: scale(0.7);
+  `,
+  TimeIcon: styled(AccessAlarmsIcon)`
+    transform: scale(0.7);
+  `,
+  DateInput: styled.input`
+    width: 100%;
+    font-size: 18px;
+    padding: 10px 5px;
+    border: none;
+    background-color: #4a4a4a;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    outline: none;
+    color: ${({ theme }) => theme.input.color};
+    :disabled {
+      color: #b4b4b4;
+    }
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: ${({ theme }) => theme.input.placeholder};
+    }
   `,
   TimeArea: styled.div`
     display: flex;
@@ -80,11 +103,7 @@ const S = {
     overflow: hidden;
   `,
   Label: styled.div`
-    font-size: 21px;
-    color: ${({ theme }) => theme.header.color};
-  `,
-  TimeLabel: styled.div`
-    font-size: 21px;
+    font-size: 18px;
     color: ${({ theme }) => theme.header.color};
     display: flex;
     align-items: center;
