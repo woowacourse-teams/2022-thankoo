@@ -4,7 +4,7 @@ import { toastVisibleAtom } from './../recoil/atom';
 const useToast = () => {
   const [visible, setVisible] = useRecoilState(toastVisibleAtom);
 
-  const show = e => {
+  const show = () => {
     setVisible(true);
     setTimeout(() => {
       close();
