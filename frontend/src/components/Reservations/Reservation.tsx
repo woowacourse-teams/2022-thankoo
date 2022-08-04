@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
+import { usePutCancelReseravation } from '../../hooks/Main/queries/couponDetail';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
@@ -26,21 +27,28 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
 
   const option1 = order === 'received' ? '거절' : '취소';
   const option2 = order === 'received' ? '승인' : '수정';
-
+  const { mutate: cancelReservation } = usePutCancelReseravation(reservationId, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['reservations']);
+    },
+  });
   const handleClickOption = {
     received: [
       () => {
-        // handleReservation.mutate('deny');
-        alert(`예약 거절은 구현중입니다.`);
+        if (confirm('예약을 취소하시겠습니까?')) {
+          cancelReservation();
+        }
       },
       () => {
-        handleReservation.mutate('accept');
+        if (confirm(`예약을 수락하시겠습니까? \n ${time?.meetingTime}`)) {
+          handleReservation.mutate('accept');
+        }
       },
     ],
     sent: [
       () => {
         if (confirm('예약을 취소하시겠습니까?')) {
-          alert('보낸 예약 취소는 구현중입니다.');
+          cancelReservation();
         }
       },
     ],
