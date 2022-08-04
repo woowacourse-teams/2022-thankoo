@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { queryClient } from '../../../apis/queryClient';
-import { COUPON_STATUS_BUTTON_TEXT } from '../../../constants/coupon';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { sentOrReceivedAtom, targetCouponAtom } from '../../../recoil/atom';
+import { usePutReservationStatus } from '../../Reservations/queries/reservations';
 import useModal from '../../useModal';
 import {
   useGetCouponDetail,
@@ -22,36 +21,109 @@ export const useCouponDetail = (couponId: number) => {
   const meetingId = couponDetail?.meeting?.meetingId;
   const { mutate: cancelReservation } = usePutCancelReseravation(reservationId);
   const { mutate: completeMeeting } = usePutCompleteMeeting(meetingId);
+  const { mutate: handleReservation } = usePutReservationStatus(reservationId);
 
-  const handleClickOnCouponStatus = {
-    not_used: () => {
-      setTargetCouponId(couponId);
-      close();
-      navigate(ROUTE_PATH.CREATE_RESERVATION);
+  const COUPON_STATUS_BUTTON = {
+    받은: {
+      not_used: [
+        {
+          text: '예약 하기',
+          bg: 'tomato',
+          disabled: false,
+          onClick: () => {
+            setTargetCouponId(couponId);
+            close();
+            navigate(ROUTE_PATH.CREATE_RESERVATION);
+          },
+        },
+      ],
+      reserving: [
+        {
+          text: '예약 취소',
+          bg: 'tomato',
+          disabled: false,
+          onClick: () => {
+            if (confirm('예약을 취소하시겠습니까?')) {
+              cancelReservation();
+              close();
+            }
+          },
+        },
+      ],
+      reserved: [
+        {
+          text: '사용 완료',
+          bg: 'tomato',
+          disabled: false,
+          onClick: () => {
+            if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료 하겠습니다')) {
+              completeMeeting();
+              close();
+            }
+          },
+        },
+      ],
+      used: '이미 사용된 쿠폰입니다',
+      expired: '만료된 쿠폰입니다',
     },
-    reserved: () => {
-      if (confirm('만남은 즐거우셨나요? \n해당 쿠폰을 사용 완료하겠습니다')) {
-        completeMeeting();
-      }
-      close();
-    },
-    reserving: () => {
-      if (confirm('예약을 취소하시겠습니까?')) {
-        cancelReservation();
-      }
-      close();
+    보낸: {
+      not_used: [
+        {
+          text: '상대가 아직 예약하지 않았습니다.',
+          disabled: true,
+          bg: '#838383',
+        },
+      ],
+      reserving: [
+        {
+          text: '승인',
+          disabled: false,
+          bg: 'tomato',
+          onClick: () => {
+            if (confirm('예약을 승인하시겠습니까?')) {
+              handleReservation('accept');
+              close();
+            }
+          },
+        },
+        {
+          text: '거절',
+          disabled: false,
+          bg: '#838383',
+          onClick: () => {
+            if (confirm('예약을 거절하시겠습니까?')) {
+              handleReservation('deny');
+              close();
+            }
+          },
+        },
+      ],
+      reserved: [
+        {
+          text: '사용 완료',
+          disabled: false,
+          bg: 'tomato',
+          onClick: () => {
+            if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료하겠습니다')) {
+              completeMeeting();
+              close();
+            }
+          },
+        },
+      ],
+      used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
+      expired: [{ text: '만료된 쿠폰입니다', disabled: true, bg: '#838383' }],
     },
   };
 
-  const buttonText = COUPON_STATUS_BUTTON_TEXT[couponDetail?.coupon.status as string];
+  const buttonOptions = COUPON_STATUS_BUTTON[sentOrReceived][couponDetail?.coupon.status as string];
 
   return {
-    handleClickOnCouponStatus: handleClickOnCouponStatus[couponDetail?.coupon.status as string],
     sentOrReceived,
     couponDetail,
     isLoading,
     isError,
-    buttonText,
+    buttonOptions,
     close,
   };
 };

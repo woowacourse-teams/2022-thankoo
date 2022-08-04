@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
+import Slider from '../components/@shared/ChoiceSlider';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
@@ -31,6 +32,7 @@ const Meetings = () => {
       </Header>
       <S.Body>
         {meetings?.map((meeting, idx) => (
+          // <Slider></Slider>
           <S.Meeting isToday={diffWithNearestDate === 0 && idx === 0} key={idx}>
             {diffWithNearestDate === 0 && idx === 0 && <S.TodayStrap>오늘</S.TodayStrap>}
             <S.CouponImageWrapper>
@@ -108,10 +110,12 @@ const S = {
     gap: 3px;
   `,
   CouponImageWrapper: styled.div`
-    width: 40px;
+    width: 65px;
+    display: flex;
+    justify-content: center;
   `,
   CouponTypeImage: styled.img`
-    width: 100%;
+    width: 40px;
     object-fit: cover;
   `,
   Label: styled.span`

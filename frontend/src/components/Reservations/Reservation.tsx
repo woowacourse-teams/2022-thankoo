@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { usePutCancelReseravation } from '../../hooks/Main/queries/couponDetail';
+import { usePutReservationStatus } from '../../hooks/Reservations/queries/reservations';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
@@ -10,20 +11,7 @@ type status = 'deny' | 'accept';
 const Reservation = ({ couponType, time, memberName, reservationId, order }) => {
   const queryClient = useQueryClient();
 
-  const handleReservation = useMutation(
-    async (status: status) => {
-      await client({
-        method: 'put',
-        url: `${API_PATH.RESERVATIONS}/${reservationId}`,
-        data: { status },
-      });
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('reservations');
-      },
-    }
-  );
+  const { mutate: handleReservation } = usePutReservationStatus(reservationId);
 
   const option1 = order === 'received' ? '거절' : '취소';
   const option2 = order === 'received' ? '승인' : '수정';
@@ -35,13 +23,13 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
   const handleClickOption = {
     received: [
       () => {
-        if (confirm('예약을 취소하시겠습니까?')) {
-          cancelReservation();
+        if (confirm('예약을 거절하시겠습니까?')) {
+          handleReservation('deny');
         }
       },
       () => {
         if (confirm(`예약을 수락하시겠습니까? \n ${time?.meetingTime}`)) {
-          handleReservation.mutate('accept');
+          handleReservation('accept');
         }
       },
     ],

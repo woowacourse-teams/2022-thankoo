@@ -8,7 +8,7 @@ import CouponDetailCoupon from './ConponDetail.coupon';
 import CouponDetailReservation from './CouponDetail.reservation';
 
 const CouponDetail = ({ couponId }: { couponId: number }) => {
-  const { handleClickOnCouponStatus, couponDetail, isLoading, sentOrReceived, buttonText, close } =
+  const { couponDetail, isLoading, sentOrReceived, buttonOptions, close } =
     useCouponDetail(couponId);
 
   if (isLoading) {
@@ -30,9 +30,17 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
           )}
         </PageSlider>
         <S.Footer>
-          {sentOrReceived === '받은' && (
-            <S.Button onClick={handleClickOnCouponStatus}>{buttonText}</S.Button>
-          )}
+          <S.ButtonWrapper>
+            {buttonOptions.map(button => (
+              <S.Button
+                bg={button.bg}
+                disabled={button.disabled}
+                onClick={button.onClick && button.onClick}
+              >
+                {button.text}
+              </S.Button>
+            ))}
+          </S.ButtonWrapper>
         </S.Footer>
       </S.Modal>
     </S.Container>
@@ -40,6 +48,11 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
 };
 
 export default CouponDetail;
+
+type ButtonProps = {
+  bg: string;
+  disabled: boolean;
+};
 
 const S = {
   Container: styled.section`
@@ -77,11 +90,16 @@ const S = {
     height: 15%;
     align-items: flex-end;
   `,
-  Button: styled.button`
+  ButtonWrapper: styled.div`
+    display: flex;
+    width: 100%;
+    gap: 5px;
+  `,
+  Button: styled.button<ButtonProps>`
     border: none;
     border-radius: 4px;
-    background-color: ${({ theme, disabled }) =>
-      disabled ? theme.button.disbaled.background : theme.primary};
+    background-color: ${({ theme, disabled, bg }) =>
+      disabled ? theme.button.disbaled.background : bg};
     color: ${({ theme, disabled }) =>
       disabled ? theme.button.disbaled.color : theme.button.abled.color};
     width: 100%;

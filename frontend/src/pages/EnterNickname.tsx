@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
@@ -29,7 +30,9 @@ const EnterNickname = () => {
               placeholder='닉네임을 입력해주세요'
             />
           </S.FlexColumn>
-          <S.Button type='submit'>회원가입 완료</S.Button>
+          <S.Button disabled={nickname.length === 0} type='submit'>
+            회원가입 완료
+          </S.Button>
         </S.Form>
       </S.Body>
     </S.PageLayout>
@@ -69,5 +72,16 @@ const S = {
     padding: 15px;
     font-size: 17px;
     background-color: ${({ theme }) => theme.primary};
+    ${({ disabled, theme }) =>
+      disabled
+        ? css`
+            background-color: ${theme.button.disbaled.background};
+            color: ${theme.button.disbaled.color};
+            cursor: not-allowed;
+          `
+        : css`
+            background-color: ${theme.button.active.background};
+            color: ${theme.button.active.color};
+          `}
   `,
 };
