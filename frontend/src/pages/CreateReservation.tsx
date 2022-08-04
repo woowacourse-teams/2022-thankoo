@@ -9,17 +9,12 @@ import HeaderText from './../components/@shared/HeaderText';
 import PageLayout from './../components/@shared/PageLayout';
 import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const CreateReservation = () => {
-  const {
-    isFilled,
-    setReservationDate,
-    sendReservation,
-    yesterday,
-    date,
-    time,
-    setReservationTime,
-  } = useCreateReservation();
+  const { isFilled, setReservationDate, sendReservation, yesterday, date, time, setTime } =
+    useCreateReservation();
 
   return (
     <S.PageLayout>
@@ -31,10 +26,19 @@ const CreateReservation = () => {
       </Header>
       <S.Body>
         <S.Area>
-          <S.Label>직접 입력하기</S.Label>
-          <input type='date' value={date} onChange={setReservationDate} min={yesterday} />
-          <Time value={time} min='10:00:00' max='22:00:00' required onChange={setReservationTime} />
+          <S.Label>
+            <S.CalendarIcon />
+            날짜 입력
+          </S.Label>
+          <S.DateInput type='date' value={date} onChange={setReservationDate} min={yesterday} />
         </S.Area>
+        <S.TimeArea>
+          <S.Label>
+            <S.TimeIcon />
+            시간 선택
+          </S.Label>
+          <Time setSelectedTime={setTime} selectedTime={time} selectedDate={date} />
+        </S.TimeArea>
       </S.Body>
       <S.LongButton
         disabled={!isFilled}
@@ -59,16 +63,52 @@ const S = {
     justify-content: center;
     height: 70%;
     gap: 2rem;
-    padding: 0 15px;
+    padding: 15px 3vw;
   `,
   Area: styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
   `,
+  CalendarIcon: styled(CalendarMonthIcon)`
+    transform: scale(0.7);
+  `,
+  TimeIcon: styled(AccessAlarmsIcon)`
+    transform: scale(0.7);
+  `,
+  DateInput: styled.input`
+    width: 100%;
+    font-size: 18px;
+    padding: 10px 5px;
+    border: none;
+    background-color: #4a4a4a;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    outline: none;
+    color: ${({ theme }) => theme.input.color};
+    box-sizing: border-box;
+    :disabled {
+      color: #b4b4b4;
+    }
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: ${({ theme }) => theme.input.placeholder};
+    }
+  `,
+  TimeArea: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+  `,
   Label: styled.div`
-    font-size: 21px;
+    font-size: 18px;
     color: ${({ theme }) => theme.header.color};
+    display: flex;
+    align-items: center;
+    gap: 7px;
   `,
   Calander: styled.div`
     height: 21rem;

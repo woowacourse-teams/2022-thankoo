@@ -15,9 +15,9 @@ const useCreateReservation = () => {
   const couponId = useRecoilValue(targetCouponAtom);
   const queryClient = useQueryClient();
   const [date, setDate] = useState(yesterday);
-  const [time, setTime] = useState('10:00');
+  const [time, setTime] = useState('');
 
-  const isFilled = date;
+  const isFilled = date && time.length;
 
   const mutateCreateReservation = useMutation(
     () =>
@@ -34,6 +34,7 @@ const useCreateReservation = () => {
         successNavigate('/');
         queryClient.invalidateQueries('coupon');
       },
+      retry: false,
     }
   );
 
@@ -45,10 +46,6 @@ const useCreateReservation = () => {
     await mutateCreateReservation.mutate();
   };
 
-  const setReservationTime = e => {
-    setTime(e.target.value);
-  };
-
   return {
     isFilled,
     setReservationDate,
@@ -56,7 +53,7 @@ const useCreateReservation = () => {
     date,
     yesterday,
     time,
-    setReservationTime,
+    setTime,
   };
 };
 
