@@ -28,7 +28,7 @@ const Main = () => {
   const [dropdownShow, setDropdownShow] = useState(false);
 
   if (isLoading) return <div>로딩중</div>;
-  if (error) return <>에러뜸</>;
+  if (error) return <div>에러뜸</div>;
 
   return (
     <>

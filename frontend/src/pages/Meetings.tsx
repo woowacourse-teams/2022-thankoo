@@ -12,7 +12,7 @@ const Meetings = () => {
   const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate } = useMeetings();
 
   if (isLoading) {
-    return <></>;
+    return <div></div>;
   }
 
   return (

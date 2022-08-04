@@ -12,7 +12,7 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
     useCouponDetail(couponId);
 
   if (isLoading) {
-    return <></>;
+    return <div></div>;
   }
 
   return (
