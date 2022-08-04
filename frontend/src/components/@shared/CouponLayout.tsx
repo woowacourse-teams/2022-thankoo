@@ -9,7 +9,7 @@ const Coupon = ({ id, name, title, couponType }) => {
         color={RAND_COLORS[id % RAND_COLORS.length].color}
       >
         <S.Title>{title}</S.Title>
-        <S.SenderName>{name}</S.SenderName>
+        <S.Name>{name}</S.Name>
         <S.Coupon>
           <S.CouponImage src={COUPON_IMAGE[couponType]} />
         </S.Coupon>
@@ -85,7 +85,7 @@ const S = {
     height: 1.2rem;
     object-fit: cover;
   `,
-  SenderName: styled.div`
+  Name: styled.div`
     font-size: 20px;
     font-weight: 500;
   `,

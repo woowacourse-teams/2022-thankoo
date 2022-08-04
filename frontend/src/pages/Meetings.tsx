@@ -1,36 +1,15 @@
 import styled from '@emotion/styled';
-import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { client } from '../apis/axios';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
-import { API_PATH } from '../constants/api';
 import { COUPON_IMAGE } from '../constants/coupon';
 import { ROUTE_PATH } from '../constants/routes';
-import { Meeting } from '../types';
+import useMeetings from '../hooks/Meetings/domain/useMeetings';
 
 const Meetings = () => {
-  const {
-    data: meetings,
-    isLoading,
-    isError,
-  } = useQuery<Meeting[]>('meetings', async () => {
-    const { data } = await client({ method: 'get', url: API_PATH.MEETINGS });
-
-    return data;
-  });
-
-  meetings?.sort(
-    (m1, m2) =>
-      Number(new Date(m1.time?.meetingTime as string)) -
-      Number(new Date(m2.time?.meetingTime as string))
-  );
-  const diffWithNearestDate = Math.floor(
-    (Number(new Date(meetings?.[0]?.time?.meetingTime as string)) - Number(new Date())) /
-      (1000 * 60 * 60 * 24)
-  );
+  const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate } = useMeetings();
 
   if (isLoading) {
     return <></>;
@@ -44,7 +23,7 @@ const Meetings = () => {
         </Link>
         <HeaderText>
           {meetings?.length
-            ? !isNaN(diffWithNearestDate) && diffWithNearestDate === 0
+            ? isTodayMeetingExist
               ? '오늘 예정된 약속이 있습니다'
               : `${diffWithNearestDate}일 뒤 약속이 있습니다`
             : '예정된 약속이 없습니다.'}
