@@ -26,7 +26,7 @@ import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
+import com.woowacourse.thankoo.reservation.presentation.dto.SimpleReservationResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDateTime;
@@ -150,10 +150,10 @@ class ReservationAcceptanceTest extends AcceptanceTest {
     }
 
     private void 예약이_조회됨(final ExtractableResponse<Response> response) {
-        List<ReservationResponse> reservationResponses = response.jsonPath()
-                .getList(".", ReservationResponse.class);
+        List<SimpleReservationResponse> simpleReservationRespons = response.jsonPath()
+                .getList(".", SimpleReservationResponse.class);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(reservationResponses).isNotEmpty();
+        assertThat(simpleReservationRespons).isNotEmpty();
     }
 }

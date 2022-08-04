@@ -18,7 +18,7 @@ import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
+import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
@@ -59,11 +59,11 @@ class MeetingQueryServiceTest {
 
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-        List<MeetingResponse> meetingResponses = meetingQueryService.findMeetings(receiver.getId());
+        List<SimpleMeetingResponse> simpleMeetingResponse = meetingQueryService.findMeetings(receiver.getId());
 
         assertAll(
-                () -> assertThat(meetingResponses).hasSize(1),
-                () -> assertThat(meetingResponses).extracting("memberName").containsOnly(LALA_NAME)
+                () -> assertThat(simpleMeetingResponse).hasSize(1),
+                () -> assertThat(simpleMeetingResponse).extracting("memberName").containsOnly(LALA_NAME)
         );
     }
 }

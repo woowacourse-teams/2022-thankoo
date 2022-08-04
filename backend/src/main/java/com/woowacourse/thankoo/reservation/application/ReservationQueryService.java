@@ -1,12 +1,12 @@
 package com.woowacourse.thankoo.reservation.application;
 
- import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.domain.ReservationCoupon;
 import com.woowacourse.thankoo.reservation.domain.ReservationQueryRepository;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
+import com.woowacourse.thankoo.reservation.presentation.dto.SimpleReservationResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,14 +22,14 @@ public class ReservationQueryService {
     private final ReservationQueryRepository reservationQueryRepository;
     private final MemberRepository memberRepository;
 
-    public List<ReservationResponse> getReceivedReservations(final Long memberId) {
+    public List<SimpleReservationResponse> getReceivedReservations(final Long memberId) {
         Member member = getMemberById(memberId);
         List<ReservationCoupon> receivedReservations = reservationQueryRepository.findReceivedReservations(
                 member.getId(), LocalDateTime.now());
         return toReservationResponses(receivedReservations);
     }
 
-    public List<ReservationResponse> getSentReservations(final Long memberId) {
+    public List<SimpleReservationResponse> getSentReservations(final Long memberId) {
         Member member = getMemberById(memberId);
         List<ReservationCoupon> sentReservations = reservationQueryRepository.findSentReservations(member.getId(),
                 LocalDateTime.now());
@@ -41,9 +41,9 @@ public class ReservationQueryService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    private List<ReservationResponse> toReservationResponses(final List<ReservationCoupon> receivedReservations) {
+    private List<SimpleReservationResponse> toReservationResponses(final List<ReservationCoupon> receivedReservations) {
         return receivedReservations.stream()
-                .map(ReservationResponse::from)
+                .map(SimpleReservationResponse::from)
                 .collect(Collectors.toList());
     }
 }

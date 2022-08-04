@@ -19,11 +19,12 @@ public class ReservationQueryRepository {
         return (rs, rowNum) -> new ReservationCoupon(rs.getLong("reservation_id"),
                 rs.getString("name"),
                 rs.getString("coupon_type"),
-                rs.getTimestamp("time").toLocalDateTime());
+                rs.getTimestamp("time").toLocalDateTime(),
+                rs.getString("time_zone"));
     }
 
     public List<ReservationCoupon> findReceivedReservations(final Long senderId, final LocalDateTime dateTime) {
-        String sql = "SELECT r.id as reservation_id, r.time, "
+        String sql = "SELECT r.id as reservation_id, r.time, r.time_zone, "
                 + "c.coupon_type, mr.name "
                 + "FROM reservation as r "
                 + "JOIN coupon as c ON r.coupon_id = c.id "
@@ -41,7 +42,7 @@ public class ReservationQueryRepository {
     }
 
     public List<ReservationCoupon> findSentReservations(final Long receiverId, final LocalDateTime dateTime) {
-        String sql = "SELECT r.id as reservation_id, r.time, "
+        String sql = "SELECT r.id as reservation_id, r.time, r.time_zone, "
                 + "c.coupon_type, ms.name "
                 + "FROM reservation as r "
                 + "JOIN coupon as c ON r.coupon_id = c.id "

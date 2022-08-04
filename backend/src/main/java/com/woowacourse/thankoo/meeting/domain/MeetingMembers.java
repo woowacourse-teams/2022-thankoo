@@ -9,10 +9,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class MeetingMembers {
 
     private static final int STANDARD_MEMBER_COUNT = 2;
