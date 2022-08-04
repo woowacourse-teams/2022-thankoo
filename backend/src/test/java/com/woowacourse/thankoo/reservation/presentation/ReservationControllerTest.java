@@ -21,9 +21,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
+import com.woowacourse.thankoo.common.exception.dto.ErrorResponse;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.ReservationCoupon;
@@ -33,6 +35,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -40,29 +43,48 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("ReservationController 는 ")
 class ReservationControllerTest extends ControllerTest {
 
-    @DisplayName("예약을 요청한다.")
-    @Test
-    void reserve() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+    @DisplayName("에약을 요청할 때")
+    @Nested
+    class ReserveTest {
+        @DisplayName("올바른 요청이면 예약을 성공한다.")
+        @Test
+        void reserve() throws Exception {
+            given(jwtTokenProvider.getPayload(anyString()))
+                    .willReturn("1");
 
-        ResultActions resultActions = mockMvc.perform(post("/api/reservations")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
-                        .content(objectMapper.writeValueAsString(new ReservationRequest(1L, LocalDateTime.now())))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isCreated());
+            ResultActions resultActions = mockMvc.perform(post("/api/reservations")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                            .content(objectMapper.writeValueAsString(new ReservationRequest(1L, LocalDateTime.now().plusDays(1L))))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isCreated());
 
-        resultActions.andDo(document("reservations/reserve",
-                getRequestPreprocessor(),
-                requestHeaders(
-                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
-                ),
-                requestFields(
-                        fieldWithPath("couponId").type(NUMBER).description("couponId"),
-                        fieldWithPath("startAt").type(STRING).description("startAt")
-                )
-        ));
+            resultActions.andDo(document("reservations/reserve",
+                    getRequestPreprocessor(),
+                    requestHeaders(
+                            headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                    ),
+                    requestFields(
+                            fieldWithPath("couponId").type(NUMBER).description("couponId"),
+                            fieldWithPath("startAt").type(STRING).description("startAt")
+                    )
+            ));
+        }
+
+        @DisplayName("잘못된 일정이면 실패한다.")
+        @Test
+        void reserveMeetingTimeFail() throws Exception {
+            given(jwtTokenProvider.getPayload(anyString()))
+                    .willReturn("1");
+
+            mockMvc.perform(post("/api/reservations")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                            .content(objectMapper.writeValueAsString(new ReservationRequest(1L, LocalDateTime.now())))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().string(objectMapper.writeValueAsString(new ErrorResponse(6001, "예약 시간을 다시 설정해주세요."))));
+        }
     }
 
     @DisplayName("회원이 받은 예약을 조회한다.")
