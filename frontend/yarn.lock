@@ -2277,7 +2277,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-transition-group@npm:^4, @types/react-transition-group@npm:^4.2.0, @types/react-transition-group@npm:^4.4.5":
+"@types/react-transition-group@npm:^4.2.0, @types/react-transition-group@npm:^4.4.5":
   version: 4.4.5
   resolution: "@types/react-transition-group@npm:4.4.5"
   dependencies:
@@ -7575,7 +7575,7 @@ __metadata:
     "@types/node": ^18.0.0
     "@types/react": ^18.0.14
     "@types/react-dom": ^18.0.5
-    "@types/react-transition-group": ^4
+    "@types/react-transition-group": ^4.4.5
     "@yarnpkg/pnpify": ^4.0.0-rc.11
     "@yarnpkg/sdks": ^3.0.0-rc.11
     axios: ^0.27.2
