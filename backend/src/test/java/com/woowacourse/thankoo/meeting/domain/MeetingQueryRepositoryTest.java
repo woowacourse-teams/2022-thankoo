@@ -18,6 +18,7 @@ import com.woowacourse.thankoo.common.annotations.RepositoryTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.meeting.application.dto.MeetingQueryCondition;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
@@ -87,7 +88,8 @@ class MeetingQueryRepositoryTest {
             reservation.update(lala, ReservationStatus.ACCEPT, reservedMeetingCreator);
         }
 
-        List<MeetingCoupon> meetingsByMembers = meetingQueryRepository.findMeetingsByMemberId(lala.getId());
+        MeetingQueryCondition condition = new MeetingQueryCondition(lala.getId(), LocalDateTime.now(), MeetingStatus.ON_PROGRESS.name());
+        List<MeetingCoupon> meetingsByMembers = meetingQueryRepository.findMeetingsByMemberIdAndTimeAndStatus(condition);
 
         assertAll(
                 () -> assertThat(meetingsByMembers).hasSize(3),
