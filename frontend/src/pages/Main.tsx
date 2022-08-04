@@ -109,7 +109,7 @@ const S = {
   Dropdown: styled.div<DropdownProps>`
     position: absolute;
     display: ${({ show }) => (show ? 'flex' : 'none')};
-    top: -40%;
+    top: -30%;
     left: 100%;
     width: 138%;
     justify-content: center;

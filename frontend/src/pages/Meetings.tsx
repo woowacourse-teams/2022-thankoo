@@ -110,8 +110,8 @@ const S = {
   TodayStrap: styled.span`
     position: absolute;
     font-size: 15px;
-    top: 6%;
-    right: -7%;
+    top: 7px;
+    right: -20px;
     padding: 5px 30px;
     background-color: ${({ theme }) => theme.primary};
     color: white;
