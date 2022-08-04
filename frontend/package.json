@@ -1,6 +1,6 @@
 {
   "name": "thankoo",
-  "version": "1.0.0",
+  "version": "1.14.5",
   "main": "src/index.tsx",
   "license": "MIT",
   "scripts": {
