@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { atom } from 'recoil';
 import { UserProfile } from '../types';
 
@@ -33,4 +32,10 @@ export const targetCouponAtom = atom<any>({
 export const sentOrReceivedAtom = atom<any>({
   key: 'sentOrReceived',
   default: '받은',
+});
+
+//toast
+export const toastVisibleAtom = atom({
+  key: 'toastVisibleAtom',
+  default: false,
 });
