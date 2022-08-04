@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.meeting.presentation.dto;
 
 import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.meeting.domain.MeetingCoupon;
+import java.util.Locale;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class SimpleMeetingResponse {
                                   final String memberName) {
         this.meetingId = meetingId;
         this.time = time;
-        this.couponType = couponType;
+        this.couponType = couponType.toLowerCase(Locale.ROOT);
         this.memberName = memberName;
     }
 
