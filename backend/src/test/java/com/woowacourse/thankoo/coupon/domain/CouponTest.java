@@ -68,7 +68,7 @@ class CouponTest {
     void setCouponStatusIsNotUsed() {
         Coupon coupon = new Coupon(1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
-        coupon.denied();
+        coupon.rollBack();
 
         assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.NOT_USED);
     }

@@ -21,7 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
+import com.woowacourse.thankoo.meeting.domain.MeetingCoupon;
+import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;
+import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;
@@ -38,10 +40,16 @@ class MeetingControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        List<MeetingResponse> responses = List.of(
-                new MeetingResponse(1L, LocalDateTime.now().plusDays(1L), CouponType.COFFEE.name(), LALA_NAME),
-                new MeetingResponse(2L, LocalDateTime.now().plusDays(1L), CouponType.MEAL.name(), HOHO_NAME),
-                new MeetingResponse(3L, LocalDateTime.now().plusDays(1L), CouponType.COFFEE.name(), SKRR_NAME)
+        List<SimpleMeetingResponse> responses = List.of(
+                SimpleMeetingResponse.of(
+                        new MeetingCoupon(1L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                                CouponType.COFFEE.name(), LALA_NAME)),
+                SimpleMeetingResponse.of(
+                        new MeetingCoupon(2L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                                CouponType.MEAL.name(), HOHO_NAME)),
+                SimpleMeetingResponse.of(
+                        new MeetingCoupon(3L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                                CouponType.COFFEE.name(), SKRR_NAME))
         );
         given(meetingQueryService.findMeetings(anyLong()))
                 .willReturn(responses);
@@ -57,8 +65,9 @@ class MeetingControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 responseFields(
-                        fieldWithPath("[].id").type(NUMBER).description("id"),
-                        fieldWithPath("[].meetingTime").type(STRING).description("meetingTime"),
+                        fieldWithPath("[].meetingId").type(NUMBER).description("id"),
+                        fieldWithPath("[].time.meetingTime").type(STRING).description("meetingTime"),
+                        fieldWithPath("[].time.timeZone").type(STRING).description("timeZone"),
                         fieldWithPath("[].couponType").type(STRING).description("couponType"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName")
                 )
@@ -76,7 +85,7 @@ class MeetingControllerTest extends ControllerTest {
         ResultActions resultActions = mockMvc.perform(put("/api/meetings/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         resultActions.andDo(document("meetings/complete",
                 requestHeaders(

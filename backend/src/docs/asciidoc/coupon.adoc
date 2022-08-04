@@ -1,4 +1,26 @@
 [[Coupon]]
+[cols=2*,options=header]
+|===
+|Status
+|Explain
+
+|not_used
+|사용하지 않은 경우
+
+|reserving
+|예약 중인 경우 (예약 요청이 아직 승인되지 않음)
+
+|reserved
+|예약 된 경우 (예약 요청이 승인됨)
+
+|used
+|미팅이 완료된 경우 (만남 완료 직접 클릭 혹은 만남 시간이 지난 경우)
+
+|expired
+|쿠폰 기한이 만료된 경우 (1년 주기)
+
+|===
+
 === 쿠폰 전송
 
 operation::coupons/send[snippets='http-request,http-response']
@@ -15,6 +37,11 @@ operation::coupons/received-coupons-used[snippets='http-request,http-response']
 
 operation::coupons/sent-coupons[snippets='http-request,http-response']
 
-=== 단건 쿠폰 조회
+=== 단건 쿠폰 조회(예약과 함께)
 
-operation::coupons/get-coupon[snippets='http-request,http-response']
+operation::coupons/get-coupon-reservation[snippets='http-request,http-response']
+
+=== 단건 쿠폰 조회(미팅과 함께)
+
+operation::coupons/get-coupon-meeting[snippets='http-request,http-response']
+

@@ -1,23 +1,17 @@
 import styled from '@emotion/styled';
-import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
 import { Coupon } from '../../types';
+import CouponLayout from '../@shared/CouponLayout';
 
 const GridViewCoupon = ({ coupon }: { coupon: Coupon }) => {
-  const { sender, content, status } = coupon;
+  const { sender, content } = coupon;
 
   return (
-    <S.Layout>
-      <S.Content
-        backgroundColor={RAND_COLORS[sender.id % RAND_COLORS.length].bg}
-        color={RAND_COLORS[sender.id % RAND_COLORS.length].color}
-      >
-        <S.Title>{content.title}</S.Title>
-        <S.SenderName>{sender.name}</S.SenderName>
-        <S.Coupon>
-          <S.CouponImage src={COUPON_IMAGE[content.couponType]} />
-        </S.Coupon>
-      </S.Content>
-    </S.Layout>
+    <CouponLayout
+      title={content?.title}
+      couponType={content?.couponType}
+      id={sender?.id}
+      name={sender?.name}
+    />
   );
 };
 

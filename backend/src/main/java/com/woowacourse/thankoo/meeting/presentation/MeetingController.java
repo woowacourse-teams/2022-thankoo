@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.meeting.presentation;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
 import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
 import com.woowacourse.thankoo.meeting.application.MeetingService;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
+import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class MeetingController {
     private final MeetingService meetingService;
 
     @GetMapping
-    public ResponseEntity<List<MeetingResponse>> getMeetings(@AuthenticationPrincipal final Long memberId) {
+    public ResponseEntity<List<SimpleMeetingResponse>> getMeetings(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(meetingQueryService.findMeetings(memberId));
     }
 
@@ -30,6 +30,6 @@ public class MeetingController {
     public ResponseEntity<Void> complete(@AuthenticationPrincipal final Long memberId,
                                          @PathVariable final Long meetingId) {
         meetingService.complete(memberId, meetingId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

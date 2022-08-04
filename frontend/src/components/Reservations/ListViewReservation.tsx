@@ -12,8 +12,8 @@ const dayKorean = {
 };
 const ListViewReservation = ({ memberName, reservationId, couponType, meetingTime }) => {
   const day = dayKorean[new Date(meetingTime).toString().slice(0, 3)];
-  const date = meetingTime.split('T')[0].split('-');
-  const time = meetingTime.split('T')[1].split('.')[0].slice(0, 5);
+  const date = meetingTime.split(' ')[0];
+  const time = meetingTime.split(' ')[1].slice(0, 5);
 
   return (
     <S.Container
@@ -22,7 +22,7 @@ const ListViewReservation = ({ memberName, reservationId, couponType, meetingTim
     >
       <S.CouponImage src={COUPON_IMAGE[couponType]} />
       <S.UserName>{memberName}</S.UserName>
-      <S.RequestedDate>{`${date[1]}월 ${date[2]}일 (${day}) ${time}`}</S.RequestedDate>
+      <S.RequestedDate>{`${date} (${day}) ${time}`}</S.RequestedDate>
     </S.Container>
   );
 };

@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
+import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -79,8 +80,8 @@ class MeetingServiceTest {
                     .get();
 
             assertThatThrownBy(() -> meetingService.complete(other.getId(), meeting.getId()))
-                    .isInstanceOf(InvalidMeetingException.class)
-                    .hasMessage("잘못된 미팅 참여자입니다.");
+                    .isInstanceOf(ForbiddenException.class)
+                    .hasMessage("권한이 없습니다.");
         }
 
         @DisplayName("미팅 참여자가 맞을 경우 성공한다.")

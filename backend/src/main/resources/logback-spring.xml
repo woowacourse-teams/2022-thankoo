@@ -1,17 +1,52 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <property name="LOG_PATTERN" value="%-5level %d{yy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%M:%line] - %msg%n"/>
+    <property name="LOG_PATH" value="/home/ubuntu/logs"/>
     <springProfile name="prod">
-        <property name="LOG_PATH" value="/home/ubuntu/logs"/>
-        <include resource="logback/logger-template.xml"/>
-        <logger name="com.woowacourse.thankoo" level="ERROR">
-            <appender-ref ref="error-logger"/>
+        <include resource="logback/file-debug-logger.xml"/>
+        <include resource="logback/file-info-logger.xml"/>
+        <include resource="logback/file-warn-logger.xml"/>
+        <include resource="logback/file-error-logger.xml"/>
+        <include resource="logback/file-sql-slow-info-logger.xml"/>
+        <logger name="com.woowacourse.thankoo" level="INFO">
+            <appender-ref ref="file-info-logger"/>
+            <appender-ref ref="file-warn-logger"/>
+            <appender-ref ref="file-error-logger"/>
+        </logger>
+        <logger name="org.springframework.boot" level="INFO">
+            <appender-ref ref="file-info-logger"/>
+            <appender-ref ref="file-warn-logger"/>
+            <appender-ref ref="file-error-logger"/>
+        </logger>
+        <logger name="org.hibernate.SQL_SLOW" level="info">
+            <appender-ref ref="file-sql-slow-info-logger"/>
         </logger>
     </springProfile>
     <springProfile name="dev">
-        <property name="LOG_PATH" value="/home/ubuntu/logs"/>
-        <include resource="logback/logger-template.xml"/>
-        <logger name="com.woowacourse.thankoo" level="ERROR">
-            <appender-ref ref="error-logger"/>
+        <include resource="logback/file-debug-logger.xml"/>
+        <include resource="logback/file-info-logger.xml"/>
+        <include resource="logback/file-warn-logger.xml"/>
+        <include resource="logback/file-error-logger.xml"/>
+        <include resource="logback/file-sql-slow-info-logger.xml"/>
+        <logger name="com.woowacourse.thankoo" level="DEBUG">
+            <appender-ref ref="file-debug-logger"/>
+            <appender-ref ref="file-info-logger"/>
+            <appender-ref ref="file-warn-logger"/>
+            <appender-ref ref="file-error-logger"/>
         </logger>
+        <logger name="org.springframework.boot" level="INFO">
+            <appender-ref ref="file-info-logger"/>
+            <appender-ref ref="file-warn-logger"/>
+            <appender-ref ref="file-error-logger"/>
+        </logger>
+        <logger name="org.hibernate.SQL_SLOW" level="info">
+            <appender-ref ref="file-sql-slow-info-logger"/>
+        </logger>
+    </springProfile>
+    <springProfile name="local, test">
+        <logger name="com.woowacourse.thankoo" level="DEBUG"/>
+        <logger name="org.springframework.boot" level="INFO"/>
+        <logger name="org.hibernate.sql" level="DEBUG"/>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
     </springProfile>
 </configuration>

@@ -14,4 +14,7 @@ export const API_PATH = {
   SIGN_UP: '/api/sign-up',
   COUPON_DETAIL: '/api/coupons',
   GET_COUPON_DETAIL: couponId => `/api/coupons/${couponId}`,
+  MEETINGS: '/api/meetings',
+  CANCEL_RESERVATION: reservationId => `/api/reservations/${reservationId}/cancel`,
+  COMPLETE_MEETING: meetingId => `/api/meetings/${meetingId}`,
 };

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import PersonIcon from '@mui/icons-material/Person';
 import { Link } from 'react-router-dom';
-import { ROUTE_PATH } from './../../constants/routes';
+import { ROUTE_PATH } from '../../constants/routes';
 
 const MyPageButton = () => {
   return (
-    <Link to={`${ROUTE_PATH.PROFILE}`}>
+    <Link to={ROUTE_PATH.PROFILE}>
       <StyledButton />
     </Link>
   );

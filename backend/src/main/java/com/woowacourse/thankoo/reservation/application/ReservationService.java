@@ -47,9 +47,21 @@ public class ReservationService {
                              final Long reservationId,
                              final ReservationStatusRequest reservationStatusRequest) {
         Member foundMember = getMemberById(memberId);
-        Reservation foundReservation = reservationRepository.findWithCouponById(reservationId)
+        Reservation reservation = getReservationById(reservationId);
+        ReservationStatus futureStatus = ReservationStatus.from(reservationStatusRequest.getStatus());
+        reservation.update(foundMember, futureStatus, reservedMeetingCreator);
+    }
+
+    public void cancel(final Long memberId,
+                       final Long reservationId) {
+        Member foundMember = getMemberById(memberId);
+        Reservation reservation = getReservationById(reservationId);
+        reservation.cancel(foundMember);
+    }
+
+    private Reservation getReservationById(final Long reservationId) {
+        return reservationRepository.findWithCouponById(reservationId)
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
-        foundReservation.update(foundMember, reservationStatusRequest.getStatus(), reservedMeetingCreator);
     }
 
     private Member getMemberById(final Long memberId) {

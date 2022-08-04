@@ -24,8 +24,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
-import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
+import com.woowacourse.thankoo.reservation.presentation.dto.SimpleReservationResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -73,7 +72,7 @@ class ReservationQueryServiceTest {
         reservationService.save(lala.getId(),
                 new ReservationRequest(coupon4.getId(), LocalDateTime.now().plusDays(1L)));
 
-        List<ReservationResponse> reservations = reservationQueryService.getReceivedReservations(lala.getId());
+        List<SimpleReservationResponse> reservations = reservationQueryService.getReceivedReservations(lala.getId());
 
         assertAll(
                 () -> assertThat(reservations).hasSize(2),
@@ -106,7 +105,7 @@ class ReservationQueryServiceTest {
         reservationService.save(huni.getId(),
                 new ReservationRequest(coupon4.getId(), LocalDateTime.now().plusDays(1L)));
 
-        List<ReservationResponse> reservations = reservationQueryService.getSentReservations(lala.getId());
+        List<SimpleReservationResponse> reservations = reservationQueryService.getSentReservations(lala.getId());
 
         assertAll(
                 () -> assertThat(reservations).hasSize(1),

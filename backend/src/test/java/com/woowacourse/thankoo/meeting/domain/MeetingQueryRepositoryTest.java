@@ -84,7 +84,7 @@ class MeetingQueryRepositoryTest {
                     new Reservation(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
                             coupon));
             reservation.reserve();
-            reservation.update(lala, "accept", reservedMeetingCreator);
+            reservation.update(lala, ReservationStatus.ACCEPT, reservedMeetingCreator);
         }
 
         List<MeetingCoupon> meetingsByMembers = meetingQueryRepository.findMeetingsByMemberId(lala.getId());

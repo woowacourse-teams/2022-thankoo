@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 
 public class ReservationFixture {
 
+    public static final String ACCEPT = "accept";
+    public static final String DENY = "deny";
+
     /**
      * member must have id
      * coupon status is not used

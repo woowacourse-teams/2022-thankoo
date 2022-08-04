@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.reservation.presentation.dto;
 
-import com.woowacourse.thankoo.reservation.domain.ReservationCoupon;
-import java.time.LocalDateTime;
+import com.woowacourse.thankoo.common.dto.TimeResponse;
+import com.woowacourse.thankoo.reservation.domain.Reservation;
 import java.util.Locale;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,24 +12,18 @@ import lombok.NoArgsConstructor;
 public class ReservationResponse {
 
     private Long reservationId;
-    private String memberName;
-    private String couponType;
-    private LocalDateTime meetingTime;
+    private TimeResponse time;
+    private String status;
 
-    private ReservationResponse(final Long reservationId,
-                                final String memberName,
-                                final String couponType,
-                                final LocalDateTime meetingTime) {
+    public ReservationResponse(final Long reservationId, final TimeResponse time, final String status) {
         this.reservationId = reservationId;
-        this.memberName = memberName;
-        this.couponType = couponType.toLowerCase(Locale.ROOT);
-        this.meetingTime = meetingTime;
+        this.time = time;
+        this.status = status.toLowerCase(Locale.ROOT);
     }
 
-    public static ReservationResponse from(final ReservationCoupon reservationCoupon) {
-        return new ReservationResponse(reservationCoupon.getReservationId(),
-                reservationCoupon.getMemberName(),
-                reservationCoupon.getCouponType(),
-                reservationCoupon.getMeetingTime());
+    public static ReservationResponse of(final Reservation reservation) {
+        return new ReservationResponse(reservation.getId(),
+                TimeResponse.of(reservation.getMeetingTime()),
+                reservation.getReservationStatus().name());
     }
 }

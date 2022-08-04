@@ -7,13 +7,30 @@ export interface Coupon {
   content: CouponContent;
   status: CouponStatus;
 }
-export interface Reservation {
+export interface CouponDetail {
   coupon: Coupon;
-  time: {
-    meetingTime: string;
-    timeZone: string;
-  };
+  meeting: Meeting | null;
+  reservation: Reservation | null;
 }
+
+export type MeetingTime = {
+  meetingTime: string;
+  timeZone: string;
+};
+
+export interface Meeting {
+  meetingId: number;
+  couponType: CouponType;
+  time: MeetingTime;
+  members: UserProfile[];
+  memberName: string;
+}
+
+export type Reservation = {
+  reservationId: number;
+  status: CouponStatus;
+  time: MeetingTime | null;
+};
 export interface UserProfile {
   id: number;
   name: string;

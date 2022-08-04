@@ -6,7 +6,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponStatusGroup;
 import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
-import com.woowacourse.thankoo.coupon.infrastructure.TimeClient;
+import com.woowacourse.thankoo.coupon.infrastructure.CouponClient;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CouponQueryService {
 
     private final CouponQueryRepository couponQueryRepository;
-    private final TimeClient timeClient;
+    private final CouponClient couponClient;
 
     public List<CouponResponse> getReceivedCoupons(final Long receiverId, final String status) {
         List<String> statusNames = CouponStatusGroup.findStatusNames(status);
@@ -45,7 +45,7 @@ public class CouponQueryService {
 
         CouponStatus couponStatus = CouponStatus.of(memberCoupon.getStatus());
         if (couponStatus.isInReserve()) {
-            return CouponDetailResponse.from(memberCoupon, timeClient.getTimeResponse(couponId, couponStatus));
+            return getCouponDetailResponse(couponId, memberCoupon, couponStatus);
         }
         return CouponDetailResponse.of(memberCoupon);
     }
@@ -59,5 +59,14 @@ public class CouponQueryService {
         if (!memberCoupon.isOwner(memberId)) {
             throw new InvalidMemberException(ErrorType.INVALID_MEMBER);
         }
+    }
+
+    private CouponDetailResponse getCouponDetailResponse(final Long couponId,
+                                                         final MemberCoupon memberCoupon,
+                                                         final CouponStatus couponStatus) {
+        if (couponStatus.isReserved()) {
+            return CouponDetailResponse.from(memberCoupon, couponClient.getMeetingResponse(couponId));
+        }
+        return CouponDetailResponse.from(memberCoupon, couponClient.getReservationResponse(couponId));
     }
 }

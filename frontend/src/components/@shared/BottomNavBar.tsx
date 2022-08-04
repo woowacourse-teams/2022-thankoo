@@ -1,9 +1,15 @@
 import styled from '@emotion/styled';
-import MyPageButton from './MyPageButton';
-import ScheduledPageButton from './ScheduledPageButton';
+import MyPageButton from '../PageButton/MyPageButton';
+import ScheduledPageButton from '../PageButton/ScheduledPageButton';
 import SendButton from './SendButton';
+import ReservationPageButton from '../PageButton/ReservationPageButton';
 
-const buttons = [<MyPageButton />, <ScheduledPageButton />, <SendButton />];
+const buttons = [
+  <MyPageButton />,
+  <ReservationPageButton />,
+  <ScheduledPageButton />,
+  <SendButton />,
+];
 
 const BottomNavBar = () => {
   return (

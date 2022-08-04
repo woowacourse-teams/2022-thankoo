@@ -14,12 +14,12 @@ public class CouponContentResponse {
     private String message;
 
     private CouponContentResponse(final String couponType, final String title, final String message) {
-        this.couponType = couponType;
+        this.couponType = couponType.toLowerCase(Locale.ROOT);
         this.title = title;
         this.message = message;
     }
 
     public static CouponContentResponse from(final String couponType, final String title, final String message) {
-        return new CouponContentResponse(couponType.toLowerCase(Locale.ROOT), title, message);
+        return new CouponContentResponse(couponType, title, message);
     }
 }

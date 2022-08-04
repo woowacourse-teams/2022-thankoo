@@ -26,7 +26,7 @@ public class CouponResponse {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
-        this.status = status;
+        this.status = status.toLowerCase(Locale.ROOT);
     }
 
     public static CouponResponse of(final MemberCoupon memberCoupon) {
@@ -36,7 +36,7 @@ public class CouponResponse {
                 CouponContentResponse.from(memberCoupon.getCouponType(),
                         memberCoupon.getTitle(),
                         memberCoupon.getMessage()),
-                memberCoupon.getStatus().toLowerCase(Locale.ROOT)
+                memberCoupon.getStatus()
         );
     }
 }

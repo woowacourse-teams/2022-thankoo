@@ -5,7 +5,7 @@ import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
+import com.woowacourse.thankoo.reservation.presentation.dto.SimpleReservationResponse;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +34,14 @@ public class ReservationController {
     }
 
     @GetMapping("/received")
-    public ResponseEntity<List<ReservationResponse>> getReceivedReservations(
+    public ResponseEntity<List<SimpleReservationResponse>> getReceivedReservations(
             @AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(reservationQueryService.getReceivedReservations(memberId));
     }
 
     @GetMapping("/sent")
-    public ResponseEntity<List<ReservationResponse>> getSentReservations(@AuthenticationPrincipal final Long memberId) {
+    public ResponseEntity<List<SimpleReservationResponse>> getSentReservations(
+            @AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(reservationQueryService.getSentReservations(memberId));
     }
 
@@ -49,6 +50,13 @@ public class ReservationController {
                                              @PathVariable final Long reservationId,
                                              @RequestBody final ReservationStatusRequest reservationStatusRequest) {
         reservationService.updateStatus(memberId, reservationId, reservationStatusRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{reservationId}/cancel")
+    public ResponseEntity<Void> cancel(@AuthenticationPrincipal final Long memberId,
+                                       @PathVariable final Long reservationId) {
+        reservationService.cancel(memberId, reservationId);
         return ResponseEntity.noContent().build();
     }
 }

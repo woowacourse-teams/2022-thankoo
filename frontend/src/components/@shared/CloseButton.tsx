@@ -17,6 +17,7 @@ const S = {
     border: none;
   `,
   CloseModalIcon: styled(CloseIcon)`
+    height: 15px;
     fill: ${({ color }) => color};
   `,
 };

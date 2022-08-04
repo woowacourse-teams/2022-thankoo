@@ -29,3 +29,8 @@ export const targetCouponAtom = atom<any>({
   key: 'targetCouponAtom',
   default: null,
 });
+
+export const sentOrReceivedAtom = atom<any>({
+  key: 'sentOrReceived',
+  default: '받은',
+});
