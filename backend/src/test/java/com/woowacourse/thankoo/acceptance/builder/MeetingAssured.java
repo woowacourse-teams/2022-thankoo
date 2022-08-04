@@ -14,7 +14,6 @@ import java.util.List;
 public class MeetingAssured {
 
     private MeetingAssured() {
-
     }
 
     public static MeetingRequestBuilder request() {
@@ -41,7 +40,6 @@ public class MeetingAssured {
         public MeetingResponseBuilder response() {
             return new MeetingResponseBuilder(response);
         }
-
     }
 
     public static class MeetingResponseBuilder extends ResponseBuilder {

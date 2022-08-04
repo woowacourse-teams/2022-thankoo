@@ -15,7 +15,6 @@ import io.restassured.response.Response;
 public class AuthenticationAssured {
 
     private AuthenticationAssured() {
-
     }
 
     public static AuthenticationRequestBuilder request() {

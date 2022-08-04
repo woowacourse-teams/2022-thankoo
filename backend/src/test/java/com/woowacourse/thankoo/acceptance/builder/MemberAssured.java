@@ -17,7 +17,6 @@ import java.util.List;
 public class MemberAssured {
 
     private MemberAssured() {
-
     }
 
     public static MemberRequestBuilder request() {
