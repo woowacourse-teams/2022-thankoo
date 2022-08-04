@@ -5,7 +5,11 @@ import { COUPON_STATUS_BUTTON_TEXT } from '../../../constants/coupon';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { sentOrReceivedAtom, targetCouponAtom } from '../../../recoil/atom';
 import useModal from '../../useModal';
-import { useGetCouponDetail, usePutCancelReseravation } from '../queries/couponDetail';
+import {
+  useGetCouponDetail,
+  usePutCancelReseravation,
+  usePutCompleteMeeting,
+} from '../queries/couponDetail';
 
 export const useCouponDetail = (couponId: number) => {
   const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
@@ -15,7 +19,9 @@ export const useCouponDetail = (couponId: number) => {
   const sentOrReceived = useRecoilValue(sentOrReceivedAtom);
   const navigate = useNavigate();
   const reservationId = couponDetail?.reservation?.reservationId;
+  const meetingId = couponDetail?.meeting?.meetingId;
   const { mutate: cancelReservation } = usePutCancelReseravation(reservationId);
+  const { mutate: completeMeeting } = usePutCompleteMeeting(meetingId);
 
   const handleClickOnCouponStatus = {
     not_used: () => {
@@ -25,9 +31,9 @@ export const useCouponDetail = (couponId: number) => {
     },
     reserved: () => {
       if (confirm('만남은 즐거우셨나요? \n해당 쿠폰을 사용 완료하겠습니다')) {
-        alert('사용 완료 기능은 구현중입니다.');
+        completeMeeting();
       }
-      //   close();
+      close();
     },
     reserving: () => {
       if (confirm('예약을 취소하시겠습니까?')) {

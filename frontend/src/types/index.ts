@@ -9,8 +9,8 @@ export interface Coupon {
 }
 export interface CouponDetail {
   coupon: Coupon;
-  meeting: null;
-  reservation: Reservation;
+  meeting: Meeting | null;
+  reservation: Reservation | null;
 }
 
 export type MeetingTime = {
@@ -21,7 +21,8 @@ export type MeetingTime = {
 export interface Meeting {
   meetingId: number;
   couponType: CouponType;
-  time: MeetingTime | null;
+  time: MeetingTime;
+  members: UserProfile[];
   memberName: string;
 }
 

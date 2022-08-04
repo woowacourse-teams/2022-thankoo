@@ -8,6 +8,7 @@ const COUPON_STATUS_PRIORITY = {
   not_used: 2,
   reserving: 0,
   reserved: 1,
+  used: 10,
 };
 
 const useMain = () => {

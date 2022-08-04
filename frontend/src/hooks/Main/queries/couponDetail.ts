@@ -23,3 +23,14 @@ export const usePutCancelReseravation = (
       alert('예약이 취소됐습니다.');
     },
   });
+
+export const usePutCompleteMeeting = (
+  meetingId,
+  { onSuccess: handleSuccess } = { onSuccess: () => {} }
+) =>
+  useMutation(() => client({ method: 'put', url: API_PATH.COMPLETE_MEETING(meetingId) }), {
+    onSuccess: () => {
+      handleSuccess();
+      alert('사용 완료됐습니다');
+    },
+  });

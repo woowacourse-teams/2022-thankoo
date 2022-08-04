@@ -8,7 +8,8 @@ const CouponDetailReserve = (
   ref: LegacyRef<HTMLDivElement>
 ) => {
   const { coupon, reservation, meeting } = couponDetail;
-  const { time: RawTime } = reservation || meeting;
+  const { time: RawTime } = reservation ||
+    meeting || { time: { meetingTime: new Date().toLocaleString() } };
   const date = RawTime?.meetingTime.split(' ')[0];
   const time = RawTime?.meetingTime.split(' ')[1].slice(0, 5);
 

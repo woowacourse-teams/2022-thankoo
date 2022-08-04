@@ -52,11 +52,11 @@ const Meetings = () => {
       </Header>
       <S.Body>
         {meetings?.map((meeting, idx) => (
-          <S.Meeting key={idx}>
+          <S.Meeting isToday={diffWithNearestDate === 0 && idx === 0} key={idx}>
             {diffWithNearestDate === 0 && idx === 0 && <S.TodayStrap>오늘</S.TodayStrap>}
-            <div>
+            <S.CouponImageWrapper>
               <S.CouponTypeImage src={COUPON_IMAGE[meeting.couponType.toLocaleLowerCase()]} />
-            </div>
+            </S.CouponImageWrapper>
             <S.MeetingDetail>
               <S.DetailWrapper>
                 <S.Label>만날 사람</S.Label>
@@ -82,6 +82,10 @@ const Meetings = () => {
 
 export default Meetings;
 
+type MeetingWrapperProps = {
+  isToday: boolean;
+};
+
 const S = {
   Body: styled.section`
     display: flex;
@@ -89,7 +93,7 @@ const S = {
     gap: 1rem;
     padding: 5vh 3vw;
   `,
-  Meeting: styled.div`
+  Meeting: styled.div<MeetingWrapperProps>`
     position: relative;
     width: 100%;
     color: white;
@@ -100,6 +104,7 @@ const S = {
     align-items: center;
     padding: 10px;
     background-color: #4a4a4a;
+    border: ${({ theme, isToday }) => (isToday ? '2px solid tomato' : 'unset')};
     overflow: hidden;
   `,
   TodayStrap: styled.span`
@@ -122,6 +127,9 @@ const S = {
     display: flex;
     flex-flow: column;
     gap: 3px;
+  `,
+  CouponImageWrapper: styled.div`
+    width: 40px;
   `,
   CouponTypeImage: styled.img`
     width: 100%;
