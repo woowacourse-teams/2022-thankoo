@@ -34,7 +34,7 @@ const Meetings = () => {
           <S.Meeting isToday={diffWithNearestDate === 0 && idx === 0} key={idx}>
             {diffWithNearestDate === 0 && idx === 0 && <S.TodayStrap>오늘</S.TodayStrap>}
             <S.CouponImageWrapper>
-              <S.CouponTypeImage src={COUPON_IMAGE[meeting.couponType.toLocaleLowerCase()]} />
+              <S.CouponTypeImage src={COUPON_IMAGE[meeting.couponType]} />
             </S.CouponImageWrapper>
             <S.MeetingDetail>
               <S.DetailWrapper>

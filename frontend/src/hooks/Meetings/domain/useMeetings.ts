@@ -1,19 +1,7 @@
-import React from 'react';
-import { useQuery } from 'react-query';
-import { client } from '../../../apis/axios';
-import { API_PATH } from '../../../constants/api';
-import { Meeting } from '../../../types';
+import { useGetMeetings } from '../queries/useGetMeetings';
 
 const useMeetings = () => {
-  const {
-    data: meetings,
-    isLoading,
-    isError,
-  } = useQuery<Meeting[]>('meetings', async () => {
-    const { data } = await client({ method: 'get', url: API_PATH.MEETINGS });
-
-    return data;
-  });
+  const { data: meetings, isLoading, isError } = useGetMeetings();
 
   meetings?.sort(
     (m1, m2) =>
