@@ -86,6 +86,7 @@ const S = {
     -webkit-appearance: none;
     outline: none;
     color: ${({ theme }) => theme.input.color};
+    box-sizing: border-box;
     :disabled {
       color: #b4b4b4;
     }

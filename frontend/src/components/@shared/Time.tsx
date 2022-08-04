@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
 
 type TimeTable = {
   time: string;
@@ -10,15 +9,15 @@ const timeTableGenerator = (startHour, endHour) => {
   const timeTable: TimeTable[] = [];
 
   for (let i = startHour; i < endHour + 1; i += 1) {
-    for (let j = 0; j < 2; j += 1) {
+    const scale = 2;
+    for (let j = 0; j < scale; j += 1) {
       if (i === endHour) {
         break;
       }
-      const time = `${String(i).padStart(2, '0')}:${String(j * 30).padStart(2, '0')}`;
+      const time = `${String(i).padStart(2, '0')}:${String((j * 60) / scale).padStart(2, '0')}`;
       const isPassed =
         Number(new Date(`2022-01-01 ${new Date().getHours()}:${new Date().getMinutes()}`)) >
         Number(new Date(`2022-01-01 ${time}`));
-      Number(new Date(`2022-01-01 ${time}`));
       timeTable.push({ time, isPassed });
     }
   }
