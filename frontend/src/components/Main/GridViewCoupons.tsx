@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { COUPON_STATUS_BUTTON_TEXT, COUPON_STATUS_STRAP_TEXT } from '../../constants/coupon';
+import { COUPON_STATUS_STRAP_TEXT } from '../../constants/coupon';
 import { Coupon, CouponStatus } from '../../types';
 import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
@@ -13,22 +13,25 @@ const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
 
   return (
     <S.Container>
-      {coupons.map(coupon => (
-        <ModalWrapper
-          key={coupon.couponId}
-          modalContent={<CouponDetail couponId={coupon.couponId} />}
-        >
-          <S.Relative>
-            {isOnReserve(coupon.status) && (
-              <S.StatusStrap status={coupon.status}>
-                {COUPON_STATUS_STRAP_TEXT[coupon.status]}
-              </S.StatusStrap>
-            )}
-            {coupon.status === 'used' && <S.CompleteDeem>사용 완료</S.CompleteDeem>}
-            <GridViewCoupon coupon={coupon} />
-          </S.Relative>
-        </ModalWrapper>
-      ))}
+      {coupons.map(coupon => {
+        return (
+          coupon.status !== 'used' && (
+            <ModalWrapper
+              key={coupon.couponId}
+              modalContent={<CouponDetail couponId={coupon.couponId} />}
+            >
+              <S.Relative>
+                {isOnReserve(coupon.status) && (
+                  <S.StatusStrap status={coupon.status}>
+                    {COUPON_STATUS_STRAP_TEXT[coupon.status]}
+                  </S.StatusStrap>
+                )}
+                <GridViewCoupon coupon={coupon} />
+              </S.Relative>
+            </ModalWrapper>
+          )
+        );
+      })}
     </S.Container>
   );
 };

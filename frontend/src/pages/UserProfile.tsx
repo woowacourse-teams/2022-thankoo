@@ -8,9 +8,14 @@ import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
 import useProfile from '../hooks/Profile/useProfile';
 import defaultUser from '../assets/images/default_user.jpeg';
+import { useQueryClient } from 'react-query';
+import { useGetCoupons } from '../hooks/Main/queries/coupons';
 
 const UserProfile = () => {
   const { profile, isNameEdit, name, handleClickModifyNameButton, onChangeName } = useProfile();
+
+  const { data: sent } = useGetCoupons('보낸');
+  const { data: received } = useGetCoupons('받은');
 
   return (
     <PageLayout>
@@ -55,11 +60,11 @@ const UserProfile = () => {
         <S.UserCouponInfo>
           <S.UserCouponInfoItem>
             <span>보낸 쿠폰 수</span>
-            <span>0</span>
+            <span>{sent?.length}</span>
           </S.UserCouponInfoItem>
           <S.UserCouponInfoItem>
             <span>받은 쿠폰 수</span>
-            <span>0</span>
+            <span>{received?.length}</span>
           </S.UserCouponInfoItem>
         </S.UserCouponInfo>
       </S.Body>
@@ -73,7 +78,7 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    margin: 0 2rem;
+    margin: 0 15px;
   `,
   UserInfoBox: styled.div`
     display: flex;
