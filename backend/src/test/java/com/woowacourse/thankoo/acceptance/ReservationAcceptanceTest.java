@@ -17,6 +17,7 @@ import com.woowacourse.thankoo.acceptance.builder.CouponAssured;
 import com.woowacourse.thankoo.acceptance.builder.ReservationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ class ReservationAcceptanceTest extends AcceptanceTest {
                 .status(HttpStatus.CREATED.value());
     }
 
-    @DisplayName("예약 요청 시간이 현재 시간 이전일 경우 요청 에러가 발생한다..")
+    @DisplayName("예약 요청 시간이 현재 시간 이전일 경우 요청 에러가 발생한다.")
     @Test
     void reserveTimeFail() {
         TokenResponse senderToken = AuthenticationAssured.request()
@@ -69,7 +70,32 @@ class ReservationAcceptanceTest extends AcceptanceTest {
                 .bodies(CouponResponse.class).get(0);
 
         ReservationAssured.request()
-                .예약을_요청한다(receiverToken.getAccessToken(), 잘못된_예약_일정_요청(couponResponse, 1L))
+                .예약을_요청한다(receiverToken.getAccessToken(), 잘못된_예약_일정_요청(couponResponse, LocalDateTime.now().minusDays(1L)))
+                .response()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .예약_요청_실패됨(6001);
+    }
+
+    @DisplayName("예약 요청 시간의 연도가 현재와 다를경우 요청 에러가 발생한다.")
+    @Test
+    void reserveYearFail() {
+        TokenResponse senderToken = AuthenticationAssured.request()
+                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                .로그인_한다(CODE_SKRR)
+                .token();
+
+        TokenResponse receiverToken = AuthenticationAssured.request()
+                .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                .token();
+
+        CouponResponse couponResponse = CouponAssured.request()
+                .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                .response()
+                .bodies(CouponResponse.class).get(0);
+
+        ReservationAssured.request()
+                .예약을_요청한다(receiverToken.getAccessToken(), 잘못된_예약_일정_요청(couponResponse, LocalDateTime.now().plusYears(1L)))
                 .response()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .예약_요청_실패됨(6001);

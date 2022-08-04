@@ -28,8 +28,8 @@ public class ReservationAssured {
         return new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().plusDays(days));
     }
 
-    public static ReservationRequest 잘못된_예약_일정_요청(final CouponResponse couponResponse, final Long days) {
-        return new ReservationRequest(couponResponse.getCouponId(), LocalDateTime.now().minusDays(days));
+    public static ReservationRequest 잘못된_예약_일정_요청(final CouponResponse couponResponse, final LocalDateTime localDateTime) {
+        return new ReservationRequest(couponResponse.getCouponId(), localDateTime);
     }
 
     public static ReservationRequestBuilder request() {
