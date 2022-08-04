@@ -26,25 +26,23 @@ const UnAuthOnly = () => {
 
 const Router = () => {
   return (
-    <>
-      <Routes>
-        <Route path={ROUTE_PATH.ON_SUCCESS} element={<OnSuccessPage />} />
-        <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
-        <Route element={<AuthOnly />}>
-          <Route path={ROUTE_PATH.MAIN} element={<Main />} />
-          <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
-          <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
-          <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
-          <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
-          <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
-          <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
-        </Route>
-        <Route element={<UnAuthOnly />}>
-          <Route path={ROUTE_PATH.SIGN_IN} element={<SignIn />} />
-          <Route path={ROUTE_PATH.ENTER_NICKNAME} element={<EnterNickname />} />
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path={ROUTE_PATH.ON_SUCCESS} element={<OnSuccessPage />} />
+      <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
+      <Route element={<AuthOnly />}>
+        <Route path={ROUTE_PATH.MAIN} element={<Main />} />
+        <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
+        <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
+        <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
+        <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
+        <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
+        <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
+      </Route>
+      <Route element={<UnAuthOnly />}>
+        <Route path={ROUTE_PATH.SIGN_IN} element={<SignIn />} />
+        <Route path={ROUTE_PATH.ENTER_NICKNAME} element={<EnterNickname />} />
+      </Route>
+    </Routes>
   );
 };
 

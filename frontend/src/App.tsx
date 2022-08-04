@@ -10,7 +10,7 @@ import Router from './routes/Router';
 function App() {
   const location = useLocation();
   const { visible: modalVisible } = useModal();
-  const { visible: toastVisible, show, close } = useToast();
+  const { visible: toastVisible } = useToast();
 
   return (
     <MobileDiv>
