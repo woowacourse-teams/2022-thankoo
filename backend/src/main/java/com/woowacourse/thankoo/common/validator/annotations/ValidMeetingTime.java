@@ -13,7 +13,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidMeetingTime {
 
-    String message() default "예약 시간을 다시 설정해주세요.";
+    String message() default "예약 시간이 잘못됐습니다.";
 
     Class<?>[] groups() default {};
 

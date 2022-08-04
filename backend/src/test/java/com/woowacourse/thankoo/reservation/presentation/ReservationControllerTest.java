@@ -71,7 +71,7 @@ class ReservationControllerTest extends ControllerTest {
             ));
         }
 
-        @DisplayName("잘못된 일정이면 실패한다.")
+        @DisplayName("잘못된 일정이 실패한다.")
         @Test
         void reserveMeetingTimeFail() throws Exception {
             given(jwtTokenProvider.getPayload(anyString()))
@@ -83,7 +83,7 @@ class ReservationControllerTest extends ControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
                     .andDo(print())
                     .andExpect(status().isBadRequest())
-                    .andExpect(content().string(objectMapper.writeValueAsString(new ErrorResponse(6001, "예약 시간을 다시 설정해주세요."))));
+                    .andExpect(content().string(objectMapper.writeValueAsString(new ErrorResponse(6001, "예약 시간이 잘못됐습니다."))));
         }
     }
 
