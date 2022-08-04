@@ -49,8 +49,9 @@ const Meetings = () => {
         </HeaderText>
       </Header>
       <S.Body>
-        {meetings?.map(meeting => (
-          <S.Meeting>
+        {meetings?.map((meeting, idx) => (
+          <S.Meeting key={idx}>
+            {diffWithNearestDate === 0 && idx === 0 && <S.TodayStrap>오늘</S.TodayStrap>}
             <div style={{ width: '40px' }}>
               <S.CouponTypeImage src={COUPON_IMAGE[meeting.couponType.toLocaleLowerCase()]} />
             </div>
@@ -87,6 +88,7 @@ const S = {
     padding: 5vh 3vw;
   `,
   Meeting: styled.div`
+    position: relative;
     width: 100%;
     color: white;
     border-radius: 4px;
@@ -96,6 +98,17 @@ const S = {
     align-items: center;
     padding: 10px;
     background-color: #4a4a4a;
+    overflow: hidden;
+  `,
+  TodayStrap: styled.span`
+    position: absolute;
+    font-size: 15px;
+    top: 6%;
+    right: -7%;
+    padding: 5px 30px;
+    background-color: ${({ theme }) => theme.primary};
+    color: white;
+    transform: rotate(40deg);
   `,
   MeetingDetail: styled.div`
     width: 100%;

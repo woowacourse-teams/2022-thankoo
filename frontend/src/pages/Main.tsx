@@ -3,7 +3,7 @@ import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/domain/useMain';
 
-import LoopIcon from '@mui/icons-material/Loop';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import Modal from '../components/@shared/Modal';
@@ -35,7 +35,7 @@ const Main = () => {
           <div style={{ padding: '15px 0' }}></div>
           <HeaderText onClick={toggleSentOrReceived}>
             {sentOrReceived} 쿠폰함
-            <S.LoopIcon />
+            <ArrowDropDownIcon />
           </HeaderText>
         </Header>
         <S.Body>
@@ -61,10 +61,6 @@ const S = {
     flex-direction: column;
     gap: 1rem;
     padding: 5px 3vw;
-  `,
-  LoopIcon: styled(LoopIcon)`
-    font-size: 1.3rem;
-    margin-top: 4px;
   `,
 };
 
