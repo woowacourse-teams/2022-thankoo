@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { flexCenter } from '../../styles/mixIn';
 import useToast from './../../hooks/useToast';
 import Portal from './../../Portal';
 
@@ -8,13 +10,24 @@ const Toast = () => {
   return (
     <Portal>
       <S.Container className='toast'>
-        <S.Content>{`토스트 메세지`}</S.Content>
+        <S.Content>
+          <S.CheckCircleIcon />
+          <S.Comment>수정에 성공했습니다</S.Comment>
+        </S.Content>
       </S.Container>
     </Portal>
   );
 };
 
 const S = {
+  CheckCircleIcon: styled(CheckCircleIcon)`
+    fill: green;
+  `,
+  Comment: styled.p`
+    margin-left: 5px;
+    display: inline;
+  `,
+
   Container: styled.div`
     .toast-enter {
       opacity: 0;
@@ -44,12 +57,15 @@ const S = {
     padding: 10px;
     background: white;
     border-radius: 10px;
+    border: 3px green solid;
     position: absolute;
-    top: 50%;
+    top: 90%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0);
     z-index: 1001;
     text-align: center;
+
+    ${flexCenter}
   `,
 };
 
