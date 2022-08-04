@@ -19,6 +19,8 @@ const S = {
     align-items: center;
     justify-content: center;
     color: white;
+    opacity: 0.8;
+    gap: 15px;
     height: 60vh;
     opacity: 0.8;
     gap: 10px;
