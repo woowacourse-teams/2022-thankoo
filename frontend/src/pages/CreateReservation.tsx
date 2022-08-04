@@ -9,6 +9,7 @@ import HeaderText from './../components/@shared/HeaderText';
 import PageLayout from './../components/@shared/PageLayout';
 import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 
 const CreateReservation = () => {
   const {
@@ -31,14 +32,16 @@ const CreateReservation = () => {
       </Header>
       <S.Body>
         <S.Area>
-          <S.Label>직접 입력하기</S.Label>
+          <S.Label>날짜 입력</S.Label>
           <input type='date' value={date} onChange={setReservationDate} min={yesterday} />
-          <Time value={time} min='10:00:00' max='22:00:00' required onChange={setReservationTime} />
         </S.Area>
-        {/* <S.Area>
-          <S.Label>달력에서 고르기</S.Label>
-          <S.Calander>달력이 들어갈 자리 입니다.</S.Calander>
-        </S.Area> */}
+        <S.TimeArea>
+          <S.TimeLabel>
+            <AccessAlarmsIcon />
+            시간 선택
+          </S.TimeLabel>
+          <Time />
+        </S.TimeArea>
       </S.Body>
       <S.LongButton
         disabled={!isFilled}
@@ -63,16 +66,29 @@ const S = {
     justify-content: center;
     height: 70%;
     gap: 2rem;
-    padding: 0 15px;
+    padding: 5px 3vw;
   `,
   Area: styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
   `,
+  TimeArea: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+  `,
   Label: styled.div`
     font-size: 21px;
     color: ${({ theme }) => theme.header.color};
+  `,
+  TimeLabel: styled.div`
+    font-size: 21px;
+    color: ${({ theme }) => theme.header.color};
+    display: flex;
+    align-items: center;
+    gap: 7px;
   `,
   Calander: styled.div`
     height: 21rem;
