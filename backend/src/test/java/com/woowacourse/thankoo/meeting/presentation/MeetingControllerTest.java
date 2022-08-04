@@ -85,7 +85,7 @@ class MeetingControllerTest extends ControllerTest {
         ResultActions resultActions = mockMvc.perform(put("/api/meetings/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         resultActions.andDo(document("meetings/complete",
                 requestHeaders(
