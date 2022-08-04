@@ -23,9 +23,7 @@ public class MeetingQueryService {
         MeetingQueryCondition meetingQueryCondition = new MeetingQueryCondition(memberId,
                 LocalDateTime.now(),
                 MeetingStatus.ON_PROGRESS.name());
-        List<MeetingCoupon> meetingCoupons =
-                meetingQueryRepository.findMeetingsByMemberIdAndTimeAndStatus(meetingQueryCondition);
-        return meetingCoupons.stream()
+        return meetingQueryRepository.findMeetingsByMemberIdAndTimeAndStatus(meetingQueryCondition).stream()
                 .map(SimpleMeetingResponse::of)
                 .collect(Collectors.toList());
     }
