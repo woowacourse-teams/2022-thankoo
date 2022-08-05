@@ -129,6 +129,9 @@ const reset = css`
     text-decoration: none;
     color: unset;
   }
+  button{
+    margin: 0;
+  }
 `;
 
 export default reset;
