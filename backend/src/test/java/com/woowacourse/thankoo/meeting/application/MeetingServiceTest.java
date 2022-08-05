@@ -27,7 +27,6 @@ import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
-import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservationService;

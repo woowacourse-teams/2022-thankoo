@@ -23,7 +23,7 @@ public class ReservationResponse {
 
     public static ReservationResponse of(final Reservation reservation) {
         return new ReservationResponse(reservation.getId(),
-                TimeResponse.of(reservation.getMeetingTime()),
+                TimeResponse.of(reservation.getTimeUnit()),
                 reservation.getReservationStatus().name());
     }
 }

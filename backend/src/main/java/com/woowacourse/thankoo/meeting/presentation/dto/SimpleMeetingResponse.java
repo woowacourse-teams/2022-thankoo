@@ -28,7 +28,7 @@ public class SimpleMeetingResponse {
 
     public static SimpleMeetingResponse of(final MeetingCoupon meetingCoupon) {
         return new SimpleMeetingResponse(meetingCoupon.getId(),
-                TimeResponse.of(meetingCoupon.getMeetingTime()),
+                TimeResponse.of(meetingCoupon.getTimeUnit()),
                 meetingCoupon.getCouponType(),
                 meetingCoupon.getMemberName());
     }

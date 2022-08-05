@@ -58,7 +58,7 @@ class MeetingRepositoryTest {
         Meeting savedMeeting = meetingRepository.save(
                 new Meeting(
                         List.of(sender, receiver),
-                        reservation.getMeetingTime(),
+                        reservation.getTimeUnit(),
                         MeetingStatus.ON_PROGRESS,
                         coupon)
         );
@@ -82,13 +82,13 @@ class MeetingRepositoryTest {
                     ReservationFixture.createReservation(null, receiver, coupon));
             meetingRepository.save(new Meeting(
                     List.of(sender, receiver),
-                    reservation.getMeetingTime(),
+                    reservation.getTimeUnit(),
                     MeetingStatus.ON_PROGRESS,
                     coupon)
             );
         }
 
-        List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndMeetingTime_Date(
+        List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndTimeUnit_Date(
                 MeetingStatus.ON_PROGRESS,
                 LocalDate.now().plusDays(1L));
 
@@ -109,7 +109,7 @@ class MeetingRepositoryTest {
                     ReservationFixture.createReservation(null, receiver, coupon));
             Meeting meeting = meetingRepository.save(new Meeting(
                     List.of(sender, receiver),
-                    reservation.getMeetingTime(),
+                    reservation.getTimeUnit(),
                     MeetingStatus.ON_PROGRESS,
                     coupon));
             meetingIds.add(meeting.getId());

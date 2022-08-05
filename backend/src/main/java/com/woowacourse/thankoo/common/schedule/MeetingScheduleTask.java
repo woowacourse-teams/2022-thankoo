@@ -27,7 +27,7 @@ public class MeetingScheduleTask {
     @Scheduled(cron = "0 0 2 * * *")
     @Transactional
     public void executeCompleteMeeting() {
-        List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndMeetingTime_Date(
+        List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndTimeUnit_Date(
                 ON_PROGRESS, LocalDate.now().minusDays(DAY));
 
         List<Long> meetingIds = getMeetingIds(meetings);

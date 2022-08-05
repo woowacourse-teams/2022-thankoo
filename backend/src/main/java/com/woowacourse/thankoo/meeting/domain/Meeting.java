@@ -1,11 +1,13 @@
 package com.woowacourse.thankoo.meeting.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -39,7 +41,7 @@ public class Meeting extends BaseEntity {
     private MeetingMembers meetingMembers;
 
     @Embedded
-    private MeetingTime meetingTime;
+    private TimeUnit timeUnit;
 
     @Column(name = "status", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
@@ -51,26 +53,33 @@ public class Meeting extends BaseEntity {
 
     public Meeting(final Long id,
                    final List<Member> members,
-                   final MeetingTime meetingTime,
+                   final TimeUnit timeUnit,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
+        validateRightTime(timeUnit);
         validateCouponOwners(members, coupon);
         this.id = id;
         this.meetingMembers = new MeetingMembers(convertToMeetingMember(members));
-        this.meetingTime = meetingTime;
+        this.timeUnit = timeUnit;
         this.meetingStatus = meetingStatus;
         this.coupon = coupon;
     }
 
     public Meeting(final List<Member> members,
-                   final MeetingTime meetingTime,
+                   final TimeUnit timeUnit,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
         this(null,
                 members,
-                meetingTime,
+                timeUnit,
                 meetingStatus,
                 coupon);
+    }
+
+    private void validateRightTime(final TimeUnit timeUnit) {
+        if (!timeUnit.isAfterNow()) {
+            throw new InvalidMeetingException(ErrorType.INVALID_MEETING_TIME);
+        }
     }
 
     private void validateCouponOwners(final List<Member> members, final Coupon coupon) {
@@ -134,7 +143,7 @@ public class Meeting extends BaseEntity {
     public String toString() {
         return "Meeting{" +
                 "id=" + id +
-                ", meetingTime=" + meetingTime +
+                ", meetingTime=" + timeUnit +
                 ", meetingStatus=" + meetingStatus +
                 ", coupon=" + coupon +
                 '}';

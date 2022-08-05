@@ -20,7 +20,7 @@ import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
-import com.woowacourse.thankoo.meeting.domain.MeetingTime;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
@@ -41,7 +41,7 @@ class ReservationTest {
         @DisplayName("예약 요청이 가능한 기간이면 통과한다.")
         @Test
         void isValidMeetingTime() {
-            LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
+            LocalDateTime futureDate = LocalDateTime.now().plusMinutes(1L);
             Long receiverId = 2L;
 
             Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
@@ -55,6 +55,21 @@ class ReservationTest {
                                     receiverId,
                                     coupon)
                     );
+        }
+
+        @DisplayName("시간이 현재 이전이면 예외가 발생한다.")
+        @Test
+        void invalidTime() {
+            LocalDateTime futureDate = LocalDateTime.now().minusSeconds(1L);
+            Long receiverId = 2L;
+
+            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED);
+
+            assertThatThrownBy(() -> new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
+                    receiverId, coupon))
+                    .isInstanceOf(InvalidReservationException.class)
+                    .hasMessage("유효하지 않은 일정입니다.");
         }
 
         @DisplayName("쿠폰 수신인과 예약 요청자가 다르면 예외가 발생한다.")
@@ -184,7 +199,7 @@ class ReservationTest {
             Coupon coupon = new Coupon(senderId, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = new Reservation(1L,
-                    new MeetingTime(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
+                    new TimeUnit(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
                     ReservationStatus.WAITING,
                     receiverId, coupon);
             reservation.reserve();
@@ -215,7 +230,7 @@ class ReservationTest {
                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = new Reservation(1L,
-                    new MeetingTime(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
+                    new TimeUnit(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
                     ReservationStatus.WAITING,
                     receiver.getId(), coupon);
             reservation.reserve();
@@ -236,7 +251,7 @@ class ReservationTest {
                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = new Reservation(1L,
-                    new MeetingTime(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
+                    new TimeUnit(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
                     ReservationStatus.ACCEPT,
                     receiver.getId(), coupon);
 
