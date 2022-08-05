@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import { useGetMeetings } from '../queries/useGetMeetings';
 
 const useMeetings = () => {
-  const { data: meetings, isLoading, isError } = useGetMeetings();
+  const { data: meetings, isLoading, isError, isSuccess } = useGetMeetings();
+  const [diffWithNearestDate, setDiffWithNearestDate] = useState(0);
 
   meetings?.sort(
     (m1, m2) =>
@@ -9,10 +11,22 @@ const useMeetings = () => {
       Number(new Date(m2.time?.meetingTime as string))
   );
 
-  const diffWithNearestDate = Math.floor(
-    (Number(new Date(meetings?.[0]?.time?.meetingTime as string)) - Number(new Date())) /
-      (1000 * 60 * 60 * 24)
-  );
+  // const diffWithNearestDate = Math.floor(
+  //   (Number(new Date(meetings?.[0]?.time?.meetingTime as string)) - Number(new Date())) /
+  //     (1000 * 60 * 60 * 24)
+  // );
+
+  useEffect(() => {
+    console.log(isSuccess);
+    if (meetings) {
+      setDiffWithNearestDate(
+        Math.floor(
+          (Number(new Date(meetings?.[0]?.time?.meetingTime as string)) - Number(new Date())) /
+            (1000 * 60 * 60 * 24)
+        )
+      );
+    }
+  }, [isSuccess]);
 
   const isTodayMeetingExist = diffWithNearestDate === 0;
 
