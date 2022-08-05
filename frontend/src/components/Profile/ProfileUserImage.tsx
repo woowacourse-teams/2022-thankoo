@@ -5,13 +5,13 @@ const ProfileUserImage = ({ src }) => {
   return (
     <S.ImageBox>
       <S.UserImage src={src} />
-      <S.ModifyButton>
+      {/* <S.ModifyButton>
         <S.FileInputLabel htmlFor='user_img'>
           <S.ModifyIcon />
           수정
         </S.FileInputLabel>
         <S.FileInput id='user_img' type='file' />
-      </S.ModifyButton>
+      </S.ModifyButton> */}
     </S.ImageBox>
   );
 };
