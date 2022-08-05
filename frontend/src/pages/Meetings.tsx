@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Slider from '../components/@shared/ChoiceSlider';
@@ -11,7 +12,7 @@ import { ROUTE_PATH } from '../constants/routes';
 import useMeetings from '../hooks/Meetings/domain/useMeetings';
 
 const Meetings = () => {
-  const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate } = useMeetings();
+  const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate, meeting } = useMeetings();
 
   if (isLoading) {
     return <div></div>;
@@ -24,12 +25,13 @@ const Meetings = () => {
           <ArrowBackButton />
         </Link>
         <HeaderText>
-          {meetings?.length
+          {meeting.length
             ? isTodayMeetingExist
               ? '오늘 예정된 약속이 있습니다'
               : `${diffWithNearestDate}일 뒤 약속이 있습니다`
-            : '예정된 약속이 없습니다.'}
-        </HeaderText>
+            : '예정된 약속이 없습니다.'
+          }
+      </HeaderText>
       </Header>
       <S.Body>
         {meetings?.length !== 0 ? (
