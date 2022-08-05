@@ -4,7 +4,7 @@ import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
-import com.woowacourse.thankoo.meeting.domain.MeetingTime;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
@@ -37,7 +37,7 @@ public class Reservation extends BaseEntity {
     private Long id;
 
     @Embedded
-    private MeetingTime meetingTime;
+    private TimeUnit timeUnit;
 
     @Column(name = "status", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
@@ -51,14 +51,15 @@ public class Reservation extends BaseEntity {
     private Coupon coupon;
 
     public Reservation(final Long id,
-                       final MeetingTime meetingTime,
+                       final TimeUnit timeUnit,
                        final ReservationStatus reservationStatus,
                        final Long memberId,
                        final Coupon coupon) {
+        validateRightTime(timeUnit);
         validateReservationMember(memberId, coupon);
         validateCouponStatus(coupon);
         this.id = id;
-        this.meetingTime = meetingTime;
+        this.timeUnit = timeUnit;
         this.reservationStatus = reservationStatus;
         this.memberId = memberId;
         this.coupon = coupon;
@@ -70,10 +71,16 @@ public class Reservation extends BaseEntity {
                        final Long memberId,
                        final Coupon coupon) {
         this(null,
-                new MeetingTime(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
+                new TimeUnit(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
                 reservationStatus,
                 memberId,
                 coupon);
+    }
+
+    private void validateRightTime(final TimeUnit timeUnit) {
+        if (!timeUnit.isAfterNow()) {
+            throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_TIME);
+        }
     }
 
     private void validateReservationMember(final Long memberId, final Coupon coupon) {
@@ -159,7 +166,7 @@ public class Reservation extends BaseEntity {
     public String toString() {
         return "Reservation{" +
                 "id=" + id +
-                ", reservationTime=" + meetingTime +
+                ", reservationTime=" + timeUnit +
                 ", reservationStatus=" + reservationStatus +
                 ", memberId=" + memberId +
                 ", couponId=" + coupon.getId() +
