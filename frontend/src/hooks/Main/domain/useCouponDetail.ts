@@ -1,3 +1,4 @@
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../../constants/routes';
@@ -11,6 +12,7 @@ import {
 } from '../queries/couponDetail';
 
 export const useCouponDetail = (couponId: number) => {
+  const queryClient = useQueryClient();
   const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
   const { close } = useModal();
 
@@ -19,9 +21,21 @@ export const useCouponDetail = (couponId: number) => {
   const navigate = useNavigate();
   const reservationId = couponDetail?.reservation?.reservationId;
   const meetingId = couponDetail?.meeting?.meetingId;
-  const { mutate: cancelReservation } = usePutCancelReseravation(reservationId);
-  const { mutate: completeMeeting } = usePutCompleteMeeting(meetingId);
-  const { mutate: handleReservation } = usePutReservationStatus(reservationId);
+  const { mutate: cancelReservation } = usePutCancelReseravation(reservationId, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('coupons');
+    },
+  });
+  const { mutate: completeMeeting } = usePutCompleteMeeting(meetingId, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('coupons');
+    },
+  });
+  const { mutate: handleReservation } = usePutReservationStatus(reservationId, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('coupons');
+    },
+  });
 
   const COUPON_STATUS_BUTTON = {
     받은: {
