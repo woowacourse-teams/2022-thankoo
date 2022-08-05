@@ -67,7 +67,7 @@ class CouponClientTest {
                     ReservationFixture.createReservation(null, receiver, coupon));
             ReservationResponse reservationResponse = couponClient.getReservationResponse(coupon.getId());
             assertThat(reservationResponse.getTime().getMeetingTime()).isEqualTo(
-                    reservation.getMeetingTime().getTime());
+                    reservation.getTimeUnit().getTime());
         }
 
         @DisplayName("미팅 정보를 조회한다.")
@@ -83,12 +83,12 @@ class CouponClientTest {
             Meeting meeting = meetingRepository.save(
                     new Meeting(
                             List.of(sender, receiver),
-                            reservation.getMeetingTime(),
+                            reservation.getTimeUnit(),
                             MeetingStatus.ON_PROGRESS,
                             coupon)
             );
             MeetingResponse meetingResponse = couponClient.getMeetingResponse(coupon.getId());
-            assertThat(meetingResponse.getTime().getMeetingTime()).isEqualTo(meeting.getMeetingTime().getTime());
+            assertThat(meetingResponse.getTime().getMeetingTime()).isEqualTo(meeting.getTimeUnit().getTime());
         }
     }
 }

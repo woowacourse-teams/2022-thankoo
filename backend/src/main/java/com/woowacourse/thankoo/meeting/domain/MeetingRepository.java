@@ -20,7 +20,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     Optional<Meeting> findTopByCouponIdAndMeetingStatus(@Param("couponId") Long couponId, @Param("status") MeetingStatus status);
 
     @EntityGraph(attributePaths = "coupon", type = EntityGraphType.LOAD)
-    List<Meeting> findAllByMeetingStatusAndMeetingTime_Date(MeetingStatus status, LocalDate date);
+    List<Meeting> findAllByMeetingStatusAndTimeUnit_Date(MeetingStatus status, LocalDate date);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Meeting m SET m.meetingStatus = :status WHERE m.id IN (:meetingIds)")

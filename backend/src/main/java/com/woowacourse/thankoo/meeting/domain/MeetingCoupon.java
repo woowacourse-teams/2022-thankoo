@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.meeting.domain;
 
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.Getter;
 public class MeetingCoupon {
 
     private final Long id;
-    private final MeetingTime meetingTime;
+    private final TimeUnit timeUnit;
     private final String couponType;
     private final String memberName;
 
@@ -18,7 +19,7 @@ public class MeetingCoupon {
                          final String couponType,
                          final String memberName) {
         this.id = id;
-        this.meetingTime = new MeetingTime(meetingTime.toLocalDate(), meetingTime, timeZone.getId());
+        this.timeUnit = new TimeUnit(meetingTime.toLocalDate(), meetingTime, timeZone.getId());
         this.couponType = couponType;
         this.memberName = memberName;
     }

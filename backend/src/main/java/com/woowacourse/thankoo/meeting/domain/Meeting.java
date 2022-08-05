@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.meeting.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -39,7 +40,7 @@ public class Meeting extends BaseEntity {
     private MeetingMembers meetingMembers;
 
     @Embedded
-    private MeetingTime meetingTime;
+    private TimeUnit timeUnit;
 
     @Column(name = "status", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
@@ -51,24 +52,24 @@ public class Meeting extends BaseEntity {
 
     public Meeting(final Long id,
                    final List<Member> members,
-                   final MeetingTime meetingTime,
+                   final TimeUnit timeUnit,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
         validateCouponOwners(members, coupon);
         this.id = id;
         this.meetingMembers = new MeetingMembers(convertToMeetingMember(members));
-        this.meetingTime = meetingTime;
+        this.timeUnit = timeUnit;
         this.meetingStatus = meetingStatus;
         this.coupon = coupon;
     }
 
     public Meeting(final List<Member> members,
-                   final MeetingTime meetingTime,
+                   final TimeUnit timeUnit,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
         this(null,
                 members,
-                meetingTime,
+                timeUnit,
                 meetingStatus,
                 coupon);
     }
@@ -134,7 +135,7 @@ public class Meeting extends BaseEntity {
     public String toString() {
         return "Meeting{" +
                 "id=" + id +
-                ", meetingTime=" + meetingTime +
+                ", meetingTime=" + timeUnit +
                 ", meetingStatus=" + meetingStatus +
                 ", coupon=" + coupon +
                 '}';

@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.woowacourse.thankoo.meeting.domain.MeetingTime;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import lombok.AccessLevel;
@@ -21,8 +21,8 @@ public class TimeResponse {
         this.timeZone = timeZone.toLowerCase(Locale.ROOT);
     }
 
-    public static TimeResponse of(final MeetingTime meetingTime) {
-        return new TimeResponse(meetingTime.getTime(), meetingTime.getTimeZone());
+    public static TimeResponse of(final TimeUnit timeUnit) {
+        return new TimeResponse(timeUnit.getTime(), timeUnit.getTimeZone());
     }
 
     public static TimeResponse from(final LocalDateTime meetingTime, final String timeZone) {

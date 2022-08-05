@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.meeting.domain;
+package com.woowacourse.thankoo.common.domain;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MeetingTime {
+public class TimeUnit {
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
@@ -25,7 +25,7 @@ public class MeetingTime {
     @Column(name = "time_zone", length = 20, nullable = false)
     private String timeZone;
 
-    public MeetingTime(final LocalDate date, final LocalDateTime time, final String timeZone) {
+    public TimeUnit(final LocalDate date, final LocalDateTime time, final String timeZone) {
         validateEqualDate(date, time);
         this.date = date;
         this.time = time;
@@ -34,8 +34,12 @@ public class MeetingTime {
 
     private void validateEqualDate(final LocalDate meetingDate, final LocalDateTime meetingTime) {
         if (!meetingDate.isEqual(meetingTime.toLocalDate())) {
-            throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_MEETING_TIME);
+            throw new InvalidReservationException(ErrorType.INVALID_RESERVATION_TIME);
         }
+    }
+
+    public boolean isAfterNow() {
+        return time.isAfter(LocalDateTime.now());
     }
 
     @Override
@@ -43,10 +47,10 @@ public class MeetingTime {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MeetingTime)) {
+        if (!(o instanceof TimeUnit)) {
             return false;
         }
-        MeetingTime that = (MeetingTime) o;
+        TimeUnit that = (TimeUnit) o;
         return Objects.equals(date, that.date) && Objects.equals(time, that.time)
                 && Objects.equals(timeZone, that.timeZone);
     }
@@ -58,7 +62,7 @@ public class MeetingTime {
 
     @Override
     public String toString() {
-        return "MeetingTime{" +
+        return "TimeUnit{" +
                 "date=" + date +
                 ", time=" + time +
                 ", timeZone='" + timeZone + '\'' +

@@ -47,7 +47,7 @@ import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
-import com.woowacourse.thankoo.meeting.domain.MeetingTime;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
@@ -297,7 +297,7 @@ public class CouponControllerTest extends ControllerTest {
                 new MemberCoupon(1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
                         CouponStatus.RESERVING.name()),
                 MeetingResponse.of(new Meeting(1L, List.of(huni, lala),
-                        new MeetingTime(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
+                        new TimeUnit(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
                         MeetingStatus.ON_PROGRESS,
                         new Coupon(huni.getId(), lala.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                                 CouponStatus.RESERVED))));

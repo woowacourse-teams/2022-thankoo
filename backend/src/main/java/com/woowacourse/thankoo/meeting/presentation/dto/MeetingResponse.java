@@ -34,7 +34,7 @@ public class MeetingResponse {
                 meeting);
         return new MeetingResponse(meeting.getId(),
                 memberResponses,
-                TimeResponse.of(meeting.getMeetingTime()),
+                TimeResponse.of(meeting.getTimeUnit()),
                 meeting.getMeetingStatus().name());
     }
 

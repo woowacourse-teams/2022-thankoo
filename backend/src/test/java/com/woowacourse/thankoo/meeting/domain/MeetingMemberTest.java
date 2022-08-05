@@ -12,6 +12,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
@@ -35,7 +36,7 @@ class MeetingMemberTest {
 
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);
         Meeting meeting = new Meeting(1L, List.of(huni, skrr),
-                new MeetingTime(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
+                new TimeUnit(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
                 MeetingStatus.ON_PROGRESS, coupon);
 
         MeetingMember meetingMember = new MeetingMember(huni, meeting);

@@ -47,7 +47,7 @@ class MeetingTest {
         assertThatThrownBy(
                 () -> new Meeting(1L,
                         List.of(huni, lala),
-                        reservation.getMeetingTime(),
+                        reservation.getTimeUnit(),
                         MeetingStatus.ON_PROGRESS,
                         coupon))
                 .isInstanceOf(InvalidMeetingException.class)
@@ -66,7 +66,7 @@ class MeetingTest {
         assertThatThrownBy(
                 () -> new Meeting(1L,
                         List.of(huni),
-                        reservation.getMeetingTime(),
+                        reservation.getTimeUnit(),
                         MeetingStatus.ON_PROGRESS,
                         coupon))
                 .isInstanceOf(InvalidMeetingException.class)
@@ -87,7 +87,7 @@ class MeetingTest {
                     CouponStatus.NOT_USED);
             Reservation reservation = createReservation(1L, skrr, coupon);
 
-            Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getMeetingTime(),
+            Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getTimeUnit(),
                     MeetingStatus.ON_PROGRESS,
                     coupon);
 
@@ -105,7 +105,7 @@ class MeetingTest {
                     CouponStatus.NOT_USED);
             Reservation reservation = createReservation(1L, skrr, coupon);
 
-            Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getMeetingTime(), MeetingStatus.FINISHED,
+            Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getTimeUnit(), MeetingStatus.FINISHED,
                     coupon);
 
             assertThatThrownBy(() -> meeting.complete(huni))
@@ -122,7 +122,7 @@ class MeetingTest {
                     CouponStatus.NOT_USED);
             Reservation reservation = createReservation(1L, skrr, coupon);
 
-            Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getMeetingTime(), MeetingStatus.FINISHED,
+            Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getTimeUnit(), MeetingStatus.FINISHED,
                     coupon);
 
             assertThatThrownBy(() -> meeting.complete(huni))

@@ -22,7 +22,7 @@ public class ReservationMeetingService implements ReservedMeetingCreator {
     public void create(final Reservation reservation) {
         Coupon coupon = reservation.getCoupon();
         List<Member> members = memberRepository.findAllById(List.of(coupon.getSenderId(), coupon.getReceiverId()));
-        Meeting meeting = new Meeting(members, reservation.getMeetingTime(), MeetingStatus.ON_PROGRESS, coupon);
+        Meeting meeting = new Meeting(members, reservation.getTimeUnit(), MeetingStatus.ON_PROGRESS, coupon);
         meetingRepository.save(meeting);
     }
 }
