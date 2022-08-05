@@ -5,8 +5,8 @@ import { useGetMeetings } from '../queries/useGetMeetings';
 const dayDifferenceFromToday = (meetingDay) =>{
   const today = new Date();
 
-  const dayForCal = `${meetingDay.getFullYear()}` + `${String(meetingDay.getMonth()).padStart(2,'0')}` + `${String(meetingDay.getDay()).padStart(2,'0')}`;
-  const todayForCal = `${today.getFullYear()}` + `${String(today.getMonth()).padStart(2,'0')}` + `${String(today.getDay()).padStart(2,'0')}`;
+  const dayForCal = `${meetingDay.getFullYear()}` + `${String(meetingDay.getMonth()).padStart(2,'0')}` + `${String(meetingDay.getDate()).padStart(2,'0')}`;
+  const todayForCal = `${today.getFullYear()}` + `${String(today.getMonth()).padStart(2,'0')}` + `${String(today.getDate()).padStart(2,'0')}`;
   
   return Number(dayForCal) - Number(todayForCal);
 }
