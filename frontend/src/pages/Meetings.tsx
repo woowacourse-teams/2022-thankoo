@@ -12,7 +12,7 @@ import { ROUTE_PATH } from '../constants/routes';
 import useMeetings from '../hooks/Meetings/domain/useMeetings';
 
 const Meetings = () => {
-  const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate, meeting } = useMeetings();
+  const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate } = useMeetings();
 
   if (isLoading) {
     return <div></div>;
@@ -25,7 +25,7 @@ const Meetings = () => {
           <ArrowBackButton />
         </Link>
         <HeaderText>
-          {meeting.length
+          {meetings?.length
             ? isTodayMeetingExist
               ? '오늘 예정된 약속이 있습니다'
               : `${diffWithNearestDate}일 뒤 약속이 있습니다`
