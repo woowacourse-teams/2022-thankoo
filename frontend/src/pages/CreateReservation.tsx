@@ -13,7 +13,7 @@ import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const CreateReservation = () => {
-  const { isFilled, setReservationDate, sendReservation, yesterday, date, time, setTime } =
+  const { isFilled, setReservationDate, sendReservation, date, time, setTime, yesterday } =
     useCreateReservation();
 
   return (
