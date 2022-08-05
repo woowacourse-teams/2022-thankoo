@@ -1,16 +1,13 @@
 import styled from '@emotion/styled';
+import IconEmptyList from './LogoEmptyList';
 
-const COMMENTS = [
-  '비어 있습니다 1',
-  '비어 있습니다 2',
-  '비어 있습니다 3',
-  '비어 있습니다 4',
-  '비어 있습니다 5',
-  '비어 있습니다 6',
-];
-
-const EmptyContent = content => {
-  return <S.Container>{COMMENTS[Math.round(Math.random() * 5)]}</S.Container>;
+const EmptyContent = () => {
+  return (
+    <S.Container>
+      <IconEmptyList />
+      <p>비어있습니다</p>
+    </S.Container>
+  );
 };
 
 export default EmptyContent;
@@ -18,9 +15,14 @@ export default EmptyContent;
 const S = {
   Container: styled.section`
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
+    opacity: 0.8;
+    gap: 15px;
     height: 60vh;
+    opacity: 0.8;
+    gap: 10px;
   `,
 };
