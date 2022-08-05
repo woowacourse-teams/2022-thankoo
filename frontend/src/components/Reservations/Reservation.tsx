@@ -29,7 +29,7 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
       () => {
         if (confirm(`예약을 수락하시겠습니까? \n ${time?.meetingTime}`)) {
           handleReservation('accept');
-          show('예약을 수락했습니다.');
+          show('✅ 예약을 수락했습니다.');
         }
       },
     ],

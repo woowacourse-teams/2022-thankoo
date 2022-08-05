@@ -74,7 +74,7 @@ export const useCouponDetail = (couponId: number) => {
           disabled: false,
           onClick: () => {
             if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료 하겠습니다')) {
-              show('쿠폰을 사용했습니다');
+              show('✅ 쿠폰을 사용했습니다');
               completeMeeting();
               close();
             }
@@ -100,7 +100,7 @@ export const useCouponDetail = (couponId: number) => {
           onClick: () => {
             if (confirm('예약을 승인하시겠습니까?')) {
               handleReservation('accept');
-              show('예약을 승인했습니다');
+              show('✅ 예약을 승인했습니다');
               close();
             }
           },
@@ -125,7 +125,7 @@ export const useCouponDetail = (couponId: number) => {
           bg: 'tomato',
           onClick: () => {
             if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료하겠습니다')) {
-              show('쿠폰을 사용했습니다');
+              show('✅ 쿠폰을 사용했습니다');
               completeMeeting();
               close();
             }

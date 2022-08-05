@@ -57,7 +57,7 @@ const S = {
     width: 200px;
     height: 20px;
     padding: 15px 20px;
-    background: tomato;
+    background: #ff6347f5;
     color: white;
     border-radius: 4px;
     /* border: 3px green solid; */
