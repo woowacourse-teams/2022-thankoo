@@ -93,6 +93,7 @@ const S = {
     grid-template-columns: 30% 50% 20%;
     align-items: center;
     color: white;
+    height:40px;
   `,
   Bold: styled.span`
     font-weight: 700;
