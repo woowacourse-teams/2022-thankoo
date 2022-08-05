@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { targetCouponAtom } from '../../recoil/atom';
+import useToast from '../useToast';
 import useOnSuccess from './../useOnSuccess';
 
 const yesterday = new Date().toISOString().split('T')[0];
 
 const useCreateReservation = () => {
-  const navigate = useNavigate();
+  const { visible, show, close } = useToast();
   const { successNavigate } = useOnSuccess();
   const couponId = useRecoilValue(targetCouponAtom);
   const queryClient = useQueryClient();
@@ -35,10 +35,14 @@ const useCreateReservation = () => {
         queryClient.invalidateQueries('coupon');
       },
       retry: false,
+      onError: () => {
+        show('예약이 불가능한 날짜입니다.');
+      },
     }
   );
 
   const setReservationDate = e => {
+    console.log(e.target.value);
     setDate(e.target.value);
   };
 

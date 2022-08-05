@@ -8,7 +8,6 @@ import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
 import useProfile from '../hooks/Profile/useProfile';
 import defaultUser from '../assets/images/default_user.jpeg';
-import { useQueryClient } from 'react-query';
 import { useGetCoupons } from '../hooks/Main/queries/coupons';
 
 const UserProfile = () => {
@@ -78,7 +77,7 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    margin: 0 15px;
+    margin: 0 3vw;
   `,
   UserInfoBox: styled.div`
     display: flex;

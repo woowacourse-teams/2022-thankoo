@@ -78,6 +78,7 @@ const S = {
   `,
   Options: styled.div<OptionsProps>`
     display: flex;
+    justify-content: flex-end;
     position: absolute;
     height: 100%;
     right: 0;

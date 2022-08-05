@@ -1,18 +1,20 @@
 import styled from '@emotion/styled';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useRecoilValue } from 'recoil';
+import { toastContentAtom } from '../../recoil/atom';
 import { flexCenter } from '../../styles/mixIn';
 import useToast from './../../hooks/useToast';
 import Portal from './../../Portal';
 
 const Toast = () => {
   const { visible } = useToast();
+  const value = useRecoilValue(toastContentAtom);
 
   return (
     <Portal>
       <S.Container className='toast'>
         <S.Content>
-          <S.CheckCircleIcon />
-          <S.Comment>수정에 성공했습니다</S.Comment>
+          <S.Comment>{value}</S.Comment>
         </S.Content>
       </S.Container>
     </Portal>
@@ -21,7 +23,7 @@ const Toast = () => {
 
 const S = {
   CheckCircleIcon: styled(CheckCircleIcon)`
-    fill: green;
+    fill: #2bd394;
   `,
   Comment: styled.p`
     margin-left: 5px;
@@ -54,10 +56,11 @@ const S = {
   Content: styled.div`
     width: 200px;
     height: 20px;
-    padding: 10px;
-    background: white;
-    border-radius: 10px;
-    border: 3px green solid;
+    padding: 15px 20px;
+    background: #ff6347f5;
+    color: white;
+    border-radius: 4px;
+    /* border: 3px green solid; */
     position: absolute;
     top: 90%;
     left: 50%;

@@ -39,3 +39,8 @@ export const toastVisibleAtom = atom({
   key: 'toastVisibleAtom',
   default: false,
 });
+
+export const toastContentAtom = atom({
+  key: 'toastContentAtom',
+  default: '',
+});

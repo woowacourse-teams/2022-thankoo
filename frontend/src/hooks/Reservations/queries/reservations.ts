@@ -2,7 +2,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { client } from '../../../apis/axios';
 import { API_PATH } from '../../../constants/api';
 
-export const usePutReservationStatus = reservationId => {
+export const usePutReservationStatus = (
+  reservationId,
+  { onSuccess: handleSuccess } = { onSuccess: () => {} }
+) => {
   const queryClient = useQueryClient();
 
   return useMutation(
@@ -15,6 +18,7 @@ export const usePutReservationStatus = reservationId => {
     },
     {
       onSuccess: () => {
+        handleSuccess();
         queryClient.invalidateQueries('reservations');
       },
     }

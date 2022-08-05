@@ -20,7 +20,6 @@ export const usePutCancelReseravation = (
   useMutation(() => client({ method: 'put', url: API_PATH.CANCEL_RESERVATION(reservationId) }), {
     onSuccess: () => {
       handleSuccess();
-      alert('예약이 취소됐습니다.');
     },
   });
 
@@ -31,6 +30,5 @@ export const usePutCompleteMeeting = (
   useMutation(() => client({ method: 'put', url: API_PATH.COMPLETE_MEETING(meetingId) }), {
     onSuccess: () => {
       handleSuccess();
-      alert('사용 완료됐습니다');
     },
   });

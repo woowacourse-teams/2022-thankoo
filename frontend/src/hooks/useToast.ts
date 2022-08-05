@@ -1,11 +1,13 @@
 import { useRecoilState } from 'recoil';
-import { toastVisibleAtom } from './../recoil/atom';
+import { toastContentAtom, toastVisibleAtom } from './../recoil/atom';
 
 const useToast = () => {
   const [visible, setVisible] = useRecoilState(toastVisibleAtom);
+  const [content, setContent] = useRecoilState(toastContentAtom);
 
-  const show = () => {
+  const show = value => {
     setVisible(true);
+    setContent(value);
     setTimeout(() => {
       close();
     }, 2000);

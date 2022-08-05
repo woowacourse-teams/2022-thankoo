@@ -115,7 +115,8 @@ const S = {
     color: ${({ isPassed }) => (isPassed ? '#8e8e8e' : 'white')};
     cursor: ${({ isPassed }) => (isPassed ? 'default' : 'pointer')};
     :hover {
-      ${({ theme, isPassed }) => !isPassed && `background-color: ${theme.primary}`}
+      ${({ theme, isPassed, isSelected }) =>
+        isSelected ? theme.primary : !isPassed && `background-color: #ff6347c4`}
     }
   `,
 };

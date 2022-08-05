@@ -52,7 +52,7 @@ const useProfile = () => {
 
     if (isNameEdit) {
       submitModifyName();
-      showToast();
+      showToast('수정이 완료됐습니다!');
     }
 
     setIsNameEdit(prev => !prev);
