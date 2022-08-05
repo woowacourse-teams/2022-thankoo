@@ -78,7 +78,7 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    margin: 0 15px;
+    margin: 0 3vw;
   `,
   UserInfoBox: styled.div`
     display: flex;

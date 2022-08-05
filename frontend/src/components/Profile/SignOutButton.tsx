@@ -15,7 +15,6 @@ const SignOutButton = () => {
 
 const S = {
   Container: styled.button`
-    margin-right: 16px;
     border: none;
     background-color: transparent;
     color: ${({ theme }) => theme.input.color};
