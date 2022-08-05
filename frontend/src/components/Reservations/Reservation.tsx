@@ -1,12 +1,8 @@
-import { useMutation, useQueryClient } from 'react-query';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
+import { useQueryClient } from 'react-query';
 import { usePutCancelReseravation } from '../../hooks/Main/queries/couponDetail';
 import { usePutReservationStatus } from '../../hooks/Reservations/queries/reservations';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
-
-type status = 'deny' | 'accept';
 
 const Reservation = ({ couponType, time, memberName, reservationId, order }) => {
   const queryClient = useQueryClient();

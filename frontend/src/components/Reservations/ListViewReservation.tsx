@@ -11,7 +11,7 @@ const dayKorean = {
   Sun: '일',
 };
 const ListViewReservation = ({ memberName, reservationId, couponType, meetingTime }) => {
-  const day = dayKorean[new Date(meetingTime).toString().slice(0, 3)];
+  const day = dayKorean[new Date(meetingTime.split(' ')[0]).toString().slice(0, 3)];
   const date = meetingTime.split(' ')[0];
   const time = meetingTime.split(' ')[1].slice(0, 5);
 
