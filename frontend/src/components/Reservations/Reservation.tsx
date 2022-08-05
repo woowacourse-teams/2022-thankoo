@@ -41,6 +41,7 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
       },
     ],
   };
+  const optionsWidth = order === 'sent' ? '60%' : '100%';
 
   return (
     <Slider>
@@ -64,7 +65,11 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
               </Slider.OptionItem>
             </>
           ) : (
-            <Slider.OptionItem isAccept={false} onClick={handleClickOption[order][0]}>
+            <Slider.OptionItem
+              style={{ width: optionsWidth }}
+              isAccept={false}
+              onClick={handleClickOption[order][0]}
+            >
               {option1}
             </Slider.OptionItem>
           )}
