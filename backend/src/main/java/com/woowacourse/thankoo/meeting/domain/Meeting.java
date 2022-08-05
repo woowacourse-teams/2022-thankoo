@@ -7,6 +7,7 @@ import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -55,6 +56,7 @@ public class Meeting extends BaseEntity {
                    final TimeUnit timeUnit,
                    final MeetingStatus meetingStatus,
                    final Coupon coupon) {
+        validateRightTime(timeUnit);
         validateCouponOwners(members, coupon);
         this.id = id;
         this.meetingMembers = new MeetingMembers(convertToMeetingMember(members));
@@ -72,6 +74,12 @@ public class Meeting extends BaseEntity {
                 timeUnit,
                 meetingStatus,
                 coupon);
+    }
+
+    private void validateRightTime(final TimeUnit timeUnit) {
+        if (!timeUnit.isAfterNow()) {
+            throw new InvalidMeetingException(ErrorType.INVALID_MEETING_TIME);
+        }
     }
 
     private void validateCouponOwners(final List<Member> members, final Coupon coupon) {

@@ -33,6 +33,7 @@ public enum ErrorType {
     NOT_FOUND_MEETING(5003, "존재하지 않는 미팅입니다."),
     INVALID_MEETING_TIME_ZONE(5004, "잘못된 타임존입니다."),
     INVALID_MEETING_STATUS(5005, "완료할 수 없는 상태입니다."),
+    INVALID_MEETING_TIME(5006, "유효하지 않은 일정입니다."),
 
     REQUEST_EXCEPTION(6001, "http 요청 에러입니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
