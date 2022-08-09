@@ -16,17 +16,11 @@ import org.springframework.web.client.RestTemplate;
 public class SlackClient {
 
     public static final String USERS_URL = "https://slack.com/api/users.list";
-    public static final String SEND_MESSAGE_URL = "https://slack.com/api/chat.postMessage";
 
     private final String token;
 
     public SlackClient(@Value("${slack.token}") final String token) {
         this.token = token;
-    }
-
-    public void sendAlarm(final String email, final String message) {
-        SlackUserResponse response = findUser(email, getSlackUsers());
-        sendMessage(response.getId(), message);
     }
 
     public SlackUsersResponse getSlackUsers() {
@@ -53,17 +47,5 @@ public class SlackClient {
             return findEmail.equals(email);
         }
         return false;
-    }
-
-    public void sendMessage(final String channel, final String message) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-
-        HttpEntity<SlackMessageRequest> requestHttpEntity = new HttpEntity<>(
-                new SlackMessageRequest(channel, message), headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange(SEND_MESSAGE_URL, HttpMethod.POST, requestHttpEntity, Void.class);
     }
 }
