@@ -35,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
@@ -43,16 +44,15 @@ import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
+import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.MeetingResponse;
+import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.ReservationResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
-import com.woowacourse.thankoo.common.domain.TimeUnit;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;

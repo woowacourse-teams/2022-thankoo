@@ -27,7 +27,6 @@ oauth:
     grant-type: authorization_code
     redirect-uri: /callback
     token-url: http://localhost:8180/oauth/token
-    profile-url: http://localhost:8180/userinfo/me
 
 server:
   port: 8180
