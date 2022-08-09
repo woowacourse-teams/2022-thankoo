@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import { toastContentAtom, toastVisibleAtom } from './../recoil/atom';
 
+const duration = 2000;
+
 const useToast = () => {
   const [visible, setVisible] = useRecoilState(toastVisibleAtom);
   const toastRef = useRef<HTMLDivElement>(null);
@@ -26,13 +28,13 @@ const useToast = () => {
         target?.classList.remove('onMount');
         target?.classList.add('unMount');
         setTimeout(() => {
-          close();
-        }, 2000);
-      }, 2000);
+          //close();
+        }, duration);
+      }, duration);
     }
   }, [visible]);
 
-  return { visible, show, close, toastRef };
+  return { visible, show, close, toastRef, duration };
 };
 
 export default useToast;
