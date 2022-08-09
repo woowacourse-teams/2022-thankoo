@@ -32,4 +32,14 @@ public class SimpleReservationResponse {
                 reservationCoupon.getCouponType(),
                 TimeResponse.from(reservationCoupon.getMeetingTime(), reservationCoupon.getTimeZone()));
     }
+
+    @Override
+    public String toString() {
+        return "SimpleReservationResponse{" +
+                "reservationId=" + reservationId +
+                ", memberName='" + memberName + '\'' +
+                ", couponType='" + couponType + '\'' +
+                ", time=" + time +
+                '}';
+    }
 }

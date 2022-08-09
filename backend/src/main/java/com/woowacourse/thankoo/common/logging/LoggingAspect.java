@@ -4,9 +4,11 @@ import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -22,12 +24,25 @@ public class LoggingAspect {
     private void putMapping() {
     }
 
+    @Pointcut("execution(* com.woowacourse.thankoo..presentation.*Controller.*(..))")
+    private void controllerPointCut() {
+    }
+
     @Before("postMapping() || putMapping()")
     public void requestLog(final JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
-        log.info("[ REQUEST ]  Controller - {}, Method - {}, Arguments - {}",
+        log.info("[ REQUEST ] Controller - {}, Method - {}, Arguments - {}",
                 joinPoint.getTarget().getClass().getSimpleName(),
                 signature.getName(),
                 Arrays.toString(joinPoint.getArgs()));
+    }
+
+    @AfterReturning(value = "controllerPointCut()", returning = "response")
+    public void responseLog(final JoinPoint joinPoint, ResponseEntity<?> response) {
+        Signature signature = joinPoint.getSignature();
+        log.info("[ RESPONSE ] Controller - {}, Method - {}, returnBody - {}",
+                joinPoint.getTarget().getClass().getSimpleName(),
+                signature.getName(),
+                response.getBody());
     }
 }
