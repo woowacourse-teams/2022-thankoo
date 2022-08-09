@@ -81,7 +81,7 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 15px;
     padding: 5px 3vw;
   `,
   HeaderText: styled(HeaderText)`
