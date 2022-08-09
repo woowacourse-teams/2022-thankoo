@@ -7,12 +7,12 @@ import useToast from './../../hooks/useToast';
 import Portal from './../../Portal';
 
 const Toast = () => {
-  const { visible } = useToast();
+  const { visible, toastRef } = useToast();
   const value = useRecoilValue(toastContentAtom);
 
   return (
     <Portal>
-      <S.Container className='toast'>
+      <S.Container className='toast' ref={toastRef}>
         <S.Content>
           <S.Comment>{value}</S.Comment>
         </S.Content>
@@ -29,30 +29,32 @@ const S = {
     margin-left: 5px;
     display: inline;
   `,
-
   Container: styled.div`
-    .toast-enter {
-      opacity: 0;
-      transform: translate(-50%, -150%);
+    @keyframes myonmount {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
-    .toast-enter.toast-enter-active {
-      opacity: 1;
-      transform: translateY(-50%);
 
-      transition: transform 2000ms ease-in-out;
+    @keyframes myunmount {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
     }
-    .toast-exit {
-      opacity: 1;
-      transform: translateX(-50%);
-    }
-    .toast-exit.toast-exit-active {
-      opacity: 0;
-      transform: translate(-50%, -150%);
 
-      transition: transform 2000ms ease-in-out;
+    &.onMount {
+      animation: myonmount 2000ms ease-in-out;
+    }
+    &.unMount {
+      animation: myunmount 2000ms;
     }
   `,
-
   Content: styled.div`
     width: 200px;
     height: 20px;
