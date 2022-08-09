@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.coupon.infrastructure.integrate;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.coupon.infrastructure.MeetingProvider;
+import com.woowacourse.thankoo.coupon.domain.MeetingProvider;
 import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.MeetingResponse;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;

@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.coupon.infrastructure.integrate;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.coupon.infrastructure.ReservationProvider;
+import com.woowacourse.thankoo.coupon.domain.ReservationProvider;
 import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.ReservationResponse;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;

@@ -18,7 +18,7 @@ import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
-import com.woowacourse.thankoo.coupon.infrastructure.MeetingProvider;
+import com.woowacourse.thankoo.coupon.domain.MeetingProvider;
 import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.MeetingResponse;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;

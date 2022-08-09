@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.coupon.infrastructure;
+package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.MeetingResponse;
 
