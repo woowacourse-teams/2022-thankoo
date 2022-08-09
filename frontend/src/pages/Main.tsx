@@ -10,9 +10,10 @@ import Modal from '../components/@shared/Modal';
 import PageLayout from '../components/@shared/PageLayout';
 import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
-import BottomNavBar from './../components/@shared/BottomNavBar';
+import BottomNavBar from '../components/PageButton/BottomNavBar';
 import EmptyContent from '../components/@shared/EmptyContent';
 import { useState } from 'react';
+import UserProfileButton from '../components/@shared/UserProfileButton';
 
 const Main = () => {
   const {
@@ -34,7 +35,9 @@ const Main = () => {
     <>
       <PageLayout>
         <Header>
-          <div style={{ padding: '15px 0' }}></div>
+          <S.UserProfile>
+            <UserProfileButton />
+          </S.UserProfile>
           <S.HeaderText
             onClick={() => {
               setDropdownShow(prev => !prev);
@@ -91,6 +94,11 @@ const S = {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  `,
+  UserProfile: styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   `,
   Dropdown: styled.div<DropdownProps>`
     position: absolute;
