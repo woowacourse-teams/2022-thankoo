@@ -7,12 +7,14 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class SignInInterceptor implements HandlerInterceptor {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -29,6 +31,7 @@ public class SignInInterceptor implements HandlerInterceptor {
         String accessToken = AuthorizationExtractor.extract(request)
                 .orElseThrow(() -> new InvalidTokenException(ErrorType.INVALID_TOKEN));
         authenticationContext.setPrincipal(Long.valueOf(jwtTokenProvider.getPayload(accessToken)));
+        log.debug("[ Auth Request ] USER_ID = {} ", authenticationContext.getPrincipal());
         return true;
     }
 }

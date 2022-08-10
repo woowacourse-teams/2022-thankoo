@@ -17,25 +17,26 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> badRequestExceptionHandler(final BadRequestException e) {
-        log.error("Bad Request Exception", e);
+        log.warn("Bad Request Exception", e);
         return ResponseEntity.badRequest().body(new ErrorResponse(e.getCode(), e.getMessage()));
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> unauthorizedExceptionHandler(final UnauthorizedException e) {
-        log.error("Unauthorized Exception", e);
+        log.warn("Unauthorized Exception", e);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getCode(), e.getMessage()));
     }
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponse> forbiddenExceptionHandler(final ForbiddenException e) {
-        log.error("Forbidden Exception", e);
+        log.warn("Forbidden Exception", e);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getCode(), e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> springValidationExceptionHandler(final MethodArgumentNotValidException e) {
         String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        log.warn("MethodArgumentNotValidException : {}", message);
         return ResponseEntity.badRequest().body(new ErrorResponse(ErrorType.REQUEST_EXCEPTION.getCode(), message));
     }
 

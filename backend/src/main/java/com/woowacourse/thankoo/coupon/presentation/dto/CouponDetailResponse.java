@@ -35,4 +35,13 @@ public class CouponDetailResponse {
     public static CouponDetailResponse of(final MemberCoupon memberCoupon) {
         return new CouponDetailResponse(CouponResponse.of(memberCoupon), null, null);
     }
+
+    @Override
+    public String toString() {
+        return "CouponDetailResponse{" +
+                "coupon=" + coupon +
+                ", reservation=" + reservation +
+                ", meeting=" + meeting +
+                '}';
+    }
 }

@@ -39,4 +39,15 @@ public class CouponResponse {
                 memberCoupon.getStatus()
         );
     }
+
+    @Override
+    public String toString() {
+        return "CouponResponse{" +
+                "couponId=" + couponId +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
+                ", content=" + content +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
