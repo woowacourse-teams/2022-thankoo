@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CachedSlackUserRepository {
+public class SlackUserRepository {
 
     private final SlackClient slackClient;
 
     @Cacheable(cacheNames = "slack", key = "#email")
-    public CachedSlackUser getCachedSlackUser(final String email) {
+    public SlackUser getCachedSlackUser(final String email) {
         SlackUsersResponse slackUsers = slackClient.getSlackUsers();
         SlackUserResponse user = slackClient.findUser(email, slackUsers);
-        return new CachedSlackUser(user.getProfile().getEmail(), user.getId());
+        return new SlackUser(user.getProfile().getEmail(), user.getId());
     }
 }

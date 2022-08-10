@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 public class SlackUserResponse {
 
     private String id;
-
     private Profile profile;
 
     public SlackUserResponse(final String id, final Profile profile) {
