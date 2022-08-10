@@ -1,40 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useRecoilState } from 'recoil';
-import { toastContentAtom, toastVisibleAtom } from './../recoil/atom';
+import { toastStackAtom } from './../recoil/atom';
 
 const duration = 2000;
 
 const useToast = () => {
-  const [visible, setVisible] = useRecoilState(toastVisibleAtom);
+  const [toastStack, setToastStack] = useRecoilState(toastStackAtom);
   const toastRef = useRef<HTMLDivElement>(null);
-  const [content, setContent] = useRecoilState(toastContentAtom);
 
-  const show = value => {
-    setVisible(true);
-    setContent(value);
+  const insertToastItem = comment => {
+    const uniqueKey = Number(new Date());
+    setToastStack(prev => [...prev, { key: uniqueKey, comment: comment }]);
   };
 
-  const close = () => {
-    setVisible(false);
+  const closeToastItem = uniqueKey => {
+    setToastStack(prev => prev.filter(toastItem => toastItem.key !== uniqueKey));
   };
 
-  useEffect(() => {
-    if (toastRef.current) {
-      const target = toastRef.current;
-
-      target.classList.add('onMount');
-
-      setTimeout(() => {
-        target?.classList.remove('onMount');
-        target?.classList.add('unMount');
-        setTimeout(() => {
-          //close();
-        }, duration);
-      }, duration);
-    }
-  }, [visible]);
-
-  return { visible, show, close, toastRef, duration };
+  return { insertToastItem, closeToastItem, toastRef, duration };
 };
 
 export default useToast;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -22,7 +21,7 @@ if (process.env.MODE === 'local') {
 }
 
 root.render(
-  <React.StrictMode>
+  <>
     <Global styles={css([reset, global])} />
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
@@ -34,5 +33,5 @@ root.render(
         <ReactQueryDevtools />
       </QueryClientProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </>
 );

@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useRecoilState } from 'recoil';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { UserProfile } from '../../types';
+import { toastStackAtom } from './../../recoil/atom';
 import useToast from './../useToast';
 
 const useProfile = () => {
-  const { show: showToast } = useToast();
+  const [toastStack, setToastStack] = useRecoilState(toastStackAtom); //modify
+
+  const { insertToastItem } = useToast();
   const queryClient = useQueryClient();
   const [isNameEdit, setIsNameEdit] = useState(false);
   const [name, setName] = useState<string>('');
@@ -52,7 +56,7 @@ const useProfile = () => {
 
     if (isNameEdit) {
       submitModifyName();
-      showToast('수정이 완료됐습니다!');
+      insertToastItem(`수정이 완료됐습니다`);
     }
 
     setIsNameEdit(prev => !prev);
