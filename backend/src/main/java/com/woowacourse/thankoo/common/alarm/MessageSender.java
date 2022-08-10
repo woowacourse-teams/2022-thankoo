@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class SlackMessageSender {
+public class MessageSender {
 
     public static final String SEND_MESSAGE_URL = "https://slack.com/api/chat.postMessage";
 
     private final String token;
 
-    public SlackMessageSender(@Value("${slack.token}") final String token) {
+    public MessageSender(@Value("${slack.token}") final String token) {
         this.token = token;
     }
 
-    public void sendMessage(final String channel, final SlackMessage message) {
+    public void sendMessage(final String channel, final AlarmMessage message) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);

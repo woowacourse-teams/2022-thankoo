@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.common.alarm;
 import lombok.Getter;
 
 @Getter
-public enum SlackMessage {
+public enum AlarmMessage {
 
     RECEIVE_COUPON("쿠폰을 받았어요! 확인해보러 갈까요? https://thankoo.co.kr/"),
     RECEIVE_RESERVATION("예약 요청이 왔어요. 확인해보러 갈까요? https://thankoo.co.kr/"),
@@ -13,7 +13,7 @@ public enum SlackMessage {
 
     private final String value;
 
-    SlackMessage(final String value) {
+    AlarmMessage(final String value) {
         this.value = value;
     }
 }
