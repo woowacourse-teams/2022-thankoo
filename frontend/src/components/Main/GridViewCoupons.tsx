@@ -77,6 +77,12 @@ const S = {
   Relative: styled.div`
     overflow: hidden;
     position: relative;
+    transition: all ease-in-out 0.1s;
+
+    :hover,
+    :active {
+      opacity: 0.8;
+    }
   `,
   StatusStrap: styled.div<StatusStrapProps>`
     position: absolute;

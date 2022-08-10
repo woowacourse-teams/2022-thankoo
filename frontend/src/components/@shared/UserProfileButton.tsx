@@ -25,6 +25,7 @@ const StyledUserProfileButton = styled.img`
 
   border-radius: 50%;
   padding: 0.2rem;
+  object-fit: cover;
 
   transition: all ease-in;
   transition-duration: 0.2s;
