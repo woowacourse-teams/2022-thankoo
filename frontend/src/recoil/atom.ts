@@ -40,7 +40,13 @@ export const toastVisibleAtom = atom({
   default: false,
 });
 
-export const toastContentAtom = atom({
-  key: 'toastContentAtom',
-  default: '',
+export const toastStackAtom = atom<toastItem[]>({
+  //modify
+  key: 'toastStackAtom',
+  default: [],
 });
+
+interface toastItem {
+  key: number;
+  comment: string;
+}

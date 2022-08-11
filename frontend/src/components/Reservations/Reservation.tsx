@@ -7,7 +7,7 @@ import ListViewReservation from './ListViewReservation';
 
 const Reservation = ({ couponType, time, memberName, reservationId, order }) => {
   const queryClient = useQueryClient();
-  const { show } = useToast();
+  const { insertToastItem } = useToast();
 
   const { mutate: handleReservation } = usePutReservationStatus(reservationId);
 
@@ -23,13 +23,13 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
       () => {
         if (confirm('예약을 거절하시겠습니까?')) {
           handleReservation('deny');
-          show('예약을 거절했습니다');
+          insertToastItem('예약을 거절했습니다');
         }
       },
       () => {
         if (confirm(`예약을 수락하시겠습니까? \n ${time?.meetingTime}`)) {
           handleReservation('accept');
-          show('✅ 예약을 수락했습니다.');
+          insertToastItem('✅ 예약을 수락했습니다.');
         }
       },
     ],
@@ -37,7 +37,7 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
       () => {
         if (confirm('예약을 취소하시겠습니까?')) {
           cancelReservation();
-          show('예약을 취소했습니다.');
+          insertToastItem('예약을 취소했습니다.');
         }
       },
     ],
