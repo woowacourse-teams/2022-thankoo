@@ -8,7 +8,6 @@ import useMain from '../hooks/Main/domain/useMain';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import EmptyContent from '../components/@shared/EmptyContent';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import Modal from '../components/@shared/Modal';
@@ -18,6 +17,8 @@ import BottomNavBar from '../components/PageButton/BottomNavBar';
 import { ROUTE_PATH } from '../constants/routes';
 import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
+import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
+import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
 
 const Main = () => {
   const {
@@ -67,7 +68,13 @@ const Main = () => {
             tabList={couponTypes}
             selectableTabs={couponTypeKeys}
           />
-          {orderedCoupons?.length ? <GridViewCoupons coupons={orderedCoupons} /> : <EmptyContent />}
+          {orderedCoupons?.length ? (
+            <GridViewCoupons coupons={orderedCoupons} />
+          ) : sentOrReceived === '보낸' ? (
+            <NoSendCoupon />
+          ) : (
+            <NoReceivedCoupon />
+          )}
           <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
             <S.SendIcon />
           </S.SelectReceiverButton>

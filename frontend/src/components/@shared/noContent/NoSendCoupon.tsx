@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { flexCenter } from '../../styles/mixIn';
-import { ROUTE_PATH } from './../../constants/routes';
-import IconEmptyList from './../@shared/LogoEmptyList';
+import { ROUTE_PATH } from '../../../constants/routes';
+import { flexCenter } from '../../../styles/mixIn';
+import IconEmptyList from '../LogoEmptyList';
 
-const SendCouponQuick = () => {
+const NoSendCoupon = () => {
   return (
     <S.Container>
       <S.Box>
@@ -15,7 +15,7 @@ const SendCouponQuick = () => {
           원하는 상대에게 쿠폰을 선물해보세요!
         </S.Comment>
         <Link to={`${ROUTE_PATH.SELECT_RECEIVER}`}>
-          <S.Button>선물하기💌</S.Button>
+          <S.Button>선물하기💛</S.Button>
         </Link>
       </S.Box>
     </S.Container>
@@ -53,4 +53,4 @@ const S = {
     margin-top: 20px;
   `,
 };
-export default SendCouponQuick;
+export default NoSendCoupon;
