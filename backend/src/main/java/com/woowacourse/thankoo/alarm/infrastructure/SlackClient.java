@@ -13,22 +13,25 @@ import org.springframework.web.client.RestTemplate;
 
 public class SlackClient {
 
-    private static final String USERS_URL = "https://slack.com/api/users.list";
-    private static final String SEND_MESSAGE_URL = "https://slack.com/api/chat.postMessage";
+    private static final String TOKEN_TYPE = "Bearer ";
 
     private final String token;
+    private final String usersUri;
+    private final String messageUri;
 
-    public SlackClient(final String token) {
+    public SlackClient(final String token, final String usersUri, final String messageUri) {
         this.token = token;
+        this.usersUri = usersUri;
+        this.messageUri = messageUri;
     }
 
     public SlackUsersResponse getUsers() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+        headers.add(HttpHeaders.AUTHORIZATION, TOKEN_TYPE + token);
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
         HttpEntity<SlackUsersResponse> request = new HttpEntity<>(headers);
         return new RestTemplate()
-                .exchange(USERS_URL, HttpMethod.GET, request, SlackUsersResponse.class)
+                .exchange(usersUri, HttpMethod.GET, request, SlackUsersResponse.class)
                 .getBody();
     }
 
@@ -48,13 +51,13 @@ public class SlackClient {
 
     public void sendMessage(final String channel, final AlarmMessage message) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+        headers.add(HttpHeaders.AUTHORIZATION, TOKEN_TYPE + token);
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         HttpEntity<SlackMessageRequest> requestHttpEntity = new HttpEntity<>(
                 new SlackMessageRequest(channel, message.getValue()), headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange(SEND_MESSAGE_URL, HttpMethod.POST, requestHttpEntity, Void.class);
+        restTemplate.exchange(messageUri, HttpMethod.POST, requestHttpEntity, Void.class);
     }
 }

@@ -16,14 +16,20 @@ import org.springframework.context.annotation.Profile;
 public class AlarmConfig {
 
     private final String token;
+    private final String usersUri;
+    private final String messageUri;
 
-    public AlarmConfig(@Value("${slack.token}") final String token) {
+    public AlarmConfig(@Value("${slack.token}") final String token,
+                       @Value("${slack.users-uri}") final String usersUri,
+                       @Value("${slack.message-uri}") final String messageUri) {
         this.token = token;
+        this.usersUri = usersUri;
+        this.messageUri = messageUri;
     }
 
     @Bean
     public SlackClient slackClient() {
-        return new SlackClient(token);
+        return new SlackClient(token, usersUri, messageUri);
     }
 
     @DependsOn("slackClient")
