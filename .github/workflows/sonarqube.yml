@@ -4,6 +4,10 @@ on:
     branches: [ "infra/sonarqube" ]
   pull_request:
     branches: [ "infra/sonarqube" ]
+    
+defaults:
+  run:
+    working-directory: ./backend
 
 jobs:
   build:
