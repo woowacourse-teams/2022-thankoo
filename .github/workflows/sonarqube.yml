@@ -1,35 +1,43 @@
-name: Build
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Backend CI
+
 on:
   push:
     branches: [ "infra/sonarqube" ]
   pull_request:
     branches: [ "infra/sonarqube" ]
-    
-defaults:
-  run:
-    working-directory: ./backend
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-  analysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./backend
     env:
       SONARQUBE_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
       SONARQUBE_URL: ${{ secrets.SONAR_HOST_URL }}
       SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
-
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-        
-      - name: gradlew permission change
-        run: sudo chmod 755 gradlew
       
+    steps:
+      - name: action checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Sonaqube Analysis        
         run: ./gradlew sonarqube \
             -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }} \
