@@ -28,7 +28,7 @@ public class CouponService {
     @Alarm
     public void saveAll(final Long senderId, final CouponRequest couponRequest) {
         validateMember(senderId, couponRequest.getReceiverIds());
-        List<Coupon> coupons = couponRepository.saveAll(couponRequest.toEntities(senderId));
+        couponRepository.saveAll(couponRequest.toEntities(senderId));
         sendMessage(memberRepository.findByIdIn(couponRequest.getReceiverIds()));
     }
 
