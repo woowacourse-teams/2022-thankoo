@@ -1,83 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useState } from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
-import { Coupon, CouponType, initialCouponState, UserProfile } from '../../types';
+import { CouponType, UserProfile } from '../../types';
+import { useCreateCouponMutation } from '../queries/coupon';
+import { useGetUserProfile } from '../queries/profile';
 import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
   const { successNavigate } = useOnSuccess();
-  const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
 
-  const { data: userProfile } = useQuery<UserProfile>('profile', async () => {
-    const res = await client({
-      method: 'GET',
-      url: `${API_PATH.PROFILE}`,
-    });
-    return res.data;
-  });
-
-  const checkedUsers = useRecoilValue(checkedUsersAtom);
-
-  const [couponType, setCouponType] = useState<CouponType>('coffee');
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
+  const [couponType, setCouponType] = useState<CouponType>('coffee');
+  const checkedUsers = useRecoilValue<UserProfile[]>(checkedUsersAtom);
+  const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
+
+  const { data: userProfile } = useGetUserProfile();
 
   const isFilled = !!title && !!message;
 
-  const [currentCoupon, setCurrentCoupon] = useState<Coupon>({
-    ...initialCouponState,
-    sender: {
-      ...initialCouponState.sender,
-      id: userProfile?.id ?? 0,
+  const { mutate: sendCoupon } = useCreateCouponMutation(
+    {
+      receiverIds: checkedUsers.map(user => user.id),
+      content: { couponType, title, message },
     },
-    content: {
-      ...initialCouponState.content,
-      couponType,
-    },
-    status: 'not_used',
-  });
-
-  useEffect(() => {
-    if (userProfile) {
-      const newCouponSender = {
-        ...currentCoupon.sender,
-        id: userProfile.id,
-        name: userProfile.name,
-      };
-      setCurrentCoupon(prev => ({
-        ...prev,
-        sender: newCouponSender,
-      }));
-    }
-    setCurrentCoupon(prev => ({
-      ...prev,
-      content: {
-        couponType,
-        title,
-        message,
-      },
-    }));
-  }, [userProfile, couponType, title, message]);
-  const sendCoupon = useMutation(
-    async () =>
-      await client({
-        method: 'POST',
-        url: `${API_PATH.SEND_COUPON}`,
-        data: {
-          receiverIds: checkedUsers.map(user => user.id),
-          content: {
-            ...currentCoupon.content,
-          },
-        },
-      }),
     {
       onSuccess: () => {
         resetCheckedUsers();
-        successNavigate(`${ROUTE_PATH.EXACT_MAIN}`);
+        successNavigate(ROUTE_PATH.EXACT_MAIN);
       },
     }
   );
@@ -92,7 +43,8 @@ const useEnterCouponContent = () => {
     setTitle,
     setMessage,
     checkedUsers,
-    currentCoupon,
+    name: userProfile?.name,
+    id: userProfile?.id,
   };
 };
 

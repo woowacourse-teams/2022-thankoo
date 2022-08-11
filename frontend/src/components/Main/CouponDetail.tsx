@@ -56,7 +56,11 @@ type ButtonProps = {
 
 const S = {
   Container: styled.section`
-    position: relative;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
     width: 18rem;
     height: fit-content;
     display: flex;

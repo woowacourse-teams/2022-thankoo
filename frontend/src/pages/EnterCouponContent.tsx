@@ -4,7 +4,6 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import TabsNav from '../components/@shared/TabsNav';
-import GridViewCoupon from '../components/Main/GridViewCoupon';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
 import { couponTypeKeys } from '../types';
 
@@ -12,6 +11,9 @@ import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import { couponTypes } from '../types/index';
+import CouponLayout from '../components/@shared/CouponLayout';
+import useModal from '../hooks/useModal';
+import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmCouponContentModal';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -26,8 +28,10 @@ const EnterCouponContent = () => {
     isFilled,
     sendCoupon,
     checkedUsers,
-    currentCoupon,
+    id,
+    name,
   } = useEnterCouponContent();
+  const { setModalContent, show } = useModal();
 
   return (
     <PageLayout>
@@ -45,7 +49,7 @@ const EnterCouponContent = () => {
           selectableTabs={couponTypesWithoutEntire}
         />
         <S.CouponBox>
-          <GridViewCoupon coupon={currentCoupon} />
+          <CouponLayout couponType={couponType} id={id} name={name} title={title} />
         </S.CouponBox>
         <S.Form>
           <S.TitleInput
@@ -64,7 +68,16 @@ const EnterCouponContent = () => {
       </S.Body>
       <S.LongButton
         onClick={() => {
-          sendCoupon.mutate();
+          show();
+          setModalContent(
+            <ConfirmCouponContentModal
+              title={title}
+              message={message}
+              receivers={checkedUsers}
+              submit={() => {}}
+            />
+          );
+          // sendCoupon();
         }}
         disabled={!isFilled}
       >

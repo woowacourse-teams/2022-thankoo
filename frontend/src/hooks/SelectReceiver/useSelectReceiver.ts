@@ -1,26 +1,13 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
+import { useGetMembers } from '../queries/members';
 import useFilterMatchedUser from '../useFilterMatchedUser';
 
 const useSelectReceiver = () => {
-  const {
-    data: users,
-    isLoading,
-    error,
-  } = useQuery<UserProfile[]>('users', async () => {
-    const { data } = await client({
-      method: 'get',
-      url: `${API_PATH.MEMBERS}`,
-    });
-    return data;
-  });
-
   const [keyword, setKeyword] = useState('');
+  const { data: members, isLoading, error } = useGetMembers();
   const [checkedUsers, setCheckedUsers] = useRecoilState<UserProfile[]>(checkedUsersAtom);
 
   const checkUser = (user: UserProfile) => {
@@ -40,10 +27,10 @@ const useSelectReceiver = () => {
   const isCheckedUser = (user: UserProfile) =>
     checkedUsers?.some(checkUser => checkUser.id === user.id);
 
-  const matchedUsers = useFilterMatchedUser(keyword, users);
+  const matchedUsers = useFilterMatchedUser(keyword, members);
 
   return {
-    users,
+    members,
     isLoading,
     error,
     checkedUsers,

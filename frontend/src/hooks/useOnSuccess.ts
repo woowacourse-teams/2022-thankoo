@@ -5,10 +5,7 @@ const useOnSuccess = () => {
   const navigate = useNavigate();
 
   const successNavigate = (endRoutePath: string) => {
-    navigate(`${ROUTE_PATH.ON_SUCCESS}`);
-    setTimeout(() => {
-      navigate(endRoutePath);
-    }, 1300);
+    navigate(ROUTE_PATH.ON_SUCCESS);
   };
 
   return { successNavigate };

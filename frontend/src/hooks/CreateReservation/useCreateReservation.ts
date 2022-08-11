@@ -1,63 +1,59 @@
 import { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
-import { useRecoilValue } from 'recoil';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
-import { targetCouponAtom } from '../../recoil/atom';
-import useToast from '../useToast';
-import useOnSuccess from './../useOnSuccess';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { ROUTE_PATH } from '../../constants/routes';
+import { onSuccessContentAtom, targetCouponAtom } from '../../recoil/atom';
+import { useCreateReservationMutation } from '../queries/reservation';
+import { useGetCouponDetail } from '../Main/queries/couponDetail';
+import useOnSuccess from '../useOnSuccess';
+import CreateReservationSuccess from '../../components/CreateReservation/CreateReservationSuccess';
 
 const yesterday = new Date().toISOString().split('T')[0];
 
 const useCreateReservation = () => {
-  const { visible, show, close } = useToast();
-  const { successNavigate } = useOnSuccess();
+  const navigate = useNavigate();
   const couponId = useRecoilValue(targetCouponAtom);
-  const queryClient = useQueryClient();
   const [date, setDate] = useState(yesterday);
   const [time, setTime] = useState('');
-
   const isFilled = date && time.length;
+  const { successNavigate } = useOnSuccess();
+  const [content, setContent] = useRecoilState(onSuccessContentAtom);
 
-  const mutateCreateReservation = useMutation(
-    () =>
-      client({
-        method: 'post',
-        url: `${API_PATH.RESERVATIONS}`,
-        data: {
-          couponId,
-          startAt: `${date} ${time}:00`,
-        },
-      }),
+  const { data: couponDetail } = useGetCouponDetail(couponId, {
+    onError: () => {
+      navigate(ROUTE_PATH.EXACT_MAIN);
+    },
+  });
+
+  if (couponDetail?.reservation) {
+    navigate(ROUTE_PATH.EXACT_MAIN);
+  }
+
+  const { mutate: createReservation } = useCreateReservationMutation(
+    { couponId, date, time },
     {
       onSuccess: () => {
-        successNavigate('/');
-        queryClient.invalidateQueries('coupon');
-      },
-      retry: false,
-      onError: () => {
-        show('예약이 불가능한 날짜입니다.');
+        successNavigate(ROUTE_PATH.EXACT_MAIN);
+        setContent(() =>
+          CreateReservationSuccess({ date, receiver: couponDetail?.coupon.receiver.name, time })
+        );
       },
     }
   );
 
   const setReservationDate = e => {
-    console.log(e.target.value);
     setDate(e.target.value);
-  };
-
-  const sendReservation = async () => {
-    await mutateCreateReservation.mutate();
   };
 
   return {
     isFilled,
     setReservationDate,
-    sendReservation,
+    createReservation,
     date,
     yesterday,
     time,
     setTime,
+    couponDetail,
   };
 };
 
