@@ -33,7 +33,7 @@ import org.springframework.http.HttpStatus;
 @DisplayName("CouponAcceptance 는 ")
 class CouponAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("유저가 로그인하고 ")
+    @DisplayName("회원이 로그인하고 ")
     @Nested
     class SignInAndTest {
 
@@ -146,6 +146,30 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .status(HttpStatus.OK.value())
                     .단건_쿠폰과_미팅이_조회됨();
+        }
+
+        @DisplayName("회원의 보낸 쿠폰 받은 쿠폰 개수를 확인한다.")
+        @Test
+        void getCouponTotalCount() {
+            TokenResponse token1 = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .response()
+                    .body(TokenResponse.class);
+
+            TokenResponse token2 = AuthenticationAssured.request()
+                    .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                    .response()
+                    .body(TokenResponse.class);
+
+            CouponAssured.request()
+                    .쿠폰을_전송한다(token1.getAccessToken(), 쿠폰_요청(token2.getMemberId()))
+                    .쿠폰을_전송한다(token1.getAccessToken(), 쿠폰_요청(token2.getMemberId()))
+                    .쿠폰을_전송한다(token2.getAccessToken(), 쿠폰_요청(token1.getMemberId()))
+                    .주고_받은_쿠폰_개수를_조회한다(token1.getAccessToken())
+                    .response()
+                    .status(HttpStatus.OK.value())
+                    .쿠폰_개수가_조회됨(2, 1);
         }
 
         @DisplayName("쿠폰을 보낼 때 ")

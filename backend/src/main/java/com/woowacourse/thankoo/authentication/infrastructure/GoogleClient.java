@@ -32,20 +32,17 @@ public class GoogleClient {
     private final String grantType;
     private final String redirectUri;
     private final String tokenRequestUrl;
-    private final String userInfoRequestUrl;
 
     public GoogleClient(@Value("${oauth.google.client-id}") final String clientId,
                         @Value("${oauth.google.client-secret}") final String clientSecret,
                         @Value("${oauth.google.grant-type}") final String grantType,
                         @Value("${oauth.google.redirect-uri}") final String redirectUri,
-                        @Value("${oauth.google.token-url}") final String tokenRequestUrl,
-                        @Value("${oauth.google.profile-url}") final String userInfoRequestUrl) {
+                        @Value("${oauth.google.token-url}") final String tokenRequestUrl) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.grantType = grantType;
         this.redirectUri = redirectUri;
         this.tokenRequestUrl = tokenRequestUrl;
-        this.userInfoRequestUrl = userInfoRequestUrl;
     }
 
     public String getIdToken(final String code) {

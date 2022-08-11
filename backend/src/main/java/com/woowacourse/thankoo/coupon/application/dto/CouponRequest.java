@@ -27,4 +27,12 @@ public class CouponRequest {
                 .map(id -> new Coupon(senderId, id, couponContent, CouponStatus.NOT_USED))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "CouponRequest{" +
+                "receiverIds=" + receiverIds +
+                ", content=" + content +
+                '}';
+    }
 }

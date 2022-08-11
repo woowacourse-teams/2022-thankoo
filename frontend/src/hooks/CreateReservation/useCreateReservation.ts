@@ -7,16 +7,18 @@ import { useCreateReservationMutation } from '../queries/reservation';
 import { useGetCouponDetail } from '../Main/queries/couponDetail';
 import useOnSuccess from '../useOnSuccess';
 import CreateReservationSuccess from '../../components/CreateReservation/CreateReservationSuccess';
+import useToast from '../useToast';
 
 const yesterday = new Date().toISOString().split('T')[0];
 
 const useCreateReservation = () => {
   const navigate = useNavigate();
+  const { insertToastItem, closeToastItem } = useToast();
+  const { successNavigate } = useOnSuccess();
   const couponId = useRecoilValue(targetCouponAtom);
   const [date, setDate] = useState(yesterday);
   const [time, setTime] = useState('');
   const isFilled = date && time.length;
-  const { successNavigate } = useOnSuccess();
   const [content, setContent] = useRecoilState(onSuccessContentAtom);
 
   const { data: couponDetail } = useGetCouponDetail(couponId, {
@@ -37,6 +39,9 @@ const useCreateReservation = () => {
         setContent(() =>
           CreateReservationSuccess({ date, receiver: couponDetail?.coupon.receiver.name, time })
         );
+      },
+      onError: () => {
+        insertToastItem('예약이 불가능한 날짜입니다.');
       },
     }
   );

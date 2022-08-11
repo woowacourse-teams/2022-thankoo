@@ -1,8 +1,8 @@
 package com.woowacourse.thankoo.coupon.presentation.dto;
 
 import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
-import com.woowacourse.thankoo.meeting.presentation.dto.MeetingResponse;
-import com.woowacourse.thankoo.reservation.presentation.dto.ReservationResponse;
+import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.MeetingResponse;
+import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.ReservationResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,5 +34,14 @@ public class CouponDetailResponse {
 
     public static CouponDetailResponse of(final MemberCoupon memberCoupon) {
         return new CouponDetailResponse(CouponResponse.of(memberCoupon), null, null);
+    }
+
+    @Override
+    public String toString() {
+        return "CouponDetailResponse{" +
+                "coupon=" + coupon +
+                ", reservation=" + reservation +
+                ", meeting=" + meeting +
+                '}';
     }
 }

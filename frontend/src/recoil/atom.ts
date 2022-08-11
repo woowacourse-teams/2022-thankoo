@@ -41,12 +41,17 @@ export const toastVisibleAtom = atom({
   default: false,
 });
 
-export const toastContentAtom = atom({
-  key: 'toastContentAtom',
-  default: '',
+export const toastStackAtom = atom<toastItem[]>({
+  //modify
+  key: 'toastStackAtom',
+  default: [],
 });
 
 export const onSuccessContentAtom = atom<ReactNode>({
   key: 'onSuccessContentAtom',
   default: null,
 });
+interface toastItem {
+  key: number;
+  comment: string;
+}

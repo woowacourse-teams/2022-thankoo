@@ -1,0 +1,16 @@
+<included>
+    <appender name="file-access-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/access.log</file>
+        <encoder>
+            <charset>utf8</charset>
+            <Pattern>
+                %n###### HTTP Request ###### %n%fullRequest###### HTTP Response ###### %n%fullResponse
+            </Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/access/access-%i.log</fileNamePattern>
+            <maxFileSize>15MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+</included>

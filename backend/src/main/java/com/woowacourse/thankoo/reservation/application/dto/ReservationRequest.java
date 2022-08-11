@@ -22,4 +22,11 @@ public class ReservationRequest {
         this.startAt = startAt;
     }
 
+    @Override
+    public String toString() {
+        return "ReservationRequest{" +
+                "couponId=" + couponId +
+                ", startAt=" + startAt +
+                '}';
+    }
 }

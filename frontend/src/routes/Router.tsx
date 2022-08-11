@@ -1,4 +1,5 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import Header from '../components/@shared/Header';
 import { ROUTE_PATH } from './../constants/routes';
 import CreateReservation from './../pages/CreateReservation';
 import EnterCouponContent from './../pages/EnterCouponContent';

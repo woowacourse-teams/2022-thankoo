@@ -2,15 +2,13 @@ import { useLocation } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 import Modal from './components/@shared/Modal';
-import Toast from './components/@shared/Toast';
+import Toast from './components/@shared/toast/Toast';
 import useModal from './hooks/useModal';
-import useToast from './hooks/useToast';
 import Router from './routes/Router';
 
 function App() {
   const location = useLocation();
   const { visible: modalVisible } = useModal();
-  const { visible: toastVisible } = useToast();
 
   return (
     <MobileDiv>
@@ -21,7 +19,7 @@ function App() {
       {/* </TransitionGroup> */}
 
       {modalVisible && <Modal />}
-      {toastVisible && <Toast />}
+      {<Toast />}
     </MobileDiv>
   );
 }

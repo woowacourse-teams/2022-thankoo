@@ -22,4 +22,13 @@ public class CouponContentResponse {
     public static CouponContentResponse from(final String couponType, final String title, final String message) {
         return new CouponContentResponse(couponType, title, message);
     }
+
+    @Override
+    public String toString() {
+        return "CouponContentResponse{" +
+                "couponType='" + couponType + '\'' +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

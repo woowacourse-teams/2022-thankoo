@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.reservation.presentation.dto;
+package com.woowacourse.thankoo.coupon.infrastructure.integrate.dto;
 
 import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
