@@ -4,15 +4,15 @@ import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/domain/useMain';
 
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useState } from 'react';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import Modal from '../components/@shared/Modal';
 import PageLayout from '../components/@shared/PageLayout';
+import SendCouponQuick from '../components/Main/SendCouponQuick';
 import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
 import BottomNavBar from './../components/@shared/BottomNavBar';
-import EmptyContent from '../components/@shared/EmptyContent';
-import { useState } from 'react';
 
 const Main = () => {
   const {
@@ -60,7 +60,11 @@ const Main = () => {
             tabList={couponTypes}
             selectableTabs={couponTypeKeys}
           />
-          {orderedCoupons?.length ? <GridViewCoupons coupons={orderedCoupons} /> : <EmptyContent />}
+          {orderedCoupons?.length ? (
+            <GridViewCoupons coupons={orderedCoupons} />
+          ) : (
+            <SendCouponQuick />
+          )}
         </S.Body>
 
         {visible && <Modal />}
