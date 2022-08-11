@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { atom } from 'recoil';
 import { UserProfile } from '../types';
 
@@ -43,4 +44,9 @@ export const toastVisibleAtom = atom({
 export const toastContentAtom = atom({
   key: 'toastContentAtom',
   default: '',
+});
+
+export const onSuccessContentAtom = atom<ReactNode>({
+  key: 'onSuccessContentAtom',
+  default: null,
 });

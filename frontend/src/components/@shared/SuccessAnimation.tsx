@@ -1,39 +1,22 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { ROUTE_PATH } from '../constants/routes';
-import { onSuccessContentAtom } from '../recoil/atom';
 
-const OnSuccessPage = () => {
-  const navigate = useNavigate();
-  const content = useRecoilValue(onSuccessContentAtom);
-
-  useEffect(() => {
-    if (!content) {
-      navigate(ROUTE_PATH.EXACT_MAIN);
-    }
-  }, [content]);
-
-  return <S.Layout>{content}</S.Layout>;
+const SuccessAnimation = () => {
+  return (
+    <S.SuccessCheckmark>
+      <S.CheckIcon>
+        <S.IconTip />
+        <S.IconLong />
+        <S.IconCircle />
+        <S.IconFix />
+      </S.CheckIcon>
+    </S.SuccessCheckmark>
+  );
 };
 
+export default SuccessAnimation;
 const S = {
-  Layout: styled.div`
-    position: absolute;
-    background-color: black;
-    width: 100vw;
-    height: 100vh;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-  `,
   SuccessCheckmark: styled.div`
-    position: relative;
     top: 40%;
-    width: 80px;
-    height: 115px;
     margin: 0 auto;
     background-color: transparent;
   `,
@@ -191,5 +174,3 @@ const S = {
     transform: rotate(-45deg);
   `,
 };
-
-export default OnSuccessPage;
