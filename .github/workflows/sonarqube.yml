@@ -39,6 +39,6 @@ jobs:
 
       - name: Sonaqube Analysis        
         run: ./gradlew sonarqube \
-            -Dsonar.host.url=${{ env.SONARQUBE_URL }} \
-            -Dsonar.login=${{ env.SONARQUBE_TOKEN }} \
-            -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
+            -D sonar.host.url=${{ env.SONARQUBE_URL }} \
+            -D sonar.login=${{ env.SONARQUBE_TOKEN }} \
+            -D sonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
