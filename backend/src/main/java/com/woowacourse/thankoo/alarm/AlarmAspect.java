@@ -9,8 +9,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Aspect
 @Profile("prod")
+@Aspect
 @Component
 @RequiredArgsConstructor
 public class AlarmAspect {

@@ -16,7 +16,6 @@ public class AlarmMessageRequest {
     }
 
     public AlarmMessageRequest(final String email, final AlarmMessage alarmMessage) {
-        this.emails = List.of(email);
-        this.alarmMessage = alarmMessage;
+        this(List.of(email), alarmMessage);
     }
 }
