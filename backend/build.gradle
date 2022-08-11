@@ -59,7 +59,6 @@ tasks.named('test') {
 //    finalizedBy jacocoTestReport
 }
 
-
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
