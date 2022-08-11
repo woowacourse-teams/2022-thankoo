@@ -87,7 +87,7 @@ sonarqube {
     properties {
         property 'sonar.projectKey', 'thankoo'
         property "sonar.sources", "src" // 소스 경로
-        property "sonar.language", "java" // 언어
+        property "sonar.language", "java"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.profile", "Sonar way" // SonarQube 에서 분석할 때 적용할 프로필(분석할 수준 설정)
         property "sonar.java.binaries", "${buildDir}/classes" // 자바 클래스 파일위치
