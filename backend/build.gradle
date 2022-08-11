@@ -3,11 +3,14 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.9.2'
     id 'java'
+//    id 'jacoco'
+    id "org.sonarqube" version "3.3"
+}
+plugins {
 }
 
 group = 'com.woowacourse'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -46,11 +49,15 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'io.rest-assured:rest-assured:4.4.0'
     asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
+
+    implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
 }
+
 
 tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
+//    finalizedBy jacocoTestReport
 }
 
 tasks.named('asciidoctor') {
@@ -75,3 +82,32 @@ task buildDocument(type: Copy) {
 bootJar {
     dependsOn buildDocument
 }
+
+sonarqube {
+    properties {
+        property 'sonar.projectKey', 'thankoo'
+        property "sonar.sources", "src" // 소스 경로
+        property "sonar.language", "java" // 언어
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.profile", "Sonar way" // SonarQube 에서 분석할 때 적용할 프로필(분석할 수준 설정)
+        property "sonar.java.binaries", "${buildDir}/classes" // 자바 클래스 파일위치
+        property "sonar.test.inclusions", "**/*Test.java" // 코드 분석에 사용할 테스트 소스
+    }
+}
+
+//
+//jacoco {
+//    toolVersion = "0.8.8"
+//}
+
+//jacocoTestReport {
+//    dependsOn test
+//    reports {
+//        html.enabled true
+//        xml.enabled true
+//        csv.enabled true
+//
+//        html.destination file("build/jacoco/index.html")
+//        xml.destination file("build/jacoco/index.xml")
+//    }
+//}
