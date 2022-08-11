@@ -38,4 +38,4 @@ jobs:
       # Gralde 의 Scanner 발동, 위의 env 에서 선언한 환경변수와 함께 발동
       - name: Sonarqube Analysis
         run: |
-          echo ${{ secrets.SONAR_HOST_URL }}
+          echo "$SONARQUBE_URL"
