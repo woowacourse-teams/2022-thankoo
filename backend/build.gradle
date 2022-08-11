@@ -111,5 +111,3 @@ jacocoTestReport {
         xml.destination file("build/jacoco/index.xml")
     }
 }
-
-
