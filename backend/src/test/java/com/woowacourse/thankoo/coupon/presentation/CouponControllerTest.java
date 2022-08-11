@@ -42,12 +42,14 @@ import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
+import com.woowacourse.thankoo.coupon.domain.CouponTotal;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
 import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.MeetingResponse;
 import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.ReservationResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -340,6 +342,38 @@ public class CouponControllerTest extends ControllerTest {
                         fieldWithPath("meeting.time.timeZone").type(STRING).description("timeZone"),
                         fieldWithPath("meeting.status").type(STRING).description("timeZone"),
                         fieldWithPath("reservation").type(NULL).description("meeting")
+                )
+        ));
+    }
+
+    @DisplayName("보낸, 받은 쿠폰 개수를 조회한다.")
+    @Test
+    void getTotalCouponCount() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+
+        CouponTotalResponse couponTotalResponse = CouponTotalResponse.from(new CouponTotal(10, 12));
+
+        given(couponQueryService.getCouponTotalCount(anyLong()))
+                .willReturn(couponTotalResponse);
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/count")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(couponTotalResponse)));
+
+        resultActions.andDo(document("coupons/count",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                responseFields(
+                        fieldWithPath("sentCount").type(NUMBER).description("sent count"),
+                        fieldWithPath("receivedCount").type(NUMBER).description("received count")
                 )
         ));
     }
