@@ -13,4 +13,11 @@ public class ReservationStatusRequest {
     public ReservationStatusRequest(final String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "ReservationStatusRequest{" +
+                "status='" + status + '\'' +
+                '}';
+    }
 }

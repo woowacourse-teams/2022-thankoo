@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
-import { UserProfile } from '../../types';
+import { client } from '../../../apis/axios';
+import { API_PATH } from '../../../constants/api';
+import { UserProfile } from '../../../types';
+import useToast from '../../useToast';
+import { useGetProfile } from '../queries/profile';
 import { toastStackAtom } from './../../recoil/atom';
-import useToast from './../useToast';
 
 const useProfile = () => {
   const [toastStack, setToastStack] = useRecoilState(toastStackAtom); //modify
@@ -18,23 +19,11 @@ const useProfile = () => {
     setName(e.target.value);
   };
 
-  const { data: profile } = useQuery<UserProfile>(
-    'profile',
-    async () => {
-      const { data } = await client({
-        method: 'get',
-        url: `${API_PATH.PROFILE}`,
-      });
-
-      return data;
+  const { data: profile } = useGetProfile({
+    onSuccess: (data: UserProfile) => {
+      setName(data.name);
     },
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: profile => {
-        setName(profile.name);
-      },
-    }
-  );
+  });
 
   const submitModifyName = () => {
     if (!name.length || name === profile?.name) {

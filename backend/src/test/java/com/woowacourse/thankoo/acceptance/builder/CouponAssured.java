@@ -14,6 +14,7 @@ import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.Arrays;
@@ -64,7 +65,12 @@ public class CouponAssured {
         }
 
         public CouponRequestBuilder 쿠폰_단건_정보를_조회한다(final Long couponId, final String accessToken) {
-            response = getWithToken("api/coupons/" + couponId, accessToken);
+            response = getWithToken("/api/coupons/" + couponId, accessToken);
+            return this;
+        }
+
+        public CouponRequestBuilder 주고_받은_쿠폰_개수를_조회한다(final String accessToken) {
+            response = getWithToken("/api/coupons/count", accessToken);
             return this;
         }
 
@@ -107,6 +113,14 @@ public class CouponAssured {
                     () -> assertThat(couponDetailResponse.getCoupon()).isNotNull(),
                     () -> assertThat(couponDetailResponse.getMeeting()).isNotNull(),
                     () -> assertThat(couponDetailResponse.getReservation()).isNull()
+            );
+        }
+
+        public void 쿠폰_개수가_조회됨(final int sentCount, final int receivedCount) {
+            CouponTotalResponse couponTotalResponse = body(CouponTotalResponse.class);
+            assertAll(
+                    () -> assertThat(couponTotalResponse.getSentCount()).isEqualTo(sentCount),
+                    () -> assertThat(couponTotalResponse.getReceivedCount()).isEqualTo(receivedCount)
             );
         }
     }

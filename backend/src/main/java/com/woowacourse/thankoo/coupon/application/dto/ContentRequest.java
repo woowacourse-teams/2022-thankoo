@@ -22,4 +22,13 @@ public class ContentRequest {
     public CouponContent toEntity() {
         return new CouponContent(couponType, title, message);
     }
+
+    @Override
+    public String toString() {
+        return "ContentRequest{" +
+                "couponType='" + couponType + '\'' +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

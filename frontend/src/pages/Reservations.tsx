@@ -6,6 +6,8 @@ import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import TabsNav from '../components/@shared/TabsNav';
+import UserProfileButton from '../components/@shared/UserProfileButton';
+import BottomNavBar from '../components/PageButton/BottomNavBar';
 import Reservation from '../components/Reservations/Reservation';
 import useReservations from '../hooks/Reservations/useReservations';
 
@@ -15,9 +17,9 @@ const Reservations = () => {
   return (
     <PageLayout>
       <Header>
-        <Link to='/'>
-          <ArrowBackButton />
-        </Link>
+        <S.UserProfile>
+          <UserProfileButton />
+        </S.UserProfile>
         <HeaderText>예약 목록</HeaderText>
       </Header>
       <S.Body>
@@ -36,6 +38,7 @@ const Reservations = () => {
             <EmptyContent />
           )}
         </S.ListView>
+        <BottomNavBar />
       </S.Body>
     </PageLayout>
   );
@@ -44,6 +47,11 @@ const Reservations = () => {
 export default Reservations;
 
 const S = {
+  UserProfile: styled.div`
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  `,
   Body: styled.section`
     display: flex;
     flex-direction: column;
