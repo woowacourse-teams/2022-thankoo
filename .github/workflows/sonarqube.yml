@@ -34,8 +34,17 @@ jobs:
       # gradlw 파일 권한 변경
       - name: gradlew permission change
         run: sudo chmod 755 gradlew
-
+        
+      - name: Sonarqube Analysis
+        run: echo ${{ secrets.SONAR_HOST_URL }}  
+          echo ${{ secrets.SONAR_PROJECT_KEY }} 
+          echo ${{ secrets.SONAR_PROJECT_KEY }}-${{ github.event.pull_request.number }} 
+          echo ${{ secrets.SONAR_TOKEN }}
+          
       # Gralde 의 Scanner 발동, 위의 env 에서 선언한 환경변수와 함께 발동
       - name: Sonarqube Analysis
-        run: |
-          echo "$SONARQUBE_URL"
+        run: ./gradlew build sonarqube
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+          -Dsonar.projectName=${{ secrets.SONAR_PROJECT_KEY }}-${{ github.event.pull_request.number }}
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
