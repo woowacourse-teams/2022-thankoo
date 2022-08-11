@@ -25,4 +25,9 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Meeting m SET m.meetingStatus = :status WHERE m.id IN (:meetingIds)")
     void updateMeetingStatus(@Param("status") MeetingStatus status, @Param("meetingIds") List<Long> meetingIds);
+
+    @Query("SELECT DISTINCT mt FROM Meeting mt "
+            + "LEFT JOIN FETCH mt.meetingMembers.meetingMembers mtm "
+            + "LEFT JOIN FETCH mtm.member m ")
+    List<Meeting> findAllByTimeUnit_Date(LocalDate date);
 }
