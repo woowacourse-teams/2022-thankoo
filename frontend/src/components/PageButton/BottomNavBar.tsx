@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import ScheduledPageButton from './ScheduledPageButton';
 import ReservationPageButton from './ReservationPageButton';
-import CouponsPageButton from './CouponsPageButton';
+import CouponsPageButton from './CouponListPageButton';
 
 const buttons = [<CouponsPageButton />, <ReservationPageButton />, <ScheduledPageButton />];
 
