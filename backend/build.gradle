@@ -100,7 +100,6 @@ jacoco {
     toolVersion = "0.8.8"
 }
 
-
 jacocoTestReport {
     dependsOn test
     reports {
@@ -112,3 +111,5 @@ jacocoTestReport {
         xml.destination file("build/jacoco/index.xml")
     }
 }
+
+
