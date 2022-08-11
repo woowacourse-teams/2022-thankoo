@@ -38,7 +38,8 @@ jobs:
       - name: Sonarqube Analysis
         run: echo ${{ secrets.SONAR_HOST_URL }}  
           echo ${{ secrets.SONAR_PROJECT_KEY }} 
-          echo ${{ secrets.SONAR_PROJECT_KEY }}-${{ github.event.pull_request.number }} 
+          echo ${{ secrets.SONAR_PROJECT_KEY }}
+          echo ${{ github.event.pull_request.number }} 
           echo ${{ secrets.SONAR_TOKEN }}
           
       # Gralde 의 Scanner 발동, 위의 env 에서 선언한 환경변수와 함께 발동
