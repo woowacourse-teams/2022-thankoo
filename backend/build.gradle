@@ -82,7 +82,6 @@ bootJar {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "thankoo-sonarqube"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/index.xml"
         property 'sonar.language', 'java'
     }
