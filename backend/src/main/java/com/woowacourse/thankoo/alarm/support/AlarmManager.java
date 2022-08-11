@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.alarm.support;
 
 import com.woowacourse.thankoo.alarm.dto.AlarmMessageRequest;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 
 public class AlarmManager {
 
@@ -9,7 +10,7 @@ public class AlarmManager {
     public static AlarmMessageRequest getResources() {
         AlarmMessageRequest alarmMessageEvent = resources.get();
         if (alarmMessageEvent == null) {
-            throw new RuntimeException("전송하려는 알람이 존재하지 않습니다.");
+            throw new RuntimeException(ErrorType.NOT_FOUND_ALARM_REQUEST.getMessage());
         }
         return alarmMessageEvent;
     }
