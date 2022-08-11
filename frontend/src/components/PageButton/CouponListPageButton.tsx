@@ -8,11 +8,14 @@ const CouponsPageButton = () => {
   const location = useLocation();
 
   return (
-    <Link to={ROUTE_PATH.EXACT_MAIN}>
-      <S.IconWrapper active={location.pathname === ROUTE_PATH.EXACT_MAIN}>
-        <S.Icon src={CouponIcon} alt='coupon_page_butotn' />
-      </S.IconWrapper>
-    </Link>
+    <S.Link to={ROUTE_PATH.EXACT_MAIN}>
+      <S.ButtonWrapper active={location.pathname === ROUTE_PATH.EXACT_MAIN}>
+        <S.IconWrapper active={location.pathname === ROUTE_PATH.EXACT_MAIN}>
+          <S.Icon src={CouponIcon} alt='coupon_page_butotn' />
+        </S.IconWrapper>
+        <p>쿠폰</p>
+      </S.ButtonWrapper>
+    </S.Link>
   );
 };
 
@@ -23,19 +26,29 @@ type ButtonProps = {
 };
 
 const S = {
+  Link: styled(Link)`
+    line-height: 8px;
+    p {
+      font-size: 12px;
+    }
+  `,
+  ButtonWrapper: styled.div<ButtonProps>`
+    opacity: 0.5;
+    ${({ active }) =>
+      active &&
+      css`
+        opacity: 1;
+      `};
+  `,
   IconWrapper: styled.div<ButtonProps>`
     border-radius: 50%;
     width: 44px;
     height: 44px;
     transition: all ease-in-out 0.2s;
-    ${({ active }) =>
-      active &&
-      css`
-        background-color: tomato;
-      `};
+    margin: auto;
+    transform: scale(0.75);
   `,
   Icon: styled.img`
-    transform: scale(0.6);
     /* padding: 1rem; */
     fill: white;
     color: white;
