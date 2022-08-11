@@ -25,4 +25,14 @@ public class MemberResponse {
         return new MemberResponse(member.getId(), member.getName().getValue(), member.getEmail().getValue(),
                 member.getImageUrl());
     }
+
+    @Override
+    public String toString() {
+        return "MemberResponse{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
+    }
 }

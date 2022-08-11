@@ -4,11 +4,13 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.CouponQueryRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponStatusGroup;
+import com.woowacourse.thankoo.coupon.domain.MeetingProvider;
 import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
+import com.woowacourse.thankoo.coupon.domain.ReservationProvider;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
-import com.woowacourse.thankoo.coupon.infrastructure.CouponClient;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CouponQueryService {
 
     private final CouponQueryRepository couponQueryRepository;
-    private final CouponClient couponClient;
+    private final ReservationProvider reservationProvider;
+    private final MeetingProvider meetingProvider;
 
     public List<CouponResponse> getReceivedCoupons(final Long receiverId, final String status) {
         List<String> statusNames = CouponStatusGroup.findStatusNames(status);
@@ -65,8 +68,12 @@ public class CouponQueryService {
                                                          final MemberCoupon memberCoupon,
                                                          final CouponStatus couponStatus) {
         if (couponStatus.isReserved()) {
-            return CouponDetailResponse.from(memberCoupon, couponClient.getMeetingResponse(couponId));
+            return CouponDetailResponse.from(memberCoupon, meetingProvider.getOnProgressMeeting(couponId));
         }
-        return CouponDetailResponse.from(memberCoupon, couponClient.getReservationResponse(couponId));
+        return CouponDetailResponse.from(memberCoupon, reservationProvider.getWaitingReservation(couponId));
+    }
+
+    public CouponTotalResponse getCouponTotalCount(final Long memberId) {
+        return CouponTotalResponse.from(couponQueryRepository.getCouponCount(memberId));
     }
 }

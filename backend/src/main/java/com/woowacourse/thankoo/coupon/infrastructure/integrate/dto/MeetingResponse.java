@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.meeting.presentation.dto;
+package com.woowacourse.thankoo.coupon.infrastructure.integrate.dto;
 
 import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.meeting.domain.Meeting;

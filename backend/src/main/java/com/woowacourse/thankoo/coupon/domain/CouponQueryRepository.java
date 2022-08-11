@@ -96,4 +96,17 @@ public class CouponQueryRepository {
             return Optional.empty();
         }
     }
+
+    public CouponTotal getCouponCount(final Long memberId) {
+        String sql = "SELECT COUNT(CASE WHEN sender_id = :memberId THEN 1 END) AS sent_count, "
+                + "COUNT(CASE WHEN receiver_id = :memberId THEN 1 END) AS received_count "
+                + "FROM coupon "
+                + "WHERE sender_id = :memberId "
+                + "OR receiver_id = :memberId";
+
+        SqlParameterSource parameters = new MapSqlParameterSource("memberId", memberId);
+        return jdbcTemplate.queryForObject(sql,
+                parameters,
+                (rs, rowNum) -> new CouponTotal(rs.getInt("sent_count"), rs.getInt("received_count")));
+    }
 }

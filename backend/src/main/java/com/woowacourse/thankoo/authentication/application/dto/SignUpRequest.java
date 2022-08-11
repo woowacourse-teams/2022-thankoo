@@ -13,4 +13,11 @@ public class SignUpRequest {
     public SignUpRequest(final String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "SignUpRequest{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

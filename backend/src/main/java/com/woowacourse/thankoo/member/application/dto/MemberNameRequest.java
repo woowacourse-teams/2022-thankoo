@@ -13,4 +13,11 @@ public class MemberNameRequest {
     public MemberNameRequest(final String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "MemberNameRequest{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

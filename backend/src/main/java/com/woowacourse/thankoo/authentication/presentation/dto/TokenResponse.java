@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.authentication.presentation.dto;
 
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
+import com.woowacourse.thankoo.common.logging.MaskingUtil;
 import com.woowacourse.thankoo.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,5 +29,15 @@ public class TokenResponse {
 
     public static TokenResponse ofSignedUp(final String accessToken, final Member member) {
         return new TokenResponse(true, accessToken, member.getId(), member.getEmail().getValue());
+    }
+
+    @Override
+    public String toString() {
+        return "TokenResponse{" +
+                "joined=" + joined +
+                ", accessToken='" + MaskingUtil.mask(accessToken, 3) + '\'' +
+                ", memberId=" + memberId +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

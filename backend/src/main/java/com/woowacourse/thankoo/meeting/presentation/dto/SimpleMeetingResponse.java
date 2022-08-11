@@ -32,4 +32,14 @@ public class SimpleMeetingResponse {
                 meetingCoupon.getCouponType(),
                 meetingCoupon.getMemberName());
     }
+
+    @Override
+    public String toString() {
+        return "SimpleMeetingResponse{" +
+                "meetingId=" + meetingId +
+                ", time=" + time +
+                ", couponType='" + couponType + '\'' +
+                ", memberName='" + memberName + '\'' +
+                '}';
+    }
 }

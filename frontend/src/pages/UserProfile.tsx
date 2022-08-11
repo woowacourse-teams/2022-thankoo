@@ -6,7 +6,7 @@ import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
-import useProfile from '../hooks/Profile/useProfile';
+import useProfile from '../hooks/Profile/domain/useProfile';
 import defaultUser from '../assets/images/default_user.jpeg';
 import { useGetCoupons } from '../hooks/Main/queries/coupons';
 
@@ -92,7 +92,7 @@ const S = {
     grid-template-columns: 30% 50% 20%;
     align-items: center;
     color: white;
-    height:40px;
+    height: 40px;
   `,
   Bold: styled.span`
     font-weight: 700;
