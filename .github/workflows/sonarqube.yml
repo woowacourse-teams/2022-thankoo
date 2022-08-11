@@ -38,7 +38,7 @@ jobs:
       # Gralde 의 Scanner 발동, 위의 env 에서 선언한 환경변수와 함께 발동
       - name: Sonarqube Analysis
         run: ./gradlew build sonarqube
-          -Dsonar.host.url=${{ env.SONARQUBE_URL }}
-          -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
-          -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
-          -Dsonar.login=${{ env.SONARQUBE_TOKEN }}
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+          -Dsonar.projectName=${{ secrets.SONAR_PROJECT_KEY }}-${{ github.event.pull_request.number }}
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
