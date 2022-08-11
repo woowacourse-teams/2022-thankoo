@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useRecoilState } from 'recoil';
 import { client } from '../../../apis/axios';
 import { API_PATH } from '../../../constants/api';
 import { UserProfile } from '../../../types';
 import useToast from '../../useToast';
 import { useGetProfile } from '../queries/profile';
-import { toastStackAtom } from './../../recoil/atom';
 
 const useProfile = () => {
-  const [toastStack, setToastStack] = useRecoilState(toastStackAtom); //modify
-
   const { insertToastItem } = useToast();
   const queryClient = useQueryClient();
   const [isNameEdit, setIsNameEdit] = useState(false);
