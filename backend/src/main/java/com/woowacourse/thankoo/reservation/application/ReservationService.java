@@ -36,7 +36,7 @@ public class ReservationService {
     public Long save(final Long memberId, final ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
-        Member foundMember = getMemberById(memberId);
+        Member foundMember = getMember(memberId);
 
         Reservation reservation = new Reservation(reservationRequest.getStartAt(),
                 TimeZoneType.ASIA_SEOUL,
@@ -45,31 +45,32 @@ public class ReservationService {
                 coupon);
         reservation.reserve();
 
-        Long id = reservationRepository.save(reservation).getId();
-        AlarmManager.setResources(new AlarmMessageRequest(
-                getMemberById(coupon.getSenderId()).getEmail().getValue(),
-                AlarmMessage.RECEIVE_RESERVATION));
-        return id;
+        Reservation savedReservation = reservationRepository.save(reservation);
+        sendAlarmMessage(coupon.getSenderId(), AlarmMessage.RECEIVE_RESERVATION);
+        return savedReservation.getId();
     }
 
     @Alarm
     public void updateStatus(final Long memberId,
                              final Long reservationId,
                              final ReservationStatusRequest reservationStatusRequest) {
-        Member foundMember = getMemberById(memberId);
+        Member foundMember = getMember(memberId);
         Reservation reservation = getReservationById(reservationId);
         ReservationStatus futureStatus = ReservationStatus.from(reservationStatusRequest.getStatus());
         reservation.update(foundMember, futureStatus, reservedMeetingCreator);
-        AlarmManager.setResources(new AlarmMessageRequest(
-                getMemberById(reservation.getMemberId()).getEmail().getValue(),
-                AlarmMessage.RESPONSE_RESERVATION));
+        sendAlarmMessage(reservation.getMemberId(), AlarmMessage.RESPONSE_RESERVATION);
     }
 
     public void cancel(final Long memberId,
                        final Long reservationId) {
-        Member foundMember = getMemberById(memberId);
+        Member foundMember = getMember(memberId);
         Reservation reservation = getReservationById(reservationId);
         reservation.cancel(foundMember);
+        sendAlarmMessage(foundMember.getId(), AlarmMessage.CANCEL_RESERVATION);
+    }
+
+    private void sendAlarmMessage(final Long memberId, final AlarmMessage message) {
+        AlarmManager.setResources(new AlarmMessageRequest(getEmail(getMember(memberId)), message));
     }
 
     private Reservation getReservationById(final Long reservationId) {
@@ -77,8 +78,12 @@ public class ReservationService {
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
     }
 
-    private Member getMemberById(final Long memberId) {
+    private Member getMember(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+    }
+
+    private String getEmail(final Member member) {
+        return member.getEmail().getValue();
     }
 }
