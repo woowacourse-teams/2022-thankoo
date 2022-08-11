@@ -31,8 +31,8 @@ jobs:
         run: sudo chmod 755 gradlew
       
       - name: Sonaqube Analysis        
-        run: ./gradlew build sonarqube
-             -Dsonar.host.url=${{ env.SONARQUBE_URL }}
-             -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
-             -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
-             -Dsonar.login=${{ env.SONARQUBE_TOKEN }}
+        run: ./gradlew sonarqube \
+            -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }} \
+            -Dsonar.host.url=${{ env.SONARQUBE_URL }} \
+            -Dsonar.login=${{ env.SONARQUBE_TOKEN }} \
+            -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
