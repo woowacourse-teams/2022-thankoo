@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import IconEmptyList from './LogoEmptyList';
+import IconEmptyList from '../LogoEmptyList';
 
 const EmptyContent = () => {
   return (

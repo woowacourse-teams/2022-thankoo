@@ -1,17 +1,12 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import ArrowBackButton from '../components/@shared/ArrowBackButton';
-import Slider from '../components/@shared/ChoiceSlider';
-import EmptyContent from '../components/@shared/EmptyContent';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import UserProfileButton from '../components/@shared/UserProfileButton';
 import BottomNavBar from '../components/PageButton/BottomNavBar';
 import { COUPON_IMAGE } from '../constants/coupon';
-import { ROUTE_PATH } from '../constants/routes';
 import useMeetings from '../hooks/Meetings/domain/useMeetings';
+import NoMeeting from './../components/@shared/noContent/NoMeeting';
 
 const Meetings = () => {
   const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate } = useMeetings();
@@ -61,7 +56,7 @@ const Meetings = () => {
             </S.Meeting>
           ))
         ) : (
-          <EmptyContent />
+          <NoMeeting />
         )}
         <BottomNavBar />
       </S.Body>
