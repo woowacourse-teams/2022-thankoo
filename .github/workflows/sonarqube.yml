@@ -49,3 +49,15 @@ jobs:
           -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
           -Dsonar.projectName=${{ secrets.SONAR_PROJECT_KEY }}-${{ github.event.pull_request.number }}
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          
+      - name: Comment Sonarqube URL
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { SONARQUBE_PROJECT_KEY, SONARQUBE_URL, PR_NUMBER } = process.env
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📊 ${ SONARQUBE_PROJECT_KEY }-${ PR_NUMBER } 분석 결과 확인하기 [링크](${ SONARQUBE_URL }/dashboard?id=${ SONARQUBE_PROJECT_KEY }&pullRequest=${ PR_NUMBER })`
+            })
