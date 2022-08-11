@@ -6,6 +6,7 @@ import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +48,10 @@ public class CouponController {
     public ResponseEntity<CouponDetailResponse> getCoupon(@AuthenticationPrincipal final Long memberId,
                                                           @PathVariable final Long couponId) {
         return ResponseEntity.ok(couponQueryService.getCouponDetail(memberId, couponId));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<CouponTotalResponse> getCouponTotalCount(@AuthenticationPrincipal final Long memberId) {
+        return ResponseEntity.ok(couponQueryService.getCouponTotalCount(memberId));
     }
 }

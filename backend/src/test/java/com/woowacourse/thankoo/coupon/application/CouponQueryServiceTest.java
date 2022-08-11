@@ -4,6 +4,9 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
@@ -28,6 +31,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -97,6 +101,29 @@ class CouponQueryServiceTest {
         );
     }
 
+    @DisplayName("보낸, 받은 쿠폰 개수를 조회한다.")
+    @Test
+    void getCouponTotalCount() {
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
+        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
+        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
+        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
+        couponRepository.save(new Coupon(receiver.getId(), sender.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
+        couponRepository.save(new Coupon(receiver.getId(), sender.getId(),
+                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
+
+        CouponTotalResponse couponTotal = couponQueryService.getCouponTotalCount(sender.getId());
+        assertAll(
+                () -> assertThat(couponTotal.getSentCount()).isEqualTo(3),
+                () -> assertThat(couponTotal.getReceivedCount()).isEqualTo(2)
+        );
+    }
+
     @DisplayName("단일 쿠폰을 조회할 때 ")
     @Nested
     class CouponDetailTest {
@@ -161,7 +188,8 @@ class CouponQueryServiceTest {
                     new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(), coupon.getId());
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    coupon.getId());
             assertThat(couponDetailResponse.getMeeting()).isNotNull();
         }
 
@@ -176,7 +204,8 @@ class CouponQueryServiceTest {
                     new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
-            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(), coupon.getId());
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    coupon.getId());
             assertAll(
                     () -> assertThat(couponDetailResponse.getReservation()).isNull(),
                     () -> assertThat(couponDetailResponse.getMeeting()).isNull()

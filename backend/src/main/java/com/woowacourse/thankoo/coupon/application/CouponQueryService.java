@@ -4,12 +4,13 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.CouponQueryRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponStatusGroup;
-import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
-import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.coupon.domain.MeetingProvider;
+import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
 import com.woowacourse.thankoo.coupon.domain.ReservationProvider;
+import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,5 +71,9 @@ public class CouponQueryService {
             return CouponDetailResponse.from(memberCoupon, meetingProvider.getOnProgressMeeting(couponId));
         }
         return CouponDetailResponse.from(memberCoupon, reservationProvider.getWaitingReservation(couponId));
+    }
+
+    public CouponTotalResponse getCouponTotalCount(final Long memberId) {
+        return CouponTotalResponse.from(couponQueryRepository.getCouponCount(memberId));
     }
 }
