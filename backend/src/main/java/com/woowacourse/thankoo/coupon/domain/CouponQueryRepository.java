@@ -98,9 +98,11 @@ public class CouponQueryRepository {
     }
 
     public CouponTotal getCouponCount(final Long memberId) {
-        String sql = "SELECT COUNT(CASE WHEN sender_id = :memberId then 1 end) as sent_count, "
-                + "COUNT(CASE WHEN receiver_id = :memberId then 1 end) as received_count "
-                + "FROM coupon";
+        String sql = "SELECT COUNT(CASE WHEN sender_id = :memberId THEN 1 END) AS sent_count, "
+                + "COUNT(CASE WHEN receiver_id = :memberId THEN 1 END) AS received_count "
+                + "FROM coupon "
+                + "WHERE sender_id = :memberId "
+                + "OR receiver_id = :memberId";
 
         SqlParameterSource parameters = new MapSqlParameterSource("memberId", memberId);
         return jdbcTemplate.queryForObject(sql,
