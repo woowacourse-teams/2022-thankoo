@@ -9,12 +9,17 @@ public class AlarmManager {
     public static AlarmMessageRequest getResources() {
         AlarmMessageRequest alarmMessageEvent = resources.get();
         if (alarmMessageEvent == null) {
-            throw new RuntimeException();
+            throw new RuntimeException("전송하려는 알람이 존재하지 않습니다.");
         }
         return alarmMessageEvent;
     }
 
     public static void setResources(AlarmMessageRequest alarmMessageEvent) {
+        resources.remove();
         resources.set(alarmMessageEvent);
+    }
+
+    public static void remove() {
+        resources.remove();
     }
 }

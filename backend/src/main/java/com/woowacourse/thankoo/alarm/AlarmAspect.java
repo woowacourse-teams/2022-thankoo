@@ -24,5 +24,6 @@ public class AlarmAspect {
         for (String email : emails) {
             alarmSender.send(email, messageRequest.getAlarmMessage());
         }
+        AlarmManager.remove();
     }
 }
