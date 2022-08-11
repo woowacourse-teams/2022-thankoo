@@ -69,13 +69,13 @@ public class ReservationService {
         sendMessage(foundMember.getId(), AlarmMessage.CANCEL_RESERVATION);
     }
 
-    private void sendMessage(final Long memberId, final AlarmMessage message) {
-        AlarmManager.setResources(new AlarmMessageRequest(getEmail(getMember(memberId)), message));
-    }
-
     private Reservation getReservationById(final Long reservationId) {
         return reservationRepository.findWithCouponById(reservationId)
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
+    }
+
+    private void sendMessage(final Long memberId, final AlarmMessage message) {
+        AlarmManager.setResources(new AlarmMessageRequest(getEmail(getMember(memberId)), message));
     }
 
     private Member getMember(final Long memberId) {
