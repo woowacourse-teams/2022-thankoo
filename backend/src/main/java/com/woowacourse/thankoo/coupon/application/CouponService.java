@@ -44,9 +44,12 @@ public class CouponService {
     }
 
     private void sendMessage(final List<Member> members) {
-        List<String> emails = members.stream()
+        AlarmManager.setResources(new AlarmMessageRequest(getEmails(members), AlarmMessage.RECEIVE_COUPON));
+    }
+
+    private List<String> getEmails(final List<Member> members) {
+        return members.stream()
                 .map(member -> member.getEmail().getValue())
                 .collect(Collectors.toList());
-        AlarmManager.setResources(new AlarmMessageRequest(emails, AlarmMessage.RECEIVE_COUPON));
     }
 }

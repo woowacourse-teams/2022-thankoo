@@ -46,7 +46,7 @@ public class ReservationService {
         reservation.reserve();
 
         Reservation savedReservation = reservationRepository.save(reservation);
-        sendAlarmMessage(coupon.getSenderId(), AlarmMessage.RECEIVE_RESERVATION);
+        sendMessage(coupon.getSenderId(), AlarmMessage.RECEIVE_RESERVATION);
         return savedReservation.getId();
     }
 
@@ -58,7 +58,7 @@ public class ReservationService {
         Reservation reservation = getReservationById(reservationId);
         ReservationStatus futureStatus = ReservationStatus.from(reservationStatusRequest.getStatus());
         reservation.update(foundMember, futureStatus, reservedMeetingCreator);
-        sendAlarmMessage(reservation.getMemberId(), AlarmMessage.RESPONSE_RESERVATION);
+        sendMessage(reservation.getMemberId(), AlarmMessage.RESPONSE_RESERVATION);
     }
 
     public void cancel(final Long memberId,
@@ -66,10 +66,10 @@ public class ReservationService {
         Member foundMember = getMember(memberId);
         Reservation reservation = getReservationById(reservationId);
         reservation.cancel(foundMember);
-        sendAlarmMessage(foundMember.getId(), AlarmMessage.CANCEL_RESERVATION);
+        sendMessage(foundMember.getId(), AlarmMessage.CANCEL_RESERVATION);
     }
 
-    private void sendAlarmMessage(final Long memberId, final AlarmMessage message) {
+    private void sendMessage(final Long memberId, final AlarmMessage message) {
         AlarmManager.setResources(new AlarmMessageRequest(getEmail(getMember(memberId)), message));
     }
 
