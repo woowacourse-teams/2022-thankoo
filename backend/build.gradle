@@ -3,11 +3,13 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.9.2'
     id 'java'
+    id "org.sonarqube" version "3.3"
+}
+plugins {
 }
 
 group = 'com.woowacourse'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -74,4 +76,10 @@ task buildDocument(type: Copy) {
 
 bootJar {
     dependsOn buildDocument
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "thankoo-sonarqube"
+    }
 }
