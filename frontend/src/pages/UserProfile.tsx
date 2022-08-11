@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import defaultUser from '../assets/images/default_user.jpeg';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
@@ -7,14 +8,10 @@ import PageLayout from '../components/@shared/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
 import useProfile from '../hooks/Profile/domain/useProfile';
-import defaultUser from '../assets/images/default_user.jpeg';
-import { useGetCoupons } from '../hooks/Main/queries/coupons';
 
 const UserProfile = () => {
-  const { profile, isNameEdit, name, handleClickModifyNameButton, onChangeName } = useProfile();
-
-  const { data: sent } = useGetCoupons('보낸');
-  const { data: received } = useGetCoupons('받은');
+  const { profile, isNameEdit, name, handleClickModifyNameButton, onChangeName, exchangeCount } =
+    useProfile();
 
   return (
     <PageLayout>
@@ -59,11 +56,11 @@ const UserProfile = () => {
         <S.UserCouponInfo>
           <S.UserCouponInfoItem>
             <span>보낸 쿠폰 수</span>
-            <span>{sent?.length}</span>
+            <span>{exchangeCount.sentCount}</span>
           </S.UserCouponInfoItem>
           <S.UserCouponInfoItem>
             <span>받은 쿠폰 수</span>
-            <span>{received?.length}</span>
+            <span>{exchangeCount.receivedCount}</span>
           </S.UserCouponInfoItem>
         </S.UserCouponInfo>
       </S.Body>

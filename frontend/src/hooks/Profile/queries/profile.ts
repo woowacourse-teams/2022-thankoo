@@ -23,3 +23,26 @@ export const useGetProfile = (
       },
     }
   );
+
+export interface exchangeCount {
+  sentCount: number;
+  receivedCount: number;
+}
+export const useGetCouponExchangeCount = (
+  { onSuccess: handleSuccess } = { onSuccess: (data: exchangeCount) => {} }
+) =>
+  useQuery<exchangeCount>(
+    'couponExchangeCount',
+    async () => {
+      const { data } = await client({
+        method: 'get',
+        url: `${API_PATH.GET_COUPONS_EXCHANGE_COUNT}`,
+      });
+      return data;
+    },
+    {
+      onSuccess: data => {
+        handleSuccess?.(data);
+      },
+    }
+  );
