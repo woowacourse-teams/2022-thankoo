@@ -100,6 +100,7 @@ jacoco {
     toolVersion = "0.8.8"
 }
 
+
 jacocoTestReport {
     dependsOn test
     reports {
