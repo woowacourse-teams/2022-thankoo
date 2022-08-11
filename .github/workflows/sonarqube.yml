@@ -38,7 +38,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Sonaqube Analysis        
-        run: ./gradlew sonarqube \
+        run: ./gradlew build sonarqube \
             -D sonar.host.url=${{ env.SONARQUBE_URL }} \
             -D sonar.login=${{ env.SONARQUBE_TOKEN }} \
             -D sonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
