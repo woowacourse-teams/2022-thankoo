@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Backend CI
+name: Sonarqube
 
 on:
   push:
@@ -22,23 +22,23 @@ jobs:
     env:
       SONARQUBE_URL: ${{ secrets.SONAR_HOST_URL }}
       SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
+      SONARQUBE_PROJECT_KEY : ${{ secrets.SONAR_PROJECT_KEY }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
       
+    
     steps:
-      - name: action checkout
+      # 소스코드 체크아웃 수행
+      - name: Checkout source code
         uses: actions/checkout@v2
 
-      - name: Set up JDK 1.11
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '11'
+      # gradlw 파일 권한 변경
+      - name: gradlew permission change
+        run: sudo chmod 755 gradlew
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Sonaqube Analysis        
-        run: ./gradlew build sonarqube \
-            -D sonar.host.url=${{ env.SONARQUBE_URL }} \
-            -D sonar.login=${{ env.SONARQUBE_TOKEN }} \
-            -D sonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
+      # Gralde 의 Scanner 발동, 위의 env 에서 선언한 환경변수와 함께 발동
+      - name: Sonarqube Analysis
+        run: ./gradlew test sonarqube
+          -Dsonar.host.url=${{ env.SONARQUBE_URL }}
+          -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
+          -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
+          -Dsonar.login=${{ env.SONARQUBE_TOKEN }}
