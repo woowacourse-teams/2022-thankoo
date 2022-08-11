@@ -1,13 +1,18 @@
 name: Build
 on:
   push:
-    branches:
-      - master # or the name of your main branch
+    branches: [ "infra/sonarqube" ]
+  pull_request:
+    branches: [ "infra/sonarqube" ]
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+        
     steps:
       - uses: actions/checkout@v2
         with:
