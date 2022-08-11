@@ -7,29 +7,28 @@ on:
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-        
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
+      - name: Checkout source code
+        uses: actions/checkout@v2
+  analysis:
+    runs-on: ubuntu-latest
+    env:
+      SONARQUBE_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+      SONARQUBE_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
 
-      - name: Build and analyze
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: ./gradlew build sonarqube
-          -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
-          -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
-          -Dsonar.projectName=${{ env.SONAR_PROJECT_KEY }}-${{ env.PR_NUMBER }}
-          -Dsonar.login=${{ env.SONAR_TOKEN }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        
+      - name: gradlew permission change
+        run: sudo chmod 755 gradlew
+      
+      - name: Sonaqube Analysis        
+        run: ./gradlew test sonarqube
+             -Dsonar.host.url=${{ env.SONARQUBE_URL }}
+             -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
+             -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
+             -Dsonar.login=${{ env.SONARQUBE_TOKEN }}
