@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
-import { UserProfile } from '../../types';
-import useToast from './../useToast';
+import { client } from '../../../apis/axios';
+import { API_PATH } from '../../../constants/api';
+import { UserProfile } from '../../../types';
+import useToast from '../../useToast';
+import { useGetProfile } from '../queries/profile';
 
 const useProfile = () => {
   const { show: showToast } = useToast();
@@ -14,23 +15,11 @@ const useProfile = () => {
     setName(e.target.value);
   };
 
-  const { data: profile } = useQuery<UserProfile>(
-    'profile',
-    async () => {
-      const { data } = await client({
-        method: 'get',
-        url: `${API_PATH.PROFILE}`,
-      });
-
-      return data;
+  const { data: profile } = useGetProfile({
+    onSuccess: (data: UserProfile) => {
+      setName(data.name);
     },
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: profile => {
-        setName(profile.name);
-      },
-    }
-  );
+  });
 
   const submitModifyName = () => {
     if (!name.length || name === profile?.name) {

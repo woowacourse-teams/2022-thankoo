@@ -6,6 +6,8 @@ const PageLayout = styled.div`
   padding: 5px;
   max-width: 680px;
   margin: 0 auto;
+  height: 100%;
+  position: relative;
 `;
 
 export default PageLayout;

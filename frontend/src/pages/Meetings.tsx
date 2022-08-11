@@ -7,6 +7,8 @@ import EmptyContent from '../components/@shared/EmptyContent';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
+import UserProfileButton from '../components/@shared/UserProfileButton';
+import BottomNavBar from '../components/PageButton/BottomNavBar';
 import { COUPON_IMAGE } from '../constants/coupon';
 import { ROUTE_PATH } from '../constants/routes';
 import useMeetings from '../hooks/Meetings/domain/useMeetings';
@@ -21,22 +23,20 @@ const Meetings = () => {
   return (
     <PageLayout>
       <Header>
-        <Link to={ROUTE_PATH.EXACT_MAIN}>
-          <ArrowBackButton />
-        </Link>
+        <S.UserProfile>
+          <UserProfileButton />
+        </S.UserProfile>
         <HeaderText>
           {meetings?.length
             ? isTodayMeetingExist
               ? '오늘 예정된 약속이 있습니다'
               : `${diffWithNearestDate}일 뒤 약속이 있습니다`
-            : '예정된 약속이 없습니다.'
-          }
-      </HeaderText>
+            : '예정된 약속이 없습니다.'}
+        </HeaderText>
       </Header>
       <S.Body>
         {meetings?.length !== 0 ? (
           meetings?.map((meeting, idx) => (
-            // <Slider></Slider>
             <S.Meeting isToday={diffWithNearestDate === 0 && idx === 0} key={idx}>
               {diffWithNearestDate === 0 && idx === 0 && <S.TodayStrap>오늘</S.TodayStrap>}
               <S.CouponImageWrapper>
@@ -63,6 +63,7 @@ const Meetings = () => {
         ) : (
           <EmptyContent />
         )}
+        <BottomNavBar />
       </S.Body>
     </PageLayout>
   );
@@ -75,6 +76,11 @@ type MeetingWrapperProps = {
 };
 
 const S = {
+  UserProfile: styled.div`
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  `,
   Body: styled.section`
     display: flex;
     flex-direction: column;

@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import SendIcon from '@mui/icons-material/Send';
+
 import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/domain/useMain';
@@ -10,9 +12,12 @@ import Modal from '../components/@shared/Modal';
 import PageLayout from '../components/@shared/PageLayout';
 import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
-import BottomNavBar from './../components/@shared/BottomNavBar';
+import BottomNavBar from '../components/PageButton/BottomNavBar';
 import EmptyContent from '../components/@shared/EmptyContent';
 import { useState } from 'react';
+import UserProfileButton from '../components/@shared/UserProfileButton';
+import { Link } from 'react-router-dom';
+import { ROUTE_PATH } from '../constants/routes';
 
 const Main = () => {
   const {
@@ -34,7 +39,9 @@ const Main = () => {
     <>
       <PageLayout>
         <Header>
-          <div style={{ padding: '15px 0' }}></div>
+          <S.UserProfile>
+            <UserProfileButton />
+          </S.UserProfile>
           <S.HeaderText
             onClick={() => {
               setDropdownShow(prev => !prev);
@@ -61,6 +68,9 @@ const Main = () => {
             selectableTabs={couponTypeKeys}
           />
           {orderedCoupons?.length ? <GridViewCoupons coupons={orderedCoupons} /> : <EmptyContent />}
+          <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
+            <S.SendIcon />
+          </S.SelectReceiverButton>
         </S.Body>
 
         {visible && <Modal />}
@@ -78,7 +88,7 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 15px;
     padding: 5px 3vw;
   `,
   HeaderText: styled(HeaderText)`
@@ -91,6 +101,11 @@ const S = {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  `,
+  UserProfile: styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   `,
   Dropdown: styled.div<DropdownProps>`
     position: absolute;
@@ -108,6 +123,28 @@ const S = {
       :hover {
         background-color: #ff6347;
       }
+    }
+  `,
+  SelectReceiverButton: styled(Link)``,
+  SendIcon: styled(SendIcon)`
+    position: absolute;
+    bottom: 100px;
+    right: 20px;
+    fill: ${({ theme }) => theme.button.abled.color};
+    padding: 0.7rem;
+    border-radius: 50%;
+    transform: rotate(-45deg) scale(1);
+    opacity: 0.9;
+    cursor: pointer;
+    transition: all ease-in-out 0.2s;
+    background-color: #4a4a4a;
+    z-index: 100;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.button.active.background};
+      fill: ${({ theme }) => theme.button.active.color};
+      border-color: transparent;
+      opacity: 1;
     }
   `,
 };
