@@ -27,6 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
         run: ./gradlew build sonarqube
           -Dsonar.host.url=${{ env.SONAR_HOST_URL }}
           -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
