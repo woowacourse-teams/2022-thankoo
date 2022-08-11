@@ -96,8 +96,6 @@ sonarqube {
     }
 }
 
-
-
 jacoco {
     toolVersion = "0.8.8"
 }
@@ -111,6 +109,17 @@ jacocoTestReport {
 
         html.destination file("build/jacoco/index.html")
         xml.destination file("build/jacoco/index.xml")
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "**/test/**",
+                    "**/exception/**",
+                    "**/config/**",
+                    "**/dto/**"
+            ])
+        }))
     }
 }
 
