@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.9.2'
     id 'java'
+    id 'jacoco'
     id "org.sonarqube" version "3.3"
 }
 plugins {
@@ -81,5 +82,27 @@ bootJar {
 sonarqube {
     properties {
         property "sonar.projectKey", "thankoo-sonarqube"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/index.xml"
+        property 'sonar.language', 'java'
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled true
+
+        html.destination file("build/jacoco/index.html")
+        xml.destination file("build/jacoco/index.xml")
     }
 }
