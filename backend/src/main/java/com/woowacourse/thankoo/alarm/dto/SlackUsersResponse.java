@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.common.alarm.dto;
+package com.woowacourse.thankoo.alarm.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

@@ -13,4 +13,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     long countByIdIn(List<Long> ids);
 
     Optional<Member> findBySocialId(String socialId);
+
+    List<Member> findByIdIn(List<Long> id);
 }

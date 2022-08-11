@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.common.alarm.dto;
+package com.woowacourse.thankoo.alarm.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;

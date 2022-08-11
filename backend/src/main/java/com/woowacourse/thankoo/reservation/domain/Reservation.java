@@ -108,6 +108,7 @@ public class Reservation extends BaseEntity {
         reservationStatus = futureStatus;
         if (reservationStatus.isDeny()) {
             coupon.rollBack();
+
             return;
         }
         coupon.accepted();

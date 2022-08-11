@@ -1,5 +1,9 @@
 package com.woowacourse.thankoo.reservation.application;
 
+import com.woowacourse.thankoo.alarm.support.Alarm;
+import com.woowacourse.thankoo.alarm.support.AlarmManager;
+import com.woowacourse.thankoo.alarm.AlarmMessage;
+import com.woowacourse.thankoo.alarm.dto.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -28,6 +32,7 @@ public class ReservationService {
     private final MemberRepository memberRepository;
     private final ReservedMeetingCreator reservedMeetingCreator;
 
+    @Alarm
     public Long save(final Long memberId, final ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
@@ -40,9 +45,14 @@ public class ReservationService {
                 coupon);
         reservation.reserve();
 
-        return reservationRepository.save(reservation).getId();
+        Long id = reservationRepository.save(reservation).getId();
+        AlarmManager.setResources(new AlarmMessageRequest(
+                getMemberById(coupon.getSenderId()).getEmail().getValue(),
+                AlarmMessage.RECEIVE_RESERVATION));
+        return id;
     }
 
+    @Alarm
     public void updateStatus(final Long memberId,
                              final Long reservationId,
                              final ReservationStatusRequest reservationStatusRequest) {
@@ -50,6 +60,9 @@ public class ReservationService {
         Reservation reservation = getReservationById(reservationId);
         ReservationStatus futureStatus = ReservationStatus.from(reservationStatusRequest.getStatus());
         reservation.update(foundMember, futureStatus, reservedMeetingCreator);
+        AlarmManager.setResources(new AlarmMessageRequest(
+                getMemberById(reservation.getMemberId()).getEmail().getValue(),
+                AlarmMessage.RESPONSE_RESERVATION));
     }
 
     public void cancel(final Long memberId,

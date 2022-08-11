@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.common.alarm.cache;
+package com.woowacourse.thankoo.alarm.domain;
 
 import lombok.Getter;
 
