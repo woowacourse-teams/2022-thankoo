@@ -53,6 +53,7 @@ dependencies {
     implementation 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
 }
 
+
 tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
