@@ -45,7 +45,6 @@ const S = {
     transition: all ease-in;
     transition-duration: 0.2s;
     -webkit-transition-duration: 0.2s;
-    opacity: 0.5;
     &:active {
       background-color: ${({ theme }) => theme.button.active.background};
     }
