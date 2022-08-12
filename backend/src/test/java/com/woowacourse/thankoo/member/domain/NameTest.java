@@ -12,7 +12,7 @@ class NameTest {
 
     @DisplayName("올바르지 않은 이름이 들어올 경우 예외가 발생한다.")
     @ParameterizedTest
-    @ValueSource(strings = {" ", "abcdefghijkabcdefghijk1"})
+    @ValueSource(strings = {" ", "abcdef"})
     void createNameException(String value) {
         assertThatThrownBy(() -> new Name(value))
                 .isInstanceOf(InvalidMemberException.class)
