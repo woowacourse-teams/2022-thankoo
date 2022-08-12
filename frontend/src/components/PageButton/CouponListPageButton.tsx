@@ -10,7 +10,7 @@ const CouponsPageButton = () => {
   return (
     <S.Link to={ROUTE_PATH.EXACT_MAIN}>
       <S.ButtonWrapper active={location.pathname === ROUTE_PATH.EXACT_MAIN}>
-        <S.IconWrapper active={location.pathname === ROUTE_PATH.EXACT_MAIN}>
+        <S.IconWrapper>
           <S.Icon src={CouponIcon} alt='coupon_page_butotn' />
         </S.IconWrapper>
         <p>쿠폰</p>
@@ -38,9 +38,10 @@ const S = {
       active &&
       css`
         opacity: 1;
+        transform: scale(1.1);
       `};
   `,
-  IconWrapper: styled.div<ButtonProps>`
+  IconWrapper: styled.div`
     border-radius: 50%;
     width: 44px;
     height: 44px;

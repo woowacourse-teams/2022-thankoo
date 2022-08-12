@@ -10,7 +10,7 @@ const ScheduledPageButton = () => {
   return (
     <S.Link to={ROUTE_PATH.MEETINGS}>
       <S.ButtonWrapper active={location.pathname === ROUTE_PATH.MEETINGS}>
-        <S.Icon active={location.pathname === ROUTE_PATH.MEETINGS} />
+        <S.Icon />
         <p>약속</p>
       </S.ButtonWrapper>
     </S.Link>
@@ -34,9 +34,10 @@ const S = {
       active &&
       css`
         opacity: 1;
+        transform: scale(1.1);
       `};
   `,
-  Icon: styled(EventAvailableIcon)<ButtonProps>`
+  Icon: styled(EventAvailableIcon)`
     transform: scale(1.1);
     border-radius: 50%;
     padding: 0.5rem;
@@ -45,13 +46,6 @@ const S = {
     transition-duration: 0.2s;
     -webkit-transition-duration: 0.2s;
     opacity: 0.5;
-    ${({ active }) =>
-      active &&
-      css`
-        opacity: 1;
-        transform: scale(1.1);
-      `}
-
     &:active {
       background-color: ${({ theme }) => theme.button.active.background};
     }
