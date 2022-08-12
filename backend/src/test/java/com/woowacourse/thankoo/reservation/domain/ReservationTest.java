@@ -47,14 +47,17 @@ class ReservationTest {
             Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
-            assertThatNoException()
-                    .isThrownBy(
-                            () -> Reservation.reserve(futureDate,
-                                    TimeZoneType.ASIA_SEOUL,
-                                    ReservationStatus.WAITING,
-                                    receiverId,
-                                    coupon)
-                    );
+            assertAll(
+                    () -> assertThatNoException()
+                            .isThrownBy(
+                                    () -> Reservation.reserve(futureDate,
+                                            TimeZoneType.ASIA_SEOUL,
+                                            ReservationStatus.WAITING,
+                                            receiverId,
+                                            coupon)
+                            ),
+                    () -> assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.RESERVING)
+            );
         }
 
         @DisplayName("시간이 현재 이전이면 예외가 발생한다.")
