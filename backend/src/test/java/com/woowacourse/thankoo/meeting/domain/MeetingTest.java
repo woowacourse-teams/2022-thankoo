@@ -16,7 +16,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.createReservation;
+import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.time;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.common.domain.TimeUnit;
@@ -27,6 +27,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
+import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,7 +46,11 @@ class MeetingTest {
         Member lala = new Member(3L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
         Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
-        Reservation reservation = createReservation(1L, skrr, coupon);
+        Reservation reservation = Reservation.reserve(time(1L),
+                TimeZoneType.ASIA_SEOUL,
+                ReservationStatus.WAITING,
+                skrr.getId(),
+                coupon);
 
         assertThatThrownBy(
                 () -> new Meeting(1L,
@@ -85,7 +90,11 @@ class MeetingTest {
         Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
         Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
-        Reservation reservation = createReservation(1L, skrr, coupon);
+        Reservation reservation = Reservation.reserve(time(1L),
+                TimeZoneType.ASIA_SEOUL,
+                ReservationStatus.WAITING,
+                skrr.getId(),
+                coupon);
 
         assertThatThrownBy(
                 () -> new Meeting(1L,
@@ -109,7 +118,11 @@ class MeetingTest {
             Member other = new Member(3L, HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL);
             Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = createReservation(1L, skrr, coupon);
+            Reservation reservation = Reservation.reserve(time(1L),
+                    TimeZoneType.ASIA_SEOUL,
+                    ReservationStatus.WAITING,
+                    skrr.getId(),
+                    coupon);
 
             Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getTimeUnit(),
                     MeetingStatus.ON_PROGRESS,
@@ -127,7 +140,11 @@ class MeetingTest {
             Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
             Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = createReservation(1L, skrr, coupon);
+            Reservation reservation = Reservation.reserve(time(1L),
+                    TimeZoneType.ASIA_SEOUL,
+                    ReservationStatus.WAITING,
+                    skrr.getId(),
+                    coupon);
 
             Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getTimeUnit(), MeetingStatus.FINISHED,
                     coupon);
@@ -144,7 +161,13 @@ class MeetingTest {
             Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
             Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = createReservation(1L, skrr, coupon);
+            Reservation reservation = Reservation.reserve(time(1L),
+                    TimeZoneType.ASIA_SEOUL,
+                    ReservationStatus.WAITING,
+                    skrr.getId(),
+                    coupon);
+
+            reservation.cancel(skrr);
 
             Meeting meeting = new Meeting(1L, List.of(huni, skrr), reservation.getTimeUnit(), MeetingStatus.FINISHED,
                     coupon);

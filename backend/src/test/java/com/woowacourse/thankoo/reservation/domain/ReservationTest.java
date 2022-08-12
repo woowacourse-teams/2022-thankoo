@@ -2,6 +2,12 @@ package com.woowacourse.thankoo.reservation.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
@@ -14,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.common.fake.FakeReservedMeetingCreator;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -179,21 +184,17 @@ class ReservationTest {
         @Test
         void updateCouponStatusException() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
-            Long receiverId = 2L;
-            Long senderId = 1L;
-
-            Coupon coupon = new Coupon(senderId, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+            Member hoho = new Member(2L, HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL);
+            Coupon coupon = new Coupon(huni.getId(), hoho.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(1L,
-                    new TimeUnit(futureDate.toLocalDate(),
-                            futureDate,
-                            TimeZoneType.ASIA_SEOUL.getId()),
-                    ReservationStatus.WAITING,
-                    receiverId, coupon);
+            Reservation reservation = Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL,
+                    ReservationStatus.WAITING, hoho.getId(), coupon);
+            reservation.cancel(hoho);
 
             assertThatThrownBy(
                     () -> reservation.update(
-                            new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                            new Member(huni.getId(), LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
                             ReservationStatus.ACCEPT,
                             new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
@@ -261,9 +262,7 @@ class ReservationTest {
             Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(1L,
-                    new TimeUnit(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
-                    ReservationStatus.ACCEPT,
+            Reservation reservation = Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.ACCEPT,
                     receiver.getId(), coupon);
 
             assertThatThrownBy(() -> reservation.cancel(receiver))
@@ -271,5 +270,4 @@ class ReservationTest {
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
     }
-
 }

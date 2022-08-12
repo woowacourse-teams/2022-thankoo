@@ -50,11 +50,11 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "coupon_id", nullable = false)
     private Coupon coupon;
 
-    public Reservation(final Long id,
-                       final TimeUnit timeUnit,
-                       final ReservationStatus reservationStatus,
-                       final Long memberId,
-                       final Coupon coupon) {
+    private Reservation(final Long id,
+                        final TimeUnit timeUnit,
+                        final ReservationStatus reservationStatus,
+                        final Long memberId,
+                        final Coupon coupon) {
         validateRightTime(timeUnit);
         validateReservationMember(memberId, coupon);
         validateCouponStatus(coupon);
