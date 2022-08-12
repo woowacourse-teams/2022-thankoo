@@ -124,4 +124,28 @@ class MeetingRepositoryTest {
                 () -> assertThat(meetings).extracting("meetingStatus").containsOnly(MeetingStatus.FINISHED)
         );
     }
+
+    @DisplayName("해당하는 날의 미팅을 모두 조회한다.")
+    @Test
+    void findAllByTimeUnitDate() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+
+        for (int i = 0; i < 3; i++) {
+            Coupon coupon = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Reservation reservation = reservationRepository.save(
+                    ReservationFixture.createReservation(null, receiver, coupon));
+            meetingRepository.save(new Meeting(
+                    List.of(sender, receiver),
+                    reservation.getTimeUnit(),
+                    MeetingStatus.ON_PROGRESS,
+                    coupon)
+            );
+        }
+
+        List<Meeting> meetings = meetingRepository.findAllByTimeUnit_Date(LocalDate.now().plusDays(1L));
+
+        assertThat(meetings).hasSize(3);
+    }
 }
