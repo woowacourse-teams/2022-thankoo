@@ -28,6 +28,17 @@ const useEnterCouponContent = () => {
 
   const isFilled = !!title && !!message;
 
+  const handleOnchangeTitle = value => {
+    if (value.length <= 20) {
+      setTitle(value);
+    }
+  };
+  const handleOnchangeMessage = value => {
+    if (value.lengh <= 100) {
+      setMessage(value);
+    }
+  };
+
   const [currentCoupon, setCurrentCoupon] = useState<Coupon>({
     ...initialCouponState,
     sender: {
@@ -93,6 +104,8 @@ const useEnterCouponContent = () => {
     setMessage,
     checkedUsers,
     currentCoupon,
+    handleOnchangeTitle,
+    handleOnchangeMessage,
   };
 };
 

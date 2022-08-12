@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
-
+//TODO:글자수 제한 받기 => onchange state로 하기
+//onValid 일때
 const Input = ({ setValue, ...rest }) => {
   return (
     <S.Container>
