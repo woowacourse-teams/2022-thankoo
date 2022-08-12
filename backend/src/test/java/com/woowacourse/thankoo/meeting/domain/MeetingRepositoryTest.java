@@ -9,13 +9,13 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.time;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
-import com.woowacourse.thankoo.common.fixtures.ReservationFixture;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -23,6 +23,8 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
+import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
+import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +56,11 @@ class MeetingRepositoryTest {
         Coupon coupon = couponRepository.save(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Reservation reservation = reservationRepository.save(
-                ReservationFixture.createReservation(null, receiver, coupon));
+                Reservation.reserve(time(1L),
+                        TimeZoneType.ASIA_SEOUL,
+                        ReservationStatus.WAITING,
+                        receiver.getId(),
+                        coupon));
         Meeting savedMeeting = meetingRepository.save(
                 new Meeting(
                         List.of(sender, receiver),
@@ -79,7 +85,11 @@ class MeetingRepositoryTest {
             Coupon coupon = couponRepository.save(
                     new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Reservation reservation = reservationRepository.save(
-                    ReservationFixture.createReservation(null, receiver, coupon));
+                    Reservation.reserve(time(1L),
+                            TimeZoneType.ASIA_SEOUL,
+                            ReservationStatus.WAITING,
+                            receiver.getId(),
+                            coupon));
             meetingRepository.save(new Meeting(
                     List.of(sender, receiver),
                     reservation.getTimeUnit(),
@@ -106,7 +116,11 @@ class MeetingRepositoryTest {
             Coupon coupon = couponRepository.save(
                     new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Reservation reservation = reservationRepository.save(
-                    ReservationFixture.createReservation(null, receiver, coupon));
+                    Reservation.reserve(time(1L),
+                            TimeZoneType.ASIA_SEOUL,
+                            ReservationStatus.WAITING,
+                            receiver.getId(),
+                            coupon));
             Meeting meeting = meetingRepository.save(new Meeting(
                     List.of(sender, receiver),
                     reservation.getTimeUnit(),

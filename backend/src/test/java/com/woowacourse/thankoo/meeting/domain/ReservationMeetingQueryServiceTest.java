@@ -63,7 +63,7 @@ class ReservationMeetingQueryServiceTest {
         Reservation reservation = reservationRepository.findWithCouponById(reservationId)
                 .get();
 
-        reservationMeetingService.create(reservation);
+        reservationMeetingService.create(reservation.getCoupon(), reservation.getTimeUnit());
 
         assertThat(meetingRepository.findAll()).hasSize(1);
     }
