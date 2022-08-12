@@ -14,13 +14,13 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.common.fake.FakeReservedMeetingCreator;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
-import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
@@ -117,9 +117,11 @@ class ReservationTest {
 
             Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, reservationStatus,
-                    receiverId, coupon);
-            reservation.reserve();
+            Reservation reservation = Reservation.reserve(futureDate,
+                    TimeZoneType.ASIA_SEOUL,
+                    reservationStatus,
+                    receiverId,
+                    coupon);
 
             assertThatThrownBy(
                     () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
@@ -136,9 +138,11 @@ class ReservationTest {
 
             Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
-                    receiverId, coupon);
-            reservation.reserve();
+            Reservation reservation = Reservation.reserve(futureDate,
+                    TimeZoneType.ASIA_SEOUL,
+                    ReservationStatus.WAITING,
+                    receiverId,
+                    coupon);
 
             assertThatThrownBy(
                     () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
@@ -155,9 +159,9 @@ class ReservationTest {
 
             Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
+            Reservation reservation = Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL,
+                    ReservationStatus.WAITING,
                     receiverId, coupon);
-            reservation.reserve();
 
             assertThatThrownBy(
                     () -> reservation.update(
@@ -198,11 +202,11 @@ class ReservationTest {
 
             Coupon coupon = new Coupon(senderId, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(1L,
-                    new TimeUnit(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
+            Reservation reservation = Reservation.reserve(futureDate,
+                    TimeZoneType.ASIA_SEOUL,
                     ReservationStatus.WAITING,
-                    receiverId, coupon);
-            reservation.reserve();
+                    receiverId,
+                    coupon);
 
             reservation.update(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
                     ReservationStatus.ACCEPT,
@@ -229,11 +233,11 @@ class ReservationTest {
             Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(1L,
-                    new TimeUnit(futureDate.toLocalDate(), futureDate, TimeZoneType.ASIA_SEOUL.getId()),
+            Reservation reservation = Reservation.reserve(futureDate,
+                    TimeZoneType.ASIA_SEOUL,
                     ReservationStatus.WAITING,
-                    receiver.getId(), coupon);
-            reservation.reserve();
+                    receiver.getId(),
+                    coupon);
 
             assertThatThrownBy(() -> reservation.cancel(sender))
                     .isInstanceOf(ForbiddenException.class)

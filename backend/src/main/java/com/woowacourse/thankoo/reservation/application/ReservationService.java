@@ -33,12 +33,11 @@ public class ReservationService {
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
         Member foundMember = getMemberById(memberId);
 
-        Reservation reservation = new Reservation(reservationRequest.getStartAt(),
+        Reservation reservation = Reservation.reserve(reservationRequest.getStartAt(),
                 TimeZoneType.ASIA_SEOUL,
                 ReservationStatus.WAITING,
                 foundMember.getId(),
                 coupon);
-        reservation.reserve();
 
         return reservationRepository.save(reservation).getId();
     }

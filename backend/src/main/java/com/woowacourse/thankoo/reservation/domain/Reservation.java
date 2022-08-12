@@ -65,7 +65,7 @@ public class Reservation extends BaseEntity {
         this.coupon = coupon;
     }
 
-    public Reservation(final LocalDateTime meetingTime,
+    private Reservation(final LocalDateTime meetingTime,
                        final TimeZoneType timeZone,
                        final ReservationStatus reservationStatus,
                        final Long memberId,
@@ -95,7 +95,17 @@ public class Reservation extends BaseEntity {
         }
     }
 
-    public void reserve() {
+    public static Reservation reserve(final LocalDateTime meetingTime,
+                                      final TimeZoneType timeZone,
+                                      final ReservationStatus reservationStatus,
+                                      final Long memberId,
+                                      final Coupon coupon) {
+        Reservation reservation = new Reservation(meetingTime, timeZone, reservationStatus, memberId, coupon);
+        reservation.reserve();
+        return reservation;
+    }
+
+    private void reserve() {
         coupon.reserve();
     }
 
