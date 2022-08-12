@@ -7,7 +7,7 @@ import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
-import useProfile from '../hooks/Profile/domain/useProfile';
+import useProfile from '../hooks/Profile/useProfile';
 
 const UserProfile = () => {
   const { profile, isNameEdit, name, handleClickModifyNameButton, onChangeName, exchangeCount } =

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { client } from '../../../apis/axios';
-import { API_PATH } from '../../../constants/api';
-import { UserProfile } from '../../../types';
-import useToast from '../../useToast';
-import { exchangeCount, useGetCouponExchangeCount, useGetProfile } from '../queries/profile';
+import { client } from '../../apis/axios';
+import { API_PATH } from '../../constants/api';
+import { UserProfile } from '../../types';
+import { exchangeCount, useGetCouponExchangeCount, useGetProfile } from '../@queries/profile';
+import useToast from '../useToast';
 
 const useProfile = () => {
   const { insertToastItem } = useToast();
