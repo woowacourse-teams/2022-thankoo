@@ -1,11 +1,12 @@
 package com.woowacourse.thankoo.coupon.application;
 
+import com.woowacourse.thankoo.alarm.AlarmMessage;
 import com.woowacourse.thankoo.alarm.support.Alarm;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.AlarmMessage;
 import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -27,8 +28,11 @@ public class CouponService {
     @Alarm
     public void saveAll(final Long senderId, final CouponRequest couponRequest) {
         validateMember(senderId, couponRequest.getReceiverIds());
-        couponRepository.saveAll(couponRequest.toEntities(senderId));
-        sendMessage(memberRepository.findByIdIn(couponRequest.getReceiverIds()));
+        List<Coupon> coupons = couponRepository.saveAll(couponRequest.toEntities(senderId));
+        List<Long> receiverIds = coupons.stream()
+                .map(Coupon::getReceiverId)
+                .collect(Collectors.toList());
+        sendMessage(memberRepository.findByIdIn(receiverIds));
     }
 
     private void validateMember(final Long senderId, final List<Long> receiverIds) {

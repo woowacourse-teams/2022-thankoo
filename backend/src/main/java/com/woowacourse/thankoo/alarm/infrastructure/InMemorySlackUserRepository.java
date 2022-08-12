@@ -1,6 +1,5 @@
-package com.woowacourse.thankoo.alarm.model;
+package com.woowacourse.thankoo.alarm.infrastructure;
 
-import com.woowacourse.thankoo.alarm.infrastructure.SlackClient;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 

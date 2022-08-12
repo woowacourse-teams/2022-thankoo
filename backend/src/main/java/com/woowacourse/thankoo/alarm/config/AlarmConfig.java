@@ -1,10 +1,10 @@
 package com.woowacourse.thankoo.alarm.config;
 
 import com.woowacourse.thankoo.alarm.AlarmSender;
+import com.woowacourse.thankoo.alarm.infrastructure.InMemorySlackUserRepository;
 import com.woowacourse.thankoo.alarm.infrastructure.SlackAlarmSender;
-import com.woowacourse.thankoo.alarm.model.InMemorySlackUserRepository;
-import com.woowacourse.thankoo.alarm.model.SlackUserMapper;
 import com.woowacourse.thankoo.alarm.infrastructure.SlackClient;
+import com.woowacourse.thankoo.alarm.infrastructure.SlackUserMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
