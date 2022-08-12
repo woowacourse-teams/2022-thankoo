@@ -28,6 +28,7 @@ const EnterNickname = () => {
               value={nickname}
               setValue={setNickname}
               placeholder='닉네임을 입력해주세요'
+              maxLength={5}
             />
           </S.FlexColumn>
           <S.Button disabled={nickname.length === 0} type='submit'>
