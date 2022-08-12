@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { client } from '../../apis/axios';
@@ -6,6 +6,7 @@ import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { Coupon, CouponType, initialCouponState, UserProfile } from '../../types';
+import { COUPON_MESSEGE_MAX_LENGTH, COUPON_TITLE_MAX_LENGTH } from './../../constants/coupon';
 import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
@@ -27,6 +28,19 @@ const useEnterCouponContent = () => {
   const [message, setMessage] = useState('');
 
   const isFilled = !!title && !!message;
+
+  const handleOnchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    const targetValue = e.target.value;
+    if (targetValue.length <= COUPON_TITLE_MAX_LENGTH) {
+      setTitle(targetValue);
+    }
+  };
+  const handleOnchangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const targetValue = e.target.value;
+    if (targetValue.length <= COUPON_MESSEGE_MAX_LENGTH) {
+      setMessage(targetValue);
+    }
+  };
 
   const [currentCoupon, setCurrentCoupon] = useState<Coupon>({
     ...initialCouponState,
@@ -93,6 +107,8 @@ const useEnterCouponContent = () => {
     setMessage,
     checkedUsers,
     currentCoupon,
+    handleOnchangeTitle,
+    handleOnchangeMessage,
   };
 };
 
