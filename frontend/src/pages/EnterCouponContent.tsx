@@ -49,13 +49,13 @@ const EnterCouponContent = () => {
         </S.CouponBox>
         <S.Form>
           <S.TitleInput
-            onChange={e => handleOnchangeTitle(e.target.value)}
+            onChange={handleOnchangeTitle}
             value={title}
             type='text'
             placeholder='제목을 입력해주세요'
           />
           <S.MessageTextarea
-            onChange={e => handleOnchangeMessage(e.target.value)}
+            onChange={handleOnchangeMessage}
             value={message}
             placeholder='메세지를 작성해보세요'
             maxLength={100}

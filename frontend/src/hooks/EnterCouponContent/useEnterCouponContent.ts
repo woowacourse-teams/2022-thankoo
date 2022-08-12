@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { client } from '../../apis/axios';
@@ -29,14 +29,16 @@ const useEnterCouponContent = () => {
 
   const isFilled = !!title && !!message;
 
-  const handleOnchangeTitle = value => {
-    if (value.length <= COUPON_TITLE_MAX_LENGTH) {
-      setTitle(value);
+  const handleOnchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    const targetValue = e.target.value;
+    if (targetValue.length <= COUPON_TITLE_MAX_LENGTH) {
+      setTitle(targetValue);
     }
   };
-  const handleOnchangeMessage = value => {
-    if (value.length <= COUPON_MESSEGE_MAX_LENGTH) {
-      setMessage(value);
+  const handleOnchangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const targetValue = e.target.value;
+    if (targetValue.length <= COUPON_MESSEGE_MAX_LENGTH) {
+      setMessage(targetValue);
     }
   };
 
