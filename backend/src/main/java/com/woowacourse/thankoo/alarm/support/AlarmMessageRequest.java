@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.alarm.dto;
+package com.woowacourse.thankoo.alarm.support;
 
 import com.woowacourse.thankoo.alarm.AlarmMessage;
 import java.util.List;

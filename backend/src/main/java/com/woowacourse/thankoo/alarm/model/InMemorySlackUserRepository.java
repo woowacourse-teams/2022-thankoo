@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.alarm.domain;
+package com.woowacourse.thankoo.alarm.model;
 
 import com.woowacourse.thankoo.alarm.infrastructure.SlackClient;
 import java.util.Map;

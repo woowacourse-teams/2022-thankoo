@@ -1,7 +1,7 @@
-package com.woowacourse.thankoo.alarm.domain;
+package com.woowacourse.thankoo.alarm.model;
 
-import com.woowacourse.thankoo.alarm.dto.SlackUserResponse;
-import com.woowacourse.thankoo.alarm.dto.SlackUsersResponse;
+import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUserResponse;
+import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUsersResponse;
 import com.woowacourse.thankoo.alarm.infrastructure.SlackClient;
 import java.util.Map;
 import java.util.Objects;

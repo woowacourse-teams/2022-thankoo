@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.alarm.support;
 
-import com.woowacourse.thankoo.alarm.dto.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 
 public class AlarmManager {

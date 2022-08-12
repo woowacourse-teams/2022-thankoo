@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.common.schedule;
 import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.ON_PROGRESS;
 
 import com.woowacourse.thankoo.alarm.AlarmMessage;
-import com.woowacourse.thankoo.alarm.dto.AlarmMessageRequest;
+import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.alarm.support.Alarm;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;

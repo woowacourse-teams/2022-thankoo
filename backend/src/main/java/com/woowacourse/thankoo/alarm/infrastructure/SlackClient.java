@@ -1,9 +1,9 @@
 package com.woowacourse.thankoo.alarm.infrastructure;
 
 import com.woowacourse.thankoo.alarm.AlarmMessage;
-import com.woowacourse.thankoo.alarm.dto.SlackMessageRequest;
-import com.woowacourse.thankoo.alarm.dto.SlackUserResponse;
-import com.woowacourse.thankoo.alarm.dto.SlackUsersResponse;
+import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackMessageRequest;
+import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUserResponse;
+import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUsersResponse;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

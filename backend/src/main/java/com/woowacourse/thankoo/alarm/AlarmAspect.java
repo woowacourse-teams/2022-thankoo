@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.alarm;
 
-import com.woowacourse.thankoo.alarm.dto.AlarmMessageRequest;
+import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
