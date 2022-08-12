@@ -149,7 +149,11 @@ class MeetingRepositoryTest {
             Coupon coupon = couponRepository.save(
                     new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Reservation reservation = reservationRepository.save(
-                    ReservationFixture.createReservation(null, receiver, coupon));
+                    Reservation.reserve(time(1L),
+                            TimeZoneType.ASIA_SEOUL,
+                            ReservationStatus.WAITING,
+                            receiver.getId(),
+                            coupon));
             meetingRepository.save(new Meeting(
                     List.of(sender, receiver),
                     reservation.getTimeUnit(),
