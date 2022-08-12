@@ -15,12 +15,11 @@ public class AlarmManager {
         return alarmMessageEvent;
     }
 
-    public static void setResources(AlarmMessageRequest alarmMessageEvent) {
-        resources.remove();
+    public static void setResources(final AlarmMessageRequest alarmMessageEvent) {
         resources.set(alarmMessageEvent);
     }
 
-    public static void remove() {
+    public static void clear() {
         resources.remove();
     }
 }

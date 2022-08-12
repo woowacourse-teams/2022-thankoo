@@ -60,7 +60,7 @@ public class MeetingScheduleTask {
         List<Meeting> meetings = meetingRepository.findAllByTimeUnit_Date(LocalDate.now());
         List<String> emails = getEmails(meetings);
         AlarmManager.setResources(new AlarmMessageRequest(emails, AlarmMessage.MEETING));
-        AlarmManager.remove();
+        AlarmManager.clear();
     }
 
     private List<String> getEmails(final List<Meeting> meetings) {
