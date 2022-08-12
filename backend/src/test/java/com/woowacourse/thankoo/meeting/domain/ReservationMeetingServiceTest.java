@@ -70,6 +70,4 @@ class ReservationMeetingServiceTest {
                 .isInstanceOf(InvalidMeetingException.class)
                 .hasMessage("유효하지 않은 일정입니다.");
     }
-
-
 }
