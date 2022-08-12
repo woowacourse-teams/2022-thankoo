@@ -6,16 +6,12 @@ import { UserProfile } from '../../types';
 import { exchangeCount, useGetCouponExchangeCount, useGetProfile } from '../@queries/profile';
 import useToast from '../useToast';
 
-const useProfile = () => {
+const useUserProfile = () => {
   const { insertToastItem } = useToast();
   const queryClient = useQueryClient();
   const [isNameEdit, setIsNameEdit] = useState(false);
   const [name, setName] = useState<string>('');
   const [exchangeCount, setExchangeCount] = useState({ sentCount: 0, receivedCount: 0 });
-
-  const onChangeName = e => {
-    setName(e.target.value);
-  };
 
   const { data: profile } = useGetProfile({
     onSuccess: (data: UserProfile) => {
@@ -77,9 +73,9 @@ const useProfile = () => {
     isNameEdit,
     name,
     handleClickModifyNameButton,
-    onChangeName,
     exchangeCount,
+    setName,
   };
 };
 
-export default useProfile;
+export default useUserProfile;
