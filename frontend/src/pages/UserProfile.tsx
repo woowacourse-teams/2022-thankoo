@@ -9,6 +9,7 @@ import PageLayout from '../components/@shared/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
 import useUserProfile from '../hooks/Profile/useProfile';
+import { USER_NICKNAME_MAX_LENGTH } from './../constants/users';
 
 const UserProfile = () => {
   const { profile, isNameEdit, name, handleClickModifyNameButton, exchangeCount, setName } =
@@ -41,7 +42,7 @@ const UserProfile = () => {
                     handleClickModifyNameButton();
                   }
                 }}
-                maxLength={5}
+                maxLength={USER_NICKNAME_MAX_LENGTH}
               />
             ) : (
               <div>{name}</div>

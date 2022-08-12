@@ -6,6 +6,7 @@ import { API_PATH } from '../../constants/api';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { Coupon, CouponType, initialCouponState, UserProfile } from '../../types';
+import { COUPON_MESSEGE_MAX_LENGTH, COUPON_TITLE_MAX_LENGTH } from './../../constants/coupon';
 import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
@@ -29,12 +30,12 @@ const useEnterCouponContent = () => {
   const isFilled = !!title && !!message;
 
   const handleOnchangeTitle = value => {
-    if (value.length <= 20) {
+    if (value.length <= COUPON_TITLE_MAX_LENGTH) {
       setTitle(value);
     }
   };
   const handleOnchangeMessage = value => {
-    if (value.lengh <= 100) {
+    if (value.length <= COUPON_MESSEGE_MAX_LENGTH) {
       setMessage(value);
     }
   };

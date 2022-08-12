@@ -21,8 +21,6 @@ const EnterCouponContent = () => {
     setCouponType,
     title,
     message,
-    setTitle,
-    setMessage,
     isFilled,
     sendCoupon,
     checkedUsers,
@@ -59,9 +57,9 @@ const EnterCouponContent = () => {
           <S.MessageTextarea
             onChange={e => handleOnchangeMessage(e.target.value)}
             value={message}
-            maxLength={100}
             placeholder='메세지를 작성해보세요'
-          ></S.MessageTextarea>
+            maxLength={100}
+          />
         </S.Form>
       </S.Body>
       <S.LongButton

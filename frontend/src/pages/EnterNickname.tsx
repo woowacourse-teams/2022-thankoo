@@ -5,6 +5,7 @@ import HeaderText from '../components/@shared/HeaderText';
 import Input from '../components/@shared/Input';
 import PageLayout from '../components/@shared/PageLayout';
 import useEnterNickname from '../hooks/EnterNickname/useEnterNickname';
+import { USER_NICKNAME_MAX_LENGTH } from './../constants/users';
 
 const EnterNickname = () => {
   const { email, nickname, setNickname, signUpWithNickname } = useEnterNickname();
@@ -28,7 +29,7 @@ const EnterNickname = () => {
               value={nickname}
               setValue={setNickname}
               placeholder='닉네임을 입력해주세요'
-              maxLength={5}
+              maxLength={USER_NICKNAME_MAX_LENGTH}
             />
           </S.FlexColumn>
           <S.Button disabled={nickname.length === 0} type='submit'>
