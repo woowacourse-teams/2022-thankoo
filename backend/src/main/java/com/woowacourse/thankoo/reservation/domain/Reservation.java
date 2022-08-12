@@ -1,10 +1,10 @@
 package com.woowacourse.thankoo.reservation.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
-import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
@@ -66,10 +66,10 @@ public class Reservation extends BaseEntity {
     }
 
     private Reservation(final LocalDateTime meetingTime,
-                       final TimeZoneType timeZone,
-                       final ReservationStatus reservationStatus,
-                       final Long memberId,
-                       final Coupon coupon) {
+                        final TimeZoneType timeZone,
+                        final ReservationStatus reservationStatus,
+                        final Long memberId,
+                        final Coupon coupon) {
         this(null,
                 new TimeUnit(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
                 reservationStatus,
@@ -121,7 +121,7 @@ public class Reservation extends BaseEntity {
             return;
         }
         coupon.accepted();
-        reservedMeetingCreator.create(this);
+        reservedMeetingCreator.create(coupon, timeUnit);
     }
 
     private void validateReservation(final Member member, final ReservationStatus futureStatus) {

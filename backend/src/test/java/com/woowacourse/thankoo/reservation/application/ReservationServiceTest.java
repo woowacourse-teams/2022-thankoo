@@ -26,7 +26,6 @@ import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
-import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
@@ -117,26 +116,6 @@ class ReservationServiceTest {
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L))))
                 .isInstanceOf(InvalidReservationException.class)
                 .hasMessage("예약을 요청할 수 없는 회원입니다.");
-    }
-
-    @DisplayName("예약을 승인 시 현재 이전일 경우 실패한다.")
-    @Test
-    void acceptTimeFailed() throws InterruptedException {
-        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
-        Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Long reservationId = reservationService.save(receiver.getId(),
-                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusSeconds(1L)));
-
-        Thread.sleep(1000);
-        assertThatThrownBy(() ->
-                reservationService.updateStatus(
-                        sender.getId(),
-                        reservationId,
-                        new ReservationStatusRequest("accept")))
-                .isInstanceOf(InvalidMeetingException.class)
-                .hasMessage("유효하지 않은 일정입니다.");
     }
 
     @DisplayName("예약을 승인한다.")

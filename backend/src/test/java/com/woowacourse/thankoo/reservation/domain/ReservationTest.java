@@ -49,7 +49,7 @@ class ReservationTest {
 
             assertThatNoException()
                     .isThrownBy(
-                            () -> new Reservation(futureDate,
+                            () -> Reservation.reserve(futureDate,
                                     TimeZoneType.ASIA_SEOUL,
                                     ReservationStatus.WAITING,
                                     receiverId,
@@ -66,7 +66,7 @@ class ReservationTest {
             Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
-            assertThatThrownBy(() -> new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
+            assertThatThrownBy(() -> Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
                     receiverId, coupon))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("유효하지 않은 일정입니다.");
@@ -81,7 +81,7 @@ class ReservationTest {
             Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
-            assertThatThrownBy(() -> new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
+            assertThatThrownBy(() -> Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
                     receiverId + 1, coupon))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약을 요청할 수 없는 회원입니다.");
@@ -96,7 +96,7 @@ class ReservationTest {
 
             Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     couponStatus);
-            assertThatThrownBy(() -> new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
+            assertThatThrownBy(() -> Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
                     receiverId, coupon))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 요청이 불가능한 쿠폰입니다.");
@@ -181,7 +181,11 @@ class ReservationTest {
 
             Coupon coupon = new Coupon(senderId, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
-            Reservation reservation = new Reservation(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
+            Reservation reservation = new Reservation(1L,
+                    new TimeUnit(futureDate.toLocalDate(),
+                            futureDate,
+                            TimeZoneType.ASIA_SEOUL.getId()),
+                    ReservationStatus.WAITING,
                     receiverId, coupon);
 
             assertThatThrownBy(
