@@ -11,7 +11,15 @@ public class Coupons {
         this.coupons = List.copyOf(coupons);
     }
 
+    public List<Long> getCouponIds() {
+        return coupons.stream()
+                .map(Coupon::getId)
+                .collect(Collectors.toList());
+    }
+
     public List<Long> getReceiverIds() {
-        return coupons.stream().map(Coupon::getReceiverId).collect(Collectors.toList());
+        return coupons.stream()
+                .map(Coupon::getReceiverId)
+                .collect(Collectors.toList());
     }
 }
