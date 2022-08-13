@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.alarm.infrastructure;
 
 import com.woowacourse.thankoo.alarm.AlarmMessage;
+import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackMessageRequest;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUserResponse;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUsersResponse;
@@ -40,7 +41,7 @@ public class SlackClient {
                 .stream()
                 .filter(userResponse -> email.equals(userResponse.getProfile().getEmail()))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(ErrorType.NOT_FOUND_SLACK_USER.getMessage()));
+                .orElseThrow(() -> new InvalidAlarmException(ErrorType.NOT_FOUND_SLACK_USER));
     }
 
     public String getUserToken(final String email) {
