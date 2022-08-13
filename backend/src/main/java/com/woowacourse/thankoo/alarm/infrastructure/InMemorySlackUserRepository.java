@@ -10,11 +10,11 @@ public class InMemorySlackUserRepository {
     private final Map<String, String> store;
     private final SlackClient slackClient;
 
-    public String findUserId(final String email) {
-        String userId = store.computeIfAbsent(email, slackClient::getUserToken);
-        if (userId == null) {
+    public String findUserToken(final String email) {
+        String userToken = store.computeIfAbsent(email, slackClient::getUserToken);
+        if (userToken == null) {
             throw new RuntimeException(ErrorType.NOT_FOUND_SLACK_USER.getMessage());
         }
-        return userId;
+        return userToken;
     }
 }

@@ -46,7 +46,7 @@ public class SlackClient {
     public String getUserToken(final String email) {
         SlackUsersResponse slackUsers = getUsers();
         SlackUserResponse slackUser = getUser(email, slackUsers);
-        return slackUser.getId();
+        return slackUser.getUserToken();
     }
 
     public void sendMessage(final String channel, final AlarmMessage message) {

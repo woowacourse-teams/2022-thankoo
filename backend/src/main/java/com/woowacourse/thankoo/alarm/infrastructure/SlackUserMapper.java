@@ -19,6 +19,6 @@ public class SlackUserMapper {
                 .filter(slackUserResponse -> Objects.nonNull(slackUserResponse.getProfile().getEmail()))
                 .collect(Collectors.toConcurrentMap(
                         slackUserResponse -> slackUserResponse.getProfile().getEmail(),
-                        SlackUserResponse::getId));
+                        SlackUserResponse::getUserToken));
     }
 }

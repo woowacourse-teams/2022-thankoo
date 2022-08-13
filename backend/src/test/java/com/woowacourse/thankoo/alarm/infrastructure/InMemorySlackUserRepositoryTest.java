@@ -35,7 +35,7 @@ class InMemorySlackUserRepositoryTest {
         store.put(SKRR_EMAIL, "UN7830401");
         InMemorySlackUserRepository repository = new InMemorySlackUserRepository(store, client);
 
-        String token = repository.findUserId(SKRR_EMAIL);
+        String token = repository.findUserToken(SKRR_EMAIL);
 
         verify(client, never()).getUserToken(SKRR_EMAIL);
         assertThat(token).isEqualTo("UN7830401");
@@ -52,7 +52,7 @@ class InMemorySlackUserRepositoryTest {
 
         when(client.getUserToken(SKRR_EMAIL)).thenReturn("UN7830401");
 
-        String token = repository.findUserId(SKRR_EMAIL);
+        String token = repository.findUserToken(SKRR_EMAIL);
 
         verify(client, times(1)).getUserToken(SKRR_EMAIL);
         assertThat(token).isEqualTo("UN7830401");
@@ -69,7 +69,7 @@ class InMemorySlackUserRepositoryTest {
 
         when(client.getUserToken(SKRR_EMAIL)).thenReturn(null);
 
-        assertThatThrownBy(() -> repository.findUserId(SKRR_EMAIL))
+        assertThatThrownBy(() -> repository.findUserToken(SKRR_EMAIL))
                 .hasMessage("알람이 불가능한 이메일입니다. 관리자에게 문의주세요.")
                 .isInstanceOf(RuntimeException.class);
         verify(client, times(1)).getUserToken(SKRR_EMAIL);
