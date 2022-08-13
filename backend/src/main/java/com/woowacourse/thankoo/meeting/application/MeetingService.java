@@ -59,9 +59,11 @@ public class MeetingService {
     }
 
     @Alarm
-    public void sendMessageTodayMeetingMembers() {
-        Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnit_Date(LocalDate.now()));
+    public void sendMessageTodayMeetingMembers(LocalDate date) {
+        Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnit_Date(date));
         Members members = new Members(meetings.getMembers());
-        AlarmManager.setResources(new AlarmMessageRequest(members.getEmails(), AlarmMessage.MEETING));
+        if (!members.isEmpty()) {
+            AlarmManager.setResources(new AlarmMessageRequest(members.getEmails(), AlarmMessage.MEETING));
+        }
     }
 }

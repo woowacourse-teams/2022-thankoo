@@ -16,4 +16,8 @@ public class Members {
                 .map(member -> member.getEmail().getValue())
                 .collect(Collectors.toList());
     }
+
+    public boolean isEmpty() {
+        return members.isEmpty();
+    }
 }
