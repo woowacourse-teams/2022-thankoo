@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL } from '../constants/api';
+import { BASE_URL } from '../../constants/api';
 
 const storedAccessToken = localStorage.getItem('token');
 const defaultHeader = storedAccessToken && {

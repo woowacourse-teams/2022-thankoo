@@ -1,5 +1,5 @@
-import { API_PATH } from '../constants/api';
-import { client } from './axios';
+import { API_PATH } from '../../constants/api';
+import { client } from '../config/axios';
 
 export const createCouponRequest = async ({ receiverIds, content }) => {
   const { data } = await client({

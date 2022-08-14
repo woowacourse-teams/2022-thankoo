@@ -1,25 +1,27 @@
 import { useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { CouponType, UserProfile } from '../../types';
-import { useCreateCouponMutation } from '../queries/coupon';
-import { useGetUserProfile } from '../queries/profile';
+import { useCreateCouponMutation } from '../@queries/coupon';
+import { useGetUserProfile } from '../@queries/profile';
+import useModal from '../useModal';
 import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
   const { successNavigate } = useOnSuccess();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
   const [couponType, setCouponType] = useState<CouponType>('coffee');
   const checkedUsers = useRecoilValue<UserProfile[]>(checkedUsersAtom);
-  const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
 
   const { data: userProfile } = useGetUserProfile();
 
   const isFilled = !!title && !!message;
-
+  const { close } = useModal();
   const { mutate: sendCoupon } = useCreateCouponMutation(
     {
       receiverIds: checkedUsers.map(user => user.id),
@@ -27,11 +29,23 @@ const useEnterCouponContent = () => {
     },
     {
       onSuccess: () => {
-        resetCheckedUsers();
-        successNavigate(ROUTE_PATH.EXACT_MAIN);
+        successNavigate({
+          page: ROUTE_PATH.ENTER_COUPON_CONTENT,
+          props: {
+            couponType,
+            message,
+            receivers: checkedUsers,
+            title,
+          },
+        });
+        close();
       },
     }
   );
+
+  if (!checkedUsers.length) {
+    navigate(ROUTE_PATH.SELECT_RECEIVER);
+  }
 
   return {
     couponType,
@@ -43,8 +57,8 @@ const useEnterCouponContent = () => {
     setTitle,
     setMessage,
     checkedUsers,
-    name: userProfile?.name,
-    id: userProfile?.id,
+    currentUserName: userProfile?.name,
+    currentUserId: userProfile?.id,
   };
 };
 

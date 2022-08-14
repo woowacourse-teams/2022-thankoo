@@ -26,10 +26,10 @@ const EnterCouponContent = () => {
     setTitle,
     setMessage,
     isFilled,
-    sendCoupon,
     checkedUsers,
-    id,
-    name,
+    currentUserId,
+    currentUserName,
+    sendCoupon,
   } = useEnterCouponContent();
   const { setModalContent, show } = useModal();
 
@@ -49,7 +49,12 @@ const EnterCouponContent = () => {
           selectableTabs={couponTypesWithoutEntire}
         />
         <S.CouponBox>
-          <CouponLayout couponType={couponType} id={id} name={name} title={title} />
+          <CouponLayout
+            couponType={couponType}
+            id={currentUserId}
+            name={currentUserName}
+            title={title}
+          />
         </S.CouponBox>
         <S.Form>
           <S.TitleInput
@@ -74,10 +79,9 @@ const EnterCouponContent = () => {
               title={title}
               message={message}
               receivers={checkedUsers}
-              submit={() => {}}
+              submit={sendCoupon}
             />
           );
-          // sendCoupon();
         }}
         disabled={!isFilled}
       >

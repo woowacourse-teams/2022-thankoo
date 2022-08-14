@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { client } from '../../../apis/axios';
+import { client } from '../../../api/config/axios';
 import { API_PATH } from '../../../constants/api';
 import { CouponDetail } from '../../../types';
 

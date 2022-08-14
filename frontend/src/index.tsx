@@ -8,7 +8,7 @@ import { css, Global } from '@emotion/react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
-import { queryClient } from './apis/queryClient';
+import { queryClient } from './api/config/queryClient';
 import './assets/favicon/favicon.ico';
 import reset from './styles/GlobalReset';
 import global from './styles/GlobalStyled';

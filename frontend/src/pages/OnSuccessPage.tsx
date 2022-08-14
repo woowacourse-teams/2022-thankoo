@@ -2,20 +2,27 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import CreateReservationSuccess from '../components/CreateReservation/CreateReservationSuccess';
+import EnterCouponContentSuccess from '../components/EnterCouponContent/EnterCouponContentSuccess';
 import { ROUTE_PATH } from '../constants/routes';
 import { onSuccessContentAtom } from '../recoil/atom';
 
+const COMPONENT_LIST = {
+  [ROUTE_PATH.CREATE_RESERVATION]: props => <CreateReservationSuccess {...props} />,
+  [ROUTE_PATH.ENTER_COUPON_CONTENT]: props => <EnterCouponContentSuccess {...props} />,
+};
+
 const OnSuccessPage = () => {
   const navigate = useNavigate();
-  const content = useRecoilValue(onSuccessContentAtom);
+  const { page, props } = useRecoilValue(onSuccessContentAtom);
 
   useEffect(() => {
-    if (!content) {
+    if (!page) {
       navigate(ROUTE_PATH.EXACT_MAIN);
     }
-  }, [content]);
+  }, []);
 
-  return <S.Layout>{content}</S.Layout>;
+  return <S.Layout>{COMPONENT_LIST[page]?.(props)}</S.Layout>;
 };
 
 const S = {

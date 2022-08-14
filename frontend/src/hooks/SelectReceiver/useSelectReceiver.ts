@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { UserProfile } from '../../types';
-import { useGetMembers } from '../queries/members';
+import { useGetMembers } from '../@queries/members';
 import useFilterMatchedUser from '../useFilterMatchedUser';
 
 const useSelectReceiver = () => {

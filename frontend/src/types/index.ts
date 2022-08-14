@@ -65,6 +65,7 @@ export const initialCouponState = {
   },
 };
 
+export type CouponTypes = 'entire' | 'coffee' | 'meal';
 export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' };
 export const couponTypeValues = Object.values(couponTypes);
 export const couponTypeKeys = Object.keys(couponTypes);

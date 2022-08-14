@@ -4,7 +4,7 @@ import useModal from '../../hooks/useModal';
 import { UserProfile } from '../../types';
 
 const ConfirmCouponContentModal = ({
-  submit = () => {},
+  submit,
   message,
   title,
   receivers,
@@ -22,14 +22,14 @@ const ConfirmCouponContentModal = ({
         <S.ConfirmHeaderText>쿠폰 정보를 확인해주세요</S.ConfirmHeaderText>
         <S.ConfirmContentWrapper>
           <S.ConfirmTitleText>쿠폰 수신인</S.ConfirmTitleText>
-          <S.ConfirmContentText>
-            {receivers.map(receiver => (
-              <S.UserWrapper>
+          <S.ReceiversWrapper>
+            {receivers.map((receiver, idx) => (
+              <S.UserWrapper key={`${receiver}-${idx}`}>
                 <S.UserImage src={receiver.imageUrl} />
                 <span>{receiver.name}</span>
               </S.UserWrapper>
             ))}
-          </S.ConfirmContentText>
+          </S.ReceiversWrapper>
         </S.ConfirmContentWrapper>
         <S.ConfirmContentWrapper>
           <S.ConfirmTitleText>제목</S.ConfirmTitleText>
@@ -40,22 +40,10 @@ const ConfirmCouponContentModal = ({
           <S.ConfirmContentText>{message}</S.ConfirmContentText>
         </S.ConfirmContentWrapper>
         <S.ButtonWrapper>
-          <S.Button
-            onClick={() => {
-              submit();
-              close();
-            }}
-            primary
-          >
+          <S.Button onClick={submit} primary>
             전송
           </S.Button>
-          <S.Button
-            onClick={() => {
-              close();
-            }}
-          >
-            취소
-          </S.Button>
+          <S.Button onClick={close}>취소</S.Button>
         </S.ButtonWrapper>
       </S.Wrapper>
     </S.Container>
@@ -99,6 +87,14 @@ const S = {
     flex-direction: column;
     width: 100%;
     justify-content: space-between;
+    box-sizing: border-box;
+  `,
+  ReceiversWrapper: styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
   `,
   UserWrapper: styled.div`
     display: flex;

@@ -47,9 +47,17 @@ export const toastStackAtom = atom<toastItem[]>({
   default: [],
 });
 
-export const onSuccessContentAtom = atom<ReactNode>({
+interface SuccessContentType {
+  page: string;
+  props: any;
+}
+
+export const onSuccessContentAtom = atom<SuccessContentType>({
   key: 'onSuccessContentAtom',
-  default: null,
+  default: {
+    page: '',
+    props: {},
+  },
 });
 interface toastItem {
   key: number;

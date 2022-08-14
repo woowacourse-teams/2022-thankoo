@@ -24,22 +24,10 @@ const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
           </S.ConfirmContentWrapper>
         </S.SpaceBetween>
         <S.ButtonWrapper>
-          <S.Button
-            onClick={() => {
-              submit();
-              close();
-            }}
-            primary
-          >
+          <S.Button onClick={submit} primary>
             예약
           </S.Button>
-          <S.Button
-            onClick={() => {
-              close();
-            }}
-          >
-            취소
-          </S.Button>
+          <S.Button onClick={close}>취소</S.Button>
         </S.ButtonWrapper>
       </S.Wrapper>
     </S.Container>

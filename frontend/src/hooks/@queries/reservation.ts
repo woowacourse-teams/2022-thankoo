@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { createReservationRequest } from '../../apis/reservation';
+import { createReservationRequest } from '../../api/fetcher/reservation';
 
 export const useCreateReservationMutation = (
   { couponId, date, time },

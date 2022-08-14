@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
-import { getMembersRequest } from '../../apis/members';
+import { getMembersRequest } from '../../api/fetcher/members';
 import { UserProfile } from '../../types';
 
 const QUERY_KEY = {
