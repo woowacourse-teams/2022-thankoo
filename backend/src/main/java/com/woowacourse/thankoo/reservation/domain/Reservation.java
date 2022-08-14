@@ -1,10 +1,10 @@
 package com.woowacourse.thankoo.reservation.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
-import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.reservation.application.ReservedMeetingCreator;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
@@ -50,11 +50,11 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "coupon_id", nullable = false)
     private Coupon coupon;
 
-    public Reservation(final Long id,
-                       final TimeUnit timeUnit,
-                       final ReservationStatus reservationStatus,
-                       final Long memberId,
-                       final Coupon coupon) {
+    private Reservation(final Long id,
+                        final TimeUnit timeUnit,
+                        final ReservationStatus reservationStatus,
+                        final Long memberId,
+                        final Coupon coupon) {
         validateRightTime(timeUnit);
         validateReservationMember(memberId, coupon);
         validateCouponStatus(coupon);
@@ -65,11 +65,11 @@ public class Reservation extends BaseEntity {
         this.coupon = coupon;
     }
 
-    public Reservation(final LocalDateTime meetingTime,
-                       final TimeZoneType timeZone,
-                       final ReservationStatus reservationStatus,
-                       final Long memberId,
-                       final Coupon coupon) {
+    private Reservation(final LocalDateTime meetingTime,
+                        final TimeZoneType timeZone,
+                        final ReservationStatus reservationStatus,
+                        final Long memberId,
+                        final Coupon coupon) {
         this(null,
                 new TimeUnit(meetingTime.toLocalDate(), meetingTime, timeZone.getId()),
                 reservationStatus,
@@ -95,7 +95,17 @@ public class Reservation extends BaseEntity {
         }
     }
 
-    public void reserve() {
+    public static Reservation reserve(final LocalDateTime meetingTime,
+                                      final TimeZoneType timeZone,
+                                      final ReservationStatus reservationStatus,
+                                      final Long memberId,
+                                      final Coupon coupon) {
+        Reservation reservation = new Reservation(meetingTime, timeZone, reservationStatus, memberId, coupon);
+        reservation.reserve();
+        return reservation;
+    }
+
+    private void reserve() {
         coupon.reserve();
     }
 
@@ -111,7 +121,7 @@ public class Reservation extends BaseEntity {
             return;
         }
         coupon.accepted();
-        reservedMeetingCreator.create(this);
+        reservedMeetingCreator.create(coupon, timeUnit);
     }
 
     private void validateReservation(final Member member, final ReservationStatus futureStatus) {

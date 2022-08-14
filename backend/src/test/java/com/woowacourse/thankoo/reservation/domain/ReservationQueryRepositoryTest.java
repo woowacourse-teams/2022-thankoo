@@ -67,13 +67,13 @@ class ReservationQueryRepositoryTest {
 
         LocalDateTime meetingDate = LocalDateTime.now().plusDays(1L);
         reservationRepository.save(
-                new Reservation(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
+                Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
                         coupon1));
         reservationRepository.save(
-                new Reservation(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
+                Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
                         coupon2));
         reservationRepository.save(
-                new Reservation(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, lala.getId(),
+                Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, lala.getId(),
                         coupon3));
 
         List<ReservationCoupon> receivedReservations = reservationQueryRepository.findReceivedReservations(lala.getId(),
@@ -100,13 +100,13 @@ class ReservationQueryRepositoryTest {
 
         LocalDateTime meetingDate = LocalDateTime.now().plusDays(1L);
         reservationRepository.save(
-                new Reservation(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
+                Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
                         coupon1));
         reservationRepository.save(
-                new Reservation(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
+                Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
                         coupon2));
         reservationRepository.save(
-                new Reservation(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, lala.getId(),
+                Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, lala.getId(),
                         coupon3));
 
         List<ReservationCoupon> sentReservations = reservationQueryRepository.findSentReservations(lala.getId(),

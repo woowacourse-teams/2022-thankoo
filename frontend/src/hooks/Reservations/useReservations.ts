@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { client } from '../../api/config/axios';
+import { client } from '../../apis/config/axios';
 import { API_PATH } from '../../constants/api';
 
 const orderByList = ['received', 'sent'];

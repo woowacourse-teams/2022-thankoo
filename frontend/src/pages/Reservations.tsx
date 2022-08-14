@@ -1,7 +1,4 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
-import ArrowBackButton from '../components/@shared/ArrowBackButton';
-import EmptyContent from '../components/@shared/EmptyContent';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
@@ -10,6 +7,7 @@ import UserProfileButton from '../components/@shared/UserProfileButton';
 import BottomNavBar from '../components/PageButton/BottomNavBar';
 import Reservation from '../components/Reservations/Reservation';
 import useReservations from '../hooks/Reservations/useReservations';
+import NoReservation from './../components/@shared/noContent/NoReservation copy';
 
 const Reservations = () => {
   const { reservations, orderBy, setOrderBy, orderByList, orderByObject } = useReservations();
@@ -35,7 +33,7 @@ const Reservations = () => {
               <Reservation key={reservation.reservationId} order={orderBy} {...reservation} />
             ))
           ) : (
-            <EmptyContent />
+            <NoReservation />
           )}
         </S.ListView>
         <BottomNavBar />

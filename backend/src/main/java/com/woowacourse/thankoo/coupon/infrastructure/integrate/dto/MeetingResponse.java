@@ -44,4 +44,14 @@ public class MeetingResponse {
                 .map(meetingMember -> MemberResponse.of(meetingMember.getMember()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "MeetingResponse{" +
+                "meetingId=" + meetingId +
+                ", members=" + members +
+                ", time=" + time +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

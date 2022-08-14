@@ -3,6 +3,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.9.2'
     id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "3.3"
 }
 
 group = 'com.woowacourse'
@@ -51,6 +53,7 @@ dependencies {
 tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 tasks.named('asciidoctor') {
@@ -75,3 +78,34 @@ task buildDocument(type: Copy) {
 bootJar {
     dependsOn buildDocument
 }
+
+sonarqube {
+    properties {
+        property 'sonar.projectKey', 'thankoo'
+        property "sonar.sources", "src"
+        property "sonar.language", "java"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.profile", "Sonar way"
+        property "sonar.java.binaries", "${buildDir}/classes"
+        property "sonar.test.inclusions", "**/*Test.java"
+        property "sonar.exclusions", "src/test/**/*,**/dto/*,**/exception/*,**/config/*,**/ThankooApplication.java,**/alert/**/*"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/index.xml"
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled true
+
+        html.destination file("build/jacoco/index.html")
+        xml.destination file("build/jacoco/index.xml")
+    }
+}
+

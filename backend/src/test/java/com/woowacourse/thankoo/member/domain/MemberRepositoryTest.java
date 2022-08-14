@@ -86,4 +86,16 @@ class MemberRepositoryTest {
                 () -> assertThat(foundMember.orElseThrow()).isEqualTo(member)
         );
     }
+
+    @DisplayName("회원들의 id로 회원 목록을 조회한다.")
+    @Test
+    void findByIdIn() {
+        Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
+        Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
+        Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+
+        List<Member> members = memberRepository.findByIdIn(List.of(lala.getId(), hoho.getId(), huni.getId()));
+
+        assertThat(members).hasSize(3);
+    }
 }

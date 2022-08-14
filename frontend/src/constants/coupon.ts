@@ -57,3 +57,6 @@ export const COUPON_STATUS_STRAP_TEXT = {
   used: '이미 사용된 쿠폰입니다',
   expired: '만료된 쿠폰입니다',
 };
+
+export const COUPON_TITLE_MAX_LENGTH = 20;
+export const COUPON_MESSEGE_MAX_LENGTH = 100;

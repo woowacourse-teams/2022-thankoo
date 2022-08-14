@@ -1,23 +1,27 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { client } from '../../../api/config/axios';
-import { API_PATH } from '../../../constants/api';
-import { UserProfile } from '../../../types';
-import useToast from '../../useToast';
-import { useGetProfile } from '../queries/profile';
+import { client } from '../../apis/config/axios';
+import { API_PATH } from '../../constants/api';
+import { UserProfile } from '../../types';
+import { exchangeCount, useGetCouponExchangeCount, useGetUserProfile } from '../@queries/profile';
+import useToast from '../useToast';
 
-const useProfile = () => {
+const useUserProfile = () => {
   const { insertToastItem } = useToast();
   const queryClient = useQueryClient();
   const [isNameEdit, setIsNameEdit] = useState(false);
   const [name, setName] = useState<string>('');
-  const onChangeName = e => {
-    setName(e.target.value);
-  };
+  const [exchangeCount, setExchangeCount] = useState({ sentCount: 0, receivedCount: 0 });
 
-  const { data: profile } = useGetProfile({
+  const { data: profile } = useGetUserProfile({
     onSuccess: (data: UserProfile) => {
       setName(data.name);
+    },
+  });
+
+  const { data } = useGetCouponExchangeCount({
+    onSuccess: (data: exchangeCount) => {
+      setExchangeCount(data);
     },
   });
 
@@ -63,7 +67,15 @@ const useProfile = () => {
     }
   );
 
-  return { profile, editUserName, isNameEdit, name, handleClickModifyNameButton, onChangeName };
+  return {
+    profile,
+    editUserName,
+    isNameEdit,
+    name,
+    handleClickModifyNameButton,
+    exchangeCount,
+    setName,
+  };
 };
 
-export default useProfile;
+export default useUserProfile;

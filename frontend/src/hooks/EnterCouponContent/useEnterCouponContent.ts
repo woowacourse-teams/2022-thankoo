@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
@@ -7,6 +7,7 @@ import { CouponType, UserProfile } from '../../types';
 import { useCreateCouponMutation } from '../@queries/coupon';
 import { useGetUserProfile } from '../@queries/profile';
 import useModal from '../useModal';
+import { COUPON_MESSEGE_MAX_LENGTH, COUPON_TITLE_MAX_LENGTH } from './../../constants/coupon';
 import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
@@ -43,6 +44,19 @@ const useEnterCouponContent = () => {
     }
   );
 
+  const handleOnchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    const targetValue = e.target.value;
+    if (targetValue.length <= COUPON_TITLE_MAX_LENGTH) {
+      setTitle(targetValue);
+    }
+  };
+  const handleOnchangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const targetValue = e.target.value;
+    if (targetValue.length <= COUPON_MESSEGE_MAX_LENGTH) {
+      setMessage(targetValue);
+    }
+  };
+
   if (!checkedUsers.length) {
     navigate(ROUTE_PATH.SELECT_RECEIVER);
   }
@@ -59,6 +73,8 @@ const useEnterCouponContent = () => {
     checkedUsers,
     currentUserName: userProfile?.name,
     currentUserId: userProfile?.id,
+    handleOnchangeTitle,
+    handleOnchangeMessage,
   };
 };
 

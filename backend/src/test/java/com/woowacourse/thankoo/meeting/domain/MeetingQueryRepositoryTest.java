@@ -82,9 +82,8 @@ class MeetingQueryRepositoryTest {
 
         for (Coupon coupon : coupons) {
             Reservation reservation = reservationRepository.save(
-                    new Reservation(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
+                    Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
                             coupon));
-            reservation.reserve();
             reservation.update(lala, ReservationStatus.ACCEPT, reservedMeetingCreator);
         }
 

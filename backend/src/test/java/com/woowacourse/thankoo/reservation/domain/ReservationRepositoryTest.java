@@ -9,12 +9,12 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.time;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
-import com.woowacourse.thankoo.common.fixtures.ReservationFixture;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -44,8 +44,11 @@ class ReservationRepositoryTest {
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
         Coupon coupon = couponRepository.save(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Long reservationId = reservationRepository.save(ReservationFixture.createReservation(null, receiver, coupon))
-                .getId();
+        Long reservationId = reservationRepository.save(Reservation.reserve(time(1L),
+                TimeZoneType.ASIA_SEOUL,
+                ReservationStatus.WAITING,
+                receiver.getId(),
+                coupon)).getId();
         Reservation reservation = reservationRepository.findWithCouponById(reservationId)
                 .get();
         assertThat(reservation.getCoupon()).isEqualTo(coupon);
@@ -59,7 +62,11 @@ class ReservationRepositoryTest {
         Coupon coupon = couponRepository.save(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Reservation savedReservation = reservationRepository.save(
-                ReservationFixture.createReservation(null, receiver, coupon));
+                Reservation.reserve(time(1L),
+                        TimeZoneType.ASIA_SEOUL,
+                        ReservationStatus.WAITING,
+                        receiver.getId(),
+                        coupon));
 
         Reservation foundReservation = reservationRepository.findTopByCouponIdAndReservationStatus(coupon.getId(),
                 ReservationStatus.WAITING).get();

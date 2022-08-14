@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { client } from '../../../api/config/axios';
+import { client } from '../../../apis/config/axios';
 import { API_PATH } from '../../../constants/api';
 
 export const usePutReservationStatus = (

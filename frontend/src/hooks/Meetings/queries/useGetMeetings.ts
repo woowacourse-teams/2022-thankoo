@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { client } from '../../../api/config/axios';
+import { client } from '../../../apis/config/axios';
 import { API_PATH } from '../../../constants/api';
 import { Meeting } from '../../../types';
 

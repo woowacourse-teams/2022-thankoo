@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import defaultUserImage from '../../assets/images/default_user.jpeg';
 import { ROUTE_PATH } from '../../constants/routes';
-import { useGetProfile } from '../../hooks/Profile/queries/profile';
+import { useGetUserProfile } from '../../hooks/@queries/profile';
 
 const UserProfileButton = () => {
-  const { data: profile } = useGetProfile();
+  const { data: profile } = useGetUserProfile();
 
   return (
     <Link to={ROUTE_PATH.PROFILE}>

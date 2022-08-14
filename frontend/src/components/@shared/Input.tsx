@@ -1,13 +1,20 @@
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
+//TODO:글자수 제한 받기 => onchange state로 하기
+//onValid 일때
+const Input = ({ setValue, maxLength, ...rest }) => {
+  const isValidInput = value => {
+    return value.length <= maxLength;
+  };
 
-const Input = ({ setValue, ...rest }) => {
   return (
     <S.Container>
       <S.Input
         {...rest}
         onChange={e => {
-          setValue(e.target.value);
+          if (isValidInput(e.target.value)) {
+            setValue(e.target.value);
+          }
         }}
         onKeyDown={e => {
           if (e.nativeEvent.key === 'Escape') {

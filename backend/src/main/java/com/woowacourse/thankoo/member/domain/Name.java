@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Name {
 
-    private static final int NAME_MAX_LENGTH = 20;
+    private static final int NAME_MAX_LENGTH = 5;
 
     @Column(name = "name", length = 50)
     private String value;

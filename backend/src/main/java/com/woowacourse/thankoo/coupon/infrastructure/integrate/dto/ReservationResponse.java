@@ -26,4 +26,13 @@ public class ReservationResponse {
                 TimeResponse.of(reservation.getTimeUnit()),
                 reservation.getReservationStatus().name());
     }
+
+    @Override
+    public String toString() {
+        return "ReservationResponse{" +
+                "reservationId=" + reservationId +
+                ", time=" + time +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
