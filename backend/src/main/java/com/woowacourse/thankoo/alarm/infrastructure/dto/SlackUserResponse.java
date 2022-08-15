@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.alarm.infrastructure.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,11 +9,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class SlackUserResponse {
 
-    private String id;
+    @JsonProperty("id")
+    private String userToken;
     private Profile profile;
 
-    public SlackUserResponse(final String id, final Profile profile) {
-        this.id = id;
+    public SlackUserResponse(final String userToken, final Profile profile) {
+        this.userToken = userToken;
         this.profile = profile;
     }
 

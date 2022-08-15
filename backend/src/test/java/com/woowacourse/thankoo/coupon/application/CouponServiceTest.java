@@ -15,7 +15,11 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.alarm.AlarmMessage;
+import com.woowacourse.thankoo.alarm.support.AlarmManager;
+import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
@@ -60,7 +64,7 @@ class CouponServiceTest {
             assertThat(coupons).hasSize(1);
         }
 
-        @DisplayName("회원이 존재하면 정상적으로 저장한다.")
+        @DisplayName("회원들이 존재하면 정상적으로 저장한다.")
         @Test
         void saveAll() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
@@ -73,6 +77,22 @@ class CouponServiceTest {
             List<Coupon> coupons = couponRepository.findAll();
 
             assertThat(coupons).hasSize(2);
+        }
+
+        @DisplayName("쿠폰이 저장되면 알람을 전송한다.")
+        @Test
+        void sendMessageThenSaveCoupon() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+            couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
+                    new ContentRequest(TYPE, TITLE, MESSAGE)));
+
+            AlarmMessageRequest request = AlarmManager.getResources();
+
+            assertAll(
+                    () -> assertThat(request.getEmails()).containsExactly(HUNI_EMAIL),
+                    () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.RECEIVE_COUPON)
+            );
         }
 
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")

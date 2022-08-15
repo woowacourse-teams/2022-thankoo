@@ -17,8 +17,8 @@ public class SlackAlarmSender implements AlarmSender {
     @Override
     public void send(final String email, final AlarmMessage alarmMessage) {
         try {
-            String slackUserId = slackUserRepository.findUserId(email);
-            slackClient.sendMessage(slackUserId, alarmMessage);
+            String slackUserToken = slackUserRepository.findUserToken(email);
+            slackClient.sendMessage(slackUserToken, alarmMessage);
         } catch (Exception e) {
             log.warn("알람 전송 실패 {}", email, e);
         }
