@@ -21,7 +21,9 @@ const ListViewUser = ({
       <S.UserName>{user.name}</S.UserName>
       <S.UserSubName>{user.email}</S.UserSubName>
 
-      <S.Checkbox isChecked={isCheckedUser(user)} />
+      <S.CheckBox isChecked={isCheckedUser(user)}>
+        <S.CheckboxIcon />
+      </S.CheckBox>
     </S.Container>
   );
 };
@@ -57,15 +59,17 @@ const S = {
     font-size: 15px;
     color: ${({ theme }) => theme.page.subColor};
   `,
-  Checkbox: styled(CheckIcon)<CheckBoxProp>`
+  CheckBox: styled.div<CheckBoxProp>`
     grid-area: cb;
     justify-self: end;
     margin-right: 5px;
+    display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
+  `,
+  CheckboxIcon: styled(CheckIcon)`
     border-radius: 50%;
     background-color: ${({ theme }) => theme.primary};
     border: 1px solid black;
     fill: white;
     padding: 1px;
-    display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
   `,
 };
