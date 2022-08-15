@@ -50,13 +50,14 @@ public class SlackClient {
         return slackUser.getUserToken();
     }
 
+    //todo: null 수정하기
     public void sendMessage(final String channel, final AlarmMessage message) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, TOKEN_TYPE + token);
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         HttpEntity<SlackMessageRequest> requestHttpEntity = new HttpEntity<>(
-                new SlackMessageRequest(channel, message.getValue()), headers);
+                SlackMessageRequest.of(channel, null), headers);
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(messageUri, HttpMethod.POST, requestHttpEntity, Void.class);

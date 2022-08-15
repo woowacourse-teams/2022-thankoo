@@ -1,5 +1,7 @@
 package com.woowacourse.thankoo.alarm.infrastructure.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +11,18 @@ import lombok.NoArgsConstructor;
 public class SlackMessageRequest {
 
     private String channel;
-    private String text;
 
-    public SlackMessageRequest(final String channel, final String text) {
+    @JsonProperty("attachments")
+    private List<AttachmentsRequest> attachmentsRequest;
+
+    private SlackMessageRequest(final String channel, final List<AttachmentsRequest> attachmentsRequest) {
         this.channel = channel;
-        this.text = text;
+        this.attachmentsRequest = attachmentsRequest;
+    }
+
+    public static SlackMessageRequest of(
+            final String channel,
+            final AttachmentsRequest attachmentsRequest) {
+        return new SlackMessageRequest(channel, List.of(attachmentsRequest));
     }
 }
