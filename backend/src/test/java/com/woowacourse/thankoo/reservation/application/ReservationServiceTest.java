@@ -204,7 +204,6 @@ class ReservationServiceTest {
         );
     }
 
-
     @DisplayName("예약을 승인되면 알람을 전송한다.")
     @Test
     void sendMessageThenUpdateStatusDeny() {
