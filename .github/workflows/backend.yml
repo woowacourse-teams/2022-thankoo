@@ -11,8 +11,8 @@ on:
   push:
     branches: [ "develop" ]
   pull_request:
-    branches: [ "develop" ]
-	paths: ["backend/**"]
+    branches: [ "develop", "*" ]
+    paths: ["backend/**"]
     types: [opened, synchronize]
 
 jobs:
