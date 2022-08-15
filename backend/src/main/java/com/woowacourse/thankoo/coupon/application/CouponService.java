@@ -10,9 +10,9 @@ import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import com.woowacourse.thankoo.member.domain.Members;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,13 +43,8 @@ public class CouponService {
                 && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
     }
 
-    private void sendMessage(final List<Member> members) {
-        AlarmManager.setResources(new AlarmMessageRequest(getEmails(members), AlarmMessage.RECEIVE_COUPON));
-    }
-
-    private List<String> getEmails(final List<Member> members) {
-        return members.stream()
-                .map(member -> member.getEmail().getValue())
-                .collect(Collectors.toList());
+    private void sendMessage(final List<Member> values) {
+        Members members = new Members(values);
+        AlarmManager.setResources(new AlarmMessageRequest(members.getEmails(), AlarmMessage.RECEIVE_COUPON));
     }
 }
