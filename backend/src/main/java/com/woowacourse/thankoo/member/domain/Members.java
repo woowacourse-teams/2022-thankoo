@@ -5,19 +5,19 @@ import java.util.stream.Collectors;
 
 public class Members {
 
-    private final List<Member> members;
+    private final List<Member> values;
 
-    public Members(final List<Member> members) {
-        this.members = List.copyOf(members);
+    public Members(final List<Member> values) {
+        this.values = List.copyOf(values);
     }
 
     public List<String> getEmails() {
-        return members.stream()
+        return values.stream()
                 .map(member -> member.getEmail().getValue())
                 .collect(Collectors.toList());
     }
 
     public boolean isEmpty() {
-        return members.isEmpty();
+        return values.isEmpty();
     }
 }

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +15,6 @@ public class MeetingScheduleTask {
     private final MeetingService meetingService;
 
     @Scheduled(cron = "0 0 2 * * *")
-    @Transactional
     public void executeCompleteMeeting() {
         meetingService.complete(LocalDate.now().minusDays(DAY));
     }

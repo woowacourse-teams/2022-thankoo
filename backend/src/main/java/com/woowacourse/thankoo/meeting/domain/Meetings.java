@@ -10,26 +10,26 @@ import lombok.Getter;
 @Getter
 public class Meetings {
 
-    private final List<Meeting> meetings;
+    private final List<Meeting> values;
 
-    public Meetings(final List<Meeting> meetings) {
-        this.meetings = meetings;
+    public Meetings(final List<Meeting> values) {
+        this.values = values;
     }
 
     public List<Long> getMeetingIds() {
-        return meetings.stream()
+        return values.stream()
                 .map(Meeting::getId)
                 .collect(Collectors.toList());
     }
 
     public List<Coupon> getCoupons() {
-        return meetings.stream()
+        return values.stream()
                 .map(Meeting::getCoupon)
                 .collect(Collectors.toList());
     }
 
     public List<Member> getMembers() {
-        return meetings.stream()
+        return values.stream()
                 .map(meeting -> meeting.getMeetingMembers().getMeetingMembers())
                 .flatMap(Collection::stream)
                 .map(MeetingMember::getMember)

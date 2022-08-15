@@ -5,20 +5,20 @@ import java.util.stream.Collectors;
 
 public class Coupons {
 
-    private final List<Coupon> coupons;
+    private final List<Coupon> values;
 
-    public Coupons(final List<Coupon> coupons) {
-        this.coupons = List.copyOf(coupons);
+    public Coupons(final List<Coupon> values) {
+        this.values = List.copyOf(values);
     }
 
     public List<Long> getCouponIds() {
-        return coupons.stream()
+        return values.stream()
                 .map(Coupon::getId)
                 .collect(Collectors.toList());
     }
 
     public List<Long> getReceiverIds() {
-        return coupons.stream()
+        return values.stream()
                 .map(Coupon::getReceiverId)
                 .collect(Collectors.toList());
     }

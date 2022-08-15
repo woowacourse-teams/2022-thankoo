@@ -37,7 +37,7 @@ public enum ErrorType {
 
     REQUEST_EXCEPTION(6001, "http 요청 에러입니다."),
 
-    NOT_FOUND_SLACK_USER(7001, "알람이 불가능한 이메일입니다. 관리자에게 문의주세요."),
+    NOT_FOUND_SLACK_USER(7001, "알람이 불가능한 이메일입니다."),
     NOT_FOUND_ALARM_REQUEST(7002, "전송하려는 알람이 존재하지 않습니다."),
 
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
