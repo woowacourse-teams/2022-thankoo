@@ -15,13 +15,8 @@ class CouponsTest {
     @Test
     @DisplayName("쿠폰들에서 쿠폰의 id를 가져온다.")
     void getCouponIds() {
-        List<Coupon> coupons = new ArrayList<>();
-        for (long id = 0; id < 3; id++) {
-            coupons.add(new Coupon(id + 1L, id, id, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
-                    CouponStatus.NOT_USED));
-        }
-        Coupons result = new Coupons(coupons);
-        List<Long> couponIds = result.getCouponIds();
+        Coupons coupons = givenCoupons();
+        List<Long> couponIds = coupons.getCouponIds();
 
         assertThat(couponIds).containsExactly(1L, 2L, 3L);
     }
@@ -29,14 +24,18 @@ class CouponsTest {
     @Test
     @DisplayName("쿠폰들에서 받은 회원의 id를 가져온다.")
     void getReceiverIds() {
-        List<Coupon> coupons = new ArrayList<>();
-        for (long id = 0; id < 3; id++) {
-            coupons.add(new Coupon(id, id + 1, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
-                    CouponStatus.NOT_USED));
-        }
-        Coupons result = new Coupons(coupons);
-        List<Long> receiverIds = result.getReceiverIds();
+        Coupons coupons = givenCoupons();
+        List<Long> receiverIds = coupons.getReceiverIds();
 
         assertThat(receiverIds).containsExactly(1L, 2L, 3L);
+    }
+
+    private Coupons givenCoupons() {
+        List<Coupon> coupons = new ArrayList<>();
+        for (long id = 0; id < 3; id++) {
+            coupons.add(new Coupon(id + 1, id + 1, id + 1, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED));
+        }
+        return new Coupons(coupons);
     }
 }
