@@ -12,13 +12,12 @@ on:
     branches: [ "develop" ]
   pull_request:
     branches: [ "develop" ]
-    types:
-      - opened
-      - labeled
+	paths: ["backend/**"]
+    types: [opened, synchronize]
+
 jobs:
   build:
     runs-on: ubuntu-22.04
-    if: contains(github.event.pull_request.labels.*.name, 'backend')
     defaults:
       run:
         working-directory: ./backend
