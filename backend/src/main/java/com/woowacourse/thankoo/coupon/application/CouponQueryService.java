@@ -35,7 +35,6 @@ public class CouponQueryService {
                 .collect(Collectors.toList());
     }
 
-
     public List<CouponResponse> getSentCoupons(final Long senderId) {
         return couponQueryRepository.findBySenderId(senderId)
                 .stream()
