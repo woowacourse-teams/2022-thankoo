@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { createReservationRequest } from '../../apis/fetcher/reservation';
+import { client } from '../../apis/axios';
+import { API_PATH } from '../../constants/api';
 
 export const useCreateReservationMutation = (
   { couponId, date, time },
@@ -18,3 +19,15 @@ export const useCreateReservationMutation = (
     },
   });
 };
+
+/** FETCHER */
+
+const createReservationRequest = ({ couponId, date, time }) =>
+  client({
+    method: 'post',
+    url: `${API_PATH.RESERVATIONS}`,
+    data: {
+      couponId,
+      startAt: `${date} ${time}:00`,
+    },
+  });

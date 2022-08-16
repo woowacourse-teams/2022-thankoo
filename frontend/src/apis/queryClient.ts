@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { QueryClient } from 'react-query';
-import { clearAuth } from '../../utils/auth';
+import { clearAuth } from '../utils/auth';
 
 const INVALID_AUTH_ERROR_CODE = 2001;
 

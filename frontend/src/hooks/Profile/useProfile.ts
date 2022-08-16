@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { client } from '../../apis/config/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { UserProfile } from '../../types';
 import { exchangeCount, useGetCouponExchangeCount, useGetUserProfile } from '../@queries/profile';

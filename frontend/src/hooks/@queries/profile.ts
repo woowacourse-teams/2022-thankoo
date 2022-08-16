@@ -1,13 +1,15 @@
 import { useQuery } from 'react-query';
-import { getUserProfileRequest, getCouponExchangeCount } from '../../apis/fetcher/profile';
 import { UserProfile } from '../../types';
+import { API_PATH } from '../../constants/api';
+import { client } from '../../apis/axios';
 
 export const QUERY_KEY = {
   profile: 'profile',
+  couponExchangeCount: 'couponExchangeCount',
 };
 
 export const useGetUserProfile = ({ onSuccess = (data: UserProfile) => {} } = {}) =>
-  useQuery<UserProfile>('profile', getUserProfileRequest, {
+  useQuery<UserProfile>(QUERY_KEY.profile, getUserProfileRequest, {
     onSuccess: (data: UserProfile) => {
       onSuccess?.(data);
     },
@@ -20,8 +22,27 @@ export interface exchangeCount {
 export const useGetCouponExchangeCount = (
   { onSuccess: handleSuccess } = { onSuccess: (data: exchangeCount) => {} }
 ) =>
-  useQuery<exchangeCount>('couponExchangeCount', getCouponExchangeCount, {
+  useQuery<exchangeCount>(QUERY_KEY.couponExchangeCount, getCouponExchangeCount, {
     onSuccess: data => {
       handleSuccess?.(data);
     },
   });
+
+/** FETCHER */
+
+const getUserProfileRequest = async () => {
+  const { data } = await client({
+    method: 'GET',
+    url: API_PATH.PROFILE,
+  });
+
+  return data;
+};
+
+const getCouponExchangeCount = async () => {
+  const { data } = await client({
+    method: 'get',
+    url: `${API_PATH.GET_COUPONS_EXCHANGE_COUNT}`,
+  });
+  return data;
+};

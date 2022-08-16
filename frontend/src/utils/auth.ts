@@ -1,4 +1,4 @@
-import { client } from '../apis/config/axios';
+import { client } from '../apis/axios';
 
 export const saveAuth = (accessToken: string) => {
   client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;

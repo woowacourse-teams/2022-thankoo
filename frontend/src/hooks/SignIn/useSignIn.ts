@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { client } from '../../apis/config/axios';
+import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { GOOGLE_AUTH_URL } from '../../constants/googleAuth';
 import { ROUTE_PATH } from '../../constants/routes';
