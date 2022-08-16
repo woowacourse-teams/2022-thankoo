@@ -22,12 +22,17 @@ public class AttachmentsRequest {
     @JsonProperty("mrkdwn_in")
     private List<String> markDown;
     private String color;
-    private String preText;
+    private String pretext;
     private String text;
-    private String authorName;
+
+    @JsonProperty("author_link")
     private String authorLink;
+
+    @JsonProperty("author_icon")
     private String authorIcon;
     private String title;
+
+    @JsonProperty("title_link")
     private String titleLink;
 
     @JsonProperty("fields")
@@ -35,9 +40,8 @@ public class AttachmentsRequest {
 
     private AttachmentsRequest(final List<String> markDown,
                                final String color,
-                               final String preText,
+                               final String pretext,
                                final String text,
-                               final String authorName,
                                final String authorLink,
                                final String authorIcon,
                                final String title,
@@ -45,9 +49,8 @@ public class AttachmentsRequest {
                                final List<DetailMessage> detailMessages) {
         this.markDown = markDown;
         this.color = color;
-        this.preText = preText;
+        this.pretext = pretext;
         this.text = text;
-        this.authorName = authorName;
         this.authorLink = authorLink;
         this.authorIcon = authorIcon;
         this.title = title;
@@ -59,7 +62,6 @@ public class AttachmentsRequest {
         return new AttachmentsRequest(
                 List.of(MARK_DOWN),
                 COLOR, preText,
-                AUTHOR_NAME,
                 EMPTY,
                 ICON_LINK,
                 ICON_LINK,

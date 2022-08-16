@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
+import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -37,7 +37,6 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -93,11 +92,11 @@ class ReservationServiceTest {
             reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
-            List<AlarmMessageRequest> request = AlarmManager.getResources();
+            Message message = AlarmManager.getResources();
 
             assertAll(
-                    () -> assertThat(request.get(0).getEmail()).isEqualTo(LALA_EMAIL),
-                    () -> assertThat(request.get(0).getTitle()).isEqualTo("예약 요청이 도착했어요.")
+                    () -> assertThat(message.getEmails()).containsExactly(LALA_EMAIL),
+                    () -> assertThat(message.getTitle()).contains("예약 요청이 도착했어요.")
             );
         }
 
@@ -176,11 +175,11 @@ class ReservationServiceTest {
 
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-        List<AlarmMessageRequest> request = AlarmManager.getResources();
+        Message message = AlarmManager.getResources();
 
         assertAll(
-                () -> assertThat(request.get(0).getEmail()).isEqualTo(SKRR_EMAIL),
-                () -> assertThat(request.get(0).getTitle()).isEqualTo("예약 요청에 응답이 왔어요.")
+                () -> assertThat(message.getEmails()).containsExactly(SKRR_EMAIL),
+                () -> assertThat(message.getTitle()).contains("예약 요청에 응답이 왔어요.")
         );
     }
 
@@ -216,11 +215,11 @@ class ReservationServiceTest {
 
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("deny"));
 
-        List<AlarmMessageRequest> request = AlarmManager.getResources();
+        Message message = AlarmManager.getResources();
 
         assertAll(
-                () -> assertThat(request.get(0).getEmail()).isEqualTo(SKRR_EMAIL),
-                () -> assertThat(request.get(0).getTitle()).isEqualTo("예약 요청에 응답이 왔어요.")
+                () -> assertThat(message.getEmails()).containsExactly(SKRR_EMAIL),
+                () -> assertThat(message.getTitle()).contains("예약 요청에 응답이 왔어요.")
         );
     }
 
@@ -261,11 +260,11 @@ class ReservationServiceTest {
 
             reservationService.cancel(receiver.getId(), reservationId);
 
-            List<AlarmMessageRequest> request = AlarmManager.getResources();
+            Message message = AlarmManager.getResources();
 
             assertAll(
-                    () -> assertThat(request.get(0).getEmail()).isEqualTo(SKRR_EMAIL),
-                    () -> assertThat(request.get(0).getTitle()).isEqualTo("예약 요청이 취소되었어요.")
+                    () -> assertThat(message.getEmails()).containsExactly(LALA_EMAIL),
+                    () -> assertThat(message.getTitle()).contains("예약이 취소되었어요ㅜ")
             );
         }
 

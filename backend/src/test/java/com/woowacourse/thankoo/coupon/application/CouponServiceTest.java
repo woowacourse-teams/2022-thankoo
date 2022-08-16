@@ -3,6 +3,8 @@ package com.woowacourse.thankoo.coupon.application;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
@@ -18,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
+import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
@@ -68,7 +70,7 @@ class CouponServiceTest {
         void saveAll() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
             Member receiver1 = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
-            Member receiver2 = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+            Member receiver2 = memberRepository.save(new Member(SKRR_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
 
             couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver1.getId(), receiver2.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
@@ -82,15 +84,15 @@ class CouponServiceTest {
         @Test
         void sendMessageThenSaveCoupon() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
-            Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
             couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
 
-            List<AlarmMessageRequest> request = AlarmManager.getResources();
+            Message message = AlarmManager.getResources();
 
             assertAll(
-                    () -> assertThat(request.get(0).getEmail()).isEqualTo(HUNI_EMAIL),
-                    () -> assertThat(request.get(0).getTitle()).isEqualTo("커피 쿠폰이 도착했어요")
+                    () -> assertThat(message.getTitle()).contains("커피 쿠폰이 도착했어요."),
+                    () -> assertThat(message.getEmails()).containsExactly(SKRR_EMAIL)
             );
         }
 

@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.reservation.application;
 
 import com.woowacourse.thankoo.alarm.support.Alarm;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
+import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -13,11 +13,11 @@ import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
+import com.woowacourse.thankoo.reservation.domain.ReservationMessage;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,17 +46,15 @@ public class ReservationService {
 
         Reservation savedReservation = reservationRepository.save(reservation);
 
-        // todo : 리팩토링
-        Member sender = getMember(coupon.getSenderId());
-        String senderName = "요청자 : " + sender.getName().getValue();
-        String date = "예약 요청일 : " + savedReservation.getTimeUnit().getDate().toString();
-        String couponTitle = "쿠폰 : " + coupon.getCouponContent().getTitle();
-
-        AlarmManager.setResources(
-                new AlarmMessageRequest(getEmail(sender),
-                        "예약 요청이 도착했어요.", List.of(senderName, date, couponTitle)));
-
+        sendMessage(foundMember, coupon, savedReservation);
         return savedReservation.getId();
+    }
+
+    private void sendMessage(final Member member, final Coupon coupon, final Reservation reservation) {
+        Member sender = getMember(coupon.getSenderId());
+        Message messageBuilder = ReservationMessage.create(member.getName(), sender.getEmail(),
+                reservation.getTimeUnit().getDate(), coupon.getCouponContent());
+        AlarmManager.setResources(messageBuilder);
     }
 
     @Alarm
@@ -68,15 +66,9 @@ public class ReservationService {
         ReservationStatus futureStatus = ReservationStatus.from(reservationStatusRequest.getStatus());
         reservation.update(foundMember, futureStatus, reservedMeetingCreator);
 
-        // todo : 리팩토링
         Member receiver = getMember(reservation.getCoupon().getReceiverId());
-        String senderName = "요청자 : " + receiver.getName().getValue();
-        String couponTitle = "쿠폰 : " + reservation.getCoupon().getCouponContent().getTitle();
-        String status = "예약 상태 : " + reservation.getReservationStatus().toString();
-
         AlarmManager.setResources(
-                new AlarmMessageRequest(receiver.getEmail().getValue(),
-                        "예약 요청에 응답이 왔어요.", List.of(senderName, couponTitle, status)));
+                ReservationMessage.changeStatus(foundMember.getName(), receiver.getEmail(), reservation));
     }
 
     public void cancel(final Long memberId,
@@ -85,13 +77,9 @@ public class ReservationService {
         Reservation reservation = getReservationById(reservationId);
         reservation.cancel(foundMember);
 
-        // todo : 리팩토링
-        String senderName = "요청자 : " + getMember(reservation.getCoupon().getSenderId()).getName().getValue();
-        String couponTitle = "쿠폰 : " + reservation.getCoupon().getCouponContent().getTitle();
-
+        Member sender = getMember(reservation.getCoupon().getSenderId());
         AlarmManager.setResources(
-                new AlarmMessageRequest(getEmail(getMember(memberId)),
-                        "예약 요청이 취소되었어요.", List.of(senderName, couponTitle)));
+                ReservationMessage.cancelStatus(foundMember.getName(), sender.getEmail(), reservation));
     }
 
     private Reservation getReservationById(final Long reservationId) {
@@ -102,9 +90,5 @@ public class ReservationService {
     private Member getMember(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
-    }
-
-    private String getEmail(final Member member) {
-        return member.getEmail().getValue();
     }
 }
