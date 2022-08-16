@@ -9,6 +9,8 @@ export const useCreateCouponMutation = ({ receiverIds, content }, { onSuccess = 
     },
   });
 
+/** FETCHER */
+
 const createCouponRequest = async ({ receiverIds, content }) => {
   const { data } = await client({
     method: 'post',
