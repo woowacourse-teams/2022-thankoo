@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.alarm.AlarmMessage;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
 import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
@@ -87,11 +86,11 @@ class CouponServiceTest {
             couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
 
-            AlarmMessageRequest request = AlarmManager.getResources();
+            List<AlarmMessageRequest> request = AlarmManager.getResources();
 
             assertAll(
-                    () -> assertThat(request.getEmails()).containsExactly(HUNI_EMAIL),
-                    () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.RECEIVE_COUPON)
+                    () -> assertThat(request.get(0).getEmail()).isEqualTo(HUNI_EMAIL),
+                    () -> assertThat(request.get(0).getTitle()).isEqualTo("커피 쿠폰이 도착했어요")
             );
         }
 

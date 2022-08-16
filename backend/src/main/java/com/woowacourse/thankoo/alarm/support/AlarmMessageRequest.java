@@ -1,21 +1,18 @@
 package com.woowacourse.thankoo.alarm.support;
 
-import com.woowacourse.thankoo.alarm.AlarmMessage;
 import java.util.List;
 import lombok.Getter;
 
 @Getter
 public class AlarmMessageRequest {
 
-    private final List<String> emails;
-    private final AlarmMessage alarmMessage;
+    private final String email;
+    private final String title;
+    private final List<String> detailMessages;
 
-    public AlarmMessageRequest(final List<String> emails, final AlarmMessage alarmMessage) {
-        this.emails = emails;
-        this.alarmMessage = alarmMessage;
-    }
-
-    public AlarmMessageRequest(final String email, final AlarmMessage alarmMessage) {
-        this(List.of(email), alarmMessage);
+    public AlarmMessageRequest(final String email, final String title, final List<String> detailMessages) {
+        this.email = email;
+        this.title = title;
+        this.detailMessages = detailMessages;
     }
 }

@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.alarm.infrastructure.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,17 +33,39 @@ public class AttachmentsRequest {
     @JsonProperty("fields")
     private List<DetailMessage> detailMessages;
 
-    public AttachmentsRequest(final String preText, final List<DetailMessage> detailMessages) {
-        this.markDown = List.of(MARK_DOWN);
-        this.color = COLOR;
+    private AttachmentsRequest(final List<String> markDown,
+                               final String color,
+                               final String preText,
+                               final String text,
+                               final String authorName,
+                               final String authorLink,
+                               final String authorIcon,
+                               final String title,
+                               final String titleLink,
+                               final List<DetailMessage> detailMessages) {
+        this.markDown = markDown;
+        this.color = color;
         this.preText = preText;
-        this.authorName = AUTHOR_NAME;
-        this.text = EMPTY;
-        this.authorLink = ICON_LINK;
-        this.authorIcon = ICON_LINK;
-        this.title = TITLE;
-        this.titleLink = TITLE_LINK;
+        this.text = text;
+        this.authorName = authorName;
+        this.authorLink = authorLink;
+        this.authorIcon = authorIcon;
+        this.title = title;
+        this.titleLink = titleLink;
         this.detailMessages = detailMessages;
+    }
+
+    public static AttachmentsRequest from(final String preText, final List<String> detailMessages) {
+        return new AttachmentsRequest(
+                List.of(MARK_DOWN),
+                COLOR, preText,
+                AUTHOR_NAME,
+                EMPTY,
+                ICON_LINK,
+                ICON_LINK,
+                TITLE,
+                TITLE_LINK,
+                toDetailMessage(detailMessages));
     }
 
     @Getter
@@ -54,5 +77,11 @@ public class AttachmentsRequest {
         public DetailMessage(final String value) {
             this.value = value;
         }
+    }
+
+    private static List<DetailMessage> toDetailMessage(final List<String> detailMessages) {
+        return detailMessages.stream()
+                .map(DetailMessage::new)
+                .collect(Collectors.toList());
     }
 }

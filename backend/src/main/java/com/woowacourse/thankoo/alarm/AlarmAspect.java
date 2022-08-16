@@ -1,7 +1,8 @@
 package com.woowacourse.thankoo.alarm;
 
-import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
+import com.woowacourse.thankoo.alarm.infrastructure.dto.AttachmentsRequest;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
+import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.After;
@@ -19,10 +20,10 @@ public class AlarmAspect {
 
     @After("@annotation(com.woowacourse.thankoo.alarm.support.Alarm)")
     public void sendMessage() {
-        AlarmMessageRequest messageRequest = AlarmManager.getResources();
-        List<String> emails = messageRequest.getEmails();
-        for (String email : emails) {
-            alarmSender.send(email, messageRequest.getAlarmMessage());
+        List<AlarmMessageRequest> requests = AlarmManager.getResources();
+        for (AlarmMessageRequest request : requests) {
+            List<String> detailMessages = request.getDetailMessages();
+            alarmSender.send(request.getEmail(), AttachmentsRequest.from(request.getTitle(), detailMessages));
         }
         AlarmManager.clear();
     }
