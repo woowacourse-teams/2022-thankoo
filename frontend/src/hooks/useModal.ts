@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import { modalUnMountTime } from '../constants/modal';
 import { modalContentAtom, modalVisibleAtom } from '../recoil/atom';
@@ -7,6 +7,13 @@ const useModal = () => {
   const [visible, setVisible] = useRecoilState(modalVisibleAtom);
   const [modalContent, setModalContent] = useRecoilState(modalContentAtom);
   const modalContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (modalContentRef.current) {
+      const target = modalContentRef.current;
+      target?.classList.add('modalContainer', 'onMount');
+    }
+  }, []);
 
   const show = () => {
     setVisible(true);

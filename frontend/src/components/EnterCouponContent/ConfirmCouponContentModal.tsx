@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
 import { modalUnMountTime } from '../../constants/modal';
 import useModal from '../../hooks/useModal';
 import { UserProfile } from '../../types';
@@ -18,13 +17,6 @@ const ConfirmCouponContentModal = ({
   receivers: UserProfile[];
 }) => {
   const { visible, close, modalContentRef } = useModal();
-
-  useEffect(() => {
-    if (modalContentRef.current) {
-      const target = modalContentRef.current;
-      target?.classList.add('modalContainer', 'onMount');
-    }
-  }, []);
 
   return (
     <S.Container show={visible} ref={modalContentRef}>

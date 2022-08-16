@@ -1,18 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
 import useModal from '../../hooks/useModal';
 import { modalMountTime, modalUnMountTime } from './../../constants/modal';
 
 const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
   const { visible, close, modalContentRef } = useModal();
-
-  useEffect(() => {
-    if (modalContentRef.current) {
-      const target = modalContentRef.current;
-      target?.classList.add('onMount');
-    }
-  }, []);
 
   return (
     <S.Container show={visible} ref={modalContentRef}>
