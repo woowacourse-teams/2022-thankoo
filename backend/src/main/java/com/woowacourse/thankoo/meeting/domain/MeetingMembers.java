@@ -20,11 +20,11 @@ public class MeetingMembers {
     private static final int STANDARD_MEMBER_COUNT = 2;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<MeetingMember> meetingMembers = new ArrayList<>();
+    private List<MeetingMember> values = new ArrayList<>();
 
-    public MeetingMembers(final List<MeetingMember> meetingMembers) {
-        validateMemberCount(meetingMembers);
-        this.meetingMembers.addAll(meetingMembers);
+    public MeetingMembers(final List<MeetingMember> values) {
+        validateMemberCount(values);
+        this.values.addAll(values);
     }
 
     private void validateMemberCount(final List<MeetingMember> meetingMembers) {
@@ -34,7 +34,7 @@ public class MeetingMembers {
     }
 
     public boolean have(final Member member) {
-        return meetingMembers.stream()
+        return values.stream()
                 .anyMatch(meetingMember -> meetingMember.has(member));
     }
 }
