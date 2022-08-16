@@ -16,10 +16,10 @@ export const useGetCouponDetail = (couponId, { onSuccess = () => {}, onError = (
     },
     {
       onSuccess: () => {
-        onSuccess?.();
+        onSuccess();
       },
       onError: () => {
-        onError?.();
+        onError();
       },
       retry: false,
     }

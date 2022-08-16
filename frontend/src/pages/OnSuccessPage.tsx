@@ -7,7 +7,7 @@ import EnterCouponContentSuccess from '../components/EnterCouponContent/EnterCou
 import { ROUTE_PATH } from '../constants/routes';
 import { onSuccessContentAtom } from '../recoil/atom';
 
-const COMPONENT_LIST = {
+const OnSucessModalComponents = {
   [ROUTE_PATH.CREATE_RESERVATION]: props => <CreateReservationSuccess {...props} />,
   [ROUTE_PATH.ENTER_COUPON_CONTENT]: props => <EnterCouponContentSuccess {...props} />,
 };
@@ -22,7 +22,7 @@ const OnSuccessPage = () => {
     }
   }, []);
 
-  return <S.Layout>{COMPONENT_LIST[page]?.(props)}</S.Layout>;
+  return <S.Layout>{OnSucessModalComponents[page]?.(props)}</S.Layout>;
 };
 
 const S = {
