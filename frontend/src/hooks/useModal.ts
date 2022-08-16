@@ -10,8 +10,16 @@ const useModal = () => {
   const show = () => {
     setVisible(true);
   };
+
   const close = () => {
-    setVisible(false);
+    //dimmer 클릭했을땐 targe null....
+    const target = modalContentRef.current;
+    target?.classList.remove('onMount');
+    target?.classList.add('unMount');
+
+    setTimeout(() => {
+      setVisible(false);
+    }, 200);
   };
 
   return { show, close, visible, setModalContent, modalContentRef };

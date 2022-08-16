@@ -87,6 +87,19 @@ const S = {
     &.onMount {
       animation: myonmount 500ms ease-in-out;
     }
+
+    //unMount animation
+    @keyframes myunmount {
+      0% {
+        bottom: 0%;
+      }
+      100% {
+        bottom: -100%;
+      }
+    }
+    &.unMount {
+      animation: myunmount 200ms ease-in-out;
+    }
   `,
   Wrapper: styled.div`
     display: flex;
