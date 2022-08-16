@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useMemo } from 'react';
 
 type TimeTable = {
   time: string;
@@ -39,8 +40,9 @@ const timeTableGenerator = (startHour, endHour, selectedDate) => {
 };
 
 const Time = ({ selectedTime, setSelectedTime, selectedDate }) => {
-  const dayTimeTable = timeTableGenerator(10, 12, selectedDate);
-  const nightTimeTable = timeTableGenerator(12, 20, selectedDate);
+  const dayTimeTable = useMemo(() => timeTableGenerator(10, 12, selectedDate), [selectedDate]);
+  const nightTimeTable = useMemo(() => timeTableGenerator(12, 20, selectedDate), [selectedDate]);
+
   const isSelectedDayToday = new Date(selectedDate).toDateString() === new Date().toDateString();
 
   return (
