@@ -2,7 +2,6 @@ package com.woowacourse.thankoo.reservation.application;
 
 import com.woowacourse.thankoo.alarm.support.Alarm;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.AlarmMessage;
 import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -18,6 +17,7 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +45,17 @@ public class ReservationService {
                 coupon);
 
         Reservation savedReservation = reservationRepository.save(reservation);
-        sendMessage(coupon.getSenderId(), AlarmMessage.RECEIVE_RESERVATION);
+
+        // todo : 리팩토링
+        Member sender = getMember(coupon.getSenderId());
+        String senderName = "요청자 : " + sender.getName().getValue();
+        String date = "예약 요청일 : " + savedReservation.getTimeUnit().getDate().toString();
+        String couponTitle = "쿠폰 : " + coupon.getCouponContent().getTitle();
+
+        AlarmManager.setResources(
+                new AlarmMessageRequest(getEmail(sender),
+                        "예약 요청이 도착했어요.", List.of(senderName, date, couponTitle)));
+
         return savedReservation.getId();
     }
 
@@ -57,7 +67,16 @@ public class ReservationService {
         Reservation reservation = getReservationById(reservationId);
         ReservationStatus futureStatus = ReservationStatus.from(reservationStatusRequest.getStatus());
         reservation.update(foundMember, futureStatus, reservedMeetingCreator);
-        sendMessage(reservation.getMemberId(), AlarmMessage.RESPONSE_RESERVATION);
+
+        // todo : 리팩토링
+        Member receiver = getMember(reservation.getCoupon().getReceiverId());
+        String senderName = "요청자 : " + receiver.getName().getValue();
+        String couponTitle = "쿠폰 : " + reservation.getCoupon().getCouponContent().getTitle();
+        String status = "예약 상태 : " + reservation.getReservationStatus().toString();
+
+        AlarmManager.setResources(
+                new AlarmMessageRequest(receiver.getEmail().getValue(),
+                        "예약 요청에 응답이 왔어요.", List.of(senderName, couponTitle, status)));
     }
 
     public void cancel(final Long memberId,
@@ -65,16 +84,19 @@ public class ReservationService {
         Member foundMember = getMember(memberId);
         Reservation reservation = getReservationById(reservationId);
         reservation.cancel(foundMember);
-        sendMessage(foundMember.getId(), AlarmMessage.CANCEL_RESERVATION);
+
+        // todo : 리팩토링
+        String senderName = "요청자 : " + getMember(reservation.getCoupon().getSenderId()).getName().getValue();
+        String couponTitle = "쿠폰 : " + reservation.getCoupon().getCouponContent().getTitle();
+
+        AlarmManager.setResources(
+                new AlarmMessageRequest(getEmail(getMember(memberId)),
+                        "예약 요청이 취소되었어요.", List.of(senderName, couponTitle)));
     }
 
     private Reservation getReservationById(final Long reservationId) {
         return reservationRepository.findWithCouponById(reservationId)
                 .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION));
-    }
-
-    private void sendMessage(final Long memberId, final AlarmMessage message) {
-        AlarmManager.setResources(new AlarmMessageRequest(getEmail(getMember(memberId)), message));
     }
 
     private Member getMember(final Long memberId) {

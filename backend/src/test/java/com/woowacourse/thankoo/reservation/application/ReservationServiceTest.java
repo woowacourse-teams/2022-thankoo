@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.alarm.AlarmMessage;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
 import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
@@ -38,6 +37,7 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -93,11 +93,11 @@ class ReservationServiceTest {
             reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
-            AlarmMessageRequest request = AlarmManager.getResources();
+            List<AlarmMessageRequest> request = AlarmManager.getResources();
 
             assertAll(
-                    () -> assertThat(request.getEmails()).containsExactly(LALA_EMAIL),
-                    () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.RECEIVE_RESERVATION)
+                    () -> assertThat(request.get(0).getEmail()).isEqualTo(LALA_EMAIL),
+                    () -> assertThat(request.get(0).getTitle()).isEqualTo("예약 요청이 도착했어요.")
             );
         }
 
@@ -176,11 +176,11 @@ class ReservationServiceTest {
 
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-        AlarmMessageRequest request = AlarmManager.getResources();
+        List<AlarmMessageRequest> request = AlarmManager.getResources();
 
         assertAll(
-                () -> assertThat(request.getEmails()).containsExactly(SKRR_EMAIL),
-                () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.RESPONSE_RESERVATION)
+                () -> assertThat(request.get(0).getEmail()).isEqualTo(SKRR_EMAIL),
+                () -> assertThat(request.get(0).getTitle()).isEqualTo("예약 요청에 응답이 왔어요.")
         );
     }
 
@@ -204,7 +204,7 @@ class ReservationServiceTest {
         );
     }
 
-    @DisplayName("예약을 승인되면 알람을 전송한다.")
+    @DisplayName("예약이 거절되면 알람을 전송한다.")
     @Test
     void sendMessageThenUpdateStatusDeny() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
@@ -214,13 +214,13 @@ class ReservationServiceTest {
         Long reservationId = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
-        reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
+        reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("deny"));
 
-        AlarmMessageRequest request = AlarmManager.getResources();
+        List<AlarmMessageRequest> request = AlarmManager.getResources();
 
         assertAll(
-                () -> assertThat(request.getEmails()).containsExactly(SKRR_EMAIL),
-                () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.RESPONSE_RESERVATION)
+                () -> assertThat(request.get(0).getEmail()).isEqualTo(SKRR_EMAIL),
+                () -> assertThat(request.get(0).getTitle()).isEqualTo("예약 요청에 응답이 왔어요.")
         );
     }
 
@@ -261,11 +261,11 @@ class ReservationServiceTest {
 
             reservationService.cancel(receiver.getId(), reservationId);
 
-            AlarmMessageRequest request = AlarmManager.getResources();
+            List<AlarmMessageRequest> request = AlarmManager.getResources();
 
             assertAll(
-                    () -> assertThat(request.getEmails()).containsExactly(SKRR_EMAIL),
-                    () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.CANCEL_RESERVATION)
+                    () -> assertThat(request.get(0).getEmail()).isEqualTo(SKRR_EMAIL),
+                    () -> assertThat(request.get(0).getTitle()).isEqualTo("예약 요청이 취소되었어요.")
             );
         }
 

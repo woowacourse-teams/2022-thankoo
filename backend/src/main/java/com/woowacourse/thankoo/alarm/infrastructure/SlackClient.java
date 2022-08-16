@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.alarm.infrastructure;
 
-import com.woowacourse.thankoo.alarm.AlarmMessage;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
+import com.woowacourse.thankoo.alarm.infrastructure.dto.AttachmentsRequest;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackMessageRequest;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUserResponse;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUsersResponse;
@@ -50,14 +50,13 @@ public class SlackClient {
         return slackUser.getUserToken();
     }
 
-    //todo: null 수정하기
-    public void sendMessage(final String channel, final AlarmMessage message) {
+    public void sendMessage(final String channel, final AttachmentsRequest message) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, TOKEN_TYPE + token);
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         HttpEntity<SlackMessageRequest> requestHttpEntity = new HttpEntity<>(
-                SlackMessageRequest.of(channel, null), headers);
+                SlackMessageRequest.of(channel, message), headers);
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(messageUri, HttpMethod.POST, requestHttpEntity, Void.class);

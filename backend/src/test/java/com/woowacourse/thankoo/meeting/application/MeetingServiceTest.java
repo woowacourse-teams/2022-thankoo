@@ -5,7 +5,6 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
@@ -19,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.alarm.AlarmMessage;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
 import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
@@ -39,6 +37,7 @@ import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -130,11 +129,11 @@ class MeetingServiceTest {
 
         meetingService.sendMessageTodayMeetingMembers(LocalDate.now().plusDays(1L));
 
-        AlarmMessageRequest request = AlarmManager.getResources();
+        List<AlarmMessageRequest> request = AlarmManager.getResources();
 
         assertAll(
-                () -> assertThat(request.getEmails()).containsExactly(LALA_EMAIL, SKRR_EMAIL),
-                () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.MEETING)
+                () -> assertThat(request).extracting("email").containsExactly(LALA_EMAIL, SKRR_EMAIL),
+                () -> assertThat(request).extracting("title").contains("오늘은 미팅이 있는 날이에요!!")
         );
     }
 
