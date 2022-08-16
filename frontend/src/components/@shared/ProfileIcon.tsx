@@ -10,7 +10,7 @@ import Skull from '../../assets/images/user_profile/skull.svg';
 import Tiger from '../../assets/images/user_profile/tiger.svg';
 
 import { flexCenter } from '../../styles/mixIn';
-
+//Todo: sort 대신 다른이름으로 변경
 const ProfileIcon = ({ sort, size }) => {
   switch (sort) {
     case 'Corgi':

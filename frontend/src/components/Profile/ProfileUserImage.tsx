@@ -12,6 +12,7 @@ const ProfileUserImage = ({ src }) => {
     setModalContent(<SelectProfileImgModal />);
   };
 
+  //Todo: Const 제거후 query State로 sort변경
   return (
     <S.ImageBox>
       {/* {<S.UserImage src={src} />} */}
