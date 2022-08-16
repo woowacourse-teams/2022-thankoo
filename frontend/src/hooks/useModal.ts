@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useRecoilState } from 'recoil';
+import { modalUnMountTime } from '../constants/modal';
 import { modalContentAtom, modalVisibleAtom } from '../recoil/atom';
 
 const useModal = () => {
@@ -12,14 +13,13 @@ const useModal = () => {
   };
 
   const close = () => {
-    //dimmer 클릭했을땐 targe null....
-    const target = modalContentRef.current;
+    const target = document.getElementsByClassName('onMount modalContainer')[0];
     target?.classList.remove('onMount');
     target?.classList.add('unMount');
 
     setTimeout(() => {
       setVisible(false);
-    }, 200);
+    }, modalUnMountTime);
   };
 
   return { show, close, visible, setModalContent, modalContentRef };

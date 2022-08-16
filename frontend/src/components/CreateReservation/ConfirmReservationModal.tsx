@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import useModal from '../../hooks/useModal';
+import { modalMountTime, modalUnMountTime } from './../../constants/modal';
 
 const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
   const { visible, close, modalContentRef } = useModal();
@@ -85,7 +86,7 @@ const S = {
       }
     }
     &.onMount {
-      animation: myonmount 500ms ease-in-out;
+      animation: myonmount ${`${modalMountTime}ms`} ease-in-out;
     }
 
     //unMount animation
@@ -98,7 +99,7 @@ const S = {
       }
     }
     &.unMount {
-      animation: myunmount 200ms ease-in-out;
+      animation: myunmount ${`${modalUnMountTime}ms`} ease-in-out;
     }
   `,
   Wrapper: styled.div`

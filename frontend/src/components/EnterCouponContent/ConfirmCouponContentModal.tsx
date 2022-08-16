@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
+import { modalUnMountTime } from '../../constants/modal';
 import useModal from '../../hooks/useModal';
 import { UserProfile } from '../../types';
+import { modalMountTime } from './../../constants/modal';
 
 const ConfirmCouponContentModal = ({
   submit,
@@ -20,7 +22,7 @@ const ConfirmCouponContentModal = ({
   useEffect(() => {
     if (modalContentRef.current) {
       const target = modalContentRef.current;
-      target?.classList.add('onMount');
+      target?.classList.add('modalContainer', 'onMount');
     }
   }, []);
 
@@ -101,7 +103,7 @@ const S = {
       }
     }
     &.onMount {
-      animation: myonmount 500ms ease-in-out;
+      animation: myonmount ${`${modalMountTime}ms`} ease-in-out;
     }
 
     //unMount animation
@@ -114,7 +116,7 @@ const S = {
       }
     }
     &.unMount {
-      animation: myunmount 200ms ease-in-out;
+      animation: myunmount ${`${modalUnMountTime}ms`} ease-in-out;
     }
   `,
   Wrapper: styled.div`
