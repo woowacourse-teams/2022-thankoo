@@ -47,7 +47,12 @@ const S = {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(145px, 150px));
     gap: 30px 15px;
-    max-height: 69vh;
+
+    max-height: 66vh;
+    @media (min-height: 680px) {
+      max-height: 71vh;
+    }
+
     place-items: center;
     justify-content: space-around;
     overflow-y: overlay;

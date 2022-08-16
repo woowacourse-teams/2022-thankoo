@@ -1,11 +1,22 @@
 import styled from '@emotion/styled';
+import { useMemo } from 'react';
 
 type TimeTable = {
   time: string;
   isPassed: boolean;
 };
 
-const timeTableGenerator = (startHour, endHour) => {
+const getCurrentTimeFormatYYMMDDHM = () => {
+  const nowYear = new Date().getFullYear();
+  const nowMonth = new Date().getMonth() + 1;
+  const nowDate = new Date().getDate();
+  const nowHour = new Date().getHours();
+  const nowMin = new Date().getMinutes();
+
+  return `${nowYear}-${nowMonth}-${nowDate} ${nowHour}:${nowMin}`;
+};
+
+const timeTableGenerator = (startHour, endHour, selectedDate) => {
   const timeTable: TimeTable[] = [];
 
   for (let i = startHour; i < endHour + 1; i += 1) {
@@ -14,10 +25,13 @@ const timeTableGenerator = (startHour, endHour) => {
       if (i === endHour) {
         break;
       }
+
       const time = `${String(i).padStart(2, '0')}:${String((j * 60) / scale).padStart(2, '0')}`;
+
       const isPassed =
-        Number(new Date(`2022-01-01 ${new Date().getHours()}:${new Date().getMinutes()}`)) >
-        Number(new Date(`2022-01-01 ${time}`));
+        Number(new Date(getCurrentTimeFormatYYMMDDHM())) >
+        Number(new Date(`${selectedDate} ${time}`));
+
       timeTable.push({ time, isPassed });
     }
   }
@@ -26,8 +40,9 @@ const timeTableGenerator = (startHour, endHour) => {
 };
 
 const Time = ({ selectedTime, setSelectedTime, selectedDate }) => {
-  const dayTimeTable = timeTableGenerator(10, 12);
-  const nightTimeTable = timeTableGenerator(12, 20);
+  const dayTimeTable = useMemo(() => timeTableGenerator(10, 12, selectedDate), [selectedDate]);
+  const nightTimeTable = useMemo(() => timeTableGenerator(12, 20, selectedDate), [selectedDate]);
+
   const isSelectedDayToday = new Date(selectedDate).toDateString() === new Date().toDateString();
 
   return (
@@ -37,15 +52,14 @@ const Time = ({ selectedTime, setSelectedTime, selectedDate }) => {
         <S.TimeTable>
           {dayTimeTable.map(time => (
             <S.Time
-              disabled={time.isPassed && isSelectedDayToday}
               onClick={() => {
-                if (time.isPassed && isSelectedDayToday) {
+                if (time.isPassed) {
                   return;
                 }
                 setSelectedTime(time.time);
               }}
               isSelected={time.time === selectedTime}
-              isPassed={time.isPassed && isSelectedDayToday}
+              isPassed={time.isPassed}
             >
               {time.time}
             </S.Time>
@@ -58,13 +72,13 @@ const Time = ({ selectedTime, setSelectedTime, selectedDate }) => {
           {nightTimeTable.map(time => (
             <S.Time
               onClick={() => {
-                if (time.isPassed && isSelectedDayToday) {
+                if (time.isPassed) {
                   return;
                 }
                 setSelectedTime(time.time);
               }}
               isSelected={time.time === selectedTime}
-              isPassed={time.isPassed && isSelectedDayToday}
+              isPassed={time.isPassed}
             >
               {time.time}
             </S.Time>

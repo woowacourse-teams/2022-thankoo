@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import ScheduledPageButton from './ScheduledPageButton';
-import ReservationPageButton from './ReservationPageButton';
 import CouponsPageButton from './CouponListPageButton';
+import ReservationPageButton from './ReservationPageButton';
+import ScheduledPageButton from './ScheduledPageButton';
 
 const buttons = [<CouponsPageButton />, <ReservationPageButton />, <ScheduledPageButton />];
 
@@ -26,6 +26,7 @@ const S = {
     border-top: 0.5px solid #8e8e8e90;
     background-color: #232323;
     align-items: center;
+    padding-bottom: 5px;
     z-index: 50;
   `,
   Button: styled.button`

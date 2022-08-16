@@ -11,7 +11,7 @@ function App() {
   const { visible: modalVisible } = useModal();
 
   return (
-    <MobileDiv>
+    <MobileDiv isBlurred={modalVisible}>
       {/* <TransitionGroup component={null}> */}
       {/* <CSSTransition key={location?.pathname} classNames={'slide'} timeout={200}> */}
       <Router />
@@ -24,13 +24,19 @@ function App() {
   );
 }
 
-const MobileDiv = styled.div`
+type MobileDivProp = {
+  isBlurred: Boolean;
+};
+
+const MobileDiv = styled.div<MobileDivProp>`
   min-width: 360px;
   margin: 0 auto;
   height: 100vh;
   background-color: ${({ theme }) => theme.page.background};
   position: relative;
   overflow: hidden;
+
+  filter: ${({ isBlurred }) => (isBlurred ? `blur(1.2px)` : '')};
 
   .slide-enter {
     opacity: 0;
