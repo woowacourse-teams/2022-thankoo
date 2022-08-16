@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { CouponType, UserProfile } from '../../types';
-import { useCreateCouponMutation } from '../@queries/coupon';
+import { usePostCouponMutation } from '../@queries/coupon';
 import { useGetUserProfile } from '../@queries/profile';
 import useModal from '../useModal';
 import { COUPON_MESSEGE_MAX_LENGTH, COUPON_TITLE_MAX_LENGTH } from './../../constants/coupon';
@@ -23,7 +23,7 @@ const useEnterCouponContent = () => {
 
   const isFilled = !!title && !!message;
   const { close } = useModal();
-  const { mutate: sendCoupon } = useCreateCouponMutation(
+  const { mutate: sendCoupon } = usePostCouponMutation(
     {
       receiverIds: checkedUsers.map(user => user.id),
       content: { couponType, title, message },

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { targetCouponAtom } from '../../recoil/atom';
-import { useCreateReservationMutation } from '../@queries/reservation';
+import { usePostReservationMutation } from '../@queries/reservation';
 import { useGetCouponDetail } from '../Main/queries/couponDetail';
 import useModal from '../useModal';
 import useOnSuccess from '../useOnSuccess';
@@ -31,7 +31,7 @@ const useCreateReservation = () => {
     navigate(ROUTE_PATH.EXACT_MAIN);
   }
 
-  const { mutate: createReservation } = useCreateReservationMutation(
+  const { mutate: createReservation } = usePostReservationMutation(
     { couponId, date, time },
     {
       onSuccess: () => {
