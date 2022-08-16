@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 import useModal from '../../hooks/useModal';
 import { UserProfile } from '../../types';
 
@@ -14,10 +15,17 @@ const ConfirmCouponContentModal = ({
   title: string;
   receivers: UserProfile[];
 }) => {
-  const { visible, close } = useModal();
+  const { visible, close, modalContentRef } = useModal();
+
+  useEffect(() => {
+    if (modalContentRef.current) {
+      const target = modalContentRef.current;
+      target?.classList.add('onMount');
+    }
+  }, []);
 
   return (
-    <S.Container show={visible}>
+    <S.Container show={visible} ref={modalContentRef}>
       <S.Wrapper>
         <S.ConfirmHeaderText>쿠폰 정보를 확인해주세요</S.ConfirmHeaderText>
         <S.ConfirmContentWrapper>
@@ -62,7 +70,7 @@ type ButtonProps = {
 const S = {
   Container: styled.div<ConfirmCouponContentModalProps>`
     position: fixed;
-    bottom: -100%;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     max-width: 680px;
@@ -74,12 +82,27 @@ const S = {
     z-index: 10000;
     color: white;
 
-    transition: all ease-in-out 0.5s;
     ${({ show }) =>
       show &&
       css`
         bottom: 0;
       `};
+
+    //onMount animation
+    @keyframes myonmount {
+      0% {
+        bottom: -100%;
+      }
+      40% {
+        bottom: -60%;
+      }
+      100% {
+        bottom: 0;
+      }
+    }
+    &.onMount {
+      animation: myonmount 500ms ease-in-out;
+    }
   `,
   Wrapper: styled.div`
     display: flex;
