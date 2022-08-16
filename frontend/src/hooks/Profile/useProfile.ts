@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { UserProfile } from '../../types';
-import { exchangeCount, useGetCouponExchangeCount, useGetProfile } from '../@queries/profile';
+import { exchangeCount, useGetCouponExchangeCount, useGetUserProfile } from '../@queries/profile';
 import useToast from '../useToast';
 
 const useUserProfile = () => {
@@ -13,7 +13,7 @@ const useUserProfile = () => {
   const [name, setName] = useState<string>('');
   const [exchangeCount, setExchangeCount] = useState({ sentCount: 0, receivedCount: 0 });
 
-  const { data: profile } = useGetProfile({
+  const { data: profile } = useGetUserProfile({
     onSuccess: (data: UserProfile) => {
       setName(data.name);
     },

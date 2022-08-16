@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { modalContentAtom, modalVisibleAtom } from '../recoil/atom';
 

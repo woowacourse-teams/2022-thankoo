@@ -15,7 +15,7 @@ import { ROUTE_PATH } from '../constants/routes';
 
 const SelectReceiver = () => {
   const {
-    users,
+    members,
     isLoading,
     error,
     checkedUsers,
@@ -42,7 +42,7 @@ const SelectReceiver = () => {
         <S.InputWrapper>
           <UserSearchInput value={keyword} setKeyword={setKeyword} />
         </S.InputWrapper>
-        {users && (
+        {members && (
           <ListViewUsers
             users={matchedUsers}
             isCheckedUser={isCheckedUser}

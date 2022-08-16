@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
 
-const Coupon = ({ id, name, title, couponType }) => {
+const CouponLayout = ({ id = 0, name = '', title = '', couponType = 'coffee' }) => {
   return (
     <S.Layout>
       <S.Content
@@ -18,7 +18,7 @@ const Coupon = ({ id, name, title, couponType }) => {
   );
 };
 
-export default Coupon;
+export default CouponLayout;
 
 type ContentProp = {
   backgroundColor: string;

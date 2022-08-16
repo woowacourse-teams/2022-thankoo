@@ -11,10 +11,21 @@ import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import useModal from '../hooks/useModal';
+import ConfirmReservationModal from '../components/CreateReservation/ConfirmReservationModal';
 
 const CreateReservation = () => {
-  const { isFilled, setReservationDate, sendReservation, date, time, setTime, yesterday } =
-    useCreateReservation();
+  const {
+    isFilled,
+    setReservationDate,
+    date,
+    time,
+    setTime,
+    yesterday,
+    couponDetail,
+    createReservation,
+  } = useCreateReservation();
+  const { setModalContent, show, visible } = useModal();
 
   return (
     <S.PageLayout>
@@ -30,7 +41,13 @@ const CreateReservation = () => {
             <S.CalendarIcon />
             날짜 입력
           </S.Label>
-          <S.DateInput type='date' value={date} onChange={setReservationDate} min={yesterday} />
+          <S.DateInput
+            type='date'
+            value={date}
+            onChange={setReservationDate}
+            min={yesterday}
+            max={new Date().getFullYear()}
+          />
         </S.Area>
         <S.TimeArea>
           <S.Label>
@@ -43,7 +60,15 @@ const CreateReservation = () => {
       <S.LongButton
         disabled={!isFilled}
         onClick={() => {
-          sendReservation();
+          show();
+          setModalContent(
+            <ConfirmReservationModal
+              receiver={couponDetail?.coupon.receiver.name}
+              date={date}
+              time={time}
+              submit={createReservation}
+            />
+          );
         }}
       >
         약속 신청하기

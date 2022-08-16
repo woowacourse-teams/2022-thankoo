@@ -1,33 +1,48 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
+import { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
-import { Coupon, CouponType, initialCouponState, UserProfile } from '../../types';
+import { CouponType, UserProfile } from '../../types';
+import { usePostCouponMutation } from '../@queries/coupon';
+import { useGetUserProfile } from '../@queries/profile';
+import useModal from '../useModal';
 import { COUPON_MESSEGE_MAX_LENGTH, COUPON_TITLE_MAX_LENGTH } from './../../constants/coupon';
 import useOnSuccess from './../useOnSuccess';
 
 const useEnterCouponContent = () => {
   const { successNavigate } = useOnSuccess();
-  const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
+  const navigate = useNavigate();
 
-  const { data: userProfile } = useQuery<UserProfile>('profile', async () => {
-    const res = await client({
-      method: 'GET',
-      url: `${API_PATH.PROFILE}`,
-    });
-    return res.data;
-  });
-
-  const checkedUsers = useRecoilValue(checkedUsersAtom);
-
-  const [couponType, setCouponType] = useState<CouponType>('coffee');
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
+  const [couponType, setCouponType] = useState<CouponType>('coffee');
+  const checkedUsers = useRecoilValue<UserProfile[]>(checkedUsersAtom);
+
+  const { data: userProfile } = useGetUserProfile();
 
   const isFilled = !!title && !!message;
+  const { close } = useModal();
+  const { mutate: sendCoupon } = usePostCouponMutation(
+    {
+      receiverIds: checkedUsers.map(user => user.id),
+      content: { couponType, title, message },
+    },
+    {
+      onSuccess: () => {
+        successNavigate({
+          page: ROUTE_PATH.ENTER_COUPON_CONTENT,
+          props: {
+            couponType,
+            message,
+            receivers: checkedUsers,
+            title,
+          },
+        });
+        close();
+      },
+    }
+  );
 
   const handleOnchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     const targetValue = e.target.value;
@@ -42,59 +57,9 @@ const useEnterCouponContent = () => {
     }
   };
 
-  const [currentCoupon, setCurrentCoupon] = useState<Coupon>({
-    ...initialCouponState,
-    sender: {
-      ...initialCouponState.sender,
-      id: userProfile?.id ?? 0,
-    },
-    content: {
-      ...initialCouponState.content,
-      couponType,
-    },
-    status: 'not_used',
-  });
-
-  useEffect(() => {
-    if (userProfile) {
-      const newCouponSender = {
-        ...currentCoupon.sender,
-        id: userProfile.id,
-        name: userProfile.name,
-      };
-      setCurrentCoupon(prev => ({
-        ...prev,
-        sender: newCouponSender,
-      }));
-    }
-    setCurrentCoupon(prev => ({
-      ...prev,
-      content: {
-        couponType,
-        title,
-        message,
-      },
-    }));
-  }, [userProfile, couponType, title, message]);
-  const sendCoupon = useMutation(
-    async () =>
-      await client({
-        method: 'POST',
-        url: `${API_PATH.SEND_COUPON}`,
-        data: {
-          receiverIds: checkedUsers.map(user => user.id),
-          content: {
-            ...currentCoupon.content,
-          },
-        },
-      }),
-    {
-      onSuccess: () => {
-        resetCheckedUsers();
-        successNavigate(`${ROUTE_PATH.EXACT_MAIN}`);
-      },
-    }
-  );
+  if (!checkedUsers.length) {
+    navigate(ROUTE_PATH.SELECT_RECEIVER);
+  }
 
   return {
     couponType,
@@ -106,7 +71,8 @@ const useEnterCouponContent = () => {
     setTitle,
     setMessage,
     checkedUsers,
-    currentCoupon,
+    currentUserName: userProfile?.name,
+    currentUserId: userProfile?.id,
     handleOnchangeTitle,
     handleOnchangeMessage,
   };

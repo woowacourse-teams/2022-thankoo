@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { atom } from 'recoil';
 import { UserProfile } from '../types';
 
@@ -40,13 +41,27 @@ export const toastVisibleAtom = atom({
   default: false,
 });
 
+interface toastItem {
+  key: number;
+  comment: string;
+}
+
 export const toastStackAtom = atom<toastItem[]>({
   //modify
   key: 'toastStackAtom',
   default: [],
 });
 
-interface toastItem {
-  key: number;
-  comment: string;
+// SuccessPage 내부 컨텐츠
+interface SuccessContentType {
+  page: string;
+  props: any;
 }
+
+export const onSuccessContentAtom = atom<SuccessContentType>({
+  key: 'onSuccessContentAtom',
+  default: {
+    page: '',
+    props: {},
+  },
+});
