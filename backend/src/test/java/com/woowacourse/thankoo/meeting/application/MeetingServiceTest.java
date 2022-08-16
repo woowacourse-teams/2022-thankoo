@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
+import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -37,7 +37,6 @@ import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -129,11 +128,11 @@ class MeetingServiceTest {
 
         meetingService.sendMessageTodayMeetingMembers(LocalDate.now().plusDays(1L));
 
-        List<AlarmMessageRequest> request = AlarmManager.getResources();
+        Message message = AlarmManager.getResources();
 
         assertAll(
-                () -> assertThat(request).extracting("email").containsExactly(LALA_EMAIL, SKRR_EMAIL),
-                () -> assertThat(request).extracting("title").contains("오늘은 미팅이 있는 날이에요!!")
+                () -> assertThat(message.getEmails()).containsExactly(LALA_EMAIL, SKRR_EMAIL),
+                () -> assertThat(message.getTitle()).contains("오늘은 미팅이 있는 날이에요!!")
         );
     }
 

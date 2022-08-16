@@ -4,12 +4,12 @@ import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.ON_PROGRESS;
 
 import com.woowacourse.thankoo.alarm.support.Alarm;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
+import com.woowacourse.thankoo.meeting.domain.MeetingMessage;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import com.woowacourse.thankoo.meeting.domain.Meetings;
@@ -19,9 +19,6 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.domain.Members;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,17 +58,11 @@ public class MeetingService {
     }
 
     @Alarm
-    public void sendMessageTodayMeetingMembers(LocalDate date) {
-        // todo : 리팩토링
+    public void sendMessageTodayMeetingMembers(final LocalDate date) {
         Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnit_Date(date));
         Members members = new Members(meetings.getMembers());
-
-        List<AlarmMessageRequest> request = members.getEmails().stream()
-                .map(email -> new AlarmMessageRequest(email, "오늘은 미팅이 있는 날이에요!!", Collections.emptyList()))
-                .collect(Collectors.toList());
-
-        if (!request.isEmpty()) {
-            AlarmManager.setResources(request);
+        if (!members.isEmpty()) {
+            AlarmManager.setResources(MeetingMessage.create(members.getEmails()));
         }
     }
 }

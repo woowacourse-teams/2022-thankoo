@@ -44,7 +44,7 @@ public class AlarmConfig {
         return new InMemorySlackUserRepository(slackUserMapper().getSlackUsers(), slackClient());
     }
 
-    @DependsOn({"slackMessageClient", "inMemorySlackUserRepository"})
+    @DependsOn({"slackClient", "inMemorySlackUserRepository"})
     @Bean
     public AlarmSender alarmSender() {
         return new SlackAlarmSender(slackClient(), inMemorySlackUserRepository());

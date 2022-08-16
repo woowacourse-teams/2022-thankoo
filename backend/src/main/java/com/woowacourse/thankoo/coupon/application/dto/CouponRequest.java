@@ -22,10 +22,13 @@ public class CouponRequest {
     }
 
     public List<Coupon> toEntities(final Long senderId) {
-        CouponContent couponContent = content.toEntity();
         return receiverIds.stream()
-                .map(id -> new Coupon(senderId, id, couponContent, CouponStatus.NOT_USED))
+                .map(id -> new Coupon(senderId, id, toCouponContent(), CouponStatus.NOT_USED))
                 .collect(Collectors.toList());
+    }
+
+    public CouponContent toCouponContent() {
+        return content.toEntity();
     }
 
     @Override
