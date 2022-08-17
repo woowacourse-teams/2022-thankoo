@@ -30,7 +30,7 @@ public class Meetings {
 
     public List<Member> getMembers() {
         return values.stream()
-                .map(meeting -> meeting.getMeetingMembers().getMeetingMembers())
+                .map(meeting -> meeting.getMeetingMembers().getValues())
                 .flatMap(Collection::stream)
                 .map(MeetingMember::getMember)
                 .collect(Collectors.toList());

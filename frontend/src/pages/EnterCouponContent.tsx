@@ -7,13 +7,13 @@ import TabsNav from '../components/@shared/TabsNav';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
 import { couponTypeKeys } from '../types';
 
+import CouponLayout from '../components/@shared/CouponLayout';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
-import { couponTypes } from '../types/index';
-import CouponLayout from '../components/@shared/CouponLayout';
-import useModal from '../hooks/useModal';
 import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmCouponContentModal';
+import useModal from '../hooks/useModal';
+import { couponTypes } from '../types/index';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -80,6 +80,7 @@ const EnterCouponContent = () => {
               message={message}
               receivers={checkedUsers}
               submit={sendCoupon}
+              couponType={couponType}
             />
           );
         }}
@@ -99,7 +100,7 @@ const S = {
     gap: 2rem;
     padding: 15px 3vw;
     height: 70vh;
-    justify-content: center;
+    justify-content: space-evenly;
   `,
   Form: styled.form`
     display: flex;

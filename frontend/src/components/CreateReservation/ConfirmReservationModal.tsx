@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import useModal from '../../hooks/useModal';
 import { modalMountTime, modalUnMountTime } from './../../constants/modal';
+import { onMountFromBottomModal, unMountToBottomModal } from './../../styles/Animation';
 
 const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
   const { visible, close, modalContentRef } = useModal();
@@ -58,33 +59,11 @@ const S = {
     z-index: 10000;
     color: white;
 
-    //onMount animation
-    @keyframes myonmount {
-      0% {
-        bottom: -100%;
-      }
-      40% {
-        bottom: -50%;
-      }
-      100% {
-        bottom: 0;
-      }
-    }
     &.onMount {
-      animation: myonmount ${`${modalMountTime}ms`} ease-in-out;
-    }
-
-    //unMount animation
-    @keyframes myunmount {
-      0% {
-        bottom: 0%;
-      }
-      100% {
-        bottom: -100%;
-      }
+      animation: ${onMountFromBottomModal} ${`${modalMountTime}ms`} ease-in-out;
     }
     &.unMount {
-      animation: myunmount ${`${modalUnMountTime}ms`} ease-in-out;
+      animation: ${unMountToBottomModal} ${`${modalUnMountTime}ms`} ease-in-out;
     }
   `,
   Wrapper: styled.div`

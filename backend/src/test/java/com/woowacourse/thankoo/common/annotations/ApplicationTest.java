@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.common.annotations;
 
-import com.woowacourse.thankoo.common.support.AlarmThreadClearExtension;
 import com.woowacourse.thankoo.common.support.DataClearExtension;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,6 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ExtendWith({DataClearExtension.class, AlarmThreadClearExtension.class})
+@ExtendWith(DataClearExtension.class)
 public @interface ApplicationTest {
 }

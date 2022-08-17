@@ -1,9 +1,11 @@
 package com.woowacourse.thankoo.coupon.application;
 
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.ALL;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.USED;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
@@ -65,19 +67,73 @@ class CouponQueryServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @DisplayName("받은 쿠폰을 조회한다.")
+    @DisplayName("받은 쿠폰 중 사용하지 않은 쿠폰을 조회한다.")
     @Test
-    void getReceivedCoupons() {
+    void getReceivedCouponsNotUsed() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
 
-        couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
-                new ContentRequest(TYPE, TITLE, MESSAGE)));
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.EXPIRED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED)
+        ));
 
         List<CouponResponse> responses = couponQueryService.getReceivedCoupons(receiver.getId(), NOT_USED);
 
         assertAll(
+                () -> assertThat(responses).hasSize(2),
+                () -> assertThat(responses.get(0).getSender().getId()).isEqualTo(sender.getId()),
+                () -> assertThat(responses.get(0).getReceiver().getId()).isEqualTo(receiver.getId())
+        );
+    }
+
+    @DisplayName("받은 쿠폰 중 사용한 쿠폰을 조회한다.")
+    @Test
+    void getReceivedCouponsUsed() {
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.EXPIRED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED)
+        ));
+
+        List<CouponResponse> responses = couponQueryService.getReceivedCoupons(receiver.getId(), USED);
+
+        assertAll(
                 () -> assertThat(responses).hasSize(1),
+                () -> assertThat(responses.get(0).getSender().getId()).isEqualTo(sender.getId()),
+                () -> assertThat(responses.get(0).getReceiver().getId()).isEqualTo(receiver.getId())
+        );
+    }
+
+    @DisplayName("모든 받은 쿠폰을 조회한다.")
+    @Test
+    void getReceivedCouponsAll() {
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.EXPIRED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED)
+        ));
+
+        List<CouponResponse> responses = couponQueryService.getReceivedCoupons(receiver.getId(), ALL);
+
+        assertAll(
+                () -> assertThat(responses).hasSize(3),
                 () -> assertThat(responses.get(0).getSender().getId()).isEqualTo(sender.getId()),
                 () -> assertThat(responses.get(0).getReceiver().getId()).isEqualTo(receiver.getId())
         );
@@ -106,16 +162,19 @@ class CouponQueryServiceTest {
     void getCouponTotalCount() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
-        couponRepository.save(new Coupon(receiver.getId(), sender.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
-        couponRepository.save(new Coupon(receiver.getId(), sender.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
+
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED),
+                new Coupon(receiver.getId(), sender.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(receiver.getId(), sender.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED)
+        ));
 
         CouponTotalResponse couponTotal = couponQueryService.getCouponTotalCount(sender.getId());
         assertAll(
