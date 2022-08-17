@@ -47,7 +47,7 @@ public class CouponQueryService {
         validateCouponOwner(memberId, memberCoupon);
 
         CouponStatus couponStatus = CouponStatus.of(memberCoupon.getStatus());
-        if (couponStatus.isInReserve()) {
+        if (couponStatus.isInReserveOrUsed()) {
             return getCouponDetailResponse(couponId, memberCoupon, couponStatus);
         }
         return CouponDetailResponse.of(memberCoupon);
@@ -67,8 +67,8 @@ public class CouponQueryService {
     private CouponDetailResponse getCouponDetailResponse(final Long couponId,
                                                          final MemberCoupon memberCoupon,
                                                          final CouponStatus couponStatus) {
-        if (couponStatus.isReserved()) {
-            return CouponDetailResponse.from(memberCoupon, meetingProvider.getOnProgressMeeting(couponId));
+        if (couponStatus.isReserved() || couponStatus.isUsed()) {
+            return CouponDetailResponse.from(memberCoupon, meetingProvider.getMeetingByCouponId(couponId));
         }
         return CouponDetailResponse.from(memberCoupon, reservationProvider.getWaitingReservation(couponId));
     }

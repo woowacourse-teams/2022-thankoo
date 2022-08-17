@@ -41,4 +41,12 @@ class CouponStatusTest {
 
         assertThat(couponStatus.isReserved()).isTrue();
     }
+
+    @DisplayName("쿠폰이 사용된 상태인지 확인한다.")
+    @Test
+    void isUsed() {
+        CouponStatus couponStatus = CouponStatus.USED;
+
+        assertThat(couponStatus.isUsed()).isTrue();
+    }
 }

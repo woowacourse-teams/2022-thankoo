@@ -15,9 +15,8 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     @Query("SELECT DISTINCT mt FROM Meeting mt "
             + "LEFT JOIN FETCH mt.meetingMembers.values mtm "
             + "LEFT JOIN FETCH mtm.member m "
-            + "WHERE mt.coupon.id = :couponId "
-            + "AND mt.meetingStatus = :status")
-    Optional<Meeting> findTopByCouponIdAndMeetingStatus(@Param("couponId") Long couponId, @Param("status") MeetingStatus status);
+            + "WHERE mt.coupon.id = :couponId ")
+    Optional<Meeting> findTopByCouponId(@Param("couponId") Long couponId);
 
     @EntityGraph(attributePaths = "coupon", type = EntityGraphType.LOAD)
     List<Meeting> findAllByMeetingStatusAndTimeUnit_Date(MeetingStatus status, LocalDate date);
