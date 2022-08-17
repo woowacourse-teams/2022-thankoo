@@ -47,8 +47,7 @@ const S = {
   Container: styled.div<ConfirmReservationModalProps>`
     position: fixed;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     max-width: 680px;
     width: 100%;
     height: 55vh;
@@ -59,7 +58,7 @@ const S = {
     color: white;
 
     //onMount animation
-    @keyframes myonmount {
+    @keyframes onMountFromBottom {
       0% {
         bottom: -100%;
       }
@@ -71,11 +70,11 @@ const S = {
       }
     }
     &.onMount {
-      animation: myonmount ${`${modalMountTime}ms`} ease-in-out;
+      animation: onMountFromBottom ${`${modalMountTime}ms`} ease-in-out;
     }
 
     //unMount animation
-    @keyframes myunmount {
+    @keyframes unMountToBottom {
       0% {
         bottom: 0%;
       }
@@ -84,7 +83,7 @@ const S = {
       }
     }
     &.unMount {
-      animation: myunmount ${`${modalUnMountTime}ms`} ease-in-out;
+      animation: unMountToBottom ${`${modalUnMountTime}ms`} ease-in-out;
     }
   `,
   Wrapper: styled.div`

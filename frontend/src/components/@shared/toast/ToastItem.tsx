@@ -55,7 +55,7 @@ const S = {
     /* border: 3px green solid; */
 
     ${flexCenter}
-    @keyframes myonmount {
+    @keyframes toastOnMount {
       0% {
         opacity: 0;
         transform: translateX(30px);
@@ -71,7 +71,7 @@ const S = {
       }
     }
 
-    @keyframes myunmount {
+    @keyframes toastUnMount {
       0% {
         opacity: 1;
       }
@@ -88,10 +88,10 @@ const S = {
     }
 
     &.onMount {
-      animation: myonmount 2000ms ease-in-out; //todo 2000ms duration으로 교체
+      animation: toastOnMount 2000ms ease-in-out; //todo 2000ms duration으로 교체
     }
     &.unMount {
-      animation: myunmount 2000ms;
+      animation: toastUnMount 2000ms;
     }
   `,
   Interact: styled.div`
