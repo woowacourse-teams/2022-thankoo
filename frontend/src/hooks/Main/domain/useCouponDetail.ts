@@ -23,6 +23,7 @@ export const useCouponDetail = (couponId: number) => {
   const navigate = useNavigate();
   const reservationId = couponDetail?.reservation?.reservationId;
   const meetingId = couponDetail?.meeting?.meetingId;
+
   const { mutate: cancelReservation } = usePutCancelReseravation(reservationId, {
     onSuccess: () => {
       queryClient.invalidateQueries('coupons');
@@ -81,8 +82,8 @@ export const useCouponDetail = (couponId: number) => {
           },
         },
       ],
-      used: '이미 사용된 쿠폰입니다',
-      expired: '만료된 쿠폰입니다',
+      used: [{ text: '이미 사용된 쿠폰입니다', disable: true, bg: '#838383' }],
+      expired: [{ text: '만료된 쿠폰입니다', disable: true, bg: '#838383' }],
     },
     보낸: {
       not_used: [

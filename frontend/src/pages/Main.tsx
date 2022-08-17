@@ -24,12 +24,14 @@ const sentOrReceivedArray = ['받은', '보낸'];
 const Main = () => {
   const {
     setCurrentType,
-    orderedCoupons,
+    coupons,
     isLoading,
     error,
     currentType,
     sentOrReceived,
     setSentOrReceived,
+    showAllCouponsToggle,
+    setShowAllCouponsToggle,
   } = useMain();
 
   const { visible } = useModal();
@@ -65,14 +67,29 @@ const Main = () => {
           </S.CouponStatusNavWrapper>
         </Header>
         <S.Body>
-          <TabsNav
-            onChangeTab={setCurrentType}
-            currentTab={currentType}
-            tabList={couponTypes}
-            selectableTabs={couponTypeKeys}
-          />
-          {orderedCoupons?.length ? (
-            <GridViewCoupons coupons={orderedCoupons} />
+          <S.TabsNavWrapper>
+            <TabsNav
+              onChangeTab={setCurrentType}
+              currentTab={currentType}
+              tabList={couponTypes}
+              selectableTabs={couponTypeKeys}
+            />
+            <S.UsedCouponToggleForm>
+              <S.UsedCouponCheckbox
+                type='checkbox'
+                id='used_coupon'
+                checked={showAllCouponsToggle}
+                onChange={() => {
+                  setShowAllCouponsToggle(prev => !prev);
+                }}
+              />
+              <S.UsedCouponCheckboxLabel htmlFor='used_coupon' id='used_coupon'>
+                모든 쿠폰
+              </S.UsedCouponCheckboxLabel>
+            </S.UsedCouponToggleForm>
+          </S.TabsNavWrapper>
+          {coupons?.length ? (
+            <GridViewCoupons coupons={coupons} />
           ) : sentOrReceived === '보낸' ? (
             <NoSendCoupon />
           ) : (
@@ -147,10 +164,25 @@ const S = {
     -ms-user-select: none;
     user-select: none;
   `,
+  TabsNavWrapper: styled.div`
+    display: flex;
+    justify-content: space-between;
+  `,
   UserProfile: styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
+  `,
+  UsedCouponToggleForm: styled.form`
+    display: flex;
+    align-items: center;
+  `,
+  UsedCouponCheckbox: styled.input`
+    margin: 0 10px 0 0;
+  `,
+  UsedCouponCheckboxLabel: styled.label`
+    font-size: 12px;
+    color: white;
   `,
   SelectReceiverButton: styled(Link)``,
   SendIcon: styled(SendIcon)`

@@ -31,8 +31,9 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
         </PageSlider>
         <S.Footer>
           <S.ButtonWrapper>
-            {buttonOptions.map(button => (
+            {buttonOptions.map((button, idx) => (
               <S.Button
+                key={button.text + idx}
                 bg={button.bg}
                 disabled={button.disabled}
                 onClick={button.onClick && button.onClick}

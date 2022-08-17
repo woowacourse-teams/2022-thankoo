@@ -13,25 +13,22 @@ const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
 
   return (
     <S.Container>
-      {coupons.map(coupon => {
-        return (
-          coupon.status !== 'used' && (
-            <ModalWrapper
-              key={coupon.couponId}
-              modalContent={<CouponDetail couponId={coupon.couponId} />}
-            >
-              <S.Relative>
-                {isOnReserve(coupon.status) && (
-                  <S.StatusStrap status={coupon.status}>
-                    {COUPON_STATUS_STRAP_TEXT[coupon.status]}
-                  </S.StatusStrap>
-                )}
-                <GridViewCoupon coupon={coupon} />
-              </S.Relative>
-            </ModalWrapper>
-          )
-        );
-      })}
+      {coupons.map(coupon => (
+        <ModalWrapper
+          key={coupon.couponId}
+          modalContent={<CouponDetail couponId={coupon.couponId} />}
+        >
+          <S.Relative>
+            {isCompleted(coupon.status) && <S.CompleteDeem>사용 완료</S.CompleteDeem>}
+            {isOnReserve(coupon.status) && (
+              <S.StatusStrap status={coupon.status}>
+                {COUPON_STATUS_STRAP_TEXT[coupon.status]}
+              </S.StatusStrap>
+            )}
+            <GridViewCoupon coupon={coupon} />
+          </S.Relative>
+        </ModalWrapper>
+      ))}
     </S.Container>
   );
 };
