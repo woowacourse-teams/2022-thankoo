@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { modalMountTime, modalUnMountTime } from './../../constants/modal';
 import useModal from './../../hooks/useModal';
 import ProfileIcon from './../@shared/ProfileIcon';
 
@@ -8,10 +8,10 @@ const ProfileIconList = ['Corgi', 'Tiger', 'Dino', 'Mint', 'Otter', 'Panda', 'Sk
 
 const SelectProfileImgModal = () => {
   const [selected, setSelected] = useState('');
-  const { visible, close } = useModal();
+  const { visible, close, modalContentRef } = useModal();
 
   return (
-    <S.Container show={visible}>
+    <S.Container show={visible} ref={modalContentRef}>
       <S.Wrapper>
         <S.ConfirmHeaderText>원하는 쿠폰 이미지를 선택해 주세요</S.ConfirmHeaderText>
         <S.ProfileContainer>
@@ -57,7 +57,7 @@ type IconWrapperProp = {
 const S = {
   Container: styled.div<ConfirmCouponContentModalProps>`
     position: fixed;
-    bottom: -100%;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     max-width: 680px;
@@ -69,11 +69,34 @@ const S = {
     z-index: 10000;
     color: white;
 
-    ${({ show }) =>
-      show &&
-      css`
+    //onMount animation
+    @keyframes myonmount {
+      0% {
+        bottom: -100%;
+      }
+      40% {
+        bottom: -50%;
+      }
+      100% {
         bottom: 0;
-      `};
+      }
+    }
+    &.onMount {
+      animation: myonmount ${`${modalMountTime}ms`} ease-in-out;
+    }
+
+    //unMount animation
+    @keyframes myunmount {
+      0% {
+        bottom: 0%;
+      }
+      100% {
+        bottom: -100%;
+      }
+    }
+    &.unMount {
+      animation: myunmount ${`${modalUnMountTime}ms`} ease-in-out;
+    }
   `,
   Wrapper: styled.div`
     display: flex;

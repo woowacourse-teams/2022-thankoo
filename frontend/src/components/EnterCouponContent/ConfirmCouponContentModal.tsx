@@ -81,7 +81,7 @@ const S = {
         bottom: -100%;
       }
       40% {
-        bottom: -60%;
+        bottom: -50%;
       }
       100% {
         bottom: 0;
