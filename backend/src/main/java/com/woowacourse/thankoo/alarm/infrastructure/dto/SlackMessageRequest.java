@@ -13,16 +13,16 @@ public class SlackMessageRequest {
     private String channel;
 
     @JsonProperty("attachments")
-    private List<AttachmentsRequest> attachmentsRequest;
+    private List<Attachments> attachments;
 
-    private SlackMessageRequest(final String channel, final List<AttachmentsRequest> attachmentsRequest) {
+    private SlackMessageRequest(final String channel, final List<Attachments> attachments) {
         this.channel = channel;
-        this.attachmentsRequest = attachmentsRequest;
+        this.attachments = attachments;
     }
 
     public static SlackMessageRequest of(
             final String channel,
-            final AttachmentsRequest attachmentsRequest) {
-        return new SlackMessageRequest(channel, List.of(attachmentsRequest));
+            final Attachments attachments) {
+        return new SlackMessageRequest(channel, List.of(attachments));
     }
 }

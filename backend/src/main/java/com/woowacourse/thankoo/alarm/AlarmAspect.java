@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.alarm;
 
-import com.woowacourse.thankoo.alarm.infrastructure.dto.AttachmentsRequest;
+import com.woowacourse.thankoo.alarm.infrastructure.dto.Attachments;
 import com.woowacourse.thankoo.alarm.support.AlarmManager;
 import com.woowacourse.thankoo.alarm.support.Message;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class AlarmAspect {
     public void sendMessage() {
         Message message = AlarmManager.getResources();
         for (String email : message.getEmails()) {
-            alarmSender.send(email, AttachmentsRequest.from(message.getTitle(), message.getContents()));
+            alarmSender.send(email, Attachments.from(message.getTitle(), message.getContents()));
         }
         AlarmManager.clear();
     }
