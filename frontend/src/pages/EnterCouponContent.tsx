@@ -80,6 +80,7 @@ const EnterCouponContent = () => {
               message={message}
               receivers={checkedUsers}
               submit={sendCoupon}
+              couponType={couponType}
             />
           );
         }}

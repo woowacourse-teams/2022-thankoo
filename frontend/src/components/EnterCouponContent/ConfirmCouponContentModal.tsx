@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { modalUnMountTime } from '../../constants/modal';
 import useModal from '../../hooks/useModal';
-import { UserProfile } from '../../types';
+import { CouponType, couponTypes, UserProfile } from '../../types';
 import { modalMountTime } from './../../constants/modal';
 import { onMountFromBottomModal, unMountToBottomModal } from './../../styles/Animation';
 
@@ -10,11 +10,13 @@ const ConfirmCouponContentModal = ({
   message,
   title,
   receivers,
+  couponType,
 }: {
   submit: () => void;
   message: string;
   title: string;
   receivers: UserProfile[];
+  couponType: CouponType;
 }) => {
   const { visible, close, modalContentRef } = useModal();
 
@@ -32,6 +34,10 @@ const ConfirmCouponContentModal = ({
               </S.UserWrapper>
             ))}
           </S.ReceiversWrapper>
+        </S.ConfirmContentWrapper>
+        <S.ConfirmContentWrapper>
+          <S.ConfirmTitleText>쿠폰 종류</S.ConfirmTitleText>
+          <S.ConfirmContentText>{couponTypes[couponType]}</S.ConfirmContentText>
         </S.ConfirmContentWrapper>
         <S.ConfirmContentWrapper>
           <S.ConfirmTitleText>제목</S.ConfirmTitleText>
