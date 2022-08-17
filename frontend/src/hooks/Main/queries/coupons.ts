@@ -23,18 +23,12 @@ export const useGetCoupons = sentOrReceived => {
     });
   }, []);
 
-  return useQuery<Coupon[]>(
-    ['coupon', sentOrReceived],
-    async () => {
-      const { data } = await client({
-        method: 'get',
-        url: SENT_OR_RECEIVED_API_PATH[sentOrReceived],
-      });
+  return useQuery<Coupon[]>(['coupon', sentOrReceived], async () => {
+    const { data } = await client({
+      method: 'get',
+      url: SENT_OR_RECEIVED_API_PATH[sentOrReceived],
+    });
 
-      return data;
-    },
-    {
-      keepPreviousData: true,
-    }
-  );
+    return data;
+  });
 };
