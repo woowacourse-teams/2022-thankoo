@@ -62,8 +62,9 @@ const S = {
     left: 50%;
     z-index: 1000;
     transform: translate(-50%, -50%);
-    width: 18rem;
-    height: fit-content;
+    width: 28rem;
+    height: 40rem;
+    //height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,14 +72,14 @@ const S = {
 
     border-radius: 5px;
     background-color: #232323;
-    padding: 1rem;
+    padding: 2rem;
   `,
   Header: styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
     height: 10%;
-    width: 108%;
+    width: 106%;
   `,
   Modal: styled.div`
     width: 100%;
@@ -102,7 +103,7 @@ const S = {
   `,
   Button: styled.button<ButtonProps>`
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     background-color: ${({ theme, disabled, bg }) =>
       disabled ? theme.button.disbaled.background : bg};
     color: ${({ theme, disabled }) =>

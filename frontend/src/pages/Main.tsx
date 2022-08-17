@@ -119,8 +119,8 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 5px 3vw;
+    padding: 0.5rem 3vw;
+    height: calc(79.5% - 5.5rem);
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;
@@ -169,6 +169,8 @@ const S = {
   TabsNavWrapper: styled.div`
     display: flex;
     justify-content: space-between;
+    height: 3.2rem;
+    margin-bottom: 1.5rem;
   `,
   UserProfile: styled.div`
     width: 100%;
@@ -189,12 +191,12 @@ const S = {
   SelectReceiverButton: styled(Link)``,
   SendIcon: styled(SendIcon)`
     position: absolute;
-    bottom: 100px;
-    right: 20px;
+    bottom: 8rem;
+    right: 4rem;
     fill: ${({ theme }) => theme.button.abled.color};
     padding: 0.7rem;
     border-radius: 50%;
-    transform: rotate(-45deg) scale(1);
+    transform: rotate(-45deg) scale(1.4);
     opacity: 0.9;
     cursor: pointer;
     transition: all ease-in-out 0.2s;
