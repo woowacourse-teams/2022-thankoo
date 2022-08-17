@@ -8,12 +8,13 @@ on:
     paths: ['frontend/**']
     types: [opened, synchronize]
 
+default:
+  run:
+    working-directory: ./frontend
+
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
-    default:
-      run:
-        working-directory: ./frontend
 
     steps:
       - name: Checkout
@@ -22,6 +23,7 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v4
+        run:
         with:
           build: yarn run build
           start: yarn dev
