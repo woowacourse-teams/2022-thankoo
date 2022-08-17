@@ -7,13 +7,15 @@ type TimeTable = {
 };
 
 const getCurrentTimeFormatYYMMDDHM = () => {
-  const nowYear = new Date().getFullYear();
-  const nowMonth = new Date().getMonth() + 1;
-  const nowDate = new Date().getDate();
-  const nowHour = new Date().getHours();
-  const nowMin = new Date().getMinutes();
+  const today = new Date();
+  const nowYear = today.getFullYear();
+  const nowMonth = String(today.getMonth() + 1).padStart(2, '0');
+  const nowDate = String(today.getDate()).padStart(2, '0');
+  const nowHour = String(today.getHours()).padStart(2, '0');
+  const nowMin = String(today.getMinutes()).padStart(2, '0');
+  const nowSec = String(today.getSeconds()).padStart(2, '0');
 
-  return `${nowYear}-${nowMonth}-${nowDate} ${nowHour}:${nowMin}`;
+  return `${nowYear}/${nowMonth}/${nowDate} ${nowHour}:${nowMin}:${nowSec}`;
 };
 
 const timeTableGenerator = (startHour, endHour, selectedDate) => {
