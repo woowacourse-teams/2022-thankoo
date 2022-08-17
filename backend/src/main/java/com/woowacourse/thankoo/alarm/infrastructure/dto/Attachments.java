@@ -72,7 +72,7 @@ public class Attachments {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class DetailMessage {
+    private static class DetailMessage {
 
         private String value;
 
