@@ -28,11 +28,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
+import com.woowacourse.thankoo.common.util.ProfileImageGenerator;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
+import com.woowacourse.thankoo.member.presentation.dto.ProfileImageUrlResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -159,6 +162,30 @@ public class MemberControllerTest extends ControllerTest {
                 ),
                 requestFields(
                         fieldWithPath("imageName").type(STRING).description("imageName")
+                )));
+    }
+
+    @DisplayName("모든 회원 프로필 이미지들을 조회한다.")
+    @Test
+    void getProfileImages() throws Exception {
+        List<String> imageUrls = ProfileImageGenerator.getImageUrls();
+        List<ProfileImageUrlResponse> responses = imageUrls.stream()
+                .map(ProfileImageUrlResponse::of)
+                .collect(Collectors.toList());
+        given(memberService.getProfileImages())
+                .willReturn(responses);
+
+        ResultActions resultActions = mockMvc.perform(get("/api/members/profile-images")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(
+                        status().isOk());
+
+        resultActions.andDo(document("members/get-member-profile-images",
+                getResponsePreprocessor(),
+                responseFields(
+                        fieldWithPath("[].imageUrl").type(STRING).description("imageUrl")
                 )));
     }
 }

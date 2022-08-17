@@ -97,4 +97,13 @@ class MemberAcceptanceTest extends AcceptanceTest {
                 .response()
                 .프로필_이미지가_변경되었다(IMAGE_URL_SKRR);
     }
+
+    @DisplayName("사용 가능한 프로필 이미지를 모두 조회한다.")
+    @Test
+    void getProfileImages() {
+        MemberAssured.request()
+                .프로필_이미지들을_조회한다()
+                .response()
+                .status(HttpStatus.OK.value());
+    }
 }

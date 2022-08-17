@@ -1,12 +1,14 @@
 package com.woowacourse.thankoo.member.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.common.util.ProfileImageGenerator;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
+import com.woowacourse.thankoo.member.presentation.dto.ProfileImageUrlResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +48,12 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
         member.updateProfileImage(memberProfileImageRequest.getImageName());
+    }
+
+    public List<ProfileImageUrlResponse> getProfileImages() {
+        return ProfileImageGenerator.getImageUrls()
+                .stream()
+                .map(ProfileImageUrlResponse::of)
+                .collect(Collectors.toList());
     }
 }

@@ -50,6 +50,11 @@ public class MemberAssured {
             return this;
         }
 
+        public MemberRequestBuilder 프로필_이미지들을_조회한다() {
+            response = get("/api/members/profile-images");
+            return this;
+        }
+
         public MemberRequestBuilder 내_프로필_이미지를_가져온다(final String imageName) {
             response = get("/api/members/profile-image/" + imageName);
             return this;

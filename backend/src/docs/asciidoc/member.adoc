@@ -15,6 +15,6 @@ operation::members/update-member-name[snippets='http-request,http-response']
 
 operation::members/update-member-profile-image[snippets='http-request,http-response']
 
-=== 회원 프로필 이미지 조회
+=== 회원 프로필 이미지들을 조회
 
-operation::members/get-member-profile-image[snippets='http-request,http-response']
+operation::members/get-member-profile-images[snippets='http-request,http-response']

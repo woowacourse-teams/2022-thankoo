@@ -21,7 +21,7 @@ public class AuthenticationConfig implements WebMvcConfigurer {
         registry.addInterceptor(signInInterceptor)
                 .addPathPatterns("/api/**")
                 .excludePathPatterns("/api/sign-in")
-                .excludePathPatterns("/api/members/profile-image/*")
+                .excludePathPatterns("/api/members/profile-images")
                 .excludePathPatterns("/api/sign-up");
     }
 

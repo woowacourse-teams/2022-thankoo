@@ -117,4 +117,10 @@ class MemberServiceTest {
                     .hasMessage("존재하지 않는 회원입니다.");
         }
     }
+
+    @DisplayName("모든 회원 프로필 이미지들을 조회한다.")
+    @Test
+    void getProfileImages() {
+        assertThat(memberService.getProfileImages()).hasSize(8);
+    }
 }

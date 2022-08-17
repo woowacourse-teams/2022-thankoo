@@ -39,6 +39,12 @@ public class ProfileImageGenerator {
         return IMAGE_URL_PATH + imageName;
     }
 
+    public static List<String> getImageUrls() {
+        return profileImages.stream()
+                .map(imageName -> IMAGE_URL_PATH + imageName)
+                .collect(Collectors.toList());
+    }
+
     private static void validateImageName(final String imageName) {
         if (!hasSameImage(imageName)) {
             throw new BadRequestException(ErrorType.INVALID_MEMBER_PROFILE_IMAGE);

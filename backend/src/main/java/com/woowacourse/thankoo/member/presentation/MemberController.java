@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
+import com.woowacourse.thankoo.member.presentation.dto.ProfileImageUrlResponse;
 import java.util.List;
 import javax.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
@@ -47,4 +48,10 @@ public class MemberController {
         memberService.updateMemberProfileImage(memberId, memberProfileImageRequest);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/profile-images")
+    public ResponseEntity<List<ProfileImageUrlResponse>> getMemberProfileImages() {
+        return ResponseEntity.ok(memberService.getProfileImages());
+    }
+
 }
