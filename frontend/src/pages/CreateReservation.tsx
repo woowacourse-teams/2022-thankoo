@@ -63,7 +63,7 @@ const CreateReservation = () => {
           show();
           setModalContent(
             <ConfirmReservationModal
-              receiver={couponDetail?.coupon.receiver.name}
+              receiver={couponDetail?.coupon.sender.name}
               date={date}
               time={time}
               submit={createReservation}
