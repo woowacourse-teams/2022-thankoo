@@ -71,6 +71,7 @@ public class MemberAssured {
         public void 내_정보_이다(final MemberResponse memberResponse) {
             assertThat(body(MemberResponse.class)).usingRecursiveComparison()
                     .ignoringFields("id")
+                    .ignoringFields("imageUrl")
                     .isEqualTo(memberResponse);
         }
     }

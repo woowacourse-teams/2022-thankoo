@@ -16,16 +16,12 @@ public class GoogleProfileResponse {
     private String socialId;
     private String email;
 
-    @JsonProperty("picture")
-    private String imageUrl;
-
-    public GoogleProfileResponse(final String socialId, final String email, final String imageUrl) {
+    public GoogleProfileResponse(final String socialId, final String email) {
         this.socialId = socialId;
         this.email = email;
-        this.imageUrl = imageUrl;
     }
 
-    public Member toEntity(final String name) {
+    public Member toEntity(final String name, final String imageUrl) {
         return new Member(name, email, socialId, imageUrl);
     }
 }
