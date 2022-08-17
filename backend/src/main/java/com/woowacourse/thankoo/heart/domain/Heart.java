@@ -45,11 +45,25 @@ public class Heart extends BaseEntity {
     private boolean isFinal;
 
     private Heart(final Long id, final Long senderId, final Long receiverId, final int count, final boolean isFinal) {
+        validateMember(senderId, receiverId);
+        validateCount(count);
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.count = count;
         this.isFinal = isFinal;
+    }
+
+    private void validateMember(final Long senderId, final Long receiverId) {
+        if (senderId.equals(receiverId)) {
+            throw new InvalidHeartException(ErrorType.INVALID_HEART);
+        }
+    }
+
+    private void validateCount(final int count) {
+        if (count < 0) {
+            throw new InvalidHeartException(ErrorType.INVALID_HEART);
+        }
     }
 
     private Heart(final Long senderId, final Long receiverId, final int count, final boolean isFinal) {

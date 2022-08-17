@@ -23,8 +23,8 @@ class HeartTest {
     @DisplayName("첫 마음을 보낸다")
     @Test
     void start() {
-        Member huni = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-        Member skrr = new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
         Heart heart = Heart.start(huni.getId(), skrr.getId());
         assertAll(
                 () -> assertThat(heart.isFinal()).isTrue(),
@@ -32,11 +32,20 @@ class HeartTest {
         );
     }
 
+    @DisplayName("자기 자신에게 마음을 보낼 수 없다.")
+    @Test
+    void startFailedSendSelf() {
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        assertThatThrownBy(() -> Heart.start(huni.getId(), huni.getId()))
+                .isInstanceOf(InvalidHeartException.class)
+                .hasMessage("마음을 보낼 수 없습니다.");
+    }
+
     @DisplayName("첫 응답으로 마음을 보낸다")
     @Test
     void firstReply() {
-        Member huni = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-        Member skrr = new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
         Heart heart = Heart.start(huni.getId(), skrr.getId());
         Heart reply = Heart.firstReply(skrr.getId(), huni.getId(), heart);
         assertAll(
@@ -54,8 +63,8 @@ class HeartTest {
         @DisplayName("현재 마음이 마지막일 경우 실패한다.")
         @Test
         void sendFinalException() {
-            Member huni = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-            Member skrr = new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+            Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+            Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
             Heart heart = Heart.start(huni.getId(), skrr.getId());
             Heart reply = Heart.firstReply(skrr.getId(), huni.getId(), heart);
             assertThatThrownBy(() -> reply.send(heart))
@@ -66,8 +75,8 @@ class HeartTest {
         @DisplayName("정상적인 호출이면 성공한다.")
         @Test
         void send() {
-            Member huni = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-            Member skrr = new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+            Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+            Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
             Heart heart = Heart.start(huni.getId(), skrr.getId());
             Heart reply = Heart.firstReply(skrr.getId(), huni.getId(), heart);
             heart.send(reply);
