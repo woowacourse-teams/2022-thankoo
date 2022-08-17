@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
-import SearchIcon from '@mui/icons-material/Search';
-//TODO:글자수 제한 받기 => onchange state로 하기
-//onValid 일때
+import CloseIcon from '@mui/icons-material/Close';
+
 const Input = ({ setValue, maxLength, ...rest }) => {
   const isValidInput = value => {
     return value.length <= maxLength;
@@ -29,7 +28,7 @@ const Input = ({ setValue, maxLength, ...rest }) => {
             setValue('');
           }}
         >
-          X
+          <CloseIcon />
         </S.EraseAllButton>
       )}
     </S.Container>
@@ -49,8 +48,8 @@ const S = {
     width: 100%;
     flex: 1;
     width: 50px;
-    font-size: 18px;
-    padding: 10px 5px;
+    font-size: 1.4rem;
+    padding: 0.7rem;
     border: none;
     background-color: transparent;
     -webkit-appearance: none;
@@ -73,9 +72,5 @@ const S = {
     background-color: transparent;
     color: ${({ theme }) => theme.page.color};
     padding: 0 10px;
-  `,
-  SearchIcon: styled(SearchIcon)`
-    padding: 0 5px;
-    color: ${({ theme }) => theme.page.color};
   `,
 };
