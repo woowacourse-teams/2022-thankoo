@@ -30,3 +30,8 @@ oauth:
 
 server:
   port: 8180
+
+slack:
+  token: xoxb-1239i43295-213123846234
+  users-uri: http://localhost:8180/users/list
+  message-uri: http://localhost:8180/chat/postMessage

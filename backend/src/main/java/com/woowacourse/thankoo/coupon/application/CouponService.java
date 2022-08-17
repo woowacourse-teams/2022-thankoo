@@ -1,11 +1,10 @@
 package com.woowacourse.thankoo.coupon.application;
 
-import com.woowacourse.thankoo.alarm.support.Alarm;
-import com.woowacourse.thankoo.alarm.support.AlarmManager;
+import com.woowacourse.thankoo.alarm.AlarmSender;
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.coupon.application.dto.CouponMessage;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
-import com.woowacourse.thankoo.coupon.application.dto.CouponMessage;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -24,8 +23,8 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
+    private final AlarmSender alarmSender;
 
-    @Alarm
     public void saveAll(final Long senderId, final CouponRequest couponRequest) {
         validateMember(senderId, couponRequest.getReceiverIds());
         Coupons coupons = new Coupons(couponRepository.saveAll(couponRequest.toEntities(senderId)));
@@ -46,7 +45,7 @@ public class CouponService {
 
     private void sendMessage(final Long senderId, final List<String> emails, final CouponContent couponContent) {
         Member sender = getMember(senderId);
-        AlarmManager.setResources(CouponMessage.of(sender.getName(), emails, couponContent));
+        alarmSender.send(CouponMessage.of(sender.getName(), emails, couponContent));
     }
 
     private Member getMember(final Long senderId) {

@@ -3,9 +3,11 @@ package com.woowacourse.thankoo.common.schedule;
 import com.woowacourse.thankoo.meeting.application.MeetingService;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+@Profile("prod")
 @Component
 @RequiredArgsConstructor
 public class MeetingScheduleTask {

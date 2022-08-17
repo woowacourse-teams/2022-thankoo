@@ -1,8 +1,8 @@
 package com.woowacourse.thankoo.alarm;
 
-import com.woowacourse.thankoo.alarm.infrastructure.dto.Attachments;
+import com.woowacourse.thankoo.alarm.support.Message;
 
 public interface AlarmSender {
 
-    void send(String email, Attachments attachments);
+    void send(Message message);
 }

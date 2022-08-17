@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.reservation.application;
 
-import com.woowacourse.thankoo.alarm.support.Alarm;
-import com.woowacourse.thankoo.alarm.support.AlarmManager;
+import com.woowacourse.thankoo.alarm.AlarmSender;
 import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -10,10 +9,10 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.reservation.application.dto.ReservationMessage;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
-import com.woowacourse.thankoo.reservation.application.dto.ReservationMessage;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
@@ -31,8 +30,8 @@ public class ReservationService {
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
     private final ReservedMeetingCreator reservedMeetingCreator;
+    private final AlarmSender alarmSender;
 
-    @Alarm
     public Long save(final Long memberId, final ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
@@ -52,12 +51,11 @@ public class ReservationService {
 
     private void sendMessage(final Member member, final Coupon coupon, final Reservation reservation) {
         Member sender = getMember(coupon.getSenderId());
-        Message messageBuilder = ReservationMessage.of(member.getName(), sender.getEmail(),
+        Message message = ReservationMessage.of(member.getName(), sender.getEmail(),
                 reservation.getTimeUnit().getDate(), coupon.getCouponContent());
-        AlarmManager.setResources(messageBuilder);
+        alarmSender.send(message);
     }
 
-    @Alarm
     public void updateStatus(final Long memberId,
                              final Long reservationId,
                              final ReservationStatusRequest reservationStatusRequest) {
@@ -67,11 +65,10 @@ public class ReservationService {
         reservation.update(foundMember, futureStatus, reservedMeetingCreator);
 
         Member receiver = getMember(reservation.getCoupon().getReceiverId());
-        AlarmManager.setResources(
-                ReservationMessage.updateOf(foundMember.getName(), receiver.getEmail(), reservation));
+        alarmSender.send(ReservationMessage.updateOf(foundMember.getName(), receiver.getEmail(), reservation));
+
     }
 
-    @Alarm
     public void cancel(final Long memberId,
                        final Long reservationId) {
         Member foundMember = getMember(memberId);
@@ -79,8 +76,7 @@ public class ReservationService {
         reservation.cancel(foundMember);
 
         Member sender = getMember(reservation.getCoupon().getSenderId());
-        AlarmManager.setResources(
-                ReservationMessage.cancelOf(foundMember.getName(), sender.getEmail(), reservation));
+        alarmSender.send(ReservationMessage.cancelOf(foundMember.getName(), sender.getEmail(), reservation));
     }
 
     private Reservation getReservationById(final Long reservationId) {
