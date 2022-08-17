@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.alarm;
 
+import com.woowacourse.thankoo.alarm.support.Message;
+
 public interface AlarmSender {
 
-    void send(String email, AlarmMessage alarmMessage);
+    void send(Message message);
 }
