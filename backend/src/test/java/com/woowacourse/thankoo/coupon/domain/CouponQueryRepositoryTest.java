@@ -51,12 +51,14 @@ public class CouponQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
 
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED)
+        ));
 
         List<MemberCoupon> memberCoupons = couponQueryRepository.findByReceiverIdAndStatus(
                 receiver.getId(), CouponStatusGroup.findStatusNames(NOT_USED));
@@ -70,17 +72,40 @@ public class CouponQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
 
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.EXPIRED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED)
+        ));
 
         List<MemberCoupon> memberCoupons = couponQueryRepository.findByReceiverIdAndStatus(
                 receiver.getId(), CouponStatusGroup.findStatusNames("used"));
 
-        assertThat(memberCoupons).hasSize(2);
+        assertThat(memberCoupons).hasSize(1);
+    }
+
+    @DisplayName("모든 받은 coupon 을 조회한다.")
+    @Test
+    void findByReceiverIdAndStatusAll() {
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
+
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED)
+        ));
+
+        List<MemberCoupon> memberCoupons = couponQueryRepository.findByReceiverIdAndStatus(
+                receiver.getId(), CouponStatusGroup.findStatusNames("all"));
+
+        assertThat(memberCoupons).hasSize(3);
     }
 
     @DisplayName("보낸 coupon 을 조회한다.")
@@ -88,12 +113,14 @@ public class CouponQueryRepositoryTest {
     void findBySenderId() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED)
+        ));
 
         List<MemberCoupon> memberCoupons = couponQueryRepository.findBySenderId(sender.getId());
 
@@ -121,16 +148,19 @@ public class CouponQueryRepositoryTest {
     void getCouponCount() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
-        couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
-        couponRepository.save(new Coupon(receiver.getId(), sender.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.RESERVED));
-        couponRepository.save(new Coupon(receiver.getId(), sender.getId(),
-                new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.USED));
+
+        couponRepository.saveAll(List.of(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED),
+                new Coupon(receiver.getId(), sender.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(receiver.getId(), sender.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED)
+        ));
 
         CouponTotal couponTotal = couponQueryRepository.getCouponCount(sender.getId());
         assertAll(

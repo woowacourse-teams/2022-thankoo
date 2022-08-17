@@ -25,6 +25,10 @@
 
 operation::coupons/send[snippets='http-request,http-response']
 
+=== 받은 쿠폰 조회 (ALL)
+
+operation::coupons/received-coupons-all[snippets='http-request,http-response']
+
 === 받은 쿠폰 조회 (사용하지 않음)
 
 operation::coupons/received-coupons-not-used[snippets='http-request,http-response']
