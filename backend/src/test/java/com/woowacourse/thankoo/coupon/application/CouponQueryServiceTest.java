@@ -94,8 +94,8 @@ class CouponQueryServiceTest {
     @DisplayName("받은 쿠폰 중 사용한 쿠폰을 조회한다.")
     @Test
     void getReceivedCouponsUsed() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR));
 
         couponRepository.saveAll(List.of(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
@@ -118,8 +118,8 @@ class CouponQueryServiceTest {
     @DisplayName("모든 받은 쿠폰을 조회한다.")
     @Test
     void getReceivedCouponsAll() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR));
 
         couponRepository.saveAll(List.of(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
@@ -157,28 +157,6 @@ class CouponQueryServiceTest {
         );
     }
 
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
-        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
-
-        couponRepository.saveAll(List.of(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
-                        CouponStatus.NOT_USED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
-                        CouponStatus.RESERVED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
-                        CouponStatus.USED),
-                new Coupon(receiver.getId(), sender.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
-                        CouponStatus.RESERVED),
-                new Coupon(receiver.getId(), sender.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
-                        CouponStatus.USED)
-        ));
-
-        CouponTotalResponse couponTotal = couponQueryService.getCouponTotalCount(sender.getId());
-        assertAll(
-                () -> assertThat(couponTotal.getSentCount()).isEqualTo(3),
-                () -> assertThat(couponTotal.getReceivedCount()).isEqualTo(2)
-        );
-    }
 
     @DisplayName("단일 쿠폰을 조회할 때 ")
     @Nested
