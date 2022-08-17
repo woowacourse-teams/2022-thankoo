@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { flexCenter } from '../../../styles/mixIn';
 import useToast from './../../../hooks/useToast';
 import { toastStackAtom } from './../../../recoil/atom';
+import { onMountToast, unMountToast } from './../../../styles/Animation';
 import CloseButton from './../CloseButton';
 
 const ToastItem = ({ toastKey, comment }) => {
@@ -55,43 +56,12 @@ const S = {
     /* border: 3px green solid; */
 
     ${flexCenter}
-    @keyframes toastOnMount {
-      0% {
-        opacity: 0;
-        transform: translateX(30px);
-      }
-      30% {
-        transform: translateX(-1px);
-      }
-      32% {
-        transform: translateX(0);
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-
-    @keyframes toastUnMount {
-      0% {
-        opacity: 1;
-      }
-      2% {
-        transform: translateX(-1px);
-      }
-      5% {
-        transform: translateX(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translateX(30px);
-      }
-    }
 
     &.onMount {
-      animation: toastOnMount 2000ms ease-in-out; //todo 2000ms duration으로 교체
+      animation: ${onMountToast} 2000ms ease-in-out; //todo 2000ms duration으로 교체
     }
     &.unMount {
-      animation: toastUnMount 2000ms;
+      animation: ${unMountToast} 2000ms;
     }
   `,
   Interact: styled.div`

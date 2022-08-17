@@ -3,6 +3,7 @@ import { modalUnMountTime } from '../../constants/modal';
 import useModal from '../../hooks/useModal';
 import { UserProfile } from '../../types';
 import { modalMountTime } from './../../constants/modal';
+import { onMountFromBottomModal, unMountToBottomModal } from './../../styles/Animation';
 
 const ConfirmCouponContentModal = ({
   submit,
@@ -75,33 +76,11 @@ const S = {
     z-index: 10000;
     color: white;
 
-    //onMount animation
-    @keyframes onMountFromBottom {
-      0% {
-        bottom: -100%;
-      }
-      40% {
-        bottom: -60%;
-      }
-      100% {
-        bottom: 0;
-      }
-    }
     &.onMount {
-      animation: onMountFromBottom ${`${modalMountTime}ms`} ease-in-out;
-    }
-
-    //unMount animation
-    @keyframes unMountToBottom {
-      0% {
-        bottom: 0%;
-      }
-      100% {
-        bottom: -100%;
-      }
+      animation: ${onMountFromBottomModal} ${`${modalMountTime}ms`} ease-in-out;
     }
     &.unMount {
-      animation: unMountToBottom ${`${modalUnMountTime}ms`} ease-in-out;
+      animation: ${unMountToBottomModal} ${`${modalUnMountTime}ms`} ease-in-out;
     }
   `,
   Wrapper: styled.div`
