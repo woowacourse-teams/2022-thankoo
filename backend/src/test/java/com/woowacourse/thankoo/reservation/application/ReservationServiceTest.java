@@ -18,8 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -79,24 +77,6 @@ class ReservationServiceTest {
             assertAll(
                     () -> assertThat(reservationId).isNotNull(),
                     () -> assertThat(foundCoupon.getCouponStatus()).isEqualTo(CouponStatus.RESERVING)
-            );
-        }
-
-        @DisplayName("예약이 성공적으로 생성되면 알림을 전송한다.")
-        @Test
-        void sendMessageThenSaveReservation() {
-            Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
-            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
-            Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-            reservationService.save(receiver.getId(),
-                    new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
-
-            Message message = AlarmManager.getResources();
-
-            assertAll(
-                    () -> assertThat(message.getEmails()).containsExactly(LALA_EMAIL),
-                    () -> assertThat(message.getTitle()).contains("예약 요청이 도착했어요.")
             );
         }
 
@@ -163,26 +143,6 @@ class ReservationServiceTest {
         );
     }
 
-    @DisplayName("예약을 승인되면 알람을 전송한다.")
-    @Test
-    void sendMessageThenUpdateStatusAccept() {
-        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
-        Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Long reservationId = reservationService.save(receiver.getId(),
-                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
-
-        reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
-
-        Message message = AlarmManager.getResources();
-
-        assertAll(
-                () -> assertThat(message.getEmails()).containsExactly(SKRR_EMAIL),
-                () -> assertThat(message.getTitle()).contains("예약 요청에 응답이 왔어요.")
-        );
-    }
-
     @DisplayName("예약을 거절한다.")
     @Test
     void updateStatusDeny() {
@@ -214,13 +174,6 @@ class ReservationServiceTest {
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("deny"));
-
-        Message message = AlarmManager.getResources();
-
-        assertAll(
-                () -> assertThat(message.getEmails()).containsExactly(SKRR_EMAIL),
-                () -> assertThat(message.getTitle()).contains("예약 요청에 응답이 왔어요.")
-        );
     }
 
     @DisplayName("예약을 취소할 때 ")
@@ -245,26 +198,6 @@ class ReservationServiceTest {
                     () -> assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED),
                     () -> assertThat(couponRepository.findById(coupon.getId()).get().getCouponStatus()).isEqualTo(
                             NOT_USED)
-            );
-        }
-
-        @DisplayName("예약자가 취소에 성공하면 알람을 전송한다.")
-        @Test
-        void sendMessageThenCancel() {
-            Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
-            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
-            Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-            Long reservationId = reservationService.save(receiver.getId(),
-                    new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
-
-            reservationService.cancel(receiver.getId(), reservationId);
-
-            Message message = AlarmManager.getResources();
-
-            assertAll(
-                    () -> assertThat(message.getEmails()).containsExactly(LALA_EMAIL),
-                    () -> assertThat(message.getTitle()).contains("예약이 취소되었어요ㅜ")
             );
         }
 
