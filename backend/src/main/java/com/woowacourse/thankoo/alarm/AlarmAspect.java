@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Profile("prod")
+@Profile({"prod", "dev", "local"})
 @Aspect
 @Component
 @RequiredArgsConstructor
