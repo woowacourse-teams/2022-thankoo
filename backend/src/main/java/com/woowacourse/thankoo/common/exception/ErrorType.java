@@ -35,11 +35,13 @@ public enum ErrorType {
     INVALID_MEETING_STATUS(5005, "완료할 수 없는 상태입니다."),
     INVALID_MEETING_TIME(5006, "유효하지 않은 일정입니다."),
 
-    REQUEST_EXCEPTION(6001, "http 요청 에러입니다."),
+    INVALID_HEART(6001, "마음을 보낼 수 없습니다."),
+    NOT_FOUND_HEART(6002, "마음을 찾을 수 없습니다."),
 
     NOT_FOUND_SLACK_USER(7001, "알람이 불가능한 이메일입니다."),
     NOT_FOUND_ALARM_REQUEST(7002, "전송하려는 알람이 존재하지 않습니다."),
 
+    REQUEST_EXCEPTION(9001, "http 요청 에러입니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 
     private final int code;
