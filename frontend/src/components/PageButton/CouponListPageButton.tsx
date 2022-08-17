@@ -42,10 +42,10 @@ const S = {
       `};
   `,
   IconWrapper: styled.div`
-    width: 44px;
-    height: 44px;
+    width: 3.5rem;
+    height: 3.5rem;
     transition: all ease-in-out 0.2s;
-    margin: auto;
+    //margin: auto;
     transform: scale(0.75);
 
     border-radius: 50%;

@@ -10,7 +10,9 @@ const ReservationPageButton = () => {
   return (
     <S.Link to={ROUTE_PATH.RESERVATIONS}>
       <S.ButtonWrapper active={location.pathname === ROUTE_PATH.RESERVATIONS}>
-        <S.Icon />
+        <S.IconWrapper>
+          <S.Icon />
+        </S.IconWrapper>
         <p>예약</p>
       </S.ButtonWrapper>
     </S.Link>
@@ -36,11 +38,10 @@ const S = {
       active &&
       css`
         opacity: 1;
-        transform: scale(1.1);
+        transform: scale(1.15);
       `};
   `,
   Icon: styled(NotificationsActiveIcon)`
-    transform: scale(1.1);
     border-radius: 50%;
     padding: 0.5rem;
 
@@ -51,5 +52,9 @@ const S = {
     &:active {
       background-color: ${({ theme }) => theme.button.active.background};
     }
+  `,
+  IconWrapper: styled.div`
+    transform: scale(1.6);
+    margin-bottom: 0.5rem;
   `,
 };

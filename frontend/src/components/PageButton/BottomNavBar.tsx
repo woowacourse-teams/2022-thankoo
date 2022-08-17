@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { flexCenter } from '../../styles/mixIn';
 import CouponsPageButton from './CouponListPageButton';
 import ReservationPageButton from './ReservationPageButton';
 import ScheduledPageButton from './ScheduledPageButton';
@@ -18,18 +19,22 @@ const BottomNavBar = () => {
 const S = {
   Bar: styled.div`
     position: fixed;
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    height: 5rem;
     display: flex;
     justify-content: space-around;
+    align-items: center;
+
     border-top: 0.5px solid #8e8e8e90;
     background-color: #232323;
-    align-items: center;
-    padding-bottom: 5px;
+    padding-bottom: 0.5rem;
     z-index: 50;
   `,
   Button: styled.button`
+    ${flexCenter}
+
     width: 4rem;
     height: 4rem;
     color: white;
