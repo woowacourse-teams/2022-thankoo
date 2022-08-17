@@ -70,14 +70,12 @@ class MeetingQueryRepositoryTest {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
         Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR));
 
-        Coupon coupon1 = couponRepository.save(
-                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Coupon coupon2 = couponRepository.save(
-                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Coupon coupon3 = couponRepository.save(
-                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        List<Coupon> coupons = couponRepository.saveAll(List.of(
+                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED),
+                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED),
+                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED))
+        );
 
-        List<Coupon> coupons = List.of(coupon1, coupon2, coupon3);
         LocalDateTime meetingDate = LocalDateTime.now().plusDays(1L);
 
         for (Coupon coupon : coupons) {
@@ -87,8 +85,10 @@ class MeetingQueryRepositoryTest {
             reservation.update(lala, ReservationStatus.ACCEPT, reservedMeetingCreator);
         }
 
-        MeetingQueryCondition condition = new MeetingQueryCondition(lala.getId(), LocalDateTime.now(), MeetingStatus.ON_PROGRESS.name());
-        List<MeetingCoupon> meetingsByMembers = meetingQueryRepository.findMeetingsByMemberIdAndTimeAndStatus(condition);
+        MeetingQueryCondition condition = new MeetingQueryCondition(lala.getId(), LocalDateTime.now(),
+                MeetingStatus.ON_PROGRESS.name());
+        List<MeetingCoupon> meetingsByMembers = meetingQueryRepository.findMeetingsByMemberIdAndTimeAndStatus(
+                condition);
 
         assertAll(
                 () -> assertThat(meetingsByMembers).hasSize(3),

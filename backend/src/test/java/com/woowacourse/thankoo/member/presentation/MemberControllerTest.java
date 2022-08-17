@@ -43,7 +43,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("MemberController 는 ")
-public class MemberControllerTest extends ControllerTest {
+class MemberControllerTest extends ControllerTest {
 
     @DisplayName("본인을 제외한 모든 회원을 조회힌다.")
     @Test

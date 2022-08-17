@@ -2,8 +2,10 @@ package com.woowacourse.thankoo.authentication.infrastructure;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.thankoo.authentication.exception.GoogleClientException;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleTokenResponse;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
@@ -92,7 +94,7 @@ public class GoogleClient {
 
             return new GoogleProfileResponse(socialId, email);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new GoogleClientException(e);
         }
     }
 
