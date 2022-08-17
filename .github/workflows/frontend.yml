@@ -9,13 +9,13 @@ on:
     paths: ['frontend/**']
     types: [opened, synchronize]
 
+defaults:
+  run:
+    working-directory: ./frontend'
+
 jobs:
   build:
     runs-on: ubuntu-22.04
-
-    defaults:
-      run:
-        working-directory: ['./frontend']
 
     steps:
       - name: Checkout
