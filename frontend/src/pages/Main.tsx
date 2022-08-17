@@ -5,8 +5,6 @@ import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/domain/useMain';
 
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
@@ -19,6 +17,9 @@ import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
 import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
+import { css } from '@emotion/react';
+
+const sentOrReceivedArray = ['받은', '보낸'];
 
 const Main = () => {
   const {
@@ -30,8 +31,8 @@ const Main = () => {
     sentOrReceived,
     setSentOrReceived,
   } = useMain();
+
   const { visible } = useModal();
-  const [dropdownShow, setDropdownShow] = useState(false);
 
   if (isLoading) return <div>로딩중</div>;
   if (error) return <div>에러뜸</div>;
@@ -43,23 +44,25 @@ const Main = () => {
           <S.UserProfile>
             <UserProfileButton />
           </S.UserProfile>
-          <S.HeaderText
-            onClick={() => {
-              setDropdownShow(prev => !prev);
-            }}
-          >
-            {sentOrReceived} 쿠폰함
-            <ArrowRightIcon />
-            <S.Dropdown show={dropdownShow}>
-              <div
-                onClick={() => {
-                  setSentOrReceived(prev => (prev === '보낸' ? '받은' : '보낸'));
-                }}
-              >
-                {sentOrReceived === '보낸' ? '받은' : '보낸'} 쿠폰함
-              </div>
-            </S.Dropdown>
-          </S.HeaderText>
+          <S.CouponStatusNavWrapper>
+            <S.SliderDiv length={2} current={sentOrReceivedArray.indexOf(sentOrReceived)} />
+            <S.CouponStatusNav
+              onClick={() => {
+                setSentOrReceived('받은');
+              }}
+              selected={sentOrReceived === '받은'}
+            >
+              <S.HeaderText>받은 쿠폰함</S.HeaderText>
+            </S.CouponStatusNav>
+            <S.CouponStatusNav
+              onClick={() => {
+                setSentOrReceived('보낸');
+              }}
+              selected={sentOrReceived === '보낸'}
+            >
+              <S.HeaderText>보낸 쿠폰함</S.HeaderText>
+            </S.CouponStatusNav>
+          </S.CouponStatusNavWrapper>
         </Header>
         <S.Body>
           <TabsNav
@@ -86,9 +89,13 @@ const Main = () => {
     </>
   );
 };
+type SliderDivProps = {
+  length: number;
+  current: number;
+};
 
-type DropdownProps = {
-  show: boolean;
+type CouponStatusNavProps = {
+  selected: boolean;
 };
 
 const S = {
@@ -97,6 +104,37 @@ const S = {
     flex-direction: column;
     gap: 15px;
     padding: 5px 3vw;
+  `,
+  CouponStatusNavWrapper: styled.div`
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    cursor: pointer;
+  `,
+  SliderDiv: styled.div<SliderDivProps>`
+    width: ${({ length }) => `${100 / length}%`};
+    height: 103%;
+    background-color: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    transition: all ease-in-out 0.1s;
+    left: ${({ current, length }) => `${(100 / length) * current}%`};
+  `,
+  CouponStatusNav: styled.div<CouponStatusNavProps>`
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    width: 100%;
+    padding: 1rem;
+    background-color: #232323;
+    ${({ selected }) =>
+      !selected &&
+      css`
+        color: #8e8e8e;
+      `};
   `,
   HeaderText: styled(HeaderText)`
     cursor: pointer;
@@ -113,24 +151,6 @@ const S = {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-  `,
-  Dropdown: styled.div<DropdownProps>`
-    position: absolute;
-    display: ${({ show }) => (show ? 'flex' : 'none')};
-    top: -30%;
-    left: 82%;
-    width: 100%;
-    justify-content: center;
-    & > div {
-      font-size: 14px;
-      padding: 15px 10px;
-      border-radius: 2px;
-      display: flex;
-      align-items: center;
-      :hover {
-        background-color: #ff6347;
-      }
-    }
   `,
   SelectReceiverButton: styled(Link)``,
   SendIcon: styled(SendIcon)`
