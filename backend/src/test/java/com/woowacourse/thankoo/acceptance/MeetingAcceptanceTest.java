@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("MeetingAcceptance 는 ")
-public class MeetingAcceptanceTest extends AcceptanceTest {
+class MeetingAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("예약이 승인되어 진행중인 미팅을 조회한다.")
     @Test

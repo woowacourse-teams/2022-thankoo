@@ -1,12 +1,13 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import useModal from '../../hooks/useModal';
+import { modalMountTime, modalUnMountTime } from './../../constants/modal';
+import { onMountFromBottomModal, unMountToBottomModal } from './../../styles/Animation';
 
 const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
-  const { visible, close } = useModal();
+  const { visible, close, modalContentRef } = useModal();
 
   return (
-    <S.Container show={visible}>
+    <S.Container show={visible} ref={modalContentRef}>
       <S.Wrapper>
         <S.ConfirmHeaderText>예약 정보를 확인해주세요</S.ConfirmHeaderText>
         <S.ConfirmContentWrapper>
@@ -46,7 +47,7 @@ type ButtonProps = {
 const S = {
   Container: styled.div<ConfirmReservationModalProps>`
     position: fixed;
-    bottom: -100%;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     max-width: 680px;
@@ -58,12 +59,12 @@ const S = {
     z-index: 10000;
     color: white;
 
-    transition: all ease-in-out 0.5s;
-    ${({ show }) =>
-      show &&
-      css`
-        bottom: 0;
-      `};
+    &.onMount {
+      animation: ${onMountFromBottomModal} ${`${modalMountTime}ms`} ease-in-out;
+    }
+    &.unMount {
+      animation: ${unMountToBottomModal} ${`${modalUnMountTime}ms`} ease-in-out;
+    }
   `,
   Wrapper: styled.div`
     display: flex;

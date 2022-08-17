@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -19,26 +22,12 @@ class AuthorizationExtractorTest {
 
     private final HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
 
-    @DisplayName("Authorization 헤더에 값이 존재하지 않는다.")
-    @Test
-    void extractNothingEmpty() {
-        when(request.getHeader(AUTHORIZATION_HEADER_TYPE)).thenReturn(null);
-
-        assertThat(AuthorizationExtractor.extract(request)).isEmpty();
-    }
-
-    @DisplayName("헤더에 값이 존재하지만 type 이 다르다.")
-    @Test
-    void extractNotMatchTypeEmpty() {
-        when(request.getHeader(AUTHORIZATION_HEADER_TYPE)).thenReturn("Error jwt.token.here");
-
-        assertThat(AuthorizationExtractor.extract(request)).isEmpty();
-    }
-
-    @DisplayName("토큰값이 존재하지 않는다.")
-    @Test
-    void extractEmptyTokenEmpty() {
-        when(request.getHeader(AUTHORIZATION_HEADER_TYPE)).thenReturn("Bearer");
+    @DisplayName("Authorization 헤더 값이 올바르지 않을 경우 Empty를 반환한다.")
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(strings = {"Error jwt.token.here", "Bearer"})
+    void extractNothingEmpty(String token) {
+        when(request.getHeader(AUTHORIZATION_HEADER_TYPE)).thenReturn(token);
 
         assertThat(AuthorizationExtractor.extract(request)).isEmpty();
     }

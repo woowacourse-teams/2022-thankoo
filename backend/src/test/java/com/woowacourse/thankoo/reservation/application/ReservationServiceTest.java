@@ -159,7 +159,7 @@ class ReservationServiceTest {
 
         assertAll(
                 () -> assertThat(foundReservation.getReservationStatus()).isEqualTo(ReservationStatus.DENY),
-                () -> assertThat(meetingRepository.findAll()).hasSize(0)
+                () -> assertThat(meetingRepository.findAll()).isEmpty()
         );
     }
 

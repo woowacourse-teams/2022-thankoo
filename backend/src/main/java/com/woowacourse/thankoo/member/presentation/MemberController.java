@@ -30,7 +30,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getMember(memberId));
     }
 
-    @PutMapping("/me")
+    @PutMapping("/me/name")
     public ResponseEntity<Void> updateMemberName(@AuthenticationPrincipal final Long memberId,
                                                  @RequestBody final MemberNameRequest memberNameRequest) {
         memberService.updateMemberName(memberId, memberNameRequest);

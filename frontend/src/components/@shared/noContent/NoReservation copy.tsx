@@ -6,7 +6,9 @@ const NoReservation = () => {
   return (
     <S.Container>
       <S.Box>
-        <IconEmptyList />
+        <S.IconWrapper>
+          <IconEmptyList />
+        </S.IconWrapper>
         <S.Comment>
           예약이 없네요👻
           <br />
@@ -35,6 +37,9 @@ const S = {
     text-align: center;
     gap: 8px;
     padding: 30px 10px;
+  `,
+  IconWrapper: styled.div`
+    height: 70px;
   `,
   Comment: styled.h3`
     line-height: 30px;

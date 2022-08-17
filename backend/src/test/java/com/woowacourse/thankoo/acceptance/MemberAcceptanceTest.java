@@ -67,7 +67,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                 .token();
 
         MemberAssured.request()
-                .내_정보를_수정한다(tokenResponse, new MemberNameRequest(HUNI_NAME))
+                .내_이름_정보를_수정한다(tokenResponse, new MemberNameRequest(HUNI_NAME))
                 .response()
                 .status(HttpStatus.NO_CONTENT.value());
 
