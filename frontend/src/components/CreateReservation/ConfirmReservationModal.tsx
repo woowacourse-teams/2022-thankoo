@@ -48,7 +48,8 @@ const S = {
   Container: styled.div<ConfirmReservationModalProps>`
     position: fixed;
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     max-width: 680px;
     width: 100%;
     height: 55vh;

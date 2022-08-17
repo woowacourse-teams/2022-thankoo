@@ -143,7 +143,6 @@ const S = {
   CouponStatusNav: styled.div<CouponStatusNavProps>`
     display: flex;
     justify-content: center;
-    z-index: 1;
     width: 100%;
     padding: 1rem;
     background-color: #232323;
