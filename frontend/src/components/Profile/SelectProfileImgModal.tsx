@@ -6,7 +6,7 @@ import ProfileIcon from './../@shared/ProfileIcon';
 
 const ProfileIconList = ['Corgi', 'Tiger', 'Dino', 'Mint', 'Otter', 'Panda', 'Skull', 'Pig'];
 
-const SelectProfileImgModal = () => {
+const SelectProfileImgModal = ({ patchImageMutation }) => {
   const [selected, setSelected] = useState('');
   const { visible, close, modalContentRef } = useModal();
 
@@ -23,14 +23,15 @@ const SelectProfileImgModal = () => {
                 setSelected(iconName);
               }}
             >
-              <ProfileIcon sort={iconName} size={'80px'} />
+              <ProfileIcon iconName={iconName} size={'80px'} />
             </S.IconWrapper>
           ))}
         </S.ProfileContainer>
         <S.ButtonWrapper>
           <S.Button
             onClick={() => {
-              //Todo UseMutation
+              //Todo: UseMutation
+              //patchImageMutation(selected);
               close();
             }}
             primary

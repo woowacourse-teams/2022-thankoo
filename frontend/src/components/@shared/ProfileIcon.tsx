@@ -11,8 +11,8 @@ import Tiger from '../../assets/images/user_profile/tiger.svg';
 
 import { flexCenter } from '../../styles/mixIn';
 //Todo: sort 대신 다른이름으로 변경
-const ProfileIcon = ({ sort, size }) => {
-  switch (sort) {
+const ProfileIcon = ({ iconName, size }) => {
+  switch (iconName) {
     case 'Corgi':
       return (
         <StyledIconBackGround color={'#c2e27e'} size={size}>

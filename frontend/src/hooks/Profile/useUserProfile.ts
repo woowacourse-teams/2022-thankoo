@@ -67,13 +67,13 @@ const useUserProfile = () => {
     }
   );
 
-  const editUserProfile = useMutation(
-    (userProfile: string) =>
+  const editUserProfileImage = useMutation(
+    (imageName: string) =>
       client({
         method: 'put',
-        url: `${API_PATH.EDIT_PROFILE}`,
+        url: `${API_PATH.PROFILE_IMAGE}`,
         data: {
-          name,
+          imageName,
         },
       }),
     {
@@ -82,10 +82,11 @@ const useUserProfile = () => {
       },
     }
   );
+
   return {
     profile,
     editUserName,
-    editUserProfile,
+    editUserProfileImage,
     isNameEdit,
     name,
     handleClickModifyNameButton,
