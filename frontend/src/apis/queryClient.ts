@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { QueryClient } from 'react-query';
+import { ROUTE_PATH } from '../constants/routes';
 import { clearAuth } from '../utils/auth';
 
 const INVALID_AUTH_ERROR_CODE = 2001;
@@ -29,7 +30,7 @@ const authErrorHandler = (error: AxiosError) => {
 
   if (errorCode === INVALID_AUTH_ERROR_CODE) {
     clearAuth();
-    window.location.reload();
+    window.location.replace(`${ROUTE_PATH.SIGN_IN}`);
   }
 };
 
