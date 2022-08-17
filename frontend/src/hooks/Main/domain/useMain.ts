@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { sentOrReceivedAtom } from '../../../recoil/atom';
 import { CouponType } from '../../../types';
