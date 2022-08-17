@@ -50,7 +50,10 @@ const S = {
 
     max-height: 60vh;
     @media (min-height: 680px) {
-      max-height: 66vh;
+      max-height: 68vh;
+    }
+    @media (min-height: 755px) {
+      max-height: 73vh;
     }
 
     place-items: center;
