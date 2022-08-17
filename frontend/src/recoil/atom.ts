@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { atom } from 'recoil';
 import { UserProfile } from '../types';
 
@@ -53,7 +52,7 @@ export const toastStackAtom = atom<toastItem[]>({
 });
 
 // SuccessPage 내부 컨텐츠
-interface SuccessContentType {
+export interface SuccessContentType {
   page: string;
   props: any;
 }

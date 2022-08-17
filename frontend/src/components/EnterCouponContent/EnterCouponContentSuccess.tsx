@@ -7,9 +7,11 @@ import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
 import { couponTypes } from '../../types';
 import SuccessAnimation from '../@shared/SuccessAnimation';
+import { onSuccessContentAtom } from './../../recoil/atom';
 
 const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) => {
   const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
+  const pageReset = useResetRecoilState(onSuccessContentAtom);
 
   useEffect(() => {
     resetCheckedUsers();
@@ -56,7 +58,7 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
           </div>
         </S.ContenstWrapper>
         <S.ButtonWrapper>
-          <S.StyledLink to={ROUTE_PATH.EXACT_MAIN}>
+          <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
             <S.Button primary>쿠폰 확인하기</S.Button>
           </S.StyledLink>
         </S.ButtonWrapper>

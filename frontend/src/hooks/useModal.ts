@@ -21,9 +21,13 @@ const useModal = () => {
 
   const close = () => {
     const target = document.getElementsByClassName('onMount modalContainer')[0];
+    if (!target) {
+      setVisible(false);
+      return;
+    }
+
     target?.classList.remove('onMount');
     target?.classList.add('unMount');
-
     setTimeout(() => {
       setVisible(false);
     }, modalUnMountTime);
