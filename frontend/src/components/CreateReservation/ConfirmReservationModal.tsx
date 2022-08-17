@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import useModal from '../../hooks/useModal';
 import { modalMountTime, modalUnMountTime } from './../../constants/modal';
@@ -59,19 +58,13 @@ const S = {
     z-index: 10000;
     color: white;
 
-    ${({ show }) =>
-      show &&
-      css`
-        bottom: 0;
-      `};
-
     //onMount animation
     @keyframes myonmount {
       0% {
         bottom: -100%;
       }
       40% {
-        bottom: -60%;
+        bottom: -50%;
       }
       100% {
         bottom: 0;
