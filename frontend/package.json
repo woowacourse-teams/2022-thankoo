@@ -7,7 +7,8 @@
     "local": "webpack server --mode development --env  MODE=local --open --hot",
     "dev": "webpack server --mode development --env MODE=development --open --hot",
     "prod": "webpack server --mode development --open --hot",
-    "build": "webpack --mode production --env --progress"
+    "build": "webpack --mode production --env --progress",
+    "cypress:open": "run cypress open"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
