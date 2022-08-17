@@ -16,9 +16,6 @@ public class MeetingTimeRequestValidator implements ConstraintValidator<ValidMee
     @Override
     public boolean isValid(final ReservationRequest value, final ConstraintValidatorContext context) {
         LocalDateTime now = LocalDateTime.now();
-        if (now.isAfter(value.getStartAt()) || now.getYear() != value.getStartAt().getYear()) {
-            return false;
-        }
-        return true;
+        return value.getStartAt().isAfter(now) && now.getYear() == value.getStartAt().getYear();
     }
 }

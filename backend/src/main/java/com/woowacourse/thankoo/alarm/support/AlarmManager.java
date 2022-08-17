@@ -5,6 +5,9 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 
 public class AlarmManager {
 
+    private AlarmManager() {
+    }
+
     private static final ThreadLocal<AlarmMessageRequest> resources = new ThreadLocal<>();
 
     public static AlarmMessageRequest getResources() {

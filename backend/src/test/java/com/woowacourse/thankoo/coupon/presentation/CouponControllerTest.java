@@ -65,7 +65,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("CouponController 는 ")
-public class CouponControllerTest extends ControllerTest {
+class CouponControllerTest extends ControllerTest {
 
     @DisplayName("쿠폰을 전송하면 200 OK 를 반환한다.")
     @Test

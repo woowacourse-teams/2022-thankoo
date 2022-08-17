@@ -27,7 +27,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @DisplayName("CouponQueryRepository 는 ")
 @RepositoryTest
-public class CouponQueryRepositoryTest {
+class CouponQueryRepositoryTest {
 
     @Autowired
     private DataSource dataSource;
