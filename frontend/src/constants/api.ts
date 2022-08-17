@@ -7,6 +7,8 @@ export const API_PATH = {
   SEND_COUPON: `/api/coupons/send`,
   MEMBERS: `/api/members`,
   PROFILE: `/api/members/me`,
+  EDIT_PROFILE: `/api/members/me/profile-image`,
+  EDIT_NAME: `/api/members/me/name`,
   RESERVATIONS: `/api/reservations`,
   RESERVATIONS_SENT: `/api/reservations/sent`,
   RESERVATIONS_RECEIVED: `/api/reservations/received`,

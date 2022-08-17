@@ -55,7 +55,7 @@ const useUserProfile = () => {
     (name: string) =>
       client({
         method: 'put',
-        url: `${API_PATH.PROFILE}`,
+        url: `${API_PATH.EDIT_NAME}`,
         data: {
           name,
         },
@@ -67,9 +67,25 @@ const useUserProfile = () => {
     }
   );
 
+  const editUserProfile = useMutation(
+    (userProfile: string) =>
+      client({
+        method: 'put',
+        url: `${API_PATH.EDIT_PROFILE}`,
+        data: {
+          name,
+        },
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('profile');
+      },
+    }
+  );
   return {
     profile,
     editUserName,
+    editUserProfile,
     isNameEdit,
     name,
     handleClickModifyNameButton,
