@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 
     @Query("SELECT DISTINCT mt FROM Meeting mt "
-            + "LEFT JOIN FETCH mt.meetingMembers.meetingMembers mtm "
+            + "LEFT JOIN FETCH mt.meetingMembers.values mtm "
             + "LEFT JOIN FETCH mtm.member m "
             + "WHERE mt.coupon.id = :couponId "
             + "AND mt.meetingStatus = :status")
@@ -27,7 +27,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     void updateMeetingStatus(@Param("status") MeetingStatus status, @Param("meetingIds") List<Long> meetingIds);
 
     @Query("SELECT DISTINCT mt FROM Meeting mt "
-            + "LEFT JOIN FETCH mt.meetingMembers.meetingMembers mtm "
+            + "LEFT JOIN FETCH mt.meetingMembers.values mtm "
             + "LEFT JOIN FETCH mtm.member m "
             + "WHERE mt.timeUnit.date = :date")
     List<Meeting> findAllByTimeUnit_Date(@Param("date") LocalDate date);

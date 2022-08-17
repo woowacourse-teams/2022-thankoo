@@ -6,6 +6,9 @@ public class MessageFormatter {
     private static final String DELIM_STR = "{}";
     private static final char ESCAPE_CHAR = '\\';
 
+    private MessageFormatter() {
+    }
+
     public static String format(final String messagePattern, final Object ... args) {
         return arrayFormat(messagePattern, args);
     }

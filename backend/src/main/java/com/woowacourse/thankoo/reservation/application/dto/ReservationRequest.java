@@ -7,9 +7,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@ValidMeetingTime
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@ValidMeetingTime
 public class ReservationRequest {
 
     private Long couponId;

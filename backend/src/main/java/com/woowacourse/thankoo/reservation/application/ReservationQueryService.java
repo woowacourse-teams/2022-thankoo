@@ -41,8 +41,8 @@ public class ReservationQueryService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    private List<SimpleReservationResponse> toReservationResponses(final List<ReservationCoupon> receivedReservations) {
-        return receivedReservations.stream()
+    private List<SimpleReservationResponse> toReservationResponses(final List<ReservationCoupon> reservationCoupons) {
+        return reservationCoupons.stream()
                 .map(SimpleReservationResponse::from)
                 .collect(Collectors.toList());
     }

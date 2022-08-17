@@ -39,7 +39,7 @@ public class MeetingResponse {
     }
 
     private static List<MemberResponse> toMemberResponses(final Meeting meeting) {
-        return meeting.getMeetingMembers().getMeetingMembers()
+        return meeting.getMeetingMembers().getValues()
                 .stream()
                 .map(meetingMember -> MemberResponse.of(meetingMember.getMember()))
                 .collect(Collectors.toList());

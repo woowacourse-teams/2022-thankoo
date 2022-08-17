@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.presentation;
 
 
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.ALL;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
@@ -64,7 +65,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("CouponController 는 ")
-public class CouponControllerTest extends ControllerTest {
+class CouponControllerTest extends ControllerTest {
 
     @DisplayName("쿠폰을 전송하면 200 OK 를 반환한다.")
     @Test
@@ -165,6 +166,54 @@ public class CouponControllerTest extends ControllerTest {
                         content().string(objectMapper.writeValueAsString(couponResponses)));
 
         resultActions.andDo(document("coupons/received-coupons-used",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                responseFields(
+                        fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
+                        fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
+                        fieldWithPath("[].sender.name").type(STRING).description("senderName"),
+                        fieldWithPath("[].sender.email").type(STRING).description("senderEmail"),
+                        fieldWithPath("[].sender.imageUrl").type(STRING).description("senderImageUrl"),
+                        fieldWithPath("[].receiver.id").type(NUMBER).description("receiverId"),
+                        fieldWithPath("[].receiver.name").type(STRING).description("receiverName"),
+                        fieldWithPath("[].receiver.email").type(STRING).description("receiverEmail"),
+                        fieldWithPath("[].receiver.imageUrl").type(STRING).description("receiverImageUrl"),
+                        fieldWithPath("[].content.couponType").type(STRING).description("couponType"),
+                        fieldWithPath("[].content.title").type(STRING).description("title"),
+                        fieldWithPath("[].content.message").type(STRING).description("message"),
+                        fieldWithPath("[].status").type(STRING).description("status")
+                )
+        ));
+    }
+
+    @DisplayName("모든 받은 쿠폰을 조회한다.")
+    @Test
+    void getReceivedCouponsAll() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+
+        List<CouponResponse> couponResponses = List.of(
+                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED")),
+                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED")),
+                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "USED")),
+                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED"))
+        );
+
+        given(couponQueryService.getReceivedCoupons(anyLong(), anyString()))
+                .willReturn(couponResponses);
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + ALL)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(couponResponses)));
+
+        resultActions.andDo(document("coupons/received-coupons-all",
                 getResponsePreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")

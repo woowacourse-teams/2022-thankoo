@@ -3,12 +3,14 @@ package com.woowacourse.thankoo.acceptance;
 import static com.woowacourse.thankoo.acceptance.builder.CouponAssured.잘못된_쿠폰_요청;
 import static com.woowacourse.thankoo.acceptance.builder.CouponAssured.쿠폰_요청;
 import static com.woowacourse.thankoo.acceptance.builder.ReservationAssured.예약_요청;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.ALL;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.USED;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.INVALID_TOKEN;
@@ -22,9 +24,11 @@ import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.ACCEPT;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.CouponAssured;
+import com.woowacourse.thankoo.acceptance.builder.MeetingAssured;
 import com.woowacourse.thankoo.acceptance.builder.ReservationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -37,9 +41,9 @@ class CouponAcceptanceTest extends AcceptanceTest {
     @Nested
     class SignInAndTest {
 
-        @DisplayName("받은 쿠폰을 조회한다.")
+        @DisplayName("사용하지 않은 받은 쿠폰을 조회한다.")
         @Test
-        void getReceivedCoupons() {
+        void getReceivedCouponsNotUsed() {
             TokenResponse senderToken = AuthenticationAssured.request()
                     .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
                     .로그인_한다(CODE_SKRR)
@@ -51,13 +55,128 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .body(TokenResponse.class);
 
-            CouponAssured.request()
+            List<CouponResponse> couponResponses = CouponAssured.request()
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
                     .response()
+                    .bodies(CouponResponse.class);
+
+            ReservationAssured.request()
+                    .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(0), 1L))
+                    .예약에_응답한다(senderToken.getAccessToken(), ACCEPT)
+                    .done();
+
+            ReservationAssured.request()
+                    .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(1), 1L))
+                    .예약에_응답한다(senderToken.getAccessToken(), ACCEPT)
+                    .done();
+
+            MeetingAssured.request()
+                    .미팅을_조회한다(receiverToken.getAccessToken())
+                    .미팅을_완료한다(senderToken.getAccessToken())
+                    .response()
+                    .status(HttpStatus.NO_CONTENT.value());
+
+            CouponAssured.request()
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .response()
                     .status(HttpStatus.OK.value())
-                    .쿠폰이_조회됨(2);
+                    .쿠폰이_조회됨(3);
+        }
+
+        @DisplayName("사용한 받은 쿠폰을 조회한다.")
+        @Test
+        void getReceivedCouponsUsed() {
+            TokenResponse senderToken = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .response()
+                    .body(TokenResponse.class);
+
+            TokenResponse receiverToken = AuthenticationAssured.request()
+                    .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                    .response()
+                    .body(TokenResponse.class);
+
+            List<CouponResponse> couponResponses = CouponAssured.request()
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .response()
+                    .bodies(CouponResponse.class);
+
+            ReservationAssured.request()
+                    .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(0), 1L))
+                    .예약에_응답한다(senderToken.getAccessToken(), ACCEPT)
+                    .done();
+
+            ReservationAssured.request()
+                    .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(1), 1L))
+                    .예약에_응답한다(senderToken.getAccessToken(), ACCEPT)
+                    .done();
+
+            MeetingAssured.request()
+                    .미팅을_조회한다(receiverToken.getAccessToken())
+                    .미팅을_완료한다(senderToken.getAccessToken())
+                    .response()
+                    .status(HttpStatus.NO_CONTENT.value());
+
+            CouponAssured.request()
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), USED)
+                    .response()
+                    .status(HttpStatus.OK.value())
+                    .쿠폰이_조회됨(1);
+        }
+
+        @DisplayName("모든 받은 쿠폰을 조회한다.")
+        @Test
+        void getReceivedCouponsAll() {
+            TokenResponse senderToken = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .response()
+                    .body(TokenResponse.class);
+
+            TokenResponse receiverToken = AuthenticationAssured.request()
+                    .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                    .response()
+                    .body(TokenResponse.class);
+
+            List<CouponResponse> couponResponses = CouponAssured.request()
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .response()
+                    .bodies(CouponResponse.class);
+
+            ReservationAssured.request()
+                    .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(0), 1L))
+                    .예약에_응답한다(senderToken.getAccessToken(), ACCEPT)
+                    .done();
+
+            ReservationAssured.request()
+                    .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(1), 1L))
+                    .예약에_응답한다(senderToken.getAccessToken(), ACCEPT)
+                    .done();
+
+            MeetingAssured.request()
+                    .미팅을_조회한다(receiverToken.getAccessToken())
+                    .미팅을_완료한다(senderToken.getAccessToken())
+                    .response()
+                    .status(HttpStatus.NO_CONTENT.value());
+
+            CouponAssured.request()
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), ALL)
+                    .response()
+                    .status(HttpStatus.OK.value())
+                    .쿠폰이_조회됨(4);
         }
 
         @DisplayName("보낸 쿠폰을 조회한다.")
