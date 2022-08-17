@@ -12,10 +12,10 @@ import org.springframework.util.ResourceUtils;
 
 public class ProfileImageGenerator {
 
-    private static final String IMAGE_URL_PATH = "/api/members/profile-image/";
+    private static final String IMAGE_URL_PATH = "/profile-image/";
     private static final String IMAGE_PATH = "classpath:static/profile-image";
     private static final int FIRST_IMAGE = 0;
-    private static List<String> profileImages;
+    private static final List<String> profileImages;
 
     static {
         try {
@@ -35,8 +35,8 @@ public class ProfileImageGenerator {
     }
 
     public static String getImageUrl(final String imageName) {
-       validateImageName(imageName);
-       return IMAGE_URL_PATH + imageName;
+        validateImageName(imageName);
+        return IMAGE_URL_PATH + imageName;
     }
 
     private static void validateImageName(final String imageName) {

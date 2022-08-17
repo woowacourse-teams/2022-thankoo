@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.acceptance.builder;
 
+import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.get;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.putWithToken;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,8 +45,14 @@ public class MemberAssured {
 
         public MemberRequestBuilder 내_프로필_이미지_정보를_수정한다(final TokenResponse tokenResponse,
                                                        final MemberProfileImageRequest memberProfileImageRequest) {
-           response = putWithToken("/api/members/me/profile-image", tokenResponse.getAccessToken(), memberProfileImageRequest);
-           return this;
+            response = putWithToken("/api/members/me/profile-image", tokenResponse.getAccessToken(),
+                    memberProfileImageRequest);
+            return this;
+        }
+
+        public MemberRequestBuilder 내_프로필_이미지를_가져온다(final String imageName) {
+            response = get("/api/members/profile-image/" + imageName);
+            return this;
         }
 
         public MemberResponseBuilder response() {

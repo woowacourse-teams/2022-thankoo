@@ -6,6 +6,7 @@ import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import java.util.List;
+import javax.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+
+    private final ServletContext servletContext;
 
     @GetMapping
     public ResponseEntity<List<MemberResponse>> getMembersExcludeMe(@AuthenticationPrincipal final Long memberId) {
@@ -39,8 +42,8 @@ public class MemberController {
     }
 
     @PutMapping("/me/profile-image")
-    public ResponseEntity<Void> updateMemberName(@AuthenticationPrincipal final Long memberId,
-                                                 @RequestBody final MemberProfileImageRequest memberProfileImageRequest) {
+    public ResponseEntity<Void> updateMemberProfileImage(@AuthenticationPrincipal final Long memberId,
+                                                         @RequestBody final MemberProfileImageRequest memberProfileImageRequest) {
         memberService.updateMemberProfileImage(memberId, memberProfileImageRequest);
         return ResponseEntity.noContent().build();
     }
