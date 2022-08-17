@@ -2,9 +2,9 @@ name: FrontEnd CI
 
 on:
   push:
-    branches: ['**']
+    branches: ['develop']
   pull_request:
-    branches: ['**']
+    branches: ['develop']
     paths: ['frontend/**']
     types: [opened, synchronize]
 
