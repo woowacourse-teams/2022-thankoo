@@ -8,13 +8,12 @@ on:
     paths: ['frontend/**']
     types: [opened, synchronize]
 
-default:
-  run:
-    working-directory: ./frontend
-
 jobs:
-  cypress-run:
+  build:
     runs-on: ubuntu-22.04
+    default:
+      run:
+        working-directory: ./frontend
 
     steps:
       - name: Checkout
