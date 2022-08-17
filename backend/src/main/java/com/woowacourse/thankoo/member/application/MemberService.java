@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.member.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
+import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -37,5 +38,13 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
         member.updateName(memberNameRequest.getName());
+    }
+
+    @Transactional
+    public void updateMemberProfileImage(final Long memberId,
+                                         final MemberProfileImageRequest memberProfileImageRequest) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+        member.updateProfileImage(memberProfileImageRequest.getImageName());
     }
 }

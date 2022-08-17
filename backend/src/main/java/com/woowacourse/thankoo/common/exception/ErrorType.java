@@ -14,6 +14,7 @@ public enum ErrorType {
     INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),
     INVALID_MEMBER_EMAIL(2003, "올바르지 않은 이메일 형식입니다."),
     INVALID_MEMBER(2004, "올바르지 않은 회원입니다."),
+    INVALID_MEMBER_PROFILE_IMAGE(2005, "올바르지 않은 프로필 이미지입니다."),
 
     INVALID_COUPON_TYPE(3001, "존재하지 않는 쿠폰 타입입니다."),
     INVALID_COUPON_TITLE(3002, "잘못된 쿠폰 제목입니다."),

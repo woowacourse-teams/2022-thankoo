@@ -8,7 +8,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
@@ -132,7 +132,7 @@ class ReservationTest {
                     coupon);
 
             assertThatThrownBy(
-                    () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                    () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR),
                             ReservationStatus.ACCEPT, new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
@@ -153,7 +153,7 @@ class ReservationTest {
                     coupon);
 
             assertThatThrownBy(
-                    () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                    () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR),
                             ReservationStatus.WAITING, new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
@@ -173,7 +173,7 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.update(
-                            new Member(receiverId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                            new Member(receiverId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR),
                             ReservationStatus.ACCEPT,
                             new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
@@ -184,8 +184,8 @@ class ReservationTest {
         @Test
         void updateCouponStatusException() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
-            Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-            Member hoho = new Member(2L, HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL);
+            Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR);
+            Member hoho = new Member(2L, HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR);
             Coupon coupon = new Coupon(huni.getId(), hoho.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL,
@@ -194,7 +194,7 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.update(
-                            new Member(huni.getId(), LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+                            new Member(huni.getId(), LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR),
                             ReservationStatus.ACCEPT,
                             new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
@@ -216,7 +216,7 @@ class ReservationTest {
                     receiverId,
                     coupon);
 
-            reservation.update(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL),
+            reservation.update(new Member(senderId, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR),
                     ReservationStatus.ACCEPT,
                     new FakeReservedMeetingCreator());
 
@@ -235,8 +235,8 @@ class ReservationTest {
         @Test
         void memberNotOwnerException() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
-            Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
-            Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+            Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR);
+            Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR);
 
             Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
@@ -256,8 +256,8 @@ class ReservationTest {
         @Test
         void reservationNotWaitingException() {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
-            Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
-            Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
+            Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR);
+            Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR);
 
             Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),

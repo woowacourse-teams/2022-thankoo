@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.member.presentation;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
+import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,13 @@ public class MemberController {
     public ResponseEntity<Void> updateMemberName(@AuthenticationPrincipal final Long memberId,
                                                  @RequestBody final MemberNameRequest memberNameRequest) {
         memberService.updateMemberName(memberId, memberNameRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/me/profile-image")
+    public ResponseEntity<Void> updateMemberName(@AuthenticationPrincipal final Long memberId,
+                                                 @RequestBody final MemberProfileImageRequest memberProfileImageRequest) {
+        memberService.updateMemberProfileImage(memberId, memberProfileImageRequest);
         return ResponseEntity.noContent().build();
     }
 }

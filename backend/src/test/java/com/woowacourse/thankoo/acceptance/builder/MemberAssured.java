@@ -9,6 +9,7 @@ import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
+import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -39,6 +40,12 @@ public class MemberAssured {
                                                   final MemberNameRequest memberNameRequest) {
             response = putWithToken("/api/members/me/name", tokenResponse.getAccessToken(), memberNameRequest);
             return this;
+        }
+
+        public MemberRequestBuilder 내_프로필_이미지_정보를_수정한다(final TokenResponse tokenResponse,
+                                                       final MemberProfileImageRequest memberProfileImageRequest) {
+           response = putWithToken("/api/members/me/profile-image", tokenResponse.getAccessToken(), memberProfileImageRequest);
+           return this;
         }
 
         public MemberResponseBuilder response() {
@@ -73,6 +80,11 @@ public class MemberAssured {
                     .ignoringFields("id")
                     .ignoringFields("imageUrl")
                     .isEqualTo(memberResponse);
+        }
+
+        public void 프로필_이미지가_변경되었다(final String imageUrl) {
+            String actualImageUrl = body(MemberResponse.class).getImageUrl();
+            assertThat(imageUrl).isEqualTo(actualImageUrl);
         }
     }
 }

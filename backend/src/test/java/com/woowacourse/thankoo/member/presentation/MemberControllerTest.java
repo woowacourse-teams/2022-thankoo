@@ -3,7 +3,8 @@ package com.woowacourse.thankoo.member.presentation;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_NAME_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
@@ -28,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
+import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import java.util.List;
@@ -45,8 +47,8 @@ public class MemberControllerTest extends ControllerTest {
     void getMembersExcludeMe() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
-        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR);
         List<MemberResponse> memberResponses = List.of(MemberResponse.of(lala), MemberResponse.of(huni));
         given(memberService.getMembersExcludeMe(anyLong()))
                 .willReturn(memberResponses);
@@ -78,7 +80,7 @@ public class MemberControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
         MemberResponse memberResponse = MemberResponse.of(
-                new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+                new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
 
         given(memberService.getMember(anyLong()))
                 .willReturn(memberResponse);
@@ -129,6 +131,34 @@ public class MemberControllerTest extends ControllerTest {
                 ),
                 requestFields(
                         fieldWithPath("name").type(STRING).description("name")
+                )));
+    }
+
+    @DisplayName("회원 프로필 이미지를 수정한다.")
+    @Test
+    void updateProfileImage() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+
+        MemberProfileImageRequest memberProfileImageRequest = new MemberProfileImageRequest(IMAGE_NAME_SKRR);
+        doNothing().when(memberService).updateMemberProfileImage(anyLong(), any(MemberProfileImageRequest.class));
+
+        ResultActions resultActions = mockMvc.perform(put("/api/members/me/profile-image")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(memberProfileImageRequest)))
+                .andDo(print())
+                .andExpect(
+                        status().isNoContent());
+
+        resultActions.andDo(document("members/update-member-profile-image",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                requestFields(
+                        fieldWithPath("imageName").type(STRING).description("imageName")
                 )));
     }
 }
