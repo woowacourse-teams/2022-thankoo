@@ -9,7 +9,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
-import com.woowacourse.thankoo.meeting.domain.MeetingMessage;
+import com.woowacourse.thankoo.meeting.application.dto.MeetingMessage;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import com.woowacourse.thankoo.meeting.domain.Meetings;
@@ -62,7 +62,7 @@ public class MeetingService {
         Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnit_Date(date));
         Members members = new Members(meetings.getMembers());
         if (!members.isEmpty()) {
-            AlarmManager.setResources(MeetingMessage.create(members.getEmails()));
+            AlarmManager.setResources(MeetingMessage.of(members.getEmails()));
         }
     }
 }

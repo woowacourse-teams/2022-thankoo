@@ -13,7 +13,7 @@ import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
-import com.woowacourse.thankoo.reservation.domain.ReservationMessage;
+import com.woowacourse.thankoo.reservation.application.dto.ReservationMessage;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
@@ -52,7 +52,7 @@ public class ReservationService {
 
     private void sendMessage(final Member member, final Coupon coupon, final Reservation reservation) {
         Member sender = getMember(coupon.getSenderId());
-        Message messageBuilder = ReservationMessage.create(member.getName(), sender.getEmail(),
+        Message messageBuilder = ReservationMessage.of(member.getName(), sender.getEmail(),
                 reservation.getTimeUnit().getDate(), coupon.getCouponContent());
         AlarmManager.setResources(messageBuilder);
     }
@@ -68,7 +68,7 @@ public class ReservationService {
 
         Member receiver = getMember(reservation.getCoupon().getReceiverId());
         AlarmManager.setResources(
-                ReservationMessage.changeStatus(foundMember.getName(), receiver.getEmail(), reservation));
+                ReservationMessage.updateOf(foundMember.getName(), receiver.getEmail(), reservation));
     }
 
     public void cancel(final Long memberId,
@@ -79,7 +79,7 @@ public class ReservationService {
 
         Member sender = getMember(reservation.getCoupon().getSenderId());
         AlarmManager.setResources(
-                ReservationMessage.cancelStatus(foundMember.getName(), sender.getEmail(), reservation));
+                ReservationMessage.cancelOf(foundMember.getName(), sender.getEmail(), reservation));
     }
 
     private Reservation getReservationById(final Long reservationId) {

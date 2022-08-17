@@ -1,6 +1,7 @@
-package com.woowacourse.thankoo.coupon.domain;
+package com.woowacourse.thankoo.coupon.application.dto;
 
 import com.woowacourse.thankoo.alarm.support.Message;
+import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.member.domain.Name;
 import java.text.MessageFormat;
 import java.util.List;
@@ -15,7 +16,7 @@ public class CouponMessage {
     public static final String TYPE = "쿠폰 종류 : {0}";
     public static final String PRETEXT = "\uD83D\uDC8C 커피 쿠폰이 도착했어요.";
 
-    public static Message create(final Name name, final List<String> emails, final CouponContent couponContent) {
+    public static Message of(final Name name, final List<String> emails, final CouponContent couponContent) {
         return new Message.Builder()
                 .email(emails)
                 .title(PRETEXT)

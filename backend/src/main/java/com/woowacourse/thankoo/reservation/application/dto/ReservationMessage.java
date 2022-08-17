@@ -1,9 +1,10 @@
-package com.woowacourse.thankoo.reservation.domain;
+package com.woowacourse.thankoo.reservation.application.dto;
 
 import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.member.domain.Email;
 import com.woowacourse.thankoo.member.domain.Name;
+import com.woowacourse.thankoo.reservation.domain.Reservation;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,10 +19,10 @@ public class ReservationMessage {
     public static final String RESERVATION_STATUS = "예약 상태 : {0}";
     public static final String COUPON = "쿠폰 : {0}";
 
-    public static Message create(final Name sender,
-                                 final Email email,
-                                 final LocalDate date,
-                                 final CouponContent couponContent) {
+    public static Message of(final Name sender,
+                             final Email email,
+                             final LocalDate date,
+                             final CouponContent couponContent) {
         return new Message.Builder()
                 .title(PRETEXT)
                 .email(List.of(email.getValue()))
@@ -31,7 +32,7 @@ public class ReservationMessage {
                 .build();
     }
 
-    public static Message changeStatus(final Name sender, final Email email, final Reservation reservation) {
+    public static Message updateOf(final Name sender, final Email email, final Reservation reservation) {
         return new Message.Builder()
                 .title(PRETEXT_RESPONSE)
                 .email(List.of(email.getValue()))
@@ -41,7 +42,7 @@ public class ReservationMessage {
                 .build();
     }
 
-    public static Message cancelStatus(final Name sender, final Email email, final Reservation reservation) {
+    public static Message cancelOf(final Name sender, final Email email, final Reservation reservation) {
         return new Message.Builder()
                 .email(List.of(email.getValue()))
                 .title(PRETEXT_CANCEL)
