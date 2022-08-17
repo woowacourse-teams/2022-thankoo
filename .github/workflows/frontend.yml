@@ -1,0 +1,24 @@
+name: FrontEnd CI
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+    paths: ['frontend/**']
+    types: [opened, synchronize]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          build: yarn run build
+          start: yarn dev
+          brower: chrome
