@@ -10,6 +10,7 @@ import com.woowacourse.thankoo.authentication.presentation.AuthenticationControl
 import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.presentation.CouponController;
+import com.woowacourse.thankoo.heart.application.HeartQueryService;
 import com.woowacourse.thankoo.heart.application.HeartService;
 import com.woowacourse.thankoo.heart.presentation.HeartController;
 import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
@@ -83,6 +84,9 @@ public class ControllerTest {
 
     @MockBean
     protected HeartService heartService;
+
+    @MockBean
+    protected HeartQueryService heartQueryService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());
