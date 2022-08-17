@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { sentOrReceivedAtom } from '../../../recoil/atom';
 import { CouponType } from '../../../types';
@@ -16,6 +17,8 @@ const useMain = () => {
   const [currentType, setCurrentType] = useState<CouponType>('entire');
 
   const { data, isLoading, error } = useGetCoupons(sentOrReceived);
+
+  console.log(data);
 
   const edittedCouponsBySentOrReceived =
     sentOrReceived === '보낸'

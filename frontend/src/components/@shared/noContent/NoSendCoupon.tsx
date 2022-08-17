@@ -8,7 +8,9 @@ const NoSendCoupon = () => {
   return (
     <S.Container>
       <S.Box>
-        <IconEmptyList />
+        <S.IconWrapper>
+          <IconEmptyList />
+        </S.IconWrapper>
         <S.Comment>
           보낸 쿠폰이 없어요😥
           <br />
@@ -34,12 +36,14 @@ const S = {
     flex-direction: column;
     width: 280px;
     height: fit-content;
-    background-color: #1d1d1d;
     border-radius: 10px;
     color: ${({ theme }) => theme.header.color};
     text-align: center;
     gap: 8px;
     padding: 30px 10px;
+  `,
+  IconWrapper: styled.div`
+    height: 70px;
   `,
   Comment: styled.h3`
     line-height: 30px;

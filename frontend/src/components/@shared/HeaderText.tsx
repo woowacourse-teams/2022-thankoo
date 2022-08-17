@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-const HeaderText = styled.div`
-  font-size: 22px;
+const HeaderText = styled.span`
+  font-size: 20px;
   display: flex;
   align-items: center;
 `;
