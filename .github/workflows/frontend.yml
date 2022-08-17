@@ -25,4 +25,3 @@ jobs:
         with:
           build: yarn run build
           start: yarn dev
-          brower: chrome
