@@ -1,7 +1,8 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { modalUnMountTime } from '../../constants/modal';
 import useModal from '../../hooks/useModal';
 import { UserProfile } from '../../types';
+import { modalMountTime } from './../../constants/modal';
 
 const ConfirmCouponContentModal = ({
   submit,
@@ -14,10 +15,10 @@ const ConfirmCouponContentModal = ({
   title: string;
   receivers: UserProfile[];
 }) => {
-  const { visible, close } = useModal();
+  const { visible, close, modalContentRef } = useModal();
 
   return (
-    <S.Container show={visible}>
+    <S.Container show={visible} ref={modalContentRef}>
       <S.Wrapper>
         <S.ConfirmHeaderText>쿠폰 정보를 확인해주세요</S.ConfirmHeaderText>
         <S.ConfirmContentWrapper>
@@ -62,7 +63,7 @@ type ButtonProps = {
 const S = {
   Container: styled.div<ConfirmCouponContentModalProps>`
     position: fixed;
-    bottom: -100%;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     max-width: 680px;
@@ -74,12 +75,34 @@ const S = {
     z-index: 10000;
     color: white;
 
-    transition: all ease-in-out 0.5s;
-    ${({ show }) =>
-      show &&
-      css`
+    //onMount animation
+    @keyframes myonmount {
+      0% {
+        bottom: -100%;
+      }
+      40% {
+        bottom: -60%;
+      }
+      100% {
         bottom: 0;
-      `};
+      }
+    }
+    &.onMount {
+      animation: myonmount ${`${modalMountTime}ms`} ease-in-out;
+    }
+
+    //unMount animation
+    @keyframes myunmount {
+      0% {
+        bottom: 0%;
+      }
+      100% {
+        bottom: -100%;
+      }
+    }
+    &.unMount {
+      animation: myunmount ${`${modalUnMountTime}ms`} ease-in-out;
+    }
   `,
   Wrapper: styled.div`
     display: flex;
