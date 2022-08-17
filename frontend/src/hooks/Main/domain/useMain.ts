@@ -18,8 +18,6 @@ const useMain = () => {
 
   const { data, isLoading, error } = useGetCoupons(sentOrReceived);
 
-  console.log(data);
-
   const edittedCouponsBySentOrReceived =
     sentOrReceived === '보낸'
       ? data?.map(coupon => {
