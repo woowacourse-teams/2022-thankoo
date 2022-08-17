@@ -71,6 +71,7 @@ public class ReservationService {
                 ReservationMessage.updateOf(foundMember.getName(), receiver.getEmail(), reservation));
     }
 
+    @Alarm
     public void cancel(final Long memberId,
                        final Long reservationId) {
         Member foundMember = getMember(memberId);
