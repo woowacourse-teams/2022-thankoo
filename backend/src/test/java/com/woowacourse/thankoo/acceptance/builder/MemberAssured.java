@@ -35,9 +35,9 @@ public class MemberAssured {
             return this;
         }
 
-        public MemberRequestBuilder 내_정보를_수정한다(final TokenResponse tokenResponse,
-                                               final MemberNameRequest memberNameRequest) {
-            response = putWithToken("/api/members/me", tokenResponse.getAccessToken(), memberNameRequest);
+        public MemberRequestBuilder 내_이름_정보를_수정한다(final TokenResponse tokenResponse,
+                                                  final MemberNameRequest memberNameRequest) {
+            response = putWithToken("/api/members/me/name", tokenResponse.getAccessToken(), memberNameRequest);
             return this;
         }
 

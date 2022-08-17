@@ -113,7 +113,7 @@ public class MemberControllerTest extends ControllerTest {
         MemberNameRequest memberNameRequest = new MemberNameRequest(LALA_NAME);
         doNothing().when(memberService).updateMemberName(anyLong(), any(MemberNameRequest.class));
 
-        ResultActions resultActions = mockMvc.perform(put("/api/members/me")
+        ResultActions resultActions = mockMvc.perform(put("/api/members/me/name")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
