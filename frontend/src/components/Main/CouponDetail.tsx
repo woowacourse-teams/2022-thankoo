@@ -33,7 +33,7 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
           <S.ButtonWrapper>
             {buttonOptions.map((button, idx) => (
               <S.Button
-                key={button.text + idx}
+                key={idx}
                 bg={button.bg}
                 disabled={button.disabled}
                 onClick={button.onClick && button.onClick}

@@ -45,9 +45,12 @@ const S = {
     grid-template-columns: repeat(auto-fill, minmax(145px, 150px));
     gap: 30px 15px;
 
-    max-height: 66vh;
+    max-height: 60vh;
     @media (min-height: 680px) {
-      max-height: 71vh;
+      max-height: 68vh;
+    }
+    @media (min-height: 755px) {
+      max-height: 73vh;
     }
 
     place-items: center;

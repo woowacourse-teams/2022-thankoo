@@ -5,6 +5,7 @@ import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/domain/useMain';
 
+import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
@@ -17,7 +18,6 @@ import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
 import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
-import { css } from '@emotion/react';
 
 const sentOrReceivedArray = ['받은', '보낸'];
 
@@ -132,7 +132,7 @@ const S = {
   SliderDiv: styled.div<SliderDivProps>`
     width: ${({ length }) => `${100 / length}%`};
     height: 103%;
-    background-color: white;
+    border-bottom: white solid 2px;
     position: absolute;
     left: 0;
     top: 0;
