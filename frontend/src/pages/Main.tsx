@@ -30,8 +30,8 @@ const Main = () => {
     currentType,
     sentOrReceived,
     setSentOrReceived,
-    showAllCouponsToggle,
-    setShowAllCouponsToggle,
+    showUsedCouponsWith,
+    setShowUsedCouponsWith,
   } = useMain();
 
   const { visible } = useModal();
@@ -78,9 +78,9 @@ const Main = () => {
               <S.UsedCouponCheckbox
                 type='checkbox'
                 id='used_coupon'
-                checked={showAllCouponsToggle}
+                checked={showUsedCouponsWith}
                 onChange={() => {
-                  setShowAllCouponsToggle(prev => !prev);
+                  setShowUsedCouponsWith(prev => !prev);
                 }}
               />
               <S.UsedCouponCheckboxLabel htmlFor='used_coupon' id='used_coupon'>
@@ -147,10 +147,13 @@ const S = {
     padding: 1rem;
     background-color: #232323;
     ${({ selected }) =>
-      !selected &&
-      css`
-        color: #8e8e8e;
-      `};
+      !selected
+        ? css`
+            color: #8e8e8e;
+          `
+        : css`
+            font-weight: bolder;
+          `};
   `,
   HeaderText: styled(HeaderText)`
     cursor: pointer;

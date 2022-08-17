@@ -15,7 +15,7 @@ const COUPON_STATUS_PRIORITY = {
 const useMain = () => {
   const [sentOrReceived, setSentOrReceived] = useRecoilState(sentOrReceivedAtom);
   const [currentType, setCurrentType] = useState<CouponType>('entire');
-  const [showAllCouponsToggle, setShowAllCouponsToggle] = useState(false);
+  const [showUsedCouponsWith, setShowUsedCouponsWith] = useState(false);
 
   const { data, isLoading, error } = useGetCoupons(sentOrReceived);
 
@@ -30,7 +30,7 @@ const useMain = () => {
 
   const filteredCoupons = edittedCouponsBySentOrReceived
     ?.filter(coupon => coupon.content.couponType === currentType || currentType === 'entire')
-    .filter(coupon => (!showAllCouponsToggle ? coupon.status !== 'used' : true));
+    .filter(coupon => (!showUsedCouponsWith ? coupon.status !== 'used' : true));
 
   const sortedCoupons = sorted(
     filteredCoupons,
@@ -40,14 +40,14 @@ const useMain = () => {
 
   return {
     setCurrentType,
-    coupons: showAllCouponsToggle ? filteredCoupons : sortedCoupons,
+    coupons: showUsedCouponsWith ? filteredCoupons : sortedCoupons,
     isLoading,
     error,
     currentType,
     sentOrReceived,
     setSentOrReceived,
-    setShowAllCouponsToggle,
-    showAllCouponsToggle,
+    setShowUsedCouponsWith,
+    showUsedCouponsWith,
   };
 };
 
