@@ -46,7 +46,7 @@ const CreateReservation = () => {
             value={date}
             onChange={setReservationDate}
             min={yesterday}
-            max={new Date().getFullYear()}
+            max={`${new Date().getFullYear()}-12-31`}
           />
         </S.Area>
         <S.TimeArea>

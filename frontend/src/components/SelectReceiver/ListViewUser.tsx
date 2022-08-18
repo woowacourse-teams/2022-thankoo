@@ -56,7 +56,7 @@ const S = {
   `,
   UserSubName: styled.div`
     grid-area: sn;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: ${({ theme }) => theme.page.subColor};
   `,
   CheckBox: styled.div<CheckBoxProp>`

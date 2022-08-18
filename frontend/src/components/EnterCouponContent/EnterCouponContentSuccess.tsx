@@ -148,6 +148,7 @@ const S = {
     padding: 0.7rem;
     color: white;
     width: 100%;
+    font-size: 1.5rem;
   `,
   StyledLink: styled(Link)`
     width: 100%;

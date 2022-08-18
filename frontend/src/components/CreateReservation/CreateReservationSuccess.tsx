@@ -109,6 +109,7 @@ const S = {
     border-radius: 4px;
     background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
     padding: 0.7rem;
+    font-size: 1.5rem;
     color: white;
     width: 100%;
   `,

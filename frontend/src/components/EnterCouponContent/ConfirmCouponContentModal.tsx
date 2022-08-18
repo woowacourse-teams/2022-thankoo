@@ -99,7 +99,6 @@ const S = {
   `,
   ReceiversWrapper: styled.div`
     display: flex;
-    justify-content: center;
     gap: 15px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -118,6 +117,7 @@ const S = {
     border-radius: 50%;
   `,
   UserName: styled.span`
+    word-break: keep-all;
     font-size: 1.3rem;
   `,
   ConfirmContentWrapper: styled.div`
@@ -152,6 +152,7 @@ const S = {
     border-radius: 4px;
     color: white;
     padding: 0.7rem 0;
+    font-size: 1.5rem;
 
     background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
   `,

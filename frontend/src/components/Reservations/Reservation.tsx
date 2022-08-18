@@ -1,13 +1,11 @@
 import { useQueryClient } from 'react-query';
 import { usePutCancelReseravation } from '../../hooks/Main/queries/couponDetail';
 import { usePutReservationStatus } from '../../hooks/Reservations/queries/reservations';
-import useToast from '../../hooks/useToast';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
 const Reservation = ({ couponType, time, memberName, reservationId, order }) => {
   const queryClient = useQueryClient();
-  const { insertToastItem } = useToast();
 
   const { mutate: handleReservation } = usePutReservationStatus(reservationId);
 
@@ -18,18 +16,18 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
       queryClient.invalidateQueries(['reservations']);
     },
   });
+
+  /** TODO 성공 실패 시 토스트 커스텀으로 올릴 수 있다. */
   const handleClickOption = {
     received: [
       () => {
         if (confirm('예약을 거절하시겠습니까?')) {
           handleReservation('deny');
-          insertToastItem('예약을 거절했습니다');
         }
       },
       () => {
         if (confirm(`예약을 수락하시겠습니까? \n ${time?.meetingTime}`)) {
           handleReservation('accept');
-          insertToastItem('✅ 예약을 수락했습니다.');
         }
       },
     ],
@@ -37,7 +35,6 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
       () => {
         if (confirm('예약을 취소하시겠습니까?')) {
           cancelReservation();
-          insertToastItem('예약을 취소했습니다.');
         }
       },
     ],
