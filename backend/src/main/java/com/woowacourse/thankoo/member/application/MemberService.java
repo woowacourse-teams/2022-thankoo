@@ -44,7 +44,7 @@ public class MemberService {
     public void updateMemberProfileImage(final Long memberId,
                                          final MemberProfileImageRequest memberProfileImageRequest) {
         Member member = getMemberById(memberId);
-        member.updateProfileImage(memberProfileImageRequest.getImageName(), profileImageGenerator);
+        member.updateProfileImage(profileImageGenerator.getImageUrl(memberProfileImageRequest.getImageName()));
     }
 
     private Member getMemberById(final Long memberId) {

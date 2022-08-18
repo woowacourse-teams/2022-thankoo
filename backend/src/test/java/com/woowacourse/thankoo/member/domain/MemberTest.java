@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.member.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
@@ -9,8 +9,6 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.thankoo.common.exception.BadRequestException;
-import com.woowacourse.thankoo.common.fake.FakeProfileImageGenerator;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -79,27 +77,12 @@ class MemberTest {
         }
     }
 
-    @Nested
-    @DisplayName("프로필 이미를 변경할 때 ")
-    class UpdateProfileImageTest {
+    @DisplayName("프로필 이미지를 변경할 때 정상적인 프로필 이미지로 변경하면 변경에 성공한다.")
+    @Test
+    void updateProfileImage() {
+        Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        member.updateProfileImage(HUNI_IMAGE_URL);
 
-        @DisplayName("정상적인 프로필 이미지로 변경하면 변경에 성공한다.")
-        @Test
-        void updateProfileImage() {
-            Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-            member.updateProfileImage(HUNI_IMAGE_NAME, new FakeProfileImageGenerator());
-
-            assertThat(member.getImageUrl()).isEqualTo(HUNI_IMAGE_NAME);
-        }
-
-        @DisplayName("올바르지 않은 프로필 이미지로 변경하면 예외가 발생한다.")
-        @Test
-        void updateUnknownProfileImage() {
-            Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-            assertThatThrownBy(() -> member.updateProfileImage("unknownImage", new FakeProfileImageGenerator()))
-                    .isInstanceOf(BadRequestException.class)
-                    .hasMessage("올바르지 않은 프로필 이미지입니다.");
-
-        }
+        assertThat(member.getImageUrl()).isEqualTo(HUNI_IMAGE_URL);
     }
 }

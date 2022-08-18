@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.member.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
-import com.woowacourse.thankoo.common.util.ProfileImageGenerator;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -53,8 +52,8 @@ public class Member extends BaseEntity {
         this.name = new Name(name);
     }
 
-    public void updateProfileImage(final String imageName, final ProfileImageGenerator profileImageGenerator) {
-        this.imageUrl = profileImageGenerator.getImageUrl(imageName);
+    public void updateProfileImage(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public boolean hasSameId(final List<Long> ids) {
