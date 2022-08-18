@@ -88,7 +88,7 @@ sonarqube {
         property "sonar.profile", "Sonar way"
         property "sonar.java.binaries", "${buildDir}/classes"
         property "sonar.test.inclusions", "**/*Test.java"
-        property "sonar.exclusions", "src/test/**/*,**/dto/*,**/exception/*,**/config/*,**/ThankooApplication.java,**/alert/**/*"
+        property "sonar.coverage.exclusions", "src/test/**/*,**/dto/*,**/exception/*,**/config/*,**/ThankooApplication.java,**/alert/**/*"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/index.xml"
     }
 }
