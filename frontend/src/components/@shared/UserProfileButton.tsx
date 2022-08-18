@@ -6,10 +6,9 @@ import ProfileIcon from './ProfileIcon';
 const UserProfileButton = () => {
   const { data: profile } = useGetUserProfile();
 
-  //Todo Const 제거 후 query 값으로 변경
   return (
     <Link to={ROUTE_PATH.PROFILE}>
-      <ProfileIcon iconName={'Corgi'} size={'28px'} />
+      <ProfileIcon imageUrl={`${profile?.imageUrl}`} size={'28px'} />
     </Link>
   );
 };

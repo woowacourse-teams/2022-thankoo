@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { ProfileIconList } from '../../constants/profileIcon';
 import { modalMountTime, modalUnMountTime } from './../../constants/modal';
 import useModal from './../../hooks/useModal';
 import ProfileIcon from './../@shared/ProfileIcon';
-
-const ProfileIconList = ['Corgi', 'Tiger', 'Dino', 'Mint', 'Otter', 'Panda', 'Skull', 'Pig'];
 
 const SelectProfileImgModal = ({ patchImageMutation }) => {
   const [selected, setSelected] = useState('');
@@ -13,25 +12,24 @@ const SelectProfileImgModal = ({ patchImageMutation }) => {
   return (
     <S.Container show={visible} ref={modalContentRef}>
       <S.Wrapper>
-        <S.ConfirmHeaderText>원하는 쿠폰 이미지를 선택해 주세요</S.ConfirmHeaderText>
+        <S.ConfirmHeaderText>원하는 프로필 이미지를 선택해 주세요</S.ConfirmHeaderText>
         <S.ProfileContainer>
-          {ProfileIconList.map((iconName, idx) => (
+          {ProfileIconList.map((imageUrl, idx) => (
             <S.IconWrapper
               key={idx}
               onClick={() => {
-                setSelected(iconName);
+                setSelected(imageUrl);
               }}
             >
-              <ProfileIcon iconName={iconName} size={'80px'} />
-              <S.SelectIndicator isSelected={iconName === selected} />
+              <ProfileIcon imageUrl={imageUrl} size={'80px'} />
+              <S.SelectIndicator isSelected={imageUrl === selected} />
             </S.IconWrapper>
           ))}
         </S.ProfileContainer>
         <S.ButtonWrapper>
           <S.Button
             onClick={() => {
-              //Todo: UseMutation
-              //patchImageMutation(selected);
+              patchImageMutation(selected.split('/')[2]);
               close();
             }}
             primary

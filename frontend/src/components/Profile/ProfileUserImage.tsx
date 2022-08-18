@@ -5,7 +5,7 @@ import useModal from './../../hooks/useModal';
 import ProfileIcon from './../@shared/ProfileIcon';
 import SelectProfileImgModal from './SelectProfileImgModal';
 
-const ProfileUserImage = ({ src }) => {
+const ProfileUserImage = ({ src }: { src: string }) => {
   const { setModalContent, show } = useModal();
   const { editUserProfileImage } = useUserProfile();
 
@@ -14,12 +14,9 @@ const ProfileUserImage = ({ src }) => {
     setModalContent(<SelectProfileImgModal patchImageMutation={editUserProfileImage} />);
   };
 
-  //Todo: Const 제거후 query State로 sort변경
-  //Todo: 전체폴더 돌면서 image string을 img src로 바꿀 것
   return (
     <S.ImageBox>
-      {/* {<S.UserImage src={src} />} */}
-      <ProfileIcon iconName={'Corgi'} size={'100px'} />
+      <ProfileIcon imageUrl={src} size={'100px'} />
       <S.ModifyButton onClick={selectProfileImg}>
         <AddIcon />
       </S.ModifyButton>

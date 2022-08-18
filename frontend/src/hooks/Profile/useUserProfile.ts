@@ -67,7 +67,7 @@ const useUserProfile = () => {
     }
   );
 
-  const editUserProfileImage = useMutation(
+  const { mutate: editUserProfileImage } = useMutation(
     (imageName: string) =>
       client({
         method: 'put',

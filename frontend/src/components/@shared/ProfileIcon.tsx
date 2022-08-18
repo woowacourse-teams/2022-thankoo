@@ -1,73 +1,65 @@
 import styled from '@emotion/styled';
 import PersonIcon from '@mui/icons-material/Person';
-import Corgi from '../../assets/images/user_profile/corgi.svg';
-import Dino from '../../assets/images/user_profile/dino.svg';
-import Mint from '../../assets/images/user_profile/mint.svg';
-import Otter from '../../assets/images/user_profile/otter.svg';
-import Panda from '../../assets/images/user_profile/panda.svg';
-import Pig from '../../assets/images/user_profile/pig.svg';
-import Skull from '../../assets/images/user_profile/skull.svg';
-import Tiger from '../../assets/images/user_profile/tiger.svg';
 
 import { flexCenter } from '../../styles/mixIn';
-//Todo: sort 대신 다른이름으로 변경
-const ProfileIcon = ({ iconName, size }) => {
-  switch (iconName) {
-    case 'Corgi':
-      return (
-        <StyledIconBackGround color={'#c2e27e'} size={size}>
-          <StyledProfileIcon src={Corgi} size={size} />
-        </StyledIconBackGround>
-      );
-    case 'Tiger':
-      return (
-        <StyledIconBackGround color={'#e46868'} size={size}>
-          <StyledProfileIcon src={Tiger} size={size} />
-        </StyledIconBackGround>
-      );
-    case 'Dino':
-      return (
-        <StyledIconBackGround color={'#42ad3f'} size={size}>
-          <StyledProfileIcon src={Dino} size={size} />
-        </StyledIconBackGround>
-      );
-    case 'Mint':
-      return (
-        <StyledIconBackGround color={'#48b2af'} size={size}>
-          <StyledProfileIcon src={Mint} size={size} />
-        </StyledIconBackGround>
-      );
-    case 'Otter':
-      return (
-        <StyledIconBackGround color={'#ffe3bc'} size={size}>
-          <StyledProfileIcon src={Otter} size={size} />
-        </StyledIconBackGround>
-      );
-    case 'Panda':
-      return (
-        <StyledIconBackGround color={'#4f4f4f'} size={size}>
-          <StyledProfileIcon src={Panda} size={size} />
-        </StyledIconBackGround>
-      );
-    case 'Skull':
-      return (
-        <StyledIconBackGround color={'#903fad'} size={size}>
-          <StyledProfileIcon src={Skull} size={size} />
-        </StyledIconBackGround>
-      );
-    case 'Pig':
-      return (
-        <StyledIconBackGround color={'#ffb9f4'} size={size}>
-          <StyledProfileIcon src={Pig} size={size} />
-        </StyledIconBackGround>
-      );
-    default:
-      return (
-        <StyledIconBackGround color={'#42ad3f'} size={size}>
-          <PersonIcon />
-        </StyledIconBackGround>
-      );
-  }
+import { BASE_URL } from './../../constants/api';
+
+const ProfileIcon = ({ imageUrl, size }: { imageUrl: string; size: any }) => {
+  const src = `${BASE_URL}${imageUrl}`;
+
+  if (imageUrl.includes('corgi'))
+    return (
+      <StyledIconBackGround color={'#c2e27e'} size={size}>
+        <StyledProfileIcon src={src} size={size} />
+      </StyledIconBackGround>
+    );
+  if (imageUrl.includes('tiger'))
+    return (
+      <StyledIconBackGround color={'#e46868'} size={size}>
+        <StyledProfileIcon src={src} size={size} />
+      </StyledIconBackGround>
+    );
+  if (imageUrl.includes('dino'))
+    return (
+      <StyledIconBackGround color={'#42ad3f'} size={size}>
+        <StyledProfileIcon src={src} size={size} />
+      </StyledIconBackGround>
+    );
+  if (imageUrl.includes('mint'))
+    return (
+      <StyledIconBackGround color={'#48b2af'} size={size}>
+        <StyledProfileIcon src={src} size={size} />
+      </StyledIconBackGround>
+    );
+  if (imageUrl.includes('otter'))
+    return (
+      <StyledIconBackGround color={'#ffe3bc'} size={size}>
+        <StyledProfileIcon src={src} size={size} />
+      </StyledIconBackGround>
+    );
+  if (imageUrl.includes('panda'))
+    return (
+      <StyledIconBackGround color={'#4f4f4f'} size={size}>
+        <StyledProfileIcon src={src} size={size} />
+      </StyledIconBackGround>
+    );
+  if (imageUrl.includes('skull'))
+    return (
+      <StyledIconBackGround color={'#903fad'} size={size}>
+        <StyledProfileIcon src={src} size={size} />
+      </StyledIconBackGround>
+    );
+  if (imageUrl.includes('pig'))
+    return (
+      <StyledIconBackGround color={'#ffb9f4'} size={size}>
+        <StyledProfileIcon src={src} size={size} />
+      </StyledIconBackGround>
+    );
+  return (
+    <StyledIconBackGround color={'#transparent'} size={size}>
+      <PersonIcon />
+    </StyledIconBackGround>
+  );
 };
 
 type IconProp = {
