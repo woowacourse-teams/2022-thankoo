@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.authentication.infrastructure.GoogleClient;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
+import com.woowacourse.thankoo.common.util.ProfileImageGenerator;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class AuthenticationService {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final GoogleClient googleClient;
+    private final ProfileImageGenerator profileImageGenerator;
 
     public TokenResponse signIn(final String code) {
         String idToken = googleClient.getIdToken(code);
@@ -30,7 +32,8 @@ public class AuthenticationService {
     @Transactional
     public TokenResponse signUp(final String idToken, final String name) {
         GoogleProfileResponse profileResponse = googleClient.getProfileResponse(idToken);
-        Member savedMember = memberRepository.save(profileResponse.toEntity(name));
+        String imageUrl = profileImageGenerator.getRandomImage();
+        Member savedMember = memberRepository.save(profileResponse.toEntity(name, imageUrl));
         return toSignedUpMemberTokenResponse(savedMember);
     }
 
