@@ -2,9 +2,15 @@ name: Sonarqube
 
 on:
   push:
-    branches: [develop]
+    branches:
+      - main
+      - develop
+      
   pull_request:
-    branches: [develop]
+    branches: 
+      - main
+      - develop
+      
     paths: ["backend/**"]
     types: [opened, synchronize]
 
