@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { modalUnMountTime } from '../../constants/modal';
 import useModal from '../../hooks/useModal';
 import { CouponType, couponTypes, UserProfile } from '../../types';
+import { BASE_URL } from './../../constants/api';
 import { modalMountTime } from './../../constants/modal';
 import { onMountFromBottomModal, unMountToBottomModal } from './../../styles/Animation';
 
@@ -29,7 +30,7 @@ const ConfirmCouponContentModal = ({
           <S.ReceiversWrapper>
             {receivers.map((receiver, idx) => (
               <S.UserWrapper key={`${receiver}-${idx}`}>
-                <S.UserImage src={receiver.imageUrl} />
+                <S.UserImage src={`${BASE_URL}${receiver.imageUrl}`} />
                 <S.UserName>{receiver.name}</S.UserName>
               </S.UserWrapper>
             ))}

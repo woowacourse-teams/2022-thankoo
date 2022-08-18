@@ -16,7 +16,7 @@ const ProfileUserImage = ({ src }: { src: string }) => {
 
   return (
     <S.ImageBox>
-      <ProfileIcon imageUrl={src} size={'100px'} />
+      <ProfileIcon src={src} size={'100px'} />
       <S.ModifyButton onClick={selectProfileImg}>
         <AddIcon />
       </S.ModifyButton>

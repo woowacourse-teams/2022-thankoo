@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { BASE_URL } from '../../constants/api';
 import { UserProfile } from '../../types';
 
 const CheckedUsers = ({
@@ -17,7 +18,7 @@ const CheckedUsers = ({
             onClickDelete(user);
           }}
         >
-          <S.UserImage src={user.imageUrl} />
+          <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
           <S.UserName>{user.name}</S.UserName>
         </S.User>
       ))}

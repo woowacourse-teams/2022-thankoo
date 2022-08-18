@@ -21,7 +21,7 @@ const SelectProfileImgModal = ({ patchImageMutation }) => {
                 setSelected(imageUrl);
               }}
             >
-              <ProfileIcon imageUrl={imageUrl} size={'80px'} />
+              <ProfileIcon src={imageUrl} size={'80px'} />
               <S.SelectIndicator isSelected={imageUrl === selected} />
             </S.IconWrapper>
           ))}
