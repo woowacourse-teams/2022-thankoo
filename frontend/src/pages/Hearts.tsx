@@ -45,8 +45,6 @@ const Hearts = () => {
               receiveHistory => receiveHistory.senderId === user.id
             )?.count;
 
-            console.log(modifiedLastReceived);
-
             return (
               <S.UserWrappr key={user.id} canSend={canSend}>
                 <S.UserImageWrapper>
@@ -84,7 +82,6 @@ type CheckBoxProp = { canSend: boolean };
 
 const S = {
   Body: styled.div`
-    width: 100vw;
     height: calc(80%);
     overflow: auto;
     ::-webkit-scrollbar {
@@ -100,7 +97,7 @@ const S = {
     gap: 1rem;
   `,
   UserWrappr: styled.div<CheckBoxProp>`
-    width: 80%;
+    width: 90%;
     height: 5rem;
     display: grid;
     grid-template-areas:
