@@ -47,7 +47,9 @@ const Hearts = () => {
 
             return (
               <S.UserWrappr key={user.id} canSend={canSend}>
-                <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+                <S.UserImageWrapper>
+                  <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+                </S.UserImageWrapper>
                 <S.UserName>{user.name}</S.UserName>
                 {modifiedLastReceived ? (
                   <S.ModifiedAt>{`${modifiedLastReceived}에 툭!`}</S.ModifiedAt>
@@ -84,9 +86,11 @@ type CheckBoxProp = { canSend: boolean };
 const S = {
   Body: styled.div`
     width: 100vw;
-    height: fit-content;
-    max-height: calc(80%);
+    height: calc(80%);
     overflow: auto;
+    ::-webkit-scrollbar {
+      display: none;
+    }
   `,
   MembersContainer: styled.div`
     width: 100%;
@@ -109,11 +113,15 @@ const S = {
     gap: 2px 0;
     border: 0.1rem solid ${({ canSend }) => (canSend ? 'tomato' : '#787878')};
   `,
-  UserImage: styled.img`
+  UserImageWrapper: styled.div`
     grid-area: ui;
     width: 100%;
     height: 100%;
-    transform: scale(0.65);
+    ${flexCenter};
+  `,
+
+  UserImage: styled.img`
+    transform: scale(0.5);
 
     border-radius: 50%;
     object-fit: cover;
