@@ -107,7 +107,7 @@ const S = {
     align-items: center;
   `,
   UserName: styled.span`
-    font-size: 15px;
+    font-size: 1.3rem;
   `,
   SendButtonBox: styled.div`
     width: 100%;
@@ -118,7 +118,7 @@ const S = {
   LongButton: styled(Link)<ButtonProps>`
     position: fixed;
     bottom: 5%;
-    width: 90%;
+    width: 80%;
     max-width: 680px;
     transition: all ease-in-out 0.1s;
     ${({ disabled, theme }) =>

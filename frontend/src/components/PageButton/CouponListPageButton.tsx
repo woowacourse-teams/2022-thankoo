@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link, useLocation } from 'react-router-dom';
-import CouponIcon from '../../assets/images/coupons.svg';
+// import CouponIcon from '../../assets/images/coupons.svg';
 import { ROUTE_PATH } from '../../constants/routes';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 const CouponsPageButton = () => {
   const location = useLocation();
@@ -11,7 +12,7 @@ const CouponsPageButton = () => {
     <S.Link to={ROUTE_PATH.EXACT_MAIN}>
       <S.ButtonWrapper active={location.pathname === ROUTE_PATH.EXACT_MAIN}>
         <S.IconWrapper>
-          <S.Icon src={CouponIcon} alt='coupon_page_butotn' />
+          <S.Icon />
         </S.IconWrapper>
         <p>쿠폰</p>
       </S.ButtonWrapper>
@@ -38,17 +39,12 @@ const S = {
       active &&
       css`
         opacity: 1;
-        transform: scale(1.1);
+        transform: scale(1.15);
       `};
   `,
-  IconWrapper: styled.div`
-    width: 3.5rem;
-    height: 3.5rem;
-    transition: all ease-in-out 0.2s;
-    //margin: auto;
-    transform: scale(0.75);
-
+  Icon: styled(ConfirmationNumberIcon)`
     border-radius: 50%;
+    padding: 0.5rem;
 
     transition: all ease-in;
     transition-duration: 0.2s;
@@ -58,9 +54,8 @@ const S = {
       background-color: ${({ theme }) => theme.button.active.background};
     }
   `,
-  Icon: styled.img`
-    /* padding: 1rem; */
-    fill: white;
-    color: white;
+  IconWrapper: styled.div`
+    transform: scale(1.6);
+    margin-bottom: 0.5rem;
   `,
 };

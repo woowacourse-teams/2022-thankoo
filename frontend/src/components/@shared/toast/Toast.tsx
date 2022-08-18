@@ -21,7 +21,7 @@ const Toast = () => {
 const S = {
   ToastItemsContainer: styled.div`
     position: absolute;
-    bottom: 0;
+    bottom: 2.5%;
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 1001;

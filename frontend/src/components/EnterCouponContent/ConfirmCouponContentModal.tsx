@@ -30,7 +30,7 @@ const ConfirmCouponContentModal = ({
             {receivers.map((receiver, idx) => (
               <S.UserWrapper key={`${receiver}-${idx}`}>
                 <S.UserImage src={receiver.imageUrl} />
-                <span>{receiver.name}</span>
+                <S.UserName>{receiver.name}</S.UserName>
               </S.UserWrapper>
             ))}
           </S.ReceiversWrapper>
@@ -117,20 +117,23 @@ const S = {
     object-fit: cover;
     border-radius: 50%;
   `,
+  UserName: styled.span`
+    font-size: 1.3rem;
+  `,
   ConfirmContentWrapper: styled.div`
     display: flex;
     flex-direction: column;
     gap: 5px;
   `,
   ConfirmHeaderText: styled.span`
-    font-size: larger;
+    font-size: 2rem;
   `,
   ConfirmTitleText: styled.span`
     font-size: medium;
     color: #838383;
   `,
   ConfirmContentText: styled.span`
-    font-size: large;
+    font-size: 1.5rem;
     word-break: break-all;
     line-height: 25px;
   `,

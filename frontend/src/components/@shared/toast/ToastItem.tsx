@@ -50,9 +50,10 @@ const S = {
     width: 170px;
     height: 20px;
     padding: 10px 10px;
-    background: #e7e7e78f;
+    background: #4b4b4b;
     color: white;
     border-radius: 4px;
+    font-size: 1.2rem;
     /* border: 3px green solid; */
 
     ${flexCenter}

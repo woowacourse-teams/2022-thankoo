@@ -80,7 +80,7 @@ const S = {
     gap: 5px;
   `,
   ConfirmHeaderText: styled.span`
-    font-size: larger;
+    font-size: 1.5rem;
   `,
   ConfirmTitleText: styled.span`
     font-size: medium;

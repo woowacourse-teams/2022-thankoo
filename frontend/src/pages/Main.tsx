@@ -36,7 +36,6 @@ const Main = () => {
 
   const { visible } = useModal();
 
-  if (isLoading) return <div>로딩중</div>;
   if (error) return <div>에러뜸</div>;
 
   return (
@@ -88,13 +87,16 @@ const Main = () => {
               </S.UsedCouponCheckboxLabel>
             </S.UsedCouponToggleForm>
           </S.TabsNavWrapper>
-          {coupons?.length ? (
+          {isLoading ? (
+            <div>로딩 중</div>
+          ) : coupons?.length ? (
             <GridViewCoupons coupons={coupons} />
           ) : sentOrReceived === '보낸' ? (
             <NoSendCoupon />
           ) : (
             <NoReceivedCoupon />
           )}
+
           <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
             <S.SendIcon />
           </S.SelectReceiverButton>

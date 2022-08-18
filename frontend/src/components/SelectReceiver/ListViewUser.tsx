@@ -51,19 +51,20 @@ const S = {
   `,
   UserName: styled.div`
     grid-area: un;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: ${({ theme }) => theme.page.color};
   `,
   UserSubName: styled.div`
     grid-area: sn;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: ${({ theme }) => theme.page.subColor};
   `,
   CheckBox: styled.div<CheckBoxProp>`
     grid-area: cb;
     justify-self: end;
     margin-right: 5px;
-    display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
+    display: ${({ isChecked }) => (isChecked ? 'flex' : 'none')};
+    align-items: center;
   `,
   CheckboxIcon: styled(CheckIcon)`
     border-radius: 50%;

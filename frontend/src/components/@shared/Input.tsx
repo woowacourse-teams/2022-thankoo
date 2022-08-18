@@ -10,6 +10,7 @@ const Input = ({ setValue, maxLength, ...rest }) => {
     <S.Container>
       <S.Input
         {...rest}
+        autoComplete={'off'}
         onChange={e => {
           if (isValidInput(e.target.value)) {
             setValue(e.target.value);
@@ -48,8 +49,8 @@ const S = {
     width: 100%;
     flex: 1;
     width: 50px;
-    font-size: 1.4rem;
-    padding: 0.7rem;
+    font-size: 1.5rem;
+    padding: 1rem;
     border: none;
     background-color: transparent;
     -webkit-appearance: none;

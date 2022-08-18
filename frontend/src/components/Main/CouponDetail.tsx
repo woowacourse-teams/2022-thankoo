@@ -11,38 +11,40 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
   const { couponDetail, isLoading, sentOrReceived, buttonOptions, close } =
     useCouponDetail(couponId);
 
-  if (isLoading) {
-    return <div></div>;
-  }
-
   return (
     <S.Container>
       <S.Modal>
         <S.Header>
           <CloseButton onClick={close} color='white' />
         </S.Header>
-        <PageSlider>
-          <CouponDetailCoupon coupon={couponDetail?.coupon as Coupon} />
-          {couponDetail?.coupon.status !== 'not_used' ? (
-            <CouponDetailReservation couponDetail={couponDetail as CouponDetail} />
-          ) : (
-            <S.EmptyReservationPage>아직 예약 정보가 없습니다.</S.EmptyReservationPage>
-          )}
-        </PageSlider>
-        <S.Footer>
-          <S.ButtonWrapper>
-            {buttonOptions.map((button, idx) => (
-              <S.Button
-                key={idx}
-                bg={button.bg}
-                disabled={button.disabled}
-                onClick={button.onClick && button.onClick}
-              >
-                {button.text}
-              </S.Button>
-            ))}
-          </S.ButtonWrapper>
-        </S.Footer>
+        {isLoading ? (
+          <div></div>
+        ) : (
+          <>
+            <PageSlider>
+              <CouponDetailCoupon coupon={couponDetail?.coupon as Coupon} />
+              {couponDetail?.coupon.status !== 'not_used' ? (
+                <CouponDetailReservation couponDetail={couponDetail as CouponDetail} />
+              ) : (
+                <S.EmptyReservationPage>아직 예약 정보가 없습니다.</S.EmptyReservationPage>
+              )}
+            </PageSlider>
+            <S.Footer>
+              <S.ButtonWrapper>
+                {buttonOptions.map((button, idx) => (
+                  <S.Button
+                    key={idx}
+                    bg={button.bg}
+                    disabled={button.disabled}
+                    onClick={button.onClick && button.onClick}
+                  >
+                    {button.text}
+                  </S.Button>
+                ))}
+              </S.ButtonWrapper>
+            </S.Footer>
+          </>
+        )}
       </S.Modal>
     </S.Container>
   );
@@ -118,6 +120,7 @@ const S = {
   `,
   EmptyReservationPage: styled.div`
     width: 100%;
+    font-size: 1.5rem;
     display: flex;
     align-self: center;
     justify-content: center;
