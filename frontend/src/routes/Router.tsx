@@ -3,6 +3,7 @@ import { ROUTE_PATH } from './../constants/routes';
 import CreateReservation from './../pages/CreateReservation';
 import EnterCouponContent from './../pages/EnterCouponContent';
 import EnterNickname from './../pages/EnterNickname';
+import Hearts from './../pages/Hearts';
 import Main from './../pages/Main';
 import Meetings from './../pages/Meetings';
 import OnFailurePage from './../pages/OnFailurePage';
@@ -37,6 +38,7 @@ const Router = () => {
         <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
         <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
         <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
+        <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
       </Route>
       <Route element={<UnAuthOnly />}>
         <Route path={ROUTE_PATH.SIGN_IN} element={<SignIn />} />

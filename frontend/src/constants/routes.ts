@@ -12,4 +12,5 @@ export const ROUTE_PATH = {
   RESERVATIONS: '/reservations',
   ENTER_NICKNAME: '/enter-nickname',
   MEETINGS: '/meetings',
+  HEARTS: '/hearts',
 };

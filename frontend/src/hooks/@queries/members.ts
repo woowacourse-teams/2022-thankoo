@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
@@ -8,8 +7,7 @@ const QUERY_KEY = {
   members: 'members',
 };
 
-export const useGetMembers = () =>
-  useQuery<AxiosResponse<UserProfile[]>>(QUERY_KEY.members, getMembersRequest);
+export const useGetMembers = () => useQuery<UserProfile[]>(QUERY_KEY.members, getMembersRequest);
 
 /** FETCHER */
 
