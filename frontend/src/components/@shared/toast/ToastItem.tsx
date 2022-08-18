@@ -47,12 +47,13 @@ const ToastItem = ({ toastKey, comment }) => {
 const S = {
   ToastItem: styled.div`
     position: relative;
-    width: 200px;
+    width: 170px;
     height: 20px;
-    padding: 15px 20px;
-    background: #ff6347f5;
+    padding: 10px 10px;
+    background: #4b4b4b;
     color: white;
     border-radius: 4px;
+    font-size: 1.2rem;
     /* border: 3px green solid; */
 
     ${flexCenter}
@@ -64,13 +65,17 @@ const S = {
       animation: ${unMountToast} 2000ms;
     }
   `,
+
+  Comment: styled.p`
+    display: inline;
+  `,
   Interact: styled.div`
     height: 80%;
     display: flex;
     align-items: center;
     position: absolute;
-    top: 8px;
-    right: 2px;
+    top: 7px;
+    right: -2px;
   `,
   ProgressBar: styled.div<ProgressBarProps>`
     width: 100%;
@@ -86,7 +91,7 @@ const S = {
       height: inherit;
       position: absolute;
       left: 0;
-      background-color: pink;
+      background-color: tomato;
       animation: progressing ${props => `${props.duration}ms`} linear;
       border-radius: 0 0 4px 4px;
     }
@@ -99,10 +104,6 @@ const S = {
         width: 100%;
       }
     }
-  `,
-  Comment: styled.p`
-    margin-left: 5px;
-    display: inline;
   `,
 };
 

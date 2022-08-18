@@ -46,7 +46,8 @@ const S = {
     margin-top: 7px;
     overflow-y: auto;
     padding-left: 4px;
-    height: 60vh;
+    height: fit-content;
+    max-height: calc(100% - 7.8rem);
 
     &::-webkit-scrollbar {
       width: 2px;

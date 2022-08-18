@@ -94,7 +94,7 @@ const S = {
     color: #8e8e8e;
   `,
   ContentText: styled.span`
-    font-size: larger;
+    font-size: 1.5rem;
   `,
   SpaceBetween: styled.div`
     display: flex;

@@ -29,12 +29,12 @@ const SelectReceiver = () => {
 
   return (
     <PageLayout>
-      <Header>
+      <S.Header>
         <Link to='/'>
           <ArrowBackButton />
         </Link>
         <HeaderText>누구한테 보낼까요?</HeaderText>
-      </Header>
+      </S.Header>
       <S.Body>
         {checkedUsers.length !== 0 && (
           <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
@@ -69,13 +69,16 @@ type ButtonProps = {
 };
 
 const S = {
+  Header: styled(Header)`
+    height: 10%;
+  `,
   Body: styled.div`
     display: block;
     overflow: hidden;
     flex-direction: column;
     gap: 1rem;
     padding: 15px 3vw;
-    height: 82vh;
+    height: calc(80% - 5.5rem - 5%);
   `,
   InputWrapper: styled.div`
     margin: 15px 0;
@@ -104,7 +107,7 @@ const S = {
     align-items: center;
   `,
   UserName: styled.span`
-    font-size: 15px;
+    font-size: 1.3rem;
   `,
   SendButtonBox: styled.div`
     width: 100%;
@@ -115,7 +118,7 @@ const S = {
   LongButton: styled(Link)<ButtonProps>`
     position: fixed;
     bottom: 5%;
-    width: 80vw;
+    width: 80%;
     max-width: 680px;
     transition: all ease-in-out 0.1s;
     ${({ disabled, theme }) =>
@@ -131,8 +134,8 @@ const S = {
           `}
     border: none;
     border-radius: 30px;
-    font-size: 18px;
-    padding: 12px 20px;
+    font-size: 1.7rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

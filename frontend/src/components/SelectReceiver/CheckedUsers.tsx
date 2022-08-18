@@ -28,6 +28,7 @@ const CheckedUsers = ({
 const S = {
   Container: styled.div`
     display: flex;
+    height: 6rem;
     gap: 10px;
     padding-top: 3px;
     overflow: scroll hidden;
@@ -37,20 +38,21 @@ const S = {
     }
   `,
   UserImage: styled.img`
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
     border-radius: 50%;
     object-fit: cover;
   `,
   User: styled.div`
     display: flex;
+    height: 100%;
     flex-direction: column;
     gap: 5px;
     align-items: center;
     cursor: pointer;
   `,
   UserName: styled.span`
-    font-size: 15px;
+    font-size: 1.5rem;
     color: ${({ theme }) => theme.page.color};
     word-break: keep-all;
   `,

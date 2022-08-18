@@ -45,17 +45,12 @@ const S = {
     grid-template-columns: repeat(auto-fill, minmax(145px, 150px));
     gap: 30px 15px;
 
-    max-height: 60vh;
-    @media (min-height: 680px) {
-      max-height: 68vh;
-    }
-    @media (min-height: 755px) {
-      max-height: 73vh;
-    }
+    height: fit-content;
+    max-height: calc(100% - 4.7rem);
 
     place-items: center;
     justify-content: space-around;
-    overflow-y: overlay;
+    overflow-y: auto;
 
     &::-webkit-scrollbar {
       width: 2px;
