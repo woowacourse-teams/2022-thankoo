@@ -2,17 +2,19 @@ name: Sonarqube
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [develop]
   pull_request:
-    branches: [ "develop" ]
+    branches: [develop]
+    paths: ["backend/**"]
+    types: [opened, synchronize]
 
 jobs:
   build:
     runs-on: ubuntu-22.04
-    if: contains(github.event.pull_request.labels.*.name, 'backend')
     defaults:
       run:
         working-directory: ./backend
+   
     env:
       SONARQUBE_URL: ${{ secrets.SONAR_HOST_URL }}
       SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
