@@ -4,5 +4,5 @@ import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.MeetingRespon
 
 public interface MeetingProvider {
 
-    MeetingResponse getOnProgressMeeting(Long couponId);
+    MeetingResponse getMeetingByCouponId(Long couponId);
 }

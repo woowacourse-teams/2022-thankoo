@@ -74,9 +74,7 @@ class MeetingServiceTest {
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            Meeting meeting = meetingRepository.findTopByCouponIdAndMeetingStatus(coupon.getId(),
-                            MeetingStatus.ON_PROGRESS)
-                    .get();
+            Meeting meeting = meetingRepository.findTopByCouponId(coupon.getId()).get();
 
             assertThatThrownBy(() -> meetingService.complete(other.getId(), meeting.getId()))
                     .isInstanceOf(ForbiddenException.class)
@@ -95,8 +93,7 @@ class MeetingServiceTest {
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            Meeting meeting = meetingRepository.findTopByCouponIdAndMeetingStatus(coupon.getId(),
-                    MeetingStatus.ON_PROGRESS).get();
+            Meeting meeting = meetingRepository.findTopByCouponId(coupon.getId()).get();
 
             meetingService.complete(sender.getId(), meeting.getId());
 
