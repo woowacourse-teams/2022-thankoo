@@ -39,12 +39,6 @@ public class ProfileImageGenerator {
         return IMAGE_URL_PATH + imageName;
     }
 
-    public static List<String> getImageUrls() {
-        return profileImages.stream()
-                .map(imageName -> IMAGE_URL_PATH + imageName)
-                .collect(Collectors.toList());
-    }
-
     private static void validateImageName(final String imageName) {
         if (!hasSameImage(imageName)) {
             throw new BadRequestException(ErrorType.INVALID_MEMBER_PROFILE_IMAGE);
@@ -54,5 +48,11 @@ public class ProfileImageGenerator {
     private static boolean hasSameImage(final String imageName) {
         return profileImages.stream()
                 .anyMatch(imageName::equals);
+    }
+
+    public static List<String> getImageUrls() {
+        return profileImages.stream()
+                .map(imageName -> IMAGE_URL_PATH + imageName)
+                .collect(Collectors.toList());
     }
 }

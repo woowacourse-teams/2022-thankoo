@@ -51,5 +51,4 @@ public class MemberController {
     public ResponseEntity<List<ProfileImageUrlResponse>> getMemberProfileImages() {
         return ResponseEntity.ok(memberService.getProfileImages());
     }
-
 }

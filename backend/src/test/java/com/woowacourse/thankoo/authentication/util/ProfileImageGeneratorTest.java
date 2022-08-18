@@ -34,10 +34,10 @@ class ProfileImageGeneratorTest {
         @Test
         void getImageUrlWithInvalidImageName() {
             assertThatThrownBy(
-                    () -> ProfileImageGenerator.getImageUrl("invalidImage")
+                () -> ProfileImageGenerator.getImageUrl("invalidImage")
             )
-                    .isInstanceOf(BadRequestException.class)
-                    .hasMessageContaining("올바르지 않은 프로필 이미지입니다.");
+                .isInstanceOf(BadRequestException.class)
+                .hasMessageContaining("올바르지 않은 프로필 이미지입니다.");
         }
     }
 }
