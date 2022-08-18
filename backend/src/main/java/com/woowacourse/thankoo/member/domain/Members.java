@@ -2,7 +2,9 @@ package com.woowacourse.thankoo.member.domain;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Getter;
 
+@Getter
 public class Members {
 
     private final List<Member> values;

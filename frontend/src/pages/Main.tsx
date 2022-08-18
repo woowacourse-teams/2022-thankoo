@@ -5,6 +5,7 @@ import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 import useMain from '../hooks/Main/domain/useMain';
 
+import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
@@ -17,19 +18,20 @@ import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
 import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
-import { css } from '@emotion/react';
 
 const sentOrReceivedArray = ['받은', '보낸'];
 
 const Main = () => {
   const {
     setCurrentType,
-    orderedCoupons,
+    coupons,
     isLoading,
     error,
     currentType,
     sentOrReceived,
     setSentOrReceived,
+    showUsedCouponsWith,
+    setShowUsedCouponsWith,
   } = useMain();
 
   const { visible } = useModal();
@@ -65,14 +67,29 @@ const Main = () => {
           </S.CouponStatusNavWrapper>
         </Header>
         <S.Body>
-          <TabsNav
-            onChangeTab={setCurrentType}
-            currentTab={currentType}
-            tabList={couponTypes}
-            selectableTabs={couponTypeKeys}
-          />
-          {orderedCoupons?.length ? (
-            <GridViewCoupons coupons={orderedCoupons} />
+          <S.TabsNavWrapper>
+            <TabsNav
+              onChangeTab={setCurrentType}
+              currentTab={currentType}
+              tabList={couponTypes}
+              selectableTabs={couponTypeKeys}
+            />
+            <S.UsedCouponToggleForm>
+              <S.UsedCouponCheckbox
+                type='checkbox'
+                id='used_coupon'
+                checked={showUsedCouponsWith}
+                onChange={() => {
+                  setShowUsedCouponsWith(prev => !prev);
+                }}
+              />
+              <S.UsedCouponCheckboxLabel htmlFor='used_coupon' id='used_coupon'>
+                모든 쿠폰
+              </S.UsedCouponCheckboxLabel>
+            </S.UsedCouponToggleForm>
+          </S.TabsNavWrapper>
+          {coupons?.length ? (
+            <GridViewCoupons coupons={coupons} />
           ) : sentOrReceived === '보낸' ? (
             <NoSendCoupon />
           ) : (
@@ -115,7 +132,7 @@ const S = {
   SliderDiv: styled.div<SliderDivProps>`
     width: ${({ length }) => `${100 / length}%`};
     height: 103%;
-    background-color: white;
+    border-bottom: white solid 2px;
     position: absolute;
     left: 0;
     top: 0;
@@ -126,15 +143,17 @@ const S = {
   CouponStatusNav: styled.div<CouponStatusNavProps>`
     display: flex;
     justify-content: center;
-    z-index: 1;
     width: 100%;
     padding: 1rem;
     background-color: #232323;
     ${({ selected }) =>
-      !selected &&
-      css`
-        color: #8e8e8e;
-      `};
+      !selected
+        ? css`
+            color: #8e8e8e;
+          `
+        : css`
+            font-weight: bolder;
+          `};
   `,
   HeaderText: styled(HeaderText)`
     cursor: pointer;
@@ -147,10 +166,25 @@ const S = {
     -ms-user-select: none;
     user-select: none;
   `,
+  TabsNavWrapper: styled.div`
+    display: flex;
+    justify-content: space-between;
+  `,
   UserProfile: styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
+  `,
+  UsedCouponToggleForm: styled.form`
+    display: flex;
+    align-items: center;
+  `,
+  UsedCouponCheckbox: styled.input`
+    margin: 0 10px 0 0;
+  `,
+  UsedCouponCheckboxLabel: styled.label`
+    font-size: 12px;
+    color: white;
   `,
   SelectReceiverButton: styled(Link)``,
   SendIcon: styled(SendIcon)`
