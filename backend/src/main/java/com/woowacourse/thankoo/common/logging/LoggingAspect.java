@@ -28,6 +28,10 @@ public class LoggingAspect {
     private void controllerPointCut() {
     }
 
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.ExceptionHandler)")
+    private void exceptionHandlerCut() {
+    }
+
     @Before("postMapping() || putMapping()")
     public void requestLog(final JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
@@ -37,7 +41,7 @@ public class LoggingAspect {
                 Arrays.toString(joinPoint.getArgs()));
     }
 
-    @AfterReturning(value = "controllerPointCut()", returning = "response")
+    @AfterReturning(value = "controllerPointCut() || exceptionHandlerCut()", returning = "response")
     public void responseLog(final JoinPoint joinPoint, ResponseEntity<?> response) {
         Signature signature = joinPoint.getSignature();
         log.info("[ RESPONSE ] Controller - {}, Method - {}, returnBody - {}",

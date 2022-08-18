@@ -15,4 +15,12 @@ public class ErrorResponse {
         this.errorCode = errorCode;
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "ErrorResponse{" +
+                "errorCode=" + errorCode +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
