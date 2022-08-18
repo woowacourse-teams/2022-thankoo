@@ -26,17 +26,17 @@ export const useCouponDetail = (couponId: number) => {
 
   const { mutate: cancelReservation } = usePutCancelReseravation(reservationId, {
     onSuccess: () => {
-      queryClient.invalidateQueries('coupons');
+      queryClient.invalidateQueries(['coupon']);
     },
   });
   const { mutate: completeMeeting } = usePutCompleteMeeting(meetingId, {
     onSuccess: () => {
-      queryClient.invalidateQueries('coupons');
+      queryClient.invalidateQueries(['coupon']);
     },
   });
   const { mutate: handleReservation } = usePutReservationStatus(reservationId, {
     onSuccess: () => {
-      queryClient.invalidateQueries('coupons');
+      queryClient.invalidateQueries(['coupon']);
     },
   });
 

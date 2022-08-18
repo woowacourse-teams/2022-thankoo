@@ -1,12 +1,14 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { client } from '../../../apis/axios';
 import { API_PATH } from '../../../constants/api';
+import useToast from '../../useToast';
 
 export const usePutReservationStatus = (
   reservationId,
   { onSuccess: handleSuccess } = { onSuccess: () => {} }
 ) => {
   const queryClient = useQueryClient();
+  const { insertToastItem } = useToast();
 
   return useMutation(
     async (status: string) => {
@@ -20,6 +22,10 @@ export const usePutReservationStatus = (
       onSuccess: () => {
         handleSuccess();
         queryClient.invalidateQueries('reservations');
+        insertToastItem('✅ 요청에 성공했습니다.');
+      },
+      onError: () => {
+        insertToastItem('요청에 실패했습니다.');
       },
     }
   );

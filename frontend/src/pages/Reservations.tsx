@@ -1,13 +1,15 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
 import PageLayout from '../components/@shared/PageLayout';
-import TabsNav from '../components/@shared/TabsNav';
 import UserProfileButton from '../components/@shared/UserProfileButton';
 import BottomNavBar from '../components/PageButton/BottomNavBar';
 import Reservation from '../components/Reservations/Reservation';
 import useReservations from '../hooks/Reservations/useReservations';
 import NoReservation from './../components/@shared/noContent/NoReservation copy';
+
+const ReservationNav = ['received', 'sent'];
 
 const Reservations = () => {
   const { reservations, orderBy, setOrderBy, orderByList, orderByObject } = useReservations();
@@ -18,15 +20,27 @@ const Reservations = () => {
         <S.UserProfile>
           <UserProfileButton />
         </S.UserProfile>
-        <HeaderText>예약 목록</HeaderText>
+        <S.CouponStatusNavWrapper>
+          <S.SliderDiv length={2} current={ReservationNav.indexOf(orderBy)} />
+          <S.CouponStatusNav
+            onClick={() => {
+              setOrderBy('received');
+            }}
+            selected={orderBy === 'received'}
+          >
+            <S.HeaderText>받은 예약</S.HeaderText>
+          </S.CouponStatusNav>
+          <S.CouponStatusNav
+            onClick={() => {
+              setOrderBy('sent');
+            }}
+            selected={orderBy === 'sent'}
+          >
+            <S.HeaderText>보낸 예약</S.HeaderText>
+          </S.CouponStatusNav>
+        </S.CouponStatusNavWrapper>
       </Header>
       <S.Body>
-        <TabsNav
-          selectableTabs={orderByList}
-          currentTab={orderBy}
-          tabList={orderByObject}
-          onChangeTab={setOrderBy}
-        />
         <S.ListView>
           {reservations?.length > 0 ? (
             reservations.map(reservation => (
@@ -43,6 +57,15 @@ const Reservations = () => {
 };
 
 export default Reservations;
+
+type SliderDivProps = {
+  length: number;
+  current: number;
+};
+
+type CouponStatusNavProps = {
+  selected: boolean;
+};
 
 const S = {
   UserProfile: styled.div`
@@ -64,5 +87,49 @@ const S = {
     gap: 10px;
     height: 70vh;
     overflow: auto;
+  `,
+  CouponStatusNavWrapper: styled.div`
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    cursor: pointer;
+  `,
+  HeaderText: styled(HeaderText)`
+    cursor: pointer;
+    position: relative;
+    //드래그 금지
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  `,
+  SliderDiv: styled.div<SliderDivProps>`
+    width: ${({ length }) => `${100 / length}%`};
+    height: 103%;
+    border-bottom: white solid 2px;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    transition: all ease-in-out 0.1s;
+    left: ${({ current, length }) => `${(100 / length) * current}%`};
+  `,
+  CouponStatusNav: styled.div<CouponStatusNavProps>`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+    background-color: #232323;
+    ${({ selected }) =>
+      !selected
+        ? css`
+            color: #8e8e8e;
+          `
+        : css`
+            font-weight: bolder;
+          `};
   `,
 };

@@ -48,12 +48,13 @@ const S = {
     background-color: ${({ backgroundColor }) => backgroundColor};
     color: ${({ color }) => color};
     align-items: center;
+    font-size: 1.5rem;
     cursor: pointer;
   `,
   CouponImage: styled.img`
     grid-area: ci;
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     object-fit: cover;
   `,

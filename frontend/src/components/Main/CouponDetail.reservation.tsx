@@ -106,7 +106,7 @@ const S = {
     color: ${({ theme }) => theme.button.abled.color};
     width: 100%;
     padding: 0.7rem;
-    font-size: 15px;
+    font-size: 1.5rem;
     height: fit-content;
   `,
   UseCouponLink: styled(Link)`
