@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import { toastStackAtom } from './../recoil/atom';
 
-const duration = 2000;
+const duration = 1000;
 
 const useToast = () => {
   const [toastStack, setToastStack] = useRecoilState(toastStackAtom);
