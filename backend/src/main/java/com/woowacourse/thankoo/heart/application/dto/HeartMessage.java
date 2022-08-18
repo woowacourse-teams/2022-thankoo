@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.heart.application.dto;
 
 import com.woowacourse.thankoo.alarm.support.Message;
+import java.util.Collections;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ public class HeartMessage {
                 .email(List.of(emails))
                 .title(TITLE)
                 .titleLink(TITLE_LINK)
+                .contents(Collections.emptyList())
                 .build();
     }
-
 }
