@@ -23,8 +23,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    private final ServletContext servletContext;
-
     @GetMapping
     public ResponseEntity<List<MemberResponse>> getMembersExcludeMe(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(memberService.getMembersExcludeMe(memberId));
