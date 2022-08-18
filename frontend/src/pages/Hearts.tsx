@@ -5,22 +5,21 @@ import ArrowBackButton from './../components/@shared/ArrowBackButton';
 import Header from './../components/@shared/Header';
 import HeaderText from './../components/@shared/HeaderText';
 import PageLayout from './../components/@shared/PageLayout';
-import { useGetHearts } from './../hooks/@queries/hearts';
+import { BASE_URL } from './../constants/api';
+import { useGetHearts, usePostHeartMutation } from './../hooks/@queries/hearts';
 import { useGetMembers } from './../hooks/@queries/members';
 
 const Hearts = () => {
-  const { data: members2, isLoading: isMemberLoading, isError: isMemberError } = useGetMembers();
-  const { data: heartHistory, isLoading: isHeartLoading, isError: isHeartError } = useGetHearts();
+  const { data: members, isLoading: isMemberLoading, isError: isMemberError } = useGetMembers(); //userList 전체 받아오기
+  const { data: heartHistory, isLoading: isHeartLoading, isError: isHeartError } = useGetHearts(); //
+  const { mutate: postHeart } = usePostHeartMutation();
 
-  const members = [
-    { id: 1, imageUrl: '', name: '호호', lastReceived: '3분전' },
-    { id: 2, imageUrl: '', name: '호호', lastReceived: '' },
-    { id: 3, imageUrl: '', name: '호호', lastReceived: '' },
-    { id: 4, imageUrl: '', name: '호호', lastReceived: '' },
-    { id: 5, imageUrl: '', name: '호호', lastReceived: '' },
-    { id: 6, imageUrl: '', name: '호호', lastReceived: '' },
-  ];
-  const canSend = true;
+  //sent를 돌면서 sent에 있는 receiver들은 못 보내는 애들
+  // received에 있는 sender들은 보낼 수 있는 애들
+  if (isHeartLoading) return <></>;
+
+  const sent = heartHistory?.sent!;
+  const receiver = heartHistory?.receiver!;
 
   return (
     <PageLayout>
@@ -32,17 +31,41 @@ const Hearts = () => {
       </Header>
       <S.Body>
         <S.MembersContainer>
-          {members.map(user => {
+          {members?.map(user => {
+            const canSend =
+              !sent?.some(sentHistory => sentHistory.receiverId === user.id) ||
+              receiver?.some(receivedHistory => receivedHistory.senderId === user.id);
+            const count = sent?.find(sentHistory => sentHistory.receiverId === user.id)?.count;
+            const lastReceived =
+              sent?.find(sentHistory => sentHistory.receiverId === user.id)?.modifiedAt ||
+              receiver?.find(receiveHistory => receiveHistory.senderId === user.id)?.modifiedAt;
+            const modifiedLastReceived = lastReceived?.split(' ')[0];
+
             return (
-              <S.UserWrappr key={user.id}>
-                <S.UserImage src={user.imageUrl} />
+              <S.UserWrappr key={user.id} canSend={canSend}>
+                <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
                 <S.UserName>{user.name}</S.UserName>
-                <S.ModifiedAt>{user.lastReceived}</S.ModifiedAt>
-                <S.CountWrapper>
-                  <S.CountLabel>연속</S.CountLabel> <S.CountNum>4회</S.CountNum>
-                </S.CountWrapper>
-                <S.SendButtonWrapper canSend={true}>
-                  <S.SendButton>{canSend ? '툭' : null}</S.SendButton>
+                {modifiedLastReceived ? (
+                  <S.ModifiedAt>{`${modifiedLastReceived}에 왔어요`}</S.ModifiedAt>
+                ) : (
+                  <></>
+                )}
+                {count ? (
+                  <S.CountWrapper>
+                    <S.CountLabel>연속</S.CountLabel> <S.CountNum>{`${count ?? 0}회`}</S.CountNum>
+                  </S.CountWrapper>
+                ) : (
+                  <></>
+                )}
+                <S.SendButtonWrapper>
+                  <S.SendButton
+                    canSend={canSend}
+                    onClick={() => {
+                      postHeart(user.id);
+                    }}
+                  >
+                    {'툭'}
+                  </S.SendButton>
                 </S.SendButtonWrapper>
               </S.UserWrappr>
             );
@@ -70,7 +93,7 @@ const S = {
     align-items: center;
     gap: 1rem;
   `,
-  UserWrappr: styled.div`
+  UserWrappr: styled.div<CheckBoxProp>`
     width: 80%;
     height: 5rem;
     display: grid;
@@ -81,7 +104,7 @@ const S = {
     grid-template-rows: 60% 40%;
     border-radius: 5px;
     gap: 2px 0;
-    border: 0.1rem solid #787878;
+    border: 0.1rem solid ${({ canSend }) => (canSend ? 'tomato' : '#787878')};
   `,
   UserImage: styled.img`
     grid-area: ui;
@@ -122,7 +145,7 @@ const S = {
     color: darksalmon; //10회 미만 darksalmon 10회 이상 medumspringgreen 30회 이상 fuschia 100회 이상 gold
     font-size: 1.7rem;
   `,
-  SendButtonWrapper: styled.div<CheckBoxProp>`
+  SendButtonWrapper: styled.div`
     grid-area: cb;
     ${flexCenter}
     margin-right: 5px;
@@ -130,17 +153,18 @@ const S = {
     width: 100%;
     height: 100%;
   `,
-  SendButton: styled.span`
+  SendButton: styled.span<CheckBoxProp>`
     width: 80%;
     height: 65%;
-    border-radius: 12px;
+    border-radius: 8px;
 
     text-align: center;
-    background-color: #ff7a62;
+    background-color: ${({ canSend }) => (canSend ? `#ff7a62` : `#adadad`)};
     font-size: 1.8rem;
     line-height: 3rem;
 
-    color: ${({ theme }) => theme.button.active};
+    color: ${({ canSend }) => (canSend ? 'white' : '#7a7a7a')};
+    cursor: ${({ canSend }) => (canSend ? 'pointer' : '')};
   `,
 };
 
