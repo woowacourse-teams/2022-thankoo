@@ -16,8 +16,8 @@ const NoReceivedCoupon = () => {
           <br />
           기브 앤 테이크를 노려볼까요...!?
         </S.Comment>
-        <Link to={`${ROUTE_PATH.SELECT_RECEIVER}`}>
-          <S.Button>선물하기💛</S.Button>
+        <Link to={`${ROUTE_PATH.HEARTS}`}>
+          <S.Button>마음 보내기💛</S.Button>
         </Link>
       </S.Box>
     </S.Container>
