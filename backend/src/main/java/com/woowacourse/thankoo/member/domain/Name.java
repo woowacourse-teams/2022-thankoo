@@ -20,7 +20,7 @@ public class Name {
     private String value;
 
     public Name(String value) {
-        value = value.trim();
+        value = value.strip();
         validateName(value);
         this.value = value;
     }

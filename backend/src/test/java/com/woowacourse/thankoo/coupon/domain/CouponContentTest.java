@@ -27,7 +27,7 @@ class CouponContentTest {
     @Test
     void CouponContentMessageTrim() {
         CouponContent couponContent = new CouponContent(CouponType.COFFEE, TITLE, " message message ");
-        assertThat(couponContent.getTitle().equals("message message")).isTrue();
+        assertThat(couponContent.getMessage().equals("message message")).isTrue();
     }
 
     @DisplayName("쿠폰 제목이 조건에 부합하지 않을 경우 예외가 발생한다.")
