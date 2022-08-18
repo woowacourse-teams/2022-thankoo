@@ -1,11 +1,17 @@
 package com.woowacourse.thankoo.heart.presentation;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -18,8 +24,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
+import static org.springframework.restdocs.payload.JsonFieldType.NULL;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -29,10 +35,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.heart.application.dto.HeartRequest;
-import com.woowacourse.thankoo.heart.domain.MemberHeart;
-import com.woowacourse.thankoo.heart.presentation.dto.ReceivedHeartResponse;
+import com.woowacourse.thankoo.heart.domain.Heart;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import com.woowacourse.thankoo.member.domain.Member;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
@@ -75,20 +80,22 @@ class HeartControllerTest extends ControllerTest {
 
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
-        List<ReceivedHeartResponse> responses = List.of(
-                ReceivedHeartResponse.from(new MemberHeart(1L, huni, 1, LocalDateTime.now().minusHours(2L), true)),
-                ReceivedHeartResponse.from(new MemberHeart(2L, lala, 3, LocalDateTime.now().minusHours(1L), true))
-        );
-        given(heartQueryService.getReceivedHeart(anyLong()))
-                .willReturn(responses);
+        Member hoho = new Member(3L, HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL);
+        Member skrr = new Member(4L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
+        HeartResponses heartResponses = HeartResponses.of(
+                List.of(new Heart(1L, huni.getId(), lala.getId(), 1, true)),
+                List.of(new Heart(2L, hoho.getId(), huni.getId(), 1, true),
+                        new Heart(3L, skrr.getId(), huni.getId(), 1, true)));
+        given(heartService.getEachHeartsLast(anyLong()))
+                .willReturn(heartResponses);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/hearts/received")
+        ResultActions resultActions = mockMvc.perform(get("/api/hearts/me")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
-                        content().string(objectMapper.writeValueAsString(responses)));
+                        content().string(objectMapper.writeValueAsString(heartResponses)));
 
         resultActions.andDo(document("hearts/received",
                 getRequestPreprocessor(),
@@ -97,14 +104,18 @@ class HeartControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 responseFields(
-                        fieldWithPath("[].heartId").type(NUMBER).description("couponId"),
-                        fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
-                        fieldWithPath("[].sender.name").type(STRING).description("senderName"),
-                        fieldWithPath("[].sender.email").type(STRING).description("sendEmail"),
-                        fieldWithPath("[].sender.imageUrl").type(STRING).description("senderImageUrl"),
-                        fieldWithPath("[].count").type(NUMBER).description("count"),
-                        fieldWithPath("[].receivedAt").type(STRING).description("receivedAt"),
-                        fieldWithPath("[].last").type(BOOLEAN).description("last")
+                        fieldWithPath("sent.[].heartId").type(NUMBER).description("sentHeartId"),
+                        fieldWithPath("sent.[].senderId").type(NUMBER).description("sentSenderId"),
+                        fieldWithPath("sent.[].receiverId").type(NUMBER).description("sentReceiverId"),
+                        fieldWithPath("sent.[].count").type(NUMBER).description("sentCount"),
+                        fieldWithPath("sent.[].last").type(BOOLEAN).description("sentLast"),
+                        fieldWithPath("sent.[].modifiedAt").type(NULL).description("sentModifiedAt"),
+                        fieldWithPath("received.[].heartId").type(NUMBER).description("receivedHeartId"),
+                        fieldWithPath("received.[].senderId").type(NUMBER).description("receivedSenderId"),
+                        fieldWithPath("received.[].receiverId").type(NUMBER).description("receivedReceiverId"),
+                        fieldWithPath("received.[].count").type(NUMBER).description("receivedCount"),
+                        fieldWithPath("received.[].last").type(BOOLEAN).description("receivedLast"),
+                        fieldWithPath("received.[].modifiedAt").type(NULL).description("receivedModifiedAt")
                 )
         ));
     }

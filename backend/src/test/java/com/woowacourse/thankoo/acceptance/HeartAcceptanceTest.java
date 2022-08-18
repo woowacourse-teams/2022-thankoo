@@ -66,6 +66,6 @@ public class HeartAcceptanceTest extends AcceptanceTest {
                 .응답_가능한_마음을_조회한다(receiverToken.getAccessToken())
                 .response()
                 .status(HttpStatus.OK.value())
-                .조회_성공(senderToken3.getMemberId(), senderToken1.getMemberId());
+                .조회_성공(1, 2);
     }
 }

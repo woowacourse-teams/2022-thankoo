@@ -5,9 +5,11 @@ import com.woowacourse.thankoo.heart.application.dto.HeartRequest;
 import com.woowacourse.thankoo.heart.domain.Heart;
 import com.woowacourse.thankoo.heart.domain.HeartRepository;
 import com.woowacourse.thankoo.heart.exception.InvalidHeartException;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,5 +53,14 @@ public class HeartService {
 
     private Heart getHeart(final Optional<Heart> heart) {
         return heart.orElseThrow(() -> new InvalidHeartException(ErrorType.NOT_FOUND_HEART));
+    }
+
+    @Transactional(readOnly = true)
+    public HeartResponses getEachHeartsLast(final Long memberId) {
+        Member member = getMember(memberId);
+        List<Heart> sentHeart = heartRepository.findBySenderIdAndLast(member.getId(), true);
+        List<Heart> receivedHeart = heartRepository.findByReceiverIdAndLast(member.getId(), true);
+
+        return HeartResponses.of(sentHeart, receivedHeart);
     }
 }

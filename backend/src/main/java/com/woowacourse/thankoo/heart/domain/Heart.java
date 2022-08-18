@@ -44,7 +44,7 @@ public class Heart extends BaseEntity {
     @Column(name = "last")
     private boolean last;
 
-    private Heart(final Long id, final Long senderId, final Long receiverId, final int count, final boolean last) {
+    public Heart(final Long id, final Long senderId, final Long receiverId, final int count, final boolean last) {
         validateMember(senderId, receiverId);
         validateCount(count);
         this.id = id;
