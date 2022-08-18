@@ -126,7 +126,7 @@ const S = {
     grid-area: un;
     height: 100%;
     line-height: 3rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: ${({ theme }) => theme.page.color};
   `,
   ModifiedAt: styled.div`
