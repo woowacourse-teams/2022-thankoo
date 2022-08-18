@@ -95,6 +95,7 @@ const S = {
     background-color: #4a4a4a;
     border: ${({ theme, isToday }) => (isToday ? '2px solid tomato' : 'unset')};
     overflow: hidden;
+    font-size: 1.5rem;
   `,
   TodayStrap: styled.span`
     position: absolute;

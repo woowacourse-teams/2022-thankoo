@@ -34,18 +34,18 @@ const useUserProfile = () => {
   };
 
   const handleClickModifyNameButton = () => {
-    if (name.length === 0) {
+    if (name.trim().length === 0) {
       if (!profile) {
         return;
       }
 
       setName(profile?.name);
+      setIsNameEdit(prev => !prev);
       return;
     }
 
     if (isNameEdit) {
       submitModifyName();
-      insertToastItem(`수정이 완료됐습니다`);
     }
 
     setIsNameEdit(prev => !prev);
@@ -63,6 +63,7 @@ const useUserProfile = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('profile');
+        insertToastItem(`수정이 완료됐습니다`);
       },
     }
   );

@@ -59,7 +59,7 @@ const S = {
     ${flexCenter}
 
     &.onMount {
-      animation: ${onMountToast} 2000ms ease-in-out; //todo 2000ms duration으로 교체
+      animation: ${onMountToast} 500ms ease-in-out; //todo 2000ms duration으로 교체
     }
     &.unMount {
       animation: ${unMountToast} 2000ms;

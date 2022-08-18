@@ -30,6 +30,7 @@ const S = {
     flex-direction: column-reverse;
     height: fit-content;
     gap: 10px;
+    z-index: 10001;
   `,
 };
 
