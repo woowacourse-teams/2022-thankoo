@@ -1,17 +1,25 @@
 import styled from '@emotion/styled';
-import CreateIcon from '@mui/icons-material/Create';
+import AddIcon from '@mui/icons-material/Add';
+import useUserProfile from './../../hooks/Profile/useUserProfile';
+import useModal from './../../hooks/useModal';
+import ProfileIcon from './../@shared/ProfileIcon';
+import SelectProfileImgModal from './SelectProfileImgModal';
 
-const ProfileUserImage = ({ src }) => {
+const ProfileUserImage = ({ src }: { src: string }) => {
+  const { setModalContent, show } = useModal();
+  const { editUserProfileImage } = useUserProfile();
+
+  const selectProfileImg = () => {
+    show();
+    setModalContent(<SelectProfileImgModal patchImageMutation={editUserProfileImage} />);
+  };
+
   return (
     <S.ImageBox>
-      <S.UserImage src={src} />
-      {/* <S.ModifyButton>
-        <S.FileInputLabel htmlFor='user_img'>
-          <S.ModifyIcon />
-          수정
-        </S.FileInputLabel>
-        <S.FileInput id='user_img' type='file' />
-      </S.ModifyButton> */}
+      <ProfileIcon src={src} size={'100px'} />
+      <S.ModifyButton onClick={selectProfileImg}>
+        <AddIcon />
+      </S.ModifyButton>
     </S.ImageBox>
   );
 };
@@ -35,34 +43,15 @@ const S = {
   `,
   ModifyButton: styled.button`
     position: absolute;
-    bottom: -5%;
-    right: -20%;
+    bottom: -3%;
+    right: -8%;
     border: ${({ theme }) => `0.5px solid ${theme.button.abled.color}`};
     color: black;
-    border-radius: 5px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     gap: 3px;
     margin: 0;
-    padding: 0;
-  `,
-  ModifyIcon: styled(CreateIcon)`
-    fill: none;
-    stroke: black;
-  `,
-  FileInputLabel: styled.label`
-    display: flex;
-    align-items: center;
-    padding: 1px 4px;
-  `,
-  FileInput: styled.input`
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
+    padding: 8px;
   `,
 };

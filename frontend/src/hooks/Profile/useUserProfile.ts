@@ -67,9 +67,26 @@ const useUserProfile = () => {
     }
   );
 
+  const { mutate: editUserProfileImage } = useMutation(
+    (imageName: string) =>
+      client({
+        method: 'put',
+        url: `${API_PATH.PROFILE_IMAGE}`,
+        data: {
+          imageName,
+        },
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('profile');
+      },
+    }
+  );
+
   return {
     profile,
     editUserName,
+    editUserProfileImage,
     isNameEdit,
     name,
     handleClickModifyNameButton,
