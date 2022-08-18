@@ -22,7 +22,8 @@ public class SlackAlarmSender implements AlarmSender {
         for (String email : message.getEmails()) {
             try {
                 String slackUserToken = slackUserRepository.findUserToken(email);
-                slackClient.sendMessage(slackUserToken, Attachments.from(message.getTitle(), message.getContents()));
+                slackClient.sendMessage(slackUserToken,
+                        Attachments.from(message.getTitle(), message.getTitleLink(), message.getContents()));
             } catch (Exception e) {
                 log.warn("알람 전송 실패 {}", email, e);
             }

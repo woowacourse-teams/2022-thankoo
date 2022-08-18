@@ -17,7 +17,6 @@ public class Attachments {
     private static final String AUTHOR_NAME = "땡쿠 알림봇";
     private static final String ICON_LINK = "https://lh3.googleusercontent.com/a-/AFdZucoRbi9l51n1gvxvdVSg4I-7rRKkNJwpGLTK152Y=s96-c";
     private static final String TITLE = "땡쿠 바로가기";
-    private static final String TITLE_LINK = "https://thankoo.co.kr/";
 
     @JsonProperty("mrkdwn_in")
     private List<String> markDown;
@@ -58,7 +57,7 @@ public class Attachments {
         this.detailMessages = detailMessages;
     }
 
-    public static Attachments from(final String preText, final List<String> detailMessages) {
+    public static Attachments from(final String preText, final String titleLink, final List<String> detailMessages) {
         return new Attachments(
                 List.of(MARK_DOWN),
                 COLOR, preText,
@@ -66,7 +65,7 @@ public class Attachments {
                 ICON_LINK,
                 ICON_LINK,
                 TITLE,
-                TITLE_LINK,
+                titleLink,
                 toDetailMessage(detailMessages));
     }
 

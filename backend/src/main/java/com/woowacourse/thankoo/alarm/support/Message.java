@@ -10,11 +10,16 @@ import lombok.NoArgsConstructor;
 public class Message {
 
     private final String title;
+    private final String titleLink;
     private final List<String> emails;
     private final List<String> contents;
 
-    public Message(final String title, final List<String> emails, final List<String> contents) {
+    public Message(final String title,
+                   final String titleLink,
+                   final List<String> emails,
+                   final List<String> contents) {
         this.title = title;
+        this.titleLink = titleLink;
         this.emails = emails;
         this.contents = contents;
     }
@@ -28,10 +33,16 @@ public class Message {
 
         private String title;
         private List<String> email;
+        private String titleLink;
         private List<String> contents;
 
         public Builder title(final String title) {
             this.title = title;
+            return this;
+        }
+
+        public Builder titleLink(final String titleLink) {
+            this.titleLink = titleLink;
             return this;
         }
 
@@ -58,7 +69,7 @@ public class Message {
         }
 
         public Message build() {
-            return new Message(title, email, contents);
+            return new Message(title, titleLink, email, contents);
         }
     }
 }
