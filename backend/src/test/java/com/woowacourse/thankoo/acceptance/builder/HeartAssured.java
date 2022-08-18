@@ -8,10 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
 import com.woowacourse.thankoo.heart.application.dto.HeartRequest;
-import com.woowacourse.thankoo.heart.presentation.dto.ReceivedHeartResponse;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import java.util.List;
 
 public class HeartAssured {
 
@@ -30,7 +29,7 @@ public class HeartAssured {
         }
 
         public HeartRequestBuilder 응답_가능한_마음을_조회한다(final String accessToken) {
-            response = getWithToken("/api/hearts/received", accessToken);
+            response = getWithToken("/api/hearts/me", accessToken);
             return this;
         }
 
@@ -50,13 +49,11 @@ public class HeartAssured {
             return this;
         }
 
-        public void 조회_성공(final Long... senderIds) {
-            List<ReceivedHeartResponse> responses = bodies(ReceivedHeartResponse.class);
+        public void 조회_성공(final int sentSize, final int receivedSize) {
+            HeartResponses response = body(HeartResponses.class);
             assertAll(
-                    () -> assertThat(responses).hasSize(senderIds.length),
-                    () -> assertThat(responses).extracting("sender")
-                            .extracting("id")
-                            .containsExactly(senderIds)
+                    () -> assertThat(response.getSent()).hasSize(sentSize),
+                    () -> assertThat(response.getReceived()).hasSize(receivedSize)
             );
         }
     }

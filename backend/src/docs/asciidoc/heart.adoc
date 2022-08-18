@@ -3,6 +3,7 @@
 
 operation::hearts/send[snippets='http-request,http-response']
 
+
 === 응답 가능한 마음 조회
 
 operation::hearts/received[snippets='http-request,http-response']
