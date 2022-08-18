@@ -19,7 +19,8 @@ public class Name {
     @Column(name = "name", length = 50)
     private String value;
 
-    public Name(final String value) {
+    public Name(String value) {
+        value = value.strip();
         validateName(value);
         this.value = value;
     }

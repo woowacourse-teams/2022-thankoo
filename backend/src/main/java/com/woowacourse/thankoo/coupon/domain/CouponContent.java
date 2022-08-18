@@ -28,7 +28,9 @@ public class CouponContent {
     @Column(name = "message", nullable = false)
     private String message;
 
-    public CouponContent(final CouponType couponType, final String title, final String message) {
+    public CouponContent(final CouponType couponType, String title, String message) {
+        title = title.strip();
+        message = message.strip();
         validateTitleLength(title);
         validateMessageLength(message);
         this.couponType = couponType;
