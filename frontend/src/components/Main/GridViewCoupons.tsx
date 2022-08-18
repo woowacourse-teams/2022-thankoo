@@ -107,5 +107,6 @@ const S = {
     align-items: center;
     justify-content: center;
     color: white;
+    font-size: 1.5rem;
   `,
 };

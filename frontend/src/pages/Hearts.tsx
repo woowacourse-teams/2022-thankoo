@@ -8,9 +8,14 @@ import PageLayout from './../components/@shared/PageLayout';
 import { BASE_URL } from './../constants/api';
 import { useGetHearts, usePostHeartMutation } from './../hooks/@queries/hearts';
 import { useGetMembers } from './../hooks/@queries/members';
+import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
+import { useState } from 'react';
+import useFilterMatchedUser from '../hooks/useFilterMatchedUser';
 
 const Hearts = () => {
+  const [keyword, setKeyword] = useState('');
   const { data: members, isLoading: isMemberLoading, isError: isMemberError } = useGetMembers(); //userList 전체 받아오기
+  const matchedUsers = useFilterMatchedUser(keyword, members);
   const { data: heartHistory, isLoading: isHeartLoading, isError: isHeartError } = useGetHearts(); //
   const { mutate: postHeart } = usePostHeartMutation();
 
@@ -23,15 +28,18 @@ const Hearts = () => {
 
   return (
     <PageLayout>
-      <Header>
+      <S.Header>
         <Link to='/'>
           <ArrowBackButton />
         </Link>
         <HeaderText>당신의 마음을 툭... 던져볼까요?</HeaderText>
-      </Header>
+      </S.Header>
       <S.Body>
+        <S.InputWrapper>
+          <UserSearchInput value={keyword} setKeyword={setKeyword} />
+        </S.InputWrapper>
         <S.MembersContainer>
-          {members?.map(user => {
+          {matchedUsers?.map(user => {
             const canSend =
               !sent?.some(sentHistory => sentHistory.receiverId === user.id) ||
               received?.some(receivedHistory => receivedHistory.senderId === user.id);
@@ -68,7 +76,7 @@ const Hearts = () => {
                       }
                     }}
                   >
-                    {'툭'}
+                    툭
                   </S.SendButton>
                 </S.SendButtonWrapper>
               </S.UserWrappr>
@@ -83,6 +91,9 @@ const Hearts = () => {
 type CheckBoxProp = { canSend: boolean };
 
 const S = {
+  Header: styled(Header)`
+    height: 10%;
+  `,
   Body: styled.div`
     height: calc(80%);
     overflow: auto;
@@ -98,8 +109,11 @@ const S = {
     align-items: center;
     gap: 1rem;
   `,
+  InputWrapper: styled.div`
+    margin: 3rem 3vw;
+  `,
   UserWrappr: styled.div<CheckBoxProp>`
-    width: 90%;
+    width: 92%;
     height: 5rem;
     display: grid;
     grid-template-areas:

@@ -22,7 +22,6 @@ export const usePutReservationStatus = (
       onSuccess: () => {
         handleSuccess();
         queryClient.invalidateQueries('reservations');
-        insertToastItem('✅ 요청에 성공했습니다.');
       },
       onError: () => {
         insertToastItem('요청에 실패했습니다.');
