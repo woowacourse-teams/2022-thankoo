@@ -8,6 +8,7 @@ import com.woowacourse.thankoo.reservation.domain.Reservation;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class ReservationMessage {
 
@@ -18,6 +19,9 @@ public class ReservationMessage {
     public static final String DATE = "예약 요청일 : {0}";
     public static final String RESERVATION_STATUS = "예약 상태 : {0}";
     public static final String COUPON = "쿠폰 : {0}";
+    private static final Map<String, String> type = Map.of(
+            "ACCEPT", "승인\uD83E\uDD70",
+            "DENY", "거절\uD83D\uDE05");
 
     public static Message of(final Name sender,
                              final Email email,
@@ -38,7 +42,8 @@ public class ReservationMessage {
                 .email(List.of(email.getValue()))
                 .content(MessageFormat.format(SENDER, sender.getValue()))
                 .content(MessageFormat.format(COUPON, reservation.getCoupon().getCouponContent().getTitle()))
-                .content(MessageFormat.format(RESERVATION_STATUS, reservation.getReservationStatus().toString()))
+                .content(MessageFormat.format(RESERVATION_STATUS,
+                        type.get(reservation.getReservationStatus().toString())))
                 .build();
     }
 
