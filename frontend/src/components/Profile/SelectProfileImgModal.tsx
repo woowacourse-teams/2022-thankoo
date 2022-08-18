@@ -18,12 +18,12 @@ const SelectProfileImgModal = ({ patchImageMutation }) => {
           {ProfileIconList.map((iconName, idx) => (
             <S.IconWrapper
               key={idx}
-              isSelected={iconName === selected}
               onClick={() => {
                 setSelected(iconName);
               }}
             >
               <ProfileIcon iconName={iconName} size={'80px'} />
+              <S.SelectIndicator isSelected={iconName === selected} />
             </S.IconWrapper>
           ))}
         </S.ProfileContainer>
@@ -63,7 +63,8 @@ const S = {
     transform: translateX(-50%);
     max-width: 680px;
     width: 100%;
-    height: 60vh;
+    height: fit-content;
+    max-height: 80%;
     background-color: #272727;
     border-radius: 7% 7% 0 0;
     display: flex;
@@ -101,7 +102,7 @@ const S = {
   `,
   Wrapper: styled.div`
     display: flex;
-    padding: 3rem 2rem;
+    padding: 4rem 2rem;
     flex-direction: column;
     width: 100%;
     justify-content: space-between;
@@ -109,20 +110,16 @@ const S = {
   `,
   ConfirmHeaderText: styled.span`
     font-size: larger;
-    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2rem;
   `,
   ProfileContainer: styled.div`
     display: grid;
+    margin: 4rem 0;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 10rem);
   `,
-  IconWrapper: styled.div<IconWrapperProp>`
-    border-bottom: ${({ isSelected }) => (isSelected ? 'white' : 'transparent')} solid 10px;
-    border-radius: 16px;
-    transition: all ease-in;
-    transition-duration: 0.2s;
-    -webkit-transition-duration: 0.2s;
-
-    padding-bottom: 15px;
+  IconWrapper: styled.div`
     display: flex;
     justify-content: center;
 
@@ -139,6 +136,18 @@ const S = {
       margin: 20px;
     }
   `,
+  SelectIndicator: styled.div<IconWrapperProp>`
+    position: absolute;
+    bottom: -4rem;
+    width: 10rem;
+    height: 1rem;
+    background-color: ${({ isSelected }) => (isSelected ? 'white' : 'transparent')};
+    border-radius: 16px;
+
+    transition: all ease-in;
+    transition-duration: 0.2s;
+    -webkit-transition-duration: 0.2s;
+  `,
   ButtonWrapper: styled.div`
     width: 100%;
     display: flex;
@@ -150,7 +159,7 @@ const S = {
     border-radius: 4px;
     color: white;
     padding: 0.7rem 0;
-
+    font-size: 1.7rem;
     background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
   `,
 };

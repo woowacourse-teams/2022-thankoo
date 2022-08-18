@@ -15,5 +15,3 @@ const UserProfileButton = () => {
 };
 
 export default UserProfileButton;
-<<<<<<< HEAD
-=======

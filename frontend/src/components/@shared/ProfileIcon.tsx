@@ -84,8 +84,8 @@ const StyledProfileIcon = styled.img<IconProp>`
 `;
 const StyledIconBackGround = styled.div<BackgroundProp>`
   ${flexCenter}
-  width: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.25 + 'px'};
-  height: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.25 + 'px'};
+  width: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.3 + 'px'};
+  height: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.3 + 'px'};
   background-color: ${({ color }) => color};
   border-radius: 50%;
   padding: 0.2rem;
