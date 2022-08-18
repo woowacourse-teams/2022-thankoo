@@ -45,8 +45,6 @@ const Hearts = () => {
               receiveHistory => receiveHistory.senderId === user.id
             )?.count;
 
-            console.log(modifiedLastReceived);
-
             return (
               <S.UserWrappr key={user.id} canSend={canSend}>
                 <S.UserImageWrapper>
@@ -65,7 +63,9 @@ const Hearts = () => {
                   <S.SendButton
                     canSend={canSend}
                     onClick={() => {
-                      postHeart(user.id);
+                      if (canSend) {
+                        postHeart(user.id);
+                      }
                     }}
                   >
                     {'툭'}
@@ -84,7 +84,6 @@ type CheckBoxProp = { canSend: boolean };
 
 const S = {
   Body: styled.div`
-    width: 100vw;
     height: calc(80%);
     overflow: auto;
     ::-webkit-scrollbar {
@@ -100,7 +99,7 @@ const S = {
     gap: 1rem;
   `,
   UserWrappr: styled.div<CheckBoxProp>`
-    width: 80%;
+    width: 90%;
     height: 5rem;
     display: grid;
     grid-template-areas:
@@ -129,7 +128,7 @@ const S = {
     grid-area: un;
     height: 100%;
     line-height: 3rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: ${({ theme }) => theme.page.color};
   `,
   ModifiedAt: styled.div`
