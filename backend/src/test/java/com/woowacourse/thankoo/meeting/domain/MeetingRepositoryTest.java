@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.meeting.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
@@ -51,8 +51,8 @@ class MeetingRepositoryTest {
     @DisplayName("쿠폰으로 미팅을 조회한다.")
     @Test
     void findMeetingByCoupon() {
-        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
         Coupon coupon = couponRepository.save(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Reservation reservation = reservationRepository.save(
@@ -78,8 +78,8 @@ class MeetingRepositoryTest {
     @DisplayName("미팅의 상태와 날짜로 미팅을 모두 조회한다.")
     @Test
     void findAllByMeetingStatusAndMeetingTimeDate() {
-        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
         for (int i = 0; i < 3; i++) {
             Coupon coupon = couponRepository.save(
@@ -108,8 +108,8 @@ class MeetingRepositoryTest {
     @DisplayName("만남의 상태와 미팅 id로 미팅 상태를 변경한다.")
     @Test
     void updateMeetingStatus() {
-        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
         List<Long> meetingIds = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -142,8 +142,8 @@ class MeetingRepositoryTest {
     @DisplayName("해당하는 날의 미팅을 모두 조회한다.")
     @Test
     void findAllByTimeUnitDate() {
-        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
         for (int i = 0; i < 3; i++) {
             Coupon coupon = couponRepository.save(

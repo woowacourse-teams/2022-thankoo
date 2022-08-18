@@ -10,7 +10,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -48,8 +48,8 @@ class CouponQueryRepositoryTest {
     @DisplayName("사용하지 않은 받은 coupon 을 조회한다.")
     @Test
     void findByReceiverIdAndStatusNotUsed() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         couponRepository.saveAll(List.of(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
@@ -69,8 +69,8 @@ class CouponQueryRepositoryTest {
     @DisplayName("사용한 받은 coupon 을 조회한다.")
     @Test
     void findByReceiverIdAndStatusUsed() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         couponRepository.saveAll(List.of(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
@@ -90,8 +90,8 @@ class CouponQueryRepositoryTest {
     @DisplayName("모든 받은 coupon 을 조회한다.")
     @Test
     void findByReceiverIdAndStatusAll() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         couponRepository.saveAll(List.of(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
@@ -111,8 +111,8 @@ class CouponQueryRepositoryTest {
     @DisplayName("보낸 coupon 을 조회한다.")
     @Test
     void findBySenderId() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
         couponRepository.saveAll(List.of(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED),
@@ -130,8 +130,8 @@ class CouponQueryRepositoryTest {
     @DisplayName("쿠폰을 조회한다.")
     @Test
     void findById() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
         Coupon coupon = couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
 
@@ -146,8 +146,8 @@ class CouponQueryRepositoryTest {
     @DisplayName("보낸, 받은 쿠폰 개수를 조회한다.")
     @Test
     void getCouponCount() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         couponRepository.saveAll(List.of(
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),

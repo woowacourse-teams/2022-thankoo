@@ -5,9 +5,9 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_NAME_HUNI;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_HUNI;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
@@ -41,9 +41,9 @@ class MemberServiceTest {
     @DisplayName("본인을 제외한 모든 회원을 조회한다.")
     @Test
     void getMembersExcludeMe() {
-        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
-        memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
-        memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, IMAGE_URL_SKRR));
+        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+        memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
         List<MemberResponse> memberResponses = memberService.getMembersExcludeMe(member.getId());
 
@@ -56,7 +56,7 @@ class MemberServiceTest {
     @DisplayName("내 정보를 조회한다.")
     @Test
     void getMember() {
-        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
         MemberResponse memberResponse = memberService.getMember(member.getId());
 
@@ -71,7 +71,7 @@ class MemberServiceTest {
         @DisplayName("회원이 존재하면 정상적으로 이름을 수정한다.")
         @Test
         void updateMemberName() {
-            Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
+            Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
             memberService.updateMemberName(member.getId(), new MemberNameRequest(HUNI_NAME));
 
             Member foundMember = memberRepository.findById(member.getId()).get();
@@ -98,21 +98,22 @@ class MemberServiceTest {
         @DisplayName("회원이 존재하면 정상적으로 프로필 이미지를 수정한다.")
         @Test
         void updateMemberName() {
-            Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR));
-            memberService.updateMemberProfileImage(member.getId(), new MemberProfileImageRequest(IMAGE_NAME_HUNI));
+            Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            memberService.updateMemberProfileImage(member.getId(), new MemberProfileImageRequest(HUNI_IMAGE_NAME));
 
             Member foundMember = memberRepository.findById(member.getId()).get();
 
             assertAll(
                     () -> assertThat(foundMember).isNotNull(),
-                    () -> assertThat(foundMember.getImageUrl()).isEqualTo(IMAGE_URL_HUNI)
+                    () -> assertThat(foundMember.getImageUrl()).isEqualTo(HUNI_IMAGE_URL)
             );
         }
 
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")
         @Test
         void updateNameException() {
-            assertThatThrownBy(() -> memberService.updateMemberProfileImage(0L, new MemberProfileImageRequest(IMAGE_URL_HUNI)))
+            assertThatThrownBy(() -> memberService.updateMemberProfileImage(0L, new MemberProfileImageRequest(
+                    HUNI_IMAGE_URL)))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }

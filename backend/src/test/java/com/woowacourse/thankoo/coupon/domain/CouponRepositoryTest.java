@@ -9,7 +9,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.USED;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,8 +38,8 @@ class CouponRepositoryTest {
     @DisplayName("만남의 상태와 미팅 id로 미팅 상태를 변경한다.")
     @Test
     void updateCouponStatus() {
-        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
-        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         List<Long> couponsIds = IntStream.range(0, 3)
                 .mapToObj(coupon -> couponRepository.save(givenCoupon(sender, receiver)))

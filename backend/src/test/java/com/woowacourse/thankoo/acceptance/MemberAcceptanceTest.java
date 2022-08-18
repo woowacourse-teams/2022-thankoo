@@ -1,8 +1,8 @@
 package com.woowacourse.thankoo.acceptance;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_NAME_SKRR;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
@@ -57,7 +57,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                 .내_정보를_조회한다(tokenResponse)
                 .response()
                 .status(HttpStatus.OK.value())
-                .내_정보_이다(MemberResponse.of(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR)));
+                .내_정보_이다(MemberResponse.of(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL)));
     }
 
     @DisplayName("회원 이름을 수정한다.")
@@ -76,7 +76,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         MemberAssured.request()
                 .내_정보를_조회한다(tokenResponse)
                 .response()
-                .내_정보_이다(MemberResponse.of(new Member(HUNI_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR)));
+                .내_정보_이다(MemberResponse.of(new Member(HUNI_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL)));
     }
 
     @DisplayName("회원 프로필 이미지를 수정한다.")
@@ -88,14 +88,14 @@ class MemberAcceptanceTest extends AcceptanceTest {
                 .token();
 
         MemberAssured.request()
-                .내_프로필_이미지_정보를_수정한다(tokenResponse, new MemberProfileImageRequest(IMAGE_NAME_SKRR))
+                .내_프로필_이미지_정보를_수정한다(tokenResponse, new MemberProfileImageRequest(SKRR_IMAGE_NAME))
                 .response()
                 .status(HttpStatus.NO_CONTENT.value());
 
         MemberAssured.request()
                 .내_정보를_조회한다(tokenResponse)
                 .response()
-                .프로필_이미지가_변경되었다(IMAGE_URL_SKRR);
+                .프로필_이미지가_변경되었다(SKRR_IMAGE_URL);
     }
 
     @DisplayName("사용 가능한 프로필 이미지를 모두 조회한다.")

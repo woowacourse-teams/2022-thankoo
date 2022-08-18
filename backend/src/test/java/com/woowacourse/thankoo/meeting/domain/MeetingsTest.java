@@ -6,7 +6,7 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
@@ -32,8 +32,8 @@ class MeetingsTest {
     @DisplayName("모든 미팅의 id를 조회한다.")
     @Test
     void getMeetingIds() {
-        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR);
-        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<Meeting> meetings = new ArrayList<>();
         for (int id = 0; id < 3; id++) {
@@ -61,8 +61,8 @@ class MeetingsTest {
     @DisplayName("모든 미팅의 쿠폰들을 조회한다.")
     @Test
     void getCoupons() {
-        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR);
-        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<Meeting> meetings = new ArrayList<>();
         for (int id = 0; id < 3; id++) {
@@ -90,8 +90,8 @@ class MeetingsTest {
     @DisplayName("모든 미팅에 참여한 회원들을 모두 조회한다.")
     @Test
     void getMembers() {
-        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR);
-        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL_SKRR);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<Meeting> meetings = new ArrayList<>();
         for (int i = 0; i < 3; i++) {

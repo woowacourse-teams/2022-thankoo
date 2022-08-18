@@ -3,8 +3,8 @@ package com.woowacourse.thankoo.member.presentation;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_NAME_SKRR;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
@@ -50,8 +50,8 @@ class MemberControllerTest extends ControllerTest {
     void getMembersExcludeMe() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR);
-        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL_SKRR);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
         List<MemberResponse> memberResponses = List.of(MemberResponse.of(lala), MemberResponse.of(huni));
         given(memberService.getMembersExcludeMe(anyLong()))
                 .willReturn(memberResponses);
@@ -83,7 +83,7 @@ class MemberControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
         MemberResponse memberResponse = MemberResponse.of(
-                new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL_SKRR));
+                new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
         given(memberService.getMember(anyLong()))
                 .willReturn(memberResponse);
@@ -143,7 +143,7 @@ class MemberControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        MemberProfileImageRequest memberProfileImageRequest = new MemberProfileImageRequest(IMAGE_NAME_SKRR);
+        MemberProfileImageRequest memberProfileImageRequest = new MemberProfileImageRequest(SKRR_IMAGE_NAME);
         doNothing().when(memberService).updateMemberProfileImage(anyLong(), any(MemberProfileImageRequest.class));
 
         ResultActions resultActions = mockMvc.perform(put("/api/members/me/profile-image")

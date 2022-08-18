@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.authentication.application;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL_SKRR;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_HOHO;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HOHO_TOKEN;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,7 +45,7 @@ class AuthenticationServiceTest {
     @DisplayName("기존 회원이 로그인 시 토큰을 반환한다.")
     @Test
     void signIn() {
-        memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL_SKRR));
+        memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
         TokenResponse tokenResponse = authenticationService.signIn(CODE_HOHO);
 
         assertAll(
