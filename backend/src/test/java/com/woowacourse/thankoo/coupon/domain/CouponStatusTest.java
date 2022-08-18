@@ -42,11 +42,19 @@ class CouponStatusTest {
         assertThat(couponStatus.isReserved()).isTrue();
     }
 
-    @DisplayName("쿠폰이 사용된 상태인지 확인한다.")
+    @DisplayName("쿠폰이 만남 확인한다.")
     @Test
     void isUsed() {
         CouponStatus couponStatus = CouponStatus.USED;
 
         assertThat(couponStatus.isUsed()).isTrue();
+    }
+
+    @DisplayName("쿠폰 상태를 조회한다.")
+    @ParameterizedTest(name = "{index} {displayName} status={0}, isRight={1}")
+    @CsvSource(value = {"NOT_USED:false", "RESERVING:true", "RESERVED:true", "USED:true",
+            "EXPIRED:false"}, delimiter = ':')
+    void isInReserveOrUsed(CouponStatus status, Boolean isRight) {
+        assertThat(status.isInReserveOrUsed()).isEqualTo(isRight);
     }
 }
