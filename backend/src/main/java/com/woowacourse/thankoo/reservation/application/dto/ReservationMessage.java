@@ -27,7 +27,7 @@ public class ReservationMessage {
                              final Email email,
                              final LocalDate date,
                              final CouponContent couponContent) {
-        return new Message.Builder()
+        return Message.builder()
                 .title(PRETEXT)
                 .email(List.of(email.getValue()))
                 .content(MessageFormat.format(SENDER, sender.getValue()))
@@ -37,7 +37,7 @@ public class ReservationMessage {
     }
 
     public static Message updateOf(final Name sender, final Email email, final Reservation reservation) {
-        return new Message.Builder()
+        return Message.builder()
                 .title(PRETEXT_RESPONSE)
                 .email(List.of(email.getValue()))
                 .content(MessageFormat.format(SENDER, sender.getValue()))
@@ -48,7 +48,7 @@ public class ReservationMessage {
     }
 
     public static Message cancelOf(final Name sender, final Email email, final Reservation reservation) {
-        return new Message.Builder()
+        return Message.builder()
                 .email(List.of(email.getValue()))
                 .title(PRETEXT_CANCEL)
                 .content(MessageFormat.format(SENDER, sender.getValue()))

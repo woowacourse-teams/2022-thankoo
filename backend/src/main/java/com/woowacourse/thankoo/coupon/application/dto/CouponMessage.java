@@ -22,7 +22,7 @@ public class CouponMessage {
             "meal", "식사\uD83C\uDF54");
 
     public static Message of(final Name name, final List<String> emails, final CouponContent couponContent) {
-        return new Message.Builder()
+        return Message.builder()
                 .email(emails)
                 .title(getTitle(couponContent.getCouponType().getValue()))
                 .content(MessageFormat.format(SENDER, name.getValue()))

@@ -15,7 +15,11 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import com.woowacourse.thankoo.alarm.AlarmSender;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
@@ -28,10 +32,14 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @DisplayName("CouponService 는 ")
 @ApplicationTest
+@ExtendWith(MockitoExtension.class)
 class CouponServiceTest {
 
     @Autowired
@@ -42,6 +50,9 @@ class CouponServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @MockBean
+    private AlarmSender alarmSender;
 
     @DisplayName("쿠폰을 저장할 때 ")
     @Nested
@@ -57,6 +68,7 @@ class CouponServiceTest {
 
             List<Coupon> coupons = couponRepository.findAll();
 
+            verify(alarmSender, times(1)).send(any());
             assertThat(coupons).hasSize(1);
         }
 

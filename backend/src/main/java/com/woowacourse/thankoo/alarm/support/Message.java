@@ -2,7 +2,9 @@ package com.woowacourse.thankoo.alarm.support;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class Message {
@@ -11,12 +13,17 @@ public class Message {
     private final List<String> emails;
     private final List<String> contents;
 
-    public Message(final Builder builder) {
-        this.title = builder.title;
-        this.emails = builder.email;
-        this.contents = builder.contents;
+    public Message(final String title, final List<String> emails, final List<String> contents) {
+        this.title = title;
+        this.emails = emails;
+        this.contents = contents;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
 
         private String title;
@@ -51,7 +58,7 @@ public class Message {
         }
 
         public Message build() {
-            return new Message(this);
+            return new Message(title, email, contents);
         }
     }
 }
