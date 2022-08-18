@@ -153,7 +153,7 @@ const S = {
     font-size: 1.5rem;
   `,
   CountNum: styled.div`
-    color: darksalmon; //10회 미만 darksalmon 10회 이상 medumspringgreen 30회 이상 fuschia 100회 이상 gold
+    color: mediumspringgreen; //10회 미만 darksalmon 10회 이상 mediumspringgreen 30회 이상 fuchsia 100회 이상 gold
     font-size: 1.7rem;
   `,
   SendButtonWrapper: styled.div`
