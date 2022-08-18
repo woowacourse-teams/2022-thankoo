@@ -14,6 +14,7 @@ public enum ErrorType {
     INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),
     INVALID_MEMBER_EMAIL(2003, "올바르지 않은 이메일 형식입니다."),
     INVALID_MEMBER(2004, "올바르지 않은 회원입니다."),
+    INVALID_MEMBER_PROFILE_IMAGE(2005, "올바르지 않은 프로필 이미지입니다."),
 
     INVALID_COUPON_TYPE(3001, "존재하지 않는 쿠폰 타입입니다."),
     INVALID_COUPON_TITLE(3002, "잘못된 쿠폰 제목입니다."),
@@ -42,6 +43,7 @@ public enum ErrorType {
     NOT_FOUND_ALARM_REQUEST(7002, "전송하려는 알람이 존재하지 않습니다."),
 
     REQUEST_EXCEPTION(9001, "http 요청 에러입니다."),
+    INVALID_PATH(9002, "잘못된 경로입니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 
     private final int code;

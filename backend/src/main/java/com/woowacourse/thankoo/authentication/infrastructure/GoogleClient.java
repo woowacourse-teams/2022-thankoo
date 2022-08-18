@@ -91,9 +91,8 @@ public class GoogleClient {
             Map<String, String> profile = objectMapper.readValue(getProfileFromToken(idToken), Map.class);
             String socialId = profile.get("sub");
             String email = profile.get("email");
-            String imageUrl = profile.get("picture");
 
-            return new GoogleProfileResponse(socialId, email, imageUrl);
+            return new GoogleProfileResponse(socialId, email);
         } catch (JsonProcessingException e) {
             throw new GoogleClientException(e);
         }
