@@ -65,7 +65,7 @@ class CouponQueryServiceTest {
 
     @DisplayName("받은 쿠폰 중 사용하지 않은 쿠폰을 조회한다.")
     @Test
-    void getReceivedCoupons() {
+    void getReceivedCouponsNotUsed() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 

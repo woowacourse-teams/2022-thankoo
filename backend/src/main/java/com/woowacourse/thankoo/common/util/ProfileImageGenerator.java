@@ -5,8 +5,8 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import org.springframework.util.ResourceUtils;
 
@@ -14,10 +14,12 @@ public class ProfileImageGenerator {
 
     private static final String IMAGE_URL_PATH = "/profile-image/";
     private static final String IMAGE_PATH = "classpath:static/profile-image";
-    private static final int FIRST_IMAGE = 0;
+    private static final int RANDOM_MIN_RANGE = 0;
     private static final List<String> profileImages;
+    private static final Random random;
 
     static {
+        random = new Random();
         try {
             File[] files = ResourceUtils.getFile(IMAGE_PATH)
                     .listFiles();
@@ -30,8 +32,14 @@ public class ProfileImageGenerator {
     }
 
     public static String getRandomImage() {
-        Collections.shuffle(profileImages);
-        return IMAGE_URL_PATH + profileImages.get(FIRST_IMAGE);
+        int imageIndex = getRandomNumber(profileImages.size());
+        return IMAGE_URL_PATH + profileImages.get(imageIndex);
+    }
+
+    private static int getRandomNumber(final int maxExcludeRange) {
+        return random.ints(RANDOM_MIN_RANGE, maxExcludeRange)
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     public static String getImageUrl(final String imageName) {
