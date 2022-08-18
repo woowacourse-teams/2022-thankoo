@@ -120,7 +120,7 @@ const S = {
   `,
 
   UserImage: styled.img`
-    transform: scale(0.5);
+    transform: scale(0.4);
 
     border-radius: 50%;
     object-fit: cover;
