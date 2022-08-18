@@ -7,6 +7,7 @@ import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom, sentOrReceivedAtom } from '../../recoil/atom';
 import { couponTypes } from '../../types';
 import SuccessAnimation from '../@shared/SuccessAnimation';
+import { BASE_URL } from './../../constants/api';
 import { onSuccessContentAtom } from './../../recoil/atom';
 
 const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) => {
@@ -29,7 +30,7 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
           <S.ReceiversWrapper>
             {receivers.map(receiver => (
               <S.UserWrapper>
-                <S.UserImage src={receiver.imageUrl} />
+                <S.UserImage src={`${BASE_URL}${receiver.imageUrl}`} />
                 <S.UserName>{receiver.name}</S.UserName>
               </S.UserWrapper>
             ))}

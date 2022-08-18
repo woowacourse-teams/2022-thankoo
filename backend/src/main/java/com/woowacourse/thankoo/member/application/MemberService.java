@@ -1,11 +1,14 @@
 package com.woowacourse.thankoo.member.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.common.util.ProfileImageGenerator;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
+import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
+import com.woowacourse.thankoo.member.presentation.dto.ProfileImageUrlResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final ProfileImageGenerator profileImageGenerator;
 
     public List<MemberResponse> getMembersExcludeMe(final Long memberId) {
         List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(memberId);
@@ -27,15 +31,31 @@ public class MemberService {
     }
 
     public MemberResponse getMember(final Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
-        return MemberResponse.of(member);
+        return MemberResponse.of(getMemberById(memberId));
     }
 
     @Transactional
     public void updateMemberName(final Long memberId, final MemberNameRequest memberNameRequest) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+        Member member = getMemberById(memberId);
         member.updateName(memberNameRequest.getName());
+    }
+
+    @Transactional
+    public void updateMemberProfileImage(final Long memberId,
+                                         final MemberProfileImageRequest memberProfileImageRequest) {
+        Member member = getMemberById(memberId);
+        member.updateProfileImage(profileImageGenerator.getImageUrl(memberProfileImageRequest.getImageName()));
+    }
+
+    private Member getMemberById(final Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+    }
+
+    public List<ProfileImageUrlResponse> getProfileImages() {
+        return profileImageGenerator.getImageUrls()
+                .stream()
+                .map(ProfileImageUrlResponse::of)
+                .collect(Collectors.toList());
     }
 }

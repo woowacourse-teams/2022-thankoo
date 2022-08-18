@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { forwardRef, LegacyRef } from 'react';
 import { Link } from 'react-router-dom';
 import { CouponDetail } from '../../types';
+import { BASE_URL } from './../../constants/api';
 
 const CouponDetailReserve = (
   { couponDetail }: { couponDetail: CouponDetail },
@@ -18,7 +19,7 @@ const CouponDetailReserve = (
       <S.MeetingMembers>
         <S.Label>만날 사람</S.Label>
         <S.MeetingMembersWrapper>
-          <S.MeetingMemberImg src={coupon?.sender.imageUrl} />
+          <S.MeetingMemberImg src={`${BASE_URL}${coupon?.sender.imageUrl}`} />
           <S.Sender>{coupon?.sender.name}</S.Sender>
         </S.MeetingMembersWrapper>
       </S.MeetingMembers>

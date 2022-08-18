@@ -8,7 +8,7 @@ import Input from '../components/@shared/Input';
 import PageLayout from '../components/@shared/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
-import useUserProfile from '../hooks/Profile/useProfile';
+import useUserProfile from '../hooks/Profile/useUserProfile';
 import { USER_NICKNAME_MAX_LENGTH } from './../constants/users';
 
 const UserProfile = () => {
@@ -115,7 +115,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: space-between;
-    gap: 1rem;
+    gap: 2rem;
   `,
   UserCouponInfoItem: styled.div`
     display: flex;
