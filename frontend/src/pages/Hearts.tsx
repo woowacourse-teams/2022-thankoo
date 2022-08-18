@@ -5,10 +5,12 @@ import ArrowBackButton from './../components/@shared/ArrowBackButton';
 import Header from './../components/@shared/Header';
 import HeaderText from './../components/@shared/HeaderText';
 import PageLayout from './../components/@shared/PageLayout';
+import { useGetHearts } from './../hooks/@queries/hearts';
+import { useGetMembers } from './../hooks/@queries/members';
 
 const Hearts = () => {
-  //const { data: members, isLoading: isMemberLoading, isError: isMemberError } = useGetMembers();
-  //const { data: heartHistory, isLoading: isHeartLoading, isError: isHeartError } = useGetHeart();
+  const { data: members2, isLoading: isMemberLoading, isError: isMemberError } = useGetMembers();
+  const { data: heartHistory, isLoading: isHeartLoading, isError: isHeartError } = useGetHearts();
 
   const members = [
     { id: 1, imageUrl: '', name: '호호', lastReceived: '3분전' },

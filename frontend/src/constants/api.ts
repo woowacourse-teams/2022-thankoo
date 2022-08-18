@@ -20,4 +20,5 @@ export const API_PATH = {
   CANCEL_RESERVATION: reservationId => `/api/reservations/${reservationId}/cancel`,
   COMPLETE_MEETING: meetingId => `/api/meetings/${meetingId}`,
   GET_COUPONS_EXCHANGE_COUNT: `/api/coupons/count`,
+  GET_USER_HEARTS: `/api/hearts/me`,
 };
