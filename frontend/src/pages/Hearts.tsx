@@ -19,7 +19,7 @@ const Hearts = () => {
   if (isHeartLoading) return <></>;
 
   const sent = heartHistory?.sent!;
-  const receiver = heartHistory?.receiver!;
+  const received = heartHistory?.received!;
 
   return (
     <PageLayout>
@@ -34,29 +34,32 @@ const Hearts = () => {
           {members?.map(user => {
             const canSend =
               !sent?.some(sentHistory => sentHistory.receiverId === user.id) ||
-              receiver?.some(receivedHistory => receivedHistory.senderId === user.id);
+              received?.some(receivedHistory => receivedHistory.senderId === user.id);
+
             const count = sent?.find(sentHistory => sentHistory.receiverId === user.id)?.count;
             const lastReceived =
               sent?.find(sentHistory => sentHistory.receiverId === user.id)?.modifiedAt ||
-              receiver?.find(receiveHistory => receiveHistory.senderId === user.id)?.modifiedAt;
+              received?.find(receiveHistory => receiveHistory.senderId === user.id)?.modifiedAt;
             const modifiedLastReceived = lastReceived?.split(' ')[0];
+            const receivedUserCount = received?.find(
+              receiveHistory => receiveHistory.senderId === user.id
+            )?.count;
 
             return (
               <S.UserWrappr key={user.id} canSend={canSend}>
                 <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
                 <S.UserName>{user.name}</S.UserName>
                 {modifiedLastReceived ? (
-                  <S.ModifiedAt>{`${modifiedLastReceived}에 왔어요`}</S.ModifiedAt>
+                  <S.ModifiedAt>{`${modifiedLastReceived}에 툭!`}</S.ModifiedAt>
                 ) : (
                   <></>
                 )}
-                {count ? (
-                  <S.CountWrapper>
-                    <S.CountLabel>연속</S.CountLabel> <S.CountNum>{`${count ?? 0}회`}</S.CountNum>
-                  </S.CountWrapper>
-                ) : (
-                  <></>
-                )}
+                (
+                <S.CountWrapper>
+                  <S.CountLabel>연속</S.CountLabel>{' '}
+                  <S.CountNum>{`${count || receivedUserCount || 0}회`}</S.CountNum>
+                </S.CountWrapper>
+                )
                 <S.SendButtonWrapper>
                   <S.SendButton
                     canSend={canSend}

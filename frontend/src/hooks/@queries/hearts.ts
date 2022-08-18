@@ -26,7 +26,7 @@ type Received = {
 
 type HeartHistory = {
   sent: Sent[];
-  receiver: Received[];
+  received: Received[];
 };
 
 export const useGetHearts = () => useQuery<HeartHistory>(QUERY_KEY.heart, getUserHeartsRequest);
