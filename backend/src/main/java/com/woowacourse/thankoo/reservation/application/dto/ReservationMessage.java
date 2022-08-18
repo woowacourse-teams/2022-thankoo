@@ -51,7 +51,7 @@ public class ReservationMessage {
         return new Message.Builder()
                 .email(List.of(email.getValue()))
                 .title(PRETEXT_CANCEL)
-                .content(MessageFormat.format(SENDER, sender))
+                .content(MessageFormat.format(SENDER, sender.getValue()))
                 .content(MessageFormat.format(COUPON, reservation.getCoupon().getCouponContent().getTitle()))
                 .build();
     }
