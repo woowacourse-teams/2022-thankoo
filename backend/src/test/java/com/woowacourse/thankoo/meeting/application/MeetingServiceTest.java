@@ -5,12 +5,11 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
@@ -106,38 +105,6 @@ class MeetingServiceTest {
                     () -> assertThat(foundCoupon.getCouponStatus()).isEqualTo(CouponStatus.USED)
             );
         }
-    }
-
-    @Test
-    @DisplayName("해당 일자에 미팅이 존재하면 알람을 전송한다.")
-    void sendMessageTodayMeetingMembers() {
-        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
-        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
-
-        Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Long reservationId = reservationService.save(receiver.getId(),
-                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
-        reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
-
-        meetingService.sendMessageTodayMeetingMembers(LocalDate.now().plusDays(1L));
-
-        AlarmMessageRequest request = AlarmManager.getResources();
-
-        assertAll(
-                () -> assertThat(request.getEmails()).containsExactly(LALA_EMAIL, SKRR_EMAIL),
-                () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.MEETING)
-        );
-    }
-
-    @Test
-    @DisplayName("해당 일자에 미팅이 존재하지 않으면 알람을 전송하지 않는다.")
-    void sendMessageTodayMeetingMembersIsEmpty() {
-        meetingService.sendMessageTodayMeetingMembers(LocalDate.now());
-
-        assertThatThrownBy(AlarmManager::getResources)
-                .hasMessage("전송하려는 알람이 존재하지 않습니다.")
-                .isInstanceOf(InvalidAlarmException.class);
     }
 }
 

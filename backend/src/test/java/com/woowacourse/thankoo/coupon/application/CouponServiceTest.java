@@ -8,10 +8,10 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -63,9 +63,9 @@ class CouponServiceTest {
         @DisplayName("회원들이 존재하면 정상적으로 저장한다.")
         @Test
         void saveAll() {
-            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
-            Member receiver1 = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL));
-            Member receiver2 = memberRepository.save(new Member(SKRR_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, IMAGE_URL));
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver1 = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver2 = memberRepository.save(new Member(SKRR_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
             couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver1.getId(), receiver2.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
@@ -73,22 +73,6 @@ class CouponServiceTest {
             List<Coupon> coupons = couponRepository.findAll();
 
             assertThat(coupons).hasSize(2);
-        }
-
-        @DisplayName("쿠폰이 저장되면 알람을 전송한다.")
-        @Test
-        void sendMessageThenSaveCoupon() {
-            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
-            Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
-            couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
-                    new ContentRequest(TYPE, TITLE, MESSAGE)));
-
-            AlarmMessageRequest request = AlarmManager.getResources();
-
-            assertAll(
-                    () -> assertThat(request.getEmails()).containsExactly(HUNI_EMAIL),
-                    () -> assertThat(request.getAlarmMessage()).isEqualTo(AlarmMessage.RECEIVE_COUPON)
-            );
         }
 
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")
