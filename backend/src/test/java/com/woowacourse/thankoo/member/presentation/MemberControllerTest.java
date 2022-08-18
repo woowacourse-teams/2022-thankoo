@@ -1,13 +1,14 @@
 package com.woowacourse.thankoo.member.presentation;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -28,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
-import com.woowacourse.thankoo.common.util.ProfileImageGenerator;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -36,6 +36,7 @@ import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import com.woowacourse.thankoo.member.presentation.dto.ProfileImageUrlResponse;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -168,8 +169,7 @@ class MemberControllerTest extends ControllerTest {
     @DisplayName("모든 회원 프로필 이미지들을 조회한다.")
     @Test
     void getProfileImages() throws Exception {
-        List<String> imageUrls = ProfileImageGenerator.getImageUrls();
-        List<ProfileImageUrlResponse> responses = imageUrls.stream()
+        List<ProfileImageUrlResponse> responses = Stream.of(SKRR_IMAGE_URL, HUNI_IMAGE_URL)
                 .map(ProfileImageUrlResponse::of)
                 .collect(Collectors.toList());
         given(memberService.getProfileImages())

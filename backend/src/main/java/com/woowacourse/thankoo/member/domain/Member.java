@@ -53,8 +53,8 @@ public class Member extends BaseEntity {
         this.name = new Name(name);
     }
 
-    public void updateProfileImage(final String imageName) {
-        this.imageUrl = ProfileImageGenerator.getImageUrl(imageName);
+    public void updateProfileImage(final String imageName, final ProfileImageGenerator profileImageGenerator) {
+        this.imageUrl = profileImageGenerator.getImageUrl(imageName);
     }
 
     public boolean hasSameId(final List<Long> ids) {

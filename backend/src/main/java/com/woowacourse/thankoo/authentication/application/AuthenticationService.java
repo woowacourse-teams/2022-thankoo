@@ -19,6 +19,7 @@ public class AuthenticationService {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final GoogleClient googleClient;
+    private final ProfileImageGenerator profileImageGenerator;
 
     public TokenResponse signIn(final String code) {
         String idToken = googleClient.getIdToken(code);
@@ -31,7 +32,7 @@ public class AuthenticationService {
     @Transactional
     public TokenResponse signUp(final String idToken, final String name) {
         GoogleProfileResponse profileResponse = googleClient.getProfileResponse(idToken);
-        String imageUrl = ProfileImageGenerator.getRandomImage();
+        String imageUrl = profileImageGenerator.getRandomImage();
         Member savedMember = memberRepository.save(profileResponse.toEntity(name, imageUrl));
         return toSignedUpMemberTokenResponse(savedMember);
     }

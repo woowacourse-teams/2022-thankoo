@@ -8,14 +8,21 @@ import com.woowacourse.thankoo.common.util.ProfileImageGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @DisplayName("RandomProfileImageGenerator 는 ")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class ProfileImageGeneratorTest {
+
+    @Autowired
+    ProfileImageGenerator profileImageGenerator;
 
     @DisplayName("프로필 이미지 url을 무작위로 가져온다.")
     @Test
     void getRandomImage() {
-        String imageUrl = ProfileImageGenerator.getRandomImage();
+        String imageUrl = profileImageGenerator.getRandomImage();
         assertThat(imageUrl).isNotNull();
     }
 
@@ -26,7 +33,7 @@ class ProfileImageGeneratorTest {
         @DisplayName("프로필 이미지가 존재하면 요청 경로를 생성한다.")
         @Test
         void getImageUrl() {
-            String imageUrl = ProfileImageGenerator.getImageUrl("user_skull.svg");
+            String imageUrl = profileImageGenerator.getImageUrl("user_skull.svg");
             assertThat(imageUrl).isEqualTo("/profile-image/user_skull.svg");
         }
 
@@ -34,10 +41,10 @@ class ProfileImageGeneratorTest {
         @Test
         void getImageUrlWithInvalidImageName() {
             assertThatThrownBy(
-                () -> ProfileImageGenerator.getImageUrl("invalidImage")
+                    () -> profileImageGenerator.getImageUrl("invalidImage")
             )
-                .isInstanceOf(BadRequestException.class)
-                .hasMessageContaining("올바르지 않은 프로필 이미지입니다.");
+                    .isInstanceOf(BadRequestException.class)
+                    .hasMessageContaining("올바르지 않은 프로필 이미지입니다.");
         }
     }
 }

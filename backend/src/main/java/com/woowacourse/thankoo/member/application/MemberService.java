@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final ProfileImageGenerator profileImageGenerator;
 
     public List<MemberResponse> getMembersExcludeMe(final Long memberId) {
         List<Member> members = memberRepository.findAllByIdNotOrderByNameAsc(memberId);
@@ -43,7 +44,7 @@ public class MemberService {
     public void updateMemberProfileImage(final Long memberId,
                                          final MemberProfileImageRequest memberProfileImageRequest) {
         Member member = getMemberById(memberId);
-        member.updateProfileImage(memberProfileImageRequest.getImageName());
+        member.updateProfileImage(memberProfileImageRequest.getImageName(), profileImageGenerator);
     }
 
     private Member getMemberById(final Long memberId) {
@@ -52,7 +53,7 @@ public class MemberService {
     }
 
     public List<ProfileImageUrlResponse> getProfileImages() {
-        return ProfileImageGenerator.getImageUrls()
+        return profileImageGenerator.getImageUrls()
                 .stream()
                 .map(ProfileImageUrlResponse::of)
                 .collect(Collectors.toList());
