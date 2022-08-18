@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.common.schedule;
 
 import com.woowacourse.thankoo.meeting.application.MeetingService;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,9 +17,9 @@ public class MeetingScheduleTask {
 
     private final MeetingService meetingService;
 
-    @Scheduled(cron = "0 0 2 * * *")
+    @Scheduled(cron = "0 0/30 10-20 * * *")
     public void executeCompleteMeeting() {
-        meetingService.complete(LocalDate.now().minusDays(DAY));
+        meetingService.complete(LocalDateTime.now());
     }
 
     @Scheduled(cron = "0 0 9 * * *")
