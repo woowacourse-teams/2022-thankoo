@@ -98,10 +98,6 @@ public class Heart extends BaseEntity {
     }
 
     private void changeStatus() {
-        if (isFinal) {
-            isFinal = false;
-            return;
-        }
-        isFinal = true;
+        isFinal = !isFinal;
     }
 }
