@@ -45,23 +45,22 @@ const Hearts = () => {
               receiveHistory => receiveHistory.senderId === user.id
             )?.count;
 
+            console.log(modifiedLastReceived);
+
             return (
               <S.UserWrappr key={user.id} canSend={canSend}>
                 <S.UserImageWrapper>
                   <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
                 </S.UserImageWrapper>
                 <S.UserName>{user.name}</S.UserName>
-                {modifiedLastReceived ? (
+                {modifiedLastReceived && (
                   <S.ModifiedAt>{`${modifiedLastReceived}에 툭!`}</S.ModifiedAt>
-                ) : (
-                  <></>
                 )}
-                (
+
                 <S.CountWrapper>
                   <S.CountLabel>연속</S.CountLabel>{' '}
                   <S.CountNum>{`${count || receivedUserCount || 0}회`}</S.CountNum>
                 </S.CountWrapper>
-                )
                 <S.SendButtonWrapper>
                   <S.SendButton
                     canSend={canSend}
