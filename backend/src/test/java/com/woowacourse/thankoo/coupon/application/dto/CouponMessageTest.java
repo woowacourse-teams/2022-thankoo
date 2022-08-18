@@ -25,8 +25,8 @@ class CouponMessageTest {
         assertAll(
                 () -> assertThat(message.getTitle()).contains("커피 쿠폰이 도착했어요."),
                 () -> assertThat(message.getEmails()).containsExactly(HUNI_EMAIL),
-                () -> assertThat(message.getContents()).contains(
-                        "보내는 이 : " + HOHO_NAME, "제목 : " + TITLE, "쿠폰 종류 : 커피☕")
+                () -> assertThat(message.getContents())
+                        .contains("보내는 이 : " + HOHO_NAME, "제목 : " + TITLE, "쿠폰 종류 : 커피☕")
         );
     }
 
@@ -37,10 +37,10 @@ class CouponMessageTest {
         Message message = CouponMessage.of(new Name(HOHO_NAME), List.of(HUNI_EMAIL), MEAL_COUPON_CONTENT);
 
         assertAll(
-                () -> assertThat(message.getTitle()).contains("커피 쿠폰이 도착했어요."),
+                () -> assertThat(message.getTitle()).contains("식사 쿠폰이 도착했어요."),
                 () -> assertThat(message.getEmails()).containsExactly(HUNI_EMAIL),
-                () -> assertThat(message.getContents()).contains(
-                        "보내는 이 : " + HOHO_NAME, "제목 : 호호의 식사쿠폰", "쿠폰 종류 : 식사\uD83C\uDF54")
+                () -> assertThat(message.getContents())
+                        .contains("보내는 이 : " + HOHO_NAME, "제목 : 호호의 식사쿠폰", "쿠폰 종류 : 식사\uD83C\uDF54")
         );
     }
 }
