@@ -63,7 +63,9 @@ const Hearts = () => {
                   <S.SendButton
                     canSend={canSend}
                     onClick={() => {
-                      postHeart(user.id);
+                      if (canSend) {
+                        postHeart(user.id);
+                      }
                     }}
                   >
                     {'툭'}
