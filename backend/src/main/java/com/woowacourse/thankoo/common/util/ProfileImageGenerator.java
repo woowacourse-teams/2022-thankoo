@@ -2,7 +2,6 @@ package com.woowacourse.thankoo.common.util;
 
 import java.util.List;
 
-//@Component
 public interface ProfileImageGenerator {
 
     String getRandomImage();
