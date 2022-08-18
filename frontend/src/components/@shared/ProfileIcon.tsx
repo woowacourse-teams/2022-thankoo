@@ -72,7 +72,7 @@ type BackgroundProp = {
 };
 
 const StyledProfileIcon = styled.img<IconProp>`
-  //width: ${({ size }) => size};
+  width: ${({ size }) => size};
 `;
 const StyledIconBackGround = styled.div<BackgroundProp>`
   ${flexCenter}
