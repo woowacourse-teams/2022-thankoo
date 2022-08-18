@@ -30,24 +30,25 @@ public class MemberService {
     }
 
     public MemberResponse getMember(final Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
-        return MemberResponse.of(member);
+        return MemberResponse.of(getMemberById(memberId));
     }
 
     @Transactional
     public void updateMemberName(final Long memberId, final MemberNameRequest memberNameRequest) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+        Member member = getMemberById(memberId);
         member.updateName(memberNameRequest.getName());
     }
 
     @Transactional
     public void updateMemberProfileImage(final Long memberId,
                                          final MemberProfileImageRequest memberProfileImageRequest) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+        Member member = getMemberById(memberId);
         member.updateProfileImage(memberProfileImageRequest.getImageName());
+    }
+
+    private Member getMemberById(final Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
     public List<ProfileImageUrlResponse> getProfileImages() {
