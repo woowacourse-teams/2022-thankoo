@@ -83,9 +83,7 @@ const StyledIconBackGround = styled.div<BackgroundProp>`
   padding: 0.2rem;
   object-fit: cover;
 
-  transition: all ease-in;
-  transition-duration: 0.2s;
-  -webkit-transition-duration: 0.2s;
+  transition: all ease-in 0.2s;
 
   /* &:active,
   &:hover {
