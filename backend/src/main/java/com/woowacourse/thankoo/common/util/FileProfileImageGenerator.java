@@ -4,10 +4,13 @@ import com.woowacourse.thankoo.common.exception.BadRequestException;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
@@ -15,7 +18,7 @@ import org.springframework.util.ResourceUtils;
 public class FileProfileImageGenerator implements ProfileImageGenerator {
 
     private static final String IMAGE_URL_PATH = "/profile-image/";
-    private static final String IMAGE_PATH = "classpath:static/profile-image";
+    private static final String IMAGE_PATH = "classpath:static/profile-image/*.svg";
     private static final int RANDOM_MIN_RANGE = 0;
     private final List<String> profileImages;
     private final Random random;
@@ -23,12 +26,12 @@ public class FileProfileImageGenerator implements ProfileImageGenerator {
     private FileProfileImageGenerator() {
         random = new Random();
         try {
-            File[] files = ResourceUtils.getFile(IMAGE_PATH)
-                    .listFiles();
-            profileImages = Arrays.stream(files)
-                    .map(File::getName)
+            Resource[] resources = (new PathMatchingResourcePatternResolver())
+                    .getResources(IMAGE_PATH);
+            profileImages = Arrays.stream(resources)
+                    .map(Resource::getFilename)
                     .collect(Collectors.toList());
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new IllegalArgumentException(ErrorType.INVALID_PATH.getMessage());
         }
     }
