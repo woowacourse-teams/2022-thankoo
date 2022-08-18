@@ -34,9 +34,6 @@ export const onMountFromBottomModal = keyframes`
   0% {
         bottom: -100%;
       }
-      40% {
-        bottom: -50%;
-      }
       100% {
         bottom: 0;
       }

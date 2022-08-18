@@ -55,7 +55,7 @@ const S = {
   Form: styled.form`
     display: flex;
     flex-flow: column;
-    gap: 15px;
+    gap: 25px;
   `,
   FlexColumn: styled.div`
     display: flex;
@@ -66,12 +66,14 @@ const S = {
     color: #8e8e8e;
     font-size: 18px;
   `,
-  Label: styled.label``,
+  Label: styled.label`
+    font-size: 1.7rem;
+  `,
   Button: styled.button`
     color: white;
     border-radius: 10px;
     border: none;
-    padding: 15px;
+    padding: 8px;
     font-size: 17px;
     background-color: ${({ theme }) => theme.primary};
     ${({ disabled, theme }) =>

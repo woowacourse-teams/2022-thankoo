@@ -32,9 +32,9 @@ export default ProfileUserImage;
 const S = {
   ImageBox: styled.div`
     position: relative;
-    width: 125px;
-    height: 125px;
-    margin: 1.5rem auto;
+    width: 12.5rem;
+    height: 12.5rem;
+    margin: 3rem auto;
   `,
   UserImage: styled.img`
     width: 100%;

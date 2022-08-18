@@ -46,6 +46,7 @@ const S = {
     height: 70px;
   `,
   Comment: styled.h3`
+    font-size: 1.5rem;
     line-height: 30px;
   `,
   Button: styled.button`

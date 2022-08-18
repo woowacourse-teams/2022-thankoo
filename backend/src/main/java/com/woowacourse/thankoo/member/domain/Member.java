@@ -52,6 +52,10 @@ public class Member extends BaseEntity {
         this.name = new Name(name);
     }
 
+    public void updateProfileImage(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public boolean hasSameId(final List<Long> ids) {
         return ids.stream()
                 .anyMatch(this::isSameId);

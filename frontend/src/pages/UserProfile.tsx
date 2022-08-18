@@ -45,7 +45,7 @@ const UserProfile = () => {
                 maxLength={USER_NICKNAME_MAX_LENGTH}
               />
             ) : (
-              <div>{name}</div>
+              <span>{name}</span>
             )}
             <S.ModifyNameButton onClick={handleClickModifyNameButton}>
               {isNameEdit ? '저장' : '수정'}
@@ -77,7 +77,12 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
+    height: 50%;
     margin: 0 3vw;
+
+    span {
+      font-size: 1.6rem;
+    }
   `,
   UserInfoBox: styled.div`
     display: flex;
@@ -96,11 +101,11 @@ const S = {
   `,
   Bold: styled.span`
     font-weight: 700;
-    font-size: 16px;
+    font-size: 1.6rem;
   `,
   ModifyNameButton: styled.button`
     background-color: transparent;
-    font-size: 16px;
+    font-size: 1.6rem;
     border: none;
     font-weight: 600;
     color: ${({ theme }) => theme.primary};
@@ -117,23 +122,9 @@ const S = {
     justify-content: space-between;
     color: white;
   `,
-  NameInput: styled.input`
-    border: none;
-    padding: 0;
-    height: 100%;
-    padding: 0 5px;
-    background-color: ${({ theme }) => theme.input.background};
-    color: ${({ theme }) => theme.input.color};
-    border-radius: 4px;
-    font-size: 15px;
-    ::placeholder {
-      color: ${({ theme }) => theme.input.placeholder};
-    }
-  `,
   SubHeader: styled.div`
     display: flex;
     justify-content: space-between;
-
     width: 100%;
   `,
 };

@@ -19,5 +19,11 @@ public class MemberFixture {
     public static final String LALA_SOCIAL_ID = "3";
     public static final String HUNI_SOCIAL_ID = "4";
 
-    public static final String IMAGE_URL = "image.com";
+    public static final String COMMON_IMAGE_URL = "/profile-image/";
+
+    public static final String SKRR_IMAGE_NAME = "user_skull.svg";
+    public static final String HUNI_IMAGE_NAME = "user_pig.svg";
+
+    public static final String SKRR_IMAGE_URL = COMMON_IMAGE_URL + SKRR_IMAGE_NAME;
+    public static final String HUNI_IMAGE_URL = COMMON_IMAGE_URL + HUNI_IMAGE_NAME;
 }

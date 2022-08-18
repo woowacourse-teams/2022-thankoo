@@ -51,6 +51,7 @@ const S = {
     width: 100%;
   `,
   Body: styled.section`
+    height: calc(79.5% - 5.5rem);
     display: flex;
     flex-direction: column;
     padding: 5px 3vw;

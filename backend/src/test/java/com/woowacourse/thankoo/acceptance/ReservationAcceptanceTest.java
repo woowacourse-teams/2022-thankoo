@@ -70,10 +70,11 @@ class ReservationAcceptanceTest extends AcceptanceTest {
                 .bodies(CouponResponse.class).get(0);
 
         ReservationAssured.request()
-                .예약을_요청한다(receiverToken.getAccessToken(), 잘못된_예약_일정_요청(couponResponse, LocalDateTime.now().minusDays(1L)))
+                .예약을_요청한다(receiverToken.getAccessToken(),
+                        잘못된_예약_일정_요청(couponResponse, LocalDateTime.now().minusDays(1L)))
                 .response()
                 .status(HttpStatus.BAD_REQUEST.value())
-                .예약_요청_실패됨(6001);
+                .예약_요청_실패됨(9001);
     }
 
     @DisplayName("예약 요청 시간의 연도가 현재와 다를경우 요청 에러가 발생한다.")
@@ -95,10 +96,11 @@ class ReservationAcceptanceTest extends AcceptanceTest {
                 .bodies(CouponResponse.class).get(0);
 
         ReservationAssured.request()
-                .예약을_요청한다(receiverToken.getAccessToken(), 잘못된_예약_일정_요청(couponResponse, LocalDateTime.now().plusYears(1L)))
+                .예약을_요청한다(receiverToken.getAccessToken(),
+                        잘못된_예약_일정_요청(couponResponse, LocalDateTime.now().plusYears(1L)))
                 .response()
                 .status(HttpStatus.BAD_REQUEST.value())
-                .예약_요청_실패됨(6001);
+                .예약_요청_실패됨(9001);
     }
 
     @DisplayName("회원이 받은 쿠폰으로 보낸 예약을 조회한다.")

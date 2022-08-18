@@ -11,38 +11,40 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
   const { couponDetail, isLoading, sentOrReceived, buttonOptions, close } =
     useCouponDetail(couponId);
 
-  if (isLoading) {
-    return <div></div>;
-  }
-
   return (
     <S.Container>
       <S.Modal>
         <S.Header>
           <CloseButton onClick={close} color='white' />
         </S.Header>
-        <PageSlider>
-          <CouponDetailCoupon coupon={couponDetail?.coupon as Coupon} />
-          {couponDetail?.coupon.status !== 'not_used' ? (
-            <CouponDetailReservation couponDetail={couponDetail as CouponDetail} />
-          ) : (
-            <S.EmptyReservationPage>아직 예약 정보가 없습니다.</S.EmptyReservationPage>
-          )}
-        </PageSlider>
-        <S.Footer>
-          <S.ButtonWrapper>
-            {buttonOptions.map((button, idx) => (
-              <S.Button
-                key={idx}
-                bg={button.bg}
-                disabled={button.disabled}
-                onClick={button.onClick && button.onClick}
-              >
-                {button.text}
-              </S.Button>
-            ))}
-          </S.ButtonWrapper>
-        </S.Footer>
+        {isLoading ? (
+          <div></div>
+        ) : (
+          <>
+            <PageSlider>
+              <CouponDetailCoupon coupon={couponDetail?.coupon as Coupon} />
+              {couponDetail?.coupon.status !== 'not_used' ? (
+                <CouponDetailReservation couponDetail={couponDetail as CouponDetail} />
+              ) : (
+                <S.EmptyReservationPage>아직 예약 정보가 없습니다.</S.EmptyReservationPage>
+              )}
+            </PageSlider>
+            <S.Footer>
+              <S.ButtonWrapper>
+                {buttonOptions.map((button, idx) => (
+                  <S.Button
+                    key={idx}
+                    bg={button.bg}
+                    disabled={button.disabled}
+                    onClick={button.onClick && button.onClick}
+                  >
+                    {button.text}
+                  </S.Button>
+                ))}
+              </S.ButtonWrapper>
+            </S.Footer>
+          </>
+        )}
       </S.Modal>
     </S.Container>
   );
@@ -62,8 +64,9 @@ const S = {
     left: 50%;
     z-index: 1000;
     transform: translate(-50%, -50%);
-    width: 18rem;
-    height: fit-content;
+    width: 28rem;
+    height: 40rem;
+    //height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,14 +74,14 @@ const S = {
 
     border-radius: 5px;
     background-color: #232323;
-    padding: 1rem;
+    padding: 2rem;
   `,
   Header: styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
     height: 10%;
-    width: 108%;
+    width: 106%;
   `,
   Modal: styled.div`
     width: 100%;
@@ -102,7 +105,7 @@ const S = {
   `,
   Button: styled.button<ButtonProps>`
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     background-color: ${({ theme, disabled, bg }) =>
       disabled ? theme.button.disbaled.background : bg};
     color: ${({ theme, disabled }) =>
@@ -117,6 +120,7 @@ const S = {
   `,
   EmptyReservationPage: styled.div`
     width: 100%;
+    font-size: 1.5rem;
     display: flex;
     align-self: center;
     justify-content: center;
