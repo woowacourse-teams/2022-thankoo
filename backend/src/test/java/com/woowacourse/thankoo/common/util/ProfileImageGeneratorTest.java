@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.authentication.util;
+package com.woowacourse.thankoo.common.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
