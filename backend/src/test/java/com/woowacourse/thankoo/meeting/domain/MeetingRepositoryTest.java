@@ -68,9 +68,7 @@ class MeetingRepositoryTest {
                         MeetingStatus.ON_PROGRESS,
                         coupon)
         );
-        Meeting foundMeeting = meetingRepository.findTopByCouponIdAndMeetingStatus(coupon.getId(),
-                        MeetingStatus.ON_PROGRESS)
-                .get();
+        Meeting foundMeeting = meetingRepository.findTopByCouponId(coupon.getId()).get();
 
         assertThat(foundMeeting).isEqualTo(savedMeeting);
     }

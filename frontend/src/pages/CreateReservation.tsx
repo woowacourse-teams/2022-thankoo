@@ -1,18 +1,18 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Link } from 'react-router-dom';
 import Time from '../components/@shared/Time';
+import ConfirmReservationModal from '../components/CreateReservation/ConfirmReservationModal';
+import useModal from '../hooks/useModal';
 import ArrowBackButton from './../components/@shared/ArrowBackButton';
 import Header from './../components/@shared/Header';
 import HeaderText from './../components/@shared/HeaderText';
 import PageLayout from './../components/@shared/PageLayout';
 import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
-import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import useModal from '../hooks/useModal';
-import ConfirmReservationModal from '../components/CreateReservation/ConfirmReservationModal';
 
 const CreateReservation = () => {
   const {
@@ -63,7 +63,7 @@ const CreateReservation = () => {
           show();
           setModalContent(
             <ConfirmReservationModal
-              receiver={couponDetail?.coupon.receiver.name}
+              receiver={couponDetail?.coupon.sender.name}
               date={date}
               time={time}
               submit={createReservation}
@@ -86,7 +86,7 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 70%;
+    height: calc(80% - 5.5rem - 5%);
     gap: 2rem;
     padding: 15px 3vw;
   `,
@@ -141,13 +141,13 @@ const S = {
   `,
   LongButton: styled.button`
     position: fixed;
+    border-radius: 30px;
+    font-size: 1.7rem;
+    padding: 1rem 2rem;
     bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
     border: none;
-    border-radius: 30px;
-    font-size: 18px;
-    padding: 10px 20px;
     display: flex;
     width: 90%;
     justify-content: space-between;

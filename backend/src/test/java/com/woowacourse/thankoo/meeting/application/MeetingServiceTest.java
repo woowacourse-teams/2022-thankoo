@@ -6,6 +6,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
@@ -18,10 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.alarm.AlarmMessage;
-import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
-import com.woowacourse.thankoo.alarm.support.AlarmManager;
-import com.woowacourse.thankoo.alarm.support.AlarmMessageRequest;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -36,7 +33,6 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -79,9 +75,7 @@ class MeetingServiceTest {
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            Meeting meeting = meetingRepository.findTopByCouponIdAndMeetingStatus(coupon.getId(),
-                            MeetingStatus.ON_PROGRESS)
-                    .get();
+            Meeting meeting = meetingRepository.findTopByCouponId(coupon.getId()).get();
 
             assertThatThrownBy(() -> meetingService.complete(other.getId(), meeting.getId()))
                     .isInstanceOf(ForbiddenException.class)
@@ -100,8 +94,7 @@ class MeetingServiceTest {
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            Meeting meeting = meetingRepository.findTopByCouponIdAndMeetingStatus(coupon.getId(),
-                    MeetingStatus.ON_PROGRESS).get();
+            Meeting meeting = meetingRepository.findTopByCouponId(coupon.getId()).get();
 
             meetingService.complete(sender.getId(), meeting.getId());
 
@@ -147,3 +140,4 @@ class MeetingServiceTest {
                 .isInstanceOf(InvalidAlarmException.class);
     }
 }
+

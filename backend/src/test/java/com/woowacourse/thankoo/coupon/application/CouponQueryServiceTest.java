@@ -55,6 +55,12 @@ class CouponQueryServiceTest {
     private CouponService couponService;
 
     @Autowired
+    private MeetingService meetingService;
+
+    @Autowired
+    private MeetingQueryService meetingQueryService;
+
+    @Autowired
     private ReservationService reservationService;
 
     @Autowired
@@ -221,6 +227,36 @@ class CouponQueryServiceTest {
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
                     coupon.getId());
             assertThat(couponDetailResponse.getMeeting()).isNotNull();
+        }
+
+        @DisplayName("쿠폰 상태가 사용 완료일 때 미팅 정보를 함께 조회한다.")
+        @Test
+        void getCouponUsedWithMeeting() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL));
+
+            Coupon coupon = couponRepository.save(new Coupon(sender.getId(),
+                    receiver.getId(),
+                    new CouponContent(TYPE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED));
+
+            TimeResponse timeResponse = TimeResponse.from(LocalDateTime.now().plusDays(1L),
+                    TimeZoneType.ASIA_SEOUL.getId());
+
+            Long reservationId = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
+            reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
+
+            SimpleMeetingResponse simpleMeetingResponse = meetingQueryService.findMeetings(sender.getId()).get(0);
+            meetingService.complete(sender.getId(), simpleMeetingResponse.getMeetingId());
+
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    coupon.getId());
+
+            assertAll(
+                    () -> assertThat(couponDetailResponse.getCoupon().getStatus()).isEqualTo("used"),
+                    () -> assertThat(couponDetailResponse.getMeeting().getStatus()).isEqualTo("finished")
+            );
         }
 
         @DisplayName("쿠폰 상태가 사용되지 않았을 때 쿠폰만 조회한다.")

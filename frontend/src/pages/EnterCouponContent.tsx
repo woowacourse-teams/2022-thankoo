@@ -35,12 +35,12 @@ const EnterCouponContent = () => {
 
   return (
     <PageLayout>
-      <Header>
+      <S.Header>
         <Link to='/select-receiver'>
           <ArrowBackButton />
         </Link>
         <HeaderText>어떤 쿠폰을 보낼까요?</HeaderText>
-      </Header>
+      </S.Header>
       <S.Body>
         <TabsNav
           onChangeTab={setCouponType}
@@ -80,6 +80,7 @@ const EnterCouponContent = () => {
               message={message}
               receivers={checkedUsers}
               submit={sendCoupon}
+              couponType={couponType}
             />
           );
         }}
@@ -93,6 +94,9 @@ const EnterCouponContent = () => {
 };
 
 const S = {
+  Header: styled(Header)`
+    height: 10%;
+  `,
   Body: styled.div`
     display: flex;
     flex-direction: column;

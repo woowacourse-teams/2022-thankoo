@@ -24,17 +24,18 @@ const sentOrReceivedArray = ['받은', '보낸'];
 const Main = () => {
   const {
     setCurrentType,
-    orderedCoupons,
+    coupons,
     isLoading,
     error,
     currentType,
     sentOrReceived,
     setSentOrReceived,
+    showUsedCouponsWith,
+    setShowUsedCouponsWith,
   } = useMain();
 
   const { visible } = useModal();
 
-  if (isLoading) return <div>로딩중</div>;
   if (error) return <div>에러뜸</div>;
 
   return (
@@ -65,19 +66,37 @@ const Main = () => {
           </S.CouponStatusNavWrapper>
         </Header>
         <S.Body>
-          <TabsNav
-            onChangeTab={setCurrentType}
-            currentTab={currentType}
-            tabList={couponTypes}
-            selectableTabs={couponTypeKeys}
-          />
-          {orderedCoupons?.length ? (
-            <GridViewCoupons coupons={orderedCoupons} />
+          <S.TabsNavWrapper>
+            <TabsNav
+              onChangeTab={setCurrentType}
+              currentTab={currentType}
+              tabList={couponTypes}
+              selectableTabs={couponTypeKeys}
+            />
+            <S.UsedCouponToggleForm>
+              <S.UsedCouponCheckbox
+                type='checkbox'
+                id='used_coupon'
+                checked={showUsedCouponsWith}
+                onChange={() => {
+                  setShowUsedCouponsWith(prev => !prev);
+                }}
+              />
+              <S.UsedCouponCheckboxLabel htmlFor='used_coupon' id='used_coupon'>
+                모든 쿠폰
+              </S.UsedCouponCheckboxLabel>
+            </S.UsedCouponToggleForm>
+          </S.TabsNavWrapper>
+          {isLoading ? (
+            <div>로딩 중</div>
+          ) : coupons?.length ? (
+            <GridViewCoupons coupons={coupons} />
           ) : sentOrReceived === '보낸' ? (
             <NoSendCoupon />
           ) : (
             <NoReceivedCoupon />
           )}
+
           <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
             <S.SendIcon />
           </S.SelectReceiverButton>
@@ -102,8 +121,8 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 5px 3vw;
+    padding: 0.5rem 3vw;
+    height: calc(79.5% - 5.5rem);
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;
@@ -126,15 +145,17 @@ const S = {
   CouponStatusNav: styled.div<CouponStatusNavProps>`
     display: flex;
     justify-content: center;
-    z-index: 1;
     width: 100%;
     padding: 1rem;
     background-color: #232323;
     ${({ selected }) =>
-      !selected &&
-      css`
-        color: #8e8e8e;
-      `};
+      !selected
+        ? css`
+            color: #8e8e8e;
+          `
+        : css`
+            font-weight: bolder;
+          `};
   `,
   HeaderText: styled(HeaderText)`
     cursor: pointer;
@@ -147,20 +168,37 @@ const S = {
     -ms-user-select: none;
     user-select: none;
   `,
+  TabsNavWrapper: styled.div`
+    display: flex;
+    justify-content: space-between;
+    height: 3.2rem;
+    margin-bottom: 1.5rem;
+  `,
   UserProfile: styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
   `,
+  UsedCouponToggleForm: styled.form`
+    display: flex;
+    align-items: center;
+  `,
+  UsedCouponCheckbox: styled.input`
+    margin: 0 10px 0 0;
+  `,
+  UsedCouponCheckboxLabel: styled.label`
+    font-size: 12px;
+    color: white;
+  `,
   SelectReceiverButton: styled(Link)``,
   SendIcon: styled(SendIcon)`
     position: absolute;
-    bottom: 100px;
-    right: 20px;
+    bottom: 8rem;
+    right: 4rem;
     fill: ${({ theme }) => theme.button.abled.color};
     padding: 0.7rem;
     border-radius: 50%;
-    transform: rotate(-45deg) scale(1);
+    transform: rotate(-45deg) scale(1.4);
     opacity: 0.9;
     cursor: pointer;
     transition: all ease-in-out 0.2s;

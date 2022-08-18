@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { modalUnMountTime } from '../../constants/modal';
 import useModal from '../../hooks/useModal';
-import { UserProfile } from '../../types';
+import { CouponType, couponTypes, UserProfile } from '../../types';
 import { modalMountTime } from './../../constants/modal';
 import { onMountFromBottomModal, unMountToBottomModal } from './../../styles/Animation';
 
@@ -10,11 +10,13 @@ const ConfirmCouponContentModal = ({
   message,
   title,
   receivers,
+  couponType,
 }: {
   submit: () => void;
   message: string;
   title: string;
   receivers: UserProfile[];
+  couponType: CouponType;
 }) => {
   const { visible, close, modalContentRef } = useModal();
 
@@ -28,10 +30,14 @@ const ConfirmCouponContentModal = ({
             {receivers.map((receiver, idx) => (
               <S.UserWrapper key={`${receiver}-${idx}`}>
                 <S.UserImage src={receiver.imageUrl} />
-                <span>{receiver.name}</span>
+                <S.UserName>{receiver.name}</S.UserName>
               </S.UserWrapper>
             ))}
           </S.ReceiversWrapper>
+        </S.ConfirmContentWrapper>
+        <S.ConfirmContentWrapper>
+          <S.ConfirmTitleText>쿠폰 종류</S.ConfirmTitleText>
+          <S.ConfirmContentText>{couponTypes[couponType]}</S.ConfirmContentText>
         </S.ConfirmContentWrapper>
         <S.ConfirmContentWrapper>
           <S.ConfirmTitleText>제목</S.ConfirmTitleText>
@@ -111,20 +117,23 @@ const S = {
     object-fit: cover;
     border-radius: 50%;
   `,
+  UserName: styled.span`
+    font-size: 1.3rem;
+  `,
   ConfirmContentWrapper: styled.div`
     display: flex;
     flex-direction: column;
     gap: 5px;
   `,
   ConfirmHeaderText: styled.span`
-    font-size: larger;
+    font-size: 2rem;
   `,
   ConfirmTitleText: styled.span`
     font-size: medium;
     color: #838383;
   `,
   ConfirmContentText: styled.span`
-    font-size: large;
+    font-size: 1.5rem;
     word-break: break-all;
     line-height: 25px;
   `,

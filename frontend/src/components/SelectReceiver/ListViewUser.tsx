@@ -44,26 +44,27 @@ const S = {
   `,
   UserImage: styled.img`
     grid-area: ui;
-    width: 2rem;
-    height: 2rem;
+    width: 3.2rem;
+    height: 3.2rem;
     border-radius: 50%;
     object-fit: cover;
   `,
   UserName: styled.div`
     grid-area: un;
-    font-size: 20px;
+    font-size: 1.5rem;
     color: ${({ theme }) => theme.page.color};
   `,
   UserSubName: styled.div`
     grid-area: sn;
-    font-size: 15px;
+    font-size: 1.3rem;
     color: ${({ theme }) => theme.page.subColor};
   `,
   CheckBox: styled.div<CheckBoxProp>`
     grid-area: cb;
     justify-self: end;
     margin-right: 5px;
-    display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
+    display: ${({ isChecked }) => (isChecked ? 'flex' : 'none')};
+    align-items: center;
   `,
   CheckboxIcon: styled(CheckIcon)`
     border-radius: 50%;

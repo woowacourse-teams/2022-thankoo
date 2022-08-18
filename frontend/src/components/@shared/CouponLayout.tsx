@@ -31,36 +31,28 @@ const S = {
     flex-direction: column;
     position: relative;
 
-    width: 145px;
-    height: 145px;
+    width: 14.5rem;
+    height: 14.5rem;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   `,
   Content: styled.div<ContentProp>`
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 5px;
-    padding-top: 5px;
+    justify-content: flex-start;
+    gap: 0.8rem;
+    padding-top: 0.8rem;
     flex: 1;
     border-radius: 13px;
     background-color: ${({ backgroundColor }) => backgroundColor};
     color: ${({ color }) => color};
     position: relative;
   `,
-  StatusText: styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  `,
   Title: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 11px;
+    font-size: 1.1rem;
     text-align: center;
     height: 2rem;
   `,
@@ -70,7 +62,7 @@ const S = {
     align-items: center;
     border-radius: 50%;
     width: 4rem;
-    height: 4rem;
+    height: 6rem;
     margin: 0 auto;
   `,
   CouponImage: styled.img`
@@ -78,22 +70,8 @@ const S = {
     height: 100%;
     object-fit: cover;
   `,
-  SenderPrefix: styled.span``,
-  SenderImage: styled.img`
-    border-radius: 50%;
-    width: 1.2rem;
-    height: 1.2rem;
-    object-fit: cover;
-  `,
   Name: styled.div`
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 500;
-  `,
-  Sender: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
   `,
 };

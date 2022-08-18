@@ -13,25 +13,22 @@ const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
 
   return (
     <S.Container>
-      {coupons.map(coupon => {
-        return (
-          coupon.status !== 'used' && (
-            <ModalWrapper
-              key={coupon.couponId}
-              modalContent={<CouponDetail couponId={coupon.couponId} />}
-            >
-              <S.Relative>
-                {isOnReserve(coupon.status) && (
-                  <S.StatusStrap status={coupon.status}>
-                    {COUPON_STATUS_STRAP_TEXT[coupon.status]}
-                  </S.StatusStrap>
-                )}
-                <GridViewCoupon coupon={coupon} />
-              </S.Relative>
-            </ModalWrapper>
-          )
-        );
-      })}
+      {coupons.map(coupon => (
+        <ModalWrapper
+          key={coupon.couponId}
+          modalContent={<CouponDetail couponId={coupon.couponId} />}
+        >
+          <S.Relative>
+            {isCompleted(coupon.status) && <S.CompleteDeem>사용 완료</S.CompleteDeem>}
+            {isOnReserve(coupon.status) && (
+              <S.StatusStrap status={coupon.status}>
+                {COUPON_STATUS_STRAP_TEXT[coupon.status]}
+              </S.StatusStrap>
+            )}
+            <GridViewCoupon coupon={coupon} />
+          </S.Relative>
+        </ModalWrapper>
+      ))}
     </S.Container>
   );
 };
@@ -48,17 +45,12 @@ const S = {
     grid-template-columns: repeat(auto-fill, minmax(145px, 150px));
     gap: 30px 15px;
 
-    max-height: 60vh;
-    @media (min-height: 680px) {
-      max-height: 68vh;
-    }
-    @media (min-height: 755px) {
-      max-height: 73vh;
-    }
+    height: fit-content;
+    max-height: calc(100% - 4.7rem);
 
     place-items: center;
     justify-content: space-around;
-    overflow-y: overlay;
+    overflow-y: auto;
 
     &::-webkit-scrollbar {
       width: 2px;

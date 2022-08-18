@@ -7,13 +7,15 @@ type TimeTable = {
 };
 
 const getCurrentTimeFormatYYMMDDHM = () => {
-  const nowYear = new Date().getFullYear();
-  const nowMonth = new Date().getMonth() + 1;
-  const nowDate = new Date().getDate();
-  const nowHour = new Date().getHours();
-  const nowMin = new Date().getMinutes();
+  const today = new Date();
+  const nowYear = today.getFullYear();
+  const nowMonth = String(today.getMonth() + 1).padStart(2, '0');
+  const nowDate = String(today.getDate()).padStart(2, '0');
+  const nowHour = String(today.getHours()).padStart(2, '0');
+  const nowMin = String(today.getMinutes()).padStart(2, '0');
+  const nowSec = String(today.getSeconds()).padStart(2, '0');
 
-  return `${nowYear}-${nowMonth}-${nowDate} ${nowHour}:${nowMin}`;
+  return `${nowYear}/${nowMonth}/${nowDate} ${nowHour}:${nowMin}:${nowSec}`;
 };
 
 const timeTableGenerator = (startHour, endHour, selectedDate) => {
@@ -43,15 +45,14 @@ const Time = ({ selectedTime, setSelectedTime, selectedDate }) => {
   const dayTimeTable = useMemo(() => timeTableGenerator(10, 12, selectedDate), [selectedDate]);
   const nightTimeTable = useMemo(() => timeTableGenerator(12, 20, selectedDate), [selectedDate]);
 
-  const isSelectedDayToday = new Date(selectedDate).toDateString() === new Date().toDateString();
-
   return (
     <S.Container>
       <S.Gap>
         <S.TimeLabel>오전</S.TimeLabel>
         <S.TimeTable>
-          {dayTimeTable.map(time => (
+          {dayTimeTable.map((time, idx) => (
             <S.Time
+              key={time.time + idx}
               onClick={() => {
                 if (time.isPassed) {
                   return;
@@ -69,8 +70,9 @@ const Time = ({ selectedTime, setSelectedTime, selectedDate }) => {
       <S.Gap>
         <S.TimeLabel>오후</S.TimeLabel>
         <S.TimeTable>
-          {nightTimeTable.map(time => (
+          {nightTimeTable.map((time, idx) => (
             <S.Time
+              key={time.time + idx}
               onClick={() => {
                 if (time.isPassed) {
                   return;

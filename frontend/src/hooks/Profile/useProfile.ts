@@ -55,7 +55,7 @@ const useUserProfile = () => {
     (name: string) =>
       client({
         method: 'put',
-        url: `${API_PATH.PROFILE}`,
+        url: `${API_PATH.PROFILE_NAME}`,
         data: {
           name,
         },

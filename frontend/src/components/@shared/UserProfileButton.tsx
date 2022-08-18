@@ -20,8 +20,8 @@ const UserProfileButton = () => {
 export default UserProfileButton;
 
 const StyledUserProfileButton = styled.img`
-  width: 36px;
-  height: 36px;
+  width: 3.6rem;
+  height: 3.6rem;
 
   border-radius: 50%;
   padding: 0.2rem;

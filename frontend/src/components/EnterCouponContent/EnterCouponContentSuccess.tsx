@@ -28,7 +28,7 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
             {receivers.map(receiver => (
               <S.UserWrapper>
                 <S.UserImage src={receiver.imageUrl} />
-                <span>{receiver.name}</span>
+                <S.UserName>{receiver.name}</S.UserName>
               </S.UserWrapper>
             ))}
           </S.ReceiversWrapper>
@@ -118,6 +118,9 @@ const S = {
     object-fit: cover;
     border-radius: 50%;
   `,
+  UserName: styled.span`
+    font-size: 1.3rem;
+  `,
   ContenstWrapper: styled.div`
     display: flex;
     flex-direction: column;
@@ -128,7 +131,7 @@ const S = {
     color: #8e8e8e;
   `,
   ContentText: styled.span`
-    font-size: larger;
+    font-size: 1.5rem;
   `,
   SpaceBetween: styled.div`
     display: flex;

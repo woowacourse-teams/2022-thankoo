@@ -48,10 +48,11 @@ const S = {
   Container: styled.div<ConfirmReservationModalProps>`
     position: fixed;
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     max-width: 680px;
     width: 100%;
-    height: 55vh;
+    height: 55%;
     background-color: #272727;
     border-radius: 7% 7% 0 0;
     display: flex;
@@ -79,7 +80,7 @@ const S = {
     gap: 5px;
   `,
   ConfirmHeaderText: styled.span`
-    font-size: larger;
+    font-size: 1.5rem;
   `,
   ConfirmTitleText: styled.span`
     font-size: medium;

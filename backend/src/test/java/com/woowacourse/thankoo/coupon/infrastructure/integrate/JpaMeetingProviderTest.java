@@ -74,7 +74,7 @@ class JpaMeetingProviderTest {
                         MeetingStatus.ON_PROGRESS,
                         coupon)
         );
-        MeetingResponse meetingResponse = meetingProvider.getOnProgressMeeting(coupon.getId());
+        MeetingResponse meetingResponse = meetingProvider.getMeetingByCouponId(coupon.getId());
         assertThat(meetingResponse.getTime().getMeetingTime()).isEqualTo(meeting.getTimeUnit().getTime());
     }
 }

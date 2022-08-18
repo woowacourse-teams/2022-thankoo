@@ -39,7 +39,7 @@ const useCreateReservation = () => {
           page: ROUTE_PATH.CREATE_RESERVATION,
           props: {
             date,
-            receiver: couponDetail?.coupon.receiver.name,
+            receiver: couponDetail?.coupon.sender.name,
             time,
           },
         });

@@ -2,7 +2,9 @@ package com.woowacourse.thankoo.coupon.domain;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Getter;
 
+@Getter
 public class Coupons {
 
     private final List<Coupon> values;
