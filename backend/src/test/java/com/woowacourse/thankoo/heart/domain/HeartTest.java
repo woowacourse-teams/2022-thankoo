@@ -27,7 +27,7 @@ class HeartTest {
         Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, IMAGE_URL);
         Heart heart = Heart.start(huni.getId(), skrr.getId());
         assertAll(
-                () -> assertThat(heart.isFinal()).isTrue(),
+                () -> assertThat(heart.isLast()).isTrue(),
                 () -> assertThat(heart.getCount()).isEqualTo(1)
         );
     }
@@ -49,8 +49,8 @@ class HeartTest {
         Heart heart = Heart.start(huni.getId(), skrr.getId());
         Heart reply = Heart.firstReply(skrr.getId(), huni.getId(), heart);
         assertAll(
-                () -> assertThat(heart.isFinal()).isFalse(),
-                () -> assertThat(reply.isFinal()).isTrue(),
+                () -> assertThat(heart.isLast()).isFalse(),
+                () -> assertThat(reply.isLast()).isTrue(),
                 () -> assertThat(heart.getCount()).isEqualTo(1),
                 () -> assertThat(reply.getCount()).isEqualTo(1)
         );
@@ -82,8 +82,8 @@ class HeartTest {
             heart.send(reply);
 
             assertAll(
-                    () -> assertThat(heart.isFinal()).isTrue(),
-                    () -> assertThat(reply.isFinal()).isFalse(),
+                    () -> assertThat(heart.isLast()).isTrue(),
+                    () -> assertThat(reply.isLast()).isFalse(),
                     () -> assertThat(heart.getCount()).isEqualTo(2),
                     () -> assertThat(reply.getCount()).isEqualTo(1)
             );

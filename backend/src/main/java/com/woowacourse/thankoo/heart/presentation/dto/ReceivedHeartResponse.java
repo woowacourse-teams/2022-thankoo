@@ -18,21 +18,25 @@ public class ReceivedHeartResponse {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime receivedAt;
+    private boolean last;
 
     private ReceivedHeartResponse(final Long heartId,
                                   final MemberResponse sender,
                                   final int count,
-                                  final LocalDateTime receivedAt) {
+                                  final LocalDateTime receivedAt,
+                                  final Boolean last) {
         this.heartId = heartId;
         this.sender = sender;
         this.count = count;
         this.receivedAt =receivedAt;
+        this.last = last;
     }
 
     public static ReceivedHeartResponse from(final MemberHeart memberHeart) {
         return new ReceivedHeartResponse(memberHeart.getHeartId(),
                 MemberResponse.of(memberHeart.getSender()),
                 memberHeart.getCount(),
-                memberHeart.getModifiedAt());
+                memberHeart.getModifiedAt(),
+                memberHeart.isLast());
     }
 }

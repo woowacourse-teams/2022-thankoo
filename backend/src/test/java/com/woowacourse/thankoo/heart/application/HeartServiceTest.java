@@ -57,7 +57,7 @@ class HeartServiceTest {
             heartService.send(huni.getId(), new HeartRequest(skrr.getId()));
             heartService.send(skrr.getId(), new HeartRequest(huni.getId()));
             assertThat(
-                    heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).get().isFinal()).isFalse();
+                    heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).get().isLast()).isFalse();
         }
 
         @DisplayName("연달아 두 번 보낼 경우 실패한다.")

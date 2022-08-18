@@ -41,17 +41,17 @@ public class Heart extends BaseEntity {
     @Column(name = "count")
     private int count;
 
-    @Column(name = "is_final")
-    private boolean isFinal;
+    @Column(name = "last")
+    private boolean last;
 
-    private Heart(final Long id, final Long senderId, final Long receiverId, final int count, final boolean isFinal) {
+    private Heart(final Long id, final Long senderId, final Long receiverId, final int count, final boolean last) {
         validateMember(senderId, receiverId);
         validateCount(count);
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.count = count;
-        this.isFinal = isFinal;
+        this.last = last;
     }
 
     private void validateMember(final Long senderId, final Long receiverId) {
@@ -66,8 +66,8 @@ public class Heart extends BaseEntity {
         }
     }
 
-    private Heart(final Long senderId, final Long receiverId, final int count, final boolean isFinal) {
-        this(null, senderId, receiverId, count, isFinal);
+    private Heart(final Long senderId, final Long receiverId, final int count, final boolean last) {
+        this(null, senderId, receiverId, count, last);
     }
 
     public static Heart start(final Long senderId, final Long receiverId) {
@@ -88,7 +88,7 @@ public class Heart extends BaseEntity {
     }
 
     private void validateFinalStatus(final Heart oppositeHeart) {
-        if (isFinal && !oppositeHeart.isFinal()) {
+        if (last && !oppositeHeart.isLast()) {
             throw new InvalidHeartException(ErrorType.INVALID_HEART);
         }
     }
@@ -98,6 +98,6 @@ public class Heart extends BaseEntity {
     }
 
     private void changeStatus() {
-        isFinal = !isFinal;
+        last = !last;
     }
 }

@@ -37,7 +37,7 @@ class HeartRepositoryTest {
         Heart heart = heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).get();
         assertAll(
                 () -> assertThat(heart.getCount()).isEqualTo(1),
-                () -> assertThat(heart.isFinal()).isTrue()
+                () -> assertThat(heart.isLast()).isTrue()
         );
     }
 }

@@ -11,11 +11,14 @@ public class MemberHeart {
     private final Member sender;
     private final int count;
     private final LocalDateTime modifiedAt;
+    private final boolean last;
 
-    public MemberHeart(final Long heartId, final Member sender, final int count, final LocalDateTime modifiedAt) {
+    public MemberHeart(final Long heartId, final Member sender, final int count, final LocalDateTime modifiedAt,
+                       final boolean last) {
         this.heartId = heartId;
         this.sender = sender;
         this.count = count;
         this.modifiedAt = modifiedAt;
+        this.last = last;
     }
 }

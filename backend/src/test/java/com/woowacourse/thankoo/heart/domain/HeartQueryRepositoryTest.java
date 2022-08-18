@@ -59,7 +59,7 @@ class HeartQueryRepositoryTest {
                 Heart.start(lala.getId(), huni.getId()),
                 Heart.start(hoho.getId(), huni.getId())));
 
-        List<MemberHeart> memberHearts = heartQueryRepository.findByReceiverIdAndIsFinal(huni.getId(), true);
+        List<MemberHeart> memberHearts = heartQueryRepository.findByReceiverIdAndIsLast(huni.getId(), true);
         assertAll(
                 () -> assertThat(memberHearts).hasSize(3),
                 () -> assertThat(memberHearts).extracting("sender").containsExactly(hoho, lala, skrr)

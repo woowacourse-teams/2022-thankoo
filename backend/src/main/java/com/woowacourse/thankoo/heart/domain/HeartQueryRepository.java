@@ -23,23 +23,24 @@ public class HeartQueryRepository {
                         rs.getString("sender_email"), rs.getString("sender_social_id"),
                         rs.getString("sender_image_url")),
                 rs.getInt("count"),
-                rs.getTimestamp("modified_at").toLocalDateTime());
+                rs.getTimestamp("modified_at").toLocalDateTime(),
+                rs.getBoolean("last"));
     }
 
-    public List<MemberHeart> findByReceiverIdAndIsFinal(final Long receiverId, final boolean isFinal) {
+    public List<MemberHeart> findByReceiverIdAndIsLast(final Long receiverId, final boolean last) {
         String sql = "SELECT h.id AS heart_id, "
                 + "m.id AS sender_id, m.name AS sender_name, "
                 + "m.email AS sender_email, m.social_id AS sender_social_id, "
                 + "m.image_url AS sender_image_url, "
-                + "h.count, h.modified_at  "
+                + "h.count, h.modified_at, h.last "
                 + "FROM heart AS h "
                 + "JOIN member AS m ON h.sender_id = m.id "
                 + "WHERE h.receiver_id = (:receiverId) "
-                + "AND h.is_final = (:isFinal) "
+                + "AND h.last = (:last) "
                 + "ORDER BY h.modified_at DESC";
 
         SqlParameterSource parameters = new MapSqlParameterSource("receiverId", receiverId)
-                .addValue("isFinal", isFinal);
+                .addValue("last", last);
         return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
     }
 }

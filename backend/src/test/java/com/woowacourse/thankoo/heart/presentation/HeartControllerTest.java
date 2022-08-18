@@ -17,6 +17,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -75,8 +76,8 @@ class HeartControllerTest extends ControllerTest {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, IMAGE_URL);
         List<ReceivedHeartResponse> responses = List.of(
-                ReceivedHeartResponse.from(new MemberHeart(1L, huni, 1, LocalDateTime.now().minusHours(2L))),
-                ReceivedHeartResponse.from(new MemberHeart(2L, lala, 3, LocalDateTime.now().minusHours(1L)))
+                ReceivedHeartResponse.from(new MemberHeart(1L, huni, 1, LocalDateTime.now().minusHours(2L), true)),
+                ReceivedHeartResponse.from(new MemberHeart(2L, lala, 3, LocalDateTime.now().minusHours(1L), true))
         );
         given(heartQueryService.getReceivedHeart(anyLong()))
                 .willReturn(responses);
@@ -102,7 +103,8 @@ class HeartControllerTest extends ControllerTest {
                         fieldWithPath("[].sender.email").type(STRING).description("sendEmail"),
                         fieldWithPath("[].sender.imageUrl").type(STRING).description("senderImageUrl"),
                         fieldWithPath("[].count").type(NUMBER).description("count"),
-                        fieldWithPath("[].receivedAt").type(STRING).description("receivedAt")
+                        fieldWithPath("[].receivedAt").type(STRING).description("receivedAt"),
+                        fieldWithPath("[].last").type(BOOLEAN).description("last")
                 )
         ));
     }
