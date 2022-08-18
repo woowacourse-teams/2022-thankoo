@@ -67,10 +67,10 @@ public class CouponQueryService {
     private CouponDetailResponse getCouponDetailResponse(final Long couponId,
                                                          final MemberCoupon memberCoupon,
                                                          final CouponStatus couponStatus) {
-        if (couponStatus.isReserved() || couponStatus.isUsed()) {
-            return CouponDetailResponse.from(memberCoupon, meetingProvider.getMeetingByCouponId(couponId));
+        if (couponStatus.isReserving()) {
+            return CouponDetailResponse.from(memberCoupon, reservationProvider.getWaitingReservation(couponId));
         }
-        return CouponDetailResponse.from(memberCoupon, reservationProvider.getWaitingReservation(couponId));
+        return CouponDetailResponse.from(memberCoupon, meetingProvider.getMeetingByCouponId(couponId));
     }
 
     public CouponTotalResponse getCouponTotalCount(final Long memberId) {
