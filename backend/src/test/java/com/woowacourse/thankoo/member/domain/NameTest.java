@@ -23,7 +23,8 @@ class NameTest {
     @ParameterizedTest
     @ValueSource(strings = {" ", "abcdef"})
     void createNameException(String value) {
-        assertThatThrownBy(() -> new Name(value)).isInstanceOf(InvalidMemberException.class)
+        assertThatThrownBy(() -> new Name(value))
+                .isInstanceOf(InvalidMemberException.class)
                 .hasMessage("올바르지 않은 이름입니다.");
     }
 }
