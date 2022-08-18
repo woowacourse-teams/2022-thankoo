@@ -29,7 +29,8 @@ export const targetCouponAtom = atom<any>({
   default: null,
 });
 
-export const sentOrReceivedAtom = atom<any>({
+type SentOrReceivedNavType = '받은' | '보낸';
+export const sentOrReceivedAtom = atom<SentOrReceivedNavType>({
   key: 'sentOrReceived',
   default: '받은',
 });
@@ -63,4 +64,11 @@ export const onSuccessContentAtom = atom<SuccessContentType>({
     page: '',
     props: {},
   },
+});
+
+// 예약 Nav
+type ReservationNavType = 'received' | 'sent';
+export const ReservationNavAtom = atom<ReservationNavType>({
+  key: 'reservationNavAtom',
+  default: 'received',
 });

@@ -1,13 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import SuccessAnimation from '../@shared/SuccessAnimation';
-import { onSuccessContentAtom } from './../../recoil/atom';
+import { onSuccessContentAtom, ReservationNavAtom } from './../../recoil/atom';
 
 const CreateReservationSuccess = ({ receiver, date, time }) => {
   const pageReset = useResetRecoilState(onSuccessContentAtom);
+  const [reservationNav, setReservationNav] = useRecoilState(ReservationNavAtom);
 
   return (
     <S.Container>
@@ -42,7 +43,14 @@ const CreateReservationSuccess = ({ receiver, date, time }) => {
         </S.ContenstWrapper>
         <S.ButtonWrapper>
           <S.StyledLink to={ROUTE_PATH.RESERVATIONS} onClick={pageReset}>
-            <S.Button primary>예약 확인하기</S.Button>
+            <S.Button
+              onClick={() => {
+                setReservationNav('sent');
+              }}
+              primary
+            >
+              예약 확인하기
+            </S.Button>
           </S.StyledLink>
           <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
             <S.Button>홈으로</S.Button>

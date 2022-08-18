@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
-import { checkedUsersAtom } from '../../recoil/atom';
+import { checkedUsersAtom, sentOrReceivedAtom } from '../../recoil/atom';
 import { couponTypes } from '../../types';
 import SuccessAnimation from '../@shared/SuccessAnimation';
 import { onSuccessContentAtom } from './../../recoil/atom';
@@ -12,6 +12,7 @@ import { onSuccessContentAtom } from './../../recoil/atom';
 const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) => {
   const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
   const pageReset = useResetRecoilState(onSuccessContentAtom);
+  const [sentOrReceived, setSentOrReceived] = useRecoilState(sentOrReceivedAtom);
 
   useEffect(() => {
     resetCheckedUsers();
@@ -19,6 +20,7 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
 
   return (
     <S.Container>
+      d
       <S.Wrapper>
         <S.Header>쿠폰이 전송됐습니다!</S.Header>
         <SuccessAnimation />
@@ -59,7 +61,14 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
         </S.ContenstWrapper>
         <S.ButtonWrapper>
           <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
-            <S.Button primary>쿠폰 확인하기</S.Button>
+            <S.Button
+              onClick={() => {
+                setSentOrReceived('보낸');
+              }}
+              primary
+            >
+              쿠폰 확인하기
+            </S.Button>
           </S.StyledLink>
         </S.ButtonWrapper>
       </S.Wrapper>
