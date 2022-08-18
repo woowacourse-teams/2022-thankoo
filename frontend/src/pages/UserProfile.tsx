@@ -115,7 +115,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: space-between;
-    gap: 1rem;
+    gap: 2rem;
   `,
   UserCouponInfoItem: styled.div`
     display: flex;
