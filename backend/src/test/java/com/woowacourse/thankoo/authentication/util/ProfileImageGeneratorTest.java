@@ -32,16 +32,6 @@ class ProfileImageGeneratorTest {
         assertThat(imageUrl).isNotNull();
     }
 
-    @Test
-    void t() throws IOException {
-        Resource[] resources = (new PathMatchingResourcePatternResolver()).getResources("classpath:static/profile-image/*.svg");
-        List<String> collect = Stream.of(resources)
-                .map(Resource::getFilename)
-                .collect(Collectors.toList());
-        System.out.println(collect);
-
-    }
-
     @DisplayName("프로필 이미지 요청 경로를 생성할 때 ")
     @Nested
     class ImageUrlCreationTest {
