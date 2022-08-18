@@ -54,7 +54,8 @@ class ReservationControllerTest extends ControllerTest {
 
             ResultActions resultActions = mockMvc.perform(post("/api/reservations")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
-                            .content(objectMapper.writeValueAsString(new ReservationRequest(1L, LocalDateTime.now().plusDays(1L))))
+                            .content(objectMapper.writeValueAsString(
+                                    new ReservationRequest(1L, LocalDateTime.now().plusDays(1L))))
                             .contentType(MediaType.APPLICATION_JSON))
                     .andDo(print())
                     .andExpect(status().isCreated());
@@ -83,7 +84,8 @@ class ReservationControllerTest extends ControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
                     .andDo(print())
                     .andExpect(status().isBadRequest())
-                    .andExpect(content().string(objectMapper.writeValueAsString(new ErrorResponse(6001, "예약 시간이 잘못됐습니다."))));
+                    .andExpect(content().string(
+                            objectMapper.writeValueAsString(new ErrorResponse(9001, "예약 시간이 잘못됐습니다."))));
         }
     }
 
