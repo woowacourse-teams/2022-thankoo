@@ -21,7 +21,7 @@ const useEnterCouponContent = () => {
 
   const { data: userProfile } = useGetUserProfile();
 
-  const isFilled = !!title && !!message;
+  const isFilled = !!title.trim() && !!message.trim();
   const { close } = useModal();
   const { mutate: sendCoupon } = usePostCouponMutation(
     {

@@ -32,7 +32,7 @@ const EnterNickname = () => {
               maxLength={USER_NICKNAME_MAX_LENGTH}
             />
           </S.FlexColumn>
-          <S.Button disabled={nickname.length === 0} type='submit'>
+          <S.Button disabled={nickname.trim().length === 0} type='submit'>
             회원가입 완료
           </S.Button>
         </S.Form>
