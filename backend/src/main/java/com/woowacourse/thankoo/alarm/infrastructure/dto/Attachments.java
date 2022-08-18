@@ -16,7 +16,7 @@ public class Attachments {
     private static final String EMPTY = "";
     private static final String AUTHOR_NAME = "땡쿠 알림봇";
     private static final String ICON_LINK = "https://lh3.googleusercontent.com/a-/AFdZucoRbi9l51n1gvxvdVSg4I-7rRKkNJwpGLTK152Y=s96-c";
-    private static final String TITLE = "땡쿠";
+    private static final String TITLE = "땡쿠 바로가기";
     private static final String TITLE_LINK = "https://thankoo.co.kr/";
 
     @JsonProperty("mrkdwn_in")
