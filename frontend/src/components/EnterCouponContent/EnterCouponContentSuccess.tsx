@@ -21,7 +21,6 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
 
   return (
     <S.Container>
-      d
       <S.Wrapper>
         <S.Header>쿠폰이 전송됐습니다!</S.Header>
         <SuccessAnimation />
