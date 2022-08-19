@@ -1,0 +1,8 @@
+[[Auth]]
+=== 로그인
+
+operation::authentication/sign-in[snippets='http-request,http-response']
+
+=== 회원 가입
+
+operation::authentication/sign-up[snippets='http-request,http-response']

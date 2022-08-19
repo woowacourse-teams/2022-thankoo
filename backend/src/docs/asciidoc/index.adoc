@@ -1,0 +1,23 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+= Thankoo
+
+== Auth
+include::auth.adoc[]
+== Member
+include::member.adoc[]
+== Coupon
+include::coupon.adoc[]
+== Reservation
+include::reservation.adoc[]
+== Meeting
+include::meeting.adoc[]
+== Heart
+include::heart.adoc[]

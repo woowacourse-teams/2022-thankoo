@@ -1,0 +1,39 @@
+[[Reservation]]
+
+[cols=2*,options=header]
+|===
+|Status
+|Explain
+
+|waiting
+|예약 승인, 거절 대기 중인 경우
+
+|deny
+|예약이 거절됨
+
+|accept
+|예약이 승인됨
+
+|canceled
+|예약이 취소됨 (예약자만 취소 가능)
+
+|===
+
+=== 예약 전송
+
+operation::reservations/reserve[snippets='http-request,http-response']
+
+=== 보낸 예약 조회
+
+operation::reservations/get-received-reservations/[snippets='http-request,http-response']
+
+=== 받은 예약 조회
+
+operation::reservations/get-sent-reservations/[snippets='http-request,http-response']
+
+=== 예약 승인
+
+operation::reservations/update-reservation-status[snippets='http-request,http-response']
+
+=== 예약 취소
+operation::reservations/cancel[snippets='http-request,http-response']

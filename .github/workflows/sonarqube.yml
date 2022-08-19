@@ -1,0 +1,49 @@
+name: Sonarqube
+
+on:
+  pull_request:
+    branches: 
+      - main
+      - develop
+      
+    paths: ["backend/**"]
+    types: [opened, synchronize]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./backend
+   
+    env:
+      SONARQUBE_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
+      SONARQUBE_PROJECT_KEY : ${{ secrets.SONAR_PROJECT_KEY }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: gradlew permission change
+        run: sudo chmod 755 gradlew
+
+      - name: Sonarqube Analysis
+        run: ./gradlew build sonarqube
+          -Dsonar.host.url=${{ env.SONARQUBE_URL }}
+          -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
+          -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          
+      - name: Comment Sonarqube URL
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { SONARQUBE_PROJECT_KEY, SONARQUBE_URL, PR_NUMBER } = process.env
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📊 ${ SONARQUBE_PROJECT_KEY }-${ PR_NUMBER } 분석 결과 확인하기 [링크](${ SONARQUBE_URL }/dashboard?id=${ SONARQUBE_PROJECT_KEY }&pullRequest=${ PR_NUMBER })`
+            })

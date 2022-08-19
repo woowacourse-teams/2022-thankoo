@@ -1,0 +1,20 @@
+[[Member]]
+=== 본인을 제외한 모든 회원 조회
+
+operation::members/get-members[snippets='http-request,http-response']
+
+=== 내 정보 조회
+
+operation::members/get-member[snippets='http-request,http-response']
+
+=== 회원 이름 변경
+
+operation::members/update-member-name[snippets='http-request,http-response']
+
+=== 회원 프로필 이미지 변경
+
+operation::members/update-member-profile-image[snippets='http-request,http-response']
+
+=== 회원 프로필 이미지들을 조회
+
+operation::members/get-member-profile-images[snippets='http-request,http-response']

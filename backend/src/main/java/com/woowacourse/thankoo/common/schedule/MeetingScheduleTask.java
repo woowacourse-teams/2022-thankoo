@@ -1,0 +1,28 @@
+package com.woowacourse.thankoo.common.schedule;
+
+import com.woowacourse.thankoo.meeting.application.MeetingService;
+import java.time.LocalDate;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Profile("prod")
+@Component
+@RequiredArgsConstructor
+public class MeetingScheduleTask {
+
+    public static final Long DAY = 1L;
+
+    private final MeetingService meetingService;
+
+    @Scheduled(cron = "0 0 2 * * *")
+    public void executeCompleteMeeting() {
+        meetingService.complete(LocalDate.now().minusDays(DAY));
+    }
+
+    @Scheduled(cron = "0 0 9 * * *")
+    public void executeMeetingMessage() {
+        meetingService.sendMessageTodayMeetingMembers(LocalDate.now());
+    }
+}
