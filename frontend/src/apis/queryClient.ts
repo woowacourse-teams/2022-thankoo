@@ -4,6 +4,7 @@ import { ROUTE_PATH } from '../constants/routes';
 import { clearAuth } from '../utils/auth';
 
 const INVALID_MEMBER_ERROR_CODE = 2001;
+const INVALID_AUTH_ERROR_CODE = 1003;
 const INVALID_AUTH_STATUS = 401;
 
 type AuthErrorResponse = {
@@ -20,7 +21,8 @@ const retryHandler = (failureCount, error) => {
   console.log(error.response.status === INVALID_AUTH_STATUS);
   if (
     error.response.status === INVALID_AUTH_STATUS ||
-    error.response.data.errorCode === INVALID_MEMBER_ERROR_CODE
+    error.response.data.errorCode === INVALID_MEMBER_ERROR_CODE ||
+    error.response.data.errorCode === INVALID_AUTH_ERROR_CODE
   ) {
     return false;
   }
