@@ -17,6 +17,7 @@ const mutateErrorHandler = error => {
   authErrorHandler(error);
 };
 const retryHandler = (failureCount, error) => {
+  console.log(error.response.status === INVALID_AUTH_STATUS);
   if (
     error.response.status === INVALID_AUTH_STATUS ||
     error.response.data.errorCode === INVALID_AUTH_ERROR_CODE
@@ -32,7 +33,7 @@ const authErrorHandler = (error: AxiosError) => {
     data: { errorCode },
   } = error?.response as AuthErrorResponse;
 
-  if (errorCode === INVALID_AUTH_ERROR_CODE) {
+  if (errorCode === INVALID_AUTH_ERROR_CODE || error.response?.status === INVALID_AUTH_STATUS) {
     clearAuth();
     window.location.replace(`${ROUTE_PATH.SIGN_IN}`);
   }
