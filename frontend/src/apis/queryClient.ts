@@ -3,7 +3,7 @@ import { QueryClient } from 'react-query';
 import { ROUTE_PATH } from '../constants/routes';
 import { clearAuth } from '../utils/auth';
 
-const INVALID_AUTH_ERROR_CODE = 2001;
+const INVALID_MEMBER_ERROR_CODE = 2001;
 const INVALID_AUTH_STATUS = 401;
 
 type AuthErrorResponse = {
@@ -20,7 +20,7 @@ const retryHandler = (failureCount, error) => {
   console.log(error.response.status === INVALID_AUTH_STATUS);
   if (
     error.response.status === INVALID_AUTH_STATUS ||
-    error.response.data.errorCode === INVALID_AUTH_ERROR_CODE
+    error.response.data.errorCode === INVALID_MEMBER_ERROR_CODE
   ) {
     return false;
   }
@@ -33,7 +33,7 @@ const authErrorHandler = (error: AxiosError) => {
     data: { errorCode },
   } = error?.response as AuthErrorResponse;
 
-  if (errorCode === INVALID_AUTH_ERROR_CODE || error.response?.status === INVALID_AUTH_STATUS) {
+  if (errorCode === INVALID_MEMBER_ERROR_CODE || error.response?.status === INVALID_AUTH_STATUS) {
     clearAuth();
     window.location.replace(`${ROUTE_PATH.SIGN_IN}`);
   }
