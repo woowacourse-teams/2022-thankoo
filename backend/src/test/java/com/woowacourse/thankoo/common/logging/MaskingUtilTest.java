@@ -11,8 +11,8 @@ class MaskingUtilTest {
     @Test
     @DisplayName("지정된 범위 이후의 문자를 마스킹한다.")
     void mask() {
-        String maskedToken = MaskingUtil.mask("eyJhb.eyJzdWIiOiIxMjM0NTY3ODk.SflKxwRJSMe", 3);
+        String maskedWord = MaskingUtil.mask("eyJhb.eyJzdWIiOiIxMjM0NTY3ODk.SflKxwRJSMe", 3);
 
-        assertThat(maskedToken).isEqualTo("eyJ*******");
+        assertThat(maskedWord).isEqualTo("eyJ*******");
     }
 }
