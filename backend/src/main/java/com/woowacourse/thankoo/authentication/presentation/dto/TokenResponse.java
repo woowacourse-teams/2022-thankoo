@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TokenResponse {
 
+    private static final int DISPLAY_RANGE = 3;
+
     private boolean joined;
     private String accessToken;
     private Long memberId;
@@ -35,7 +37,7 @@ public class TokenResponse {
     public String toString() {
         return "TokenResponse{" +
                 "joined=" + joined +
-                ", accessToken='" + MaskingUtil.mask(accessToken, 3) + '\'' +
+                ", accessToken='" + MaskingUtil.mask(accessToken, DISPLAY_RANGE) + '\'' +
                 ", memberId=" + memberId +
                 ", email='" + email + '\'' +
                 '}';

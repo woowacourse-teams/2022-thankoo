@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.member.presentation.dto;
 
+import com.woowacourse.thankoo.common.logging.MaskingUtil;
 import com.woowacourse.thankoo.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MemberResponse {
 
+    private static final int DISPLAY_RANGE = 3;
+
     private Long id;
     private String name;
     private String email;
@@ -17,7 +20,7 @@ public class MemberResponse {
     private MemberResponse(final Long id, final String name, final String email, final String imageUrl) {
         this.id = id;
         this.name = name;
-        this.email = email;
+        this.email =  MaskingUtil.mask(email, 3);
         this.imageUrl = imageUrl;
     }
 
