@@ -20,7 +20,7 @@ public class MemberResponse {
     private MemberResponse(final Long id, final String name, final String email, final String imageUrl) {
         this.id = id;
         this.name = name;
-        this.email =  MaskingUtil.mask(email, 3);
+        this.email =  MaskingUtil.mask(email, DISPLAY_RANGE);
         this.imageUrl = imageUrl;
     }
 
