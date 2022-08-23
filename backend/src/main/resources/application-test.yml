@@ -33,5 +33,5 @@ server:
 
 slack:
   token: xoxb-39499534989-12389491129-12359892049
-  users-uri: https://slack.com/api/users.list
-  message-uri: https://slack.com/api/chat.postMessage
+  users-uri: http://localhost:8180/users/list
+  message-uri: http://localhost:8180/chat/postMessage
