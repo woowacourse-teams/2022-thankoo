@@ -15,7 +15,7 @@ public class ReservationScheduleTask {
     private final ReservationService reservationService;
 
     @Scheduled(cron = "0 0/30 10-19 * * *")
-    void executeExpiredReservationCancel() {
+    void executeCancelExpiredReservation() {
         reservationService.cancelExpiredReservation(LocalDateTime.now());
     }
 }

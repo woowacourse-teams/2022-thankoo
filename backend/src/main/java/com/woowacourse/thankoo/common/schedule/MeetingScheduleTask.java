@@ -21,7 +21,7 @@ public class MeetingScheduleTask {
     }
 
     @Scheduled(cron = "0 0 9 * * *")
-    public void executeMeetingMessage() {
+    public void executeSendMeetingMessage() {
         meetingService.sendMessageTodayMeetingMembers(LocalDate.now());
     }
 }
