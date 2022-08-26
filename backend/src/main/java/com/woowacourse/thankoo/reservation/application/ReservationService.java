@@ -91,9 +91,9 @@ public class ReservationService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    public void cancel(final ReservationStatus reservationStatus, final LocalDateTime dateTime) {
+    public void cancelExpiredReservation(final LocalDateTime dateTime) {
         Reservations reservations = new Reservations(reservationRepository.findAllByReservationStatusAndTimeUnitTime(
-                reservationStatus, dateTime));
+                ReservationStatus.WAITING, dateTime));
 
         reservationRepository.updateReservationStatus(ReservationStatus.CANCELED, reservations.getIds());
         couponRepository.updateCouponStatus(CouponStatus.NOT_USED, reservations.getCouponIds());

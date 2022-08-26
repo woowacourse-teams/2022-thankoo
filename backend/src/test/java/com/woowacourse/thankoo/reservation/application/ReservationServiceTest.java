@@ -233,9 +233,9 @@ class ReservationServiceTest {
         }
     }
 
-    @DisplayName("특정 상태와 시간인 예약을 취소한다.")
+    @DisplayName("만료된 예약을 취소한다.")
     @Test
-    void cancel() {
+    void cancelExpiredReservation() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
         Coupon coupon = couponRepository.save(
@@ -245,7 +245,7 @@ class ReservationServiceTest {
         Long reservation1Id = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), meetingTime));
 
-        reservationService.cancel(ReservationStatus.WAITING, meetingTime);
+        reservationService.cancelExpiredReservation(meetingTime);
 
         Reservation reservation1 = reservationRepository.findById(reservation1Id).get();
 
