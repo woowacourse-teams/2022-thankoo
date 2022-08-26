@@ -106,6 +106,54 @@ class MeetingRepositoryTest {
         assertThat(meetings).hasSize(3);
     }
 
+    @DisplayName("미팅의 상태와 날짜로 미팅을 모두 조회한다. (다른 날짜가 있는 경우)")
+    @Test
+    void findAllByMeetingStatusAndMeetingTimeDateWithOtherDate() {
+        LocalDateTime dateTime1 = LocalDateTime.now().plusDays(1L);
+        LocalDateTime dateTime2 = LocalDateTime.now().plusDays(3L);
+
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        for (int i = 0; i < 3; i++) {
+            Coupon coupon = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Reservation reservation = reservationRepository.save(
+                    Reservation.reserve(dateTime1,
+                            TimeZoneType.ASIA_SEOUL,
+                            ReservationStatus.WAITING,
+                            receiver.getId(),
+                            coupon));
+            meetingRepository.save(new Meeting(
+                    List.of(sender, receiver),
+                    reservation.getTimeUnit(),
+                    MeetingStatus.ON_PROGRESS,
+                    coupon)
+            );
+        }
+
+        Coupon coupon1 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Reservation reservation1 = reservationRepository.save(
+                Reservation.reserve(dateTime2,
+                        TimeZoneType.ASIA_SEOUL,
+                        ReservationStatus.WAITING,
+                        receiver.getId(),
+                        coupon1));
+        meetingRepository.save(new Meeting(
+                List.of(sender, receiver),
+                reservation1.getTimeUnit(),
+                MeetingStatus.ON_PROGRESS,
+                coupon1)
+        );
+
+        List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndTimeUnitTime(
+                MeetingStatus.ON_PROGRESS,
+                dateTime1);
+
+        assertThat(meetings).hasSize(3);
+    }
+
     @DisplayName("만남의 상태와 미팅 id로 미팅 상태를 변경한다.")
     @Test
     void updateMeetingStatus() {
