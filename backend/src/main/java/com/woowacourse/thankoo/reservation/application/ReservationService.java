@@ -16,11 +16,10 @@ import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequ
 import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
+import com.woowacourse.thankoo.reservation.domain.Reservations;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,22 +92,10 @@ public class ReservationService {
     }
 
     public void cancel(final ReservationStatus reservationStatus, final LocalDateTime dateTime) {
-        List<Reservation> reservations = reservationRepository.findAllByReservationStatusAndTimeUnitTime(
-                reservationStatus, dateTime);
+        Reservations reservations = new Reservations(reservationRepository.findAllByReservationStatusAndTimeUnitTime(
+                reservationStatus, dateTime));
 
-        reservationRepository.updateReservationStatus(ReservationStatus.CANCELED, getIds(reservations));
-        couponRepository.updateCouponStatus(CouponStatus.NOT_USED, getCouponIds(reservations));
-    }
-
-    private List<Long> getIds(final List<Reservation> reservations) {
-        return reservations.stream()
-                .map(Reservation::getId)
-                .collect(Collectors.toList());
-    }
-
-    private List<Long> getCouponIds(final List<Reservation> reservations) {
-        return reservations.stream()
-                .map(reservation -> reservation.getCoupon().getId())
-                .collect(Collectors.toList());
+        reservationRepository.updateReservationStatus(ReservationStatus.CANCELED, reservations.getIds());
+        couponRepository.updateCouponStatus(CouponStatus.NOT_USED, reservations.getCouponIds());
     }
 }
