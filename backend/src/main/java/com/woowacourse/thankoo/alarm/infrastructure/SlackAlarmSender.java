@@ -20,13 +20,21 @@ public class SlackAlarmSender implements AlarmSender {
     @Override
     public void send(final Message message) {
         for (String email : message.getEmails()) {
-            try {
-                String slackUserToken = slackUserRepository.findUserToken(email);
-                slackClient.sendMessage(slackUserToken,
-                        Attachments.from(message.getTitle(), message.getTitleLink(), message.getContents()));
-            } catch (Exception e) {
-                log.warn("알람 전송 실패 {}", email, e);
-            }
+            send(message, email);
         }
+    }
+
+    private void send(final Message message, final String email) {
+        try {
+            sendSlackMessage(message, email);
+        } catch (Exception e) {
+            log.warn("알람 전송 실패 {}", email, e);
+        }
+    }
+
+    private void sendSlackMessage(final Message message, final String email) {
+        String slackUserToken = slackUserRepository.findUserToken(email);
+        slackClient.sendMessage(slackUserToken,
+                Attachments.from(message.getTitle(), message.getTitleLink(), message.getContents()));
     }
 }

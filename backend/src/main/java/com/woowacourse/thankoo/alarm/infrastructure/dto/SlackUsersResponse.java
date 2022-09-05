@@ -16,4 +16,11 @@ public class SlackUsersResponse {
     public SlackUsersResponse(final List<SlackUserResponse> responses) {
         this.responses = responses;
     }
+
+    @Override
+    public String toString() {
+        return "SlackUsersResponse{" +
+                "responses=" + responses +
+                '}';
+    }
 }
