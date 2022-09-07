@@ -47,7 +47,6 @@ class CouponMessageFormStrategyTest {
 
         Alarm alarm = new Alarm(AlarmType.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
                 "COFFEE",
-                "https://thankoo.co.kr/",
                 List.of(String.valueOf(lala.getId()), COFFEE_TITLE, "coffee"));
 
         Message message = couponMessageFormStrategy.createFormat(alarm);
@@ -72,7 +71,6 @@ class CouponMessageFormStrategyTest {
 
         Alarm alarm = new Alarm(AlarmType.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
                 COFFEE_PRETEXT,
-                "https://thankoo.co.kr/",
                 List.of(String.valueOf(lala.getId()), COFFEE_TITLE));
 
         assertThatThrownBy(
@@ -89,7 +87,6 @@ class CouponMessageFormStrategyTest {
 
         Alarm alarm = new Alarm(AlarmType.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
                 COFFEE_PRETEXT,
-                "https://thankoo.co.kr/",
                 List.of("a", COFFEE_TITLE, COFFEE_TYPE));
 
         assertThatThrownBy(
