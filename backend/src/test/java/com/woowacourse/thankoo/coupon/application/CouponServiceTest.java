@@ -15,9 +15,6 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import com.woowacourse.thankoo.alarm.AlarmSender;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
@@ -68,7 +65,6 @@ class CouponServiceTest {
 
             List<Coupon> coupons = couponRepository.findAll();
 
-            verify(alarmSender, times(1)).send(any());
             assertThat(coupons).hasSize(1);
         }
 

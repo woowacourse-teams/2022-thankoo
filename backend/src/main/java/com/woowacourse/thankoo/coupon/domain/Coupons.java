@@ -10,7 +10,6 @@ public class Coupons {
 
     private final List<Coupon> values;
 
-    // TODO : sender id, coupon content 다르면 예외 처리
     public Coupons(final List<Coupon> values) {
         this.values = List.copyOf(values);
     }
