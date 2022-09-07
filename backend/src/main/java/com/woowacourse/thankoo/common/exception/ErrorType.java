@@ -41,6 +41,7 @@ public enum ErrorType {
 
     NOT_FOUND_SLACK_USER(7001, "알람이 불가능한 이메일입니다."),
     NOT_FOUND_ALARM_REQUEST(7002, "전송하려는 알람이 존재하지 않습니다."),
+    INVALID_ALARM_FORMAT(7003, "잘못된 알람 형식입니다."),
 
     REQUEST_EXCEPTION(9001, "http 요청 에러입니다."),
     INVALID_PATH(9002, "잘못된 경로입니다."),
