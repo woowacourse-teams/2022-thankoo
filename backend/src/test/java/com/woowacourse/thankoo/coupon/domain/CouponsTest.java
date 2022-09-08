@@ -42,12 +42,57 @@ class CouponsTest {
                 .hasMessage("쿠폰 그룹을 생성할 수 없습니다.");
     }
 
-    @DisplayName("쿠폰을 발급한다.")
-    @Test
-    void distribute() {
-        Coupons coupons = Coupons.distribute(createRawCoupons(1L));
+    @DisplayName("쿠폰을 발급할 때 ")
+    @Nested
+    class DistributeTest {
 
-        assertThat(coupons.getCouponIds()).containsExactly(1L, 2L, 3L);
+        @DisplayName("정상적으로 여러 장의 쿠폰을 발급한다.")
+        @Test
+        void distributeCoupons() {
+            Coupons coupons = Coupons.distribute(createRawCoupons(1L));
+
+            assertThat(coupons.getCouponIds()).containsExactly(1L, 2L, 3L);
+        }
+
+        @DisplayName("정상적으로 한 장의 쿠폰을 발급한다.")
+        @Test
+        void distributeCoupon() {
+            Coupons coupons = Coupons.distribute(
+                    List.of(
+                            new Coupon(1L,
+                                    1L,
+                                    2L,
+                                    new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                                    CouponStatus.NOT_USED)
+                    )
+            );
+
+            assertThat(coupons.getCouponIds()).containsExactly(1L);
+        }
+
+        @DisplayName("보내는 이가 다를 경우 실패한다.")
+        @Test
+        void distributeFailedDifferentSender() {
+            List<Coupon> values = createRawCoupons(1L);
+            values.add(new Coupon(4L, 2L, 3L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED));
+
+            assertThatThrownBy(() -> Coupons.distribute(values))
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("동일한 쿠폰 그룹이 아닙니다.");
+        }
+
+        @DisplayName("쿠폰 내용이 다를 경우 실패한다.")
+        @Test
+        void distributeFailedDifferentContent() {
+            List<Coupon> values = createRawCoupons(1L);
+            values.add(new Coupon(4L, 2L, 3L, new CouponContent(CouponType.MEAL, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED));
+
+            assertThatThrownBy(() -> Coupons.distribute(values))
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("동일한 쿠폰 그룹이 아닙니다.");
+        }
     }
 
     @DisplayName("대표 Sender Id 를 가져올 때 ")
