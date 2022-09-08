@@ -13,7 +13,7 @@ public class Meetings {
     private final List<Meeting> values;
 
     public Meetings(final List<Meeting> values) {
-        this.values = values;
+        this.values = List.copyOf(values);
     }
 
     public List<Long> getMeetingIds() {
@@ -34,5 +34,9 @@ public class Meetings {
                 .flatMap(Collection::stream)
                 .map(MeetingMember::getMember)
                 .collect(Collectors.toList());
+    }
+
+    public boolean haveMeeting() {
+        return !values.isEmpty();
     }
 }

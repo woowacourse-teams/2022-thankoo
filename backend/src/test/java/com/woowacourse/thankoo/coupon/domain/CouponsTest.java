@@ -3,8 +3,11 @@ package com.woowacourse.thankoo.coupon.domain;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +31,14 @@ class CouponsTest {
         List<Long> receiverIds = coupons.getReceiverIds();
 
         assertThat(receiverIds).containsExactly(1L, 2L, 3L);
+    }
+
+    @Test
+    @DisplayName("빈 리스트가 들어올 경우 예외가 발생한다.")
+    void validateCouponSize() {
+        assertThatThrownBy(() -> new Coupons(Collections.emptyList()))
+                .isInstanceOf(InvalidCouponException.class)
+                .hasMessage("쿠폰 그룹을 생성할 수 없습니다.");
     }
 
     private Coupons givenCoupons() {

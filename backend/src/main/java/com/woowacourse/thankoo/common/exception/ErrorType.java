@@ -21,6 +21,7 @@ public enum ErrorType {
     INVALID_COUPON_MESSAGE(3003, "잘못된 쿠폰 내용입니다."),
     INVALID_COUPON_STATUS(3004, "잘못된 쿠폰 상태입니다."),
     NOT_FOUND_COUPON(3005, "존재하지 않는 쿠폰입니다."),
+    CAN_NOT_CREATE_COUPON_GROUP(3006, "쿠폰 그룹을 생성할 수 없습니다."),
 
     INVALID_RESERVATION_TIME(4001, "유효하지 않은 일정입니다."),
     INVALID_RESERVATION_MEMBER_MISMATCH(4002, "예약을 요청할 수 없는 회원입니다."),

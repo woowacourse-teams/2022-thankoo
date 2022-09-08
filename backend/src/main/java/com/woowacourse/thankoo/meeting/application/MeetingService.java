@@ -51,10 +51,12 @@ public class MeetingService {
 
     public void complete(final LocalDate date) {
         Meetings meetings = new Meetings(meetingRepository.findAllByMeetingStatusAndTimeUnit_Date(ON_PROGRESS, date));
-        Coupons coupons = new Coupons(meetings.getCoupons());
+        if (meetings.haveMeeting()) {
+            Coupons coupons = new Coupons(meetings.getCoupons());
 
-        meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetings.getMeetingIds());
-        couponRepository.updateCouponStatus(CouponStatus.USED, coupons.getCouponIds());
+            meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetings.getMeetingIds());
+            couponRepository.updateCouponStatus(CouponStatus.USED, coupons.getCouponIds());
+        }
     }
 
     public void sendMessageTodayMeetingMembers(final LocalDate date) {
