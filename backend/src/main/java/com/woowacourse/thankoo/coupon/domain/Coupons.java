@@ -10,6 +10,8 @@ import lombok.Getter;
 @Getter
 public class Coupons {
 
+    private static final int REPRESENTATIVE_INDEX = 0;
+
     private final List<Coupon> values;
 
     public Coupons(final List<Coupon> values) {
@@ -41,11 +43,24 @@ public class Coupons {
                 .collect(Collectors.toList());
     }
 
-    public Long getSenderId() {
-        return values.get(0).getSenderId();
+    public Long getRepresentativeSenderId() {
+        Long representativeSenderId = values.get(REPRESENTATIVE_INDEX).getSenderId();
+        validateSameSender(representativeSenderId);
+        return representativeSenderId;
+    }
+
+    private void validateSameSender(final Long representativeSenderId) {
+        if (isNotSameSender(representativeSenderId)) {
+            throw new InvalidCouponException(ErrorType.NOT_IN_SAME_COUPON_GROUP);
+        }
+    }
+
+    private boolean isNotSameSender(final Long representativeSenderId) {
+        return values.stream()
+                .anyMatch(value -> !value.isSender(representativeSenderId));
     }
 
     public CouponContent getCouponContent() {
-        return values.get(0).getCouponContent();
+        return values.get(REPRESENTATIVE_INDEX).getCouponContent();
     }
 }

@@ -28,7 +28,7 @@ public class CouponSentAlarmEvent extends AlarmEvent {
     public static CouponSentAlarmEvent from(final Coupons coupons) {
         CouponContent couponContent = coupons.getCouponContent();
         return new CouponSentAlarmEvent(coupons.getReceiverIds(),
-                coupons.getSenderId(),
+                coupons.getRepresentativeSenderId(),
                 couponContent.getTitle(),
                 couponContent.getCouponType().getValue()
         );
