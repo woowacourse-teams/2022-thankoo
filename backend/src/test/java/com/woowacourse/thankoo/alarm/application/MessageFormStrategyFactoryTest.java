@@ -20,6 +20,6 @@ class MessageFormStrategyFactoryTest {
     @Test
     void getCouponMessageFormStrategy() {
         MessageFormStrategy strategy = messageFormStrategyFactory.getStrategy(AlarmType.COUPON_SENT);
-        assertThat(strategy instanceof CouponMessageFormStrategy).isTrue();
+        assertThat(strategy).isInstanceOf(CouponMessageFormStrategy.class);
     }
 }

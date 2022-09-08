@@ -9,7 +9,7 @@ public abstract class AlarmEvent {
 
     private AlarmType alarmType;
 
-    public AlarmEvent(final AlarmType alarmType) {
+    protected AlarmEvent(final AlarmType alarmType) {
         this.alarmType = alarmType;
     }
 

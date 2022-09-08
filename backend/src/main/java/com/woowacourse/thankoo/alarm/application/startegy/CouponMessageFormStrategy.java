@@ -20,7 +20,7 @@ public class CouponMessageFormStrategy extends MemberMessageFormStrategy {
     private static final String TYPE = "쿠폰 종류 : {0}";
     private static final String COFFEE_PRETEXT = "\uD83D\uDC8C 커피 쿠폰이 도착했어요.";  // 💌
     private static final String MEAL_PRETEXT = "\uD83D\uDC8C 식사 쿠폰이 도착했어요.";    // 💌
-    private static final Map<String, String> type = Map.of(
+    private static final Map<String, String> types = Map.of(
             "coffee", "커피☕",
             "meal", "식사\uD83C\uDF54");                                         // 🍔
     private static final int SENDER_ID_INDEX = 0;
@@ -44,7 +44,7 @@ public class CouponMessageFormStrategy extends MemberMessageFormStrategy {
                 .titleLink(TITLE_LINK)
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(TITLE, alarm.getContents().get(TITLE_INDEX)))
-                .content(MessageFormat.format(TYPE, type.get(alarm.getContents().get(TYPE_INDEX))))
+                .content(MessageFormat.format(TYPE, types.get(alarm.getContents().get(TYPE_INDEX))))
                 .build();
     }
 
