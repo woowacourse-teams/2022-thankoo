@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -52,6 +53,24 @@ public class CouponContent {
         if (message.isBlank() || message.length() > MAX_MESSAGE_LENGTH) {
             throw new InvalidCouponContentException(ErrorType.INVALID_COUPON_MESSAGE);
         }
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CouponContent)) {
+            return false;
+        }
+        CouponContent that = (CouponContent) o;
+        return couponType == that.couponType && Objects.equals(title, that.title) && Objects.equals(
+                message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(couponType, title, message);
     }
 
     @Override

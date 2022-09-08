@@ -60,7 +60,20 @@ public class Coupons {
                 .anyMatch(value -> !value.isSender(representativeSenderId));
     }
 
-    public CouponContent getCouponContent() {
-        return values.get(REPRESENTATIVE_INDEX).getCouponContent();
+    public CouponContent getRepresentativeCouponContent() {
+        CouponContent representativeCouponContent = values.get(REPRESENTATIVE_INDEX).getCouponContent();
+        validateSameCouponContents(representativeCouponContent);
+        return representativeCouponContent;
+    }
+
+    private void validateSameCouponContents(final CouponContent representativeCouponContent) {
+        if (isNotSameCouponContents(representativeCouponContent)) {
+            throw new InvalidCouponException(ErrorType.NOT_IN_SAME_COUPON_GROUP);
+        }
+    }
+
+    private boolean isNotSameCouponContents(final CouponContent representativeCouponContent) {
+        return values.stream()
+                .anyMatch(value -> !value.isSameCouponContent(representativeCouponContent));
     }
 }

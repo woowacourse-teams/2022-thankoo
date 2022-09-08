@@ -50,7 +50,7 @@ class CouponsTest {
         assertThat(coupons.getCouponIds()).containsExactly(1L, 2L, 3L);
     }
 
-    @DisplayName("Sender Id를 가져올 때 ")
+    @DisplayName("대표 Sender Id 를 가져올 때 ")
     @Nested
     class GetRepresentativeSenderIdTest {
 
@@ -71,6 +71,33 @@ class CouponsTest {
 
             Coupons coupons = new Coupons(values);
             assertThatThrownBy(coupons::getRepresentativeSenderId)
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("동일한 쿠폰 그룹이 아닙니다.");
+        }
+    }
+
+    @DisplayName("대표 CouponContent 를 가져올 때 ")
+    @Nested
+    class GetRepresentativeCouponContentTest {
+
+        @DisplayName("모두 동일한 CouponContent 일 경우 대표 Content 를 가져온다.")
+        @Test
+        void getRepresentativeCouponContentIfSame() {
+            Coupons coupons = Coupons.distribute(createRawCoupons(1L));
+
+            assertThat(coupons.getRepresentativeCouponContent())
+                    .isEqualTo(new CouponContent(CouponType.COFFEE, TITLE, MESSAGE));
+        }
+
+        @DisplayName("CouponContent 가 다를 경우 대표 Content 를 가져오지 못한다.")
+        @Test
+        void getRepresentativeCouponContentDifferentCouponContentFailed() {
+            List<Coupon> values = createRawCoupons(1L);
+            values.add(new Coupon(4L, 2L, 3L, new CouponContent(CouponType.MEAL, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED));
+
+            Coupons coupons = new Coupons(values);
+            assertThatThrownBy(coupons::getRepresentativeCouponContent)
                     .isInstanceOf(InvalidCouponException.class)
                     .hasMessage("동일한 쿠폰 그룹이 아닙니다.");
         }
