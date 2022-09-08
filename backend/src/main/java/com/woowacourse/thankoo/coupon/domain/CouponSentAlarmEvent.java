@@ -41,4 +41,14 @@ public class CouponSentAlarmEvent extends AlarmEvent {
                 couponType,
                 List.of(String.valueOf(senderId), couponTitle, couponType));
     }
+
+    @Override
+    public String toString() {
+        return "CouponSentAlarmEvent{" +
+                "receiverIds=" + receiverIds +
+                ", senderId=" + senderId +
+                ", couponTitle='" + couponTitle + '\'' +
+                ", couponType='" + couponType + '\'' +
+                '}';
+    }
 }

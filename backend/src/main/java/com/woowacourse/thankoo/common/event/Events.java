@@ -10,7 +10,7 @@ public class Events {
         Events.applicationEventPublisher = applicationEventPublisher;
     }
 
-    public static void publish(Object event) {
+    public static void publish(final Object event) {
         if (applicationEventPublisher != null) {
             applicationEventPublisher.publishEvent(event);
         }

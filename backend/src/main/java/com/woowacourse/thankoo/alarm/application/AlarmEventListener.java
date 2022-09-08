@@ -19,7 +19,7 @@ public class AlarmEventListener {
 
     @Async
     @TransactionalEventListener
-    public void handle(AlarmEvent alarmEvent) {
+    public void handle(final AlarmEvent alarmEvent) {
         log.debug("alarm event = {}", alarmEvent);
         MessageFormStrategy strategy = messageFormStrategyFactory.getStrategy(alarmEvent.getAlarmType());
         Message message = strategy.createFormat(alarmEvent.toAlarm());
