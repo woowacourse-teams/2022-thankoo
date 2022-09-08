@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Coupons 는 ")
 class CouponsTest {
 
-    @Test
     @DisplayName("쿠폰들에서 쿠폰의 id를 가져온다.")
+    @Test
     void getCouponIds() {
         Coupons coupons = givenCoupons();
         List<Long> couponIds = coupons.getCouponIds();
@@ -24,27 +24,40 @@ class CouponsTest {
         assertThat(couponIds).containsExactly(1L, 2L, 3L);
     }
 
-    @Test
     @DisplayName("쿠폰들에서 받은 회원의 id를 가져온다.")
+    @Test
     void getReceiverIds() {
         Coupons coupons = givenCoupons();
         List<Long> receiverIds = coupons.getReceiverIds();
 
-        assertThat(receiverIds).containsExactly(1L, 2L, 3L);
+        assertThat(receiverIds).containsExactly(2L, 3L, 4L);
     }
 
-    @Test
     @DisplayName("빈 리스트가 들어올 경우 예외가 발생한다.")
+    @Test
     void validateCouponSize() {
         assertThatThrownBy(() -> new Coupons(Collections.emptyList()))
                 .isInstanceOf(InvalidCouponException.class)
                 .hasMessage("쿠폰 그룹을 생성할 수 없습니다.");
     }
 
+    @DisplayName("쿠폰을 발급한다.")
+    @Test
+    void distribute() {
+        List<Coupon> coupons = new ArrayList<>();
+        for (long id = 1; id < 4; id++) {
+            coupons.add(new Coupon(id, 1L, id + 1, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED));
+        }
+        Coupons distributedCoupons = Coupons.distribute(coupons);
+
+        assertThat(distributedCoupons.getCouponIds()).containsExactly(1L, 2L, 3L);
+    }
+
     private Coupons givenCoupons() {
         List<Coupon> coupons = new ArrayList<>();
-        for (long id = 0; id < 3; id++) {
-            coupons.add(new Coupon(id + 1, id + 1, id + 1, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+        for (long id = 1; id < 4; id++) {
+            coupons.add(new Coupon(id, 1L, id + 1, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
         }
         return new Coupons(coupons);
