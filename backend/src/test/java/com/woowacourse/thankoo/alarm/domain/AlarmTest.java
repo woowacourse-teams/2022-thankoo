@@ -15,7 +15,7 @@ class AlarmTest {
     @DisplayName("컨텐츠 사이즈를 갖고 있다.")
     @ParameterizedTest
     @CsvSource(value = {"1:true", "2:false"}, delimiter = ':')
-    void hasContentsSize(int size, boolean result) {
+    void hasContentsSize(final int size, final boolean result) {
         Alarm alarm = Alarm.create(
                 new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(1L), "title", List.of("contents")));
         assertThat(alarm.hasContentsSize(size)).isEqualTo(result);
