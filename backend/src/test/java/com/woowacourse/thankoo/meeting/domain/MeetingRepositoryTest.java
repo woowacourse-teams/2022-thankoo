@@ -96,7 +96,7 @@ class MeetingRepositoryTest {
             );
         }
 
-        List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndTimeUnit_Date(
+        List<Meeting> meetings = meetingRepository.findAllByMeetingStatusAndTimeUnitDate(
                 MeetingStatus.ON_PROGRESS,
                 LocalDate.now().plusDays(1L));
 
@@ -160,7 +160,7 @@ class MeetingRepositoryTest {
             );
         }
 
-        List<Meeting> meetings = meetingRepository.findAllByTimeUnit_Date(LocalDate.now().plusDays(1L));
+        List<Meeting> meetings = meetingRepository.findAllByTimeUnitDate(LocalDate.now().plusDays(1L));
 
         assertThat(meetings).hasSize(3);
     }

@@ -35,7 +35,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("MeetingTest 는 ")
+@DisplayName("Meeting 은 ")
 class MeetingTest {
 
     @DisplayName("회원을 검증한다.")

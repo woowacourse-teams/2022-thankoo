@@ -50,7 +50,7 @@ public class MeetingService {
     }
 
     public void complete(final LocalDate date) {
-        Meetings meetings = new Meetings(meetingRepository.findAllByMeetingStatusAndTimeUnit_Date(ON_PROGRESS, date));
+        Meetings meetings = new Meetings(meetingRepository.findAllByMeetingStatusAndTimeUnitDate(ON_PROGRESS, date));
         if (meetings.haveMeeting()) {
             Coupons coupons = new Coupons(meetings.getCoupons());
 
@@ -60,7 +60,7 @@ public class MeetingService {
     }
 
     public void sendMessageTodayMeetingMembers(final LocalDate date) {
-        Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnit_Date(date));
+        Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnitDate(date));
         Members members = new Members(meetings.getMembers());
         if (!members.isEmpty()) {
             alarmSender.send(MeetingMessage.of(members.getEmails()));

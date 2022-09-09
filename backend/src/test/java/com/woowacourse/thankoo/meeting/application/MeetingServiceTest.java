@@ -134,7 +134,7 @@ class MeetingServiceTest {
             LocalDate date = LocalDate.now().plusDays(1L);
             meetingService.complete(date);
 
-            assertThat(meetingRepository.findAllByMeetingStatusAndTimeUnit_Date(MeetingStatus.FINISHED, date)).hasSize(
+            assertThat(meetingRepository.findAllByMeetingStatusAndTimeUnitDate(MeetingStatus.FINISHED, date)).hasSize(
                     2);
         }
 

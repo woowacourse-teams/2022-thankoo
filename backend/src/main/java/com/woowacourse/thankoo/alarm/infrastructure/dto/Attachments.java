@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 public class Attachments {
 
     private static final String MARK_DOWN = "attachments";
-    private static final String COLOR = "#FF6347";
+    private static final String DEFAULT_COLOR = "#FF6347";
     private static final String EMPTY = "";
     private static final String AUTHOR_NAME = "땡쿠 알림봇";
     private static final String ICON_LINK = "https://lh3.googleusercontent.com/a-/AFdZucoRbi9l51n1gvxvdVSg4I-7rRKkNJwpGLTK152Y=s96-c";
-    private static final String TITLE = "땡쿠 바로가기";
+    private static final String DEFAULT_TITLE = "땡쿠 바로가기";
 
     @JsonProperty("mrkdwn_in")
     private List<String> markDown;
@@ -60,11 +60,11 @@ public class Attachments {
     public static Attachments from(final String preText, final String titleLink, final List<String> detailMessages) {
         return new Attachments(
                 List.of(MARK_DOWN),
-                COLOR, preText,
+                DEFAULT_COLOR, preText,
                 EMPTY,
                 ICON_LINK,
                 ICON_LINK,
-                TITLE,
+                DEFAULT_TITLE,
                 titleLink,
                 toDetailMessage(detailMessages));
     }
