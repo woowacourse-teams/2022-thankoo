@@ -50,14 +50,14 @@ public class Coupons {
     }
 
     private void validateSameSender(final Long representativeSenderId) {
-        if (isNotSameSender(representativeSenderId)) {
+        if (!isSameSenders(representativeSenderId)) {
             throw new InvalidCouponException(ErrorType.NOT_IN_SAME_COUPON_GROUP);
         }
     }
 
-    private boolean isNotSameSender(final Long representativeSenderId) {
+    private boolean isSameSenders(final Long representativeSenderId) {
         return values.stream()
-                .anyMatch(value -> !value.isSender(representativeSenderId));
+                .allMatch(value -> value.isSender(representativeSenderId));
     }
 
     public CouponContent getRepresentativeCouponContent() {
@@ -67,13 +67,13 @@ public class Coupons {
     }
 
     private void validateSameCouponContents(final CouponContent representativeCouponContent) {
-        if (isNotSameCouponContents(representativeCouponContent)) {
+        if (!isSameCouponContents(representativeCouponContent)) {
             throw new InvalidCouponException(ErrorType.NOT_IN_SAME_COUPON_GROUP);
         }
     }
 
-    private boolean isNotSameCouponContents(final CouponContent representativeCouponContent) {
+    private boolean isSameCouponContents(final CouponContent representativeCouponContent) {
         return values.stream()
-                .anyMatch(value -> !value.isSameCouponContent(representativeCouponContent));
+                .allMatch(value -> value.isSameCouponContent(representativeCouponContent));
     }
 }
