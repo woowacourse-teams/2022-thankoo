@@ -16,8 +16,8 @@ public class AlarmService {
     private final AlarmSender alarmSender;
 
     public void send(final AlarmSpecification alarmSpecification) {
-        MessageFormStrategy strategy = messageFormStrategyFactory.getStrategy(alarmSpecification.getAlarmType());
         Alarm alarm = Alarm.create(alarmSpecification);
+        MessageFormStrategy strategy = messageFormStrategyFactory.getStrategy(alarm.getAlarmType());
         Message message = Message.of(alarm, strategy);
         alarmSender.send(message);
     }

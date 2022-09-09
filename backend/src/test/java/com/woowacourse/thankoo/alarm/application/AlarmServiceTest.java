@@ -12,15 +12,12 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.thankoo.alarm.domain.Alarm;
-import com.woowacourse.thankoo.alarm.domain.AlarmType;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.domain.AlarmSpecification;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,7 +44,7 @@ class AlarmServiceTest {
             Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
             Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmType.COUPON_SENT,
+            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmSpecification.COUPON_SENT,
                     List.of(hoho.getId(), huni.getId()),
                     "COFFEE",
                     List.of(String.valueOf(lala.getId()), "coffee"));
@@ -64,7 +61,7 @@ class AlarmServiceTest {
             Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
             Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmType.COUPON_SENT,
+            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmSpecification.COUPON_SENT,
                     List.of(hoho.getId(), huni.getId()),
                     "COFFEE",
                     List.of(String.valueOf(lala.getId()), "널 좋아해", "coffee"));

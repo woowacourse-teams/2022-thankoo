@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.thankoo.alarm.application.MessageFormStrategy;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
-import com.woowacourse.thankoo.alarm.domain.AlarmType;
 import com.woowacourse.thankoo.common.domain.AlarmSpecification;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +33,7 @@ class MessageTest {
         given(messageFormStrategy.createFormat(any(Alarm.class)))
                 .willReturn(expected);
 
-        Alarm alarm = Alarm.create(new AlarmSpecification(AlarmType.COUPON_SENT,
+        Alarm alarm = Alarm.create(new AlarmSpecification(AlarmSpecification.COUPON_SENT,
                 List.of(2L, 3L),
                 "COFFEE",
                 List.of(String.valueOf(1L), "title", "coffee"))

@@ -17,7 +17,7 @@ class AlarmTest {
     @CsvSource(value = {"1:true", "2:false"}, delimiter = ':')
     void hasContentsSize(int size, boolean result) {
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmType.COUPON_SENT, List.of(1L), "title", List.of("contents")));
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(1L), "title", List.of("contents")));
         assertThat(alarm.hasContentsSize(size)).isEqualTo(result);
     }
 
@@ -25,7 +25,7 @@ class AlarmTest {
     @Test
     void create() {
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmType.COUPON_SENT, List.of(1L), "title", List.of("contents")));
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(1L), "title", List.of("contents")));
 
         assertThat(alarm.getAlarmStatus()).isEqualTo(AlarmStatus.CREATED);
     }

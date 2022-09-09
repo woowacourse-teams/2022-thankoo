@@ -26,7 +26,7 @@ public class Alarm {
     }
 
     public static Alarm create(final AlarmSpecification alarmSpecification) {
-        return new Alarm(alarmSpecification.getAlarmType(),
+        return new Alarm(AlarmType.from(alarmSpecification.getAlarmType()),
                 alarmSpecification.getTargetIds(),
                 alarmSpecification.getTitle(),
                 alarmSpecification.getContents(),

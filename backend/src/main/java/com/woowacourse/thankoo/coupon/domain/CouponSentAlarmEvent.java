@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.coupon.domain;
 
-import com.woowacourse.thankoo.alarm.domain.AlarmType;
 import com.woowacourse.thankoo.common.domain.AlarmSpecification;
 import com.woowacourse.thankoo.common.dto.AlarmEvent;
 import java.util.List;
@@ -18,7 +17,7 @@ public class CouponSentAlarmEvent extends AlarmEvent {
                                 final Long senderId,
                                 final String couponTitle,
                                 final String couponType) {
-        super(AlarmType.COUPON_SENT);
+        super(AlarmSpecification.COUPON_SENT);
         this.receiverIds = receiverIds;
         this.senderId = senderId;
         this.couponTitle = couponTitle;

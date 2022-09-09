@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
-import com.woowacourse.thankoo.alarm.domain.AlarmType;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.domain.AlarmSpecification;
@@ -46,9 +45,10 @@ class CouponMessageFormStrategyTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-        Alarm alarm = Alarm.create(new AlarmSpecification(AlarmType.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
-                "COFFEE",
-                List.of(String.valueOf(lala.getId()), COFFEE_TITLE, "coffee")));
+        Alarm alarm = Alarm.create(
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
+                        "COFFEE",
+                        List.of(String.valueOf(lala.getId()), COFFEE_TITLE, "coffee")));
 
         Message message = couponMessageFormStrategy.createFormat(alarm);
         assertAll(
@@ -70,9 +70,10 @@ class CouponMessageFormStrategyTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-        Alarm alarm = Alarm.create(new AlarmSpecification(AlarmType.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
-                COFFEE_PRETEXT,
-                List.of(String.valueOf(lala.getId()), COFFEE_TITLE)));
+        Alarm alarm = Alarm.create(
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
+                        COFFEE_PRETEXT,
+                        List.of(String.valueOf(lala.getId()), COFFEE_TITLE)));
 
         assertThatThrownBy(
                 () -> couponMessageFormStrategy.createFormat(alarm)
@@ -86,9 +87,10 @@ class CouponMessageFormStrategyTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-        Alarm alarm = Alarm.create(new AlarmSpecification(AlarmType.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
-                COFFEE_PRETEXT,
-                List.of("a", COFFEE_TITLE, COFFEE_TYPE)));
+        Alarm alarm = Alarm.create(
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
+                        COFFEE_PRETEXT,
+                        List.of("a", COFFEE_TITLE, COFFEE_TYPE)));
 
         assertThatThrownBy(
                 () -> couponMessageFormStrategy.createFormat(alarm)
