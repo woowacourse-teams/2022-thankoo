@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.alarm.application.startegy;
+package com.woowacourse.thankoo.alarm.application.strategy;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;

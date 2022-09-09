@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.alarm.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.thankoo.alarm.application.startegy.CouponMessageFormStrategy;
+import com.woowacourse.thankoo.alarm.application.strategy.CouponMessageFormStrategy;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import org.junit.jupiter.api.DisplayName;

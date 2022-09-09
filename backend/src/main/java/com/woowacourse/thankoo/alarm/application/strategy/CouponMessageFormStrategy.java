@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.alarm.application.startegy;
+package com.woowacourse.thankoo.alarm.application.strategy;
 
 import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.domain.Alarm;

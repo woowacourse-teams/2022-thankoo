@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.alarm.application.startegy;
+package com.woowacourse.thankoo.alarm.application.strategy;
 
 import com.woowacourse.thankoo.alarm.application.MessageFormStrategy;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
