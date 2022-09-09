@@ -14,7 +14,7 @@ public class AlarmEventListener {
 
     private final AlarmService alarmService;
 
-    @Async
+    @Async(value = "asyncTaskExecutor")
     @TransactionalEventListener
     public void handle(final AlarmEvent alarmEvent) {
         log.debug("alarm event = {}", alarmEvent);
