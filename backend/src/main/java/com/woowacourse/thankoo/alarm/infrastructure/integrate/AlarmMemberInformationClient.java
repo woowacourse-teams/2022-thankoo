@@ -1,6 +1,6 @@
-package com.woowacourse.thankoo.alarm.application.strategy;
+package com.woowacourse.thankoo.alarm.infrastructure.integrate;
 
-import com.woowacourse.thankoo.alarm.application.MessageFormStrategy;
+import com.woowacourse.thankoo.alarm.application.strategy.AlarmMemberProvider;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -9,17 +9,21 @@ import com.woowacourse.thankoo.member.domain.Members;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
-public abstract class MemberMessageFormStrategy implements MessageFormStrategy {
+public class AlarmMemberInformationClient implements AlarmMemberProvider {
 
     private final MemberRepository memberRepository;
 
-    protected List<String> getReceiverEmails(final List<Long> receiverIds) {
+    @Override
+    public List<String> getReceiverEmails(final List<Long> receiverIds) {
         return new Members(memberRepository.findByIdIn(receiverIds)).getEmails();
     }
 
-    protected String getSenderName(final String memberId) {
+    @Override
+    public String getSenderName(final String memberId) {
         try {
             return getMember(Long.valueOf(memberId)).getName().getValue();
         } catch (NumberFormatException e) {

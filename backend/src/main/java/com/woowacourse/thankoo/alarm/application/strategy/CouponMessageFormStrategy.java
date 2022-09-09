@@ -1,18 +1,20 @@
 package com.woowacourse.thankoo.alarm.application.strategy;
 
+import com.woowacourse.thankoo.alarm.application.MessageFormStrategy;
 import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.member.domain.MemberRepository;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CouponMessageFormStrategy extends MemberMessageFormStrategy {
+@RequiredArgsConstructor
+public class CouponMessageFormStrategy implements MessageFormStrategy {
 
     private static final String SENDER = "보내는 이 : {0}";
     private static final String TITLE = "제목 : {0}";
@@ -28,15 +30,13 @@ public class CouponMessageFormStrategy extends MemberMessageFormStrategy {
     private static final int TYPE_INDEX = 2;
     private static final int CONTENT_SIZE = 3;
 
-    public CouponMessageFormStrategy(final MemberRepository memberRepository) {
-        super(memberRepository);
-    }
+    private final AlarmMemberProvider alarmMemberProvider;
 
     @Override
     public Message createFormat(final Alarm alarm) {
         validateContent(alarm);
-        List<String> receiverEmails = getReceiverEmails(alarm.getTargetIds());
-        String senderName = getSenderName(alarm.getContents().get(SENDER_ID_INDEX));
+        List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
+        String senderName = alarmMemberProvider.getSenderName(alarm.getContents().get(SENDER_ID_INDEX));
 
         return Message.builder()
                 .email(receiverEmails)
