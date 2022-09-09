@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.reservation.application;
 
-import com.woowacourse.thankoo.alarm.AlarmSender;
-import com.woowacourse.thankoo.alarm.support.Message;
+import com.woowacourse.thankoo.alarm.application.AlarmSender;
+import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;

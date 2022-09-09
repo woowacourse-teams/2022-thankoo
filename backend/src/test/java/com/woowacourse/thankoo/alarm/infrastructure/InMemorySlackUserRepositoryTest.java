@@ -21,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@DisplayName("InMemorySlackUserRepository 는 ")
 @ExtendWith(MockitoExtension.class)
 class InMemorySlackUserRepositoryTest {
 

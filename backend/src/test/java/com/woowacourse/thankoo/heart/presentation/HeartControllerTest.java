@@ -45,6 +45,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+@DisplayName("HeartController 는 ")
 class HeartControllerTest extends ControllerTest {
 
     @DisplayName("마음을 전송하면 200 OK 를 반환한다.")

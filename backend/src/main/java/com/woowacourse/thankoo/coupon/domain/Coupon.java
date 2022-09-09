@@ -102,6 +102,10 @@ public class Coupon extends BaseEntity {
         }
     }
 
+    public boolean isSameCouponContent(final CouponContent couponContent) {
+        return this.couponContent.equals(couponContent);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

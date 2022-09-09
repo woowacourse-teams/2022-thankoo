@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("HeartAcceptance 는 ")
-public class HeartAcceptanceTest extends AcceptanceTest {
+class HeartAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("상대방에게 마음을 보낸다.")
     @Test

@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.meeting.application;
 
 import com.woowacourse.thankoo.meeting.application.dto.MeetingQueryCondition;
-import com.woowacourse.thankoo.meeting.domain.MeetingCoupon;
 import com.woowacourse.thankoo.meeting.domain.MeetingQueryRepository;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;

@@ -7,7 +7,6 @@ import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
 import com.woowacourse.thankoo.member.presentation.dto.ProfileImageUrlResponse;
 import java.util.List;
-import javax.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

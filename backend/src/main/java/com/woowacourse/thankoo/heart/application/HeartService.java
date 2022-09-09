@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.heart.application;
 
-import com.woowacourse.thankoo.alarm.AlarmSender;
+import com.woowacourse.thankoo.alarm.application.AlarmSender;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.heart.application.dto.HeartMessage;
 import com.woowacourse.thankoo.heart.application.dto.HeartRequest;

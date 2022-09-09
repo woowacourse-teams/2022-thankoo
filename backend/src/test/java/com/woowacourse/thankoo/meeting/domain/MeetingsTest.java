@@ -6,8 +6,8 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.time;
@@ -22,8 +22,10 @@ import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Meetings 는 ")
@@ -117,5 +119,45 @@ class MeetingsTest {
                 () -> assertThat(members).hasSize(6),
                 () -> assertThat(members).contains(huni, skrr)
         );
+    }
+
+    @DisplayName("미팅이 있는지 확인할 때 ")
+    @Nested
+    class HaveMeetingTest {
+
+        @DisplayName("없다면 false 를 반환한다.")
+        @Test
+        void noMeeting() {
+            Meetings meetings = new Meetings(Collections.emptyList());
+            assertThat(meetings.haveMeeting()).isFalse();
+        }
+
+        @DisplayName("있다면 true 를 반환한다.")
+        @Test
+        void haveMeeting() {
+            Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+            Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
+
+            List<Meeting> meetings = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED);
+
+                Reservation reservation = Reservation.reserve(time(1L),
+                        TimeZoneType.ASIA_SEOUL,
+                        ReservationStatus.WAITING,
+                        skrr.getId(),
+                        coupon);
+
+                meetings.add(new Meeting(1L,
+                        List.of(huni, skrr),
+                        reservation.getTimeUnit(),
+                        MeetingStatus.ON_PROGRESS,
+                        coupon));
+            }
+            Meetings result = new Meetings(meetings);
+
+            assertThat(result.haveMeeting()).isTrue();
+        }
     }
 }

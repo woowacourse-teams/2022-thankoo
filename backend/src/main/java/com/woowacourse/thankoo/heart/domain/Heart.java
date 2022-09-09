@@ -71,11 +71,11 @@ public class Heart extends BaseEntity {
     }
 
     public static Heart start(final Long senderId, final Long receiverId) {
-        return new Heart(null, senderId, receiverId, START_COUNT, true);
+        return new Heart(senderId, receiverId, START_COUNT, true);
     }
 
     public static Heart firstReply(final Long senderId, final Long receiverId, final Heart oppositeHeart) {
-        Heart heart = new Heart(null, senderId, receiverId, 0, false);
+        Heart heart = new Heart(senderId, receiverId, 0, false);
         heart.send(oppositeHeart);
         return heart;
     }

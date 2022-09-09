@@ -7,7 +7,7 @@ import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.time;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.alarm.support.Message;
+import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.member.domain.Email;

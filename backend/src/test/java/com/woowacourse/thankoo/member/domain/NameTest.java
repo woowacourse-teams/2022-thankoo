@@ -16,7 +16,7 @@ class NameTest {
     @Test
     void CouponContentMessageTrim() {
         Name name = new Name(" name ");
-        assertThat(name.getValue().equals("name")).isTrue();
+        assertThat(name.getValue()).isEqualTo("name");
     }
 
     @DisplayName("올바르지 않은 이름이 들어올 경우 예외가 발생한다.")

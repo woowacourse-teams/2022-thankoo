@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.meeting.application.dto;
 
-import com.woowacourse.thankoo.alarm.support.Message;
+import com.woowacourse.thankoo.alarm.application.dto.Message;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

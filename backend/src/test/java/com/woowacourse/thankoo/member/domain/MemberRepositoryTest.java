@@ -43,7 +43,7 @@ class MemberRepositoryTest {
         Member member = new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL);
         memberRepository.save(member);
 
-        Optional<Member> foundMember = memberRepository.findByName_Value(HOHO_NAME);
+        Optional<Member> foundMember = memberRepository.findByNameValue(HOHO_NAME);
 
         assertAll(
                 () -> assertThat(foundMember).isNotEmpty(),

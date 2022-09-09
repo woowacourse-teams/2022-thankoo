@@ -17,6 +17,7 @@ import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
@@ -32,6 +33,7 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -104,6 +106,42 @@ class MeetingServiceTest {
                     () -> assertThat(foundMeeting.getMeetingStatus()).isEqualTo(MeetingStatus.FINISHED),
                     () -> assertThat(foundCoupon.getCouponStatus()).isEqualTo(CouponStatus.USED)
             );
+        }
+    }
+
+    @DisplayName("오늘 있었던 미팅을 완료할 때 ")
+    @Nested
+    class DateMeetingCompleteTest {
+
+        @DisplayName("만남이 있으면 완료시킨다.")
+        @Test
+        void completeIfMeetingExist() {
+            Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Coupon coupon1 = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Long reservationId1 = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon1.getId(), LocalDateTime.now().plusDays(1L)));
+
+            Coupon coupon2 = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Long reservationId2 = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon2.getId(), LocalDateTime.now().plusDays(1L)));
+            reservationService.updateStatus(sender.getId(), reservationId1, new ReservationStatusRequest("accept"));
+            reservationService.updateStatus(sender.getId(), reservationId2, new ReservationStatusRequest("accept"));
+
+            LocalDate date = LocalDate.now().plusDays(1L);
+            meetingService.complete(date);
+
+            assertThat(meetingRepository.findAllByMeetingStatusAndTimeUnitDate(MeetingStatus.FINISHED, date)).hasSize(
+                    2);
+        }
+
+        @DisplayName("만남이 없을 경우에 예외가 발생하지 않는다.")
+        @Test
+        void completeNoMeeting() {
+            assertDoesNotThrow(() -> meetingService.complete(LocalDate.now()));
         }
     }
 }

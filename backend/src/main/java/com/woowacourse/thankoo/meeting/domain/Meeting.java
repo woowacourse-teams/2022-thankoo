@@ -7,7 +7,6 @@ import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.meeting.exception.InvalidMeetingException;
 import com.woowacourse.thankoo.member.domain.Member;
-import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
