@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class AlarmSpecification {
 
-    public static String COUPON_SENT = "coupon_sent";
+    public static final String COUPON_SENT = "coupon_sent";
 
     private final String alarmType;
     private final List<Long> targetIds;
