@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.coupon.domain;
 
-import com.woowacourse.thankoo.alarm.domain.Alarm;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
+import com.woowacourse.thankoo.common.domain.AlarmSpecification;
 import com.woowacourse.thankoo.common.dto.AlarmEvent;
 import java.util.List;
 import lombok.Getter;
@@ -35,8 +35,8 @@ public class CouponSentAlarmEvent extends AlarmEvent {
     }
 
     @Override
-    public Alarm toAlarm() {
-        return new Alarm(getAlarmType(),
+    public AlarmSpecification toAlarmSpecification() {
+        return new AlarmSpecification(getAlarmType(),
                 receiverIds,
                 couponType,
                 List.of(String.valueOf(senderId), couponTitle, couponType));

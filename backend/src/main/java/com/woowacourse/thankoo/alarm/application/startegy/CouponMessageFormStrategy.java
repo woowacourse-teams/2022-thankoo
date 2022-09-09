@@ -1,9 +1,9 @@
 package com.woowacourse.thankoo.alarm.application.startegy;
 
+import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
-import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import java.text.MessageFormat;
@@ -49,7 +49,7 @@ public class CouponMessageFormStrategy extends MemberMessageFormStrategy {
     }
 
     private void validateContent(final Alarm alarm) {
-        if (alarm.getContents().size() != CONTENT_SIZE) {
+        if (!alarm.hasContentsSize(CONTENT_SIZE)) {
             throw new InvalidAlarmException(ErrorType.INVALID_ALARM_FORMAT);
         }
     }

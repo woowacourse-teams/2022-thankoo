@@ -1,7 +1,5 @@
 package com.woowacourse.thankoo.alarm.application;
 
-import com.woowacourse.thankoo.alarm.AlarmSender;
-import com.woowacourse.thankoo.alarm.support.Message;
 import com.woowacourse.thankoo.common.dto.AlarmEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,15 +12,12 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class AlarmEventListener {
 
-    private final MessageFormStrategyFactory messageFormStrategyFactory;
-    private final AlarmSender alarmSender;
+    private final AlarmService alarmService;
 
     @Async
     @TransactionalEventListener
     public void handle(final AlarmEvent alarmEvent) {
         log.debug("alarm event = {}", alarmEvent);
-        MessageFormStrategy strategy = messageFormStrategyFactory.getStrategy(alarmEvent.getAlarmType());
-        Message message = strategy.createFormat(alarmEvent.toAlarm());
-        alarmSender.send(message);
+        alarmService.send(alarmEvent.toAlarmSpecification());
     }
 }

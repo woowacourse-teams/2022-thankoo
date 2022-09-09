@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.meeting.application;
 
 import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.ON_PROGRESS;
 
-import com.woowacourse.thankoo.alarm.AlarmSender;
+import com.woowacourse.thankoo.alarm.application.AlarmSender;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;

@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.reservation.application.dto;
 
-import com.woowacourse.thankoo.alarm.support.Message;
+import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.member.domain.Email;
 import com.woowacourse.thankoo.member.domain.Name;

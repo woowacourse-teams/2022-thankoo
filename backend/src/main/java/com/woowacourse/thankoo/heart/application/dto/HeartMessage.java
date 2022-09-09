@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.heart.application.dto;
 
-import com.woowacourse.thankoo.alarm.support.Message;
+import com.woowacourse.thankoo.alarm.application.dto.Message;
 import java.util.Collections;
 import java.util.List;
 import lombok.AccessLevel;

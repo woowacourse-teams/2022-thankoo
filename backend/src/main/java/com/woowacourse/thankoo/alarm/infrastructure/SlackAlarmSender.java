@@ -1,8 +1,8 @@
 package com.woowacourse.thankoo.alarm.infrastructure;
 
-import com.woowacourse.thankoo.alarm.AlarmSender;
+import com.woowacourse.thankoo.alarm.application.AlarmSender;
+import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.Attachments;
-import com.woowacourse.thankoo.alarm.support.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
