@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ReservationReplyMessageFormStrategy extends ReservationMessageFormStrategy {
+public class ReservationRepliedMessageFormStrategy extends ReservationMessageFormStrategy {
 
     private static final int CONTENT_SIZE = 3;
 

@@ -7,7 +7,6 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 
 public abstract class ReservationMessageFormStrategy implements MessageFormStrategy {
 
-    protected static final String PRETEXT_CANCEL = "\uD83D\uDE05 예약이 취소되었어요ㅜ";
     protected static final String TITLE_LINK = "https://thankoo.co.kr/reservations";
     protected static final String SENDER = "요청자 : {0}";
     protected static final String COUPON = "쿠폰 : {0}";

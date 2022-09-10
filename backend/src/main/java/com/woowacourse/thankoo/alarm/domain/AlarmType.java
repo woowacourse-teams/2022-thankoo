@@ -9,7 +9,8 @@ public enum AlarmType {
     COUPON_SENT_COFFEE,
     COUPON_SENT_MEAL,
     RESERVATION_SENT,
-    RESERVATION_REPLY;
+    RESERVATION_REPLY,
+    RESERVATION_CANCEL;
 
     public static AlarmType from(final String type) {
         return Arrays.stream(values())

@@ -157,6 +157,7 @@ public class Reservation extends BaseEntity {
 
         coupon.rollBack();
         reservationStatus = ReservationStatus.CANCELED;
+        Events.publish(ReservationCanceledEvent.of(coupon, memberId));
     }
 
     @Override

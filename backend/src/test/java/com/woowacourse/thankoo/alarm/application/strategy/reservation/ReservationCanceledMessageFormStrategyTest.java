@@ -21,59 +21,36 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@DisplayName("ReservationReplyMessageFormStrategy 는 ")
+@DisplayName("ReservationCanceledMessageFormStrategy 는 ")
 @ApplicationTest
-class ReservationReplyMessageFormStrategyTest {
+class ReservationCanceledMessageFormStrategyTest {
 
-    private static final String PRETEXT = "\uD83D\uDC7B 예약 요청에 응답이 왔어요.";
+    private static final String PRETEXT = "\uD83D\uDE05 예약이 취소되었어요ㅜ";
     private static final String COUPON_TITLE = "널 좋아해";
 
     @Autowired
-    private ReservationReplyMessageFormStrategy reservationReplyMessageFormStrategy;
+    private ReservationCanceledMessageFormStrategy reservationCanceledMessageFormStrategy;
 
     @Autowired
     private MemberRepository memberRepository;
 
-    @DisplayName("거절 메시지 포맷을 만든다.")
+    @DisplayName("메시지 포맷을 만든다.")
     @Test
-    void createFormatDeny() {
+    void createFormat() {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.RESERVATION_REPLY, List.of(hoho.getId()),
-                        List.of(String.valueOf(lala.getId()), COUPON_TITLE, "DENY")));
+                new AlarmSpecification(AlarmSpecification.RESERVATION_CANCEL, List.of(hoho.getId()),
+                        List.of(String.valueOf(lala.getId()), COUPON_TITLE)));
 
-        Message message = reservationReplyMessageFormStrategy.createFormat(alarm);
+        Message message = reservationCanceledMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(PRETEXT),
                 () -> assertThat(message.getContents()).containsExactly(
                         "요청자 : lala",
-                        "쿠폰 : 널 좋아해",
-                        "예약 상태 : 거절\uD83D\uDE05"
-                )
-        );
-    }
-
-    @DisplayName("수락 메시지 포맷을 만든다.")
-    @Test
-    void createFormatAccept() {
-        Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
-        Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
-
-        Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.RESERVATION_REPLY, List.of(hoho.getId()),
-                        List.of(String.valueOf(lala.getId()), COUPON_TITLE, "ACCEPT")));
-
-        Message message = reservationReplyMessageFormStrategy.createFormat(alarm);
-        assertAll(
-                () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
-                () -> assertThat(message.getTitle()).isEqualTo(PRETEXT),
-                () -> assertThat(message.getContents()).containsExactly(
-                        "요청자 : lala",
-                        "쿠폰 : 널 좋아해",
-                        "예약 상태 : 승인\uD83E\uDD70"
+                        "쿠폰 : 널 좋아해"
                 )
         );
     }
