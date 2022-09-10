@@ -6,20 +6,19 @@ import lombok.Getter;
 @Getter
 public class AlarmSpecification {
 
-    public static final String COUPON_SENT = "coupon_sent";
+    public static final String COUPON_SENT_COFFEE = "coupon_sent_coffee";
+    public static final String COUPON_SENT_MEAL = "coupon_sent_meal";
+    public static final String RESERVATION_SENT = "reservation_sent";
 
     private final String alarmType;
     private final List<Long> targetIds;
-    private final String title;
     private final List<String> contents;
 
     public AlarmSpecification(final String alarmType,
                               final List<Long> targetIds,
-                              final String title,
                               final List<String> contents) {
         this.alarmType = alarmType;
         this.targetIds = targetIds;
-        this.title = title;
         this.contents = contents;
     }
 
@@ -28,7 +27,6 @@ public class AlarmSpecification {
         return "AlarmSpecification{" +
                 "alarmType=" + alarmType +
                 ", targetIds=" + targetIds +
-                ", title='" + title + '\'' +
                 ", contents=" + contents +
                 '}';
     }

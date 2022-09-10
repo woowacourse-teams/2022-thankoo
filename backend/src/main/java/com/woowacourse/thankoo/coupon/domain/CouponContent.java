@@ -55,6 +55,10 @@ public class CouponContent {
         }
     }
 
+    public boolean isCoffeeType() {
+        return couponType.isCoffee();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

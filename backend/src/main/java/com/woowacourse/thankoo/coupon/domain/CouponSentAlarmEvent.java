@@ -13,11 +13,12 @@ public class CouponSentAlarmEvent extends AlarmEvent {
     private final String couponTitle;
     private final String couponType;
 
-    public CouponSentAlarmEvent(final List<Long> receiverIds,
+    public CouponSentAlarmEvent(final String alarmType,
+                                final List<Long> receiverIds,
                                 final Long senderId,
                                 final String couponTitle,
                                 final String couponType) {
-        super(AlarmSpecification.COUPON_SENT);
+        super(alarmType);
         this.receiverIds = receiverIds;
         this.senderId = senderId;
         this.couponTitle = couponTitle;
@@ -26,18 +27,26 @@ public class CouponSentAlarmEvent extends AlarmEvent {
 
     public static CouponSentAlarmEvent from(final Coupons coupons) {
         CouponContent couponContent = coupons.getRepresentativeCouponContent();
-        return new CouponSentAlarmEvent(coupons.getReceiverIds(),
+
+        return new CouponSentAlarmEvent(decideAlarmType(couponContent),
+                coupons.getReceiverIds(),
                 coupons.getRepresentativeSenderId(),
                 couponContent.getTitle(),
                 couponContent.getCouponType().getValue()
         );
     }
 
+    private static String decideAlarmType(final CouponContent couponContent) {
+        if (couponContent.isCoffeeType()) {
+            return AlarmSpecification.COUPON_SENT_COFFEE;
+        }
+        return AlarmSpecification.COUPON_SENT_MEAL;
+    }
+
     @Override
     public AlarmSpecification toAlarmSpecification() {
         return new AlarmSpecification(getAlarmType(),
                 receiverIds,
-                couponType,
                 List.of(String.valueOf(senderId), couponTitle, couponType));
     }
 
