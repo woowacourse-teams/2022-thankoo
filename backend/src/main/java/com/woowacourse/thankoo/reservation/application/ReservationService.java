@@ -8,7 +8,6 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
-import com.woowacourse.thankoo.reservation.application.dto.ReservationMessage;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
@@ -53,10 +52,6 @@ public class ReservationService {
         Reservation reservation = getReservationById(reservationId);
         ReservationStatus futureStatus = ReservationStatus.from(reservationStatusRequest.getStatus());
         reservation.update(foundMember, futureStatus, reservedMeetingCreator);
-
-        Member receiver = getMember(reservation.getCoupon().getReceiverId());
-        alarmSender.send(ReservationMessage.updateOf(foundMember.getName(), receiver.getEmail(), reservation));
-
     }
 
     public void cancel(final Long memberId,
@@ -64,9 +59,6 @@ public class ReservationService {
         Member foundMember = getMember(memberId);
         Reservation reservation = getReservationById(reservationId);
         reservation.cancel(foundMember);
-
-        Member sender = getMember(reservation.getCoupon().getSenderId());
-        alarmSender.send(ReservationMessage.cancelOf(foundMember.getName(), sender.getEmail(), reservation));
     }
 
     private Reservation getReservationById(final Long reservationId) {
