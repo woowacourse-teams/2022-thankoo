@@ -118,6 +118,7 @@ public class Reservation extends BaseEntity {
         validateCouponStatus();
 
         reservationStatus = futureStatus;
+        Events.publish(ReservationReplyEvent.of(coupon, memberId, reservationStatus));
         if (reservationStatus.isDeny()) {
             coupon.rollBack();
             return;
@@ -136,6 +137,7 @@ public class Reservation extends BaseEntity {
                                                     final ReservationStatus futureStatus) {
         return !this.reservationStatus.isWaiting()
                 || futureStatus.isWaiting()
+                || futureStatus.isCanceled()
                 || !coupon.isSender(memberId);
     }
 
