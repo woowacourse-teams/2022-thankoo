@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.reservation.application;
 
 import com.woowacourse.thankoo.alarm.application.AlarmSender;
-import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -44,16 +43,7 @@ public class ReservationService {
                 coupon);
 
         Reservation savedReservation = reservationRepository.save(reservation);
-
-        sendMessage(foundMember, coupon, savedReservation);
         return savedReservation.getId();
-    }
-
-    private void sendMessage(final Member member, final Coupon coupon, final Reservation reservation) {
-        Member sender = getMember(coupon.getSenderId());
-        Message message = ReservationMessage.of(member.getName(), sender.getEmail(),
-                reservation.getTimeUnit().getDate(), coupon.getCouponContent());
-        alarmSender.send(message);
     }
 
     public void updateStatus(final Long memberId,

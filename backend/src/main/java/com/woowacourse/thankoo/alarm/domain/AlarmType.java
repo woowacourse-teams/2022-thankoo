@@ -7,7 +7,8 @@ import java.util.Arrays;
 public enum AlarmType {
 
     COUPON_SENT_COFFEE,
-    COUPON_SENT_MEAL;
+    COUPON_SENT_MEAL,
+    RESERVATION_SENT;
 
     public static AlarmType from(final String type) {
         return Arrays.stream(values())

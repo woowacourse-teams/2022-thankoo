@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.reservation.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.domain.TimeUnit;
+import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -102,6 +103,7 @@ public class Reservation extends BaseEntity {
                                       final Coupon coupon) {
         Reservation reservation = new Reservation(meetingTime, timeZone, reservationStatus, memberId, coupon);
         reservation.reserve();
+        Events.publish(ReservationSentAlarmEvent.from(reservation));
         return reservation;
     }
 
