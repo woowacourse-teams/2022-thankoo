@@ -27,7 +27,7 @@ public class ReservationRepliedEvent extends AlarmEvent {
     public static ReservationRepliedEvent of(final Coupon coupon,
                                              final Long senderId,
                                              final ReservationStatus reservationStatus) {
-        return new ReservationRepliedEvent(AlarmSpecification.RESERVATION_REPLY,
+        return new ReservationRepliedEvent(AlarmSpecification.RESERVATION_REPLIED,
                 coupon.getSenderId(),
                 senderId,
                 coupon.getCouponContent().getTitle(),

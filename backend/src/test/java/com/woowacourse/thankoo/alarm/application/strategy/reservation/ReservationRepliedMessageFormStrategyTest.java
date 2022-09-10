@@ -41,7 +41,7 @@ class ReservationRepliedMessageFormStrategyTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.RESERVATION_REPLY, List.of(hoho.getId()),
+                new AlarmSpecification(AlarmSpecification.RESERVATION_REPLIED, List.of(hoho.getId()),
                         List.of(String.valueOf(lala.getId()), COUPON_TITLE, "DENY")));
 
         Message message = reservationRepliedMessageFormStrategy.createFormat(alarm);
@@ -63,7 +63,7 @@ class ReservationRepliedMessageFormStrategyTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.RESERVATION_REPLY, List.of(hoho.getId()),
+                new AlarmSpecification(AlarmSpecification.RESERVATION_REPLIED, List.of(hoho.getId()),
                         List.of(String.valueOf(lala.getId()), COUPON_TITLE, "ACCEPT")));
 
         Message message = reservationRepliedMessageFormStrategy.createFormat(alarm);

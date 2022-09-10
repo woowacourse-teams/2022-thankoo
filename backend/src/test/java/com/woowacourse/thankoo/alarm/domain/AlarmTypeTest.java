@@ -14,7 +14,7 @@ class AlarmTypeTest {
     @CsvSource(value = {"coupon_sent_coffee:COUPON_SENT_COFFEE",
             "coupon_sent_meal:COUPON_SENT_MEAL",
             "reservation_sent:RESERVATION_SENT",
-            "reservation_reply:RESERVATION_REPLY"}, delimiter = ':')
+            "reservation_replied:RESERVATION_REPLIED"}, delimiter = ':')
     void from(final String value, final AlarmType alarmType) {
         assertThat(AlarmType.from(value)).isEqualTo(alarmType);
     }

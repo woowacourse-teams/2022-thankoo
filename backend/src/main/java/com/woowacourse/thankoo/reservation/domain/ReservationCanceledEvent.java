@@ -22,7 +22,7 @@ public class ReservationCanceledEvent extends AlarmEvent {
     }
 
     public static ReservationCanceledEvent of(final Coupon coupon, final Long senderId) {
-        return new ReservationCanceledEvent(AlarmSpecification.RESERVATION_CANCEL,
+        return new ReservationCanceledEvent(AlarmSpecification.RESERVATION_CANCELED,
                 coupon.getSenderId(),
                 senderId,
                 coupon.getCouponContent().getTitle());

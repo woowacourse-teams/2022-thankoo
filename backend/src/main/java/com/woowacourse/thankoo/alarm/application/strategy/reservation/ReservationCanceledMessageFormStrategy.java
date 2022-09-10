@@ -36,6 +36,6 @@ public class ReservationCanceledMessageFormStrategy extends ReservationMessageFo
 
     @Override
     public AlarmType getAlarmType() {
-        return AlarmType.RESERVATION_CANCEL;
+        return AlarmType.RESERVATION_CANCELED;
     }
 }

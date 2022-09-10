@@ -44,6 +44,6 @@ public class ReservationRepliedMessageFormStrategy extends ReservationMessageFor
 
     @Override
     public AlarmType getAlarmType() {
-        return AlarmType.RESERVATION_REPLY;
+        return AlarmType.RESERVATION_REPLIED;
     }
 }

@@ -36,8 +36,8 @@ class MessageFormStrategyFactoryTest {
                 Arguments.of(AlarmType.COUPON_SENT_COFFEE, CouponCoffeeMessageFormStrategy.class),
                 Arguments.of(AlarmType.COUPON_SENT_MEAL, CouponMealMessageFormStrategy.class),
                 Arguments.of(AlarmType.RESERVATION_SENT, ReservationSentMessageFormStrategy.class),
-                Arguments.of(AlarmType.RESERVATION_REPLY, ReservationRepliedMessageFormStrategy.class),
-                Arguments.of(AlarmType.RESERVATION_CANCEL, ReservationCanceledMessageFormStrategy.class)
+                Arguments.of(AlarmType.RESERVATION_REPLIED, ReservationRepliedMessageFormStrategy.class),
+                Arguments.of(AlarmType.RESERVATION_CANCELED, ReservationCanceledMessageFormStrategy.class)
         );
     }
 }

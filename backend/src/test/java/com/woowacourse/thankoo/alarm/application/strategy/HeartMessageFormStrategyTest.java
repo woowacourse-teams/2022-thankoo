@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.alarm.application.strategy.reservation;
+package com.woowacourse.thankoo.alarm.application.strategy;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
@@ -21,15 +21,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@DisplayName("ReservationCanceledMessageFormStrategy 는 ")
+@DisplayName("HeartMessageFormStrategy 는 ")
 @ApplicationTest
-class ReservationCanceledMessageFormStrategyTest {
-
-    private static final String PRETEXT = "\uD83D\uDE05 예약이 취소되었어요ㅜ";
-    private static final String COUPON_TITLE = "널 좋아해";
+class HeartMessageFormStrategyTest {
 
     @Autowired
-    private ReservationCanceledMessageFormStrategy reservationCanceledMessageFormStrategy;
+    private HeartMessageFormStrategy heartMessageFormStrategy;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -42,16 +39,14 @@ class ReservationCanceledMessageFormStrategyTest {
 
         Alarm alarm = Alarm.create(
                 new AlarmSpecification(AlarmSpecification.RESERVATION_CANCELED, List.of(hoho.getId()),
-                        List.of(String.valueOf(lala.getId()), COUPON_TITLE)));
+                        List.of(String.valueOf(lala.getId()), String.valueOf(2))));
 
-        Message message = reservationCanceledMessageFormStrategy.createFormat(alarm);
+        Message message = heartMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
-                () -> assertThat(message.getTitle()).isEqualTo(PRETEXT),
-                () -> assertThat(message.getContents()).containsExactly(
-                        "요청자 : lala",
-                        "쿠폰 : 널 좋아해"
-                )
+                () -> assertThat(message.getTitle()).isEqualTo("lala님이 당신에게 마음을 2번 보냈어요 ❤️"),
+                () -> assertThat(message.getTitleLink()).isEqualTo("https://thankoo.co.kr/hearts")
+
         );
     }
 }

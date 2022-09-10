@@ -9,8 +9,9 @@ public class AlarmSpecification {
     public static final String COUPON_SENT_COFFEE = "coupon_sent_coffee";
     public static final String COUPON_SENT_MEAL = "coupon_sent_meal";
     public static final String RESERVATION_SENT = "reservation_sent";
-    public static final String RESERVATION_REPLY = "reservation_reply";
-    public static final String RESERVATION_CANCEL = "reservation_cancel";
+    public static final String RESERVATION_REPLIED = "reservation_replied";
+    public static final String RESERVATION_CANCELED = "reservation_canceled";
+    public static final String HEART_SENT = "heart_sent";
 
     private final String alarmType;
     private final List<Long> targetIds;
