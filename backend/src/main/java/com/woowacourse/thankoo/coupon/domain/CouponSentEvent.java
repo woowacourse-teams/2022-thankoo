@@ -3,21 +3,19 @@ package com.woowacourse.thankoo.coupon.domain;
 import com.woowacourse.thankoo.common.domain.AlarmSpecification;
 import com.woowacourse.thankoo.common.dto.AlarmEvent;
 import java.util.List;
-import lombok.Getter;
 
-@Getter
-public class CouponSentAlarmEvent extends AlarmEvent {
+public class CouponSentEvent extends AlarmEvent {
 
     private final List<Long> receiverIds;
     private final Long senderId;
     private final String couponTitle;
     private final String couponType;
 
-    public CouponSentAlarmEvent(final String alarmType,
-                                final List<Long> receiverIds,
-                                final Long senderId,
-                                final String couponTitle,
-                                final String couponType) {
+    public CouponSentEvent(final String alarmType,
+                           final List<Long> receiverIds,
+                           final Long senderId,
+                           final String couponTitle,
+                           final String couponType) {
         super(alarmType);
         this.receiverIds = receiverIds;
         this.senderId = senderId;
@@ -25,10 +23,10 @@ public class CouponSentAlarmEvent extends AlarmEvent {
         this.couponType = couponType;
     }
 
-    public static CouponSentAlarmEvent from(final Coupons coupons) {
+    public static CouponSentEvent from(final Coupons coupons) {
         CouponContent couponContent = coupons.getRepresentativeCouponContent();
 
-        return new CouponSentAlarmEvent(decideAlarmType(couponContent),
+        return new CouponSentEvent(decideAlarmType(couponContent),
                 coupons.getReceiverIds(),
                 coupons.getRepresentativeSenderId(),
                 couponContent.getTitle(),

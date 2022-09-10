@@ -103,7 +103,7 @@ public class Reservation extends BaseEntity {
                                       final Coupon coupon) {
         Reservation reservation = new Reservation(meetingTime, timeZone, reservationStatus, memberId, coupon);
         reservation.reserve();
-        Events.publish(ReservationSentAlarmEvent.from(reservation));
+        Events.publish(ReservationSentEvent.from(reservation));
         return reservation;
     }
 
@@ -118,7 +118,7 @@ public class Reservation extends BaseEntity {
         validateCouponStatus();
 
         reservationStatus = futureStatus;
-        Events.publish(ReservationReplyEvent.of(coupon, memberId, reservationStatus));
+        Events.publish(ReservationRepliedEvent.of(coupon, memberId, reservationStatus));
         if (reservationStatus.isDeny()) {
             coupon.rollBack();
             return;

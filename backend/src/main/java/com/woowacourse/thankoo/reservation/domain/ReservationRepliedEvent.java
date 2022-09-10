@@ -5,18 +5,18 @@ import com.woowacourse.thankoo.common.dto.AlarmEvent;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import java.util.List;
 
-public class ReservationReplyEvent extends AlarmEvent {
+public class ReservationRepliedEvent extends AlarmEvent {
 
     private final Long receiverId;
     private final Long senderId;
     private final String couponTitle;
     private final ReservationStatus reservationStatus;
 
-    public ReservationReplyEvent(final String alarmType,
-                                 final Long receiverId,
-                                 final Long senderId,
-                                 final String couponTitle,
-                                 final ReservationStatus reservationStatus) {
+    public ReservationRepliedEvent(final String alarmType,
+                                   final Long receiverId,
+                                   final Long senderId,
+                                   final String couponTitle,
+                                   final ReservationStatus reservationStatus) {
         super(alarmType);
         this.receiverId = receiverId;
         this.senderId = senderId;
@@ -24,10 +24,10 @@ public class ReservationReplyEvent extends AlarmEvent {
         this.reservationStatus = reservationStatus;
     }
 
-    public static ReservationReplyEvent of(final Coupon coupon,
-                                           final Long senderId,
-                                           final ReservationStatus reservationStatus) {
-        return new ReservationReplyEvent(AlarmSpecification.RESERVATION_REPLY,
+    public static ReservationRepliedEvent of(final Coupon coupon,
+                                             final Long senderId,
+                                             final ReservationStatus reservationStatus) {
+        return new ReservationRepliedEvent(AlarmSpecification.RESERVATION_REPLY,
                 coupon.getSenderId(),
                 senderId,
                 coupon.getCouponContent().getTitle(),

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class ReservationSentAlarmEvent extends AlarmEvent {
+public class ReservationSentEvent extends AlarmEvent {
 
     private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
 
@@ -16,11 +16,11 @@ public class ReservationSentAlarmEvent extends AlarmEvent {
     private final String couponTitle;
     private final LocalDateTime reservationTime;
 
-    public ReservationSentAlarmEvent(final String alarmType,
-                                     final Long receiverId,
-                                     final Long senderId,
-                                     final String couponTitle,
-                                     final LocalDateTime reservationTime) {
+    public ReservationSentEvent(final String alarmType,
+                                final Long receiverId,
+                                final Long senderId,
+                                final String couponTitle,
+                                final LocalDateTime reservationTime) {
         super(alarmType);
         this.receiverId = receiverId;
         this.senderId = senderId;
@@ -28,9 +28,9 @@ public class ReservationSentAlarmEvent extends AlarmEvent {
         this.couponTitle = couponTitle;
     }
 
-    public static ReservationSentAlarmEvent from(final Reservation reservation) {
+    public static ReservationSentEvent from(final Reservation reservation) {
         Coupon reservedCoupon = reservation.getCoupon();
-        return new ReservationSentAlarmEvent(AlarmSpecification.RESERVATION_SENT,
+        return new ReservationSentEvent(AlarmSpecification.RESERVATION_SENT,
                 reservedCoupon.getSenderId(),
                 reservation.getMemberId(),
                 reservedCoupon.getCouponContent().getTitle(),
