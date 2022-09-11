@@ -17,7 +17,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     Optional<Reservation> findTopByCouponIdAndReservationStatus(Long couponId, ReservationStatus status);
 
-    List<Reservation> findAllByReservationStatusAndTimeUnit_Time(ReservationStatus status, LocalDateTime date);
+    List<Reservation> findAllByReservationStatusAndTimeUnitTime(ReservationStatus status, LocalDateTime date);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Reservation r SET r.reservationStatus = :status WHERE r.id IN (:reservationIds)")

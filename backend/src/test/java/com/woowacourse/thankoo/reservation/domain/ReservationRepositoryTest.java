@@ -78,7 +78,7 @@ class ReservationRepositoryTest {
 
     @DisplayName("특정 상태와 예약 시간에 해당하는 예약들을 조회한다.")
     @Test
-    void findAllByReservationStatusAndTimeUnit_Time() {
+    void findAllByReservationStatusAndTimeUnitTime() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
         Coupon coupon1 = couponRepository.save(
@@ -100,7 +100,7 @@ class ReservationRepositoryTest {
                         receiver.getId(),
                         coupon2));
 
-        List<Reservation> foundReservations = reservationRepository.findAllByReservationStatusAndTimeUnit_Time(
+        List<Reservation> foundReservations = reservationRepository.findAllByReservationStatusAndTimeUnitTime(
                 ReservationStatus.WAITING, meetingTime);
 
         assertThat(foundReservations).extracting("id").containsExactly(reservation1.getId(), reservation2.getId());

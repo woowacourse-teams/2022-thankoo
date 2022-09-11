@@ -93,7 +93,7 @@ public class ReservationService {
     }
 
     public void cancel(final ReservationStatus reservationStatus, final LocalDateTime dateTime) {
-        List<Reservation> reservations = reservationRepository.findAllByReservationStatusAndTimeUnit_Time(
+        List<Reservation> reservations = reservationRepository.findAllByReservationStatusAndTimeUnitTime(
                 reservationStatus, dateTime);
 
         reservationRepository.updateReservationStatus(ReservationStatus.CANCELED, getIds(reservations));
