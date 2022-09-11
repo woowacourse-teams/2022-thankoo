@@ -211,7 +211,7 @@ class MeetingRepositoryTest {
             );
         }
 
-        List<Meeting> meetings = meetingRepository.findAllByTimeUnit_Date(LocalDate.now().plusDays(1L));
+        List<Meeting> meetings = meetingRepository.findAllByTimeUnitDate(LocalDate.now().plusDays(1L));
 
         assertThat(meetings).hasSize(3);
     }

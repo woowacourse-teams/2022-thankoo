@@ -30,5 +30,5 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
             + "LEFT JOIN FETCH mt.meetingMembers.values mtm "
             + "LEFT JOIN FETCH mtm.member m "
             + "WHERE mt.timeUnit.date = :date")
-    List<Meeting> findAllByTimeUnit_Date(@Param("date") LocalDate date);
+    List<Meeting> findAllByTimeUnitDate(@Param("date") LocalDate date);
 }

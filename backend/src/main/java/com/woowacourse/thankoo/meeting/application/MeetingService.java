@@ -55,14 +55,13 @@ public class MeetingService {
                 meetingRepository.findAllByMeetingStatusAndTimeUnitTime(ON_PROGRESS, dateTime));
         if (meetings.haveMeeting()) {
             Coupons coupons = new Coupons(meetings.getCoupons());
-
             meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetings.getMeetingIds());
             couponRepository.updateCouponStatus(CouponStatus.USED, coupons.getCouponIds());
         }
     }
 
     public void sendMessageTodayMeetingMembers(final LocalDate date) {
-        Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnit_Date(date));
+        Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnitDate(date));
         Members members = new Members(meetings.getMembers());
         if (!members.isEmpty()) {
             alarmSender.send(MeetingMessage.of(members.getEmails()));
