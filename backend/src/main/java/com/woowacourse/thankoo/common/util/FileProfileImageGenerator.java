@@ -54,7 +54,7 @@ public class FileProfileImageGenerator implements ProfileImageGenerator {
         return IMAGE_URL_PATH + imageName;
     }
 
-    private void validateImageName(final String imageName) {
+    public void validateImageName(final String imageName) {
         if (!hasSameImage(imageName)) {
             throw new BadRequestException(ErrorType.INVALID_MEMBER_PROFILE_IMAGE);
         }

@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.member.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.exception.BadRequestException;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -52,8 +54,20 @@ public class Member extends BaseEntity {
         this.name = new Name(name);
     }
 
-    public void updateProfileImage(final String imageUrl) {
+    public void updateProfileImage(final String imageUrl, final List<String> imageUrls) {
+        validateImageUrl(imageUrl, imageUrls);
         this.imageUrl = imageUrl;
+    }
+
+    private void validateImageUrl(final String imageUrl, final List<String> imageUrls) {
+        if (!hasSameImage(imageUrl, imageUrls)) {
+            throw new BadRequestException(ErrorType.INVALID_MEMBER_PROFILE_IMAGE);
+        }
+    }
+
+    private boolean hasSameImage(final String imageUrl, final List<String> imageUrls) {
+        return imageUrls.stream()
+                .anyMatch(imageUrl::equals);
     }
 
     public boolean hasSameId(final List<Long> ids) {
