@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -17,6 +18,9 @@ import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,8 +73,7 @@ public class ReservationService {
 
     }
 
-    public void cancel(final Long memberId,
-                       final Long reservationId) {
+    public void cancel(final Long memberId, final Long reservationId) {
         Member foundMember = getMember(memberId);
         Reservation reservation = getReservationById(reservationId);
         reservation.cancel(foundMember);
@@ -87,5 +90,25 @@ public class ReservationService {
     private Member getMember(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+    }
+
+    public void cancel(final ReservationStatus reservationStatus, final LocalDateTime dateTime) {
+        List<Reservation> reservations = reservationRepository.findAllByReservationStatusAndTimeUnit_Time(
+                reservationStatus, dateTime);
+
+        reservationRepository.updateReservationStatus(ReservationStatus.CANCELED, getIds(reservations));
+        couponRepository.updateCouponStatus(CouponStatus.NOT_USED, getCouponIds(reservations));
+    }
+
+    private List<Long> getIds(final List<Reservation> reservations) {
+        return reservations.stream()
+                .map(Reservation::getId)
+                .collect(Collectors.toList());
+    }
+
+    private List<Long> getCouponIds(final List<Reservation> reservations) {
+        return reservations.stream()
+                .map(reservation -> reservation.getCoupon().getId())
+                .collect(Collectors.toList());
     }
 }
