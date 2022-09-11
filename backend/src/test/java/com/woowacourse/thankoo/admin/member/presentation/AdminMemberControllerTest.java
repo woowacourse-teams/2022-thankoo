@@ -16,40 +16,20 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.thankoo.admin.member.application.AdminMemberService;
+import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.member.presentation.dto.AdminMemberResponse;
-import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
-import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("AdminMemberController 는 ")
-@WebMvcTest(AdminMemberController.class)
-@AutoConfigureRestDocs
-@ExtendWith(RestDocumentationExtension.class)
-public class AdminMemberControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private AdminMemberService adminMemberService;
-
-    @MockBean
-    private JwtTokenProvider jwtTokenProvider;
-
-    @MockBean
-    private AuthenticationContext authenticationContext;
+public class AdminMemberControllerTest extends AdminControllerTest {
 
     @DisplayName("모든 회원 정보를 조회힌다.")
     @Test
