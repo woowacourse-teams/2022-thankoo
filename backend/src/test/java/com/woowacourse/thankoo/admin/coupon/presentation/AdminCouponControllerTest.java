@@ -7,6 +7,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -59,18 +60,50 @@ class AdminCouponControllerTest {
     void getCoupons() throws Exception {
         AdminMemberResponse lala = new AdminMemberResponse(1L, LALA_NAME, LALA_EMAIL);
         AdminMemberResponse hoho = new AdminMemberResponse(2L, HOHO_NAME, HOHO_EMAIL);
-        given(adminCouponService.getCoupons())
+        given(adminCouponService.getCoupons(anyString()))
                 .willReturn(List.of(
                         new AdminCouponResponse(1L, lala, hoho, TYPE, TITLE, MESSAGE, "NOT_USED"),
-                        new AdminCouponResponse(2L, hoho, lala, TYPE, TITLE, MESSAGE, "RESERVING"),
-                        new AdminCouponResponse(3L, hoho, lala, TYPE, TITLE, MESSAGE, "RESERVED"))
+                        new AdminCouponResponse(2L, hoho, lala, TYPE, TITLE, MESSAGE, "RESERVING"))
                 );
 
-        ResultActions resultActions = mockMvc.perform(get("/admin/coupons"))
+        ResultActions resultActions = mockMvc.perform(get("/admin/coupons?status=all"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("admin/coupons/get-coupons",
+                Preprocessors.preprocessResponse(prettyPrint()),
+                responseFields(
+                        fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
+                        fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
+                        fieldWithPath("[].sender.name").type(STRING).description("senderName"),
+                        fieldWithPath("[].sender.email").type(STRING).description("senderEmail"),
+                        fieldWithPath("[].receiver.id").type(NUMBER).description("receiverId"),
+                        fieldWithPath("[].receiver.name").type(STRING).description("receiverName"),
+                        fieldWithPath("[].receiver.email").type(STRING).description("receiverEmail"),
+                        fieldWithPath("[].type").type(STRING).description("type"),
+                        fieldWithPath("[].title").type(STRING).description("title"),
+                        fieldWithPath("[].message").type(STRING).description("message"),
+                        fieldWithPath("[].status").type(STRING).description("status")
+                )
+        ));
+    }
+
+    @DisplayName("상태에 해당하는 모든 쿠폰을 조회한다.")
+    @Test
+    void getCouponsByStatus() throws Exception {
+        AdminMemberResponse lala = new AdminMemberResponse(1L, LALA_NAME, LALA_EMAIL);
+        AdminMemberResponse hoho = new AdminMemberResponse(2L, HOHO_NAME, HOHO_EMAIL);
+        given(adminCouponService.getCoupons(anyString()))
+                .willReturn(List.of(
+                        new AdminCouponResponse(1L, lala, hoho, TYPE, TITLE, MESSAGE, "RESERVING"),
+                        new AdminCouponResponse(2L, hoho, lala, TYPE, TITLE, MESSAGE, "RESERVING"))
+                );
+
+        ResultActions resultActions = mockMvc.perform(get("/admin/coupons?status=reserving"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("admin/coupons/get-coupons-status",
                 Preprocessors.preprocessResponse(prettyPrint()),
                 responseFields(
                         fieldWithPath("[].couponId").type(NUMBER).description("couponId"),

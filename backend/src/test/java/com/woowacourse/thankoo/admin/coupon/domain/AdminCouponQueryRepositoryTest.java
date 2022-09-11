@@ -11,9 +11,11 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
+import static com.woowacourse.thankoo.coupon.domain.CouponStatus.RESERVED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.MEAL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
@@ -62,5 +64,27 @@ class AdminCouponQueryRepositoryTest {
 
         List<MemberCoupon> coupons = adminCouponQueryRepository.findAll();
         assertThat(coupons).hasSize(2);
+    }
+
+    @DisplayName("해당 상태의 쿠폰들을 조회한다.")
+    @Test
+    void findAllByStatus() {
+        Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = adminMemberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
+
+        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
+        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
+
+        String status = RESERVED.name();
+        List<MemberCoupon> coupons = adminCouponQueryRepository.findAllByStatus(status);
+
+        assertAll(
+                () -> assertThat(coupons).hasSize(2),
+                () -> assertThat(coupons).extracting("status").containsOnly(status)
+        );
     }
 }

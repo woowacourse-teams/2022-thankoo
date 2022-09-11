@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,7 +18,7 @@ public class AdminCouponController {
     private final AdminCouponService adminCouponService;
 
     @GetMapping
-    public ResponseEntity<List<AdminCouponResponse>> getCoupons() {
-        return ResponseEntity.ok(adminCouponService.getCoupons());
+    public ResponseEntity<List<AdminCouponResponse>> getCoupons(@RequestParam final String status) {
+        return ResponseEntity.ok(adminCouponService.getCoupons(status));
     }
 }

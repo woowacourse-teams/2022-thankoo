@@ -7,4 +7,6 @@ operation::admin/members/get-members[snippets='http-request,http-response']
 
 operation::admin/coupons/get-coupons[snippets='http-request,http-response']
 
+=== 특정 상태의 모든 쿠폰 조회
 
+operation::admin/coupons/get-coupons-status[snippets='http-request,http-response']

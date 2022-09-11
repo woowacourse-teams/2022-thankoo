@@ -5,7 +5,9 @@ import com.woowacourse.thankoo.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -45,5 +47,23 @@ public class AdminCouponQueryRepository {
                 + "JOIN member as r ON c.receiver_id = r.id ";
 
         return jdbcTemplate.query(sql, ROW_MAPPER);
+    }
+
+    public List<MemberCoupon> findAllByStatus(final String status) {
+        String sql = "SELECT c.id as coupon_id, "
+                + "s.id as sender_id, s.name as sender_name, "
+                + "s.email as sender_email, s.social_id as sender_social_id, "
+                + "s.image_url as sender_image_url, "
+                + "r.id as receiver_id, r.name as receiver_name, "
+                + "r.email as receiver_email, r.social_id as receiver_social_id, "
+                + "r.image_url as receiver_image_url, "
+                + "c.coupon_type, c.title, c.message, c.status "
+                + "FROM coupon as c "
+                + "JOIN member as s ON c.sender_id = s.id "
+                + "JOIN member as r ON c.receiver_id = r.id "
+                + "WHERE c.status = :status ";
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("status", status);
+        return jdbcTemplate.query(sql, sqlParameterSource, ROW_MAPPER);
     }
 }
