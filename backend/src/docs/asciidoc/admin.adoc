@@ -1,0 +1,4 @@
+[[Admin]]
+=== 모든 회원 조회
+
+operation::admin/members/get-members[snippets='http-request,http-response']
