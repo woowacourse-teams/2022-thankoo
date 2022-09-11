@@ -49,23 +49,6 @@ public class FileProfileImageGenerator implements ProfileImageGenerator {
     }
 
     @Override
-    public String getImageUrl(final String imageName) {
-        validateImageName(imageName);
-        return IMAGE_URL_PATH + imageName;
-    }
-
-    public void validateImageName(final String imageName) {
-        if (!hasSameImage(imageName)) {
-            throw new BadRequestException(ErrorType.INVALID_MEMBER_PROFILE_IMAGE);
-        }
-    }
-
-    private boolean hasSameImage(final String imageName) {
-        return profileImages.stream()
-                .anyMatch(imageName::equals);
-    }
-
-    @Override
     public List<String> getImageUrls() {
         return profileImages.stream()
                 .map(imageName -> IMAGE_URL_PATH + imageName)
