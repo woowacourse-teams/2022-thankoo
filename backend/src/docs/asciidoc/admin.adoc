@@ -2,3 +2,9 @@
 === 모든 회원 조회
 
 operation::admin/members/get-members[snippets='http-request,http-response']
+
+=== 모든 쿠폰 조회
+
+operation::admin/coupons/get-coupons[snippets='http-request,http-response']
+
+
