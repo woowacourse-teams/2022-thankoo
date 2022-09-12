@@ -47,7 +47,7 @@ public class ReservationRepliedEvent extends AlarmEvent {
 
     @Override
     public String toString() {
-        return "ReservationReplyEvent{" +
+        return "ReservationRepliedEvent{" +
                 "receiverId=" + receiverId +
                 ", senderId=" + senderId +
                 ", couponTitle='" + couponTitle + '\'' +

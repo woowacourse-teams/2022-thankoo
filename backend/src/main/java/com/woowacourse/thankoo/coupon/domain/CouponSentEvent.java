@@ -50,7 +50,7 @@ public class CouponSentEvent extends AlarmEvent {
 
     @Override
     public String toString() {
-        return "CouponSentAlarmEvent{" +
+        return "CouponSentEvent{" +
                 "receiverIds=" + receiverIds +
                 ", senderId=" + senderId +
                 ", couponTitle='" + couponTitle + '\'' +

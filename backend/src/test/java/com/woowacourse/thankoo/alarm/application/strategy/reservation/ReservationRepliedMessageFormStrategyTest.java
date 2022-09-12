@@ -16,6 +16,7 @@ import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.domain.AlarmSpecification;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import java.text.MessageFormat;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @ApplicationTest
 class ReservationRepliedMessageFormStrategyTest {
 
-    private static final String PRETEXT = "\uD83D\uDC7B 예약 요청에 응답이 왔어요.";
+    private static final String PRETEXT = "\uD83D\uDC7B {0}님이 예약 요청에 응답했어요.";
     private static final String COUPON_TITLE = "널 좋아해";
 
     @Autowired
@@ -47,9 +48,8 @@ class ReservationRepliedMessageFormStrategyTest {
         Message message = reservationRepliedMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
-                () -> assertThat(message.getTitle()).isEqualTo(PRETEXT),
+                () -> assertThat(message.getTitle()).isEqualTo(MessageFormat.format(PRETEXT, "lala")),
                 () -> assertThat(message.getContents()).containsExactly(
-                        "요청자 : lala",
                         "쿠폰 : 널 좋아해",
                         "예약 상태 : 거절\uD83D\uDE05"
                 )
@@ -69,9 +69,8 @@ class ReservationRepliedMessageFormStrategyTest {
         Message message = reservationRepliedMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
-                () -> assertThat(message.getTitle()).isEqualTo(PRETEXT),
+                () -> assertThat(message.getTitle()).isEqualTo(MessageFormat.format(PRETEXT, "lala")),
                 () -> assertThat(message.getContents()).containsExactly(
-                        "요청자 : lala",
                         "쿠폰 : 널 좋아해",
                         "예약 상태 : 승인\uD83E\uDD70"
                 )
