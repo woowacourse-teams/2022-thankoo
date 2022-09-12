@@ -20,4 +20,12 @@ public class CouponTotalResponse {
     public static CouponTotalResponse from(final CouponTotal couponTotal) {
         return new CouponTotalResponse(couponTotal.getSentCount(), couponTotal.getReceivedCount());
     }
+
+    @Override
+    public String toString() {
+        return "CouponTotalResponse{" +
+                "sentCount=" + sentCount +
+                ", receivedCount=" + receivedCount +
+                '}';
+    }
 }

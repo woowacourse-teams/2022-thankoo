@@ -232,4 +232,23 @@ class ReservationServiceTest {
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
     }
+
+    @DisplayName("만료된 예약을 취소한다.")
+    @Test
+    void cancelExpiredReservation() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+        Coupon coupon = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+
+        LocalDateTime meetingTime = LocalDateTime.now().plusDays(1L);
+        Long reservation1Id = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon.getId(), meetingTime));
+
+        reservationService.cancelExpiredReservation(meetingTime);
+
+        Reservation reservation1 = reservationRepository.findById(reservation1Id).get();
+
+        assertThat(reservation1.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
+    }
 }
