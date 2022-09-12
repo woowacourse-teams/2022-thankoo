@@ -17,7 +17,7 @@ public class ReservationRepliedMessageFormStrategy extends ReservationMessageFor
 
     private static final int CONTENT_SIZE = 3;
 
-    private static final String PRETEXT_RESPONSE = "\uD83D\uDC7B 예약 요청에 응답이 왔어요.";
+    private static final String PRETEXT_RESPONSE = "\uD83D\uDC7B {0}님이 예약 요청에 응답했어요.";
     private static final int STATUS_INDEX = 2;
     private static final String RESERVATION_STATUS = "예약 상태 : {0}";
     private static final Map<String, String> statuses = Map.of(
@@ -32,10 +32,9 @@ public class ReservationRepliedMessageFormStrategy extends ReservationMessageFor
         List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
         String senderName = alarmMemberProvider.getSenderName(alarm.getContents().get(SENDER_ID_INDEX));
         return Message.builder()
-                .title(PRETEXT_RESPONSE)
+                .title(MessageFormat.format(PRETEXT_RESPONSE, senderName))
                 .titleLink(TITLE_LINK)
                 .email(receiverEmails)
-                .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(COUPON, alarm.getContents().get(COUPON_INDEX)))
                 .content(MessageFormat.format(RESERVATION_STATUS,
                         statuses.get(alarm.getContents().get(STATUS_INDEX))))

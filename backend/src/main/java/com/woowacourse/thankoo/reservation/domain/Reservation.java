@@ -118,7 +118,7 @@ public class Reservation extends BaseEntity {
         validateCouponStatus();
 
         reservationStatus = futureStatus;
-        Events.publish(ReservationRepliedEvent.of(coupon, memberId, reservationStatus));
+        Events.publish(ReservationRepliedEvent.of(memberId, coupon, reservationStatus));
         if (reservationStatus.isDeny()) {
             coupon.rollBack();
             return;

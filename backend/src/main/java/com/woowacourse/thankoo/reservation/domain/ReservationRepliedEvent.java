@@ -24,12 +24,12 @@ public class ReservationRepliedEvent extends AlarmEvent {
         this.reservationStatus = reservationStatus;
     }
 
-    public static ReservationRepliedEvent of(final Coupon coupon,
-                                             final Long senderId,
+    public static ReservationRepliedEvent of(final Long receiverId,
+                                             final Coupon coupon,
                                              final ReservationStatus reservationStatus) {
         return new ReservationRepliedEvent(AlarmSpecification.RESERVATION_REPLIED,
+                receiverId,
                 coupon.getSenderId(),
-                senderId,
                 coupon.getCouponContent().getTitle(),
                 reservationStatus);
     }
