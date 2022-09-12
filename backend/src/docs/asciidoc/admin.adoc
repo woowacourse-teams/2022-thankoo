@@ -1,0 +1,5 @@
+[[Admin]]
+=== 모든 예약 조회
+
+operation::admin/reservations/get-reservations[snippets='http-request,http-response']
+
