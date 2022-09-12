@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.reservation.application;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -12,8 +13,10 @@ import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequ
 import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
+import com.woowacourse.thankoo.reservation.domain.Reservations;
 import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,8 +55,7 @@ public class ReservationService {
         reservation.update(foundMember, futureStatus, reservedMeetingCreator);
     }
 
-    public void cancel(final Long memberId,
-                       final Long reservationId) {
+    public void cancel(final Long memberId, final Long reservationId) {
         Member foundMember = getMember(memberId);
         Reservation reservation = getReservationById(reservationId);
         reservation.cancel(foundMember);
@@ -67,5 +69,13 @@ public class ReservationService {
     private Member getMember(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
+    }
+
+    public void cancelExpiredReservation(final LocalDateTime dateTime) {
+        Reservations reservations = new Reservations(reservationRepository.findAllByReservationStatusAndTimeUnitTime(
+                ReservationStatus.WAITING, dateTime));
+
+        reservationRepository.updateReservationStatus(ReservationStatus.CANCELED, reservations.getIds());
+        couponRepository.updateCouponStatus(CouponStatus.NOT_USED, reservations.getCouponIds());
     }
 }
