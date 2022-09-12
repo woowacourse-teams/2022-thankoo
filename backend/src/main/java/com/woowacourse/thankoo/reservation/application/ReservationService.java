@@ -28,7 +28,6 @@ public class ReservationService {
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
     private final ReservedMeetingCreator reservedMeetingCreator;
-    private final AlarmSender alarmSender;
 
     public Long save(final Long memberId, final ReservationRequest reservationRequest) {
         Coupon coupon = couponRepository.findById(reservationRequest.getCouponId())
