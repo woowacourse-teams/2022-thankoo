@@ -1,33 +1,31 @@
 package com.woowacourse.thankoo.common.util;
 
-import com.woowacourse.thankoo.common.exception.BadRequestException;
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 @Component
 public class FileProfileImageGenerator implements ProfileImageGenerator {
 
-    private static final String IMAGE_URL_PATH = "/profile-image/";
-    private static final String IMAGE_PATH = "classpath:static/profile-image/*.svg";
     private static final int RANDOM_MIN_RANGE = 0;
+    private final String imageUrlPath;
     private final List<String> profileImages;
     private final Random random;
 
-    private FileProfileImageGenerator() {
-        random = new Random();
+    private FileProfileImageGenerator(@Value("${profile-image.image-url-path}") final String imageUrlPath,
+                                      @Value("${profile-image.image-path}") final String imagePath) {
+        this.random = new Random();
+        this.imageUrlPath = imageUrlPath;
         try {
             Resource[] resources = (new PathMatchingResourcePatternResolver())
-                    .getResources(IMAGE_PATH);
+                    .getResources(imagePath);
             profileImages = Arrays.stream(resources)
                     .map(Resource::getFilename)
                     .collect(Collectors.toList());
@@ -39,7 +37,7 @@ public class FileProfileImageGenerator implements ProfileImageGenerator {
     @Override
     public String getRandomImage() {
         int imageIndex = getRandomNumber(profileImages.size());
-        return IMAGE_URL_PATH + profileImages.get(imageIndex);
+        return imageUrlPath + profileImages.get(imageIndex);
     }
 
     private int getRandomNumber(final int maxExcludeRange) {
@@ -51,7 +49,7 @@ public class FileProfileImageGenerator implements ProfileImageGenerator {
     @Override
     public List<String> getImageUrls() {
         return profileImages.stream()
-                .map(imageName -> IMAGE_URL_PATH + imageName)
+                .map(imageName -> imageUrlPath + imageName)
                 .collect(Collectors.toList());
     }
 }
