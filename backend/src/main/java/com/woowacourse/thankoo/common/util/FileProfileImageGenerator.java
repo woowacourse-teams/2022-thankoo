@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -21,7 +22,7 @@ public class FileProfileImageGenerator implements ProfileImageGenerator {
 
     private FileProfileImageGenerator(@Value("${profile-image.image-url-path}") final String imageUrlPath,
                                       @Value("${profile-image.image-path}") final String imagePath) {
-        this.random = new Random();
+        this.random = ThreadLocalRandom.current();
         this.imageUrlPath = imageUrlPath;
         try {
             Resource[] resources = (new PathMatchingResourcePatternResolver())
