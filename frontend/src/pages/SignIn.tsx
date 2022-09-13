@@ -14,7 +14,6 @@ const SignIn = () => {
         <S.Body>
           <S.LogoWrapper>
             <BirdLogoWhite size='150rem' />
-            <S.Title>땡쿠</S.Title>
           </S.LogoWrapper>
           <S.SignInButton onClick={redirectGoogleAuth}>
             <S.GoogleIcon />
@@ -46,12 +45,6 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: center;
-  `,
-  Title: styled.h1`
-    color: white;
-    font-size: 3em;
-    font-family: 'EarlyFontDiary' !important;
-    text-align: center;
   `,
   GoogleIcon: styled(GoogleIcon)`
     fill: white;
