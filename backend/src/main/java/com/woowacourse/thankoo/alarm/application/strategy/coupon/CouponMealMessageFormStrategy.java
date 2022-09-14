@@ -23,14 +23,14 @@ public class CouponMealMessageFormStrategy extends CouponMessageFormStrategy {
     public Message createFormat(final Alarm alarm) {
         validateContent(alarm);
         List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
-        String senderName = alarmMemberProvider.getSenderName(alarm.getContents().get(SENDER_ID_INDEX));
+        String senderName = alarmMemberProvider.getSenderName(alarm.getContentAt(SENDER_ID_INDEX));
 
         return Message.builder()
                 .email(receiverEmails)
                 .title(MEAL_PRETEXT)
                 .titleLink(TITLE_LINK)
                 .content(MessageFormat.format(SENDER, senderName))
-                .content(MessageFormat.format(TITLE, alarm.getContents().get(TITLE_INDEX)))
+                .content(MessageFormat.format(TITLE, alarm.getContentAt(TITLE_INDEX)))
                 .content(MessageFormat.format(TYPE, MEAL_TYPE))
                 .build();
     }

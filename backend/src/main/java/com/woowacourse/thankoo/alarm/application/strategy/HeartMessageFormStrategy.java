@@ -29,11 +29,11 @@ public class HeartMessageFormStrategy implements MessageFormStrategy {
     public Message createFormat(final Alarm alarm) {
         validateContentSize(alarm, CONTENT_SIZE);
         List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
-        String senderName = alarmMemberProvider.getSenderName(alarm.getContents().get(SENDER_ID_INDEX));
+        String senderName = alarmMemberProvider.getSenderName(alarm.getContentAt(SENDER_ID_INDEX));
 
         return Message.builder()
                 .email(receiverEmails)
-                .title(MessageFormat.format(TITLE, senderName, String.valueOf(alarm.getContents().get(COUNT_INDEX))))
+                .title(MessageFormat.format(TITLE, senderName, String.valueOf(alarm.getContentAt(COUNT_INDEX))))
                 .titleLink(TITLE_LINK)
                 .contents(Collections.emptyList())
                 .build();

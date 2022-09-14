@@ -27,15 +27,15 @@ public class ReservationSentMessageFormStrategy extends ReservationMessageFormSt
     public Message createFormat(final Alarm alarm) {
         validateContentSize(alarm, CONTENT_SIZE);
         List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
-        String senderName = alarmMemberProvider.getSenderName(alarm.getContents().get(SENDER_ID_INDEX));
+        String senderName = alarmMemberProvider.getSenderName(alarm.getContentAt(SENDER_ID_INDEX));
 
         return Message.builder()
                 .title(PRETEXT)
                 .titleLink(TITLE_LINK)
                 .email(receiverEmails)
                 .content(MessageFormat.format(SENDER, senderName))
-                .content(MessageFormat.format(COUPON, alarm.getContents().get(COUPON_INDEX)))
-                .content(MessageFormat.format(DATE, alarm.getContents().get(DATE_INDEX)))
+                .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
+                .content(MessageFormat.format(DATE, alarm.getContentAt(DATE_INDEX)))
                 .build();
     }
 

@@ -29,4 +29,13 @@ class AlarmTest {
 
         assertThat(alarm.getAlarmStatus()).isEqualTo(AlarmStatus.CREATED);
     }
+
+    @DisplayName("인덱스 위치의 값을 가져온다.")
+    @Test
+    void getContentAt() {
+        Alarm alarm = Alarm.create(
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(1L), List.of("contents")));
+
+        assertThat(alarm.getContentAt(0)).isEqualTo("contents");
+    }
 }

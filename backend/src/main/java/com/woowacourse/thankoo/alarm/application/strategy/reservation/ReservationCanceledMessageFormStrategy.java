@@ -23,14 +23,14 @@ public class ReservationCanceledMessageFormStrategy extends ReservationMessageFo
     public Message createFormat(final Alarm alarm) {
         validateContentSize(alarm, CONTENT_SIZE);
         List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
-        String senderName = alarmMemberProvider.getSenderName(alarm.getContents().get(SENDER_ID_INDEX));
+        String senderName = alarmMemberProvider.getSenderName(alarm.getContentAt(SENDER_ID_INDEX));
 
         return Message.builder()
                 .email(receiverEmails)
                 .title(PRETEXT_CANCEL)
                 .titleLink(TITLE_LINK)
                 .content(MessageFormat.format(SENDER, senderName))
-                .content(MessageFormat.format(COUPON, alarm.getContents().get(COUPON_INDEX)))
+                .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
                 .build();
     }
 

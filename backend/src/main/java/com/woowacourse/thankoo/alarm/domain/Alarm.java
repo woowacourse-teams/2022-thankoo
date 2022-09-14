@@ -33,6 +33,10 @@ public class Alarm {
         return contents.size() == size;
     }
 
+    public String getContentAt(final int index) {
+        return contents.get(index);
+    }
+
     @Override
     public String toString() {
         return "Alarm{" +
