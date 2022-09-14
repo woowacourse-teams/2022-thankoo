@@ -1,9 +1,9 @@
-package com.woowacourse.thankoo.serial.presentation;
+package com.woowacourse.thankoo.admin.serial.presentation;
 
+import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import com.woowacourse.thankoo.serial.application.CouponSerialQueryService;
 import com.woowacourse.thankoo.serial.application.CouponSerialService;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
-import com.woowacourse.thankoo.serial.presentation.dto.CouponSerialResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/serial")
-public class SerialController {
+public class AdminCouponSerialController {
 
     private final CouponSerialService couponSerialService;
     private final CouponSerialQueryService couponSerialQueryService;

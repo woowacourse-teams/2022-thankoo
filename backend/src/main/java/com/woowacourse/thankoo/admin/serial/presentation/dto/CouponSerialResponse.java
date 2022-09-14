@@ -1,6 +1,5 @@
-package com.woowacourse.thankoo.serial.presentation.dto;
+package com.woowacourse.thankoo.admin.serial.presentation.dto;
 
-import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
 import lombok.AccessLevel;
 import lombok.Getter;

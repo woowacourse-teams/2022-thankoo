@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.serial.presentation;
+package com.woowacourse.thankoo.admin.serial.presentation;
 
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.STRING;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.common.ControllerTest;
+import com.woowacourse.thankoo.serial.application.CouponSerialQueryService;
 import com.woowacourse.thankoo.serial.application.CouponSerialService;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("AdminSerialController 는 ")
-@WebMvcTest(SerialController.class)
+@WebMvcTest(AdminCouponSerialController.class)
 class CouponSerialControllerTest extends ControllerTest {
 
     @Autowired
@@ -32,6 +33,9 @@ class CouponSerialControllerTest extends ControllerTest {
 
     @MockBean
     private CouponSerialService couponSerialService;
+
+    @MockBean
+    private CouponSerialQueryService couponSerialQueryService;
 
     @Autowired
     protected ObjectMapper objectMapper;

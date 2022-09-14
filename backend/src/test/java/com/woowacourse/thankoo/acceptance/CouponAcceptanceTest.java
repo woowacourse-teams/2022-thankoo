@@ -361,6 +361,20 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .status(HttpStatus.BAD_REQUEST.value());
             }
         }
+
+        @DisplayName("시리얼 번호를 요청할 때 ")
+        @Nested
+        class CouponSerial {
+
+            @DisplayName("번호가 존재하면 쿠폰을 생성한다.")
+            @Test
+            void createCoupon() {
+                TokenResponse memberToken = AuthenticationAssured.request()
+                        .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                        .로그인_한다(CODE_SKRR)
+                        .token();
+            }
+        }
     }
 
     @DisplayName("로그인 하지 않고 ")
