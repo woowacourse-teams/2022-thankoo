@@ -65,7 +65,7 @@ export const initialCouponState = {
   },
 };
 
-export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' };
+export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' } as const;
 export const couponTypeValues = Object.values(couponTypes);
-export const couponTypeKeys = Object.keys(couponTypes);
+export const couponTypeKeys = Object.keys(couponTypes) as Array<keyof typeof couponTypes>;
 export type CouponType = typeof couponTypeKeys[number];
