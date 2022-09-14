@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.alarm.application.strategy;
+package com.woowacourse.thankoo.alarm.application.strategy.coupon;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
@@ -25,15 +25,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@DisplayName("CouponMessageFormStrategyTest 는 ")
+@DisplayName("CouponCoffeeMessageFormStrategy 는 ")
 @ApplicationTest
-class CouponMessageFormStrategyTest {
+class CouponCoffeeMessageFormStrategyTest {
 
     private static final String COFFEE_PRETEXT = "\uD83D\uDC8C 커피 쿠폰이 도착했어요.";  // 💌
-    private static final String COFFEE_TITLE = "널 좋아해";
+    private static final String COUPON_TITLE = "널 좋아해";
     private static final String COFFEE_TYPE = "커피☕";
+
     @Autowired
-    private CouponMessageFormStrategy couponMessageFormStrategy;
+    private CouponCoffeeMessageFormStrategy couponCoffeeMessageFormStrategy;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -46,11 +47,10 @@ class CouponMessageFormStrategyTest {
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
-                        "COFFEE",
-                        List.of(String.valueOf(lala.getId()), COFFEE_TITLE, "coffee")));
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(hoho.getId(), huni.getId()),
+                        List.of(String.valueOf(lala.getId()), COUPON_TITLE, "coffee")));
 
-        Message message = couponMessageFormStrategy.createFormat(alarm);
+        Message message = couponCoffeeMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue(),
                         huni.getEmail().getValue()),
@@ -71,12 +71,11 @@ class CouponMessageFormStrategyTest {
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
-                        COFFEE_PRETEXT,
-                        List.of(String.valueOf(lala.getId()), COFFEE_TITLE)));
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(hoho.getId(), huni.getId()),
+                        List.of(String.valueOf(lala.getId()), COUPON_TITLE)));
 
         assertThatThrownBy(
-                () -> couponMessageFormStrategy.createFormat(alarm)
+                () -> couponCoffeeMessageFormStrategy.createFormat(alarm)
         ).isInstanceOf(InvalidAlarmException.class)
                 .hasMessage("잘못된 알람 형식입니다.");
     }
@@ -88,12 +87,11 @@ class CouponMessageFormStrategyTest {
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(hoho.getId(), huni.getId()),
-                        COFFEE_PRETEXT,
-                        List.of("a", COFFEE_TITLE, COFFEE_TYPE)));
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(hoho.getId(), huni.getId()),
+                        List.of("a", COUPON_TITLE, COFFEE_TYPE)));
 
         assertThatThrownBy(
-                () -> couponMessageFormStrategy.createFormat(alarm)
+                () -> couponCoffeeMessageFormStrategy.createFormat(alarm)
         ).isInstanceOf(InvalidAlarmException.class)
                 .hasMessage("잘못된 알람 형식입니다.");
     }

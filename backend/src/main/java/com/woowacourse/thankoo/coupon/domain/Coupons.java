@@ -27,7 +27,7 @@ public class Coupons {
 
     public static Coupons distribute(final List<Coupon> values) {
         Coupons coupons = new Coupons(values);
-        Events.publish(CouponSentAlarmEvent.from(coupons));
+        Events.publish(CouponSentEvent.from(coupons));
         return coupons;
     }
 
