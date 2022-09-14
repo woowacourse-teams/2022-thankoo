@@ -29,21 +29,10 @@ export const useGetCouponDetail = (couponId, { onSuccess = () => {}, onError = (
     }
   );
 
-export const useGetCoupons = sentOrReceived => {
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    const defaultSentOrReceived = '보낸';
-
-    queryClient.prefetchQuery([COUPON_QUERY_KEY.coupon, defaultSentOrReceived], () =>
-      getCouponsRequest(SENT_OR_RECEIVED_API_PATH[API_PATH.SENT_COUPONS])
-    );
-  }, []);
-
-  return useQuery<Coupon[]>([COUPON_QUERY_KEY.coupon, sentOrReceived], () =>
-    getCouponsRequest(SENT_OR_RECEIVED_API_PATH[sentOrReceived])
+export const useGetCoupons = sentOrReceived =>
+  useQuery<Coupon[]>([COUPON_QUERY_KEY.coupon, sentOrReceived], () =>
+    getCouponsRequest(sentOrReceived)
   );
-};
 
 export const usePostCouponMutation = ({ receiverIds, content }, { onSuccess = () => {} } = {}) =>
   useMutation(() => postCouponRequest({ receiverIds, content }), {
@@ -54,10 +43,10 @@ export const usePostCouponMutation = ({ receiverIds, content }, { onSuccess = ()
 
 /** FETCHER */
 
-const getCouponsRequest = async url => {
+const getCouponsRequest = async sendOrReceived => {
   const { data } = await client({
     method: 'get',
-    url,
+    url: SENT_OR_RECEIVED_API_PATH[sendOrReceived],
   });
 
   return data;

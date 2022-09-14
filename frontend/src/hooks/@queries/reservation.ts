@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import useToast from '../useToast';
+import { COUPON_QUERY_KEY } from './coupon';
 
 export const RESERVATION_QUERY_KEYS = {
   reservations: 'reservations',
@@ -15,7 +16,7 @@ export const usePostReservationMutation = (
 
   return useMutation(() => postReservationRequest({ couponId, date, time }), {
     onSuccess: () => {
-      queryClient.invalidateQueries('coupon');
+      queryClient.invalidateQueries(COUPON_QUERY_KEY.coupon);
       onSuccess();
     },
     retry: false,
@@ -50,7 +51,7 @@ export const usePutReservationStatus = (
   return useMutation((status: string) => putReservationStatusRequest(status, reservationId), {
     onSuccess: () => {
       handleSuccess();
-      queryClient.invalidateQueries('reservations');
+      queryClient.invalidateQueries(RESERVATION_QUERY_KEYS.reservations);
     },
     onError: () => {
       insertToastItem('요청에 실패했습니다.');
