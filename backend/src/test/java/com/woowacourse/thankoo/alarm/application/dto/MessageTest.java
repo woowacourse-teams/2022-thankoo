@@ -33,9 +33,8 @@ class MessageTest {
         given(messageFormStrategy.createFormat(any(Alarm.class)))
                 .willReturn(expected);
 
-        Alarm alarm = Alarm.create(new AlarmSpecification(AlarmSpecification.COUPON_SENT,
+        Alarm alarm = Alarm.create(new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE,
                 List.of(2L, 3L),
-                "COFFEE",
                 List.of(String.valueOf(1L), "title", "coffee"))
         );
         Message message = Message.of(alarm, messageFormStrategy);
