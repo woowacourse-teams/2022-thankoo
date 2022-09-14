@@ -7,7 +7,6 @@ const OAuth = {
     'scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid',
 };
 
-console.log(process.env);
 switch (process.env.MODE) {
   case 'noServer':
     OAuth.CLIENT_ID = '';
@@ -32,6 +31,6 @@ switch (process.env.MODE) {
   default:
     break;
 }
-console.log(OAuth);
+
 const { GOOGLE_URL, CLIENT_ID, REDIRECT_URL, RESPONSE_TYPE, SCOPE } = OAuth;
 export const GOOGLE_AUTH_URL = `${GOOGLE_URL}?${CLIENT_ID}&${REDIRECT_URL}&${RESPONSE_TYPE}&${SCOPE}`;
