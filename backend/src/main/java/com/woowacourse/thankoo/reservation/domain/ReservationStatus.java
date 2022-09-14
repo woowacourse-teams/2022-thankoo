@@ -22,4 +22,8 @@ public enum ReservationStatus {
     public boolean isDeny() {
         return this == DENY;
     }
+
+    public boolean isCanceled() {
+        return this == CANCELED;
+    }
 }

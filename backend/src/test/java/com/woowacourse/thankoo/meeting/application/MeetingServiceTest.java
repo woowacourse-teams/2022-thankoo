@@ -34,6 +34,7 @@ import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -143,6 +144,28 @@ class MeetingServiceTest {
         void completeNoMeeting() {
             assertDoesNotThrow(() -> meetingService.complete(LocalDateTime.now()));
         }
+    }
+
+    @DisplayName("해당 날짜에 미팅이 있는 경우 알림을 보낸다.")
+    @Test
+    void sendMessageTodayMeetingMembers() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Coupon coupon1 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId1 = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon1.getId(), LocalDateTime.now().plusDays(1L)));
+
+        Coupon coupon2 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId2 = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon2.getId(), LocalDateTime.now().plusDays(1L)));
+        reservationService.updateStatus(sender.getId(), reservationId1, new ReservationStatusRequest("accept"));
+        reservationService.updateStatus(sender.getId(), reservationId2, new ReservationStatusRequest("accept"));
+
+        LocalDate date = LocalDate.now().plusDays(1L);
+        assertDoesNotThrow(() -> meetingService.sendMessageTodayMeetingMembers(date));
     }
 }
 
