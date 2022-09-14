@@ -8,7 +8,7 @@
     "dev": "webpack server --mode development --env MODE=development --open --hot",
     "prod": "webpack server --mode development --open --hot",
     "build": "webpack --mode production --env --progress",
-    "dev-build": "webpack --mode development MODE=development --env --progress"
+    "dev-build": "webpack --mode development --env --progress"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
