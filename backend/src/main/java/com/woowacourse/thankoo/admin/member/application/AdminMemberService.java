@@ -1,5 +1,7 @@
 package com.woowacourse.thankoo.admin.member.application;
 
+import com.woowacourse.thankoo.admin.common.search.domain.AdminDateFilterCondition;
+import com.woowacourse.thankoo.admin.common.search.dto.AdminDateFilterRequest;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.admin.member.presentation.dto.AdminMemberResponse;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -16,8 +18,15 @@ public class AdminMemberService {
 
     private final AdminMemberRepository adminMemberRepository;
 
-    public List<AdminMemberResponse> getMembers() {
-        List<Member> members = adminMemberRepository.findAll();
+    public List<AdminMemberResponse> getMembers(final AdminDateFilterRequest dateFilterRequest) {
+        AdminDateFilterCondition dateFilterCondition = AdminDateFilterCondition.of(
+                dateFilterRequest.getStartDate(), dateFilterRequest.getEndDate());
+
+        List<Member> members = adminMemberRepository.findAllByCreatedAtBetween(
+                dateFilterCondition.getStartDateTime(),
+                dateFilterCondition.getEndDateTime()
+        );
+
         return members.stream()
                 .map(AdminMemberResponse::of)
                 .collect(Collectors.toList());
