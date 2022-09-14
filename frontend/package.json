@@ -4,11 +4,10 @@
   "main": "src/index.tsx",
   "license": "MIT",
   "scripts": {
-    "local": "webpack server --mode development --env  MODE=local --open --hot",
-    "dev": "webpack server --mode development --env MODE=development --open --hot",
-    "prod": "webpack server --mode development --open --hot",
-    "build": "webpack --mode production --env --progress",
-    "dev-build": "webpack --mode development --env --progress"
+    "start": "webpack server --open --hot --config webpack/webpack.noServer.js",
+    "local": "webpack server --open --hot --config webpack/webpack.local.js",
+    "build": "webpack --progress --config webpack/webpack.prod.js",
+    "dev-build": "webpack --progress --config webpack/webpack.dev.js"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
@@ -33,7 +32,8 @@
     "typescript": "^4.7.4",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.9.3"
+    "webpack-dev-server": "^4.9.3",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
     "@emotion/babel-plugin": "^11.9.2",
