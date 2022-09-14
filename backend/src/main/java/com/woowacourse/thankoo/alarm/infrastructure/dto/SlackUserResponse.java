@@ -27,5 +27,20 @@ public class SlackUserResponse {
         public Profile(final String email) {
             this.email = email;
         }
+
+        @Override
+        public String toString() {
+            return "Profile{" +
+                    "email='" + email + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "SlackUserResponse{" +
+                "userToken='" + userToken + '\'' +
+                ", profile=" + profile +
+                '}';
     }
 }

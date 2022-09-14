@@ -1,5 +1,12 @@
 package com.woowacourse.thankoo.alarm.infrastructure;
 
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.Attachments;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackMessageRequest;
@@ -9,13 +16,13 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
 public class SlackClient {
+
+    private static final RestTemplate REST_TEMPLATE = new RestTemplate();
 
     private static final String TOKEN_TYPE = "Bearer ";
 
@@ -32,38 +39,36 @@ public class SlackClient {
     }
 
     public SlackUsersResponse getUsers() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, TOKEN_TYPE + token);
-        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-        HttpEntity<SlackUsersResponse> request = new HttpEntity<>(headers);
-        return new RestTemplate()
-                .exchange(usersUri, HttpMethod.GET, request, SlackUsersResponse.class)
+        HttpEntity<SlackUsersResponse> request = new HttpEntity<>(setHeaders(APPLICATION_FORM_URLENCODED_VALUE));
+        return REST_TEMPLATE
+                .exchange(usersUri, GET, request, SlackUsersResponse.class)
                 .getBody();
     }
 
-    public SlackUserResponse getUser(final String email, final SlackUsersResponse response) {
-        return response.getResponses()
-                .stream()
-                .filter(userResponse -> email.equals(userResponse.getProfile().getEmail()))
-                .findFirst()
-                .orElseThrow(() -> new InvalidAlarmException(ErrorType.NOT_FOUND_SLACK_USER));
+    public void sendMessage(final String channel, final Attachments attachments) {
+        SlackMessageRequest request = SlackMessageRequest.of(channel, attachments);
+        HttpHeaders headers = setHeaders(APPLICATION_JSON_VALUE);
+        HttpEntity<SlackMessageRequest> requestHttpEntity = new HttpEntity<>(request, headers);
+        REST_TEMPLATE.exchange(messageUri, POST, requestHttpEntity, Void.class);
+    }
+
+    private HttpHeaders setHeaders(final String contentType) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(AUTHORIZATION, TOKEN_TYPE + token);
+        headers.add(CONTENT_TYPE, contentType);
+        return headers;
     }
 
     public String getUserToken(final String email) {
-        SlackUsersResponse slackUsers = getUsers();
-        SlackUserResponse slackUser = getUser(email, slackUsers);
+        SlackUserResponse slackUser = getUser(email, getUsers());
         return slackUser.getUserToken();
     }
 
-    public void sendMessage(final String channel, final Attachments attachments) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, TOKEN_TYPE + token);
-        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-
-        HttpEntity<SlackMessageRequest> requestHttpEntity = new HttpEntity<>(
-                SlackMessageRequest.of(channel, attachments), headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange(messageUri, HttpMethod.POST, requestHttpEntity, Void.class);
+    private SlackUserResponse getUser(final String email, final SlackUsersResponse response) {
+        return response.getResponses()
+                .stream()
+                .filter(it -> email.equals(it.getProfile().getEmail()))
+                .findFirst()
+                .orElseThrow(() -> new InvalidAlarmException(ErrorType.NOT_FOUND_SLACK_USER));
     }
 }

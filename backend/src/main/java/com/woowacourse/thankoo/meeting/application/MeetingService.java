@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.meeting.application;
 
 import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.ON_PROGRESS;
 
-import com.woowacourse.thankoo.alarm.AlarmSender;
+import com.woowacourse.thankoo.alarm.application.AlarmSender;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
@@ -18,6 +18,7 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.domain.Members;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,16 +50,18 @@ public class MeetingService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    public void complete(final LocalDate date) {
-        Meetings meetings = new Meetings(meetingRepository.findAllByMeetingStatusAndTimeUnit_Date(ON_PROGRESS, date));
-        Coupons coupons = new Coupons(meetings.getCoupons());
-
-        meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetings.getMeetingIds());
-        couponRepository.updateCouponStatus(CouponStatus.USED, coupons.getCouponIds());
+    public void complete(final LocalDateTime dateTime) {
+        Meetings meetings = new Meetings(
+                meetingRepository.findAllByMeetingStatusAndTimeUnitTime(ON_PROGRESS, dateTime));
+        if (meetings.haveMeeting()) {
+            Coupons coupons = new Coupons(meetings.getCoupons());
+            meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetings.getMeetingIds());
+            couponRepository.updateCouponStatus(CouponStatus.USED, coupons.getCouponIds());
+        }
     }
 
     public void sendMessageTodayMeetingMembers(final LocalDate date) {
-        Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnit_Date(date));
+        Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnitDate(date));
         Members members = new Members(meetings.getMembers());
         if (!members.isEmpty()) {
             alarmSender.send(MeetingMessage.of(members.getEmails()));
