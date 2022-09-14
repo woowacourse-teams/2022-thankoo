@@ -47,4 +47,10 @@ class CouponContentTest {
                 .isInstanceOf(InvalidCouponContentException.class)
                 .hasMessage("잘못된 쿠폰 내용입니다.");
     }
+
+    @DisplayName("커피 쿠폰이다.")
+    @Test
+    void isCoffeeType() {
+        assertThat(new CouponContent(CouponType.COFFEE, TITLE, MESSAGE).isCoffeeType()).isTrue();
+    }
 }
