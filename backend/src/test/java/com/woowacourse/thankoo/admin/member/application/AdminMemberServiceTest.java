@@ -11,6 +11,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.admin.common.search.dto.AdminDateFilterRequest;
+import com.woowacourse.thankoo.admin.member.application.dto.AdminMemberNameRequest;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.admin.member.presentation.dto.AdminMemberResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
@@ -44,5 +45,16 @@ class AdminMemberServiceTest {
         List<AdminMemberResponse> members = adminMemberService.getMembers(adminDateFilterRequest);
 
         assertThat(members).hasSize(2);
+    }
+
+    @DisplayName("회원의 이름을 변경한다.")
+    @Test
+    void updateMemberName() {
+        Member member = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        adminMemberService.updateMemberName(member.getId(), new AdminMemberNameRequest(HOHO_NAME));
+
+        Member updatedMember = adminMemberRepository.findById(member.getId()).get();
+
+        assertThat(updatedMember.getName().getValue()).isEqualTo(HOHO_NAME);
     }
 }

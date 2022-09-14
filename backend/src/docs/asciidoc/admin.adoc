@@ -1,7 +1,17 @@
 [[Admin]]
-=== 모든 회원 조회
+
+== 회원
+
+=== 모든 회원 조회 (기간 검색 조건)
 
 operation::admin/members/get-members[snippets='http-request,http-response']
+
+=== 회원 이름 수정
+
+operation::admin/members/update-member-name[snippets='http-request,http-response']
+
+
+== 쿠폰
 
 === 모든 쿠폰 조회
 

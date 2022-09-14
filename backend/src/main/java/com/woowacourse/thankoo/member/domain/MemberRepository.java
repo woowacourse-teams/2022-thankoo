@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<Member> findByNameValue(String name);
-
     List<Member> findAllByIdNotOrderByNameAsc(Long id);
 
     long countByIdIn(List<Long> ids);

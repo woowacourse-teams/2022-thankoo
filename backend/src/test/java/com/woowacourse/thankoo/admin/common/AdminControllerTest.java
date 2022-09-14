@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.admin.common;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.admin.coupon.application.AdminCouponService;
 import com.woowacourse.thankoo.admin.coupon.presentation.AdminCouponController;
 import com.woowacourse.thankoo.admin.member.application.AdminMemberService;
@@ -24,6 +25,9 @@ public class AdminControllerTest {
 
     @Autowired
     protected MockMvc mockMvc;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     @MockBean
     protected JwtTokenProvider jwtTokenProvider;
