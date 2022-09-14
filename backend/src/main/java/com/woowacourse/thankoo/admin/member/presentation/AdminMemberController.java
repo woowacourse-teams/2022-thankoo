@@ -1,8 +1,8 @@
 package com.woowacourse.thankoo.admin.member.presentation;
 
-import com.woowacourse.thankoo.admin.common.search.dto.AdminDateFilterRequest;
 import com.woowacourse.thankoo.admin.member.application.AdminMemberService;
 import com.woowacourse.thankoo.admin.member.application.dto.AdminMemberNameRequest;
+import com.woowacourse.thankoo.admin.member.application.dto.AdminMemberSearchRequest;
 import com.woowacourse.thankoo.admin.member.presentation.dto.AdminMemberResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +24,8 @@ public class AdminMemberController {
 
     @GetMapping
     public ResponseEntity<List<AdminMemberResponse>> getMembers(
-            @ModelAttribute final AdminDateFilterRequest dateFilterRequest) {
-        return ResponseEntity.ok(adminMemberService.getMembers(dateFilterRequest));
+            @ModelAttribute final AdminMemberSearchRequest memberSearchRequest) {
+        return ResponseEntity.ok(adminMemberService.getMembers(memberSearchRequest));
     }
 
     @PutMapping("/{memberId}")

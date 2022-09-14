@@ -1,9 +1,9 @@
 package com.woowacourse.thankoo.admin.member.application;
 
 import com.woowacourse.thankoo.admin.common.exception.AdminErrorType;
-import com.woowacourse.thankoo.admin.common.search.domain.AdminDateFilterCondition;
-import com.woowacourse.thankoo.admin.common.search.dto.AdminDateFilterRequest;
+import com.woowacourse.thankoo.admin.common.search.domain.AdminDateSearchCondition;
 import com.woowacourse.thankoo.admin.member.application.dto.AdminMemberNameRequest;
+import com.woowacourse.thankoo.admin.member.application.dto.AdminMemberSearchRequest;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.admin.member.exception.AdminNotFoundMemberException;
 import com.woowacourse.thankoo.admin.member.presentation.dto.AdminMemberResponse;
@@ -21,9 +21,9 @@ public class AdminMemberService {
 
     private final AdminMemberRepository adminMemberRepository;
 
-    public List<AdminMemberResponse> getMembers(final AdminDateFilterRequest dateFilterRequest) {
-        AdminDateFilterCondition dateFilterCondition = AdminDateFilterCondition.of(
-                dateFilterRequest.getStartDate(), dateFilterRequest.getEndDate());
+    public List<AdminMemberResponse> getMembers(final AdminMemberSearchRequest memberSearchRequest) {
+        AdminDateSearchCondition dateFilterCondition = AdminDateSearchCondition.of(
+                memberSearchRequest.getStartDate(), memberSearchRequest.getEndDate());
 
         List<Member> members = adminMemberRepository.findAllByCreatedAtBetween(
                 dateFilterCondition.getStartDateTime(),

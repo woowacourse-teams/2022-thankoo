@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.admin.common.search.dto;
+package com.woowacourse.thankoo.admin.member.application.dto;
 
 import java.time.LocalDate;
 import lombok.AccessLevel;
@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class AdminDateFilterRequest {
+public class AdminMemberSearchRequest {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
@@ -16,7 +16,7 @@ public class AdminDateFilterRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    public AdminDateFilterRequest(final LocalDate startDate, final LocalDate endDate) {
+    public AdminMemberSearchRequest(final LocalDate startDate, final LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }

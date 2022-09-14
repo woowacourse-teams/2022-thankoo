@@ -10,8 +10,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.thankoo.admin.common.search.dto.AdminDateFilterRequest;
 import com.woowacourse.thankoo.admin.member.application.dto.AdminMemberNameRequest;
+import com.woowacourse.thankoo.admin.member.application.dto.AdminMemberSearchRequest;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.admin.member.presentation.dto.AdminMemberResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
@@ -40,9 +40,9 @@ class AdminMemberServiceTest {
 
         LocalDate startDate = LocalDate.now().minusDays(1L);
         LocalDate endDate = LocalDate.now();
-        AdminDateFilterRequest adminDateFilterRequest = new AdminDateFilterRequest(startDate, endDate);
+        AdminMemberSearchRequest adminMemberSearchRequest = new AdminMemberSearchRequest(startDate, endDate);
 
-        List<AdminMemberResponse> members = adminMemberService.getMembers(adminDateFilterRequest);
+        List<AdminMemberResponse> members = adminMemberService.getMembers(adminMemberSearchRequest);
 
         assertThat(members).hasSize(2);
     }
