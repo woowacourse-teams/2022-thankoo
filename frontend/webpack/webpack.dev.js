@@ -1,3 +1,5 @@
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
@@ -12,8 +14,8 @@ module.exports = merge(common, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
-      'process.env.API_URL': JSON.stringify('http://54.180.89.42'),
-      'process.env.MODE': JSON.stringify('development'),
+      'process.env.API_URL': JSON.stringify(process.env.API_URL),
+      'process.env.MODE': JSON.stringify(process.env.MODE),
     }),
   ],
 });
