@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.common.ControllerTest;
-import com.woowacourse.thankoo.serial.application.SerialService;
-import com.woowacourse.thankoo.serial.application.dto.SerialRequest;
+import com.woowacourse.thankoo.serial.application.CouponSerialService;
+import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,13 @@ import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("AdminSerialController 는 ")
 @WebMvcTest(SerialController.class)
-class SerialControllerTest extends ControllerTest {
+class CouponSerialControllerTest extends ControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private SerialService serialService;
+    private CouponSerialService couponSerialService;
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -39,10 +39,10 @@ class SerialControllerTest extends ControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
-        SerialRequest serialRequest = new SerialRequest("네오", "COFFEE", "1234");
+        CouponSerialRequest couponSerialRequest = new CouponSerialRequest("네오", "COFFEE", "1234");
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
-                .content(objectMapper.writeValueAsString(serialRequest))
+                .content(objectMapper.writeValueAsString(couponSerialRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());

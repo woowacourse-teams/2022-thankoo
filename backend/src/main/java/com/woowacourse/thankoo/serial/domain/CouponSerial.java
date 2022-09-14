@@ -15,10 +15,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "serial")
+@Table(name = "coupon_serial")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Serial extends BaseEntity {
+public class CouponSerial extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,14 +34,14 @@ public class Serial extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private CouponType couponType;
 
-    public Serial(final Long id, final String code, final Long memberId, final CouponType couponType) {
+    public CouponSerial(final Long id, final String code, final Long memberId, final CouponType couponType) {
         this.id = id;
         this.code = code;
         this.memberId = memberId;
         this.couponType = couponType;
     }
 
-    public Serial(final String code, final Long memberId, final CouponType couponType) {
+    public CouponSerial(final String code, final Long memberId, final CouponType couponType) {
         this(null, code, memberId, couponType);
     }
 }
