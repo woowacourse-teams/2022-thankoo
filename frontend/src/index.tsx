@@ -8,15 +8,16 @@ import { css, Global } from '@emotion/react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
+import { queryClient } from './apis/queryClient';
 import './assets/favicon/favicon.ico';
 import reset from './styles/GlobalReset';
 import global from './styles/GlobalStyled';
 import { ThemeProvider } from './styles/ThemeProvider';
-import { queryClient } from './apis/queryClient';
 
 const rootElement = document.getElementById('root')!;
 const root = createRoot(rootElement);
-if (process.env.MODE === 'local') {
+
+if (process.env.MODE === 'noServer') {
   const { worker } = require('./mocks/browser');
   worker.start();
 }
