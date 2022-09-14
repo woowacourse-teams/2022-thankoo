@@ -10,7 +10,7 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     publicPath: '/',
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, '../dist'),
     filename: 'bundle.js',
     clean: true,
   },
