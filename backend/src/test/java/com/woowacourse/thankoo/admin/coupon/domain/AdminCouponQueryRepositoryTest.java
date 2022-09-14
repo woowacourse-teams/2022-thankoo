@@ -15,14 +15,14 @@ import static com.woowacourse.thankoo.coupon.domain.CouponStatus.RESERVED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.MEAL;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
-import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
 import com.woowacourse.thankoo.member.domain.Member;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +34,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 @DisplayName("AdminCouponQueryRepository 는 ")
 @RepositoryTest
 class AdminCouponQueryRepositoryTest {
+
+    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Autowired
     private DataSource dataSource;
@@ -51,40 +53,51 @@ class AdminCouponQueryRepositoryTest {
         adminCouponQueryRepository = new AdminCouponQueryRepository(new NamedParameterJdbcTemplate(dataSource));
     }
 
-    @DisplayName("모든 쿠폰을 조회한다.")
+    @DisplayName("기간에 따른 모든 쿠폰들을 조회한다.")
     @Test
-    void findAll() {
+    void findAllByDateCondition() {
         Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = adminMemberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
 
         adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(MEAL, TITLE, MESSAGE), NOT_USED));
+                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
+        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
 
-        List<MemberCoupon> coupons = adminCouponQueryRepository.findAll();
+        String startDateTime = LocalDateTime.now().minusDays(5L).format(getDateTimeFormatter());
+        String endDateTime = LocalDateTime.now().plusDays(1L).format(getDateTimeFormatter());
+
+        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByDateCondition(startDateTime, endDateTime);
+
+        assertThat(coupons).hasSize(3);
+    }
+
+    @DisplayName("상태와 기간에 따른 쿠폰들을 조회힌다.")
+    @Test
+    void findAllByStatusAndDateCondition() {
+        Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = adminMemberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
+
+        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
+        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
+
+        String startDateTime = LocalDateTime.now().minusDays(5L).format(getDateTimeFormatter());
+        String endDateTime = LocalDateTime.now().plusDays(1L).format(getDateTimeFormatter());
+
+        String status = AdminCouponStatus.RESERVED.name();
+        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByStatusAndDateCondition(status,
+                startDateTime, endDateTime);
+
         assertThat(coupons).hasSize(2);
     }
 
-    @DisplayName("해당 상태의 쿠폰들을 조회한다.")
-    @Test
-    void findAllByStatus() {
-        Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
-        Member receiver = adminMemberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
-
-        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
-        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
-
-        String status = RESERVED.name();
-        List<MemberCoupon> coupons = adminCouponQueryRepository.findAllByStatus(status);
-
-        assertAll(
-                () -> assertThat(coupons).hasSize(2),
-                () -> assertThat(coupons).extracting("status").containsOnly(status)
-        );
+    private DateTimeFormatter getDateTimeFormatter() {
+        return DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
     }
 }

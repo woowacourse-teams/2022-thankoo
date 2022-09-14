@@ -1,8 +1,7 @@
 [[Admin]]
-
 == 회원
 
-=== 모든 회원 조회 (기간 검색 조건)
+=== 모든 회원 조회 : 기간 조건
 
 operation::admin/members/get-members[snippets='http-request,http-response']
 
@@ -11,12 +10,14 @@ operation::admin/members/get-members[snippets='http-request,http-response']
 operation::admin/members/update-member-name[snippets='http-request,http-response']
 
 
+
 == 쿠폰
 
-=== 모든 쿠폰 조회
+=== 쿠폰 조회 : 기간 조건 + 모든 상태(all)
 
-operation::admin/coupons/get-coupons[snippets='http-request,http-response']
+operation::admin/coupons/get-coupons-all[snippets='http-request,http-response']
 
-=== 특정 상태의 모든 쿠폰 조회
+=== 쿠폰 조회  : 기간 + 상태 조건
+(not_used / reserving / reserved / used / expired)
 
 operation::admin/coupons/get-coupons-status[snippets='http-request,http-response']

@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.admin.coupon.domain;
 
-import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
 import com.woowacourse.thankoo.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +13,13 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class AdminCouponQueryRepository {
 
-    private static final RowMapper<MemberCoupon> ROW_MAPPER = rowMapper();
+    private static final RowMapper<AdminCoupon> ROW_MAPPER = rowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static RowMapper<MemberCoupon> rowMapper() {
+    private static RowMapper<AdminCoupon> rowMapper() {
         return (rs, rowNum) ->
-                new MemberCoupon(rs.getLong("coupon_id"),
+                new AdminCoupon(rs.getLong("coupon_id"),
                         new Member(rs.getLong("sender_id"), rs.getString("sender_name"),
                                 rs.getString("sender_email"), rs.getString("sender_social_id"),
                                 rs.getString("sender_image_url")),
@@ -28,12 +27,13 @@ public class AdminCouponQueryRepository {
                                 rs.getString("receiver_email"), rs.getString("receiver_social_id"),
                                 rs.getString("receiver_image_url")),
                         rs.getString("coupon_type"),
-                        rs.getString("title"),
-                        rs.getString("message"),
-                        rs.getString("status"));
+                        rs.getString("status"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("modified_at").toLocalDateTime()
+                );
     }
 
-    public List<MemberCoupon> findAll() {
+    public List<AdminCoupon> findAllByDateCondition(final String startDateTime, final String endDateTime) {
         String sql = "SELECT c.id as coupon_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "s.email as sender_email, s.social_id as sender_social_id, "
@@ -41,29 +41,40 @@ public class AdminCouponQueryRepository {
                 + "r.id as receiver_id, r.name as receiver_name, "
                 + "r.email as receiver_email, r.social_id as receiver_social_id, "
                 + "r.image_url as receiver_image_url, "
-                + "c.coupon_type, c.title, c.message, c.status "
-                + "FROM coupon as c "
-                + "JOIN member as s ON c.sender_id = s.id "
-                + "JOIN member as r ON c.receiver_id = r.id ";
-
-        return jdbcTemplate.query(sql, ROW_MAPPER);
-    }
-
-    public List<MemberCoupon> findAllByStatus(final String status) {
-        String sql = "SELECT c.id as coupon_id, "
-                + "s.id as sender_id, s.name as sender_name, "
-                + "s.email as sender_email, s.social_id as sender_social_id, "
-                + "s.image_url as sender_image_url, "
-                + "r.id as receiver_id, r.name as receiver_name, "
-                + "r.email as receiver_email, r.social_id as receiver_social_id, "
-                + "r.image_url as receiver_image_url, "
-                + "c.coupon_type, c.title, c.message, c.status "
+                + "c.coupon_type, c.status, c.created_at, c.modified_at "
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
-                + "WHERE c.status = :status ";
+                + "WHERE c.created_at "
+                + "BETWEEN :startDateTime AND :endDateTime "
+                + "ORDER BY c.created_at DESC ";
 
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("status", status);
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("startDateTime", startDateTime)
+                .addValue("endDateTime", endDateTime);
+        return jdbcTemplate.query(sql, sqlParameterSource, ROW_MAPPER);
+    }
+
+
+    public List<AdminCoupon> findAllByStatusAndDateCondition(final String status,
+                                                             final String startDateTime, final String endDateTime) {
+        String sql = "SELECT c.id as coupon_id, "
+                + "s.id as sender_id, s.name as sender_name, "
+                + "s.email as sender_email, s.social_id as sender_social_id, "
+                + "s.image_url as sender_image_url, "
+                + "r.id as receiver_id, r.name as receiver_name, "
+                + "r.email as receiver_email, r.social_id as receiver_social_id, "
+                + "r.image_url as receiver_image_url, "
+                + "c.coupon_type, c.status, c.created_at, c.modified_at "
+                + "FROM coupon as c "
+                + "JOIN member as s ON c.sender_id = s.id "
+                + "JOIN member as r ON c.receiver_id = r.id "
+                + "WHERE c.status = :status "
+                + "AND c.created_at BETWEEN :startDateTime AND :endDateTime "
+                + "ORDER BY c.created_at DESC ";
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("status", status)
+                .addValue("startDateTime", startDateTime)
+                .addValue("endDateTime", endDateTime);
         return jdbcTemplate.query(sql, sqlParameterSource, ROW_MAPPER);
     }
 }

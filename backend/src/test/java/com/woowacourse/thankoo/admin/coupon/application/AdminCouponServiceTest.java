@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.admin.coupon.application;
 
-import static com.woowacourse.thankoo.admin.coupon.domain.AdminCouponStatus.ALL;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
@@ -13,19 +12,20 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.RESERVED;
-import static com.woowacourse.thankoo.coupon.domain.CouponStatus.RESERVING;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.MEAL;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.thankoo.admin.coupon.application.dto.AdminCouponSearchRequest;
 import com.woowacourse.thankoo.admin.coupon.domain.AdminCouponRepository;
+import com.woowacourse.thankoo.admin.coupon.domain.AdminCouponStatus;
 import com.woowacourse.thankoo.admin.coupon.presentation.dto.AdminCouponResponse;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.member.domain.Member;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,25 +44,30 @@ class AdminCouponServiceTest {
     @Autowired
     private AdminMemberRepository adminMemberRepository;
 
-    @DisplayName("모든 쿠폰을 조회한다.")
+    @DisplayName("특정 기간의 모든 쿠폰을 조회한다.")
     @Test
-    void getCoupons() {
+    void getCouponsByDate() {
         Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = adminMemberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
 
         adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(MEAL, TITLE, MESSAGE), NOT_USED));
+                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
 
-        List<AdminCouponResponse> coupons = adminCouponService.getCoupons(ALL.name());
+        LocalDate startDate = LocalDate.now().minusDays(5L);
+        LocalDate endDate = LocalDate.now();
+        AdminCouponStatus couponStatus = AdminCouponStatus.ALL;
+
+        List<AdminCouponResponse> coupons = adminCouponService.getCoupons(
+                new AdminCouponSearchRequest(startDate, endDate, couponStatus.name()));
 
         assertThat(coupons).hasSize(2);
     }
 
-    @DisplayName("특정 상태의 쿠폰들을 조회한다.")
+    @DisplayName("특정 기간과 상태의 쿠폰을 조회한다.")
     @Test
-    void getCouponsByStatus() {
+    void getCouponsByDateAndStatus() {
         Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = adminMemberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
 
@@ -72,15 +77,14 @@ class AdminCouponServiceTest {
                 new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
         adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
-        adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(MEAL, TITLE, MESSAGE), RESERVING));
 
-        String status = RESERVED.name();
-        List<AdminCouponResponse> coupons = adminCouponService.getCoupons(status);
+        LocalDate startDate = LocalDate.now().minusDays(5L);
+        LocalDate endDate = LocalDate.now();
+        AdminCouponStatus couponStatus = AdminCouponStatus.RESERVED;
 
-        assertAll(
-                () -> assertThat(coupons).hasSize(2),
-                () -> assertThat(coupons).extracting("status").containsOnly(status)
-        );
+        List<AdminCouponResponse> coupons = adminCouponService.getCoupons(
+                new AdminCouponSearchRequest(startDate, endDate, couponStatus.name()));
+
+        assertThat(coupons).hasSize(2);
     }
 }

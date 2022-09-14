@@ -1,45 +1,51 @@
 package com.woowacourse.thankoo.admin.coupon.presentation.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.woowacourse.thankoo.admin.coupon.domain.AdminCoupon;
 import com.woowacourse.thankoo.admin.member.presentation.dto.AdminMemberResponse;
-import com.woowacourse.thankoo.coupon.domain.MemberCoupon;
+import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
 public class AdminCouponResponse {
 
     private final Long couponId;
+    private final String type;
+    private final String status;
     private final AdminMemberResponse sender;
     private final AdminMemberResponse receiver;
-    private final String type;
-    private final String title;
-    private final String message;
-    private final String status;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime createdAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime modifiedAt;
 
     public AdminCouponResponse(final Long couponId,
+                               final String type,
+                               final String status,
                                final AdminMemberResponse sender,
                                final AdminMemberResponse receiver,
-                               final String type,
-                               final String title,
-                               final String message,
-                               final String status) {
+                               final LocalDateTime createdAt,
+                               final LocalDateTime modifiedAt) {
         this.couponId = couponId;
+        this.type = type;
+        this.status = status;
         this.sender = sender;
         this.receiver = receiver;
-        this.type = type;
-        this.title = title;
-        this.message = message;
-        this.status = status;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
 
-    public static AdminCouponResponse of(final MemberCoupon memberCoupon) {
+    public static AdminCouponResponse of(final AdminCoupon coupon) {
         return new AdminCouponResponse(
-                memberCoupon.getCouponId(),
-                AdminMemberResponse.of(memberCoupon.getSender()),
-                AdminMemberResponse.of(memberCoupon.getReceiver()),
-                memberCoupon.getCouponType(),
-                memberCoupon.getTitle(),
-                memberCoupon.getMessage(),
-                memberCoupon.getStatus()
+                coupon.getCouponId(),
+                coupon.getCouponType(),
+                coupon.getStatus(),
+                AdminMemberResponse.of(coupon.getSender()),
+                AdminMemberResponse.of(coupon.getReceiver()),
+                coupon.getCreatedAt(),
+                coupon.getModifiedAt()
         );
     }
 }
