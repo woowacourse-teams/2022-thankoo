@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { API_PATH } from '../../constants/api';
 import { client } from './../../apis/axios';
 
-const QUERY_KEY = {
+export const HEART_QUERY_KEY = {
   heart: 'heart',
 };
 
@@ -29,7 +29,8 @@ type HeartHistory = {
   received: Received[];
 };
 
-export const useGetHearts = () => useQuery<HeartHistory>(QUERY_KEY.heart, getUserHeartsRequest);
+export const useGetHearts = () =>
+  useQuery<HeartHistory>(HEART_QUERY_KEY.heart, getUserHeartsRequest);
 
 //FETCHER
 const getUserHeartsRequest = async () => {
@@ -48,7 +49,7 @@ export const usePostHeartMutation = () => {
 
   return useMutation((receiverId: number) => postUserHeartRequest(receiverId), {
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.heart]);
+      queryClient.invalidateQueries([HEART_QUERY_KEY.heart]);
     },
   });
 };

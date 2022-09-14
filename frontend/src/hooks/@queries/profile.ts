@@ -3,13 +3,13 @@ import { UserProfile } from '../../types';
 import { API_PATH } from '../../constants/api';
 import { client } from '../../apis/axios';
 
-export const QUERY_KEY = {
+export const PROFILE_QUERY_KEY = {
   profile: 'profile',
   couponExchangeCount: 'couponExchangeCount',
 };
 
 export const useGetUserProfile = ({ onSuccess = (data: UserProfile) => {} } = {}) =>
-  useQuery<UserProfile>(QUERY_KEY.profile, getUserProfileRequest, {
+  useQuery<UserProfile>(PROFILE_QUERY_KEY.profile, getUserProfileRequest, {
     onSuccess: (data: UserProfile) => {
       onSuccess?.(data);
     },
@@ -22,7 +22,7 @@ export interface exchangeCount {
 export const useGetCouponExchangeCount = (
   { onSuccess: handleSuccess } = { onSuccess: (data: exchangeCount) => {} }
 ) =>
-  useQuery<exchangeCount>(QUERY_KEY.couponExchangeCount, getCouponExchangeCountRequest, {
+  useQuery<exchangeCount>(PROFILE_QUERY_KEY.couponExchangeCount, getCouponExchangeCountRequest, {
     onSuccess: data => {
       handleSuccess?.(data);
     },

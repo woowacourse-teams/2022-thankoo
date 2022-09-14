@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { useCouponDetail } from '../../hooks/Main/domain/useCouponDetail';
+import { useCouponDetail } from '../../hooks/Main/useCouponDetail';
 import { Coupon, CouponDetail } from '../../types';
 import CloseButton from '../@shared/CloseButton';
 import PageSlider from '../@shared/PageSlider';

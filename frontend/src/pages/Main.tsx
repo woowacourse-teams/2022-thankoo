@@ -3,7 +3,6 @@ import SendIcon from '@mui/icons-material/Send';
 
 import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
-import useMain from '../hooks/Main/domain/useMain';
 
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
@@ -18,6 +17,7 @@ import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
 import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
+import useMain from '../hooks/Main/useMain';
 
 const sentOrReceivedArray = ['받은', '보낸'];
 
