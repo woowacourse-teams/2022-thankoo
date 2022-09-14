@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.admin.serial.domain;
+package com.woowacourse.thankoo.serial.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.admin.serial.domain;
+package com.woowacourse.thankoo.serial.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.coupon.domain.CouponType;

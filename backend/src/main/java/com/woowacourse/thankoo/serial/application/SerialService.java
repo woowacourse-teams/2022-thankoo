@@ -1,12 +1,12 @@
-package com.woowacourse.thankoo.admin.serial.application;
+package com.woowacourse.thankoo.serial.application;
 
-import com.woowacourse.thankoo.admin.serial.application.dto.SerialRequest;
-import com.woowacourse.thankoo.admin.serial.domain.Serial;
-import com.woowacourse.thankoo.admin.serial.domain.SerialRepository;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.serial.application.dto.SerialRequest;
+import com.woowacourse.thankoo.serial.domain.Serial;
+import com.woowacourse.thankoo.serial.domain.SerialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AdminSerialService {
+public class SerialService {
 
     private final SerialRepository serialRepository;
     private final MemberRepository memberRepository;

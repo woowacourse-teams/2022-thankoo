@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.admin.serial.presentation;
+package com.woowacourse.thankoo.serial.presentation;
 
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.STRING;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -10,9 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.thankoo.admin.serial.application.AdminSerialService;
-import com.woowacourse.thankoo.admin.serial.application.dto.SerialRequest;
 import com.woowacourse.thankoo.common.ControllerTest;
+import com.woowacourse.thankoo.serial.application.SerialService;
+import com.woowacourse.thankoo.serial.application.dto.SerialRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +24,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("AdminSerialController 는 ")
-@WebMvcTest(AdminSerialController.class)
-class AdminSerialControllerTest extends ControllerTest {
+@WebMvcTest(SerialController.class)
+class SerialControllerTest extends ControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AdminSerialService adminSerialService;
+    private SerialService serialService;
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -42,8 +42,8 @@ class AdminSerialControllerTest extends ControllerTest {
         SerialRequest serialRequest = new SerialRequest("네오", "COFFEE", "1234");
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
-                        .content(objectMapper.writeValueAsString(serialRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
+                .content(objectMapper.writeValueAsString(serialRequest))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
 

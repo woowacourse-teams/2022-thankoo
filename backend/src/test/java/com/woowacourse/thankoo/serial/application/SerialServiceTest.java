@@ -1,29 +1,29 @@
-package com.woowacourse.thankoo.admin.serial.application;
+package com.woowacourse.thankoo.serial.application;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.admin.serial.application.dto.SerialRequest;
-import com.woowacourse.thankoo.admin.serial.domain.Serial;
-import com.woowacourse.thankoo.admin.serial.domain.SerialRepository;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.serial.application.dto.SerialRequest;
+import com.woowacourse.thankoo.serial.domain.Serial;
+import com.woowacourse.thankoo.serial.domain.SerialRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ApplicationTest
-class AdminSerialServiceTest {
+class SerialServiceTest {
 
     @Autowired
-    private AdminSerialService serialService;
+    private SerialService serialService;
 
     @Autowired
     private SerialRepository serialRepository;

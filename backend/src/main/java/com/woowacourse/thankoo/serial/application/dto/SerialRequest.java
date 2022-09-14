@@ -1,7 +1,7 @@
-package com.woowacourse.thankoo.admin.serial.application.dto;
+package com.woowacourse.thankoo.serial.application.dto;
 
-import com.woowacourse.thankoo.admin.serial.domain.Serial;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
+import com.woowacourse.thankoo.serial.domain.Serial;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
