@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincip
 import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
@@ -53,5 +54,12 @@ public class CouponController {
     @GetMapping("/count")
     public ResponseEntity<CouponTotalResponse> getCouponTotalCount(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(couponQueryService.getCouponTotalCount(memberId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> createCouponWithSerialCode(@AuthenticationPrincipal final Long memberId,
+                                                           @RequestBody final CouponSerialRequest request) {
+        couponService.saveWithSerialCode(memberId, request);
+        return ResponseEntity.ok().build();
     }
 }

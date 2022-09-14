@@ -35,11 +35,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
@@ -423,6 +425,37 @@ class CouponControllerTest extends ControllerTest {
                 responseFields(
                         fieldWithPath("sentCount").type(NUMBER).description("sent count"),
                         fieldWithPath("receivedCount").type(NUMBER).description("received count")
+                )
+        ));
+    }
+
+    @DisplayName("쿠폰 시리얼로 쿠폰을 생성한다.")
+    @Test
+    void createCouponWithSerial() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+
+        new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+
+        CouponSerialRequest request = new CouponSerialRequest("1234");
+        given(couponSerialQueryService.getByCode(anyString()))
+                .willReturn(new CouponSerialResponse(1L, request.getSerialCode(), 1L, HUNI_NAME, CouponType.COFFEE.getValue()));
+
+        ResultActions resultActions = mockMvc.perform(post("/api/coupons")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("coupons/create-with-serial",
+                getRequestPreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                requestFields(
+                        fieldWithPath("serialCode").type(STRING).description("serial code")
                 )
         ));
     }

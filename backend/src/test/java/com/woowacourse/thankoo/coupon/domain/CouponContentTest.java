@@ -6,6 +6,7 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
 import org.junit.jupiter.api.DisplayName;
@@ -46,5 +47,16 @@ class CouponContentTest {
         assertThatThrownBy(() -> new CouponContent(CouponType.COFFEE, TITLE, message))
                 .isInstanceOf(InvalidCouponContentException.class)
                 .hasMessage("잘못된 쿠폰 내용입니다.");
+    }
+
+    @DisplayName("코치가 보내는 쿠폰이 생성된다.")
+    @Test
+    void createCoachCouponContent() {
+        CouponContent couponContent = CoachCouponContent.coach("브리", CouponType.COFFEE);
+
+        assertAll(
+                () -> assertThat(couponContent.getTitle()).isEqualTo("브리가(이) 보내는 커피 쿠폰"),
+                () -> assertThat(couponContent.getMessage()).isEqualTo("모에 모에 뀨~")
+        );
     }
 }

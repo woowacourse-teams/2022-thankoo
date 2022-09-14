@@ -33,6 +33,6 @@ public class CouponSerialResponse {
                 couponSerialMember.getCode(),
                 couponSerialMember.getMemberId(),
                 couponSerialMember.getMemberName(),
-                couponSerialMember.getCouponType());
+                couponSerialMember.getCouponType().getValue());
     }
 }

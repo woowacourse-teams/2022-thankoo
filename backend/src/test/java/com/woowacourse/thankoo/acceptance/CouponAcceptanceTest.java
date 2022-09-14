@@ -27,11 +27,17 @@ import com.woowacourse.thankoo.acceptance.builder.CouponAssured;
 import com.woowacourse.thankoo.acceptance.builder.MeetingAssured;
 import com.woowacourse.thankoo.acceptance.builder.ReservationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
+import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.serial.domain.CouponSerial;
+import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("CouponAcceptance 는 ")
@@ -364,7 +370,10 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
         @DisplayName("시리얼 번호를 요청할 때 ")
         @Nested
-        class CouponSerial {
+        class CreateCouponWithSerial {
+
+            @Autowired
+            private CouponSerialRepository couponSerialRepository;
 
             @DisplayName("번호가 존재하면 쿠폰을 생성한다.")
             @Test
@@ -373,6 +382,23 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
                         .로그인_한다(CODE_SKRR)
                         .token();
+
+                Long senderId = AuthenticationAssured.request()
+                        .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                        .token()
+                        .getMemberId();
+
+                CouponSerial couponSerial = 쿠폰_시리얼을_생성한다(senderId, "1234");
+
+                CouponAssured.request()
+                        .쿠폰_시리얼을_요청한다(memberToken.getAccessToken(), new CouponSerialRequest(couponSerial.getCode()))
+                        .response()
+                        .status(HttpStatus.OK.value());
+            }
+
+            private CouponSerial 쿠폰_시리얼을_생성한다(final Long memberId, final String code) {
+                return couponSerialRepository
+                        .save(new CouponSerial(code, memberId, CouponType.COFFEE));
             }
         }
     }

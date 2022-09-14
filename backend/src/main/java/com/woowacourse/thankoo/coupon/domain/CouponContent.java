@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
+import java.text.MessageFormat;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

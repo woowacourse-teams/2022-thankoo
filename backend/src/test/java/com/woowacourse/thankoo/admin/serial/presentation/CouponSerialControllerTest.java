@@ -11,14 +11,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.common.ControllerTest;
-import com.woowacourse.thankoo.serial.application.CouponSerialQueryService;
-import com.woowacourse.thankoo.serial.application.CouponSerialService;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,12 +27,6 @@ class CouponSerialControllerTest extends ControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private CouponSerialService couponSerialService;
-
-    @MockBean
-    private CouponSerialQueryService couponSerialQueryService;
 
     @Autowired
     protected ObjectMapper objectMapper;

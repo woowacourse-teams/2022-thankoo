@@ -1,12 +1,14 @@
 package com.woowacourse.thankoo.serial.domain;
 
+import com.woowacourse.thankoo.coupon.domain.CouponType;
+
 public class CouponSerialMember {
 
     private final Long id;
     private final String code;
     private final Long memberId;
     private final String memberName;
-    private final String couponType;
+    private final CouponType couponType;
 
     public CouponSerialMember(final Long id,
                               final String code,
@@ -17,7 +19,7 @@ public class CouponSerialMember {
         this.code = code;
         this.memberId = memberId;
         this.memberName = memberName;
-        this.couponType = couponType;
+        this.couponType = CouponType.of(couponType);
     }
 
     public Long getId() {
@@ -36,7 +38,7 @@ public class CouponSerialMember {
         return memberName;
     }
 
-    public String getCouponType() {
+    public CouponType getCouponType() {
         return couponType;
     }
 }
