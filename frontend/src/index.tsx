@@ -21,7 +21,8 @@ if (process.env.MODE === 'noServer') {
   const { worker } = require('./mocks/browser');
   worker.start();
 }
-console.log('process env = ', process.env);
+console.log('mode = ', process.env.MODE);
+console.log('apiurl = ', process.env.API_URL);
 root.render(
   <React.StrictMode>
     <Global styles={css([reset, global])} />
