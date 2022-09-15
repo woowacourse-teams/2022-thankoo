@@ -16,6 +16,7 @@ public class ReservationCanceledMessageFormStrategy extends ReservationMessageFo
 
     private static final int CONTENT_SIZE = 2;
     private static final String PRETEXT_CANCEL = "\uD83D\uDE05 예약이 취소되었어요ㅜ";
+    protected static final String CANCELED_TITLE_LINK = "https://thankoo.co.kr";
 
     private final AlarmMemberProvider alarmMemberProvider;
 
@@ -28,7 +29,7 @@ public class ReservationCanceledMessageFormStrategy extends ReservationMessageFo
         return Message.builder()
                 .email(receiverEmails)
                 .title(PRETEXT_CANCEL)
-                .titleLink(TITLE_LINK)
+                .titleLink(CANCELED_TITLE_LINK)
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
                 .build();

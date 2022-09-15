@@ -49,6 +49,7 @@ class ReservationRepliedMessageFormStrategyTest {
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(MessageFormat.format(PRETEXT, "lala")),
+                () -> assertThat(message.getTitleLink()).isEqualTo("https://thankoo.co.kr"),
                 () -> assertThat(message.getContents()).containsExactly(
                         "쿠폰 : 널 좋아해",
                         "예약 상태 : 거절\uD83D\uDE05"
@@ -70,6 +71,7 @@ class ReservationRepliedMessageFormStrategyTest {
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(MessageFormat.format(PRETEXT, "lala")),
+                () -> assertThat(message.getTitleLink()).isEqualTo("https://thankoo.co.kr/meetings"),
                 () -> assertThat(message.getContents()).containsExactly(
                         "쿠폰 : 널 좋아해",
                         "예약 상태 : 승인\uD83E\uDD70"
