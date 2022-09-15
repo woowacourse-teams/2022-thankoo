@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import defaultUser from '../assets/images/default_user.jpeg';
+import defaultUser from '../assets/images/default_user.webp';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
