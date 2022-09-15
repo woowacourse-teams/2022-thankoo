@@ -1,4 +1,4 @@
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/Thankoo_Logo.svg';
 
 const BirdLogoWhite = ({ size }) => {
   return <img src={logo} width={size} />;
