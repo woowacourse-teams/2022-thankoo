@@ -17,7 +17,7 @@ public class AdminCouponExpireRequest {
 
     @Override
     public String toString() {
-        return "AdminExpireCouponStatusRequest{" +
+        return "AdminCouponExpireRequest{" +
                 "couponIds=" + couponIds +
                 '}';
     }

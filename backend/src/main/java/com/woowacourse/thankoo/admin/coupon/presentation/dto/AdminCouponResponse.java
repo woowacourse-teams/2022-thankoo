@@ -48,4 +48,17 @@ public class AdminCouponResponse {
                 coupon.getModifiedAt()
         );
     }
+
+    @Override
+    public String toString() {
+        return "AdminCouponResponse{" +
+                "couponId=" + couponId +
+                ", type='" + type + '\'' +
+                ", status='" + status + '\'' +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }

@@ -19,4 +19,13 @@ public class AdminMemberResponse {
     public static AdminMemberResponse of(final Member member) {
         return new AdminMemberResponse(member.getId(), member.getName().getValue(), member.getEmail().getValue());
     }
+
+    @Override
+    public String toString() {
+        return "AdminMemberResponse{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

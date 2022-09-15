@@ -15,9 +15,13 @@ public class AdminCoupon {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    public AdminCoupon(final Long couponId, final Member sender, final Member receiver, final String couponType,
+    public AdminCoupon(final Long couponId,
+                       final Member sender,
+                       final Member receiver,
+                       final String couponType,
                        final String status,
-                       final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
+                       final LocalDateTime createdAt,
+                       final LocalDateTime modifiedAt) {
         this.couponId = couponId;
         this.sender = sender;
         this.receiver = receiver;

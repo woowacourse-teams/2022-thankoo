@@ -23,7 +23,7 @@ public class AdminMemberSearchRequest {
 
     @Override
     public String toString() {
-        return "DateFilterCondition{" +
+        return "AdminMemberSearchRequest{" +
                 "startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';
