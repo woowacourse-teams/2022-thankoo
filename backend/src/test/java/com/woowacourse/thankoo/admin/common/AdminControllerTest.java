@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.admin.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.thankoo.admin.coupon.application.AdminCouponQueryService;
 import com.woowacourse.thankoo.admin.coupon.application.AdminCouponService;
 import com.woowacourse.thankoo.admin.coupon.presentation.AdminCouponController;
 import com.woowacourse.thankoo.admin.member.application.AdminMemberService;
@@ -37,6 +38,9 @@ public class AdminControllerTest {
 
     @MockBean
     protected AdminMemberService adminMemberService;
+
+    @MockBean
+    protected AdminCouponQueryService adminCouponQueryService;
 
     @MockBean
     protected AdminCouponService adminCouponService;

@@ -21,3 +21,8 @@ operation::admin/coupons/get-coupons-all[snippets='http-request,http-response']
 (not_used / reserving / reserved / used / expired)
 
 operation::admin/coupons/get-coupons-status[snippets='http-request,http-response']
+
+=== 쿠폰 만료
+
+operation::admin/coupons/expire[snippets='http-request,http-response']
+
