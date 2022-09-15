@@ -10,13 +10,17 @@ const SignIn = () => {
 
   return (
     <PageLayout>
-      <S.Body>
-        <BirdLogoWhite size='120rem' />
-        <S.SignInButton onClick={redirectGoogleAuth}>
-          <S.GoogleIcon />
-          Google로 계속하기
-        </S.SignInButton>
-      </S.Body>
+      <S.Inner>
+        <S.Body>
+          <S.LogoWrapper>
+            <BirdLogoWhite size='150rem' />
+          </S.LogoWrapper>
+          <S.SignInButton onClick={redirectGoogleAuth}>
+            <S.GoogleIcon />
+            Google로 계속하기
+          </S.SignInButton>
+        </S.Body>
+      </S.Inner>
     </PageLayout>
   );
 };
@@ -30,7 +34,17 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8rem;
+    gap: 3rem;
+  `,
+  Inner: styled.div`
+    height: 100%;
+    padding: 3rem;
+  `,
+  LogoWrapper: styled.div`
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   `,
   GoogleIcon: styled(GoogleIcon)`
     fill: white;
@@ -38,7 +52,7 @@ const S = {
   SignInButton: styled.div`
     ${flexCenter};
     gap: 1rem;
-    width: 28rem;
+    width: 100%;
     height: 3.6rem;
     border-radius: 15px;
     border: none;
