@@ -1,16 +1,12 @@
 package com.woowacourse.thankoo.admin.serial.presentation;
 
-import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
-import com.woowacourse.thankoo.serial.application.CouponSerialQueryService;
-import com.woowacourse.thankoo.serial.application.CouponSerialService;
+import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialService;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,17 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin/serial")
 public class AdminCouponSerialController {
 
-    private final CouponSerialService couponSerialService;
-    private final CouponSerialQueryService couponSerialQueryService;
-
-    @GetMapping
-    public ResponseEntity<CouponSerialResponse> getSerial(@RequestParam("code") final String code) {
-        return ResponseEntity.ok(couponSerialQueryService.getByCode(code));
-    }
+    private final AdminCouponSerialService adminCouponSerialService;
 
     @PostMapping
     public ResponseEntity<Void> createSerial(@RequestBody final CouponSerialRequest couponSerialRequest) {
-        couponSerialService.save(couponSerialRequest);
+        adminCouponSerialService.save(couponSerialRequest);
         return ResponseEntity.ok().build();
     }
 }

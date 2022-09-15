@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.serial.application;
+package com.woowacourse.thankoo.admin.serial.application;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,10 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("CouponCouponSerialService 는 ")
 @ApplicationTest
-class CouponCouponSerialServiceTest {
+class AdminCouponSerialServiceTest {
 
     @Autowired
-    private CouponSerialService couponSerialService;
+    private AdminCouponSerialService adminCouponSerialService;
 
     @Autowired
     private CouponSerialRepository couponSerialRepository;
@@ -41,7 +41,7 @@ class CouponCouponSerialServiceTest {
         void save() {
             memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
 
-            Long serialId = couponSerialService.save(new CouponSerialRequest("네오", "COFFEE", "1234"));
+            Long serialId = adminCouponSerialService.save(new CouponSerialRequest("네오", "COFFEE", "1234"));
             CouponSerial couponSerial = couponSerialRepository.findById(serialId).get();
 
             assertAll(
@@ -55,7 +55,7 @@ class CouponCouponSerialServiceTest {
         void notFoundCoach() {
             memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
 
-            assertThatThrownBy(() -> couponSerialService.save(new CouponSerialRequest("제이슨", "COFFEE", "1234")))
+            assertThatThrownBy(() -> adminCouponSerialService.save(new CouponSerialRequest("제이슨", "COFFEE", "1234")))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -65,7 +65,7 @@ class CouponCouponSerialServiceTest {
         void notFoundCouponType() {
             memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
 
-            assertThatThrownBy(() -> couponSerialService.save(new CouponSerialRequest("네오", "NOOP", "1234")))
+            assertThatThrownBy(() -> adminCouponSerialService.save(new CouponSerialRequest("네오", "NOOP", "1234")))
                     .isInstanceOf(InvalidCouponContentException.class)
                     .hasMessage("존재하지 않는 쿠폰 타입입니다.");
         }

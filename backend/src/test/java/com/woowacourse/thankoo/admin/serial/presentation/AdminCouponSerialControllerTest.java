@@ -9,27 +9,18 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.thankoo.common.ControllerTest;
+import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("AdminSerialController 는 ")
 @WebMvcTest(AdminCouponSerialController.class)
-class CouponSerialControllerTest extends ControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
+class AdminCouponSerialControllerTest extends AdminControllerTest {
 
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test

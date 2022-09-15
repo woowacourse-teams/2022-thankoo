@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.serial.application;
+package com.woowacourse.thankoo.admin.serial.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CouponSerialService {
+public class AdminCouponSerialService {
 
     private final CouponSerialRepository couponSerialRepository;
     private final MemberRepository memberRepository;

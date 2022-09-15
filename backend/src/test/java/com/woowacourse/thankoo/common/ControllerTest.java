@@ -21,7 +21,7 @@ import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.presentation.ReservationController;
 import com.woowacourse.thankoo.serial.application.CouponSerialQueryService;
-import com.woowacourse.thankoo.serial.application.CouponSerialService;
+import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -88,9 +88,6 @@ public class ControllerTest {
 
     @MockBean
     protected CouponSerialQueryService couponSerialQueryService;
-
-    @MockBean
-    private CouponSerialService couponSerialService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());

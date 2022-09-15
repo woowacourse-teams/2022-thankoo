@@ -10,8 +10,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.common.qrcode.infrastructure.QrCodeClient;
-import com.woowacourse.thankoo.common.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("QrCodeController 는 ")
 @WebMvcTest(QrCodeController.class)
-class QrCodeControllerTest extends ControllerTest {
+class QrCodeControllerTest extends AdminControllerTest {
 
     @MockBean
     private QrCodeClient qrCodeClient;
