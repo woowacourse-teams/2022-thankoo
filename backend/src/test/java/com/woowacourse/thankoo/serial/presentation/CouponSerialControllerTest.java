@@ -20,24 +20,24 @@ import org.springframework.test.web.servlet.ResultActions;
 @DisplayName("CouponSerialController 는 ")
 public class CouponSerialControllerTest extends ControllerTest {
 
-//    @DisplayName("쿠폰 시리얼을 조회한다.")
-//    @Test
-//    void saveSerial() throws Exception {
-//        CouponSerialRequest couponSerialRequest = new CouponSerialRequest("네오", "COFFEE", "1234");
-//
-//        ResultActions resultActions = mockMvc.perform(post("/admin/serial")
-//                .content(objectMapper.writeValueAsString(couponSerialRequest))
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//
-//        resultActions.andDo(document("admin/serial/save-serial",
-//                Preprocessors.preprocessRequest(prettyPrint()),
-//                requestFields(
-//                        fieldWithPath("coachName").type(STRING).description("coach name"),
-//                        fieldWithPath("couponType").type(STRING).description("coupon type"),
-//                        fieldWithPath("code").type(STRING).description("serial code")
-//                )
-//        ));
-//    }
+    @DisplayName("쿠폰 시리얼을 조회한다.")
+    @Test
+    void saveSerial() throws Exception {
+        CouponSerialRequest couponSerialRequest = new CouponSerialRequest("네오", "COFFEE", "1234");
+
+        ResultActions resultActions = mockMvc.perform(post("/admin/serial")
+                .content(objectMapper.writeValueAsString(couponSerialRequest))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("admin/serial/save-serial",
+                Preprocessors.preprocessRequest(prettyPrint()),
+                requestFields(
+                        fieldWithPath("coachName").type(STRING).description("coach name"),
+                        fieldWithPath("couponType").type(STRING).description("coupon type"),
+                        fieldWithPath("code").type(STRING).description("serial code")
+                )
+        ));
+    }
 }

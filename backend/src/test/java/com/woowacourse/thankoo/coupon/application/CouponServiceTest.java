@@ -123,7 +123,7 @@ class CouponServiceTest {
 
             assertThatThrownBy(() -> couponService.saveWithSerialCode(member.getId(), new CouponSerialRequest("1234")))
                     .isInstanceOf(InvalidCouponSerialException.class)
-                    .hasMessage("존재하지 않는 시리얼 번호입니다.");
+                    .hasMessage("존재하지 않는 쿠폰 시리얼 번호입니다.");
         }
 
         @DisplayName("회원과 시리얼 코드가 존재하면 정상적으로 저장한다.")
