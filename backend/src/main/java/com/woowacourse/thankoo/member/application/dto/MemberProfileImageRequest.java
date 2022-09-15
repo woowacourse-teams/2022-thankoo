@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MemberProfileImageRequest {
 
-    private String imageName;
+    private String imageUrl;
 
-    public MemberProfileImageRequest(final String imageName) {
-        this.imageName = imageName;
+    public MemberProfileImageRequest(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
     public String toString() {
         return "MemberProfileImageRequest{" +
-                "imageUrl='" + imageName + '\'' +
+                "imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }

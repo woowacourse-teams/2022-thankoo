@@ -144,7 +144,7 @@ class MemberControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        MemberProfileImageRequest memberProfileImageRequest = new MemberProfileImageRequest(SKRR_IMAGE_NAME);
+        MemberProfileImageRequest memberProfileImageRequest = new MemberProfileImageRequest(SKRR_IMAGE_URL);
         doNothing().when(memberService).updateMemberProfileImage(anyLong(), any(MemberProfileImageRequest.class));
 
         ResultActions resultActions = mockMvc.perform(put("/api/members/me/profile-image")
@@ -162,7 +162,7 @@ class MemberControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 requestFields(
-                        fieldWithPath("imageName").type(STRING).description("imageName")
+                        fieldWithPath("imageUrl").type(STRING).description("imageUrl")
                 )));
     }
 
