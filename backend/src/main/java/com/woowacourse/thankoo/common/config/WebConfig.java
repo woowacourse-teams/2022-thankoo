@@ -65,8 +65,7 @@ public class WebConfig implements WebMvcConfigurer {
         };
     }
 
-    private HttpComponentsClientHttpRequestFactory createHttpRequestFactory(
-            final HttpClient httpClient) {
+    private HttpComponentsClientHttpRequestFactory createHttpRequestFactory(final HttpClient httpClient) {
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
         factory.setConnectTimeout(3000);
         factory.setReadTimeout(5000);
