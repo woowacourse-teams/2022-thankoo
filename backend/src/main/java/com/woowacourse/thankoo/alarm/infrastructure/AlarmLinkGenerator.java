@@ -12,7 +12,7 @@ public class AlarmLinkGenerator {
 
     private final String rootUrl;
 
-    public AlarmLinkGenerator(@Value("${api.root}") final String rootUrl) {
+    public AlarmLinkGenerator(@Value("${origin}") final String rootUrl) {
         this.rootUrl = rootUrl;
     }
 
