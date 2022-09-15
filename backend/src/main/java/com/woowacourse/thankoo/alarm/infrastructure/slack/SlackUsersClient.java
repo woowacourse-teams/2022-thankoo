@@ -18,20 +18,21 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class SlackUsersClient {
 
-    private static final RestTemplate REST_TEMPLATE = new RestTemplate();
-
     private final String authorization;
     private final String usersUri;
+    private final RestTemplate restTemplate;
 
     public SlackUsersClient(@Value("${slack.authorization}") final String authorization,
-                            @Value("${slack.users-uri}") final String usersUri) {
+                            @Value("${slack.users-uri}") final String usersUri,
+                            final RestTemplate restTemplate) {
         this.authorization = authorization;
         this.usersUri = usersUri;
+        this.restTemplate = restTemplate;
     }
 
     public SlackUsersResponse getUsers() {
         HttpEntity<SlackUsersResponse> request = new HttpEntity<>(setHeaders());
-        return REST_TEMPLATE
+        return restTemplate
                 .exchange(usersUri, GET, request, SlackUsersResponse.class)
                 .getBody();
     }
