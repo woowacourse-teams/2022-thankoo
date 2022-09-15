@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.alarm.application.strategy.AlarmMemberProvider;
 import com.woowacourse.thankoo.alarm.application.strategy.ReservationMessageFormStrategy;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
+import com.woowacourse.thankoo.alarm.infrastructure.AlarmLinkGenerator;
 import java.text.MessageFormat;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,14 @@ public class ReservationSentMessageFormStrategy extends ReservationMessageFormSt
 
     private static final int CONTENT_SIZE = 3;
 
-    private static final String TITLE_LINK = "https://thankoo.co.kr/reservations";
+    private static final String TITLE_LINK = "/reservations";
     private static final String PRETEXT = "\uD83D\uDC9D 예약 요청이 도착했어요.";
     private static final String DATE = "예약 요청일 : {0}";
 
     private static final int DATE_INDEX = 2;
 
     private final AlarmMemberProvider alarmMemberProvider;
+    private final AlarmLinkGenerator alarmLinkGenerator;
 
     @Override
     public Message createFormat(final Alarm alarm) {
@@ -32,7 +34,7 @@ public class ReservationSentMessageFormStrategy extends ReservationMessageFormSt
 
         return Message.builder()
                 .title(PRETEXT)
-                .titleLink(TITLE_LINK)
+                .titleLink(alarmLinkGenerator.createUrl(TITLE_LINK))
                 .email(receiverEmails)
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))

@@ -52,6 +52,7 @@ class ReservationSentMessageFormStrategyTest {
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(PRETEXT),
+                () -> assertThat(message.getTitleLink()).isEqualTo("https://thankoo.co.kr/reservations"),
                 () -> assertThat(message.getContents()).containsExactly(
                         "요청자 : lala",
                         "쿠폰 : 널 좋아해",

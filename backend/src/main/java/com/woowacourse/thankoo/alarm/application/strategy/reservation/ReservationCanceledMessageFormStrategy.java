@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.alarm.application.strategy.AlarmMemberProvider;
 import com.woowacourse.thankoo.alarm.application.strategy.ReservationMessageFormStrategy;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
+import com.woowacourse.thankoo.alarm.infrastructure.AlarmLinkGenerator;
 import java.text.MessageFormat;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,9 @@ public class ReservationCanceledMessageFormStrategy extends ReservationMessageFo
 
     private static final int CONTENT_SIZE = 2;
     private static final String PRETEXT_CANCEL = "\uD83D\uDE05 예약이 취소되었어요ㅜ";
-    protected static final String CANCELED_TITLE_LINK = "https://thankoo.co.kr";
 
     private final AlarmMemberProvider alarmMemberProvider;
+    private final AlarmLinkGenerator alarmLinkGenerator;
 
     @Override
     public Message createFormat(final Alarm alarm) {
@@ -29,7 +30,7 @@ public class ReservationCanceledMessageFormStrategy extends ReservationMessageFo
         return Message.builder()
                 .email(receiverEmails)
                 .title(PRETEXT_CANCEL)
-                .titleLink(CANCELED_TITLE_LINK)
+                .titleLink(alarmLinkGenerator.getRootUrl())
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
                 .build();

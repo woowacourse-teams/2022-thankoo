@@ -35,3 +35,6 @@ slack:
   authorization: Bearer xoxb-39499534989-12389491129-12359892049
   users-uri: http://localhost:8180/users/list
   message-uri: http://localhost:8180/chat/postMessage
+
+api:
+  root: https://thankoo.co.kr

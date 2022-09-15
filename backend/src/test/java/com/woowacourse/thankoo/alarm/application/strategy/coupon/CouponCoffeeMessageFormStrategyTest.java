@@ -55,6 +55,7 @@ class CouponCoffeeMessageFormStrategyTest {
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue(),
                         huni.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(COFFEE_PRETEXT),
+                () -> assertThat(message.getTitleLink()).isEqualTo("https://thankoo.co.kr"),
                 () -> assertThat(message.getContents()).containsExactly(
                         "보내는 이 : lala",
                         "제목 : 널 좋아해",
