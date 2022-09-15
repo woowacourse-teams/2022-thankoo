@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.alarm.application.strategy.coupon;
 
+import static com.woowacourse.thankoo.common.fixtures.AlarmFixture.ROOT_LINK;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
@@ -55,7 +56,7 @@ class CouponCoffeeMessageFormStrategyTest {
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue(),
                         huni.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(COFFEE_PRETEXT),
-                () -> assertThat(message.getTitleLink()).isEqualTo("https://thankoo.co.kr"),
+                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK),
                 () -> assertThat(message.getContents()).containsExactly(
                         "보내는 이 : lala",
                         "제목 : 널 좋아해",
