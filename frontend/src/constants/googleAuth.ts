@@ -32,6 +32,5 @@ switch (process.env.MODE) {
     break;
 }
 
-console.log('outh = ', OAuth);
 const { GOOGLE_URL, CLIENT_ID, REDIRECT_URL, RESPONSE_TYPE, SCOPE } = OAuth;
 export const GOOGLE_AUTH_URL = `${GOOGLE_URL}?${CLIENT_ID}&${REDIRECT_URL}&${RESPONSE_TYPE}&${SCOPE}`;

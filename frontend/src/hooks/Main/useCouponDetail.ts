@@ -1,20 +1,17 @@
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ROUTE_PATH } from '../../../constants/routes';
-import { sentOrReceivedAtom, targetCouponAtom } from '../../../recoil/atom';
-import { usePutReservationStatus } from '../../Reservations/queries/reservations';
-import useModal from '../../useModal';
-import useToast from '../../useToast';
-import {
-  useGetCouponDetail,
-  usePutCancelReseravation,
-  usePutCompleteMeeting,
-} from '../queries/couponDetail';
+import { ROUTE_PATH } from '../../constants/routes';
+import { sentOrReceivedAtom, targetCouponAtom } from '../../recoil/atom';
+import { useGetCouponDetail } from '../@queries/coupon';
+import { usePutCompleteMeeting } from '../@queries/meeting';
+import { usePutCancelReseravation, usePutReservationStatus } from '../@queries/reservation';
+import useModal from '../useModal';
+import useToast from '../useToast';
 
 export const useCouponDetail = (couponId: number) => {
   const queryClient = useQueryClient();
-  const [targetCouponId, setTargetCouponId] = useRecoilState(targetCouponAtom);
+  const [_, setTargetCouponId] = useRecoilState(targetCouponAtom);
   const { close } = useModal();
   const { insertToastItem } = useToast();
 
