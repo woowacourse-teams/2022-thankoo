@@ -81,7 +81,7 @@ class MemberTest {
     @Test
     void updateProfileImage() {
         Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-        member.updateProfileImage(HUNI_IMAGE_URL);
+        member.updateProfileImage(HUNI_IMAGE_URL, List.of(HUNI_IMAGE_URL, SKRR_IMAGE_URL));
 
         assertThat(member.getImageUrl()).isEqualTo(HUNI_IMAGE_URL);
     }
