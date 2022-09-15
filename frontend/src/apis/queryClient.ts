@@ -18,7 +18,6 @@ const mutateErrorHandler = error => {
   authErrorHandler(error);
 };
 const retryHandler = (failureCount, error) => {
-  console.log(error.response.status === INVALID_AUTH_STATUS);
   if (
     error.response?.status === INVALID_AUTH_STATUS ||
     error.response?.data.errorCode === INVALID_MEMBER_ERROR_CODE ||

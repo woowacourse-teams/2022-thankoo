@@ -38,6 +38,26 @@ class HeartAcceptanceTest extends AcceptanceTest {
                 .status(HttpStatus.OK.value());
     }
 
+    @DisplayName("상대방과 마음을 주고 받는다.")
+    @Test
+    void giveAndTakeHeart() {
+        TokenResponse senderToken = AuthenticationAssured.request()
+                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                .로그인_한다(CODE_SKRR)
+                .token();
+
+        TokenResponse receiverToken = AuthenticationAssured.request()
+                .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                .token();
+
+        HeartAssured.request()
+                .마음을_보낸다(senderToken.getAccessToken(), receiverToken.getMemberId())
+                .마음을_보낸다(receiverToken.getAccessToken(), senderToken.getMemberId())
+                .마음을_보낸다(senderToken.getAccessToken(), receiverToken.getMemberId())
+                .response()
+                .status(HttpStatus.OK.value());
+    }
+
     @DisplayName("응답 가능한 마음을 조회한다.")
     @Test
     void getReceivedHearts() {
