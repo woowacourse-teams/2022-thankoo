@@ -3,11 +3,12 @@ import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { UserProfile } from '../../types';
 
-const QUERY_KEY = {
+export const MEMBERS_QUERY_KEY = {
   members: 'members',
 };
 
-export const useGetMembers = () => useQuery<UserProfile[]>(QUERY_KEY.members, getMembersRequest);
+export const useGetMembers = () =>
+  useQuery<UserProfile[]>(MEMBERS_QUERY_KEY.members, getMembersRequest);
 
 /** FETCHER */
 

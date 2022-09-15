@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { sentOrReceivedAtom } from '../../../recoil/atom';
-import { CouponType } from '../../../types';
-import { sorted } from '../../../utils';
-import { useGetCoupons } from '../queries/coupons';
+import { sentOrReceivedAtom } from '../../recoil/atom';
+import { CouponType } from '../../types';
+import { sorted } from '../../utils';
+import { useGetCoupons } from '../@queries/coupon';
 
 const COUPON_STATUS_PRIORITY = {
   not_used: 2,

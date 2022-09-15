@@ -5,7 +5,7 @@ import PageLayout from '../components/@shared/PageLayout';
 import UserProfileButton from '../components/@shared/UserProfileButton';
 import BottomNavBar from '../components/PageButton/BottomNavBar';
 import { COUPON_IMAGE } from '../constants/coupon';
-import useMeetings from '../hooks/Meetings/domain/useMeetings';
+import useMeetings from '../hooks/Meetings/useMeetings';
 import NoMeeting from './../components/@shared/noContent/NoMeeting';
 
 const Meetings = () => {
