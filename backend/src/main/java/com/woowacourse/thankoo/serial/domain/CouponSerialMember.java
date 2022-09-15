@@ -1,7 +1,9 @@
 package com.woowacourse.thankoo.serial.domain;
 
 import com.woowacourse.thankoo.coupon.domain.CouponType;
+import lombok.Getter;
 
+@Getter
 public class CouponSerialMember {
 
     private final Long id;
@@ -20,25 +22,5 @@ public class CouponSerialMember {
         this.memberId = memberId;
         this.memberName = memberName;
         this.couponType = CouponType.of(couponType);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public CouponType getCouponType() {
-        return couponType;
     }
 }
