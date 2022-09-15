@@ -1,14 +1,10 @@
 package com.woowacourse.thankoo.coupon.application;
 
-import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
-
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
-import com.woowacourse.thankoo.coupon.domain.CoachCouponContent;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
-import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -50,7 +46,7 @@ public class CouponService {
     public Long saveWithSerialCode(final Long memberId, final CouponSerialRequest request) {
         Member receiver = getMemberById(memberId);
         CouponSerialMember couponSerialMember = getCouponSerialMember(request.getSerialCode());
-        Coupon coupon = couponRepository.save(createCoupon(receiver.getId(), couponSerialMember));
+        Coupon coupon = couponRepository.save(couponSerialMember.createCoupon(receiver.getId()));
         return coupon.getId();
     }
 
@@ -62,12 +58,5 @@ public class CouponService {
     private CouponSerialMember getCouponSerialMember(final String serialCode) {
         return couponSerialQueryRepository.findByCode(serialCode)
                 .orElseThrow(() -> new InvalidCouponSerialException(ErrorType.NOT_FOUND_COUPON_SERIAL));
-    }
-
-    private Coupon createCoupon(final Long receiverId, final CouponSerialMember couponSerialMember) {
-        Long senderId = couponSerialMember.getMemberId();
-        String senderName = couponSerialMember.getMemberName();
-        CouponType couponType = couponSerialMember.getCouponType();
-        return new Coupon(senderId, receiverId, CoachCouponContent.coach(senderName, couponType), NOT_USED);
     }
 }

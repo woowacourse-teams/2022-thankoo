@@ -58,8 +58,8 @@ public class CouponController {
 
     @PostMapping
     public ResponseEntity<Void> createCouponWithSerialCode(@AuthenticationPrincipal final Long memberId,
-                                                           @RequestBody final CouponSerialRequest request) {
-        couponService.saveWithSerialCode(memberId, request);
+                                                           @RequestBody final CouponSerialRequest couponSerialRequest) {
+        couponService.saveWithSerialCode(memberId, couponSerialRequest);
         return ResponseEntity.ok().build();
     }
 }

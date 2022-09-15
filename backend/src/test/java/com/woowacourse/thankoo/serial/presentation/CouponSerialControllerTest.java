@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -22,10 +23,12 @@ public class CouponSerialControllerTest extends ControllerTest {
 
     @DisplayName("쿠폰 시리얼을 조회한다.")
     @Test
+    @Disabled
+        // todo : 사용여부에 대한 고민
     void saveSerial() throws Exception {
         CouponSerialRequest couponSerialRequest = new CouponSerialRequest("네오", "COFFEE", "1234");
 
-        ResultActions resultActions = mockMvc.perform(post("/admin/serial")
+        ResultActions resultActions = mockMvc.perform(post("/api/serial")
                 .content(objectMapper.writeValueAsString(couponSerialRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

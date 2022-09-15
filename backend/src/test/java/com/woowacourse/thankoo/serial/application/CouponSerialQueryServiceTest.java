@@ -55,7 +55,7 @@ class CouponSerialQueryServiceTest {
         void getCouponSerialByNotExistsCode() {
             assertThatThrownBy(() -> couponSerialQueryService.getByCode("1234"))
                     .isInstanceOf(InvalidCouponSerialException.class)
-                    .hasMessage("존재하지 않는 시리얼 번호입니다.");
+                    .hasMessage("존재하지 않는 쿠폰 시리얼 번호입니다.");
         }
     }
 }
