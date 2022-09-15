@@ -12,7 +12,7 @@ import NoReservation from './../components/@shared/noContent/NoReservation copy'
 const ReservationNav = ['received', 'sent'];
 
 const Reservations = () => {
-  const { reservations, orderBy, setOrderBy, orderByList, orderByObject } = useReservations();
+  const { reservations, orderBy, setOrderBy } = useReservations();
 
   return (
     <PageLayout>

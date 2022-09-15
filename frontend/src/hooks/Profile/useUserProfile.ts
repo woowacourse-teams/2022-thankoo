@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
-import { client } from '../../apis/axios';
-import { API_PATH } from '../../constants/api';
+import { useQueryClient } from 'react-query';
 import { UserProfile } from '../../types';
-import { exchangeCount, useGetCouponExchangeCount, useGetUserProfile } from '../@queries/profile';
+import {
+  PROFILE_QUERY_KEY,
+  useGetCouponExchangeCount,
+  useGetUserProfile,
+  usePutEditUserName,
+} from '../@queries/profile';
 import useToast from '../useToast';
 
 const useUserProfile = () => {
@@ -11,7 +14,6 @@ const useUserProfile = () => {
   const queryClient = useQueryClient();
   const [isNameEdit, setIsNameEdit] = useState(false);
   const [name, setName] = useState<string>('');
-  const [exchangeCount, setExchangeCount] = useState({ sentCount: 0, receivedCount: 0 });
 
   const { data: profile } = useGetUserProfile({
     onSuccess: (data: UserProfile) => {
@@ -19,9 +21,12 @@ const useUserProfile = () => {
     },
   });
 
-  const { data } = useGetCouponExchangeCount({
-    onSuccess: (data: exchangeCount) => {
-      setExchangeCount(data);
+  const { data: exchangeCount } = useGetCouponExchangeCount();
+
+  const { mutate: editUserName } = usePutEditUserName({
+    onSuccess: () => {
+      queryClient.invalidateQueries(PROFILE_QUERY_KEY.profile);
+      insertToastItem(`수정이 완료됐습니다`);
     },
   });
 
@@ -30,7 +35,7 @@ const useUserProfile = () => {
       return;
     }
 
-    editUserName.mutate(name);
+    editUserName(name);
   };
 
   const handleClickModifyNameButton = () => {
@@ -51,43 +56,8 @@ const useUserProfile = () => {
     setIsNameEdit(prev => !prev);
   };
 
-  const editUserName = useMutation(
-    (name: string) =>
-      client({
-        method: 'put',
-        url: `${API_PATH.PROFILE_NAME}`,
-        data: {
-          name,
-        },
-      }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('profile');
-        insertToastItem(`수정이 완료됐습니다`);
-      },
-    }
-  );
-
-  const { mutate: editUserProfileImage } = useMutation(
-    (imageName: string) =>
-      client({
-        method: 'put',
-        url: `${API_PATH.PROFILE_IMAGE}`,
-        data: {
-          imageName,
-        },
-      }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('profile');
-      },
-    }
-  );
-
   return {
     profile,
-    editUserName,
-    editUserProfileImage,
     isNameEdit,
     name,
     handleClickModifyNameButton,

@@ -1,17 +1,25 @@
 import styled from '@emotion/styled';
 import AddIcon from '@mui/icons-material/Add';
-import useUserProfile from './../../hooks/Profile/useUserProfile';
+import { useQueryClient } from 'react-query';
+
+import { PROFILE_QUERY_KEY, usePutEditUserProfileImage } from '../../hooks/@queries/profile';
 import useModal from './../../hooks/useModal';
 import ProfileIcon from './../@shared/ProfileIcon';
 import SelectProfileImgModal from './SelectProfileImgModal';
 
 const ProfileUserImage = ({ src }: { src: string }) => {
+  const queryClient = useQueryClient();
   const { setModalContent, show } = useModal();
-  const { editUserProfileImage } = useUserProfile();
+
+  const { mutate: editUserProfileImage } = usePutEditUserProfileImage({
+    onSuccess: () => {
+      queryClient.invalidateQueries(PROFILE_QUERY_KEY.profile);
+    },
+  });
 
   const selectProfileImg = () => {
     show();
-    setModalContent(<SelectProfileImgModal patchImageMutation={editUserProfileImage} />);
+    setModalContent(<SelectProfileImgModal editUserProfileImage={editUserProfileImage} />);
   };
 
   return (

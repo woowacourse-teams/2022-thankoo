@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.heart.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.heart.exception.InvalidHeartException;
 import javax.persistence.Column;
@@ -71,7 +72,9 @@ public class Heart extends BaseEntity {
     }
 
     public static Heart start(final Long senderId, final Long receiverId) {
-        return new Heart(senderId, receiverId, START_COUNT, true);
+        Heart heart = new Heart(senderId, receiverId, START_COUNT, true);
+        Events.publish(HeartSentEvent.from(heart));
+        return heart;
     }
 
     public static Heart firstReply(final Long senderId, final Long receiverId, final Heart oppositeHeart) {
@@ -85,6 +88,7 @@ public class Heart extends BaseEntity {
         addCount();
         changeStatus();
         oppositeHeart.changeStatus();
+        Events.publish(HeartSentEvent.from(this));
     }
 
     private void validateFinalStatus(final Heart oppositeHeart) {
