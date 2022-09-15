@@ -3,7 +3,6 @@ package com.woowacourse.thankoo.alarm.infrastructure.slack;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUserResponse;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUsersResponse;
 import com.woowacourse.thankoo.common.config.CacheConfig;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.Cache;
@@ -24,7 +23,7 @@ public class CacheSlackUserInitializer implements ApplicationListener<Applicatio
     public void onApplicationEvent(final ApplicationReadyEvent event) {
         SlackUsersResponse users = slackUsersClient.getUsers();
         Cache cache = cacheManager.getCache(CacheConfig.SLACK_USERS_CACHE_NAME);
-        if (Objects.nonNull(cache)) {
+        if (cache != null) {
             users.getResponses()
                     .stream()
                     .filter(SlackUserResponse::isEmailExist)
