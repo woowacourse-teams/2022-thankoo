@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link, useLocation } from 'react-router-dom';
-// import CouponIcon from '../../assets/images/coupons.svg';
 import { ROUTE_PATH } from '../../constants/routes';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
