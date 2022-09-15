@@ -18,6 +18,10 @@ public class SlackUserResponse {
         this.profile = profile;
     }
 
+    public boolean isEmailExist() {
+        return profile.getEmail() != null;
+    }
+
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @Getter
     public static class Profile {
