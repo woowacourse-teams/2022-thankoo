@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.member.domain.Member;
+import java.time.LocalDate;
 import java.util.Objects;
 import lombok.Getter;
 
@@ -14,6 +15,7 @@ public class MemberCoupon {
     private final String title;
     private final String message;
     private final String status;
+    private final LocalDate createdDate;
 
     public MemberCoupon(final Long couponId,
                         final Member sender,
@@ -21,7 +23,8 @@ public class MemberCoupon {
                         final String couponType,
                         final String title,
                         final String message,
-                        final String status) {
+                        final String status,
+                        final LocalDate createdDate) {
         this.couponId = couponId;
         this.sender = sender;
         this.receiver = receiver;
@@ -29,6 +32,7 @@ public class MemberCoupon {
         this.title = title;
         this.message = message;
         this.status = status;
+        this.createdDate = createdDate;
     }
 
     public boolean isOwner(final Long memberId) {
@@ -47,12 +51,13 @@ public class MemberCoupon {
         return Objects.equals(couponId, that.couponId) && Objects.equals(sender, that.sender)
                 && Objects.equals(receiver, that.receiver) && Objects.equals(couponType,
                 that.couponType) && Objects.equals(title, that.title) && Objects.equals(message,
-                that.message) && Objects.equals(status, that.status);
+                that.message) && Objects.equals(status, that.status) && Objects.equals(createdDate,
+                that.createdDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(couponId, sender, receiver, couponType, title, message, status);
+        return Objects.hash(couponId, sender, receiver, couponType, title, message, status, createdDate);
     }
 
     @Override
@@ -65,6 +70,7 @@ public class MemberCoupon {
                 ", title='" + title + '\'' +
                 ", message='" + message + '\'' +
                 ", status='" + status + '\'' +
+                ", createdDate=" + createdDate +
                 '}';
     }
 }
