@@ -32,7 +32,7 @@ public class CouponQueryRepository {
                         rs.getString("title"),
                         rs.getString("message"),
                         rs.getString("status"),
-                        rs.getTimestamp("created_at").toLocalDateTime().toLocalDate());
+                        rs.getDate("created_at").toLocalDate());
     }
 
     public List<MemberCoupon> findByReceiverIdAndStatus(final Long receiverId,
