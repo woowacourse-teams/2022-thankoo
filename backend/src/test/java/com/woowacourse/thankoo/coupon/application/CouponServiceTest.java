@@ -13,28 +13,21 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
-import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
-import com.woowacourse.thankoo.alarm.application.AlarmSender;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
-import com.woowacourse.thankoo.coupon.domain.CouponSerialCreator;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponType;
+import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +36,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 @DisplayName("CouponService 는 ")
 @ApplicationTest
@@ -133,7 +125,7 @@ class CouponServiceTest {
         void createCoupon() {
             Member member = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
             Member sender = memberRepository.save(new Member("네오", "neo@email.com", "네오네오", "/image.png"));
-            couponSerialRepository.save(new CouponSerial("1234", sender.getId(), CouponType.COFFEE));
+            couponSerialRepository.save(new CouponSerial("1234", sender.getId(), CouponSerialType.COFFEE));
 
             Long couponId = couponService.saveWithSerialCode(member.getId(), new CouponSerialRequest("1234"));
 

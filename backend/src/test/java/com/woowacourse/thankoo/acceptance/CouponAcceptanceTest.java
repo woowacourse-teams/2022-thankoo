@@ -30,8 +30,8 @@ import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
-import com.woowacourse.thankoo.serial.domain.CouponType;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
+import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -397,7 +397,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             private CouponSerial 쿠폰_시리얼을_생성한다(final Long memberId, final String code) {
                 return couponSerialRepository
-                        .save(new CouponSerial(code, memberId, CouponType.COFFEE));
+                        .save(new CouponSerial(code, memberId, CouponSerialType.COFFEE));
             }
         }
     }

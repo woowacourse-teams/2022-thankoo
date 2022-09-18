@@ -6,6 +6,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponSerialCreator;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.serial.domain.CouponSerialContent;
 import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
 import com.woowacourse.thankoo.serial.domain.CouponSerialQueryRepository;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
@@ -23,7 +24,8 @@ public class CouponSerialService implements CouponSerialCreator {
     public Coupon create(final Long memberId, final String serialCode) {
         Member receiver = getMemberById(memberId);
         CouponSerialMember couponSerialMember = getCouponSerialMember(serialCode);
-        return couponSerialMember.createCoupon(receiver.getId());
+        CouponSerialContent couponSerialContent = new CouponSerialContent(couponSerialMember);
+        return couponSerialMember.createCoupon(receiver.getId(), couponSerialContent.create());
     }
 
     private Member getMemberById(final Long memberId) {

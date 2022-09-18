@@ -6,18 +6,18 @@ import java.util.Arrays;
 import lombok.Getter;
 
 @Getter
-public enum CouponType {
+public enum CouponSerialType {
 
-    COFFEE("coffee"),
-    MEAL("meal");
+    COFFEE("COFFEE"),
+    MEAL("MEAL");
 
     private final String value;
 
-    CouponType(final String value) {
+    CouponSerialType(final String value) {
         this.value = value;
     }
 
-    public static CouponType of(final String name) {
+    public static CouponSerialType of(final String name) {
         return Arrays.stream(values())
                 .filter(it -> it.getValue().equalsIgnoreCase(name))
                 .findFirst()

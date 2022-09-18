@@ -31,8 +31,8 @@ public class CouponSerialResponse {
         return new CouponSerialResponse(
                 couponSerialMember.getId(),
                 couponSerialMember.getCode(),
-                couponSerialMember.getMemberId(),
-                couponSerialMember.getMemberName(),
-                couponSerialMember.getCouponType().getValue());
+                couponSerialMember.getSenderId(),
+                couponSerialMember.getSenderName(),
+                couponSerialMember.getCouponType());
     }
 }

@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.serial.application.dto;
 
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
-import com.woowacourse.thankoo.serial.domain.CouponType;
+import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +21,6 @@ public class CouponSerialRequest {
     }
 
     public CouponSerial toEntity(final Long memberId) {
-        return new CouponSerial(code, memberId, CouponType.of(couponType));
+        return new CouponSerial(code, memberId, CouponSerialType.of(couponType));
     }
 }

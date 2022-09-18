@@ -26,21 +26,22 @@ public class CouponSerial extends BaseEntity {
     @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @Column(name = "sender_id", nullable = false)
+    private Long senderId;
 
     @Column(name = "coupon_type", nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private CouponType couponType;
+    private CouponSerialType couponSerialType;
 
-    public CouponSerial(final Long id, final String code, final Long memberId, final CouponType couponType) {
+    public CouponSerial(final Long id, final String code, final Long senderId,
+                        final CouponSerialType couponSerialType) {
         this.id = id;
         this.code = code;
-        this.memberId = memberId;
-        this.couponType = couponType;
+        this.senderId = senderId;
+        this.couponSerialType = couponSerialType;
     }
 
-    public CouponSerial(final String code, final Long memberId, final CouponType couponType) {
-        this(null, code, memberId, couponType);
+    public CouponSerial(final String code, final Long senderId, final CouponSerialType couponSerialType) {
+        this(null, code, senderId, couponSerialType);
     }
 }

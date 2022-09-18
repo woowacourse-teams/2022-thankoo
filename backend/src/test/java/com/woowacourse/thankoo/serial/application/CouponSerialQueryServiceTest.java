@@ -11,7 +11,7 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponType;
+import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -40,12 +40,12 @@ class CouponSerialQueryServiceTest {
         void getCouponSerialByCode() {
             Member member = memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
 
-            couponSerialRepository.save(new CouponSerial("1234", member.getId(), CouponType.COFFEE));
+            couponSerialRepository.save(new CouponSerial("1234", member.getId(), CouponSerialType.COFFEE));
 
             CouponSerialResponse response = couponSerialQueryService.getByCode("1234");
 
             assertAll(
-                    () -> assertThat(response.getCouponType()).isEqualTo("coffee"),
+                    () -> assertThat(response.getCouponType()).isEqualTo("COFFEE"),
                     () -> assertThat(response.getMemberName()).isEqualTo("네오")
             );
         }

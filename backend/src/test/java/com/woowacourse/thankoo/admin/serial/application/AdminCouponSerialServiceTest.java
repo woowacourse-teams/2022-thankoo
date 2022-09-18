@@ -13,7 +13,7 @@ import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponType;
+import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ class AdminCouponSerialServiceTest {
 
             assertAll(
                     () -> assertThat(couponSerial.getCode()).isEqualTo("1234"),
-                    () -> assertThat(couponSerial.getCouponType()).isEqualTo(CouponType.COFFEE)
+                    () -> assertThat(couponSerial.getCouponSerialType()).isEqualTo(CouponSerialType.COFFEE)
             );
         }
 

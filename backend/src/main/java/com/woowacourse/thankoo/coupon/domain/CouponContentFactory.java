@@ -1,10 +1,6 @@
 package com.woowacourse.thankoo.coupon.domain;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+public interface CouponContentFactory {
 
-@Component
-@RequiredArgsConstructor
-public class CouponContentFactory {
-
+    CouponContent create();
 }

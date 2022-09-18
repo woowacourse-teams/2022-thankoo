@@ -19,17 +19,17 @@ public class CouponSerialQueryRepository {
                 new CouponSerialMember(
                         rs.getLong("id"),
                         rs.getString("code"),
-                        rs.getLong("member_id"),
-                        rs.getString("member_name"),
+                        rs.getLong("sender_id"),
+                        rs.getString("sender_name"),
                         rs.getString("coupon_type"));
     }
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public Optional<CouponSerialMember> findByCode(final String code) {
-        String sql = "SELECT s.id, s.code, m.id AS member_id, m.name AS member_name, s.coupon_type "
+        String sql = "SELECT s.id, s.code, m.id AS sender_id, m.name AS sender_name, s.coupon_type "
                 + "FROM coupon_serial AS s "
-                + "JOIN member AS m ON s.member_id = m.id "
+                + "JOIN member AS m ON s.sender_id = m.id "
                 + "WHERE s.code = :code";
 
         MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource()

@@ -36,10 +36,10 @@ class CouponSerialQueryRepositoryTest {
     @Test
     void findByCode() {
         Member member = memberRepository.save(new Member("네오", "neo@email.com", "네네", "image.png"));
-        couponSerialRepository.save(new CouponSerial("1234", member.getId(), CouponType.COFFEE));
+        couponSerialRepository.save(new CouponSerial("1234", member.getId(), CouponSerialType.COFFEE));
 
         CouponSerialMember couponSerialMember = couponSerialQueryRepository.findByCode("1234").get();
 
-        assertThat(couponSerialMember.getMemberName()).isEqualTo("네오");
+        assertThat(couponSerialMember.getSenderName()).isEqualTo("네오");
     }
 }
