@@ -18,6 +18,7 @@ public class QrCodeController {
     private final QrCodeClient qrCodeClient;
 
     @GetMapping(produces = MediaType.IMAGE_PNG_VALUE)
+    @RequestMapping
     public ResponseEntity<Resource> getQrCode(@RequestParam("serial") final String serial) {
         return ResponseEntity.ok(qrCodeClient.getQrCode(serial));
     }

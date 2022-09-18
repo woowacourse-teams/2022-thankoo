@@ -15,7 +15,7 @@ import lombok.Getter;
 public class CouponSerialMember {
 
     private static final String TITLE = "{0}가(이) 보내는 {1} 쿠폰";
-    private static final String MESSAGE = "모에 모에 뀨~";
+    private static final String MESSAGE = "고생하셨습니다.";
 
     private final Long id;
     private final String code;

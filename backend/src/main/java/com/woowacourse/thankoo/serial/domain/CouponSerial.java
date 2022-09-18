@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.serial.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
-import com.woowacourse.thankoo.coupon.domain.CouponType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

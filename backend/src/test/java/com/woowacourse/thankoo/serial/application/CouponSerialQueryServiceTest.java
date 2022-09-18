@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
-import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
+import com.woowacourse.thankoo.serial.domain.CouponType;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

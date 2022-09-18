@@ -22,7 +22,7 @@ class CouponSerialMemberTest {
 
         assertAll(
                 () -> assertThat(couponContent.getTitle()).isEqualTo("브리가(이) 보내는 커피 쿠폰"),
-                () -> assertThat(couponContent.getMessage()).isEqualTo("모에 모에 뀨~")
+                () -> assertThat(couponContent.getMessage()).isEqualTo("고생하셨습니다.")
         );
     }
 }

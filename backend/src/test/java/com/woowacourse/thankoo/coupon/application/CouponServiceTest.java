@@ -13,9 +13,13 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import com.woowacourse.thankoo.alarm.application.AlarmSender;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
@@ -24,12 +28,13 @@ import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
-import com.woowacourse.thankoo.coupon.domain.CouponType;
+import com.woowacourse.thankoo.coupon.domain.CouponSerialCreator;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
+import com.woowacourse.thankoo.serial.domain.CouponType;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -56,9 +61,6 @@ class CouponServiceTest {
 
     @Autowired
     private CouponSerialRepository couponSerialRepository;
-
-    @MockBean
-    private AlarmSender alarmSender;
 
     @DisplayName("쿠폰을 저장할 때 ")
     @Nested

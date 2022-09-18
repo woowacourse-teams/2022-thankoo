@@ -3,7 +3,6 @@ package com.woowacourse.thankoo.serial.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
-import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import javax.sql.DataSource;
