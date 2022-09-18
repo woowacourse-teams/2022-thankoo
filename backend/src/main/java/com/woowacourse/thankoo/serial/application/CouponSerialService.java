@@ -21,8 +21,8 @@ public class CouponSerialService implements CouponSerialCreator {
     private final MemberRepository memberRepository;
 
     @Override
-    public Coupon create(final Long memberId, final String serialCode) {
-        Member receiver = getMemberById(memberId);
+    public Coupon create(final Long receiverId, final String serialCode) {
+        Member receiver = getMemberById(receiverId);
         CouponSerialMember couponSerialMember = getCouponSerialMember(serialCode);
         CouponSerialContent couponSerialContent = new CouponSerialContent(couponSerialMember);
         return couponSerialMember.createCoupon(receiver.getId(), couponSerialContent.create());
