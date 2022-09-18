@@ -53,7 +53,6 @@ public enum ErrorType {
     INVALID_PATH(9002, "잘못된 경로입니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
 
-
     private final int code;
     private final String message;
 
