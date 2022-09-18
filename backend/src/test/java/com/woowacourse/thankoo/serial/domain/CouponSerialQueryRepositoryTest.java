@@ -1,5 +1,10 @@
 package com.woowacourse.thankoo.serial.domain;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
@@ -35,11 +40,11 @@ class CouponSerialQueryRepositoryTest {
     @DisplayName("시리얼 코드로 쿠폰 시리얼을 조회한다.")
     @Test
     void findByCode() {
-        Member member = memberRepository.save(new Member("네오", "neo@email.com", "네네", "image.png"));
-        couponSerialRepository.save(new CouponSerial("1234", member.getId(), CouponSerialType.COFFEE));
+        Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, SKRR_IMAGE_URL));
+        couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), CouponSerialType.COFFEE));
 
-        CouponSerialMember couponSerialMember = couponSerialQueryRepository.findByCode("1234").get();
+        CouponSerialMember couponSerialMember = couponSerialQueryRepository.findByCode(SERIAL_1).get();
 
-        assertThat(couponSerialMember.getSenderName()).isEqualTo("네오");
+        assertThat(couponSerialMember.getSenderName()).isEqualTo(NEO_NAME);
     }
 }

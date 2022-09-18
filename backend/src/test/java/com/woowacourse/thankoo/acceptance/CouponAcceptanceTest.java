@@ -21,6 +21,7 @@ import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HOHO_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HUNI_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.ACCEPT;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.CouponAssured;
@@ -387,7 +388,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .token()
                         .getMemberId();
 
-                CouponSerial couponSerial = 쿠폰_시리얼을_생성한다(senderId, "1234");
+                CouponSerial couponSerial = 쿠폰_시리얼을_생성한다(senderId, SERIAL_1);
 
                 CouponAssured.request()
                         .쿠폰_시리얼을_요청한다(memberToken.getAccessToken(), new CouponSerialRequest(couponSerial.getCode()))
@@ -395,7 +396,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .status(HttpStatus.OK.value());
             }
 
-            private CouponSerial 쿠폰_시리얼을_생성한다(final Long memberId, final String code) {
+            private CouponSerial 쿠폰_시리얼을_생성한다(Long memberId, String code) {
                 return couponSerialRepository
                         .save(new CouponSerial(code, memberId, CouponSerialType.COFFEE));
             }

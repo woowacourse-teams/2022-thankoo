@@ -4,7 +4,11 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -43,12 +47,12 @@ class CouponSerialServiceTest {
         @DisplayName("모두 존재하는 경우 쿠폰을 생성한다.")
         @Test
         void create() {
-            Member sender = memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
+            Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
-            couponSerialRepository.save(new CouponSerial("1234", sender.getId(), CouponSerialType.COFFEE));
+            couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), CouponSerialType.COFFEE));
 
-            Coupon coupon = couponSerialService.create(receiver.getId(), "1234");
+            Coupon coupon = couponSerialService.create(receiver.getId(), SERIAL_1);
 
             assertThat(coupon.getSenderId()).isEqualTo(sender.getId());
             assertThat(coupon.getReceiverId()).isEqualTo(receiver.getId());
@@ -58,11 +62,11 @@ class CouponSerialServiceTest {
         @DisplayName("받는 이가 존재하지 않는 경우 예외를 발생한다.")
         @Test
         void notFoundMember() {
-            Member sender = memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
+            Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            couponSerialRepository.save(new CouponSerial("1234", sender.getId(), CouponSerialType.COFFEE));
+            couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), CouponSerialType.COFFEE));
 
-            assertThatThrownBy(() -> couponSerialService.create(sender.getId() + 1L, "1234"))
+            assertThatThrownBy(() -> couponSerialService.create(sender.getId() + 1L, SERIAL_1))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -71,7 +75,7 @@ class CouponSerialServiceTest {
         @Test
         void notFoundSerial() {
             Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
-            Member sender = memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
+            Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
             assertThatThrownBy(() -> couponSerialService.create(receiver.getId(), "1234"))
                     .isInstanceOf(InvalidCouponSerialException.class)

@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.admin.serial.presentation;
 
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.STRING;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_2;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_3;
@@ -34,7 +35,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
-        CouponSerialRequest couponSerialRequest = new CouponSerialRequest("네오", "COFFEE", SERIAL_1);
+        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(NEO_NAME, "COFFEE", SERIAL_1);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
                 .content(objectMapper.writeValueAsString(couponSerialRequest))
@@ -57,9 +58,9 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     void getByMemberId() throws Exception {
         given(adminCouponSerialQueryService.getByMemberId(anyLong()))
                 .willReturn(List.of(
-                        new CouponSerialResponse(1L, SERIAL_1, 2L, "네오", "COFFEE"),
-                        new CouponSerialResponse(2L, SERIAL_2, 2L, "네오", "COFFEE"),
-                        new CouponSerialResponse(3L, SERIAL_3, 2L, "네오", "COFFEE")
+                        new CouponSerialResponse(1L, SERIAL_1, 2L, NEO_NAME, "COFFEE"),
+                        new CouponSerialResponse(2L, SERIAL_2, 2L, NEO_NAME, "COFFEE"),
+                        new CouponSerialResponse(3L, SERIAL_3, 2L, NEO_NAME, "COFFEE")
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/admin/serial")

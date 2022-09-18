@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
+import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
@@ -25,7 +26,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @DisplayName("AdminCouponSerialQueryService 는 ")
-@SpringBootTest
+@ApplicationTest
 class AdminCouponSerialQueryServiceTest {
 
     @Autowired
