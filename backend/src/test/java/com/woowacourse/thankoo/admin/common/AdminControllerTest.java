@@ -1,11 +1,13 @@
 package com.woowacourse.thankoo.admin.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialQueryService;
 import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialService;
 import com.woowacourse.thankoo.admin.serial.presentation.AdminCouponSerialController;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,4 +34,6 @@ public class AdminControllerTest {
 
     @MockBean
     protected AdminCouponSerialService adminCouponSerialService;
+    @MockBean
+    protected AdminCouponSerialQueryService adminCouponSerialQueryService;
 }

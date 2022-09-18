@@ -11,19 +11,19 @@ public class CouponSerialResponse {
 
     private Long id;
     private String code;
-    private Long memberId;
-    private String memberName;
+    private Long senderId;
+    private String senderName;
     private String couponType;
 
     public CouponSerialResponse(final Long id,
                                 final String code,
-                                final Long memberId,
-                                final String memberName,
+                                final Long senderId,
+                                final String senderName,
                                 final String couponType) {
         this.id = id;
         this.code = code;
-        this.memberId = memberId;
-        this.memberName = memberName;
+        this.senderId = senderId;
+        this.senderName = senderName;
         this.couponType = couponType;
     }
 

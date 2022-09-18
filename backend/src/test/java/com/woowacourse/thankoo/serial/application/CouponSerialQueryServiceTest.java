@@ -46,7 +46,7 @@ class CouponSerialQueryServiceTest {
 
             assertAll(
                     () -> assertThat(response.getCouponType()).isEqualTo("COFFEE"),
-                    () -> assertThat(response.getMemberName()).isEqualTo("네오")
+                    () -> assertThat(response.getSenderName()).isEqualTo("네오")
             );
         }
 
