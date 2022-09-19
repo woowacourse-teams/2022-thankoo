@@ -36,14 +36,10 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg|ico|webp)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-            },
-          },
-        ],
+        type: 'asset/resource',
+        generator: {
+          filename: '[name][ext]',
+        },
       },
     ],
   },
