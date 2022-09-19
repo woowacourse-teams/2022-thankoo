@@ -43,9 +43,9 @@ class AdminCouponSerialServiceTest {
         @DisplayName("쿠폰 시리얼을 생성한다.")
         @Test
         void save() {
-            memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            Long serialId = adminCouponSerialService.save(new CouponSerialRequest(NEO_NAME, "COFFEE", SERIAL_1));
+            Long serialId = adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", SERIAL_1));
             CouponSerial couponSerial = couponSerialRepository.findById(serialId).get();
 
             assertAll(
@@ -57,9 +57,10 @@ class AdminCouponSerialServiceTest {
         @DisplayName("코치를 찾지 못 할 경우 예외를 발생한다.")
         @Test
         void notFoundCoach() {
-            memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            assertThatThrownBy(() -> adminCouponSerialService.save(new CouponSerialRequest("제이슨", "COFFEE", SERIAL_1)))
+            assertThatThrownBy(() -> adminCouponSerialService.save(
+                    new CouponSerialRequest(member.getId() + 1, "COFFEE", SERIAL_1)))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -67,9 +68,10 @@ class AdminCouponSerialServiceTest {
         @DisplayName("존재하지 않는 쿠폰 타입일 경우 예외를 발생한다.")
         @Test
         void notFoundCouponType() {
-            memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            assertThatThrownBy(() -> adminCouponSerialService.save(new CouponSerialRequest(NEO_NAME, "NOOP", SERIAL_1)))
+            assertThatThrownBy(
+                    () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "NOOP", SERIAL_1)))
                     .isInstanceOf(InvalidCouponContentException.class)
                     .hasMessage("존재하지 않는 쿠폰 타입입니다.");
         }

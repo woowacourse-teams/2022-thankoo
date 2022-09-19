@@ -35,7 +35,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
-        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(NEO_NAME, "COFFEE", SERIAL_1);
+        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(1L, "COFFEE", SERIAL_1);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
                 .content(objectMapper.writeValueAsString(couponSerialRequest))
@@ -46,7 +46,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
         resultActions.andDo(document("admin/serial/save-serial",
                 Preprocessors.preprocessRequest(prettyPrint()),
                 requestFields(
-                        fieldWithPath("coachName").type(STRING).description("coach name"),
+                        fieldWithPath("memberId").type(STRING).description("coach id"),
                         fieldWithPath("couponType").type(STRING).description("coupon type"),
                         fieldWithPath("code").type(STRING).description("serial code")
                 )

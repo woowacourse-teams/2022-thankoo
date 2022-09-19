@@ -14,6 +14,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -402,8 +403,8 @@ class CouponControllerTest extends ControllerTest {
     void getTotalCouponCount() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+        new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         CouponTotalResponse couponTotalResponse = CouponTotalResponse.from(new CouponTotal(10, 12));
 
@@ -437,7 +438,7 @@ class CouponControllerTest extends ControllerTest {
 
         new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
 
-        CouponSerialRequest request = new CouponSerialRequest("1234");
+        CouponSerialRequest request = new CouponSerialRequest(SERIAL_1);
         given(couponSerialQueryService.getByCode(anyString()))
                 .willReturn(new CouponSerialResponse(1L, request.getSerialCode(), 1L, HUNI_NAME, CouponType.COFFEE.getValue()));
 

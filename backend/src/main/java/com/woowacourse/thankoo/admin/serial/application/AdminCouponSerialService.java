@@ -20,13 +20,13 @@ public class AdminCouponSerialService {
     private final MemberRepository memberRepository;
 
     public Long save(final CouponSerialRequest couponSerialRequest) {
-        Member coach = getMember(couponSerialRequest.getCoachName());
+        Member coach = getMember(couponSerialRequest.getMemberId());
         CouponSerial couponSerial = couponSerialRequest.toEntity(coach.getId());
         return couponSerialRepository.save(couponSerial).getId();
     }
 
-    private Member getMember(final String name) {
-        return memberRepository.findByNameValue(name)
+    private Member getMember(final Long memberId) {
+        return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 }

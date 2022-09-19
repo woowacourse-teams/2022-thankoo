@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CouponSerialRequest {
 
-    private String coachName;
+    private Long memberId;
     private String couponType;
     private String code;
 
-    public CouponSerialRequest(final String coachName, final String couponType, final String code) {
-        this.coachName = coachName;
+    public CouponSerialRequest(final Long memberId, final String couponType, final String code) {
+        this.memberId = memberId;
         this.couponType = couponType;
         this.code = code;
     }
