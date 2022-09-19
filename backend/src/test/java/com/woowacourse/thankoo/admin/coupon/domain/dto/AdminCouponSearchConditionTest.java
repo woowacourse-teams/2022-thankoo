@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.admin.coupon.domain.dto;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.woowacourse.thankoo.admin.coupon.domain.AdminCouponStatus;
-import com.woowacourse.thankoo.admin.member.exception.AdminInvalidMemberSearchConditionException;
+import com.woowacourse.thankoo.admin.coupon.exception.AdminInvalidCouponSearchConditionException;
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class AdminCouponSearchConditionTest {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.minusDays(1L);
         assertThatThrownBy(() -> AdminCouponSearchCondition.of(AdminCouponStatus.RESERVED, startDate, endDate))
-                .isInstanceOf(AdminInvalidMemberSearchConditionException.class)
+                .isInstanceOf(AdminInvalidCouponSearchConditionException.class)
                 .hasMessage("쿠폰 검색 조건이 올바르지 않습니다.");
     }
 }

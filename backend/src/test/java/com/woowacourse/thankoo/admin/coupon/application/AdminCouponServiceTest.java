@@ -17,10 +17,12 @@ import static com.woowacourse.thankoo.coupon.domain.CouponStatus.RESERVING;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.MEAL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.admin.coupon.application.dto.AdminCouponExpireRequest;
 import com.woowacourse.thankoo.admin.coupon.domain.AdminCouponRepository;
+import com.woowacourse.thankoo.admin.coupon.exception.AdminInvalidCouponException;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -28,6 +30,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.member.domain.Member;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,27 +47,53 @@ class AdminCouponServiceTest {
     @Autowired
     private AdminCouponRepository adminCouponRepository;
 
-    @DisplayName("쿠폰을 만료시킨다.")
-    @Test
-    void updateCouponStatusExpired() {
-        Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
-        Member receiver = adminMemberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
+    @DisplayName("쿠폰을 만료시킬 때 ")
+    @Nested
+    class ExpireCoupon {
 
-        Coupon notUsedCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Coupon reservedCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
-        Coupon reservingCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(MEAL, TITLE, MESSAGE), RESERVING));
+        @DisplayName("정상적으로 쿠폰을 만료시킨다.")
+        @Test
+        void updateCouponStatusExpired() {
+            Member sender = adminMemberRepository.save(
+                    new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = adminMemberRepository.save(
+                    new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-        List<Long> couponIds = List.of(notUsedCoupon.getId(), reservedCoupon.getId(), reservingCoupon.getId());
-        adminCouponService.updateCouponStatusExpired(new AdminCouponExpireRequest(couponIds));
+            Coupon notUsedCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                    new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Coupon reservedCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                    new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
+            Coupon reservingCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                    new CouponContent(MEAL, TITLE, MESSAGE), RESERVING));
 
-        List<Coupon> coupons = adminCouponRepository.findAllById(couponIds);
+            List<Long> couponIds = List.of(notUsedCoupon.getId(), reservedCoupon.getId(), reservingCoupon.getId());
+            adminCouponService.updateCouponStatusExpired(new AdminCouponExpireRequest(couponIds));
 
-        assertAll(
-                () -> assertThat(coupons).hasSize(3),
-                () -> assertThat(coupons).extracting("couponStatus").containsOnly(EXPIRED)
-        );
+            List<Coupon> coupons = adminCouponRepository.findAllById(couponIds);
+
+            assertAll(
+                    () -> assertThat(coupons).hasSize(3),
+                    () -> assertThat(coupons).extracting("couponStatus").containsOnly(EXPIRED)
+            );
+        }
+
+        @DisplayName("존재하지 않는 쿠폰일 경우 예외가 발생한다.")
+        @Test
+        void updateCouponStatusExpiredWithInvalidCoupon() {
+            Member sender = adminMemberRepository.save(
+                    new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = adminMemberRepository.save(
+                    new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
+
+            Coupon notUsedCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+                    new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+
+            List<Long> couponIds = List.of(notUsedCoupon.getId(), notUsedCoupon.getId() + 1);
+
+            assertThatThrownBy(
+                    () -> adminCouponService.updateCouponStatusExpired(new AdminCouponExpireRequest(couponIds)))
+                    .isInstanceOf(AdminInvalidCouponException.class)
+                    .hasMessage("존재하지 않는 쿠폰입니다.");
+        }
     }
 }
