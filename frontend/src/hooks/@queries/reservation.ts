@@ -4,6 +4,8 @@ import { API_PATH } from '../../constants/api';
 import useToast from '../useToast';
 import { COUPON_QUERY_KEY } from './coupon';
 
+type OrderByType = 'received' | 'sent';
+
 export const RESERVATION_QUERY_KEYS = {
   reservations: 'reservations',
 };
@@ -25,7 +27,7 @@ export const usePostReservationMutation = (
     },
   });
 };
-export const useGetReservations = orderBy =>
+export const useGetReservations = (orderBy: OrderByType) =>
   useQuery([RESERVATION_QUERY_KEYS.reservations, orderBy], () => getReservationsRequest(orderBy), {
     refetchOnWindowFocus: false,
     retry: false,

@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.alarm.application.strategy.reservation;
 
+import static com.woowacourse.thankoo.common.fixtures.AlarmFixture.ROOT_LINK;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
@@ -49,6 +50,7 @@ class ReservationRepliedMessageFormStrategyTest {
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(MessageFormat.format(PRETEXT, "lala")),
+                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK),
                 () -> assertThat(message.getContents()).containsExactly(
                         "쿠폰 : 널 좋아해",
                         "예약 상태 : 거절\uD83D\uDE05"
@@ -70,6 +72,7 @@ class ReservationRepliedMessageFormStrategyTest {
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(MessageFormat.format(PRETEXT, "lala")),
+                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + "/meetings"),
                 () -> assertThat(message.getContents()).containsExactly(
                         "쿠폰 : 널 좋아해",
                         "예약 상태 : 승인\uD83E\uDD70"

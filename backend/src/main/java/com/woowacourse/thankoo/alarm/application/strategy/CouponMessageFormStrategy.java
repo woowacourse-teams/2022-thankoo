@@ -9,7 +9,6 @@ public abstract class CouponMessageFormStrategy implements MessageFormStrategy {
 
     protected static final String SENDER = "보내는 이 : {0}";
     protected static final String TITLE = "제목 : {0}";
-    protected static final String TITLE_LINK = "https://thankoo.co.kr/";
     protected static final String TYPE = "쿠폰 종류 : {0}";
 
     protected static final int SENDER_ID_INDEX = 0;

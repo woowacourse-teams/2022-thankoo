@@ -88,7 +88,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                 .token();
 
         MemberAssured.request()
-                .내_프로필_이미지_정보를_수정한다(tokenResponse, new MemberProfileImageRequest(SKRR_IMAGE_NAME))
+                .내_프로필_이미지_정보를_수정한다(tokenResponse, new MemberProfileImageRequest(SKRR_IMAGE_URL))
                 .response()
                 .status(HttpStatus.NO_CONTENT.value());
 

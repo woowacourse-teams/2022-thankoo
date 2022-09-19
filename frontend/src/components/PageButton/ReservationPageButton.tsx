@@ -3,9 +3,11 @@ import styled from '@emotion/styled';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routes';
+import { useGetReservations } from '../../hooks/@queries/reservation';
 
 const ReservationPageButton = () => {
   const location = useLocation();
+  const { data } = useGetReservations('received');
 
   return (
     <S.Link to={ROUTE_PATH.RESERVATIONS}>
@@ -14,6 +16,9 @@ const ReservationPageButton = () => {
           <S.Icon />
         </S.IconWrapper>
         <p>예약</p>
+        {data && data.length !== 0 && (
+          <S.ReceivedReservationCount>{data.length}</S.ReceivedReservationCount>
+        )}
       </S.ButtonWrapper>
     </S.Link>
   );
@@ -27,12 +32,14 @@ type ButtonProps = {
 
 const S = {
   Link: styled(Link)`
+    margin-top: 1px;
     line-height: 8px;
     p {
       font-size: 12px;
     }
   `,
   ButtonWrapper: styled.div<ButtonProps>`
+    position: relative;
     opacity: 0.5;
     ${({ active }) =>
       active &&
@@ -56,5 +63,18 @@ const S = {
   IconWrapper: styled.div`
     transform: scale(1.6);
     margin-bottom: 0.5rem;
+  `,
+  ReceivedReservationCount: styled.span`
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.3em;
+    height: 1.3em;
+    border-radius: 50%;
+    background-color: ${({ theme }) => theme.primary};
+    font-size: 1em;
   `,
 };

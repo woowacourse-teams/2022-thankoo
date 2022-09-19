@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.alarm.application.strategy;
 
+import static com.woowacourse.thankoo.common.fixtures.AlarmFixture.ROOT_LINK;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
@@ -45,7 +46,7 @@ class HeartMessageFormStrategyTest {
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo("lala님이 당신에게 마음을 2번 보냈어요 ❤️"),
-                () -> assertThat(message.getTitleLink()).isEqualTo("https://thankoo.co.kr/hearts")
+                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + "/hearts")
 
         );
     }

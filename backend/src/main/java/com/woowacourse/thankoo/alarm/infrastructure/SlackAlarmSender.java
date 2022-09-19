@@ -5,9 +5,10 @@ import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.infrastructure.dto.Attachments;
 import com.woowacourse.thankoo.alarm.infrastructure.slack.CacheSlackUserRepository;
 import com.woowacourse.thankoo.alarm.infrastructure.slack.SlackClient;
+import com.woowacourse.thankoo.common.alert.SlackAlarmFailedEvent;
+import com.woowacourse.thankoo.common.event.Events;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,7 +30,10 @@ public class SlackAlarmSender implements AlarmSender {
         try {
             sendSlackMessage(message, email);
         } catch (Exception e) {
-            log.warn("알람 전송 실패 {}", email, e);
+            Events.publish(new SlackAlarmFailedEvent(message.getTitle(),
+                    message.getTitleLink(),
+                    email,
+                    message.getContents()));
         }
     }
 
