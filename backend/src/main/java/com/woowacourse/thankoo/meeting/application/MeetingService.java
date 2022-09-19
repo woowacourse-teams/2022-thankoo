@@ -18,6 +18,7 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.domain.Members;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,11 +50,11 @@ public class MeetingService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    public void complete(final LocalDate date) {
-        Meetings meetings = new Meetings(meetingRepository.findAllByMeetingStatusAndTimeUnitDate(ON_PROGRESS, date));
+    public void complete(final LocalDateTime dateTime) {
+        Meetings meetings = new Meetings(
+                meetingRepository.findAllByMeetingStatusAndTimeUnitTime(ON_PROGRESS, dateTime));
         if (meetings.haveMeeting()) {
             Coupons coupons = new Coupons(meetings.getCoupons());
-
             meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetings.getMeetingIds());
             couponRepository.updateCouponStatus(CouponStatus.USED, coupons.getCouponIds());
         }

@@ -48,9 +48,6 @@ class CouponServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @MockBean
-    private AlarmSender alarmSender;
-
     @DisplayName("쿠폰을 저장할 때 ")
     @Nested
     class SaveCouponTest {

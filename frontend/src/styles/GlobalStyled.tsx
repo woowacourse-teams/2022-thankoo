@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 const global = css`
   * {
-    font-family: 'Noto Sans KR', sans-serif !important;
+    font-family: 'Pretendard' !important;
     -webkit-tap-highlight-color: transparent;
   }
   html {

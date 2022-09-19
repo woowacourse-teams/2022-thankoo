@@ -43,7 +43,14 @@ class ReservationStatusTest {
     @DisplayName("DENY 인지 확인한다.")
     @ParameterizedTest
     @CsvSource(value = {"WAITING:false", "DENY:true", "ACCEPT:false"}, delimiter = ':')
-    void isDeny(ReservationStatus reservationStatus, boolean isWaiting) {
-        assertThat(reservationStatus.isDeny()).isEqualTo(isWaiting);
+    void isDeny(ReservationStatus reservationStatus, boolean isDeny) {
+        assertThat(reservationStatus.isDeny()).isEqualTo(isDeny);
+    }
+
+    @DisplayName("CANCELED 인지 확인한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"WAITING:false", "DENY:false", "ACCEPT:false", "CANCELED:true"}, delimiter = ':')
+    void isCanceled(ReservationStatus reservationStatus, boolean isCanceled) {
+        assertThat(reservationStatus.isCanceled()).isEqualTo(isCanceled);
     }
 }

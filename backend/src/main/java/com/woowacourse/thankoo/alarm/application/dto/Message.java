@@ -53,6 +53,16 @@ public class Message {
         return Objects.hash(title, titleLink, emails, contents);
     }
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "title='" + title + '\'' +
+                ", titleLink='" + titleLink + '\'' +
+                ", emails=" + emails +
+                ", contents=" + contents +
+                '}';
+    }
+
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
 

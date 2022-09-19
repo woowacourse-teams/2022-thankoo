@@ -1,6 +1,8 @@
 import { useQueryClient } from 'react-query';
-import { usePutCancelReseravation } from '../../hooks/Main/queries/couponDetail';
-import { usePutReservationStatus } from '../../hooks/Reservations/queries/reservations';
+import {
+  usePutCancelReseravation,
+  usePutReservationStatus,
+} from '../../hooks/@queries/reservation';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 

@@ -17,7 +17,7 @@ class AlarmTest {
     @CsvSource(value = {"1:true", "2:false"}, delimiter = ':')
     void hasContentsSize(final int size, final boolean result) {
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(1L), "title", List.of("contents")));
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(1L), List.of("contents")));
         assertThat(alarm.hasContentsSize(size)).isEqualTo(result);
     }
 
@@ -25,8 +25,17 @@ class AlarmTest {
     @Test
     void create() {
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.COUPON_SENT, List.of(1L), "title", List.of("contents")));
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(1L), List.of("contents")));
 
         assertThat(alarm.getAlarmStatus()).isEqualTo(AlarmStatus.CREATED);
+    }
+
+    @DisplayName("인덱스 위치의 값을 가져온다.")
+    @Test
+    void getContentAt() {
+        Alarm alarm = Alarm.create(
+                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(1L), List.of("contents")));
+
+        assertThat(alarm.getContentAt(0)).isEqualTo("contents");
     }
 }

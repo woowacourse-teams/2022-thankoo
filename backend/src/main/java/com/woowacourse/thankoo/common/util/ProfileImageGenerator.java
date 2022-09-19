@@ -6,7 +6,5 @@ public interface ProfileImageGenerator {
 
     String getRandomImage();
 
-    String getImageUrl(String imageName);
-
     List<String> getImageUrls();
 }
