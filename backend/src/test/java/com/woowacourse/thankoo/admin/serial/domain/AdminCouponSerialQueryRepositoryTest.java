@@ -63,4 +63,19 @@ class AdminCouponSerialQueryRepositoryTest {
 
         assertThat(couponSerialMembers).hasSize(2);
     }
+
+    @DisplayName("코드가 존재하는지 확인한다.")
+    @Test
+    void existsByCode() {
+        Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+        Member member = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), CouponSerialType.COFFEE));
+        couponSerialRepository.save(new CouponSerial(SERIAL_2, sender.getId(), CouponSerialType.COFFEE));
+        couponSerialRepository.save(new CouponSerial(SERIAL_3, member.getId(), CouponSerialType.COFFEE));
+
+        List<CouponSerialMember> couponSerialMembers = adminCouponSerialQueryRepository.findByMemberId(sender.getId());
+
+        assertThat(couponSerialMembers).hasSize(2);
+    }
 }

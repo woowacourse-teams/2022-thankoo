@@ -18,6 +18,7 @@ import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
+import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -74,6 +75,18 @@ class AdminCouponSerialServiceTest {
                     () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "NOOP", SERIAL_1)))
                     .isInstanceOf(InvalidCouponContentException.class)
                     .hasMessage("존재하지 않는 쿠폰 타입입니다.");
+        }
+
+        @DisplayName("시리얼 번호가 중복되는 경우 예외를 발생한다.")
+        @Test
+        void duplicateSerial() {
+            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+            adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", SERIAL_1));
+
+            assertThatThrownBy(
+                    () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", SERIAL_1)))
+                    .isInstanceOf(InvalidCouponSerialException.class)
+                    .hasMessage("시리얼 번호가 중복됩니다.");
         }
     }
 }

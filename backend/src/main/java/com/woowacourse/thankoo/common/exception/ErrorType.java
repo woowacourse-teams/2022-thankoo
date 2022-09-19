@@ -47,7 +47,8 @@ public enum ErrorType {
     INVALID_ALARM_TYPE(7004, "잘못된 알람 타입입니다."),
 
     NOT_FOUND_COUPON_SERIAL(8001, "존재하지 않는 쿠폰 시리얼 번호입니다."),
-    INVALID_COUPON_SERIAL(8001, "유효하지 않은 쿠폰 시리얼 번호입니다."),
+    INVALID_COUPON_SERIAL(8002, "유효하지 않은 쿠폰 시리얼 번호입니다."),
+    DUPLICATE_COUPON_SERIAL(8003, "시리얼 번호가 중복됩니다."),
 
     REQUEST_EXCEPTION(9001, "http 요청 에러입니다."),
     INVALID_PATH(9002, "잘못된 경로입니다."),
