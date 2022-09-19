@@ -1,10 +1,10 @@
 package com.woowacourse.thankoo.admin.coupon.application;
 
-import com.woowacourse.thankoo.admin.common.search.domain.AdminDateSearchCondition;
 import com.woowacourse.thankoo.admin.coupon.application.dto.AdminCouponSearchRequest;
 import com.woowacourse.thankoo.admin.coupon.domain.AdminCoupon;
 import com.woowacourse.thankoo.admin.coupon.domain.AdminCouponQueryRepository;
 import com.woowacourse.thankoo.admin.coupon.domain.AdminCouponStatus;
+import com.woowacourse.thankoo.admin.coupon.domain.dto.AdminCouponSearchCondition;
 import com.woowacourse.thankoo.admin.coupon.presentation.dto.AdminCouponResponse;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,32 +21,14 @@ public class AdminCouponQueryService {
 
     public List<AdminCouponResponse> getCoupons(final AdminCouponSearchRequest couponSearchRequest) {
         AdminCouponStatus couponStatus = AdminCouponStatus.of(couponSearchRequest.getStatus());
-        AdminDateSearchCondition dateSearchCondition = AdminDateSearchCondition.of(
-                couponSearchRequest.getStartDate(),
-                couponSearchRequest.getEndDate()
-        );
-
-        if (couponStatus.isAll()) {
-            return getCouponsByDateCondition(dateSearchCondition);
-        }
-        return getCouponsByStatusAndDateCondition(couponStatus, dateSearchCondition);
+        AdminCouponSearchCondition couponSearchCondition = AdminCouponSearchCondition.of(
+                couponStatus, couponSearchRequest.getStartDate(), couponSearchRequest.getEndDate());
+        return getCouponsBySearchCondition(couponSearchCondition);
     }
 
-    private List<AdminCouponResponse> getCouponsByDateCondition(final AdminDateSearchCondition dateSearchCondition) {
-        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByDateCondition(
-                dateSearchCondition.getStartDateTimeStringValue(),
-                dateSearchCondition.getEndDateTimeStringValue());
-
-        return ofCouponResponse(coupons);
-    }
-
-    private List<AdminCouponResponse> getCouponsByStatusAndDateCondition(final AdminCouponStatus couponStatus,
-                                                                         final AdminDateSearchCondition dateSearchCondition) {
-        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByStatusAndDateCondition(couponStatus.name(),
-                dateSearchCondition.getStartDateTimeStringValue(),
-                dateSearchCondition.getEndDateTimeStringValue()
-        );
-
+    private List<AdminCouponResponse> getCouponsBySearchCondition(
+            final AdminCouponSearchCondition couponSearchCondition) {
+        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByStatusAndDate(couponSearchCondition);
         return ofCouponResponse(coupons);
     }
 

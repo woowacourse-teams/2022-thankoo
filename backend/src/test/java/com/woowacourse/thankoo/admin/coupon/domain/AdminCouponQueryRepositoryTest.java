@@ -16,13 +16,13 @@ import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.MEAL;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.woowacourse.thankoo.admin.coupon.domain.dto.AdminCouponSearchCondition;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.member.domain.Member;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,8 +34,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 @DisplayName("AdminCouponQueryRepository 는 ")
 @RepositoryTest
 class AdminCouponQueryRepositoryTest {
-
-    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Autowired
     private DataSource dataSource;
@@ -53,7 +51,7 @@ class AdminCouponQueryRepositoryTest {
         adminCouponQueryRepository = new AdminCouponQueryRepository(new NamedParameterJdbcTemplate(dataSource));
     }
 
-    @DisplayName("기간에 따른 모든 쿠폰들을 조회한다.")
+    @DisplayName("기간에 따른 모든 쿠폰들을 조회한다. (기간 + all)")
     @Test
     void findAllByDateCondition() {
         Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
@@ -66,15 +64,16 @@ class AdminCouponQueryRepositoryTest {
         adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
 
-        String startDateTime = LocalDateTime.now().minusDays(5L).format(getDateTimeFormatter());
-        String endDateTime = LocalDateTime.now().plusDays(1L).format(getDateTimeFormatter());
+        LocalDate startDate = LocalDate.now().minusDays(5L);
+        LocalDate endDate = LocalDate.now();
 
-        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByDateCondition(startDateTime, endDateTime);
+        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByStatusAndDate(
+                AdminCouponSearchCondition.of(AdminCouponStatus.ALL, startDate, endDate));
 
         assertThat(coupons).hasSize(3);
     }
 
-    @DisplayName("상태와 기간에 따른 쿠폰들을 조회힌다.")
+    @DisplayName("상태와 기간에 따른 쿠폰들을 조회힌다. (기간 + 특정 상태)")
     @Test
     void findAllByStatusAndDateCondition() {
         Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
@@ -87,17 +86,12 @@ class AdminCouponQueryRepositoryTest {
         adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
                 new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
 
-        String startDateTime = LocalDateTime.now().minusDays(5L).format(getDateTimeFormatter());
-        String endDateTime = LocalDateTime.now().plusDays(1L).format(getDateTimeFormatter());
+        LocalDate startDate = LocalDate.now().minusDays(5L);
+        LocalDate endDate = LocalDate.now();
 
-        String status = AdminCouponStatus.RESERVED.name();
-        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByStatusAndDateCondition(status,
-                startDateTime, endDateTime);
+        List<AdminCoupon> coupons = adminCouponQueryRepository.findAllByStatusAndDate(
+                AdminCouponSearchCondition.of(AdminCouponStatus.RESERVED, startDate, endDate));
 
         assertThat(coupons).hasSize(2);
-    }
-
-    private DateTimeFormatter getDateTimeFormatter() {
-        return DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
     }
 }

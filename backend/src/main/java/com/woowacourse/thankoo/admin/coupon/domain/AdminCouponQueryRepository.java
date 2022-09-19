@@ -1,10 +1,11 @@
 package com.woowacourse.thankoo.admin.coupon.domain;
 
+import com.woowacourse.thankoo.admin.coupon.domain.dto.AdminCouponSearchCondition;
 import com.woowacourse.thankoo.member.domain.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -33,7 +34,7 @@ public class AdminCouponQueryRepository {
                 );
     }
 
-    public List<AdminCoupon> findAllByDateCondition(final String startDateTime, final String endDateTime) {
+    public List<AdminCoupon> findAllByStatusAndDate(final AdminCouponSearchCondition couponSearchCondition) {
         String sql = "SELECT c.id as coupon_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "s.email as sender_email, s.social_id as sender_social_id, "
@@ -45,36 +46,11 @@ public class AdminCouponQueryRepository {
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
-                + "WHERE c.created_at "
-                + "BETWEEN :startDateTime AND :endDateTime "
+                + "WHERE c.status IN (:statuses) "
+                + "AND DATE(c.created_at) BETWEEN :startDate AND :endDate "
                 + "ORDER BY c.created_at DESC ";
 
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("startDateTime", startDateTime)
-                .addValue("endDateTime", endDateTime);
-        return jdbcTemplate.query(sql, sqlParameterSource, ROW_MAPPER);
-    }
-
-
-    public List<AdminCoupon> findAllByStatusAndDateCondition(final String status,
-                                                             final String startDateTime, final String endDateTime) {
-        String sql = "SELECT c.id as coupon_id, "
-                + "s.id as sender_id, s.name as sender_name, "
-                + "s.email as sender_email, s.social_id as sender_social_id, "
-                + "s.image_url as sender_image_url, "
-                + "r.id as receiver_id, r.name as receiver_name, "
-                + "r.email as receiver_email, r.social_id as receiver_social_id, "
-                + "r.image_url as receiver_image_url, "
-                + "c.coupon_type, c.status, c.created_at, c.modified_at "
-                + "FROM coupon as c "
-                + "JOIN member as s ON c.sender_id = s.id "
-                + "JOIN member as r ON c.receiver_id = r.id "
-                + "WHERE c.status = :status "
-                + "AND c.created_at BETWEEN :startDateTime AND :endDateTime "
-                + "ORDER BY c.created_at DESC ";
-
-        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("status", status)
-                .addValue("startDateTime", startDateTime)
-                .addValue("endDateTime", endDateTime);
+        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(couponSearchCondition);
         return jdbcTemplate.query(sql, sqlParameterSource, ROW_MAPPER);
     }
 }
