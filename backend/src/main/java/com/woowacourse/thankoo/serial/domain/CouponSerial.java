@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.serial.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.common.util.RandomStringCreator;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,13 +38,25 @@ public class CouponSerial extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private CouponSerialType couponSerialType;
 
-    public CouponSerial(final Long id, final String code, final Long senderId,
+    public CouponSerial(final Long id,
+                        final String code,
+                        final Long senderId,
                         final CouponSerialType couponSerialType) {
         validateCode(code);
         this.id = id;
         this.code = code;
         this.senderId = senderId;
         this.couponSerialType = couponSerialType;
+    }
+
+    public CouponSerial(final String code, final Long senderId, final CouponSerialType couponSerialType) {
+        this(null, code, senderId, couponSerialType);
+    }
+
+    public CouponSerial(final RandomStringCreator randomStringCreator,
+                        final Long senderId,
+                        final CouponSerialType couponSerialType) {
+        this(null, randomStringCreator.create(CODE_LENGTH), senderId, couponSerialType);
     }
 
     private void validateCode(final String code) {
@@ -54,9 +67,5 @@ public class CouponSerial extends BaseEntity {
 
     private static boolean isValidCode(final String code) {
         return !code.isBlank() && code.length() == CODE_LENGTH;
-    }
-
-    public CouponSerial(final String code, final Long senderId, final CouponSerialType couponSerialType) {
-        this(null, code, senderId, couponSerialType);
     }
 }

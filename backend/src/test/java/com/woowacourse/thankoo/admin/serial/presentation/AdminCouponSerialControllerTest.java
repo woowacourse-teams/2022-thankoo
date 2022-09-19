@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.admin.serial.presentation;
 
+import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.NUMBER;
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.STRING;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
@@ -35,7 +36,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
-        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(1L, "COFFEE", SERIAL_1);
+        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(1L, "COFFEE", 5);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
                 .content(objectMapper.writeValueAsString(couponSerialRequest))
@@ -48,7 +49,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
                 requestFields(
                         fieldWithPath("memberId").type(STRING).description("coach id"),
                         fieldWithPath("couponType").type(STRING).description("coupon type"),
-                        fieldWithPath("code").type(STRING).description("serial code")
+                        fieldWithPath("quantity").type(NUMBER).description("quantity")
                 )
         ));
     }

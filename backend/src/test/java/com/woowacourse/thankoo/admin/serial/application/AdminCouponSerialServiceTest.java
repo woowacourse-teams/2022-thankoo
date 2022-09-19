@@ -19,6 +19,7 @@ import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -41,18 +42,15 @@ class AdminCouponSerialServiceTest {
     @Nested
     class CreateCouponSerial {
 
-        @DisplayName("쿠폰 시리얼을 생성한다.")
+        @DisplayName("쿠폰 시리얼을 요청 개수만큼 생성한다.")
         @Test
         void save() {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            Long serialId = adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", SERIAL_1));
-            CouponSerial couponSerial = couponSerialRepository.findById(serialId).get();
+            adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", 5));
+            List<CouponSerial> couponSerial = couponSerialRepository.findAll();
 
-            assertAll(
-                    () -> assertThat(couponSerial.getCode()).isEqualTo(SERIAL_1),
-                    () -> assertThat(couponSerial.getCouponSerialType()).isEqualTo(CouponSerialType.COFFEE)
-            );
+            assertThat(couponSerial).hasSize(5);
         }
 
         @DisplayName("코치를 찾지 못 할 경우 예외를 발생한다.")
@@ -61,7 +59,7 @@ class AdminCouponSerialServiceTest {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
             assertThatThrownBy(() -> adminCouponSerialService.save(
-                    new CouponSerialRequest(member.getId() + 1, "COFFEE", SERIAL_1)))
+                    new CouponSerialRequest(member.getId() + 1, "COFFEE", 5)))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -72,21 +70,21 @@ class AdminCouponSerialServiceTest {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
             assertThatThrownBy(
-                    () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "NOOP", SERIAL_1)))
+                    () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "NOOP", 5)))
                     .isInstanceOf(InvalidCouponContentException.class)
                     .hasMessage("존재하지 않는 쿠폰 타입입니다.");
         }
 
-        @DisplayName("시리얼 번호가 중복되는 경우 예외를 발생한다.")
-        @Test
-        void duplicateSerial() {
-            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
-            adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", SERIAL_1));
-
-            assertThatThrownBy(
-                    () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", SERIAL_1)))
-                    .isInstanceOf(InvalidCouponSerialException.class)
-                    .hasMessage("시리얼 번호가 중복됩니다.");
-        }
+//        @DisplayName("시리얼 번호가 중복되는 경우 예외를 발생한다.")
+//        @Test
+//        void duplicateSerial() {
+//            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+//            adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", 5));
+//
+//            assertThatThrownBy(
+//                    () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", 5)))
+//                    .isInstanceOf(InvalidCouponSerialException.class)
+//                    .hasMessage("시리얼 번호가 중복됩니다.");
+//        }
     }
 }
