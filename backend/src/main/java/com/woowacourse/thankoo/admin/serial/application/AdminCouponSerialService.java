@@ -9,7 +9,7 @@ import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
-import com.woowacourse.thankoo.serial.domain.SerialCodeCreator;
+import com.woowacourse.thankoo.serial.infrastructer.SerialCodeCreator;
 import com.woowacourse.thankoo.serial.domain.SerialCodes;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.List;

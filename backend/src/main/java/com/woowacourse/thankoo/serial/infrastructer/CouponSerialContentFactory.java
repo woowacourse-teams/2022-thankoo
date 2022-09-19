@@ -1,21 +1,22 @@
-package com.woowacourse.thankoo.serial.domain;
+package com.woowacourse.thankoo.serial.infrastructer;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
-import com.woowacourse.thankoo.coupon.domain.CouponContentFactory;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
+import com.woowacourse.thankoo.serial.domain.CouponContentFactory;
+import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import lombok.Getter;
 
-public class CouponSerialContent implements CouponContentFactory {
+public class CouponSerialContentFactory implements CouponContentFactory {
 
     private static final String TITLE = "{0}가(이) 보내는 {1} 쿠폰";
     private static final String MESSAGE = "고생하셨습니다.";
 
     private final CouponSerialMember couponSerialMember;
 
-    public CouponSerialContent(final CouponSerialMember couponSerialMember) {
+    public CouponSerialContentFactory(final CouponSerialMember couponSerialMember) {
         this.couponSerialMember = couponSerialMember;
     }
 

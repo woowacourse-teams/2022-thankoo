@@ -1,7 +1,8 @@
-package com.woowacourse.thankoo.serial.domain;
+package com.woowacourse.thankoo.serial.infrastructer;
 
-import com.woowacourse.thankoo.common.util.CodeCreator;
 import com.woowacourse.thankoo.common.util.RandomUtils;
+import com.woowacourse.thankoo.serial.domain.CodeCreator;
+import com.woowacourse.thankoo.serial.domain.SerialCode;
 
 public class SerialCodeCreator implements CodeCreator {
 

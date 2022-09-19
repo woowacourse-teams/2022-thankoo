@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.serial.domain;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.common.util.CodeCreator;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.HashSet;
 import java.util.List;

@@ -4,7 +4,7 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
-import com.woowacourse.thankoo.coupon.domain.CouponSerialCreator;
+import com.woowacourse.thankoo.serial.domain.CouponSerialCreator;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
