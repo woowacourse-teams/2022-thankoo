@@ -15,6 +15,7 @@ class RandomUtilsTest {
     @ValueSource(ints = {5, 6, 7})
     void nextString(int length) {
         String result = RandomUtils.nextString(length);
+        System.out.println(result);
 
         assertThat(result.length()).isEqualTo(length);
     }

@@ -25,8 +25,8 @@ public class CouponSerialTest {
     @Test
     @DisplayName("코드 생성자를 통해 쿠폰 시리얼을 생성한다.")
     void createBySerialCreator() {
-        CouponSerial couponSerial = new CouponSerial(new TestSerialCodeCreator(), 1L, CouponSerialType.COFFEE);
+        CouponSerial couponSerial = new CouponSerial(SERIAL_1, 1L, CouponSerialType.COFFEE);
 
-        assertThat(couponSerial.getCode()).isEqualTo(SERIAL_1);
+        assertThat(couponSerial.getSerialCode()).isEqualTo(new SerialCode(SERIAL_1));
     }
 }

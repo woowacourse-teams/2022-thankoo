@@ -34,6 +34,6 @@ class AdminCouponSerialRepositoryTest {
 
         couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), CouponSerialType.COFFEE));
 
-        assertThat(couponSerialRepository.existsByCode(SERIAL_1)).isTrue();
+        assertThat(couponSerialRepository.existsBySerialCodeValue(SERIAL_1)).isTrue();
     }
 }

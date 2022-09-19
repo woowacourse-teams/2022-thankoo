@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.admin.serial.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.coupon.domain.CouponType;
+import com.woowacourse.thankoo.common.util.RandomUtils;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -9,7 +9,6 @@ import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
-import com.woowacourse.thankoo.serial.domain.SerialCodeCreator;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +29,17 @@ public class AdminCouponSerialService {
         List<CouponSerial> couponSerials = new ArrayList<>();
         for (int i = 0; i < couponSerialRequest.getQuantity(); i++) {
             CouponSerial couponSerial = new CouponSerial(
-                    new SerialCodeCreator(),
+                    RandomUtils.nextString(8),
                     coach.getId(),
                     CouponSerialType.of(couponSerialRequest.getCouponType()));
-            validateCode(couponSerial.getCode());
+            validateCode(couponSerial.getSerialCode().getValue());
             couponSerials.add(couponSerial);
         }
         couponSerialRepository.saveAll(couponSerials);
     }
 
     private void validateCode(final String code) {
-        if (couponSerialRepository.existsByCode(code)) {
+        if (couponSerialRepository.existsBySerialCodeValue(code)) {
             throw new InvalidCouponSerialException(ErrorType.DUPLICATE_COUPON_SERIAL);
         }
     }

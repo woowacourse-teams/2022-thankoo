@@ -5,6 +5,8 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.common.util.RandomStringCreator;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,14 +24,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CouponSerial extends BaseEntity {
 
-    private static final int CODE_LENGTH = 8;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code", nullable = false)
-    private String code;
+    @Embedded
+    private SerialCode serialCode;
 
     @Column(name = "sender_id", nullable = false)
     private Long senderId;
@@ -42,9 +42,8 @@ public class CouponSerial extends BaseEntity {
                         final String code,
                         final Long senderId,
                         final CouponSerialType couponSerialType) {
-        validateCode(code);
         this.id = id;
-        this.code = code;
+        this.serialCode = new SerialCode(code);
         this.senderId = senderId;
         this.couponSerialType = couponSerialType;
     }
@@ -53,19 +52,9 @@ public class CouponSerial extends BaseEntity {
         this(null, code, senderId, couponSerialType);
     }
 
-    public CouponSerial(final RandomStringCreator randomStringCreator,
-                        final Long senderId,
-                        final CouponSerialType couponSerialType) {
-        this(null, randomStringCreator.create(CODE_LENGTH), senderId, couponSerialType);
-    }
-
-    private void validateCode(final String code) {
-        if (!isValidCode(code)) {
-            throw new InvalidCouponSerialException(ErrorType.INVALID_COUPON_SERIAL);
-        }
-    }
-
-    private static boolean isValidCode(final String code) {
-        return !code.isBlank() && code.length() == CODE_LENGTH;
-    }
+//    public CouponSerial(final RandomStringCreator randomStringCreator,
+//                        final Long senderId,
+//                        final CouponSerialType couponSerialType) {
+//        this(null, randomStringCreator.create(CODE_LENGTH), senderId, couponSerialType);
+//    }
 }
