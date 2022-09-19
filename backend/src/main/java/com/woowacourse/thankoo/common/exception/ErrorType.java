@@ -50,6 +50,7 @@ public enum ErrorType {
     INVALID_COUPON_SERIAL(8002, "유효하지 않은 쿠폰 시리얼 번호입니다."),
     DUPLICATE_COUPON_SERIAL(8003, "시리얼 번호가 중복됩니다."),
     INVALID_COUPON_SERIAL_SIZE(8004, "생성할 수 있는 시리얼 번호를 초과했습니다."),
+    INVALID_COUPON_SERIAL_EXPIRATION(8005, "사용이 만료된 시리얼 번호입니다."),
 
     REQUEST_EXCEPTION(9001, "http 요청 에러입니다."),
     INVALID_PATH(9002, "잘못된 경로입니다."),

@@ -10,6 +10,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_I
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.USED;
 import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -76,11 +77,24 @@ class CouponSerialServiceTest {
         @Test
         void notFoundSerial() {
             Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
-            Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+            memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
             assertThatThrownBy(() -> couponSerialService.create(receiver.getId(), "1234"))
                     .isInstanceOf(InvalidCouponSerialException.class)
                     .hasMessage("존재하지 않는 쿠폰 시리얼 번호입니다.");
+        }
+
+        @DisplayName("만료된 시리얼일 경우 예외를 발생한다.")
+        @Test
+        void expiration() {
+            Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+
+            couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, USED));
+
+            assertThatThrownBy(() -> couponSerialService.create(receiver.getId(), SERIAL_1))
+                    .isInstanceOf(InvalidCouponSerialException.class)
+                    .hasMessage("사용이 만료된 시리얼 번호입니다.");
         }
     }
 }

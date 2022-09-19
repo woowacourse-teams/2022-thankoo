@@ -22,7 +22,7 @@ public class CouponSerialContentFactory implements CouponContentFactory {
 
     @Override
     public CouponContent create() {
-        return toCouponContent(couponSerialMember.getSenderName(), couponSerialMember.getCouponType());
+        return toCouponContent(couponSerialMember.getSenderName(), couponSerialMember.getCouponType().getValue());
     }
 
     private CouponContent toCouponContent(final String memberName, final String couponType) {

@@ -28,6 +28,6 @@ public class AdminCouponSerialQueryService {
                 couponSerial.getCode(),
                 couponSerial.getSenderId(),
                 couponSerial.getSenderName(),
-                couponSerial.getCouponType());
+                couponSerial.getCouponType().getValue());
     }
 }

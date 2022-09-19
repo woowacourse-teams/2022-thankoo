@@ -14,7 +14,8 @@ class CouponSerialContentFactoryTest {
     @DisplayName("CouponSerialMember 를 가지고 쿠폰 내용을 생성한다.")
     @Test
     void create() {
-        CouponSerialMember couponSerialMember = new CouponSerialMember(1L, "1234", 2L, "브리", "COFFEE");
+        CouponSerialMember couponSerialMember = new CouponSerialMember(1L, "1234", 2L, "브리", "COFFEE",
+                CouponSerialStatus.USED.name());
         CouponSerialContentFactory couponSerialContentFactory = new CouponSerialContentFactory(couponSerialMember);
 
         CouponContent couponContent = couponSerialContentFactory.create();
