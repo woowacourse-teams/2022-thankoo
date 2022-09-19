@@ -30,7 +30,7 @@ public class CouponSerialResponse {
     public static CouponSerialResponse from(final CouponSerialMember couponSerialMember) {
         return new CouponSerialResponse(
                 couponSerialMember.getId(),
-                couponSerialMember.getCode(),
+                couponSerialMember.getCode().getValue(),
                 couponSerialMember.getSenderId(),
                 couponSerialMember.getSenderName(),
                 couponSerialMember.getCouponType().getValue());

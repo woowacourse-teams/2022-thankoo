@@ -9,4 +9,6 @@ public interface CouponSerialRepository extends JpaRepository<CouponSerial, Long
 
     @Query("SELECT count(c) > 0 FROM CouponSerial AS c WHERE c.serialCode.value IN (:codes)")
     boolean existsBySerialCodeValue(@Param("codes") List<String> codes);
+
+    CouponSerial findBySerialCodeValue(String serialCode);
 }

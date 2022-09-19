@@ -10,7 +10,7 @@ import lombok.Getter;
 public class CouponSerialMember {
 
     private final Long id;
-    private final String code;
+    private final SerialCode code;
     private final Long senderId;
     private final String senderName;
     private final CouponSerialType couponType;
@@ -24,7 +24,7 @@ public class CouponSerialMember {
                               final String status) {
 
         this.id = id;
-        this.code = code;
+        this.code = new SerialCode(code);
         this.senderId = senderId;
         this.senderName = senderName;
         this.couponType = CouponSerialType.of(couponType);
@@ -37,5 +37,9 @@ public class CouponSerialMember {
 
     public boolean isUsed() {
         return status == CouponSerialStatus.USED;
+    }
+
+    public CouponSerial createUsedCouponSerial() {
+        return new CouponSerial(id, code, senderId, couponType, CouponSerialStatus.USED);
     }
 }

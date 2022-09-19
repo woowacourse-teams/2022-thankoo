@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.admin.serial.domain;
+package com.woowacourse.thankoo.serial.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_EMAIL;
@@ -12,8 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerial;
-import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("AdminCouponSerialRepository 는 ")
 @RepositoryTest
-class AdminCouponSerialRepositoryTest {
+class CouponSerialRepositoryTest {
 
     @Autowired
     private CouponSerialRepository couponSerialRepository;
@@ -37,5 +35,16 @@ class AdminCouponSerialRepositoryTest {
         couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED));
 
         assertThat(couponSerialRepository.existsBySerialCodeValue(List.of(SERIAL_1))).isTrue();
+    }
+
+    @DisplayName("코드로 쿠폰 시리얼을 조회한다.")
+    @Test
+    void findByCode() {
+        Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+        couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED));
+
+        CouponSerial couponSerial = couponSerialRepository.findBySerialCodeValue(SERIAL_1);
+
+        assertThat(couponSerial.getSerialCode().getValue()).isEqualTo(SERIAL_1);
     }
 }

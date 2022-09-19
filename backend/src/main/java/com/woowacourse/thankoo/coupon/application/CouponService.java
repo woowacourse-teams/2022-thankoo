@@ -2,9 +2,6 @@ package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
-import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
-import com.woowacourse.thankoo.coupon.domain.Coupon;
-import com.woowacourse.thankoo.serial.domain.CouponSerialCreator;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -21,7 +18,6 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
-    private final CouponSerialCreator couponSerialCreator;
 
     public void saveAll(final Long senderId, final CouponRequest couponRequest) {
         validateMember(senderId, couponRequest.getReceiverIds());
@@ -38,10 +34,5 @@ public class CouponService {
     private boolean isExistMembers(final Long senderId, final List<Long> receiverIds) {
         return memberRepository.existsById(senderId)
                 && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
-    }
-
-    public Long saveWithSerialCode(final Long memberId, final CouponSerialRequest couponSerialRequest) {
-        Coupon coupon = couponRepository.save(couponSerialCreator.create(memberId, couponSerialRequest.getSerialCode()));
-        return coupon.getId();
     }
 }

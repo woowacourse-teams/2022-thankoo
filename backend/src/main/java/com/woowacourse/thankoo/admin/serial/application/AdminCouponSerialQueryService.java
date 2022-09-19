@@ -25,7 +25,7 @@ public class AdminCouponSerialQueryService {
 
     private static CouponSerialResponse toCouponSerialResponse(final CouponSerialMember couponSerial) {
         return new CouponSerialResponse(couponSerial.getId(),
-                couponSerial.getCode(),
+                couponSerial.getCode().getValue(),
                 couponSerial.getSenderId(),
                 couponSerial.getSenderName(),
                 couponSerial.getCouponType().getValue());

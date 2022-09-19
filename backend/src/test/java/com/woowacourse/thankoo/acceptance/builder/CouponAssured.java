@@ -16,7 +16,6 @@ import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
-import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.Arrays;
@@ -77,7 +76,7 @@ public class CouponAssured {
         }
 
         public CouponRequestBuilder 쿠폰_시리얼을_요청한다(final String accessToken, final CouponSerialRequest request) {
-            response = postWithToken("/api/coupons", accessToken, request);
+            response = postWithToken("/api/coupon-serials", accessToken, request);
             return this;
         }
 
