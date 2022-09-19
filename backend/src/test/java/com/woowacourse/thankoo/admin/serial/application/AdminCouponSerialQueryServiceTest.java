@@ -8,8 +8,9 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_2;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_3;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
@@ -17,13 +18,10 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.boot.test.context.SpringBootTest;
 
 @DisplayName("AdminCouponSerialQueryService 는 ")
 @ApplicationTest
@@ -44,9 +42,9 @@ class AdminCouponSerialQueryServiceTest {
         Member member = memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), CouponSerialType.COFFEE));
-        couponSerialRepository.save(new CouponSerial(SERIAL_2, member.getId(), CouponSerialType.COFFEE));
-        couponSerialRepository.save(new CouponSerial(SERIAL_3, hoho.getId(), CouponSerialType.COFFEE));
+        couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED));
+        couponSerialRepository.save(new CouponSerial(SERIAL_2, member.getId(), COFFEE, NOT_USED));
+        couponSerialRepository.save(new CouponSerial(SERIAL_3, hoho.getId(), COFFEE, NOT_USED));
 
         List<CouponSerialResponse> couponSerialResponses = adminCouponSerialQueryService.getByMemberId(member.getId());
 

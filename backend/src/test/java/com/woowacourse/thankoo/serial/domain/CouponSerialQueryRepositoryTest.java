@@ -5,6 +5,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
@@ -41,7 +43,7 @@ class CouponSerialQueryRepositoryTest {
     @Test
     void findByCode() {
         Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, SKRR_IMAGE_URL));
-        couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), CouponSerialType.COFFEE));
+        couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED));
 
         CouponSerialMember couponSerialMember = couponSerialQueryRepository.findByCode(SERIAL_1).get();
 

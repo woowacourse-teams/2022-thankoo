@@ -5,6 +5,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -15,7 +17,6 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,7 +45,7 @@ class CouponSerialQueryServiceTest {
         void getCouponSerialByCode() {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), CouponSerialType.COFFEE));
+            couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED));
 
             CouponSerialResponse response = couponSerialQueryService.getByCode(SERIAL_1);
 

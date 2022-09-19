@@ -18,6 +18,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_I
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -32,7 +34,6 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -120,7 +121,8 @@ class CouponServiceTest {
         void notFoundSerialCode() {
             Member member = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
-            assertThatThrownBy(() -> couponService.saveWithSerialCode(member.getId(), new CouponSerialRequest(SERIAL_1)))
+            assertThatThrownBy(
+                    () -> couponService.saveWithSerialCode(member.getId(), new CouponSerialRequest(SERIAL_1)))
                     .isInstanceOf(InvalidCouponSerialException.class)
                     .hasMessage("존재하지 않는 쿠폰 시리얼 번호입니다.");
         }
@@ -130,7 +132,7 @@ class CouponServiceTest {
         void createCoupon() {
             Member member = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
             Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
-            couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), CouponSerialType.COFFEE));
+            couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED));
 
             Long couponId = couponService.saveWithSerialCode(member.getId(), new CouponSerialRequest(SERIAL_1));
 

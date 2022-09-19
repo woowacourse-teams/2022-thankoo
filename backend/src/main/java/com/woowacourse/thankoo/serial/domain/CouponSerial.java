@@ -34,21 +34,33 @@ public class CouponSerial extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private CouponSerialType couponSerialType;
 
-    public CouponSerial(final Long id, final SerialCode serialCode, final Long senderId,
-                        final CouponSerialType couponSerialType) {
+    @Column(name = "status", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private CouponSerialStatus status;
+
+    public CouponSerial(final Long id,
+                        final SerialCode serialCode,
+                        final Long senderId,
+                        final CouponSerialType couponSerialType,
+                        final CouponSerialStatus status) {
         this.id = id;
         this.serialCode = serialCode;
         this.senderId = senderId;
         this.couponSerialType = couponSerialType;
+        this.status = status;
     }
 
-    public CouponSerial(final String code, final Long senderId, final CouponSerialType couponSerialType) {
-        this(null, new SerialCode(code), senderId, couponSerialType);
+    public CouponSerial(final String code,
+                        final Long senderId,
+                        final CouponSerialType couponSerialType,
+                        final CouponSerialStatus status) {
+        this(null, new SerialCode(code), senderId, couponSerialType, status);
     }
 
     public CouponSerial(final SerialCode serialCode,
                         final Long senderId,
-                        final CouponSerialType couponSerialType) {
-        this(null, serialCode, senderId, couponSerialType);
+                        final CouponSerialType couponSerialType,
+                        final CouponSerialStatus status) {
+        this(null, serialCode, senderId, couponSerialType, status);
     }
 }

@@ -1,5 +1,7 @@
 package com.woowacourse.thankoo.admin.serial.application;
 
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
+
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -9,9 +11,9 @@ import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
-import com.woowacourse.thankoo.serial.infrastructer.SerialCodeCreator;
 import com.woowacourse.thankoo.serial.domain.SerialCodes;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
+import com.woowacourse.thankoo.serial.infrastructer.SerialCodeCreator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +53,7 @@ public class AdminCouponSerialService {
                                                    final String couponType) {
         List<SerialCode> values = serialCodes.getValues();
         return values.stream()
-                .map(code -> new CouponSerial(code, coach.getId(), CouponSerialType.of(couponType)))
+                .map(code -> new CouponSerial(code, coach.getId(), CouponSerialType.of(couponType), NOT_USED))
                 .collect(Collectors.toList());
     }
 

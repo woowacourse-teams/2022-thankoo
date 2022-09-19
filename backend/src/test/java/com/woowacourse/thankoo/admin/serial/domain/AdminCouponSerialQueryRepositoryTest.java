@@ -11,6 +11,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_2;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_3;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
@@ -19,7 +21,6 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,9 +56,9 @@ class AdminCouponSerialQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
         Member member = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), CouponSerialType.COFFEE));
-        couponSerialRepository.save(new CouponSerial(SERIAL_2, sender.getId(), CouponSerialType.COFFEE));
-        couponSerialRepository.save(new CouponSerial(SERIAL_3, member.getId(), CouponSerialType.COFFEE));
+        couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED));
+        couponSerialRepository.save(new CouponSerial(SERIAL_2, sender.getId(), COFFEE, NOT_USED));
+        couponSerialRepository.save(new CouponSerial(SERIAL_3, member.getId(), COFFEE, NOT_USED));
 
         List<CouponSerialMember> couponSerialMembers = adminCouponSerialQueryRepository.findByMemberId(sender.getId());
 
@@ -70,9 +71,9 @@ class AdminCouponSerialQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
         Member member = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), CouponSerialType.COFFEE));
-        couponSerialRepository.save(new CouponSerial(SERIAL_2, sender.getId(), CouponSerialType.COFFEE));
-        couponSerialRepository.save(new CouponSerial(SERIAL_3, member.getId(), CouponSerialType.COFFEE));
+        couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED));
+        couponSerialRepository.save(new CouponSerial(SERIAL_2, sender.getId(), COFFEE, NOT_USED));
+        couponSerialRepository.save(new CouponSerial(SERIAL_3, member.getId(), COFFEE, NOT_USED));
 
         List<CouponSerialMember> couponSerialMembers = adminCouponSerialQueryRepository.findByMemberId(sender.getId());
 

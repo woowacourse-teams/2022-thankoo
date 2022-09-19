@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.serial.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -17,7 +19,7 @@ public class CouponSerialTest {
     @ParameterizedTest
     @ValueSource(strings = {"  ", "1234567", "123456789"})
     void invalidSerialCode(String code) {
-        assertThatThrownBy(() -> new CouponSerial(code, 1L, CouponSerialType.COFFEE))
+        assertThatThrownBy(() -> new CouponSerial(code, 1L, COFFEE, NOT_USED))
                 .isInstanceOf(InvalidCouponSerialException.class)
                 .hasMessage("유효하지 않은 쿠폰 시리얼 번호입니다.");
     }
@@ -25,7 +27,7 @@ public class CouponSerialTest {
     @Test
     @DisplayName("코드 생성자를 통해 쿠폰 시리얼을 생성한다.")
     void createBySerialCreator() {
-        CouponSerial couponSerial = new CouponSerial(SERIAL_1, 1L, CouponSerialType.COFFEE);
+        CouponSerial couponSerial = new CouponSerial(SERIAL_1, 1L, COFFEE, NOT_USED);
 
         assertThat(couponSerial.getSerialCode()).isEqualTo(new SerialCode(SERIAL_1));
     }
