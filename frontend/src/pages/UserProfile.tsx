@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import defaultUser from '../assets/images/default_user.jpeg';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import Header from '../components/@shared/Header';
 import HeaderText from '../components/@shared/HeaderText';
@@ -27,7 +26,7 @@ const UserProfile = () => {
         </S.SubHeader>
       </Header>
       <S.Body>
-        <ProfileUserImage src={profile ? `${profile?.imageUrl}` : defaultUser} />
+        <ProfileUserImage src={profile ? profile?.imageUrl : 'default'} />
         <S.UserInfoBox>
           <S.UserInfoItem>
             <S.Bold>이름</S.Bold>

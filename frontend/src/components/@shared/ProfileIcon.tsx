@@ -56,8 +56,8 @@ const ProfileIcon = ({ src, size }: { src: string; size: any }) => {
       </StyledIconBackGround>
     );
   return (
-    <StyledIconBackGround color={'#transparent'} size={size}>
-      <PersonIcon />
+    <StyledIconBackGround color={'lightgray'} size={size}>
+      <DefaultUserIcon size={size} />
     </StyledIconBackGround>
   );
 };
@@ -89,6 +89,11 @@ const StyledIconBackGround = styled.div<BackgroundProp>`
   &:hover {
     background-color: ${({ theme }) => theme.button.active.background};
   } */
+`;
+
+const DefaultUserIcon = styled(PersonIcon)<IconProp>`
+  font-size: ${({ size }) => (size ? size : '1.5em')};
+  fill: gray;
 `;
 
 export default ProfileIcon;
