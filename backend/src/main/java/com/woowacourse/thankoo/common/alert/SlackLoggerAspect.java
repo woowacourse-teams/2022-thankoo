@@ -25,12 +25,20 @@ public class SlackLoggerAspect {
     @Before("@annotation(com.woowacourse.thankoo.common.alert.SlackLogger)")
     public void sendLogForError(final JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        if (args.length != 1 || !(args[0] instanceof Exception)) {
+        if (args.length != 1) {
             log.warn("Slack Logger Failed : Invalid Used");
             return;
         }
-        ExceptionWrapper exceptionWrapper = extractExceptionWrapper((Exception) args[0]);
-        alertSender.send(MessageGenerator.generate(extractMember(), exceptionWrapper));
+
+        if (args[0] instanceof Exception) {
+            ExceptionWrapper exceptionWrapper = extractExceptionWrapper((Exception) args[0]);
+            alertSender.send(MessageGenerator.generate(extractMember(), exceptionWrapper));
+            return;
+        }
+
+        if (args[0] instanceof SlackAlarmFailedEvent) {
+            alertSender.send(MessageGenerator.generateFailedAlarmMessage((SlackAlarmFailedEvent) args[0]));
+        }
     }
 
     private String extractMember() {
