@@ -1,5 +1,3 @@
-import { useLocation } from 'react-router-dom';
-
 import styled from '@emotion/styled';
 import Modal from './components/@shared/Modal';
 import Toast from './components/@shared/toast/Toast';
@@ -14,7 +12,6 @@ setScreenSize();
 window.addEventListener('resize', setScreenSize);
 
 function App() {
-  const location = useLocation();
   const { visible: modalVisible } = useModal();
 
   return (
