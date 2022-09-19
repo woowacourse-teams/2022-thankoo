@@ -18,6 +18,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,15 +51,20 @@ class AdminCouponControllerTest extends AdminControllerTest {
                                 LocalDateTime.now(), LocalDateTime.now()))
                 );
 
-        ResultActions resultActions = mockMvc.perform(get("/admin/coupons?"
-                        + "status=all"
-                        + "&startDate=2022-01-01"
-                        + "&endDate=2022-12-01"))
+        ResultActions resultActions = mockMvc.perform(get("/admin/coupons")
+                        .queryParam("status", "all")
+                        .queryParam("startDate", "2022-01-01")
+                        .queryParam("endDate", "2022-12-01"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("admin/coupons/get-coupons-all",
                 Preprocessors.preprocessResponse(prettyPrint()),
+                requestParameters(
+                        parameterWithName("status").description("status"),
+                        parameterWithName("startDate").description("startDate"),
+                        parameterWithName("endDate").description("endDate")
+                ),
                 responseFields(
                         fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
                         fieldWithPath("[].type").type(STRING).description("type"),
@@ -87,15 +94,20 @@ class AdminCouponControllerTest extends AdminControllerTest {
                                 LocalDateTime.now(), LocalDateTime.now()))
                 );
 
-        ResultActions resultActions = mockMvc.perform(get("/admin/coupons?"
-                        + "status=reserving"
-                        + "&startDate=2022-01-01"
-                        + "&endDate=2022-12-01"))
+        ResultActions resultActions = mockMvc.perform(get("/admin/coupons")
+                        .queryParam("status", "reserving")
+                        .queryParam("startDate", "2022-01-01")
+                        .queryParam("endDate", "2022-12-01"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("admin/coupons/get-coupons-status",
                 Preprocessors.preprocessResponse(prettyPrint()),
+                requestParameters(
+                        parameterWithName("status").description("status"),
+                        parameterWithName("startDate").description("startDate"),
+                        parameterWithName("endDate").description("endDate")
+                ),
                 responseFields(
                         fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
                         fieldWithPath("[].type").type(STRING).description("type"),

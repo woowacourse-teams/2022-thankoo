@@ -18,6 +18,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,12 +44,18 @@ public class AdminMemberControllerTest extends AdminControllerTest {
                         new AdminMemberResponse(1L, LALA_NAME, LALA_EMAIL),
                         new AdminMemberResponse(2L, HOHO_NAME, HOHO_EMAIL)));
 
-        ResultActions resultActions = mockMvc.perform(get("/admin/members?startDate=2022-01-01&endDate=2022-12-31"))
+        ResultActions resultActions = mockMvc.perform(get("/admin/members")
+                        .queryParam("startDate", "2022-01-01")
+                        .queryParam("endDate", "2022-12-31"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("admin/members/get-members",
                 Preprocessors.preprocessResponse(prettyPrint()),
+                requestParameters(
+                        parameterWithName("startDate").description("startDate"),
+                        parameterWithName("endDate").description("endDate")
+                ),
                 responseFields(
                         fieldWithPath("[].id").type(NUMBER).description("id"),
                         fieldWithPath("[].name").type(STRING).description("name"),
