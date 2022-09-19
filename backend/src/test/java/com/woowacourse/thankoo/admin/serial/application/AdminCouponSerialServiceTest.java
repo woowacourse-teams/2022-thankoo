@@ -74,17 +74,5 @@ class AdminCouponSerialServiceTest {
                     .isInstanceOf(InvalidCouponContentException.class)
                     .hasMessage("존재하지 않는 쿠폰 타입입니다.");
         }
-
-//        @DisplayName("시리얼 번호가 중복되는 경우 예외를 발생한다.")
-//        @Test
-//        void duplicateSerial() {
-//            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
-//            adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", 5));
-//
-//            assertThatThrownBy(
-//                    () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", 5)))
-//                    .isInstanceOf(InvalidCouponSerialException.class)
-//                    .hasMessage("시리얼 번호가 중복됩니다.");
-//        }
     }
 }

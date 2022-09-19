@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.admin.serial.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.common.util.RandomUtils;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -9,9 +8,12 @@ import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
+import com.woowacourse.thankoo.serial.domain.SerialCode;
+import com.woowacourse.thankoo.serial.domain.SerialCodeCreator;
+import com.woowacourse.thankoo.serial.domain.SerialCodes;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,22 +28,31 @@ public class AdminCouponSerialService {
 
     public void save(final CouponSerialRequest couponSerialRequest) {
         Member coach = getMember(couponSerialRequest.getMemberId());
-        List<CouponSerial> couponSerials = new ArrayList<>();
-        for (int i = 0; i < couponSerialRequest.getQuantity(); i++) {
-            CouponSerial couponSerial = new CouponSerial(
-                    RandomUtils.nextString(8),
-                    coach.getId(),
-                    CouponSerialType.of(couponSerialRequest.getCouponType()));
-            validateCode(couponSerial.getSerialCode().getValue());
-            couponSerials.add(couponSerial);
-        }
+        SerialCodes serialCodes = SerialCodes.of(couponSerialRequest.getQuantity(), new SerialCodeCreator());
+        validateDuplicate(serialCodes);
+        List<CouponSerial> couponSerials = createCouponSerials(coach, serialCodes, couponSerialRequest.getCouponType());
         couponSerialRepository.saveAll(couponSerials);
     }
 
-    private void validateCode(final String code) {
-        if (couponSerialRepository.existsBySerialCodeValue(code)) {
+    private void validateDuplicate(final SerialCodes serialCodes) {
+        if (couponSerialRepository.existsBySerialCodeValue(getCodes(serialCodes))) {
             throw new InvalidCouponSerialException(ErrorType.DUPLICATE_COUPON_SERIAL);
         }
+    }
+
+    private static List<String> getCodes(final SerialCodes serialCodes) {
+        return serialCodes.getValues().stream()
+                .map(SerialCode::getValue)
+                .collect(Collectors.toList());
+    }
+
+    private List<CouponSerial> createCouponSerials(final Member coach,
+                                                   final SerialCodes serialCodes,
+                                                   final String couponType) {
+        List<SerialCode> values = serialCodes.getValues();
+        return values.stream()
+                .map(code -> new CouponSerial(code, coach.getId(), CouponSerialType.of(couponType)))
+                .collect(Collectors.toList());
     }
 
     private Member getMember(final Long memberId) {

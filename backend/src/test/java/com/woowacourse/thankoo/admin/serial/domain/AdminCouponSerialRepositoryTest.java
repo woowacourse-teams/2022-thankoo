@@ -13,6 +13,7 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,6 @@ class AdminCouponSerialRepositoryTest {
 
         couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), CouponSerialType.COFFEE));
 
-        assertThat(couponSerialRepository.existsBySerialCodeValue(SERIAL_1)).isTrue();
+        assertThat(couponSerialRepository.existsBySerialCodeValue(List.of(SERIAL_1))).isTrue();
     }
 }

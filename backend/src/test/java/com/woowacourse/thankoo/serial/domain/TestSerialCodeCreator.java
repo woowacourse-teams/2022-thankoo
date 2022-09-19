@@ -2,12 +2,12 @@ package com.woowacourse.thankoo.serial.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 
-import com.woowacourse.thankoo.common.util.RandomStringCreator;
+import com.woowacourse.thankoo.common.util.CodeCreator;
 
-public class TestSerialCodeCreator implements RandomStringCreator {
+public class TestSerialCodeCreator implements CodeCreator {
 
     @Override
-    public String create(final int endExclusive) {
-        return SERIAL_1;
+    public SerialCode create() {
+        return new SerialCode(SERIAL_1);
     }
 }

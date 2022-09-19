@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.serial.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
@@ -32,5 +33,13 @@ class SerialCodesTest {
         assertThatThrownBy(() -> new SerialCodes(codes))
                 .isInstanceOf(InvalidCouponSerialException.class)
                 .hasMessage("생성할 수 있는 시리얼 번호를 초과했습니다.");
+    }
+
+    @DisplayName("개수와 코드 생성 방식으로 시리얼번호를 생성한다.")
+    @Test
+    void of() {
+        SerialCodes serialCodes = SerialCodes.of(1, new TestSerialCodeCreator());
+
+        assertThat(serialCodes.getValues()).hasSize(1);
     }
 }
