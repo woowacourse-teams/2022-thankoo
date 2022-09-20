@@ -24,10 +24,16 @@ const ConponDetailNotUsed = ({ coupon }: { coupon: Coupon }, ref: LegacyRef<HTML
           <GridViewCoupon coupon={coupon as Coupon} />
         )}
       </S.CouponArea>
-      <S.FlexColumn>
-        <S.Label>{isSent ? '받은' : '보낸'} 사람</S.Label>
-        <S.Sender>{isSent ? coupon?.receiver.name : coupon?.sender.name}</S.Sender>
-      </S.FlexColumn>
+      <S.RowWrapper>
+        <S.FlexColumn>
+          <S.Label>{isSent ? '받은' : '보낸'} 사람</S.Label>
+          <S.Sender>{isSent ? coupon?.receiver.name : coupon?.sender.name}</S.Sender>
+        </S.FlexColumn>
+        <S.FlexColumn>
+          <S.Label>{isSent ? '받은' : '보낸'} 날짜</S.Label>
+          <S.Sender>{coupon?.createdDate}</S.Sender>
+        </S.FlexColumn>
+      </S.RowWrapper>
       <S.FlexColumn>
         <S.Label>{isSent && '내가 보낸 '}메세지</S.Label>
         <S.Message>{coupon?.content.message}</S.Message>
@@ -47,7 +53,7 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    gap: 25px;
     width: 100%;
   `,
   SpaceBetween: styled.div`
@@ -75,6 +81,10 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 5px;
+  `,
+  RowWrapper: styled.div`
+    display: flex;
+    justify-content: space-between;
   `,
 };
 

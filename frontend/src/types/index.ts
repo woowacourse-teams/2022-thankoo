@@ -6,6 +6,7 @@ export interface Coupon {
   receiver: UserProfile;
   content: CouponContent;
   status: CouponStatus;
+  createdDate?: string;
 }
 export interface CouponDetail {
   coupon: Coupon;
