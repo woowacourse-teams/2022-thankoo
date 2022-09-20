@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.admin.serial.presentation;
+package com.woowacourse.thankoo.admin.serial.infrastructure;
 
 import com.woowacourse.thankoo.admin.serial.domain.CodeCreator;
 import java.util.Random;
