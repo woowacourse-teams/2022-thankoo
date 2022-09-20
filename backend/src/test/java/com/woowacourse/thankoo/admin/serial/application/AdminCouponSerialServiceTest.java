@@ -9,12 +9,12 @@ import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_TITLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.thankoo.admin.member.exception.AdminNotFoundMemberException;
 import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
-import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import java.util.List;
@@ -59,7 +59,7 @@ class AdminCouponSerialServiceTest {
 
             assertThatThrownBy(() -> adminCouponSerialService.save(
                     new AdminCouponSerialRequest(member.getId() + 1, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE)))
-                    .isInstanceOf(InvalidMemberException.class)
+                    .isInstanceOf(AdminNotFoundMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
 

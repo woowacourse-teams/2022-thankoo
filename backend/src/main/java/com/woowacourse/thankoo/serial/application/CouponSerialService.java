@@ -11,6 +11,7 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
+import com.woowacourse.thankoo.serial.domain.CouponSerialContent;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialStatus;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
@@ -53,8 +54,8 @@ public class CouponSerialService {
     }
 
     private Coupon createCoupon(final Member receiver, final CouponSerial couponSerial) {
+        CouponSerialContent content = couponSerial.getContent();
         return new Coupon(couponSerial.getSenderId(), receiver.getId(),
-                new CouponContent(CouponType.COFFEE, "Sda", "asd"),
-                CouponStatus.NOT_USED);
+                new CouponContent(CouponType.COFFEE, content.getTitle(), content.getMessage()), CouponStatus.NOT_USED);
     }
 }

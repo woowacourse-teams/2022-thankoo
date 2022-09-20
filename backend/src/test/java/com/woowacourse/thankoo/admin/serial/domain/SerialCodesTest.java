@@ -6,6 +6,7 @@ import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_3;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.thankoo.admin.serial.excepion.AdminInvalidCouponSerialException;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
@@ -23,7 +24,7 @@ class SerialCodesTest {
     void duplicateSerialCode() {
         assertThatThrownBy(() -> new SerialCodes(List.of(
                 new SerialCode(SERIAL_1), new SerialCode(SERIAL_1))))
-                .isInstanceOf(InvalidCouponSerialException.class)
+                .isInstanceOf(AdminInvalidCouponSerialException.class)
                 .hasMessage("시리얼 번호가 중복됩니다.");
     }
 
@@ -36,7 +37,7 @@ class SerialCodesTest {
         }
 
         assertThatThrownBy(() -> new SerialCodes(codes))
-                .isInstanceOf(InvalidCouponSerialException.class)
+                .isInstanceOf(AdminInvalidCouponSerialException.class)
                 .hasMessage("생성할 수 있는 시리얼 번호를 초과했습니다.");
     }
 

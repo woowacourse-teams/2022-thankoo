@@ -61,6 +61,8 @@ class CouponSerialServiceTest {
             CouponSerial usedSerial = couponSerialRepository.findById(notUsedSerial.getId()).get();
 
             assertThat(usedSerial.getStatus()).isEqualTo(USED);
+            assertThat(usedSerial.getContent().getTitle()).isEqualTo(NEO_TITLE);
+            assertThat(usedSerial.getContent().getMessage()).isEqualTo(NEO_MESSAGE);
         }
 
         @DisplayName("받는 이가 존재하지 않는 경우 예외를 발생한다.")
