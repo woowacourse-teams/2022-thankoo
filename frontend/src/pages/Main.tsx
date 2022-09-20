@@ -142,7 +142,6 @@ const S = {
           `
         : css`
             color: white;
-            font-weight: bolder;
           `};
   `,
   HeaderText: styled(HeaderText)`

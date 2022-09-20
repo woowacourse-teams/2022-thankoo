@@ -116,7 +116,6 @@ const S = {
             color: #8e8e8e;
           `
         : css`
-            font-weight: bolder;
             color: white;
           `};
   `,
