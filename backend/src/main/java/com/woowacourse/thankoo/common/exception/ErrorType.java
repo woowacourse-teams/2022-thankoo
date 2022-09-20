@@ -49,7 +49,6 @@ public enum ErrorType {
 
     NOT_FOUND_COUPON_SERIAL(8001, "존재하지 않는 쿠폰 시리얼 번호입니다."),
     INVALID_COUPON_SERIAL(8002, "유효하지 않은 쿠폰 시리얼 번호입니다."),
-    INVALID_COUPON_SERIAL_SIZE(8004, "생성할 수 있는 시리얼 번호를 초과했습니다."),
     INVALID_COUPON_SERIAL_EXPIRATION(8005, "사용이 만료된 시리얼 번호입니다."),
     INVALID_COUPON_SERIAL_TITLE(8006, "잘못된 쿠폰 제목입니다."),
     INVALID_COUPON_SERIAL_MESSAGE(8007, "잘못된 쿠폰 내용입니다."),

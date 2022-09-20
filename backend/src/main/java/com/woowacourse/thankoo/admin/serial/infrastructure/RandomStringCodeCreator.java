@@ -17,9 +17,13 @@ public class RandomStringCodeCreator implements CodeCreator {
     @Override
     public String create() {
         return RANDOM.ints(START_INDEX, END_INDEX + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .filter(this::isAlphabetOrNumber)
                 .limit(CODE_LENGTH)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
+    }
+
+    private boolean isAlphabetOrNumber(final int i) {
+        return (i <= 57 || i >= 65) && (i <= 90 || i >= 97);
     }
 }
