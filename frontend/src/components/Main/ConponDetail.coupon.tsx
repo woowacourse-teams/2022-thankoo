@@ -30,7 +30,7 @@ const ConponDetailNotUsed = ({ coupon }: { coupon: Coupon }, ref: LegacyRef<HTML
           <S.Sender>{isSent ? coupon?.receiver.name : coupon?.sender.name}</S.Sender>
         </S.FlexColumn>
         <S.FlexColumn>
-          <S.Label>{isSent ? '받은' : '보낸'} 날짜</S.Label>
+          <S.Label>{isSent ? '보낸' : '받은'} 날짜</S.Label>
           <S.Sender>{coupon?.createdDate}</S.Sender>
         </S.FlexColumn>
       </S.RowWrapper>
