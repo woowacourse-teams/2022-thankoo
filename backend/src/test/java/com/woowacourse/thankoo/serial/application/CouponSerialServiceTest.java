@@ -8,6 +8,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_TITLE;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
 import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.USED;
@@ -17,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
-import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -53,7 +54,7 @@ class CouponSerialServiceTest {
             Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
             CouponSerial notUsedSerial = couponSerialRepository.save(
-                    new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED));
+                    new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
             couponSerialService.use(receiver.getId(), new CouponSerialRequest(SERIAL_1));
 
@@ -67,7 +68,8 @@ class CouponSerialServiceTest {
         void notFoundMember() {
             Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED));
+            couponSerialRepository.save(
+                    new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
             assertThatThrownBy(() -> couponSerialService.use(sender.getId() + 1L, new CouponSerialRequest(SERIAL_1)))
                     .isInstanceOf(InvalidMemberException.class)
@@ -91,7 +93,8 @@ class CouponSerialServiceTest {
             Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
             Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, USED));
+            couponSerialRepository.save(
+                    new CouponSerial(SERIAL_1, sender.getId(), COFFEE, USED, NEO_TITLE, NEO_MESSAGE));
 
             assertThatThrownBy(() -> couponSerialService.use(receiver.getId(), new CouponSerialRequest(SERIAL_1)))
                     .isInstanceOf(InvalidCouponSerialException.class)

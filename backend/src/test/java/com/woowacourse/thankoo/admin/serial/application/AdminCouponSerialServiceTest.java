@@ -4,10 +4,10 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_TITLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
@@ -17,8 +17,6 @@ import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerialType;
-import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -47,7 +45,8 @@ class AdminCouponSerialServiceTest {
         void save() {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "COFFEE", 5));
+            adminCouponSerialService.save(new CouponSerialRequest(
+                    member.getId(), "COFFEE", 5, NEO_TITLE, NEO_MESSAGE));
             List<CouponSerial> couponSerial = couponSerialRepository.findAll();
 
             assertThat(couponSerial).hasSize(5);
@@ -59,7 +58,7 @@ class AdminCouponSerialServiceTest {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
             assertThatThrownBy(() -> adminCouponSerialService.save(
-                    new CouponSerialRequest(member.getId() + 1, "COFFEE", 5)))
+                    new CouponSerialRequest(member.getId() + 1, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE)))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -70,7 +69,8 @@ class AdminCouponSerialServiceTest {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
             assertThatThrownBy(
-                    () -> adminCouponSerialService.save(new CouponSerialRequest(member.getId(), "NOOP", 5)))
+                    () -> adminCouponSerialService.save(
+                            new CouponSerialRequest(member.getId(), "NOOP", 5, NEO_TITLE, NEO_MESSAGE)))
                     .isInstanceOf(InvalidCouponContentException.class)
                     .hasMessage("존재하지 않는 쿠폰 타입입니다.");
         }

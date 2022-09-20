@@ -52,11 +52,12 @@ public enum ErrorType {
     DUPLICATE_COUPON_SERIAL(8003, "시리얼 번호가 중복됩니다."),
     INVALID_COUPON_SERIAL_SIZE(8004, "생성할 수 있는 시리얼 번호를 초과했습니다."),
     INVALID_COUPON_SERIAL_EXPIRATION(8005, "사용이 만료된 시리얼 번호입니다."),
+    INVALID_COUPON_SERIAL_TITLE(8006, "잘못된 쿠폰 제목입니다."),
+    INVALID_COUPON_SERIAL_MESSAGE(8007, "잘못된 쿠폰 내용입니다."),
 
     REQUEST_EXCEPTION(9001, "http 요청 에러입니다."),
     INVALID_PATH(9002, "잘못된 경로입니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
-
     private final int code;
     private final String message;
 

@@ -5,6 +5,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_TITLE;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_2;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_3;
@@ -42,9 +44,11 @@ class AdminCouponSerialQueryServiceTest {
         Member member = memberRepository.save(new Member("네오", "neo@woowa.com", "네오네오", HUNI_IMAGE_URL));
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED));
-        couponSerialRepository.save(new CouponSerial(SERIAL_2, member.getId(), COFFEE, NOT_USED));
-        couponSerialRepository.save(new CouponSerial(SERIAL_3, hoho.getId(), COFFEE, NOT_USED));
+        couponSerialRepository.save(
+                new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+        couponSerialRepository.save(
+                new CouponSerial(SERIAL_2, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+        couponSerialRepository.save(new CouponSerial(SERIAL_3, hoho.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
         List<CouponSerialResponse> couponSerialResponses = adminCouponSerialQueryService.getByMemberId(member.getId());
 

@@ -55,7 +55,7 @@ public class SerialCodes {
 
     public List<CouponSerial> createCouponSerials(final Long memberId, final CouponSerialType couponSerialType) {
         return values.stream()
-                .map(code -> new CouponSerial(code, memberId, couponSerialType, NOT_USED))
+                .map(code -> new CouponSerial(code, memberId, couponSerialType, NOT_USED, null))
                 .collect(Collectors.toList());
     }
 

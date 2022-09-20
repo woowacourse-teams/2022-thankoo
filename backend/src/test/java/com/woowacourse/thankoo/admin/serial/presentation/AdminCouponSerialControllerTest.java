@@ -3,6 +3,8 @@ package com.woowacourse.thankoo.admin.serial.presentation;
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.NUMBER;
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.STRING;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_TITLE;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_2;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_3;
@@ -36,11 +38,12 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
-        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(1L, "COFFEE", 5);
+        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(
+                1L, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
-                .content(objectMapper.writeValueAsString(couponSerialRequest))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsString(couponSerialRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -49,7 +52,9 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
                 requestFields(
                         fieldWithPath("memberId").type(STRING).description("coach id"),
                         fieldWithPath("couponType").type(STRING).description("coupon type"),
-                        fieldWithPath("quantity").type(NUMBER).description("quantity")
+                        fieldWithPath("quantity").type(NUMBER).description("quantity"),
+                        fieldWithPath("title").type(NUMBER).description("title"),
+                        fieldWithPath("message").type(NUMBER).description("message")
                 )
         ));
     }

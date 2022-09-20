@@ -38,30 +38,38 @@ public class CouponSerial extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private CouponSerialStatus status;
 
+    @Embedded
+    private CouponSerialContent content;
+
     public CouponSerial(final Long id,
                         final SerialCode serialCode,
                         final Long senderId,
                         final CouponSerialType couponSerialType,
-                        final CouponSerialStatus status) {
+                        final CouponSerialStatus status,
+                        final CouponSerialContent content) {
         this.id = id;
         this.serialCode = serialCode;
         this.senderId = senderId;
         this.couponSerialType = couponSerialType;
         this.status = status;
-    }
-
-    public CouponSerial(final String code,
-                        final Long senderId,
-                        final CouponSerialType couponSerialType,
-                        final CouponSerialStatus status) {
-        this(null, new SerialCode(code), senderId, couponSerialType, status);
+        this.content = content;
     }
 
     public CouponSerial(final SerialCode serialCode,
                         final Long senderId,
                         final CouponSerialType couponSerialType,
-                        final CouponSerialStatus status) {
-        this(null, serialCode, senderId, couponSerialType, status);
+                        final CouponSerialStatus status,
+                        final CouponSerialContent content) {
+        this(null, serialCode, senderId, couponSerialType, status, content);
+    }
+
+    public CouponSerial(final String code,
+                        final Long senderId,
+                        final CouponSerialType couponSerialType,
+                        final CouponSerialStatus status,
+                        final String title,
+                        final String message) {
+        this(null, new SerialCode(code), senderId, couponSerialType, status, new CouponSerialContent(title, message));
     }
 
     public void use() {

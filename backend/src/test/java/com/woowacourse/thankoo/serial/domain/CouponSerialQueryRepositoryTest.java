@@ -4,6 +4,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_TITLE;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
 import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
@@ -43,7 +45,8 @@ class CouponSerialQueryRepositoryTest {
     @Test
     void findByCode() {
         Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, SKRR_IMAGE_URL));
-        couponSerialRepository.save(new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED));
+        couponSerialRepository.save(
+                new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
         CouponSerialMember couponSerialMember = couponSerialQueryRepository.findByCode(SERIAL_1).get();
 

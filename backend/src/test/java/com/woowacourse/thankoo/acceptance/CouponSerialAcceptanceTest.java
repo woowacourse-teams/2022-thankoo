@@ -3,7 +3,10 @@ package com.woowacourse.thankoo.acceptance;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_SKRR;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_MESSAGE;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_TITLE;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
+import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
 import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
@@ -12,7 +15,6 @@ import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerialStatus;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -58,7 +60,7 @@ class CouponSerialAcceptanceTest extends AcceptanceTest {
 
             private CouponSerial 쿠폰_시리얼을_생성한다(Long memberId, String code) {
                 return couponSerialRepository
-                        .save(new CouponSerial(code, memberId, COFFEE, CouponSerialStatus.NOT_USED));
+                        .save(new CouponSerial(code, memberId, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
             }
         }
     }

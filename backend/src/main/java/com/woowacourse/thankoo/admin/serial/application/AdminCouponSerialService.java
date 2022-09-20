@@ -9,9 +9,10 @@ import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerialType;
+import com.woowacourse.thankoo.serial.domain.SerialCode;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class AdminCouponSerialService {
         Member coach = getMember(couponSerialRequest.getMemberId());
         SerialCodes serialCodes = SerialCodes.of(couponSerialRequest.getQuantity(), codeCreator);
         validateDuplicate(serialCodes);
-        couponSerialRepository.saveAll(create(couponSerialRequest, coach, serialCodes));
+        couponSerialRepository.saveAll(create(couponSerialRequest, serialCodes, coach.getId()));
     }
 
     private Member getMember(final Long memberId) {
@@ -44,8 +45,11 @@ public class AdminCouponSerialService {
     }
 
     private static List<CouponSerial> create(final CouponSerialRequest couponSerialRequest,
-                                             final Member coach,
-                                             final SerialCodes serialCodes) {
-        return serialCodes.createCouponSerials(coach.getId(), CouponSerialType.of(couponSerialRequest.getCouponType()));
+                                             final SerialCodes serialCodes,
+                                             final Long senderId) {
+        List<SerialCode> values = serialCodes.getValues();
+        return values.stream()
+                .map(code -> couponSerialRequest.from(code, senderId))
+                .collect(Collectors.toList());
     }
 }
