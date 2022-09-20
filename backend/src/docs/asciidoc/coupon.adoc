@@ -52,7 +52,3 @@ operation::coupons/get-coupon-meeting[snippets='http-request,http-response']
 === 주고 받은 쿠폰 개수 조회
 
 operation::coupons/count[snippets='http-request,http-response']
-
-=== 시리얼 번호로 쿠폰 생성
-
-operation::coupons/create-with-serial[snippets='http-request,http-response']
