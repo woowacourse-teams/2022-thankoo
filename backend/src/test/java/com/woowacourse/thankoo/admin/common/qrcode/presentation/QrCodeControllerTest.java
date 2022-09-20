@@ -5,6 +5,10 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,8 +41,11 @@ class QrCodeControllerTest extends AdminControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        resultActions.andDo(document("admin/serial/get-qrcode",
+        resultActions.andDo(document("admin/serial/get-link",
                 Preprocessors.preprocessRequest(prettyPrint()),
-                requestParameters(parameterWithName("serial").description("serial code"))));
+                requestParameters(parameterWithName("serial").description("serial code")),
+                responseFields(
+                        fieldWithPath("[].link").type(NUMBER).description("link")
+                )));
     }
 }

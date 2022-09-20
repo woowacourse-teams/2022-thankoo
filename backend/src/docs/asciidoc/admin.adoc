@@ -26,3 +26,11 @@ operation::admin/coupons/get-coupons-status[snippets='http-request,http-response
 
 operation::admin/coupons/expire[snippets='http-request,http-response']
 
+== 쿠폰 시리얼
+
+=== 쿠폰 시리얼 생성
+operation::admin/serial/save-serial[snippets='http-request,http-response']
+
+=== 쿠폰 시리얼 조회
+operation::admin/serial/get-serial[snippets='http-request,http-response']
+

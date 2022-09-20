@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.admin.serial.presentation;
+package com.woowacourse.thankoo.admin.serial.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
