@@ -45,6 +45,7 @@ public enum ErrorType {
     NOT_FOUND_ALARM_REQUEST(7002, "전송하려는 알람이 존재하지 않습니다."),
     INVALID_ALARM_FORMAT(7003, "잘못된 알람 형식입니다."),
     INVALID_ALARM_TYPE(7004, "잘못된 알람 타입입니다."),
+    INVALID_ALARM_LINK(7005, "잘못된 알람 링크입니다."),
 
     NOT_FOUND_COUPON_SERIAL(8001, "존재하지 않는 쿠폰 시리얼 번호입니다."),
     INVALID_COUPON_SERIAL(8002, "유효하지 않은 쿠폰 시리얼 번호입니다."),

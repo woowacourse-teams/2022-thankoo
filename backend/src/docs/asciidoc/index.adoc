@@ -21,3 +21,7 @@ include::reservation.adoc[]
 include::meeting.adoc[]
 == Heart
 include::heart.adoc[]
+
+= Admin
+include::admin.adoc[]
+

@@ -139,8 +139,9 @@ class ReservationTest {
         }
 
         @DisplayName("불가능한 상태로 변경 요청할 경우 예외가 발생한다.")
-        @Test
-        void updateInvalidStatusException() {
+        @ParameterizedTest
+        @EnumSource(value = ReservationStatus.class, names = {"WAITING", "CANCELED"})
+        void updateInvalidStatusException(final ReservationStatus reservationStatus) {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
@@ -154,7 +155,7 @@ class ReservationTest {
 
             assertThatThrownBy(
                     () -> reservation.update(new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL),
-                            ReservationStatus.WAITING, new FakeReservedMeetingCreator()))
+                            reservationStatus, new FakeReservedMeetingCreator()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }

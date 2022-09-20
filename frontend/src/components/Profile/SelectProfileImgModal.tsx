@@ -5,7 +5,7 @@ import { modalMountTime, modalUnMountTime } from './../../constants/modal';
 import useModal from './../../hooks/useModal';
 import ProfileIcon from './../@shared/ProfileIcon';
 
-const SelectProfileImgModal = ({ patchImageMutation }) => {
+const SelectProfileImgModal = ({ editUserProfileImage }) => {
   const [selected, setSelected] = useState('');
   const { visible, close, modalContentRef } = useModal();
 
@@ -29,7 +29,7 @@ const SelectProfileImgModal = ({ patchImageMutation }) => {
         <S.ButtonWrapper>
           <S.Button
             onClick={() => {
-              patchImageMutation(selected.split('/')[2]);
+              editUserProfileImage(selected);
               close();
             }}
             primary

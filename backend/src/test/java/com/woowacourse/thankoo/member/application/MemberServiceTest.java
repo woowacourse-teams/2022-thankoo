@@ -99,7 +99,7 @@ class MemberServiceTest {
         @Test
         void updateMemberName() {
             Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
-            memberService.updateMemberProfileImage(member.getId(), new MemberProfileImageRequest(HUNI_IMAGE_NAME));
+            memberService.updateMemberProfileImage(member.getId(), new MemberProfileImageRequest(HUNI_IMAGE_URL));
 
             Member foundMember = memberRepository.findById(member.getId()).get();
 

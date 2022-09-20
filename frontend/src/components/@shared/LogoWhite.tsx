@@ -1,7 +1,7 @@
-import LogoWhite from '../../assets/images/Logo_white.svg';
+import logo from '../../assets/images/Thankoo_Logo.svg';
 
 const BirdLogoWhite = ({ size }) => {
-  return <img src={LogoWhite} width={size} />;
+  return <img src={logo} width={size} />;
 };
 
 export default BirdLogoWhite;

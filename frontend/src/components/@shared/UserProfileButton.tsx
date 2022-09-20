@@ -8,7 +8,7 @@ const UserProfileButton = () => {
 
   return (
     <Link to={ROUTE_PATH.PROFILE}>
-      <ProfileIcon src={`${profile?.imageUrl}`} size={'28px'} />
+      <ProfileIcon src={profile ? profile?.imageUrl : 'default'} size={'28px'} />
     </Link>
   );
 };

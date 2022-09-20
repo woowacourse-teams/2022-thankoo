@@ -32,6 +32,12 @@ server:
   port: 8180
 
 slack:
-  token: xoxb-39499534989-12389491129-12359892049
+  authorization: Bearer xoxb-39499534989-12389491129-12359892049
   users-uri: http://localhost:8180/users/list
   message-uri: http://localhost:8180/chat/postMessage
+
+profile-image:
+  image-url-path: /profile-image/
+  image-path: classpath:static/profile-image/*.svg
+
+origin: https://thankoo.co.kr

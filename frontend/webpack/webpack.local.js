@@ -1,0 +1,21 @@
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+const { join } = require('path');
+const mode = process.env.NODE_ENV || 'development';
+
+dotenv.config({ path: join(__dirname, '../env/.env.local') });
+
+module.exports = merge(common, {
+  mode: 'development',
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
+      'process.env.API_URL': JSON.stringify(process.env.API_URL),
+      'process.env.MODE': JSON.stringify(process.env.MODE),
+    }),
+  ],
+});

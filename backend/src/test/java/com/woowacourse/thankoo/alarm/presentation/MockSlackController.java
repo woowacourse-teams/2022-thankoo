@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MockSlackController {
 
-    @GetMapping(path = "/users/list", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @GetMapping(path = "/users/list")
     public ResponseEntity<SlackUsersResponse> getUsers(@RequestHeader("Authorization") String header) {
         List<SlackUserResponse> slackUsers = new ArrayList<>();
         slackUsers.add(new SlackUserResponse(HOHO_USER_TOKEN, new Profile(HOHO_EMAIL)));

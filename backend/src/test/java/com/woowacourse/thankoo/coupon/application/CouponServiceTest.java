@@ -47,9 +47,6 @@ class CouponServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private CouponSerialRepository couponSerialRepository;
-
     @DisplayName("쿠폰을 저장할 때 ")
     @Nested
     class SaveCouponTest {

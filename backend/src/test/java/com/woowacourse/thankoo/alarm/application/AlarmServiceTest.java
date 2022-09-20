@@ -44,9 +44,8 @@ class AlarmServiceTest {
             Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
             Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmSpecification.COUPON_SENT,
+            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE,
                     List.of(hoho.getId(), huni.getId()),
-                    "COFFEE",
                     List.of(String.valueOf(lala.getId()), "coffee"));
 
             assertThatThrownBy(() -> alarmService.send(alarmSpecification))
@@ -61,9 +60,8 @@ class AlarmServiceTest {
             Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
             Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmSpecification.COUPON_SENT,
+            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE,
                     List.of(hoho.getId(), huni.getId()),
-                    "COFFEE",
                     List.of(String.valueOf(lala.getId()), "널 좋아해", "coffee"));
 
             assertDoesNotThrow(() -> alarmService.send(alarmSpecification));

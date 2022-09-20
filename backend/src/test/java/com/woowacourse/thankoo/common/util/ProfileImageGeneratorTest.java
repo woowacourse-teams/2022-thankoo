@@ -31,26 +31,4 @@ class ProfileImageGeneratorTest {
         String imageUrl = profileImageGenerator.getRandomImage();
         assertThat(imageUrl).isNotNull();
     }
-
-    @DisplayName("프로필 이미지 요청 경로를 생성할 때 ")
-    @Nested
-    class ImageUrlCreationTest {
-
-        @DisplayName("프로필 이미지가 존재하면 요청 경로를 생성한다.")
-        @Test
-        void getImageUrl() {
-            String imageUrl = profileImageGenerator.getImageUrl("user_skull.svg");
-            assertThat(imageUrl).isEqualTo("/profile-image/user_skull.svg");
-        }
-
-        @DisplayName("프로필 이미지가 존재하지 않으면 예외가 발생한다.")
-        @Test
-        void getImageUrlWithInvalidImageName() {
-            assertThatThrownBy(
-                    () -> profileImageGenerator.getImageUrl("invalidImage")
-            )
-                    .isInstanceOf(BadRequestException.class)
-                    .hasMessageContaining("올바르지 않은 프로필 이미지입니다.");
-        }
-    }
 }
