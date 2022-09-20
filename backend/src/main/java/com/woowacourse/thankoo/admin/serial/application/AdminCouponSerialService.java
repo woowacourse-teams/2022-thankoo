@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.admin.serial.application;
 
+import com.woowacourse.thankoo.admin.serial.domain.AdminCouponSerialQueryRepository;
 import com.woowacourse.thankoo.admin.serial.domain.CodeCreator;
 import com.woowacourse.thankoo.admin.serial.domain.SerialCodes;
 import com.woowacourse.thankoo.common.exception.ErrorType;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AdminCouponSerialService {
 
+    private final AdminCouponSerialQueryRepository couponSerialQueryRepository;
     private final CouponSerialRepository couponSerialRepository;
     private final MemberRepository memberRepository;
     private final CodeCreator codeCreator;
@@ -39,7 +41,7 @@ public class AdminCouponSerialService {
     }
 
     private void validateDuplicate(final SerialCodes serialCodes) {
-        if (couponSerialRepository.existsBySerialCodeValue(serialCodes.getSerialCodeValues())) {
+        if (couponSerialQueryRepository.existsBySerialCodeValue(serialCodes.getSerialCodeValues())) {
             throw new InvalidCouponSerialException(ErrorType.DUPLICATE_COUPON_SERIAL);
         }
     }

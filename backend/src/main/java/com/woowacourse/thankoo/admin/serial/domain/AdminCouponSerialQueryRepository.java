@@ -4,8 +4,10 @@ import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -37,5 +39,14 @@ public class AdminCouponSerialQueryRepository {
                 .addValue("memberId", memberId);
 
         return jdbcTemplate.query(sql, sqlParameterSource, ROW_MAPPER);
+    }
+
+    public boolean existsBySerialCodeValue(final List<String> serialCodes) {
+        String sql = "SELECT COUNT(*) FROM coupon_serial AS c WHERE c.code IN (:serialCodes) LIMIT 1";
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("serialCodes", serialCodes);
+
+        int count = jdbcTemplate.queryForObject(sql, sqlParameterSource, Integer.class);
+        return count > 0;
     }
 }

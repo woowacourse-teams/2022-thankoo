@@ -22,6 +22,7 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
+import com.woowacourse.thankoo.serial.domain.CouponSerialQueryRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import java.util.List;
 import javax.sql.DataSource;
@@ -41,10 +42,10 @@ class AdminCouponSerialQueryRepositoryTest {
     private DataSource dataSource;
 
     @Autowired
-    private CouponSerialRepository couponSerialRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private CouponSerialRepository couponSerialRepository;
 
     @BeforeEach
     void setUp() {
@@ -70,21 +71,50 @@ class AdminCouponSerialQueryRepositoryTest {
         assertThat(couponSerialMembers).hasSize(2);
     }
 
+//    @DisplayName("코드가 존재하는지 확인한다.")
+//    @Test
+//    void existsByCode() {
+//        Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+//        Member member = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+//
+//        couponSerialRepository.save(
+//                new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+//        couponSerialRepository.save(
+//                new CouponSerial(SERIAL_2, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+//        couponSerialRepository.save(
+//                new CouponSerial(SERIAL_3, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+//
+//        List<CouponSerialMember> couponSerialMembers = adminCouponSerialQueryRepository.findByMemberId(sender.getId());
+//
+//        assertThat(couponSerialMembers).hasSize(2);
+//    }
+
     @DisplayName("코드가 존재하는지 확인한다.")
     @Test
     void existsByCode() {
         Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
-        Member member = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         couponSerialRepository.save(
                 new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
         couponSerialRepository.save(
                 new CouponSerial(SERIAL_2, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
         couponSerialRepository.save(
-                new CouponSerial(SERIAL_3, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+                new CouponSerial(SERIAL_3, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
-        List<CouponSerialMember> couponSerialMembers = adminCouponSerialQueryRepository.findByMemberId(sender.getId());
 
-        assertThat(couponSerialMembers).hasSize(2);
+        assertThat(adminCouponSerialQueryRepository.existsBySerialCodeValue(List.of(SERIAL_1, SERIAL_2))).isTrue();
+    }
+
+    @DisplayName("코드가 존재하지 않는지 확인한다.")
+    @Test
+    void notExistsByCode() {
+        Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+
+        couponSerialRepository.save(
+                new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+        couponSerialRepository.save(
+                new CouponSerial(SERIAL_2, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+
+        assertThat(adminCouponSerialQueryRepository.existsBySerialCodeValue(List.of(SERIAL_3))).isFalse();
     }
 }

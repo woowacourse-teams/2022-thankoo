@@ -29,17 +29,6 @@ class CouponSerialRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @DisplayName("코드가 존재하는지 확인한다.")
-    @Test
-    void existsByCode() {
-        Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
-
-        couponSerialRepository.save(
-                new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
-
-        assertThat(couponSerialRepository.existsBySerialCodeValue(List.of(SERIAL_1))).isTrue();
-    }
-
     @DisplayName("코드로 쿠폰 시리얼을 조회한다.")
     @Test
     void findByCode() {
