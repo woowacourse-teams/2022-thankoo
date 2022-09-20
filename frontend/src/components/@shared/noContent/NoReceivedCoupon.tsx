@@ -26,10 +26,9 @@ const NoReceivedCoupon = () => {
 
 const S = {
   Container: styled.div`
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    flex: 1;
   `,
   Box: styled.div`
     ${flexCenter}

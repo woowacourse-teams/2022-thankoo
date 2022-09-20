@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { flexCenter } from '../../../styles/mixIn';
-import IconEmptyList from './../LogoEmptyList';
+import IconEmptyList from '../LogoEmptyList';
 
 const NoReservation = () => {
   return (
@@ -21,11 +21,9 @@ const NoReservation = () => {
 
 const S = {
   Container: styled.div`
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.9;
+    display: grid;
+    place-items: center;
+    flex: 1;
   `,
   Box: styled.div`
     ${flexCenter}

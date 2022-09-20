@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Header from '../components/@shared/Header';
-import HeaderText from '../components/@shared/HeaderText';
+import Header from '../components/@shared/Layout/Header';
 import Input from '../components/@shared/Input';
-import PageLayout from '../components/@shared/PageLayout';
+import PageLayout from '../components/@shared/Layout/PageLayout';
 import useEnterNickname from '../hooks/EnterNickname/useEnterNickname';
 import { USER_NICKNAME_MAX_LENGTH } from './../constants/users';
+import HeaderText from '../components/@shared/Layout/HeaderText';
 
 const EnterNickname = () => {
   const { email, nickname, setNickname, signUpWithNickname } = useEnterNickname();

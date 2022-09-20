@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import Spinner from '../components/@shared/Spinner';
 import CreateReservationSuccess from '../components/CreateReservation/CreateReservationSuccess';
 import EnterCouponContentSuccess from '../components/EnterCouponContent/EnterCouponContentSuccess';
 import { ROUTE_PATH } from '../constants/routes';
@@ -22,7 +23,11 @@ const OnSuccessPage = () => {
     }
   }, []);
 
-  return <S.Layout>{OnSucessModalComponents[page]?.(props)}</S.Layout>;
+  return (
+    <Suspense fallback={<Spinner />}>
+      <S.Layout>{OnSucessModalComponents[page]?.(props)}</S.Layout>
+    </Suspense>
+  );
 };
 
 const S = {

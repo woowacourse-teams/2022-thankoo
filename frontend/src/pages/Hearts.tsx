@@ -2,15 +2,15 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { flexCenter } from '../styles/mixIn';
 import ArrowBackButton from './../components/@shared/ArrowBackButton';
-import Header from './../components/@shared/Header';
-import HeaderText from './../components/@shared/HeaderText';
-import PageLayout from './../components/@shared/PageLayout';
+import Header from '../components/@shared/Layout/Header';
+import PageLayout from '../components/@shared/Layout/PageLayout';
 import { BASE_URL } from './../constants/api';
 import { useGetHearts, usePostHeartMutation } from './../hooks/@queries/hearts';
 import { useGetMembers } from './../hooks/@queries/members';
 import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
 import { useState } from 'react';
 import useFilterMatchedUser from '../hooks/useFilterMatchedUser';
+import HeaderText from '../components/@shared/Layout/HeaderText';
 
 const Hearts = () => {
   const [keyword, setKeyword] = useState('');
