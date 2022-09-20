@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.serial.presentation;
 
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
-import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.application.CouponSerialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

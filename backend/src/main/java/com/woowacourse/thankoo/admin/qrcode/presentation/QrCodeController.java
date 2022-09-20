@@ -1,8 +1,8 @@
-package com.woowacourse.thankoo.admin.common.qrcode.presentation;
+package com.woowacourse.thankoo.admin.qrcode.presentation;
 
-import com.woowacourse.thankoo.admin.common.qrcode.application.QrCodeService;
-import com.woowacourse.thankoo.admin.common.qrcode.presentation.dto.LinkResponse;
-import com.woowacourse.thankoo.admin.common.qrcode.presentation.dto.SerialRequest;
+import com.woowacourse.thankoo.admin.qrcode.application.QrCodeService;
+import com.woowacourse.thankoo.admin.qrcode.presentation.dto.LinkResponse;
+import com.woowacourse.thankoo.admin.qrcode.presentation.dto.SerialRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

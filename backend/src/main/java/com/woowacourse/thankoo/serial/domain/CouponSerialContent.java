@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.serial.domain;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -41,5 +42,30 @@ public class CouponSerialContent {
         if (message.isBlank() || message.length() > MAX_MESSAGE_LENGTH) {
             throw new InvalidCouponSerialException(ErrorType.INVALID_COUPON_SERIAL_MESSAGE);
         }
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CouponSerialContent)) {
+            return false;
+        }
+        CouponSerialContent that = (CouponSerialContent) o;
+        return Objects.equals(title, that.title) && Objects.equals(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, message);
+    }
+
+    @Override
+    public String toString() {
+        return "CouponSerialContent{" +
+                "title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

@@ -5,7 +5,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -15,8 +14,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
-import com.woowacourse.thankoo.admin.common.qrcode.application.QrCodeService;
-import com.woowacourse.thankoo.admin.common.qrcode.presentation.dto.LinkResponse;
+import com.woowacourse.thankoo.admin.qrcode.application.QrCodeService;
+import com.woowacourse.thankoo.admin.qrcode.presentation.QrCodeController;
+import com.woowacourse.thankoo.admin.qrcode.presentation.dto.LinkResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
-import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
-        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(
+        AdminCouponSerialRequest couponSerialRequest = new AdminCouponSerialRequest(
                 1L, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")

@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.serial.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -74,5 +75,34 @@ public class CouponSerial extends BaseEntity {
 
     public void use() {
         this.status = CouponSerialStatus.USED;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CouponSerial)) {
+            return false;
+        }
+        CouponSerial that = (CouponSerial) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "CouponSerial{" +
+                "id=" + id +
+                ", serialCode=" + serialCode +
+                ", senderId=" + senderId +
+                ", couponSerialType=" + couponSerialType +
+                ", status=" + status +
+                ", content=" + content +
+                '}';
     }
 }

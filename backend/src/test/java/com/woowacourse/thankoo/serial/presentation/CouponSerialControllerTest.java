@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import com.woowacourse.thankoo.common.ControllerTest;
-import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;

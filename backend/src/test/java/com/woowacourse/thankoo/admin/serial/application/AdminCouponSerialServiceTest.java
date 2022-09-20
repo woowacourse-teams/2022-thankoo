@@ -14,7 +14,7 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponContentException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
-import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import java.util.List;
@@ -45,7 +45,7 @@ class AdminCouponSerialServiceTest {
         void save() {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            adminCouponSerialService.save(new CouponSerialRequest(
+            adminCouponSerialService.save(new AdminCouponSerialRequest(
                     member.getId(), "COFFEE", 5, NEO_TITLE, NEO_MESSAGE));
             List<CouponSerial> couponSerial = couponSerialRepository.findAll();
 
@@ -58,7 +58,7 @@ class AdminCouponSerialServiceTest {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
             assertThatThrownBy(() -> adminCouponSerialService.save(
-                    new CouponSerialRequest(member.getId() + 1, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE)))
+                    new AdminCouponSerialRequest(member.getId() + 1, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE)))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -70,7 +70,7 @@ class AdminCouponSerialServiceTest {
 
             assertThatThrownBy(
                     () -> adminCouponSerialService.save(
-                            new CouponSerialRequest(member.getId(), "NOOP", 5, NEO_TITLE, NEO_MESSAGE)))
+                            new AdminCouponSerialRequest(member.getId(), "NOOP", 5, NEO_TITLE, NEO_MESSAGE)))
                     .isInstanceOf(InvalidCouponContentException.class)
                     .hasMessage("존재하지 않는 쿠폰 타입입니다.");
         }

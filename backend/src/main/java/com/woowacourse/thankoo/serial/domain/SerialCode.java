@@ -30,7 +30,7 @@ public class SerialCode {
         }
     }
 
-    private static boolean isValidCode(final String code) {
+    private boolean isValidCode(final String code) {
         return !code.isBlank() && code.length() == CODE_LENGTH;
     }
 

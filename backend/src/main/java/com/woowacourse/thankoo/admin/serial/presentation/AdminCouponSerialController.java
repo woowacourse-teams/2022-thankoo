@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.admin.serial.presentation;
 import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialQueryService;
 import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialService;
 import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
-import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class AdminCouponSerialController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createSerial(@RequestBody final CouponSerialRequest couponSerialRequest) {
+    public ResponseEntity<Void> createSerials(@RequestBody final AdminCouponSerialRequest couponSerialRequest) {
         couponSerialService.save(couponSerialRequest);
         return ResponseEntity.ok().build();
     }

@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.admin.common.qrcode.presentation.dto;
+package com.woowacourse.thankoo.admin.qrcode.presentation.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.woowacourse.thankoo.admin.common.qrcode.application;
+package com.woowacourse.thankoo.admin.qrcode.application;
 
-import com.woowacourse.thankoo.admin.common.qrcode.presentation.dto.LinkResponse;
-import com.woowacourse.thankoo.admin.common.qrcode.presentation.dto.SerialRequest;
+import com.woowacourse.thankoo.admin.qrcode.presentation.dto.LinkResponse;
+import com.woowacourse.thankoo.admin.qrcode.presentation.dto.SerialRequest;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Collectors;

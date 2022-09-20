@@ -8,10 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class RandomStringCodeCreator implements CodeCreator {
 
-    private static final int CODE_LENGTH = 8;
-
     private static final Random RANDOM = ThreadLocalRandom.current();
 
+    private static final int CODE_LENGTH = 8;
     private static final int START_INDEX = 48;
     private static final int END_INDEX = 122;
 

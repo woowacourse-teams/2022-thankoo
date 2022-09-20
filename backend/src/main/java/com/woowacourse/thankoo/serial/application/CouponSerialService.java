@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.serial.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -46,14 +46,13 @@ public class CouponSerialService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    private static void validateStatus(final CouponSerialStatus status) {
+    private void validateStatus(final CouponSerialStatus status) {
         if (status.isUsed()) {
             throw new InvalidCouponSerialException(ErrorType.INVALID_COUPON_SERIAL_EXPIRATION);
         }
     }
 
-    // todo: 내용 생성 수정
-    private static Coupon createCoupon(final Member receiver, final CouponSerial couponSerial) {
+    private Coupon createCoupon(final Member receiver, final CouponSerial couponSerial) {
         return new Coupon(couponSerial.getSenderId(), receiver.getId(),
                 new CouponContent(CouponType.COFFEE, "Sda", "asd"),
                 CouponStatus.NOT_USED);

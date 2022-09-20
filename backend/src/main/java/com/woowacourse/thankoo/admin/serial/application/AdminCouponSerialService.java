@@ -6,7 +6,7 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
-import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
@@ -26,11 +26,11 @@ public class AdminCouponSerialService {
     private final MemberRepository memberRepository;
     private final CodeCreator codeCreator;
 
-    public void save(final CouponSerialRequest couponSerialRequest) {
-        Member coach = getMember(couponSerialRequest.getMemberId());
+    public void save(final AdminCouponSerialRequest couponSerialRequest) {
+        Member member = getMember(couponSerialRequest.getMemberId());
         SerialCodes serialCodes = SerialCodes.of(couponSerialRequest.getQuantity(), codeCreator);
         validateDuplicate(serialCodes);
-        couponSerialRepository.saveAll(create(couponSerialRequest, serialCodes, coach.getId()));
+        couponSerialRepository.saveAll(create(couponSerialRequest, serialCodes, member.getId()));
     }
 
     private Member getMember(final Long memberId) {
@@ -44,7 +44,7 @@ public class AdminCouponSerialService {
         }
     }
 
-    private static List<CouponSerial> create(final CouponSerialRequest couponSerialRequest,
+    private List<CouponSerial> create(final AdminCouponSerialRequest couponSerialRequest,
                                              final SerialCodes serialCodes,
                                              final Long senderId) {
         List<SerialCode> values = serialCodes.getValues();
