@@ -26,6 +26,7 @@ public class AdminCouponSerialController {
     public ResponseEntity<List<CouponSerialResponse>> getSerial(@RequestParam("memberId") final Long memberId) {
         return ResponseEntity.ok(couponSerialQueryService.getByMemberId(memberId));
     }
+
     @PostMapping
     public ResponseEntity<Void> createSerial(@RequestBody final CouponSerialRequest couponSerialRequest) {
         couponSerialService.save(couponSerialRequest);
