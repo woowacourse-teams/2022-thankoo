@@ -43,7 +43,7 @@ class CouponSerialRepositoryTest {
         Member sender = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
         couponSerialRepository.save(new CouponSerial(SERIAL_1, sender.getId(), COFFEE, NOT_USED));
 
-        CouponSerial couponSerial = couponSerialRepository.findBySerialCodeValue(SERIAL_1);
+        CouponSerial couponSerial = couponSerialRepository.findBySerialCodeValue(SERIAL_1).get();
 
         assertThat(couponSerial.getSerialCode().getValue()).isEqualTo(SERIAL_1);
     }

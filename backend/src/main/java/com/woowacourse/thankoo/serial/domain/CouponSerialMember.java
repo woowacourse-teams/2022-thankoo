@@ -38,8 +38,4 @@ public class CouponSerialMember {
     public boolean isUsed() {
         return status == CouponSerialStatus.USED;
     }
-
-    public CouponSerial createUsedCouponSerial() {
-        return new CouponSerial(id, code, senderId, couponType, CouponSerialStatus.USED);
-    }
 }

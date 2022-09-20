@@ -63,4 +63,8 @@ public class CouponSerial extends BaseEntity {
                         final CouponSerialStatus status) {
         this(null, serialCode, senderId, couponSerialType, status);
     }
+
+    public void use() {
+        this.status = CouponSerialStatus.USED;
+    }
 }

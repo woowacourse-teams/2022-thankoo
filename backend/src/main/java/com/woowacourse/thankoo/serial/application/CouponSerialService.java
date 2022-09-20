@@ -3,15 +3,17 @@ package com.woowacourse.thankoo.serial.application;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
+import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponStatus;
+import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
-import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
-import com.woowacourse.thankoo.serial.domain.CouponSerialQueryRepository;
+import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
+import com.woowacourse.thankoo.serial.domain.CouponSerialStatus;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
-import com.woowacourse.thankoo.serial.infrastructure.CouponSerialContentFactory;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,18 +23,22 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CouponSerialService {
 
-    private final CouponSerialQueryRepository couponSerialQueryRepository;
     private final CouponSerialRepository couponSerialRepository;
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
 
     public void use(final Long memberId, final CouponSerialRequest couponSerialRequest) {
         Member receiver = getMemberById(memberId);
-        CouponSerialMember couponSerialMember = getCouponSerialMember(couponSerialRequest.getSerialCode());
-        validateStatus(couponSerialMember);
+        CouponSerial couponSerial = getSerialByName(couponSerialRequest.getSerialCode());
+        Coupon coupon = createCoupon(receiver, couponSerial);
+        validateStatus(couponSerial.getStatus());
+        couponSerial.use();
+        couponRepository.save(coupon);
+    }
 
-        couponSerialRepository.save(couponSerialMember.createUsedCouponSerial());
-        couponRepository.save(createCoupon(receiver, couponSerialMember));
+    private CouponSerial getSerialByName(final String serialCode) {
+        return couponSerialRepository.findBySerialCodeValue(serialCode)
+                .orElseThrow(() -> new InvalidCouponSerialException(ErrorType.NOT_FOUND_COUPON_SERIAL));
     }
 
     private Member getMemberById(final Long memberId) {
@@ -40,19 +46,16 @@ public class CouponSerialService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    private CouponSerialMember getCouponSerialMember(final String serialCode) {
-        return couponSerialQueryRepository.findByCode(serialCode)
-                .orElseThrow(() -> new InvalidCouponSerialException(ErrorType.NOT_FOUND_COUPON_SERIAL));
-    }
-
-    private static void validateStatus(final CouponSerialMember couponSerialMember) {
-        if (couponSerialMember.isUsed()) {
+    private static void validateStatus(final CouponSerialStatus status) {
+        if (status.isUsed()) {
             throw new InvalidCouponSerialException(ErrorType.INVALID_COUPON_SERIAL_EXPIRATION);
         }
     }
 
-    private Coupon createCoupon(final Member receiver, final CouponSerialMember couponSerialMember) {
-        CouponSerialContentFactory couponSerialContentFactory = new CouponSerialContentFactory(couponSerialMember);
-        return couponSerialMember.createCoupon(receiver.getId(), couponSerialContentFactory.create());
+    // todo: 내용 생성 수정
+    private static Coupon createCoupon(final Member receiver, final CouponSerial couponSerial) {
+        return new Coupon(couponSerial.getSenderId(), receiver.getId(),
+                new CouponContent(CouponType.COFFEE, "Sda", "asd"),
+                CouponStatus.NOT_USED);
     }
 }
