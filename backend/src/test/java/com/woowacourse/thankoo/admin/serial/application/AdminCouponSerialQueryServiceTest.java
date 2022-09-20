@@ -14,7 +14,7 @@ import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
 import static com.woowacourse.thankoo.serial.domain.CouponSerialType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
+import com.woowacourse.thankoo.admin.serial.presentation.dto.AdminCouponSerialResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -50,8 +50,8 @@ class AdminCouponSerialQueryServiceTest {
                 new CouponSerial(SERIAL_2, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
         couponSerialRepository.save(new CouponSerial(SERIAL_3, hoho.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
-        List<CouponSerialResponse> couponSerialResponses = adminCouponSerialQueryService.getByMemberId(member.getId());
+        List<AdminCouponSerialResponse> adminCouponSerialRespons = adminCouponSerialQueryService.getByMemberId(member.getId());
 
-        assertThat(couponSerialResponses).hasSize(2);
+        assertThat(adminCouponSerialRespons).hasSize(2);
     }
 }

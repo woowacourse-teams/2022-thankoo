@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class SerialRequest {
+public class AdminSerialRequest {
 
     private String serial;
 
-    public SerialRequest(final String serial) {
+    public AdminSerialRequest(final String serial) {
         this.serial = serial;
     }
 }

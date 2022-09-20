@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class LinkResponse {
+public class AdminLinkResponse {
 
     private String link;
 
-    public LinkResponse(final String link) {
+    public AdminLinkResponse(final String link) {
         this.link = link;
     }
 }

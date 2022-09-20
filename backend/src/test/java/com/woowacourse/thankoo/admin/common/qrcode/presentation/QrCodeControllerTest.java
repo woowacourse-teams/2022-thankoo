@@ -14,9 +14,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
-import com.woowacourse.thankoo.admin.qrcode.application.QrCodeService;
+import com.woowacourse.thankoo.admin.qrcode.application.AdminQrCodeService;
 import com.woowacourse.thankoo.admin.qrcode.presentation.QrCodeController;
-import com.woowacourse.thankoo.admin.qrcode.presentation.dto.LinkResponse;
+import com.woowacourse.thankoo.admin.qrcode.presentation.dto.AdminLinkResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,16 +30,16 @@ import org.springframework.test.web.servlet.ResultActions;
 class QrCodeControllerTest extends AdminControllerTest {
 
     @MockBean
-    private QrCodeService qrCodeService;
+    private AdminQrCodeService adminQrCodeService;
 
     @DisplayName("시리얼 코드로 QR 코드를 가져온다.")
     @Test
     void getCoupons() throws Exception {
-        given(qrCodeService.getLinks(anyList()))
+        given(adminQrCodeService.getLinks(anyList()))
                 .willReturn(List.of(
-                        new LinkResponse("http://test-qrserver/1"),
-                        new LinkResponse("http://test-qrserver/2"),
-                        new LinkResponse("http://test-qrserver/3")
+                        new AdminLinkResponse("http://test-qrserver/1"),
+                        new AdminLinkResponse("http://test-qrserver/2"),
+                        new AdminLinkResponse("http://test-qrserver/3")
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/admin/qrcode?serial=1234"))

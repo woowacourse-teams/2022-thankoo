@@ -1,11 +1,7 @@
 package com.woowacourse.thankoo.admin.serial.domain;
 
-import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
-
 import com.woowacourse.thankoo.admin.common.exception.AdminErrorType;
 import com.woowacourse.thankoo.admin.serial.excepion.AdminInvalidCouponSerialException;
-import com.woowacourse.thankoo.serial.domain.CouponSerial;
-import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
 import java.util.HashSet;
 import java.util.List;
@@ -14,25 +10,25 @@ import java.util.stream.IntStream;
 import lombok.Getter;
 
 @Getter
-public class SerialCodes {
+public class AdminSerialCodes {
 
     private final static int MAX_SIZE = 100;
 
     private final List<SerialCode> values;
 
-    public SerialCodes(final List<SerialCode> values) {
+    public AdminSerialCodes(final List<SerialCode> values) {
         List<SerialCode> couponSerials = List.copyOf(values);
         validate(values, couponSerials);
         this.values = values;
     }
 
-    public static SerialCodes of(final int size, final CodeCreator codeCreator) {
-        return new SerialCodes(create(size, codeCreator));
+    public static AdminSerialCodes of(final int size, final AdminCodeCreator adminCodeCreator) {
+        return new AdminSerialCodes(create(size, adminCodeCreator));
     }
 
-    private static List<SerialCode> create(final int size, final CodeCreator codeCreator) {
+    private static List<SerialCode> create(final int size, final AdminCodeCreator adminCodeCreator) {
         return IntStream.range(0, size)
-                .mapToObj(it -> new SerialCode(codeCreator.create()))
+                .mapToObj(it -> new SerialCode(adminCodeCreator.create()))
                 .collect(Collectors.toList());
     }
 
@@ -51,12 +47,6 @@ public class SerialCodes {
         if (values.size() > MAX_SIZE) {
             throw new AdminInvalidCouponSerialException(AdminErrorType.INVALID_COUPON_SERIAL_SIZE);
         }
-    }
-
-    public List<CouponSerial> createCouponSerials(final Long memberId, final CouponSerialType couponSerialType) {
-        return values.stream()
-                .map(code -> new CouponSerial(code, memberId, couponSerialType, NOT_USED, null))
-                .collect(Collectors.toList());
     }
 
     public List<String> getSerialCodeValues() {

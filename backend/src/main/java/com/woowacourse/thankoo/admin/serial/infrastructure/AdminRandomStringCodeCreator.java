@@ -1,12 +1,12 @@
 package com.woowacourse.thankoo.admin.serial.infrastructure;
 
-import com.woowacourse.thankoo.admin.serial.domain.CodeCreator;
+import com.woowacourse.thankoo.admin.serial.domain.AdminCodeCreator;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RandomStringCodeCreator implements CodeCreator {
+public class AdminRandomStringCodeCreator implements AdminCodeCreator {
 
     private static final Random RANDOM = ThreadLocalRandom.current();
 

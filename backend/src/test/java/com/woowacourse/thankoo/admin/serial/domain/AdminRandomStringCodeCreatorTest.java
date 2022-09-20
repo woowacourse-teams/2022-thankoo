@@ -2,17 +2,17 @@ package com.woowacourse.thankoo.admin.serial.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.thankoo.admin.serial.infrastructure.RandomStringCodeCreator;
+import com.woowacourse.thankoo.admin.serial.infrastructure.AdminRandomStringCodeCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class RandomStringCodeCreatorTest {
+class AdminRandomStringCodeCreatorTest {
 
     @DisplayName("랜덤 스트링을 생성한다.")
     @Test
     void nextString() {
-        CodeCreator codeCreator = new RandomStringCodeCreator();
+        AdminCodeCreator adminCodeCreator = new AdminRandomStringCodeCreator();
 
-        assertThat(codeCreator.create()).hasSize(8);
+        assertThat(adminCodeCreator.create()).hasSize(8);
     }
 }

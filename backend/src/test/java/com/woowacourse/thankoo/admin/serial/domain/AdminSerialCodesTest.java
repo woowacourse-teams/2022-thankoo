@@ -7,22 +7,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.admin.serial.excepion.AdminInvalidCouponSerialException;
-import com.woowacourse.thankoo.serial.domain.CouponSerial;
-import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
-import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("CouponSerials 는 ")
-class SerialCodesTest {
+class AdminSerialCodesTest {
 
     @DisplayName("시리얼 번호가 중복되는 경우 예외를 발생한다.")
     @Test
     void duplicateSerialCode() {
-        assertThatThrownBy(() -> new SerialCodes(List.of(
+        assertThatThrownBy(() -> new AdminSerialCodes(List.of(
                 new SerialCode(SERIAL_1), new SerialCode(SERIAL_1))))
                 .isInstanceOf(AdminInvalidCouponSerialException.class)
                 .hasMessage("시리얼 번호가 중복됩니다.");
@@ -36,7 +33,7 @@ class SerialCodesTest {
             codes.add(new SerialCode("10000" + i));
         }
 
-        assertThatThrownBy(() -> new SerialCodes(codes))
+        assertThatThrownBy(() -> new AdminSerialCodes(codes))
                 .isInstanceOf(AdminInvalidCouponSerialException.class)
                 .hasMessage("생성할 수 있는 시리얼 번호를 초과했습니다.");
     }
@@ -44,28 +41,17 @@ class SerialCodesTest {
     @DisplayName("개수와 코드 생성 방식으로 시리얼번호를 생성한다.")
     @Test
     void of() {
-        SerialCodes serialCodes = SerialCodes.of(1, new TestSerialCodeCreator());
+        AdminSerialCodes adminSerialCodes = AdminSerialCodes.of(1, new TestSerialAdminCodeCreator());
 
-        assertThat(serialCodes.getValues()).hasSize(1);
+        assertThat(adminSerialCodes.getValues()).hasSize(1);
     }
 
     @DisplayName("시리얼 코드를 조회한다.")
     @Test
     void getSerialCodeValues() {
-        SerialCodes serialCodes = new SerialCodes(
+        AdminSerialCodes adminSerialCodes = new AdminSerialCodes(
                 List.of(new SerialCode(SERIAL_1), new SerialCode(SERIAL_2), new SerialCode(SERIAL_3)));
 
-        assertThat(serialCodes.getSerialCodeValues()).containsExactly(SERIAL_1, SERIAL_2, SERIAL_3);
-    }
-
-    @DisplayName("시리얼 코드로 쿠폰 시리얼을 생성한다.")
-    @Test
-    void createCouponSerials() {
-        SerialCodes serialCodes = new SerialCodes(
-                List.of(new SerialCode(SERIAL_1), new SerialCode(SERIAL_2), new SerialCode(SERIAL_3)));
-
-        List<CouponSerial> couponSerials = serialCodes.createCouponSerials(1L, CouponSerialType.COFFEE);
-
-        assertThat(couponSerials).hasSize(3);
+        assertThat(adminSerialCodes.getSerialCodeValues()).containsExactly(SERIAL_1, SERIAL_2, SERIAL_3);
     }
 }

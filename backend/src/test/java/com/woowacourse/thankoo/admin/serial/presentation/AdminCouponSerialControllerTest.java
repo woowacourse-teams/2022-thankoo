@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
-import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
+import com.woowacourse.thankoo.admin.serial.presentation.dto.AdminCouponSerialResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,9 +64,9 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     void getByMemberId() throws Exception {
         given(adminCouponSerialQueryService.getByMemberId(anyLong()))
                 .willReturn(List.of(
-                        new CouponSerialResponse(1L, SERIAL_1, 2L, NEO_NAME, "COFFEE"),
-                        new CouponSerialResponse(2L, SERIAL_2, 2L, NEO_NAME, "COFFEE"),
-                        new CouponSerialResponse(3L, SERIAL_3, 2L, NEO_NAME, "COFFEE")
+                        new AdminCouponSerialResponse(1L, SERIAL_1, 2L, NEO_NAME, "COFFEE"),
+                        new AdminCouponSerialResponse(2L, SERIAL_2, 2L, NEO_NAME, "COFFEE"),
+                        new AdminCouponSerialResponse(3L, SERIAL_3, 2L, NEO_NAME, "COFFEE")
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/admin/serial")

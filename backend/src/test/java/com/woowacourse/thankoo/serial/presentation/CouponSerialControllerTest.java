@@ -14,7 +14,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
+import com.woowacourse.thankoo.admin.serial.presentation.dto.AdminCouponSerialResponse;
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
@@ -35,7 +35,7 @@ class CouponSerialControllerTest extends ControllerTest {
 
         CouponSerialRequest request = new CouponSerialRequest(SERIAL_1);
         given(couponSerialQueryService.getByCode(anyString()))
-                .willReturn(new CouponSerialResponse(1L, request.getSerialCode(), 1L, HUNI_NAME,
+                .willReturn(new AdminCouponSerialResponse(1L, request.getSerialCode(), 1L, HUNI_NAME,
                         CouponType.COFFEE.getValue()));
 
         ResultActions resultActions = mockMvc.perform(post("/api/coupon-serials")

@@ -4,8 +4,8 @@ import com.woowacourse.thankoo.admin.common.exception.AdminErrorType;
 import com.woowacourse.thankoo.admin.member.exception.AdminNotFoundMemberException;
 import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
 import com.woowacourse.thankoo.admin.serial.domain.AdminCouponSerialQueryRepository;
-import com.woowacourse.thankoo.admin.serial.domain.CodeCreator;
-import com.woowacourse.thankoo.admin.serial.domain.SerialCodes;
+import com.woowacourse.thankoo.admin.serial.domain.AdminCodeCreator;
+import com.woowacourse.thankoo.admin.serial.domain.AdminSerialCodes;
 import com.woowacourse.thankoo.admin.serial.excepion.AdminInvalidCouponSerialException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -26,13 +26,13 @@ public class AdminCouponSerialService {
     private final AdminCouponSerialQueryRepository couponSerialQueryRepository;
     private final CouponSerialRepository couponSerialRepository;
     private final MemberRepository memberRepository;
-    private final CodeCreator codeCreator;
+    private final AdminCodeCreator adminCodeCreator;
 
     public void save(final AdminCouponSerialRequest couponSerialRequest) {
         Member member = getMember(couponSerialRequest.getMemberId());
-        SerialCodes serialCodes = SerialCodes.of(couponSerialRequest.getQuantity(), codeCreator);
-        validateDuplicate(serialCodes);
-        couponSerialRepository.saveAll(create(couponSerialRequest, serialCodes, member.getId()));
+        AdminSerialCodes adminSerialCodes = AdminSerialCodes.of(couponSerialRequest.getQuantity(), adminCodeCreator);
+        validateDuplicate(adminSerialCodes);
+        couponSerialRepository.saveAll(create(couponSerialRequest, adminSerialCodes, member.getId()));
     }
 
     private Member getMember(final Long memberId) {
@@ -40,16 +40,16 @@ public class AdminCouponSerialService {
                 .orElseThrow(() -> new AdminNotFoundMemberException(AdminErrorType.NOT_FOUND_MEMBER));
     }
 
-    private void validateDuplicate(final SerialCodes serialCodes) {
-        if (couponSerialQueryRepository.existsBySerialCodeValue(serialCodes.getSerialCodeValues())) {
+    private void validateDuplicate(final AdminSerialCodes adminSerialCodes) {
+        if (couponSerialQueryRepository.existsBySerialCodeValue(adminSerialCodes.getSerialCodeValues())) {
             throw new AdminInvalidCouponSerialException(AdminErrorType.DUPLICATE_COUPON_SERIAL);
         }
     }
 
     private List<CouponSerial> create(final AdminCouponSerialRequest couponSerialRequest,
-                                      final SerialCodes serialCodes,
+                                      final AdminSerialCodes adminSerialCodes,
                                       final Long senderId) {
-        List<SerialCode> values = serialCodes.getValues();
+        List<SerialCode> values = adminSerialCodes.getValues();
         return values.stream()
                 .map(code -> couponSerialRequest.from(code, senderId))
                 .collect(Collectors.toList());

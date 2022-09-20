@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
+import com.woowacourse.thankoo.admin.serial.presentation.dto.AdminCouponSerialResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -50,7 +50,7 @@ class CouponSerialQueryServiceTest {
             couponSerialRepository.save(
                     new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
-            CouponSerialResponse response = couponSerialQueryService.getByCode(SERIAL_1);
+            AdminCouponSerialResponse response = couponSerialQueryService.getByCode(SERIAL_1);
 
             assertAll(
                     () -> assertThat(response.getCouponType()).isEqualTo("COFFEE"),
