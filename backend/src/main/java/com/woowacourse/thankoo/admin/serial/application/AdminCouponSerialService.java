@@ -1,8 +1,10 @@
 package com.woowacourse.thankoo.admin.serial.application;
 
+import com.woowacourse.thankoo.admin.common.exception.AdminErrorType;
 import com.woowacourse.thankoo.admin.serial.domain.AdminCouponSerialQueryRepository;
 import com.woowacourse.thankoo.admin.serial.domain.CodeCreator;
 import com.woowacourse.thankoo.admin.serial.domain.SerialCodes;
+import com.woowacourse.thankoo.admin.serial.excepion.AdminInvalidCouponSerialException;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -42,7 +44,7 @@ public class AdminCouponSerialService {
 
     private void validateDuplicate(final SerialCodes serialCodes) {
         if (couponSerialQueryRepository.existsBySerialCodeValue(serialCodes.getSerialCodeValues())) {
-            throw new InvalidCouponSerialException(ErrorType.DUPLICATE_COUPON_SERIAL);
+            throw new AdminInvalidCouponSerialException(AdminErrorType.DUPLICATE_COUPON_SERIAL);
         }
     }
 
