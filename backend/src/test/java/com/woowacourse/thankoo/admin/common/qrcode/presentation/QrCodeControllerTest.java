@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.admin.common.qrcode.presentation;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -15,12 +15,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
-import com.woowacourse.thankoo.admin.common.qrcode.infrastructure.QrCodeClient;
+import com.woowacourse.thankoo.admin.common.qrcode.application.QrCodeService;
+import com.woowacourse.thankoo.admin.common.qrcode.presentation.dto.LinkResponse;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -29,13 +30,17 @@ import org.springframework.test.web.servlet.ResultActions;
 class QrCodeControllerTest extends AdminControllerTest {
 
     @MockBean
-    private QrCodeClient qrCodeClient;
+    private QrCodeService qrCodeService;
 
     @DisplayName("시리얼 코드로 QR 코드를 가져온다.")
     @Test
     void getCoupons() throws Exception {
-        given(qrCodeClient.getQrCode(anyString()))
-                .willReturn(new ClassPathResource("/static/thankoo.png"));
+        given(qrCodeService.getLinks(anyList()))
+                .willReturn(List.of(
+                        new LinkResponse("http://test-qrserver/1"),
+                        new LinkResponse("http://test-qrserver/2"),
+                        new LinkResponse("http://test-qrserver/3")
+                ));
 
         ResultActions resultActions = mockMvc.perform(get("/admin/qrcode?serial=1234"))
                 .andDo(print())
@@ -45,7 +50,7 @@ class QrCodeControllerTest extends AdminControllerTest {
                 Preprocessors.preprocessRequest(prettyPrint()),
                 requestParameters(parameterWithName("serial").description("serial code")),
                 responseFields(
-                        fieldWithPath("[].link").type(NUMBER).description("link")
+                        fieldWithPath("[].link").type(STRING).description("link")
                 )));
     }
 }
