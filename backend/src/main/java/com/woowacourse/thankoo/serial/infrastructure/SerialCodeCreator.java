@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.serial.infrastructer;
+package com.woowacourse.thankoo.serial.infrastructure;
 
 import com.woowacourse.thankoo.common.util.RandomUtils;
 import com.woowacourse.thankoo.serial.domain.CodeCreator;

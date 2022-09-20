@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.serial.infrastructer;
+package com.woowacourse.thankoo.serial.infrastructure;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;

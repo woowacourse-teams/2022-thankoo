@@ -1,9 +1,6 @@
 package com.woowacourse.thankoo.serial.presentation;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -21,7 +18,6 @@ import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialRespons
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
-import com.woowacourse.thankoo.member.domain.Member;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,8 +32,6 @@ class CouponSerialControllerTest extends ControllerTest {
     void createCouponWithSerial() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-
-        new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
 
         CouponSerialRequest request = new CouponSerialRequest(SERIAL_1);
         given(couponSerialQueryService.getByCode(anyString()))

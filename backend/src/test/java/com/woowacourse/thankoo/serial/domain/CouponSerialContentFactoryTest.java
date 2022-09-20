@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
-import com.woowacourse.thankoo.serial.infrastructer.CouponSerialContentFactory;
+import com.woowacourse.thankoo.serial.infrastructure.CouponSerialContentFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

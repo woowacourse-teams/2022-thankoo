@@ -13,7 +13,7 @@ import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
 import com.woowacourse.thankoo.serial.domain.SerialCodes;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
-import com.woowacourse.thankoo.serial.infrastructer.SerialCodeCreator;
+import com.woowacourse.thankoo.serial.infrastructure.SerialCodeCreator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

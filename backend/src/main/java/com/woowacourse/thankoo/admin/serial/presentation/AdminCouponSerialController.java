@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin/serial")
 public class AdminCouponSerialController {
 
-    private final AdminCouponSerialService couponSerialService;
     private final AdminCouponSerialQueryService couponSerialQueryService;
+    private final AdminCouponSerialService couponSerialService;
 
     @GetMapping
     public ResponseEntity<List<CouponSerialResponse>> getSerial(@RequestParam("memberId") final Long memberId) {

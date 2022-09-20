@@ -11,7 +11,7 @@ import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
 import com.woowacourse.thankoo.serial.domain.CouponSerialQueryRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
-import com.woowacourse.thankoo.serial.infrastructer.CouponSerialContentFactory;
+import com.woowacourse.thankoo.serial.infrastructure.CouponSerialContentFactory;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

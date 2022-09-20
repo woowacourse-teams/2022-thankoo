@@ -42,9 +42,6 @@ class CouponSerialServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private CouponRepository couponRepository;
-
     @DisplayName("받는이와 시리얼 번호로 쿠폰을 생성할 때")
     @Nested
     class CreateCouponSerial {
