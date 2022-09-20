@@ -20,7 +20,8 @@ public class QrCodeController {
 
     @GetMapping
     @RequestMapping
-    public ResponseEntity<List<LinkResponse>> getQrCode(@RequestParam("serial") final List<SerialRequest> serialRequest) {
+    public ResponseEntity<List<LinkResponse>> getQrCode(
+            @RequestParam("serial") final List<SerialRequest> serialRequest) {
         return ResponseEntity.ok(qrCodeService.getLinks(serialRequest));
     }
 }

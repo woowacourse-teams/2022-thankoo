@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.member.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
-import com.woowacourse.thankoo.common.exception.BadRequestException;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;

@@ -2,11 +2,11 @@ package com.woowacourse.thankoo.admin.serial.domain;
 
 import static com.woowacourse.thankoo.serial.domain.CouponSerialStatus.NOT_USED;
 
-import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.admin.common.exception.AdminErrorType;
+import com.woowacourse.thankoo.admin.serial.excepion.AdminInvalidCouponSerialException;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialType;
 import com.woowacourse.thankoo.serial.domain.SerialCode;
-import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,13 +43,13 @@ public class SerialCodes {
 
     private void validateDuplicateCode(final List<SerialCode> values) {
         if (new HashSet<>(values).size() != values.size()) {
-            throw new InvalidCouponSerialException(ErrorType.DUPLICATE_COUPON_SERIAL);
+            throw new AdminInvalidCouponSerialException(AdminErrorType.DUPLICATE_COUPON_SERIAL);
         }
     }
 
     private void validateSize(final List<SerialCode> values) {
         if (values.size() > MAX_SIZE) {
-            throw new InvalidCouponSerialException(ErrorType.INVALID_COUPON_SERIAL_SIZE);
+            throw new AdminInvalidCouponSerialException(AdminErrorType.INVALID_COUPON_SERIAL_SIZE);
         }
     }
 

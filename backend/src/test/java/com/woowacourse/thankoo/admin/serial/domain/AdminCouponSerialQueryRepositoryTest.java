@@ -22,7 +22,6 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
-import com.woowacourse.thankoo.serial.domain.CouponSerialQueryRepository;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import java.util.List;
 import javax.sql.DataSource;
@@ -100,7 +99,6 @@ class AdminCouponSerialQueryRepositoryTest {
                 new CouponSerial(SERIAL_2, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
         couponSerialRepository.save(
                 new CouponSerial(SERIAL_3, sender.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
-
 
         assertThat(adminCouponSerialQueryRepository.existsBySerialCodeValue(List.of(SERIAL_1, SERIAL_2))).isTrue();
     }

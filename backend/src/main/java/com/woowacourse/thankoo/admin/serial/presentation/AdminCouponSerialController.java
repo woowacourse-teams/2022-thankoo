@@ -2,8 +2,8 @@ package com.woowacourse.thankoo.admin.serial.presentation;
 
 import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialQueryService;
 import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialService;
-import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
+import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

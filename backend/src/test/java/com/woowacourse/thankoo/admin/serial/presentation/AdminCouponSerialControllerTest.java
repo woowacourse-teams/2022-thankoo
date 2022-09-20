@@ -21,8 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
-import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
+import com.woowacourse.thankoo.admin.serial.presentation.dto.CouponSerialResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
