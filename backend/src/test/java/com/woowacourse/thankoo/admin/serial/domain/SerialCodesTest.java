@@ -1,9 +1,14 @@
-package com.woowacourse.thankoo.serial.domain;
+package com.woowacourse.thankoo.admin.serial.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_2;
+import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_3;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.thankoo.serial.domain.CouponSerial;
+import com.woowacourse.thankoo.serial.domain.CouponSerialType;
+import com.woowacourse.thankoo.serial.domain.SerialCode;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +46,25 @@ class SerialCodesTest {
         SerialCodes serialCodes = SerialCodes.of(1, new TestSerialCodeCreator());
 
         assertThat(serialCodes.getValues()).hasSize(1);
+    }
+
+    @DisplayName("시리얼 코드를 조회한다.")
+    @Test
+    void getSerialCodeValues() {
+        SerialCodes serialCodes = new SerialCodes(
+                List.of(new SerialCode(SERIAL_1), new SerialCode(SERIAL_2), new SerialCode(SERIAL_3)));
+
+        assertThat(serialCodes.getSerialCodeValues()).containsExactly(SERIAL_1, SERIAL_2, SERIAL_3);
+    }
+
+    @DisplayName("시리얼 코드로 쿠폰 시리얼을 생성한다.")
+    @Test
+    void createCouponSerials() {
+        SerialCodes serialCodes = new SerialCodes(
+                List.of(new SerialCode(SERIAL_1), new SerialCode(SERIAL_2), new SerialCode(SERIAL_3)));
+
+        List<CouponSerial> couponSerials = serialCodes.createCouponSerials(1L, CouponSerialType.COFFEE);
+
+        assertThat(couponSerials).hasSize(3);
     }
 }
