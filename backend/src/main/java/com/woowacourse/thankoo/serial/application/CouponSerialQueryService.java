@@ -19,7 +19,7 @@ public class CouponSerialQueryService {
     private final CouponSerialQueryRepository couponSerialQueryRepository;
     private final MemberQueryRepository memberQueryRepository;
 
-    public CouponSerialResponse getByCode(final Long memberId, final String code) {
+    public CouponSerialResponse getCouponSerialByCode(final Long memberId, final String code) {
         validateExistedMember(memberId);
         return CouponSerialResponse.from(getCouponSerialMember(code));
     }

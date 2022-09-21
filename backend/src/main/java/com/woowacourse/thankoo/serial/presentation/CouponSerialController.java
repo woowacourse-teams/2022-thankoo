@@ -26,7 +26,7 @@ public class CouponSerialController {
     public ResponseEntity<CouponSerialResponse> getCouponSerialBySerialCode(
             @AuthenticationPrincipal final Long memberId,
             @RequestParam final String code) {
-        return ResponseEntity.ok(couponSerialQueryService.getByCode(memberId, code));
+        return ResponseEntity.ok(couponSerialQueryService.getCouponSerialByCode(memberId, code));
     }
 
     @PostMapping

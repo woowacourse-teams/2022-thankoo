@@ -51,7 +51,7 @@ class CouponSerialQueryServiceTest {
             couponSerialRepository.save(
                     new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
-            CouponSerialResponse response = couponSerialQueryService.getByCode(member.getId(), SERIAL_1);
+            CouponSerialResponse response = couponSerialQueryService.getCouponSerialByCode(member.getId(), SERIAL_1);
 
             assertAll(
                     () -> assertThat(response.getCouponType()).isEqualTo("COFFEE"),
@@ -65,7 +65,7 @@ class CouponSerialQueryServiceTest {
         void getCouponSerialByNotExistsSerialCode() {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            assertThatThrownBy(() -> couponSerialQueryService.getByCode(member.getId(), SERIAL_1))
+            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(member.getId(), SERIAL_1))
                     .isInstanceOf(InvalidCouponSerialException.class)
                     .hasMessage("존재하지 않는 쿠폰 시리얼 번호입니다.");
         }
@@ -75,7 +75,7 @@ class CouponSerialQueryServiceTest {
         void getCouponSerialByNotExistsMember() {
             couponSerialRepository.save(new CouponSerial(SERIAL_1, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
-            assertThatThrownBy(() -> couponSerialQueryService.getByCode(1L, SERIAL_1))
+            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(1L, SERIAL_1))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
