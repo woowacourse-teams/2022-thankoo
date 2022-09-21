@@ -1,9 +1,6 @@
 import styled from '@emotion/styled';
-import Header from '../components/@shared/Header';
-import HeaderText from '../components/@shared/HeaderText';
-import PageLayout from '../components/@shared/PageLayout';
-import UserProfileButton from '../components/@shared/UserProfileButton';
-import BottomNavBar from '../components/PageButton/BottomNavBar';
+import HeaderText from '../components/@shared/Layout/HeaderText';
+import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
 import { COUPON_IMAGE } from '../constants/coupon';
 import useMeetings from '../hooks/Meetings/useMeetings';
 import NoMeeting from './../components/@shared/noContent/NoMeeting';
@@ -16,19 +13,14 @@ const Meetings = () => {
   }
 
   return (
-    <PageLayout>
-      <Header>
-        <S.UserProfile>
-          <UserProfileButton />
-        </S.UserProfile>
-        <HeaderText>
-          {meetings?.length
-            ? isTodayMeetingExist
-              ? '오늘 예정된 약속이 있습니다'
-              : `${diffWithNearestDate}일 뒤 약속이 있습니다`
-            : '예정된 약속이 없습니다.'}
-        </HeaderText>
-      </Header>
+    <MainPageLayout>
+      <S.HeaderText>
+        {meetings?.length
+          ? isTodayMeetingExist
+            ? '오늘 예정된 약속이 있습니다'
+            : `${diffWithNearestDate}일 뒤 약속이 있습니다`
+          : '예정된 약속이 없습니다.'}
+      </S.HeaderText>
       <S.Body>
         {meetings?.length !== 0 ? (
           meetings?.map((meeting, idx) => (
@@ -58,9 +50,8 @@ const Meetings = () => {
         ) : (
           <NoMeeting />
         )}
-        <BottomNavBar />
       </S.Body>
-    </PageLayout>
+    </MainPageLayout>
   );
 };
 
@@ -71,10 +62,8 @@ type MeetingWrapperProps = {
 };
 
 const S = {
-  UserProfile: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
+  HeaderText: styled(HeaderText)`
+    color: white;
   `,
   Body: styled.section`
     display: flex;

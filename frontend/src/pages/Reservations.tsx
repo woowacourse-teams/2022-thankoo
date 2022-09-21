@@ -1,13 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Header from '../components/@shared/Header';
-import HeaderText from '../components/@shared/HeaderText';
-import PageLayout from '../components/@shared/PageLayout';
-import UserProfileButton from '../components/@shared/UserProfileButton';
+import HeaderText from '../components/@shared/Layout/HeaderText';
 import BottomNavBar from '../components/PageButton/BottomNavBar';
 import Reservation from '../components/Reservations/Reservation';
 import useReservations from '../hooks/Reservations/useReservations';
-import NoReservation from './../components/@shared/noContent/NoReservation copy';
+import NoReservation from '../components/@shared/noContent/NoReservation';
+import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
 
 const ReservationNav = ['received', 'sent'];
 
@@ -15,31 +13,26 @@ const Reservations = () => {
   const { reservations, orderBy, setOrderBy } = useReservations();
 
   return (
-    <PageLayout>
-      <Header>
-        <S.UserProfile>
-          <UserProfileButton />
-        </S.UserProfile>
-        <S.CouponStatusNavWrapper>
-          <S.SliderDiv length={2} current={ReservationNav.indexOf(orderBy)} />
-          <S.CouponStatusNav
-            onClick={() => {
-              setOrderBy('received');
-            }}
-            selected={orderBy === 'received'}
-          >
-            <S.HeaderText>받은 예약</S.HeaderText>
-          </S.CouponStatusNav>
-          <S.CouponStatusNav
-            onClick={() => {
-              setOrderBy('sent');
-            }}
-            selected={orderBy === 'sent'}
-          >
-            <S.HeaderText>보낸 예약</S.HeaderText>
-          </S.CouponStatusNav>
-        </S.CouponStatusNavWrapper>
-      </Header>
+    <MainPageLayout>
+      <S.CouponStatusNavWrapper>
+        <S.SliderDiv length={2} current={ReservationNav.indexOf(orderBy)} />
+        <S.CouponStatusNav
+          onClick={() => {
+            setOrderBy('received');
+          }}
+          selected={orderBy === 'received'}
+        >
+          <S.HeaderText>받은 예약</S.HeaderText>
+        </S.CouponStatusNav>
+        <S.CouponStatusNav
+          onClick={() => {
+            setOrderBy('sent');
+          }}
+          selected={orderBy === 'sent'}
+        >
+          <S.HeaderText>보낸 예약</S.HeaderText>
+        </S.CouponStatusNav>
+      </S.CouponStatusNavWrapper>
       <S.Body>
         <S.ListView>
           {reservations?.length > 0 ? (
@@ -50,9 +43,8 @@ const Reservations = () => {
             <NoReservation />
           )}
         </S.ListView>
-        <BottomNavBar />
       </S.Body>
-    </PageLayout>
+    </MainPageLayout>
   );
 };
 
@@ -68,11 +60,6 @@ type CouponStatusNavProps = {
 };
 
 const S = {
-  UserProfile: styled.div`
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-  `,
   Body: styled.section`
     height: calc(79.5% - 5.5rem);
     display: flex;
@@ -129,7 +116,7 @@ const S = {
             color: #8e8e8e;
           `
         : css`
-            font-weight: bolder;
+            color: white;
           `};
   `,
 };
