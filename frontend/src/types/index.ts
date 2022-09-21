@@ -1,3 +1,5 @@
+import { CreatedDate } from './date';
+
 export type CouponStatus = 'expired' | 'used' | 'reserving' | 'reserved' | 'not_used';
 
 export interface Coupon {
@@ -6,7 +8,7 @@ export interface Coupon {
   receiver: UserProfile;
   content: CouponContent;
   status: CouponStatus;
-  createdDate: string;
+  createdDate: CreatedDate;
 }
 export interface CouponDetail {
   coupon: Coupon;
