@@ -26,8 +26,7 @@ const NoSendCoupon = () => {
 
 const S = {
   Container: styled.div`
-    display: grid;
-    place-items: center;
+    ${FlexCenter}
     flex: 1;
   `,
   Box: styled.div`
