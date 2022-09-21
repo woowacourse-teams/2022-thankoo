@@ -25,7 +25,7 @@ function killProcess() {
 
 function startJar() {
         echo "> 배포 시작"
-        nohup java -jar -Duser.timezone="Asia/Seoul" -Dspring.profiles.active=$ENVIRONMENT thankoo-0.0.1-SNAPSHOT.jar --spring.config.location=classpath:/thankoo-backend-secret/application-$ENVIRONMENT.yml 1>/dev/null &
+        nohup java -jar -Duser.timezone="Asia/Seoul" -Dspring.profiles.active=$ENVIRONMENT thankoo-0.0.1-SNAPSHOT.jar --spring.config.location=classpath:/thankoo-backend-secret/application-$ENVIRONMENT.yml > /dev/null &
 }
 
 killProcess
