@@ -12,6 +12,7 @@ import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
@@ -71,6 +72,11 @@ public class CouponAssured {
 
         public CouponRequestBuilder 주고_받은_쿠폰_개수를_조회한다(final String accessToken) {
             response = getWithToken("/api/coupons/count", accessToken);
+            return this;
+        }
+
+        public CouponRequestBuilder 쿠폰_시리얼을_요청한다(final String accessToken, final CouponSerialRequest request) {
+            response = postWithToken("/api/coupon-serials", accessToken, request);
             return this;
         }
 
