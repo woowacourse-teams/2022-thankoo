@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.qrcode.application.AdminQrCodeService;
-import com.woowacourse.thankoo.admin.qrcode.presentation.QrCodeController;
+import com.woowacourse.thankoo.admin.qrcode.presentation.AdminQrCodeController;
 import com.woowacourse.thankoo.admin.qrcode.presentation.dto.AdminLinkResponse;
 import com.woowacourse.thankoo.admin.qrcode.presentation.dto.AdminSerialRequest;
 import java.util.List;
@@ -28,7 +28,7 @@ import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("QrCodeController 는 ")
-@WebMvcTest(QrCodeController.class)
+@WebMvcTest(AdminQrCodeController.class)
 class QrCodeControllerTest extends AdminControllerTest {
 
     @MockBean

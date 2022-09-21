@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/qrcode")
-public class QrCodeController {
+public class AdminQrCodeController {
 
     private final AdminQrCodeService adminQrCodeService;
 
