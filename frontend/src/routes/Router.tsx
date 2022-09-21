@@ -19,13 +19,13 @@ const UserProfile = lazy(() => import('./../pages/UserProfile'));
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');
 
-  return storageToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.SIGN_IN}`} />;
+  return storageToken ? <Outlet /> : <Navigate to={ROUTE_PATH.SIGN_IN} replace />;
 };
 
 const UnAuthOnly = () => {
   const storageToken = localStorage.getItem('token');
 
-  return !storageToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.EXACT_MAIN}`} />;
+  return !storageToken ? <Outlet /> : <Navigate to={ROUTE_PATH.EXACT_MAIN} replace />;
 };
 
 const Router = () => {

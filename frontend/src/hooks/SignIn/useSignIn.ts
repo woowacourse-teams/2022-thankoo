@@ -38,10 +38,10 @@ const useSignIn = () => {
           const { accessToken } = data;
           if (data.joined) {
             saveAuth(accessToken);
-            navigate(`${ROUTE_PATH.EXACT_MAIN}`);
+            navigate(ROUTE_PATH.EXACT_MAIN);
             return;
           }
-          navigate(`${ROUTE_PATH.ENTER_NICKNAME}`);
+          navigate(ROUTE_PATH.ENTER_NICKNAME);
         });
       } catch (e) {
         alert('로그인에 실패하였습니다.');
