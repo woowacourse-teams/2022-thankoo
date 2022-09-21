@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import PersonIcon from '@mui/icons-material/Person';
 
-import { flexCenter } from '../../styles/mixIn';
+import { FlexCenter } from '../../styles/mixIn';
 import { BASE_URL } from './../../constants/api';
 
 const ProfileIcon = ({ src, size }: { src: string; size: any }) => {
@@ -75,7 +75,7 @@ const StyledProfileIcon = styled.img<IconProp>`
   width: ${({ size }) => size};
 `;
 const StyledIconBackGround = styled.div<BackgroundProp>`
-  ${flexCenter}
+  ${FlexCenter}
   width: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.3 + 'px'};
   height: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.3 + 'px'};
   background-color: ${({ color }) => color};

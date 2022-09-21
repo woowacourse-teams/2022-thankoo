@@ -103,66 +103,70 @@ export const users: User[] = [
 ];
 
 export const dummyCoupons: Coupon[] = [
-  // {
-  //   couponId: 1,
-  //   sender: {
-  //     ...users[0],
-  //   },
-  //   receiver: {
-  //     ...users[1],
-  //   },
-  //   content: {
-  //     couponType: 'coffee',
-  //     title: '후니가 보내는 커피쿠폰',
-  //     message: '고마워 호호~~',
-  //   },
-  //   status: 'not_used',
-  // },
-  // {
-  //   couponId: 2, // Number (coupon history id)
-  //   sender: {
-  //     ...users[1],
-  //   },
-  //   receiver: {
-  //     ...users[0],
-  //   },
-  //   content: {
-  //     couponType: 'meal',
-  //     title: '호호가 보내는 식사쿠폰',
-  //     message: '고마워 후니~~',
-  //   },
-  //   status: 'not_used',
-  // },
-  // {
-  //   couponId: 3, // Number (coupon history id)
-  //   sender: {
-  //     ...users[4],
-  //   },
-  //   receiver: {
-  //     ...users[1],
-  //   },
-  //   content: {
-  //     couponType: 'coffee',
-  //     title: '숟갈이 보내는 미숟갈',
-  //     message: '고마워 후니~~~',
-  //   },
-  //   status: 'reserving',
-  // },
-  // {
-  //   couponId: 4, // Number (coupon history id)
-  //   sender: {
-  //     ...users[3],
-  //   },
-  //   receiver: {
-  //     ...users[1],
-  //   },
-  //   content: {
-  //     couponType: 'meal',
-  //     title: '라라가 보내는 식사쿠폰',
-  //     message: '밥한끼 합시다',
-  //   },
-  //   status: 'reserved',
-  // },
+  {
+    couponId: 1,
+    sender: {
+      ...users[0],
+    },
+    receiver: {
+      ...users[1],
+    },
+    content: {
+      couponType: 'coffee',
+      title: '후니가 보내는 커피쿠폰',
+      message: '고마워 호호~~',
+    },
+    status: 'not_used',
+    createdDate: '2022-12-20',
+  },
+  {
+    couponId: 2,
+    sender: {
+      ...users[1],
+    },
+    receiver: {
+      ...users[0],
+    },
+    content: {
+      couponType: 'meal',
+      title: '호호가 보내는 식사쿠폰',
+      message: '고마워 후니~~',
+    },
+    status: 'not_used',
+    createdDate: '2022-12-20',
+  },
+  {
+    couponId: 3,
+    sender: {
+      ...users[4],
+    },
+    receiver: {
+      ...users[1],
+    },
+    content: {
+      couponType: 'coffee',
+      title: '숟갈이 보내는 미숟갈',
+      message: '고마워 후니~~~',
+    },
+    status: 'reserving',
+    createdDate: '2022-12-20',
+  },
+  {
+    couponId: 4,
+    sender: {
+      ...users[3],
+    },
+    receiver: {
+      ...users[1],
+    },
+    content: {
+      couponType: 'meal',
+      title: '라라가 보내는 식사쿠폰',
+      message: '밥한끼 합시다',
+    },
+    status: 'reserved',
+    createdDate: '2022-09-20',
+  },
   // {
   //   couponId: 5, // Number (coupon history id)
   //   sender: {

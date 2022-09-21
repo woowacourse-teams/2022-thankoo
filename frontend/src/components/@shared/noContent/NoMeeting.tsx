@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { flexCenter } from '../../../styles/mixIn';
+import { FlexCenter } from '../../../styles/mixIn';
 import IconEmptyList from '../LogoEmptyList';
 
 const NoMeeting = () => {
@@ -26,7 +26,7 @@ const S = {
     opacity: 0.9;
   `,
   Box: styled.div`
-    ${flexCenter}
+    ${FlexCenter}
     flex-direction: column;
     width: 280px;
     height: fit-content;

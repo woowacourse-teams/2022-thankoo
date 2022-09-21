@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-const flexCenter = `
+const FlexCenter = css`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,4 +14,18 @@ ${({ active }) =>
   `}
 `;
 
-export { flexCenter, RouteButton };
+const FlexSpaceBetween = css`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const FlexColumn = css`
+  display: flex;
+  flex-flow: column;
+`;
+
+const gap = gap => css`
+  gap: ${gap};
+`;
+
+export { FlexCenter, RouteButton, FlexSpaceBetween, FlexColumn, gap };

@@ -5,6 +5,8 @@ import CouponLayout from '../@shared/CouponLayout';
 import { Coupon } from '../../types';
 import { useRecoilValue } from 'recoil';
 import { sentOrReceivedAtom } from '../../recoil/atom';
+import { FlexColumn, FlexSpaceBetween, gap } from '../../styles/mixIn';
+import { css } from '@emotion/react';
 
 const ConponDetailNotUsed = ({ coupon }: { coupon: Coupon }, ref: LegacyRef<HTMLDivElement>) => {
   const sentOrReceived = useRecoilValue(sentOrReceivedAtom);
@@ -24,20 +26,20 @@ const ConponDetailNotUsed = ({ coupon }: { coupon: Coupon }, ref: LegacyRef<HTML
           <GridViewCoupon coupon={coupon as Coupon} />
         )}
       </S.CouponArea>
-      <S.RowWrapper>
-        <S.FlexColumn>
+      <div css={FlexSpaceBetween}>
+        <div css={[FlexColumn, gap('5px')]}>
           <S.Label>{isSent ? '받은' : '보낸'} 사람</S.Label>
           <S.Sender>{isSent ? coupon?.receiver.name : coupon?.sender.name}</S.Sender>
-        </S.FlexColumn>
-        <S.FlexColumn>
+        </div>
+        <div css={[FlexColumn, gap('5px')]}>
           <S.Label>{isSent ? '보낸' : '받은'} 날짜</S.Label>
           <S.Sender>{coupon?.createdDate}</S.Sender>
-        </S.FlexColumn>
-      </S.RowWrapper>
-      <S.FlexColumn>
+        </div>
+      </div>
+      <div css={[FlexColumn, gap('5px')]}>
         <S.Label>{isSent && '내가 보낸 '}메세지</S.Label>
         <S.Message>{coupon?.content.message}</S.Message>
-      </S.FlexColumn>
+      </div>
     </S.Contents>
   );
 };
@@ -76,15 +78,6 @@ const S = {
   `,
   ContentText: styled.span`
     font-size: 15px;
-  `,
-  FlexColumn: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  `,
-  RowWrapper: styled.div`
-    display: flex;
-    justify-content: space-between;
   `,
 };
 
