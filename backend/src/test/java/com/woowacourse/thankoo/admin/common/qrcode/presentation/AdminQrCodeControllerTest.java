@@ -27,9 +27,9 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.ResultActions;
 
-@DisplayName("QrCodeController 는 ")
+@DisplayName("AdminQrCodeController 는 ")
 @WebMvcTest(AdminQrCodeController.class)
-class QrCodeControllerTest extends AdminControllerTest {
+class AdminQrCodeControllerTest extends AdminControllerTest {
 
     @MockBean
     private AdminQrCodeService adminQrCodeService;

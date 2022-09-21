@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@DisplayName("CouponCouponSerialService 는 ")
+@DisplayName("AdminCouponCouponSerialService 는 ")
 @ApplicationTest
 class AdminCouponSerialServiceTest {
 

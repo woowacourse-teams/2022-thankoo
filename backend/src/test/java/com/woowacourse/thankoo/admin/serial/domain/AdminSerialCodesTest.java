@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("CouponSerials 는 ")
+@DisplayName("AdminCouponSerials 는 ")
 class AdminSerialCodesTest {
 
     @DisplayName("시리얼 번호가 중복되는 경우 예외를 발생한다.")
