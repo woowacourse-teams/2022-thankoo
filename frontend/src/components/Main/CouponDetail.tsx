@@ -35,7 +35,7 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
                     key={idx}
                     bg={button.bg}
                     disabled={button.disabled}
-                    onClick={button.onClick && button.onClick}
+                    onClick={button?.onClick}
                   >
                     {button.text}
                   </S.Button>

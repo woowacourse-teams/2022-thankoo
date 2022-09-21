@@ -14,7 +14,6 @@ import useMain from '../hooks/Main/useMain';
 import HeaderText from '../components/@shared/Layout/HeaderText';
 import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
 import useQRCoupon from '../hooks/useQRCoupon';
-import QRCouponRegisterModal from '../components/Main/QRCouponRegisterModal';
 
 const sentOrReceivedArray = ['받은', '보낸'];
 

@@ -1,13 +1,18 @@
 import styled from '@emotion/styled';
-import { useMutation } from 'react-query';
+import { AxiosError } from 'axios';
+import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { modalMountTime, modalUnMountTime } from '../../constants/modal';
+import { ROUTE_PATH } from '../../constants/routes';
+import { COUPON_QUERY_KEY } from '../../hooks/@queries/coupon';
 import useModal from '../../hooks/useModal';
 import { QRCouponResponse } from '../../hooks/useQRCoupon';
+import useToast from '../../hooks/useToast';
 import { onMountToCenterModal, unMountCenterToButtomModal } from '../../styles/Animation';
 import { FlexColumn } from '../../styles/mixIn';
-import { couponTypes } from '../../types';
+import { couponTypes, ErrorType } from '../../types';
 
 const QRCouponRegisterModal = ({
   QRCode,
@@ -17,8 +22,32 @@ const QRCouponRegisterModal = ({
   serialCode: string;
 }) => {
   const { modalContentRef, close } = useModal();
-  const { mutate: postQRSerial } = useMutation(() =>
-    client({ method: 'post', url: API_PATH.POST_QR_SERIAL, data: { serialCode } })
+  const { insertToastItem } = useToast();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { mutate: postQRSerial } = useMutation(
+    () =>
+      client({
+        method: 'post',
+        url: API_PATH.POST_QR_SERIAL,
+        data: { serialCode },
+      }),
+    {
+      onSuccess: () => {
+        close();
+        insertToastItem('등록이 완료됐습니다!');
+        navigate(ROUTE_PATH.EXACT_MAIN);
+        queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
+      },
+      onError: (error: AxiosError<ErrorType>) => {
+        alert(error.response?.data.message);
+        close();
+        navigate(ROUTE_PATH.EXACT_MAIN);
+        queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
+      },
+      retry: false,
+    }
   );
 
   return (
@@ -42,7 +71,14 @@ const QRCouponRegisterModal = ({
           >
             등록
           </S.Button>
-          <S.Button onClick={close}>취소</S.Button>
+          <S.Button
+            onClick={() => {
+              close();
+              navigate(ROUTE_PATH.EXACT_MAIN);
+            }}
+          >
+            취소
+          </S.Button>
         </S.ButtonWrapper>
       </S.Modal>
     </S.Container>
