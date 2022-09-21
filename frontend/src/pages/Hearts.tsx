@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { flexCenter } from '../styles/mixIn';
+import { FlexCenter } from '../styles/mixIn';
 import ArrowBackButton from './../components/@shared/ArrowBackButton';
 import Header from './../components/@shared/Header';
 import HeaderText from './../components/@shared/HeaderText';
@@ -129,7 +129,7 @@ const S = {
     grid-area: ui;
     width: 100%;
     height: 100%;
-    ${flexCenter};
+    ${FlexCenter};
   `,
 
   UserImage: styled.img`
@@ -170,7 +170,7 @@ const S = {
   `,
   SendButtonWrapper: styled.div`
     grid-area: cb;
-    ${flexCenter}
+    ${FlexCenter}
     margin-right: 5px;
     align-items: center;
     width: 100%;

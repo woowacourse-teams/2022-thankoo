@@ -117,9 +117,10 @@ export const dummyCoupons: Coupon[] = [
       message: '고마워 호호~~',
     },
     status: 'not_used',
+    createdDate: '2022-12-20',
   },
   {
-    couponId: 2, // Number (coupon history id)
+    couponId: 2,
     sender: {
       ...users[1],
     },
@@ -132,9 +133,10 @@ export const dummyCoupons: Coupon[] = [
       message: '고마워 후니~~',
     },
     status: 'not_used',
+    createdDate: '2022-12-20',
   },
   {
-    couponId: 3, // Number (coupon history id)
+    couponId: 3,
     sender: {
       ...users[4],
     },
@@ -147,9 +149,10 @@ export const dummyCoupons: Coupon[] = [
       message: '고마워 후니~~~',
     },
     status: 'reserving',
+    createdDate: '2022-12-20',
   },
   {
-    couponId: 4, // Number (coupon history id)
+    couponId: 4,
     sender: {
       ...users[3],
     },
@@ -162,83 +165,81 @@ export const dummyCoupons: Coupon[] = [
       message: '밥한끼 합시다',
     },
     status: 'reserved',
+    createdDate: '2022-09-20',
   },
-  {
-    couponId: 5, // Number (coupon history id)
-    sender: {
-      ...users[2],
-    },
-    receiver: {
-      ...users[1],
-    },
-    content: {
-      couponType: 'coffee',
-      title: '비녀가 보내는 식사쿠폰',
-      message: '커피 한잔 할래요',
-    },
-    status: 'reserved',
-  },
-  {
-    couponId: 6, // Number (coupon history id)
-    sender: {
-      ...users[5],
-    },
-    receiver: {
-      ...users[1],
-    },
-    content: {
-      couponType: 'meal',
-      title: '후이 후니 식사해요',
-      message: '고마워 후니~~',
-    },
-    status: 'reserving',
-  },
-  {
-    couponId: 7, // Number (coupon history id)
-    sender: {
-      ...users[6],
-    },
-    receiver: {
-      ...users[1],
-    },
-    content: {
-      couponType: 'meal',
-      title: '도와줘서 고마워요 후니',
-      message: '고마워 후니~~',
-    },
-
-    status: 'used',
-  },
-  {
-    couponId: 8,
-    sender: {
-      ...users[7],
-    },
-    receiver: {
-      ...users[1],
-    },
-    content: {
-      couponType: 'coffee',
-      title: '저녁식사 함께 해요',
-      message: '하하하',
-    },
-
-    status: 'reserving',
-  },
-  {
-    couponId: 9,
-    sender: {
-      ...users[8],
-    },
-    receiver: {
-      ...users[6],
-    },
-    content: {
-      couponType: 'meal',
-      title: '커퓌 한좐?',
-      message: '하하하',
-    },
-
-    status: 'used',
-  },
+  // {
+  //   couponId: 5, // Number (coupon history id)
+  //   sender: {
+  //     ...users[2],
+  //   },
+  //   receiver: {
+  //     ...users[1],
+  //   },
+  //   content: {
+  //     couponType: 'coffee',
+  //     title: '비녀가 보내는 식사쿠폰',
+  //     message: '커피 한잔 할래요',
+  //   },
+  //   status: 'reserved',
+  // },
+  // {
+  //   couponId: 6, // Number (coupon history id)
+  //   sender: {
+  //     ...users[5],
+  //   },
+  //   receiver: {
+  //     ...users[1],
+  //   },
+  //   content: {
+  //     couponType: 'meal',
+  //     title: '후이 후니 식사해요',
+  //     message: '고마워 후니~~',
+  //   },
+  //   status: 'reserving',
+  // },
+  // {
+  //   couponId: 7, // Number (coupon history id)
+  //   sender: {
+  //     ...users[6],
+  //   },
+  //   receiver: {
+  //     ...users[1],
+  //   },
+  //   content: {
+  //     couponType: 'meal',
+  //     title: '도와줘서 고마워요 후니',
+  //     message: '고마워 후니~~',
+  //   },
+  //   status: 'used',
+  // },
+  // {
+  //   couponId: 8,
+  //   sender: {
+  //     ...users[7],
+  //   },
+  //   receiver: {
+  //     ...users[1],
+  //   },
+  //   content: {
+  //     couponType: 'coffee',
+  //     title: '저녁식사 함께 해요',
+  //     message: '하하하',
+  //   },
+  //   status: 'reserving',
+  // },
+  // {
+  //   couponId: 9,
+  //   sender: {
+  //     ...users[8],
+  //   },
+  //   receiver: {
+  //     ...users[6],
+  //   },
+  //   content: {
+  //     couponType: 'meal',
+  //     title: '커퓌 한좐?',
+  //     message: '하하하',
+  //   },
+  //   status: 'used',
+  // },
 ];

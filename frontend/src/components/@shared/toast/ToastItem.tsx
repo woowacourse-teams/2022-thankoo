@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { flexCenter } from '../../../styles/mixIn';
+import { FlexCenter } from '../../../styles/mixIn';
 import useToast from './../../../hooks/useToast';
 import { toastStackAtom } from './../../../recoil/atom';
 import { onMountToast, unMountToast } from './../../../styles/Animation';
@@ -56,7 +56,7 @@ const S = {
     font-size: 1.2rem;
     /* border: 3px green solid; */
 
-    ${flexCenter}
+    ${FlexCenter}
 
     &.onMount {
       animation: ${onMountToast} 500ms ease-in-out; //todo 2000ms duration으로 교체

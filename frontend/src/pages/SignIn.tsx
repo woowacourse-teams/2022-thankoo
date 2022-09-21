@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import GoogleIcon from '@mui/icons-material/Google';
 import PageLayout from '../components/@shared/PageLayout';
-import { flexCenter } from '../styles/mixIn';
+import { FlexCenter } from '../styles/mixIn';
 import BirdLogoWhite from './../components/@shared/LogoWhite';
 import useSignIn from './../hooks/SignIn/useSignIn';
 
@@ -27,7 +27,7 @@ const SignIn = () => {
 
 const S = {
   Body: styled.div`
-    ${flexCenter}
+    ${FlexCenter}
 
     font-size: 13px;
     height: 100%;
@@ -50,7 +50,7 @@ const S = {
     fill: white;
   `,
   SignInButton: styled.div`
-    ${flexCenter};
+    ${FlexCenter};
     gap: 1rem;
     width: 100%;
     height: 3.6rem;
