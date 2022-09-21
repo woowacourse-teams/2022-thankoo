@@ -12,8 +12,8 @@ export const RAND_COLORS = [
 ];
 
 export const COUPON_IMAGE = {
-  coffee: require('../assets/images/coffee_coupon.svg').default,
-  meal: require('../assets/images/meal_coupon.svg').default,
+  coffee: require('../assets/images/coffee_coupon.svg'),
+  meal: require('../assets/images/meal_coupon.svg'),
 };
 
 export const COUPON_STATUS_BUTTON = {
