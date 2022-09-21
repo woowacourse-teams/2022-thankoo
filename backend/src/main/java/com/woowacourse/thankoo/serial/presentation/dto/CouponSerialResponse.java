@@ -25,7 +25,7 @@ public class CouponSerialResponse {
         return new CouponSerialResponse(couponSerialMember.getId(),
                 couponSerialMember.getSenderId(),
                 couponSerialMember.getSenderName(),
-                couponSerialMember.getCouponType().getValue());
+                couponSerialMember.getCouponType().getValue().toLowerCase());
     }
 
     @Override
