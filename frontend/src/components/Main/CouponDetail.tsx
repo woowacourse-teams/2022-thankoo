@@ -8,8 +8,7 @@ import CouponDetailCoupon from './ConponDetail.coupon';
 import CouponDetailReservation from './CouponDetail.reservation';
 
 const CouponDetail = ({ couponId }: { couponId: number }) => {
-  const { couponDetail, isLoading, sentOrReceived, buttonOptions, close } =
-    useCouponDetail(couponId);
+  const { couponDetail, isLoading, buttonOptions, close } = useCouponDetail(couponId);
 
   return (
     <S.Container>
@@ -66,7 +65,6 @@ const S = {
     transform: translate(-50%, -50%);
     width: 28rem;
     height: 40rem;
-    //height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;

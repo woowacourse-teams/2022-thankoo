@@ -138,6 +138,7 @@ const S = {
     padding: 10px;
 
     &::placeholder {
+      font-size: 18px;
       color: ${({ theme }) => theme.input.placeholder};
     }
     &:focus {

@@ -23,4 +23,6 @@ export const API_PATH = {
   GET_COUPONS_EXCHANGE_COUNT: `/api/coupons/count`,
   GET_USER_HEARTS: `/api/hearts/me`,
   POST_USER_HEART: `/api/hearts/send`,
+  GET_QR_COUPON: code => `/api/coupon-serials?code=${code}`,
+  POST_QR_SERIAL: '/api/coupon-serials',
 };
