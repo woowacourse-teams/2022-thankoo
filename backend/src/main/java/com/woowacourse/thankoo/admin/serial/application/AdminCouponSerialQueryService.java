@@ -19,15 +19,7 @@ public class AdminCouponSerialQueryService {
     public List<AdminCouponSerialResponse> getByMemberId(final Long memberId) {
         List<CouponSerialMember> couponSerialMembers = couponSerialQueryRepository.findByMemberId(memberId);
         return couponSerialMembers.stream()
-                .map(AdminCouponSerialQueryService::toCouponSerialResponse)
+                .map(AdminCouponSerialResponse::from)
                 .collect(Collectors.toList());
-    }
-
-    private static AdminCouponSerialResponse toCouponSerialResponse(final CouponSerialMember couponSerial) {
-        return new AdminCouponSerialResponse(couponSerial.getId(),
-                couponSerial.getCode().getValue(),
-                couponSerial.getSenderId(),
-                couponSerial.getSenderName(),
-                couponSerial.getCouponType().getValue());
     }
 }

@@ -13,13 +13,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.thankoo.admin.serial.presentation.dto.AdminCouponSerialResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
+import com.woowacourse.thankoo.serial.presentation.dto.CouponSerialResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -50,20 +51,33 @@ class CouponSerialQueryServiceTest {
             couponSerialRepository.save(
                     new CouponSerial(SERIAL_1, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
-            AdminCouponSerialResponse response = couponSerialQueryService.getByCode(SERIAL_1);
+            CouponSerialResponse response = couponSerialQueryService.getCouponSerialByCode(member.getId(), SERIAL_1);
 
             assertAll(
                     () -> assertThat(response.getCouponType()).isEqualTo("COFFEE"),
-                    () -> assertThat(response.getSenderName()).isEqualTo(NEO_NAME)
+                    () -> assertThat(response.getSenderName()).isEqualTo(NEO_NAME),
+                    () -> assertThat(response.getSenderId()).isEqualTo(member.getId())
             );
         }
 
-        @DisplayName("존재하지 않는 경우 예외를 발생한다.")
+        @DisplayName("시리얼 코드가 존재하지 않는 경우 예외를 발생한다.")
         @Test
-        void getCouponSerialByNotExistsCode() {
-            assertThatThrownBy(() -> couponSerialQueryService.getByCode(SERIAL_1))
+        void getCouponSerialByNotExistsSerialCode() {
+            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+
+            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(member.getId(), SERIAL_1))
                     .isInstanceOf(InvalidCouponSerialException.class)
                     .hasMessage("존재하지 않는 쿠폰 시리얼 번호입니다.");
+        }
+
+        @DisplayName("회원이 존재하지 않는 경우 예외를 발생한다.")
+        @Test
+        void getCouponSerialByNotExistsMember() {
+            couponSerialRepository.save(new CouponSerial(SERIAL_1, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+
+            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(1L, SERIAL_1))
+                    .isInstanceOf(InvalidMemberException.class)
+                    .hasMessage("존재하지 않는 회원입니다.");
         }
     }
 }
