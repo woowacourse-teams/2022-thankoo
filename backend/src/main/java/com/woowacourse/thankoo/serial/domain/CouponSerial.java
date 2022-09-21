@@ -31,11 +31,11 @@ public class CouponSerial extends BaseEntity {
     @Column(name = "sender_id", nullable = false)
     private Long senderId;
 
-    @Column(name = "coupon_type", nullable = false)
+    @Column(name = "coupon_type", nullable = false, length = 20)
     @Enumerated(value = EnumType.STRING)
     private CouponSerialType couponSerialType;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false, length = 20)
     @Enumerated(value = EnumType.STRING)
     private CouponSerialStatus status;
 
