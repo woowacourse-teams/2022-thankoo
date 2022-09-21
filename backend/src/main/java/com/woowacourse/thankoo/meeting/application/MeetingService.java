@@ -50,9 +50,9 @@ public class MeetingService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    public void complete(final LocalDateTime dateTime) {
+    public void complete(final LocalDateTime meetingTime) {
         Meetings meetings = new Meetings(
-                meetingRepository.findAllByMeetingStatusAndTimeUnitTime(ON_PROGRESS, dateTime));
+                meetingRepository.findAllByMeetingStatusAndTimeUnitTime(ON_PROGRESS, meetingTime));
         if (meetings.haveMeeting()) {
             Coupons coupons = new Coupons(meetings.getCoupons());
             meetingRepository.updateMeetingStatus(MeetingStatus.FINISHED, meetings.getMeetingIds());
