@@ -8,6 +8,9 @@ const mode = process.env.NODE_ENV || 'development';
 
 module.exports = merge(common, {
   mode: 'production',
+  output: {
+    filename: 'bundle.[chunkhash].js',
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
