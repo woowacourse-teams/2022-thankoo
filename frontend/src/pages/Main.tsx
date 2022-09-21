@@ -6,18 +6,15 @@ import GridViewCoupons from '../components/Main/GridViewCoupons';
 
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
-import Header from '../components/@shared/Header';
-import HeaderText from '../components/@shared/HeaderText';
 import Modal from '../components/@shared/Modal';
-import PageLayout from '../components/@shared/PageLayout';
-import UserProfileButton from '../components/@shared/UserProfileButton';
-import BottomNavBar from '../components/PageButton/BottomNavBar';
 import { ROUTE_PATH } from '../constants/routes';
 import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
 import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
 import useMain from '../hooks/Main/useMain';
+import HeaderText from '../components/@shared/Layout/HeaderText';
+import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
 
 const sentOrReceivedArray = ['받은', '보낸'];
 
@@ -39,73 +36,65 @@ const Main = () => {
   if (error) return <div>에러뜸</div>;
 
   return (
-    <>
-      <PageLayout>
-        <Header>
-          <S.UserProfile>
-            <UserProfileButton />
-          </S.UserProfile>
-          <S.CouponStatusNavWrapper>
-            <S.SliderDiv length={2} current={sentOrReceivedArray.indexOf(sentOrReceived)} />
-            <S.CouponStatusNav
-              onClick={() => {
-                setSentOrReceived('받은');
+    <MainPageLayout>
+      <S.CouponStatusNavWrapper>
+        <S.SliderDiv length={2} current={sentOrReceivedArray.indexOf(sentOrReceived)} />
+        <S.CouponStatusNav
+          onClick={() => {
+            setSentOrReceived('받은');
+          }}
+          selected={sentOrReceived === '받은'}
+        >
+          <S.HeaderText>받은 쿠폰함</S.HeaderText>
+        </S.CouponStatusNav>
+        <S.CouponStatusNav
+          onClick={() => {
+            setSentOrReceived('보낸');
+          }}
+          selected={sentOrReceived === '보낸'}
+        >
+          <S.HeaderText>보낸 쿠폰함</S.HeaderText>
+        </S.CouponStatusNav>
+      </S.CouponStatusNavWrapper>
+      <S.Body>
+        <S.TabsNavWrapper>
+          <TabsNav
+            onChangeTab={setCurrentType}
+            currentTab={currentType}
+            tabList={couponTypes}
+            selectableTabs={couponTypeKeys}
+          />
+          <S.UsedCouponToggleForm>
+            <S.UsedCouponCheckbox
+              type='checkbox'
+              id='used_coupon'
+              checked={showUsedCouponsWith}
+              onChange={() => {
+                setShowUsedCouponsWith(prev => !prev);
               }}
-              selected={sentOrReceived === '받은'}
-            >
-              <S.HeaderText>받은 쿠폰함</S.HeaderText>
-            </S.CouponStatusNav>
-            <S.CouponStatusNav
-              onClick={() => {
-                setSentOrReceived('보낸');
-              }}
-              selected={sentOrReceived === '보낸'}
-            >
-              <S.HeaderText>보낸 쿠폰함</S.HeaderText>
-            </S.CouponStatusNav>
-          </S.CouponStatusNavWrapper>
-        </Header>
-        <S.Body>
-          <S.TabsNavWrapper>
-            <TabsNav
-              onChangeTab={setCurrentType}
-              currentTab={currentType}
-              tabList={couponTypes}
-              selectableTabs={couponTypeKeys}
             />
-            <S.UsedCouponToggleForm>
-              <S.UsedCouponCheckbox
-                type='checkbox'
-                id='used_coupon'
-                checked={showUsedCouponsWith}
-                onChange={() => {
-                  setShowUsedCouponsWith(prev => !prev);
-                }}
-              />
-              <S.UsedCouponCheckboxLabel htmlFor='used_coupon' id='used_coupon'>
-                모든 쿠폰
-              </S.UsedCouponCheckboxLabel>
-            </S.UsedCouponToggleForm>
-          </S.TabsNavWrapper>
-          {isLoading ? (
-            <div>로딩 중</div>
-          ) : coupons?.length ? (
-            <GridViewCoupons coupons={coupons} />
-          ) : sentOrReceived === '보낸' ? (
-            <NoSendCoupon />
-          ) : (
-            <NoReceivedCoupon />
-          )}
+            <S.UsedCouponCheckboxLabel htmlFor='used_coupon' id='used_coupon'>
+              모든 쿠폰
+            </S.UsedCouponCheckboxLabel>
+          </S.UsedCouponToggleForm>
+        </S.TabsNavWrapper>
+        {isLoading ? (
+          <div>로딩 중</div>
+        ) : coupons?.length ? (
+          <GridViewCoupons coupons={coupons} />
+        ) : sentOrReceived === '보낸' ? (
+          <NoSendCoupon />
+        ) : (
+          <NoReceivedCoupon />
+        )}
 
-          <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
-            <S.SendIcon />
-          </S.SelectReceiverButton>
-        </S.Body>
+        <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
+          <S.SendIcon />
+        </S.SelectReceiverButton>
+      </S.Body>
 
-        {visible && <Modal />}
-      </PageLayout>
-      <BottomNavBar />
-    </>
+      {visible && <Modal />}
+    </MainPageLayout>
   );
 };
 type SliderDivProps = {
@@ -121,14 +110,12 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    padding: 0.5rem 3vw;
     height: calc(79.5% - 5.5rem);
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;
     display: flex;
     justify-content: space-around;
-    width: 100%;
     cursor: pointer;
   `,
   SliderDiv: styled.div<SliderDivProps>`
@@ -143,9 +130,9 @@ const S = {
     left: ${({ current, length }) => `${(100 / length) * current}%`};
   `,
   CouponStatusNav: styled.div<CouponStatusNavProps>`
+    width: 100%;
     display: flex;
     justify-content: center;
-    width: 100%;
     padding: 1rem;
     background-color: #232323;
     ${({ selected }) =>
@@ -154,7 +141,7 @@ const S = {
             color: #8e8e8e;
           `
         : css`
-            font-weight: bolder;
+            color: white;
           `};
   `,
   HeaderText: styled(HeaderText)`
@@ -173,11 +160,6 @@ const S = {
     justify-content: space-between;
     height: 3.2rem;
     margin-bottom: 1.5rem;
-  `,
-  UserProfile: styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
   `,
   UsedCouponToggleForm: styled.form`
     display: flex;

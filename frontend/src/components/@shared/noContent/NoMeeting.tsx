@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
-import { flexCenter } from '../../../styles/mixIn';
+import { FlexCenter } from '../../../styles/mixIn';
 import IconEmptyList from '../LogoEmptyList';
 
 const NoMeeting = () => {
   return (
     <S.Container>
       <S.Box>
-        <IconEmptyList />
+        <S.IconWrapper>
+          <IconEmptyList />
+        </S.IconWrapper>
         <S.Comment>
           예정된 약속이 없네요⭐
           <br />
@@ -26,7 +28,7 @@ const S = {
     opacity: 0.9;
   `,
   Box: styled.div`
-    ${flexCenter}
+    ${FlexCenter}
     flex-direction: column;
     width: 280px;
     height: fit-content;
@@ -35,6 +37,9 @@ const S = {
     text-align: center;
     gap: 8px;
     padding: 30px 10px;
+  `,
+  IconWrapper: styled.div`
+    height: 70px;
   `,
   Comment: styled.h3`
     font-size: 1.5rem;

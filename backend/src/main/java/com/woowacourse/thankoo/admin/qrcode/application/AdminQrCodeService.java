@@ -9,10 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 public class AdminQrCodeService {
 
-    private static final String URL = "http://api.qrserver.com/v1/create-qr-code/?data=https://thankoo.co.kr/code={0}&size=300x300";
+    private static final String URL = "http://api.qrserver.com/v1/create-qr-code/?data=https://thankoo.co.kr?code={0}&size=300x300";
 
     public List<AdminLinkResponse> getLinks(final AdminSerialRequest adminSerialRequest) {
         return adminSerialRequest.getSerials().stream()
