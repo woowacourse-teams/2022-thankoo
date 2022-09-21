@@ -21,10 +21,10 @@ import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
-import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -77,6 +77,17 @@ class CouponServiceTest {
             List<Coupon> coupons = couponRepository.findAll();
 
             assertThat(coupons).hasSize(2);
+        }
+
+        @DisplayName("자신에게 보내는 경우 경우 예외가 발생한다.")
+        @Test
+        void saveInvalidMembersException() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            assertThatThrownBy(() -> couponService.saveAll(sender.getId(), new CouponRequest(List.of(sender.getId()),
+                    new ContentRequest(TYPE, TITLE, MESSAGE))))
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("쿠폰을 생성할 수 없습니다.");
         }
 
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")

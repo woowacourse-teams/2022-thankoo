@@ -16,6 +16,15 @@ import org.junit.jupiter.params.provider.EnumSource.Mode;
 @DisplayName("Coupon 은 ")
 class CouponTest {
 
+    @DisplayName("자기 자신에게 쿠폰을 생성하면 실패한다.")
+    @Test
+    void validateSendBySenderSelf() {
+        assertThatThrownBy(() -> new Coupon(1L, 1L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                CouponStatus.NOT_USED))
+                .isInstanceOf(InvalidCouponException.class)
+                .hasMessage("쿠폰을 생성할 수 없습니다.");
+    }
+
     @DisplayName("현재 쿠폰이 사용되지 않은 상태인지 확인한다.")
     @Test
     void isNotUsed() {

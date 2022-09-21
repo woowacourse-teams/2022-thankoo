@@ -321,6 +321,21 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .status(HttpStatus.OK.value());
             }
 
+            @DisplayName("자기 자신에게 보내면 실패한다.")
+            @Test
+            void sendByMySelfException() {
+                TokenResponse senderToken = AuthenticationAssured.request()
+                        .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                        .로그인_한다(CODE_SKRR)
+                        .response()
+                        .body(TokenResponse.class);
+
+                CouponAssured.request()
+                        .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(senderToken.getMemberId()))
+                        .response()
+                        .status(HttpStatus.BAD_REQUEST.value());
+            }
+
             @DisplayName("제목이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
             @Test
             void sendCouponTitleException() {
