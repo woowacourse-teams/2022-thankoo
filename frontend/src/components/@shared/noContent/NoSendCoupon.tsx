@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { ROUTE_PATH } from '../../../constants/routes';
-import { flexCenter } from '../../../styles/mixIn';
+import { FlexCenter } from '../../../styles/mixIn';
 import IconEmptyList from '../LogoEmptyList';
 
 const NoSendCoupon = () => {
@@ -31,7 +31,7 @@ const S = {
     flex: 1;
   `,
   Box: styled.div`
-    ${flexCenter}
+    ${FlexCenter}
     flex-direction: column;
     width: 280px;
     height: fit-content;

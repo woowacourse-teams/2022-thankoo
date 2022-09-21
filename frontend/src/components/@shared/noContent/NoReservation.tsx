@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { flexCenter } from '../../../styles/mixIn';
-import IconEmptyList from '../LogoEmptyList';
+import { FlexCenter } from '../../../styles/mixIn';
+import IconEmptyList from './../LogoEmptyList';
 
 const NoReservation = () => {
   return (
@@ -26,7 +26,7 @@ const S = {
     flex: 1;
   `,
   Box: styled.div`
-    ${flexCenter}
+    ${FlexCenter}
     flex-direction: column;
     width: 280px;
     height: fit-content;
