@@ -14,6 +14,5 @@ public interface AdminCouponRepository extends JpaRepository<Coupon, Long> {
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Coupon c SET c.couponStatus = :status WHERE c.id IN (:couponIds)")
-    void updateCouponStatus(@Param("status") CouponStatus status,
-                            @Param("couponIds") List<Long> couponIds);
+    void updateCouponStatus(@Param("status") CouponStatus status, @Param("couponIds") List<Long> couponIds);
 }

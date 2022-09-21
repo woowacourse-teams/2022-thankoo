@@ -15,7 +15,6 @@ import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUserResponse.Profil
 import com.woowacourse.thankoo.alarm.infrastructure.dto.SlackUsersResponse;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

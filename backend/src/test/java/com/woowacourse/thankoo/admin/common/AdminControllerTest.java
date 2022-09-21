@@ -6,6 +6,9 @@ import com.woowacourse.thankoo.admin.coupon.application.AdminCouponService;
 import com.woowacourse.thankoo.admin.coupon.presentation.AdminCouponController;
 import com.woowacourse.thankoo.admin.member.application.AdminMemberService;
 import com.woowacourse.thankoo.admin.member.presentation.AdminMemberController;
+import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialQueryService;
+import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialService;
+import com.woowacourse.thankoo.admin.serial.presentation.AdminCouponSerialController;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest({
         AdminMemberController.class,
-        AdminCouponController.class
+        AdminCouponController.class,
+        AdminCouponSerialController.class
 })
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
@@ -44,4 +48,10 @@ public class AdminControllerTest {
 
     @MockBean
     protected AdminCouponService adminCouponService;
+
+    @MockBean
+    protected AdminCouponSerialService adminCouponSerialService;
+
+    @MockBean
+    protected AdminCouponSerialQueryService adminCouponSerialQueryService;
 }

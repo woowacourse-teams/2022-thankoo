@@ -20,6 +20,9 @@ import com.woowacourse.thankoo.member.presentation.MemberController;
 import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.presentation.ReservationController;
+import com.woowacourse.thankoo.serial.application.CouponSerialQueryService;
+import com.woowacourse.thankoo.serial.application.CouponSerialService;
+import com.woowacourse.thankoo.serial.presentation.CouponSerialController;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -38,7 +41,8 @@ import org.springframework.test.web.servlet.MockMvc;
         MemberController.class,
         ReservationController.class,
         MeetingController.class,
-        HeartController.class
+        HeartController.class,
+        CouponSerialController.class
 })
 @Import(MockMvcConfig.class)
 @AutoConfigureRestDocs
@@ -83,6 +87,12 @@ public class ControllerTest {
 
     @MockBean
     protected HeartService heartService;
+
+    @MockBean
+    protected CouponSerialService couponSerialService;
+
+    @MockBean
+    protected CouponSerialQueryService couponSerialQueryService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());
