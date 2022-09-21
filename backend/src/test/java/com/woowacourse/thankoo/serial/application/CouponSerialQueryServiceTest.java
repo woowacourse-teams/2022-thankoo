@@ -54,7 +54,7 @@ class CouponSerialQueryServiceTest {
             CouponSerialResponse response = couponSerialQueryService.getCouponSerialByCode(member.getId(), SERIAL_1);
 
             assertAll(
-                    () -> assertThat(response.getCouponType()).isEqualTo("COFFEE"),
+                    () -> assertThat(response.getCouponType()).isEqualTo("coffee"),
                     () -> assertThat(response.getSenderName()).isEqualTo(NEO_NAME),
                     () -> assertThat(response.getSenderId()).isEqualTo(member.getId())
             );
