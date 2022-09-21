@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.admin.qrcode.presentation.dto;
 
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AdminSerialRequest {
 
-    private String serial;
+    private List<String> serials;
 
-    public AdminSerialRequest(final String serial) {
-        this.serial = serial;
+    public AdminSerialRequest(final List<String> serials) {
+        this.serials = serials;
     }
 }

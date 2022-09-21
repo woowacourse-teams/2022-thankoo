@@ -14,9 +14,9 @@ public class AdminQrCodeService {
 
     private static final String URL = "http://api.qrserver.com/v1/create-qr-code/?data=https://thankoo.co.kr/code={0}&size=300x300";
 
-    public List<AdminLinkResponse> getLinks(final List<AdminSerialRequest> adminSerialRequest) {
-        return adminSerialRequest.stream()
-                .map(request -> new AdminLinkResponse(MessageFormat.format(URL, request.getSerial())))
+    public List<AdminLinkResponse> getLinks(final AdminSerialRequest adminSerialRequest) {
+        return adminSerialRequest.getSerials().stream()
+                .map(serial -> new AdminLinkResponse(MessageFormat.format(URL, serial)))
                 .collect(Collectors.toList());
     }
 }
