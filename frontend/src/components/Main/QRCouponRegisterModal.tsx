@@ -41,13 +41,13 @@ const QRCouponRegisterModal = ({
         localStorage.removeItem('query');
         insertToastItem('등록이 완료됐습니다!');
         queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
-        navigate(ROUTE_PATH.EXACT_MAIN);
+        navigate(ROUTE_PATH.EXACT_MAIN, { replace: true });
       },
       onError: (error: AxiosError<ErrorType>) => {
         localStorage.removeItem('query');
         alert(error.response?.data.message);
         queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
-        navigate(ROUTE_PATH.EXACT_MAIN);
+        navigate(ROUTE_PATH.EXACT_MAIN, { replace: true });
       },
       retry: false,
     }
@@ -78,7 +78,7 @@ const QRCouponRegisterModal = ({
             onClick={() => {
               close();
               localStorage.removeItem('query');
-              navigate(ROUTE_PATH.EXACT_MAIN);
+              navigate(ROUTE_PATH.EXACT_MAIN, { replace: true });
             }}
           >
             취소
