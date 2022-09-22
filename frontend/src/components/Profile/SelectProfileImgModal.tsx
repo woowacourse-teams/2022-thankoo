@@ -23,9 +23,6 @@ const SelectProfileImgModal = ({ editUserProfileImage }) => {
               }}
             >
               <S.ProfileIcon src={imageUrl} size={'80px'} isSelected={imageUrl === selected} />
-              {/* <S.SelectIndicator isSelected={imageUrl === selected}>
-                <S.CheckIcon />
-              </S.SelectIndicator> */}
             </S.IconWrapper>
           ))}
         </S.ProfileContainer>
