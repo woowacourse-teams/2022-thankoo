@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 public class AdminSerialCodes {
 
-    private final static int MAX_SIZE = 100;
+    private static final int MAX_SIZE = 100;
 
     private final List<SerialCode> values;
 
