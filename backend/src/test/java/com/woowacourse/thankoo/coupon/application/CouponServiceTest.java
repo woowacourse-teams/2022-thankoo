@@ -79,7 +79,7 @@ class CouponServiceTest {
             assertThat(coupons).hasSize(2);
         }
 
-        @DisplayName("자신에게 보내는 경우 경우 예외가 발생한다.")
+        @DisplayName("자신에게 보내는 경우 예외가 발생한다.")
         @Test
         void saveInvalidMembersException() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));

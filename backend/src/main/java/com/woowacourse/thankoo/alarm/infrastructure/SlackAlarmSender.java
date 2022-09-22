@@ -29,6 +29,7 @@ public class SlackAlarmSender implements AlarmSender {
     private void send(final Message message, final String email) {
         try {
             sendSlackMessage(message, email);
+            log.info("[Slack Alarm] To = {}, Message = {}", email, message);
         } catch (Exception e) {
             Events.publish(new SlackAlarmFailedEvent(message.getTitle(),
                     message.getTitleLink(),
