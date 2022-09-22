@@ -43,7 +43,7 @@ const S = {
       'ci ed cb';
     grid-template-columns: 22% 58% 20%;
     gap: 5px 0;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 5px;
     background-color: ${({ backgroundColor }) => backgroundColor};
     color: ${({ color }) => color};
@@ -53,10 +53,9 @@ const S = {
   `,
   CouponImage: styled.img`
     grid-area: ci;
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
     border-radius: 50%;
-    object-fit: cover;
   `,
   UserName: styled.span`
     grid-area: un;

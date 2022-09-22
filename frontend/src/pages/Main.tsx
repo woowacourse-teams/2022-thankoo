@@ -14,6 +14,7 @@ import useMain from '../hooks/Main/useMain';
 import HeaderText from '../components/@shared/Layout/HeaderText';
 import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
 import useQRCoupon from '../hooks/useQRCoupon';
+import Spinner from '../components/@shared/Spinner';
 
 const sentOrReceivedArray = ['받은', '보낸'];
 
@@ -77,7 +78,7 @@ const Main = () => {
           </S.UsedCouponToggleForm>
         </S.TabsNavWrapper>
         {isLoading ? (
-          <div>로딩 중</div>
+          <Spinner />
         ) : coupons?.length ? (
           <GridViewCoupons coupons={coupons} />
         ) : sentOrReceived === '보낸' ? (
@@ -174,7 +175,7 @@ const S = {
     bottom: 8rem;
     right: 4rem;
     fill: ${({ theme }) => theme.button.abled.color};
-    padding: 0.7rem;
+    padding: 1rem;
     border-radius: 50%;
     transform: rotate(-45deg) scale(1.4);
     opacity: 0.9;

@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { BASE_URL } from './api';
 
 export const RAND_COLORS = [
   { bg: '#FAC8BF', color: 'black' },
@@ -12,8 +12,8 @@ export const RAND_COLORS = [
 ];
 
 export const COUPON_IMAGE = {
-  coffee: require('../assets/images/coffee_coupon.svg'),
-  meal: require('../assets/images/meal_coupon.svg'),
+  coffee: `${BASE_URL}/coupon-image/coffee_coupon.svg`,
+  meal: `${BASE_URL}/coupon-image/meal_coupon.svg`,
 };
 
 export const COUPON_STATUS_BUTTON = {

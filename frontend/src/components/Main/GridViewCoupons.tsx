@@ -62,8 +62,6 @@ const S = {
     }
 
     &:hover {
-      overflow-y: overlay;
-
       &::-webkit-scrollbar {
         width: 2px;
         background-color: transparent;

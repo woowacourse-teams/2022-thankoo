@@ -32,7 +32,6 @@ const S = {
     transform: translateX(-50%);
     max-width: 680px;
     width: 100%;
-    height: 70vh;
     background-color: #272727;
     border-radius: 7% 7% 0 0;
     display: flex;
@@ -53,5 +52,6 @@ const S = {
     width: 100%;
     justify-content: space-between;
     box-sizing: border-box;
+    gap: 2rem;
   `,
 };
