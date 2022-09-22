@@ -22,10 +22,10 @@ const SelectProfileImgModal = ({ editUserProfileImage }) => {
                 setSelected(imageUrl);
               }}
             >
-              <ProfileIcon src={imageUrl} size={'80px'} />
-              <S.SelectIndicator isSelected={imageUrl === selected}>
+              <S.ProfileIcon src={imageUrl} size={'80px'} isSelected={imageUrl === selected} />
+              {/* <S.SelectIndicator isSelected={imageUrl === selected}>
                 <S.CheckIcon />
-              </S.SelectIndicator>
+              </S.SelectIndicator> */}
             </S.IconWrapper>
           ))}
         </S.ProfileContainer>
@@ -147,7 +147,7 @@ const S = {
     }
     @media screen and (min-width: 670px) {
       transform: scale(0.8);
-      margin: 20px;
+      margin: 20px 0;
     }
   `,
   SelectIndicator: styled.div<IconWrapperProp>`
@@ -161,6 +161,9 @@ const S = {
 
     justify-content: center;
     align-items: center;
+  `,
+  ProfileIcon: styled(ProfileIcon)`
+    border: 2px solid tomato;
   `,
   CheckIcon: styled(CheckIcon)`
     width: 4rem;
