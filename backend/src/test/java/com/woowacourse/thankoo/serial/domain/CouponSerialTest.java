@@ -15,7 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("CouponSerial 는 ")
-public class CouponSerialTest {
+class CouponSerialTest {
 
     @DisplayName("유효하지 않은 쿠폰 번호일경우 예외를 발생한다.")
     @ParameterizedTest
