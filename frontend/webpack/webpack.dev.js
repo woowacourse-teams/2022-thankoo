@@ -1,11 +1,8 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 const { join } = require('path');
-const mode = process.env.NODE_ENV || 'development';
 
 dotenv.config({ path: join(__dirname, '../env/.env.development') });
 

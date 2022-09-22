@@ -105,7 +105,7 @@ const S = {
     background-color: ${({ theme }) => theme.primary};
     color: ${({ theme }) => theme.button.abled.color};
     width: 100%;
-    padding: 0.7rem;
+    padding: 1rem;
     font-size: 1.5rem;
     height: fit-content;
   `,

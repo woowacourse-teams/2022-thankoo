@@ -174,7 +174,7 @@ const S = {
     bottom: 8rem;
     right: 4rem;
     fill: ${({ theme }) => theme.button.abled.color};
-    padding: 0.7rem;
+    padding: 1rem;
     border-radius: 50%;
     transform: rotate(-45deg) scale(1.4);
     opacity: 0.9;

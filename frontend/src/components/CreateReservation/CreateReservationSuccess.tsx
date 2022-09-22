@@ -13,7 +13,7 @@ const CreateReservationSuccess = ({ receiver, date, time }) => {
   return (
     <S.Container>
       <S.Wrapper>
-        <S.Header>예약이 완료됐습니다!</S.Header>
+        <S.Header>예약 요청이 완료됐습니다!</S.Header>
         <SuccessAnimation />
         <S.ContenstWrapper>
           <div
@@ -116,7 +116,7 @@ const S = {
     border: none;
     border-radius: 4px;
     background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
-    padding: 0.7rem;
+    padding: 1rem;
     font-size: 1.5rem;
     color: white;
     width: 100%;

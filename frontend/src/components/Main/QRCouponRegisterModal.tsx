@@ -179,7 +179,7 @@ const S = {
     border: none;
     border-radius: 4px;
     color: white;
-    padding: 0.7rem 0;
+    padding: 1rem 0;
     font-size: 1.5rem;
 
     background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};

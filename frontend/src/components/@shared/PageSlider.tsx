@@ -70,6 +70,7 @@ const S = {
       flex: 0 0 auto;
       scroll-margin: 0;
       scroll-snap-align: start;
+      gap: 3rem;
     }
     &::-webkit-scrollbar {
       display: none; /* Chrome, Safari, Opera*/
