@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -20,7 +19,9 @@ const useQRCoupon = () => {
   const { search } = useLocation();
   const { show, setModalContent } = useModal();
   const navigate = useNavigate();
-  const code = search.includes('?code=') ? search.replace('?code=', '') : '';
+
+  const query = localStorage.getItem('query') || search;
+  const code = query.includes('?code=') ? query.replace('?code=', '') : '';
 
   const { data: QRCoupon, refetch } = useQuery<QRCouponResponse>(
     ['QRCoupon'],
@@ -33,6 +34,9 @@ const useQRCoupon = () => {
       return data;
     },
     {
+      onSettled: () => {
+        localStorage.removeItem('query');
+      },
       onSuccess: res => {
         show();
         setModalContent(<QRCouponRegisterModal QRCode={res} serialCode={code} />);
