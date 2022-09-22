@@ -1,10 +1,12 @@
+import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import useToast from '../useToast';
+import { ErrorType } from '../../types';
 import { COUPON_QUERY_KEY } from './coupon';
 
 type OrderByType = 'received' | 'sent';
+type 예약요청응답Type = 'accept' | 'deny';
 
 export const RESERVATION_QUERY_KEYS = {
   reservations: 'reservations',
@@ -35,30 +37,43 @@ export const useGetReservations = (orderBy: OrderByType) =>
 
 export const usePutCancelReseravation = (
   reservationId,
-  { onSuccess: handleSuccess } = { onSuccess: () => {} }
+  { onSuccess: handleSuccess, onError } = {
+    onSuccess: () => {},
+    onError: (error: AxiosError<ErrorType>) => {},
+  }
 ) =>
   useMutation(() => client({ method: 'put', url: API_PATH.CANCEL_RESERVATION(reservationId) }), {
     onSuccess: () => {
       handleSuccess();
     },
+    onError: (error: AxiosError<ErrorType>) => {
+      onError?.(error);
+    },
+    retry: false,
   });
 
 export const usePutReservationStatus = (
   reservationId,
-  { onSuccess: handleSuccess } = { onSuccess: () => {} }
+  { onSuccess: handleSuccess, onError } = {
+    onSuccess: (status: 예약요청응답Type) => {},
+    onError: (error: AxiosError<ErrorType>) => {},
+  }
 ) => {
   const queryClient = useQueryClient();
-  const { insertToastItem } = useToast();
 
-  return useMutation((status: string) => putReservationStatusRequest(status, reservationId), {
-    onSuccess: () => {
-      handleSuccess();
-      queryClient.invalidateQueries(RESERVATION_QUERY_KEYS.reservations);
-    },
-    onError: () => {
-      insertToastItem('요청에 실패했습니다.');
-    },
-  });
+  return useMutation(
+    (status: 예약요청응답Type) => putReservationStatusRequest(status, reservationId),
+    {
+      onSuccess: (_, variables: 예약요청응답Type) => {
+        handleSuccess(variables);
+        queryClient.invalidateQueries(RESERVATION_QUERY_KEYS.reservations);
+      },
+      onError: (error: AxiosError<ErrorType>) => {
+        onError?.(error);
+      },
+      retry: false,
+    }
+  );
 };
 
 /** FETCHER */

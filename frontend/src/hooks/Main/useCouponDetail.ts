@@ -3,11 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { sentOrReceivedAtom, targetCouponAtom } from '../../recoil/atom';
-import { useGetCouponDetail } from '../@queries/coupon';
+import { COUPON_QUERY_KEY, useGetCouponDetail } from '../@queries/coupon';
 import { usePutCompleteMeeting } from '../@queries/meeting';
 import { usePutCancelReseravation, usePutReservationStatus } from '../@queries/reservation';
 import useModal from '../useModal';
 import useToast from '../useToast';
+
+const 예약요청응답별코멘트 = {
+  accept: '약속을 승인하셨습니다.',
+  deny: '약속을 거절하셨습니다.',
+};
 
 export const useCouponDetail = (couponId: number) => {
   const queryClient = useQueryClient();
@@ -23,17 +28,35 @@ export const useCouponDetail = (couponId: number) => {
 
   const { mutate: cancelReservation } = usePutCancelReseravation(reservationId, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['coupon']);
+      queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
+      insertToastItem('예약을 취소했습니다.');
+      close();
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
+      close();
     },
   });
   const { mutate: completeMeeting } = usePutCompleteMeeting(meetingId, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['coupon']);
+      queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
+      insertToastItem('✅ 쿠폰을 사용했습니다');
+      close();
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
+      close();
     },
   });
   const { mutate: handleReservation } = usePutReservationStatus(reservationId, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['coupon']);
+    onSuccess: status => {
+      queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
+      insertToastItem(예약요청응답별코멘트[status]);
+      close();
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
+      close();
     },
   });
 
@@ -59,8 +82,6 @@ export const useCouponDetail = (couponId: number) => {
           onClick: () => {
             if (confirm('예약을 취소하시겠습니까?')) {
               cancelReservation();
-              insertToastItem('예약을 취소했습니다.');
-              close();
             }
           },
         },
@@ -72,9 +93,7 @@ export const useCouponDetail = (couponId: number) => {
           disabled: false,
           onClick: () => {
             if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료 하겠습니다')) {
-              insertToastItem('✅ 쿠폰을 사용했습니다');
               completeMeeting();
-              close();
             }
           },
         },
@@ -98,8 +117,6 @@ export const useCouponDetail = (couponId: number) => {
           onClick: () => {
             if (confirm('예약을 승인하시겠습니까?')) {
               handleReservation('accept');
-              insertToastItem('✅ 예약을 승인했습니다');
-              close();
             }
           },
         },
@@ -110,8 +127,6 @@ export const useCouponDetail = (couponId: number) => {
           onClick: () => {
             if (confirm('예약을 거절하시겠습니까?')) {
               handleReservation('deny');
-              insertToastItem('예약을 거절했습니다');
-              close();
             }
           },
         },
@@ -123,9 +138,7 @@ export const useCouponDetail = (couponId: number) => {
           bg: 'tomato',
           onClick: () => {
             if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료하겠습니다')) {
-              insertToastItem('✅ 쿠폰을 사용했습니다');
               completeMeeting();
-              close();
             }
           },
         },

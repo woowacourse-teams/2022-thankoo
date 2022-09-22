@@ -47,6 +47,11 @@ export interface CouponContent {
   message: string;
 }
 
+export interface ErrorType {
+  errorCode: string;
+  message: string;
+}
+
 export const initialCouponState = {
   couponId: 0,
   sender: {
@@ -71,4 +76,4 @@ export const initialCouponState = {
 export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' };
 export const couponTypeValues = Object.values(couponTypes);
 export const couponTypeKeys = Object.keys(couponTypes);
-export type CouponType = typeof couponTypeKeys[number];
+export type CouponType = keyof typeof couponTypes;

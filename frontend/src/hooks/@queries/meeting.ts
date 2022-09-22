@@ -1,7 +1,8 @@
+import { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import { Meeting } from '../../types';
+import { ErrorType, Meeting } from '../../types';
 
 export const MEETING_QUERY_KEYS = {
   meetings: 'meetings',
@@ -12,11 +13,17 @@ export const useGetMeetings = () =>
 
 export const usePutCompleteMeeting = (
   meetingId,
-  { onSuccess: handleSuccess } = { onSuccess: () => {} }
+  { onSuccess: handleSuccess, onError } = {
+    onSuccess: () => {},
+    onError: (error: AxiosError<ErrorType>) => {},
+  }
 ) =>
   useMutation(() => putCompleteMeetingRequest(meetingId), {
     onSuccess: () => {
       handleSuccess();
+    },
+    onError: (error: AxiosError<ErrorType>) => {
+      onError?.(error);
     },
   });
 
