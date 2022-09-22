@@ -45,7 +45,7 @@ const S = {
     gap: 5px;
   `,
   ConfirmHeaderText: styled.span`
-    font-size: 1.5rem;
+    font-size: 2rem;
   `,
   ConfirmTitleText: styled.span`
     font-size: medium;
