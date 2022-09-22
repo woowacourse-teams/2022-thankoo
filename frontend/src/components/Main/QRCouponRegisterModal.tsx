@@ -34,17 +34,20 @@ const QRCouponRegisterModal = ({
         data: { serialCode },
       }),
     {
-      onSuccess: () => {
+      onMutate: () => {
         close();
+      },
+      onSuccess: () => {
+        localStorage.removeItem('query');
         insertToastItem('등록이 완료됐습니다!');
-        navigate(ROUTE_PATH.EXACT_MAIN);
         queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
+        navigate(ROUTE_PATH.EXACT_MAIN);
       },
       onError: (error: AxiosError<ErrorType>) => {
+        localStorage.removeItem('query');
         alert(error.response?.data.message);
-        close();
-        navigate(ROUTE_PATH.EXACT_MAIN);
         queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
+        navigate(ROUTE_PATH.EXACT_MAIN);
       },
       retry: false,
     }
@@ -60,7 +63,7 @@ const QRCouponRegisterModal = ({
         </S.ContentWrapper>
         <S.ContentWrapper>
           <S.TitleText>쿠폰 종류</S.TitleText>
-          <S.ContentText>{couponTypes[QRCode.couponType]}</S.ContentText>
+          <S.ContentText>{couponTypes[QRCode.couponType.toLocaleLowerCase()]}</S.ContentText>
         </S.ContentWrapper>
         <S.ButtonWrapper>
           <S.Button
@@ -74,6 +77,7 @@ const QRCouponRegisterModal = ({
           <S.Button
             onClick={() => {
               close();
+              localStorage.removeItem('query');
               navigate(ROUTE_PATH.EXACT_MAIN);
             }}
           >
