@@ -71,7 +71,7 @@ const S = {
     border-radius: 4px;
     color: white;
     font-size: 1.5rem;
-    padding: 0.7rem 0;
+    padding: 1rem 0;
 
     background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
   `,

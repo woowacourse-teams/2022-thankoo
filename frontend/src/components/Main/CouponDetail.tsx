@@ -64,7 +64,6 @@ const S = {
     z-index: 1000;
     transform: translate(-50%, -50%);
     width: 28rem;
-    height: 40rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -109,7 +108,7 @@ const S = {
     color: ${({ theme, disabled }) =>
       disabled ? theme.button.disbaled.color : theme.button.abled.color};
     width: 100%;
-    padding: 0.7rem;
+    padding: 1rem;
     font-size: 1.5rem;
     height: fit-content;
   `,
