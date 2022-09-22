@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import CheckIcon from '@mui/icons-material/Check';
 import { useState } from 'react';
 import { ProfileIconList } from '../../constants/profileIcon';
 import { modalMountTime, modalUnMountTime } from './../../constants/modal';
@@ -21,8 +22,7 @@ const SelectProfileImgModal = ({ editUserProfileImage }) => {
                 setSelected(imageUrl);
               }}
             >
-              <ProfileIcon src={imageUrl} size={'80px'} />
-              <S.SelectIndicator isSelected={imageUrl === selected} />
+              <S.ProfileIcon src={imageUrl} size={'80px'} isSelected={imageUrl === selected} />
             </S.IconWrapper>
           ))}
         </S.ProfileContainer>
@@ -113,9 +113,22 @@ const S = {
   `,
   ProfileContainer: styled.div`
     display: grid;
-    margin: 4rem 0;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 10rem);
+
+    justify-content: center;
+    align-items: center;
+
+    @media screen and (max-width: 440px) {
+      padding: 1rem 0;
+    }
+    @media screen and (min-width: 440px) {
+      padding: 2rem 0;
+    }
+    @media screen and (min-width: 670px) {
+      padding: 4rem 0;
+      row-gap: 2rem;
+    }
   `,
   IconWrapper: styled.div`
     display: flex;
@@ -130,21 +143,28 @@ const S = {
       margin: 20px 0;
     }
     @media screen and (min-width: 670px) {
-      transform: scale(0.9);
-      margin: 20px;
+      transform: scale(0.8);
+      margin: 20px 0;
     }
   `,
   SelectIndicator: styled.div<IconWrapperProp>`
     position: absolute;
-    bottom: -4rem;
-    width: 10rem;
-    height: 1rem;
-    background-color: ${({ isSelected }) => (isSelected ? 'white' : 'transparent')};
-    border-radius: 16px;
+    bottom: 0rem;
+    width: 5rem;
+    height: 5rem;
+    background-color: black;
+    display: ${({ isSelected }) => (isSelected ? 'flex' : 'none')};
+    border-radius: 50%;
 
-    transition: all ease-in;
-    transition-duration: 0.2s;
-    -webkit-transition-duration: 0.2s;
+    justify-content: center;
+    align-items: center;
+  `,
+  ProfileIcon: styled(ProfileIcon)`
+    border: 2px solid tomato;
+  `,
+  CheckIcon: styled(CheckIcon)`
+    width: 4rem;
+    height: 4rem;
   `,
   ButtonWrapper: styled.div`
     width: 100%;
