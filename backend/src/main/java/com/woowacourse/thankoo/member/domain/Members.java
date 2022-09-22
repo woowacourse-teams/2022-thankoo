@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.member.domain;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
@@ -11,6 +13,10 @@ public class Members {
 
     public Members(final List<Member> values) {
         this.values = List.copyOf(values);
+    }
+
+    public Members(final Set<Member> values) {
+        this(new ArrayList<>(values));
     }
 
     public List<String> getEmails() {

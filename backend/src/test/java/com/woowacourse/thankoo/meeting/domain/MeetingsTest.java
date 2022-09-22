@@ -24,6 +24,7 @@ import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -113,10 +114,10 @@ class MeetingsTest {
                     coupon));
         }
         Meetings result = new Meetings(meetings);
-        List<Member> members = result.getMembers();
+        Set<Member> members = result.getDistinctMembers();
 
         assertAll(
-                () -> assertThat(members).hasSize(6),
+                () -> assertThat(members).hasSize(2),
                 () -> assertThat(members).contains(huni, skrr)
         );
     }

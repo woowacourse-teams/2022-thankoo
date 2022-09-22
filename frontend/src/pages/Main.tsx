@@ -6,15 +6,15 @@ import GridViewCoupons from '../components/Main/GridViewCoupons';
 
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
-import Modal from '../components/@shared/Modal';
 import { ROUTE_PATH } from '../constants/routes';
-import useModal from '../hooks/useModal';
 import { couponTypeKeys, couponTypes } from '../types';
 import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
 import useMain from '../hooks/Main/useMain';
 import HeaderText from '../components/@shared/Layout/HeaderText';
 import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
+import useQRCoupon from '../hooks/useQRCoupon';
+import QRCouponRegisterModal from '../components/Main/QRCouponRegisterModal';
 
 const sentOrReceivedArray = ['받은', '보낸'];
 
@@ -30,8 +30,7 @@ const Main = () => {
     showUsedCouponsWith,
     setShowUsedCouponsWith,
   } = useMain();
-
-  const { visible } = useModal();
+  useQRCoupon();
 
   if (error) return <div>에러뜸</div>;
 
@@ -92,8 +91,6 @@ const Main = () => {
           <S.SendIcon />
         </S.SelectReceiverButton>
       </S.Body>
-
-      {visible && <Modal />}
     </MainPageLayout>
   );
 };
