@@ -9,7 +9,7 @@ import { usePutCancelReseravation, usePutReservationStatus } from '../@queries/r
 import useModal from '../useModal';
 import useToast from '../useToast';
 
-const 예약요청응답별코멘트 = {
+export const 예약요청응답별코멘트 = {
   accept: '약속을 승인하셨습니다.',
   deny: '약속을 거절하셨습니다.',
 };

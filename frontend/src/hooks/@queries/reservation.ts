@@ -66,7 +66,6 @@ export const usePutReservationStatus = (
     {
       onSuccess: (_, variables: 예약요청응답Type) => {
         handleSuccess(variables);
-        queryClient.invalidateQueries(RESERVATION_QUERY_KEYS.reservations);
       },
       onError: (error: AxiosError<ErrorType>) => {
         onError?.(error);
