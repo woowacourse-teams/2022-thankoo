@@ -50,7 +50,7 @@ const S = {
 
     place-items: center;
     justify-content: space-around;
-    overflow-y: auto;
+    overflow-y: overlay;
 
     &::-webkit-scrollbar {
       width: 2px;
@@ -62,8 +62,6 @@ const S = {
     }
 
     &:hover {
-      overflow-y: overlay;
-
       &::-webkit-scrollbar {
         width: 2px;
         background-color: transparent;
