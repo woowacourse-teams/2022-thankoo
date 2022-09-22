@@ -22,6 +22,7 @@ const useQRCoupon = () => {
 
   const query = localStorage.getItem('query') || search;
   const code = query.includes('?code=') ? query.replace('?code=', '') : '';
+  localStorage.removeItem('query');
 
   const { data: QRCoupon, refetch } = useQuery<QRCouponResponse>(
     ['QRCoupon'],
@@ -34,9 +35,6 @@ const useQRCoupon = () => {
       return data;
     },
     {
-      onSettled: () => {
-        localStorage.removeItem('query');
-      },
       onSuccess: res => {
         show();
         setModalContent(<QRCouponRegisterModal QRCode={res} serialCode={code} />);
