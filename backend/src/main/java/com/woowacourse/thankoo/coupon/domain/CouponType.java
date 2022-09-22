@@ -23,4 +23,8 @@ public enum CouponType {
                 .findFirst()
                 .orElseThrow(() -> new InvalidCouponContentException(ErrorType.INVALID_COUPON_TYPE));
     }
+
+    public boolean isCoffee() {
+        return this == COFFEE;
+    }
 }

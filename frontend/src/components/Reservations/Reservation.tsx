@@ -1,11 +1,16 @@
 import { useQueryClient } from 'react-query';
-import { usePutCancelReseravation } from '../../hooks/Main/queries/couponDetail';
-import { usePutReservationStatus } from '../../hooks/Reservations/queries/reservations';
+import {
+  RESERVATION_QUERY_KEYS,
+  usePutCancelReseravation,
+  usePutReservationStatus,
+} from '../../hooks/@queries/reservation';
+import useToast from '../../hooks/useToast';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
 const Reservation = ({ couponType, time, memberName, reservationId, order }) => {
   const queryClient = useQueryClient();
+  const { insertToastItem } = useToast();
 
   const { mutate: handleReservation } = usePutReservationStatus(reservationId);
 
@@ -13,7 +18,10 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
   const option2 = order === 'received' ? '승인' : '수정';
   const { mutate: cancelReservation } = usePutCancelReseravation(reservationId, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['reservations']);
+      queryClient.invalidateQueries([RESERVATION_QUERY_KEYS.reservations]);
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
     },
   });
 

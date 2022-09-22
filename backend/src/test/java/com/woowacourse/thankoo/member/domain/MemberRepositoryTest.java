@@ -6,10 +6,10 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -35,20 +35,6 @@ class MemberRepositoryTest {
         Member savedMember = memberRepository.save(member);
 
         assertThat(savedMember).isEqualTo(member);
-    }
-
-    @DisplayName("이름으로 회원을 조회한다.")
-    @Test
-    void findByName() {
-        Member member = new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL);
-        memberRepository.save(member);
-
-        Optional<Member> foundMember = memberRepository.findByName_Value(HOHO_NAME);
-
-        assertAll(
-                () -> assertThat(foundMember).isNotEmpty(),
-                () -> assertThat(foundMember.orElseThrow()).isEqualTo(member)
-        );
     }
 
     @DisplayName("이름 순서대로 회원을 조회한다.")

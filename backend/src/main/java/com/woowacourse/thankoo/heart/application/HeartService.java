@@ -1,8 +1,6 @@
 package com.woowacourse.thankoo.heart.application;
 
-import com.woowacourse.thankoo.alarm.AlarmSender;
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.heart.application.dto.HeartMessage;
 import com.woowacourse.thankoo.heart.application.dto.HeartRequest;
 import com.woowacourse.thankoo.heart.domain.Heart;
 import com.woowacourse.thankoo.heart.domain.HeartRepository;
@@ -24,7 +22,6 @@ public class HeartService {
 
     private final HeartRepository heartRepository;
     private final MemberRepository memberRepository;
-    private final AlarmSender alarmSender;
 
     public void send(final Long senderId, final HeartRequest heartRequest) {
         Member sender = getMember(senderId);
@@ -35,12 +32,10 @@ public class HeartService {
 
         if (foundHeart.isEmpty()) {
             create(sender, receiver, foundOppositeHeart);
-            alarmSender.send(HeartMessage.of(receiver.getEmail().getValue()));
             return;
         }
         Heart heart = getHeart(foundHeart);
         heart.send(getHeart(foundOppositeHeart));
-        alarmSender.send(HeartMessage.of(receiver.getEmail().getValue()));
     }
 
     private void create(final Member sender, final Member receiver, final Optional<Heart> foundOppositeHeart) {

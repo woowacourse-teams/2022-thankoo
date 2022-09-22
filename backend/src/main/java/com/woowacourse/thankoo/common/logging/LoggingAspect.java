@@ -42,7 +42,7 @@ public class LoggingAspect {
     }
 
     @AfterReturning(value = "controllerPointCut() || exceptionHandlerCut()", returning = "response")
-    public void responseLog(final JoinPoint joinPoint, ResponseEntity<?> response) {
+    public void responseLog(final JoinPoint joinPoint, final ResponseEntity<?> response) {
         Signature signature = joinPoint.getSignature();
         log.info("[ RESPONSE ] Controller - {}, Method - {}, returnBody - {}",
                 joinPoint.getTarget().getClass().getSimpleName(),

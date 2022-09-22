@@ -1,15 +1,14 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import defaultUser from '../assets/images/default_user.jpeg';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
-import Header from '../components/@shared/Header';
-import HeaderText from '../components/@shared/HeaderText';
+import Header from '../components/@shared/Layout/Header';
 import Input from '../components/@shared/Input';
-import PageLayout from '../components/@shared/PageLayout';
+import PageLayout from '../components/@shared/Layout/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
 import useUserProfile from '../hooks/Profile/useUserProfile';
 import { USER_NICKNAME_MAX_LENGTH } from './../constants/users';
+import HeaderText from '../components/@shared/Layout/HeaderText';
 
 const UserProfile = () => {
   const { profile, isNameEdit, name, handleClickModifyNameButton, exchangeCount, setName } =
@@ -27,7 +26,7 @@ const UserProfile = () => {
         </S.SubHeader>
       </Header>
       <S.Body>
-        <ProfileUserImage src={profile ? `${profile?.imageUrl}` : defaultUser} />
+        <ProfileUserImage src={profile ? profile?.imageUrl : 'default'} />
         <S.UserInfoBox>
           <S.UserInfoItem>
             <S.Bold>이름</S.Bold>
@@ -59,11 +58,11 @@ const UserProfile = () => {
         <S.UserCouponInfo>
           <S.UserCouponInfoItem>
             <span>보낸 쿠폰 수</span>
-            <span>{exchangeCount.sentCount}</span>
+            <span>{exchangeCount?.sentCount}</span>
           </S.UserCouponInfoItem>
           <S.UserCouponInfoItem>
             <span>받은 쿠폰 수</span>
-            <span>{exchangeCount.receivedCount}</span>
+            <span>{exchangeCount?.receivedCount}</span>
           </S.UserCouponInfoItem>
         </S.UserCouponInfo>
       </S.Body>

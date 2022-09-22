@@ -1,48 +1,75 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import HeaderAndNavLayout from '../components/@shared/Layout/HeaderAndNavLayout';
+import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from './../constants/routes';
-import CreateReservation from './../pages/CreateReservation';
-import EnterCouponContent from './../pages/EnterCouponContent';
-import EnterNickname from './../pages/EnterNickname';
-import Hearts from './../pages/Hearts';
-import Main from './../pages/Main';
-import Meetings from './../pages/Meetings';
-import OnFailurePage from './../pages/OnFailurePage';
-import OnSuccessPage from './../pages/OnSuccessPage';
-import Reservations from './../pages/Reservations';
-import SelectReceiver from './../pages/SelectReceiver';
-import SignIn from './../pages/SignIn';
-import UserProfile from './../pages/UserProfile';
+
+const CreateReservation = lazy(() => import('./../pages/CreateReservation'));
+const EnterCouponContent = lazy(() => import('./../pages/EnterCouponContent'));
+const EnterNickname = lazy(() => import('./../pages/EnterNickname'));
+const Hearts = lazy(() => import('./../pages/Hearts'));
+const Main = lazy(() => import('./../pages/Main'));
+const Meetings = lazy(() => import('./../pages/Meetings'));
+const OnFailurePage = lazy(() => import('./../pages/OnFailurePage'));
+const OnSuccessPage = lazy(() => import('./../pages/OnSuccessPage'));
+const Reservations = lazy(() => import('./../pages/Reservations'));
+const SelectReceiver = lazy(() => import('./../pages/SelectReceiver'));
+const SignIn = lazy(() => import('./../pages/SignIn'));
+const UserProfile = lazy(() => import('./../pages/UserProfile'));
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');
 
-  return storageToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.SIGN_IN}`} />;
+  const { search } = useLocation();
+  if (search) {
+    localStorage.setItem('query', search);
+  }
+
+  return storageToken ? <Outlet /> : <Navigate to={ROUTE_PATH.SIGN_IN} replace />;
 };
 
 const UnAuthOnly = () => {
   const storageToken = localStorage.getItem('token');
 
-  return !storageToken ? <Outlet /> : <Navigate to={`${ROUTE_PATH.EXACT_MAIN}`} />;
+  return !storageToken ? <Outlet /> : <Navigate to={ROUTE_PATH.EXACT_MAIN} replace />;
+};
+
+const SpinnerSuspense = () => {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Outlet />
+    </Suspense>
+  );
 };
 
 const Router = () => {
   return (
     <Routes>
-      <Route path={ROUTE_PATH.ON_SUCCESS} element={<OnSuccessPage />} />
-      <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
+      <Route element={<SpinnerSuspense />}>
+        <Route path={ROUTE_PATH.ON_SUCCESS} element={<OnSuccessPage />} />
+        <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
+      </Route>
       <Route element={<AuthOnly />}>
-        <Route path={ROUTE_PATH.MAIN} element={<Main />} />
-        <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
-        <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
-        <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
-        <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
-        <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
-        <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
-        <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
+        <Route element={<HeaderAndNavLayout />}>
+          <Route element={<SpinnerSuspense />}>
+            <Route path={ROUTE_PATH.MAIN} element={<Main />} />
+            <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
+            <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
+          </Route>
+        </Route>
+        <Route element={<SpinnerSuspense />}>
+          <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
+          <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
+          <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
+          <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
+          <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
+        </Route>
       </Route>
       <Route element={<UnAuthOnly />}>
-        <Route path={ROUTE_PATH.SIGN_IN} element={<SignIn />} />
-        <Route path={ROUTE_PATH.ENTER_NICKNAME} element={<EnterNickname />} />
+        <Route element={<SpinnerSuspense />}>
+          <Route path={ROUTE_PATH.SIGN_IN} element={<SignIn />} />
+          <Route path={ROUTE_PATH.ENTER_NICKNAME} element={<EnterNickname />} />
+        </Route>
       </Route>
     </Routes>
   );

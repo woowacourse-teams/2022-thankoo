@@ -6,7 +6,10 @@ import java.util.Arrays;
 
 public enum ReservationStatus {
 
-    WAITING, DENY, ACCEPT, CANCELED;
+    WAITING,
+    DENY,
+    ACCEPT,
+    CANCELED;
 
     public static ReservationStatus from(final String status) {
         return Arrays.stream(values())
@@ -21,5 +24,9 @@ public enum ReservationStatus {
 
     public boolean isDeny() {
         return this == DENY;
+    }
+
+    public boolean isCanceled() {
+        return this == CANCELED;
     }
 }

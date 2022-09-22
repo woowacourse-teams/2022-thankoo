@@ -15,16 +15,13 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
-import com.woowacourse.thankoo.alarm.AlarmSender;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
@@ -35,7 +32,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 @DisplayName("CouponService 는 ")
 @ApplicationTest
@@ -51,9 +47,6 @@ class CouponServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @MockBean
-    private AlarmSender alarmSender;
-
     @DisplayName("쿠폰을 저장할 때 ")
     @Nested
     class SaveCouponTest {
@@ -68,7 +61,6 @@ class CouponServiceTest {
 
             List<Coupon> coupons = couponRepository.findAll();
 
-            verify(alarmSender, times(1)).send(any());
             assertThat(coupons).hasSize(1);
         }
 
@@ -85,6 +77,17 @@ class CouponServiceTest {
             List<Coupon> coupons = couponRepository.findAll();
 
             assertThat(coupons).hasSize(2);
+        }
+
+        @DisplayName("자신에게 보내는 경우 예외가 발생한다.")
+        @Test
+        void saveInvalidMembersException() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            assertThatThrownBy(() -> couponService.saveAll(sender.getId(), new CouponRequest(List.of(sender.getId()),
+                    new ContentRequest(TYPE, TITLE, MESSAGE))))
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("쿠폰을 생성할 수 없습니다.");
         }
 
         @DisplayName("회원이 존재하지 않으면 예외가 발생한다.")

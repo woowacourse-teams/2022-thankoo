@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import PersonIcon from '@mui/icons-material/Person';
 
-import { flexCenter } from '../../styles/mixIn';
+import { FlexCenter } from '../../styles/mixIn';
 import { BASE_URL } from './../../constants/api';
 
 const ProfileIcon = ({ src, size }: { src: string; size: any }) => {
@@ -56,8 +56,8 @@ const ProfileIcon = ({ src, size }: { src: string; size: any }) => {
       </StyledIconBackGround>
     );
   return (
-    <StyledIconBackGround color={'#transparent'} size={size}>
-      <PersonIcon />
+    <StyledIconBackGround color={'lightgray'} size={size}>
+      <DefaultUserIcon size={size} />
     </StyledIconBackGround>
   );
 };
@@ -75,7 +75,7 @@ const StyledProfileIcon = styled.img<IconProp>`
   width: ${({ size }) => size};
 `;
 const StyledIconBackGround = styled.div<BackgroundProp>`
-  ${flexCenter}
+  ${FlexCenter}
   width: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.3 + 'px'};
   height: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.3 + 'px'};
   background-color: ${({ color }) => color};
@@ -89,6 +89,11 @@ const StyledIconBackGround = styled.div<BackgroundProp>`
   &:hover {
     background-color: ${({ theme }) => theme.button.active.background};
   } */
+`;
+
+const DefaultUserIcon = styled(PersonIcon)<IconProp>`
+  font-size: ${({ size }) => (size ? size : '1.5em')};
+  fill: gray;
 `;
 
 export default ProfileIcon;

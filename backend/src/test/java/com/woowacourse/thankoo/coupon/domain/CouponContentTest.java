@@ -20,14 +20,14 @@ class CouponContentTest {
     @Test
     void CouponContentTitleTrim() {
         CouponContent couponContent = new CouponContent(CouponType.COFFEE, " title ", MESSAGE);
-        assertThat(couponContent.getTitle().equals("title")).isTrue();
+        assertThat(couponContent.getTitle()).isEqualTo("title");
     }
 
     @DisplayName("쿠폰 내용의 앞/뒤에 공백이 있을 경우 제거한다.")
     @Test
     void CouponContentMessageTrim() {
         CouponContent couponContent = new CouponContent(CouponType.COFFEE, TITLE, " message message ");
-        assertThat(couponContent.getMessage().equals("message message")).isTrue();
+        assertThat(couponContent.getMessage()).isEqualTo("message message");
     }
 
     @DisplayName("쿠폰 제목이 조건에 부합하지 않을 경우 예외가 발생한다.")
@@ -46,5 +46,11 @@ class CouponContentTest {
         assertThatThrownBy(() -> new CouponContent(CouponType.COFFEE, TITLE, message))
                 .isInstanceOf(InvalidCouponContentException.class)
                 .hasMessage("잘못된 쿠폰 내용입니다.");
+    }
+
+    @DisplayName("커피 쿠폰이다.")
+    @Test
+    void isCoffeeType() {
+        assertThat(new CouponContent(CouponType.COFFEE, TITLE, MESSAGE).isCoffeeType()).isTrue();
     }
 }

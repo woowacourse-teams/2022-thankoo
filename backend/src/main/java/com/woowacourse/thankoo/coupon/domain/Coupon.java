@@ -45,6 +45,7 @@ public class Coupon extends BaseEntity {
                   final Long receiverId,
                   final CouponContent couponContent,
                   final CouponStatus couponStatus) {
+        validateSendBySenderSelf(senderId, receiverId);
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
@@ -57,6 +58,12 @@ public class Coupon extends BaseEntity {
                   final CouponContent couponContent,
                   final CouponStatus couponStatus) {
         this(null, senderId, receiverId, couponContent, couponStatus);
+    }
+
+    private void validateSendBySenderSelf(final Long senderId, final Long receiverId) {
+        if (senderId.equals(receiverId)) {
+            throw new InvalidCouponException(ErrorType.CAN_NOT_CREATE_COUPON);
+        }
     }
 
     public boolean isNotUsed() {
@@ -100,6 +107,10 @@ public class Coupon extends BaseEntity {
         if (!couponStatus.isReserved()) {
             throw new InvalidCouponException(ErrorType.INVALID_COUPON_STATUS);
         }
+    }
+
+    public boolean isSameCouponContent(final CouponContent couponContent) {
+        return this.couponContent.equals(couponContent);
     }
 
     @Override

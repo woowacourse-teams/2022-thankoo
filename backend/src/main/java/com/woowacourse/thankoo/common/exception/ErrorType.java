@@ -21,6 +21,9 @@ public enum ErrorType {
     INVALID_COUPON_MESSAGE(3003, "잘못된 쿠폰 내용입니다."),
     INVALID_COUPON_STATUS(3004, "잘못된 쿠폰 상태입니다."),
     NOT_FOUND_COUPON(3005, "존재하지 않는 쿠폰입니다."),
+    CAN_NOT_CREATE_COUPON_GROUP(3006, "쿠폰 그룹을 생성할 수 없습니다."),
+    NOT_IN_SAME_COUPON_GROUP(3007, "동일한 쿠폰 그룹이 아닙니다."),
+    CAN_NOT_CREATE_COUPON(3008, "쿠폰을 생성할 수 없습니다."),
 
     INVALID_RESERVATION_TIME(4001, "유효하지 않은 일정입니다."),
     INVALID_RESERVATION_MEMBER_MISMATCH(4002, "예약을 요청할 수 없는 회원입니다."),
@@ -41,11 +44,19 @@ public enum ErrorType {
 
     NOT_FOUND_SLACK_USER(7001, "알람이 불가능한 이메일입니다."),
     NOT_FOUND_ALARM_REQUEST(7002, "전송하려는 알람이 존재하지 않습니다."),
+    INVALID_ALARM_FORMAT(7003, "잘못된 알람 형식입니다."),
+    INVALID_ALARM_TYPE(7004, "잘못된 알람 타입입니다."),
+    INVALID_ALARM_LINK(7005, "잘못된 알람 링크입니다."),
+
+    NOT_FOUND_COUPON_SERIAL(8001, "존재하지 않는 쿠폰 시리얼 번호입니다."),
+    INVALID_COUPON_SERIAL(8002, "유효하지 않은 쿠폰 시리얼 번호입니다."),
+    INVALID_COUPON_SERIAL_EXPIRATION(8005, "사용이 만료된 시리얼 번호입니다."),
+    INVALID_COUPON_SERIAL_TITLE(8006, "잘못된 쿠폰 제목입니다."),
+    INVALID_COUPON_SERIAL_MESSAGE(8007, "잘못된 쿠폰 내용입니다."),
 
     REQUEST_EXCEPTION(9001, "http 요청 에러입니다."),
     INVALID_PATH(9002, "잘못된 경로입니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
-
     private final int code;
     private final String message;
 

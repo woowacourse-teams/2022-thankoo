@@ -1,0 +1,10 @@
+[[Coupob-Serial]]
+[cols=2*,options=header]
+
+=== 시리얼 조회
+
+operation::coupons/get-serial[snippets='http-request,http-response']
+
+=== 시리얼 번호로 쿠폰 생성
+
+operation::coupons/create-with-serial[snippets='http-request,http-response']

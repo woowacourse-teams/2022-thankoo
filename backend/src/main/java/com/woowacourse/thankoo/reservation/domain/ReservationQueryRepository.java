@@ -33,7 +33,7 @@ public class ReservationQueryRepository {
                 + "WHERE r.status = :status "
                 + "AND r.time >= :dateTime "
                 + "AND c.sender_id = :senderId "
-                + "ORDER BY r.date ASC";
+                + "ORDER BY r.time ASC";
 
         SqlParameterSource parameters = new MapSqlParameterSource("senderId", senderId)
                 .addValue("status", "WAITING")
@@ -51,7 +51,7 @@ public class ReservationQueryRepository {
                 + "WHERE r.status = :status "
                 + "AND r.time >= :dateTime "
                 + "AND c.receiver_id = :receiverId "
-                + "ORDER BY r.date ASC";
+                + "ORDER BY r.time ASC";
 
         SqlParameterSource parameters = new MapSqlParameterSource("receiverId", receiverId)
                 .addValue("status", "WAITING")

@@ -18,6 +18,10 @@ public class SlackUserResponse {
         this.profile = profile;
     }
 
+    public boolean isEmailExist() {
+        return profile.getEmail() != null;
+    }
+
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @Getter
     public static class Profile {
@@ -27,5 +31,20 @@ public class SlackUserResponse {
         public Profile(final String email) {
             this.email = email;
         }
+
+        @Override
+        public String toString() {
+            return "Profile{" +
+                    "email='" + email + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "SlackUserResponse{" +
+                "userToken='" + userToken + '\'' +
+                ", profile=" + profile +
+                '}';
     }
 }

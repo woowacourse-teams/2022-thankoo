@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.meeting.application.dto;
 
-import com.woowacourse.thankoo.alarm.support.Message;
+import com.woowacourse.thankoo.alarm.application.dto.Message;
+import java.util.Collections;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class MeetingMessage {
                 .titleLink(TITLE_LINK)
                 .email(emails)
                 .title(PRETEXT)
+                .contents(Collections.emptyList())
                 .build();
     }
 }

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.authentication.exception.GoogleClientException;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleTokenResponse;
-import com.woowacourse.thankoo.common.exception.ErrorType;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
@@ -25,7 +24,6 @@ import org.springframework.web.client.RestTemplate;
 public class GoogleClient {
 
     private static final String AUTHORIZATION_TYPE = "Bearer ";
-    private static final RestTemplate REST_TEMPLATE = new RestTemplate();
     private static final String JWT_DELIMITER = "\\.";
     private static final int PAYLOAD = 1;
 
@@ -34,17 +32,20 @@ public class GoogleClient {
     private final String grantType;
     private final String redirectUri;
     private final String tokenRequestUrl;
+    private final RestTemplate restTemplate;
 
     public GoogleClient(@Value("${oauth.google.client-id}") final String clientId,
                         @Value("${oauth.google.client-secret}") final String clientSecret,
                         @Value("${oauth.google.grant-type}") final String grantType,
                         @Value("${oauth.google.redirect-uri}") final String redirectUri,
-                        @Value("${oauth.google.token-url}") final String tokenRequestUrl) {
+                        @Value("${oauth.google.token-url}") final String tokenRequestUrl,
+                        final RestTemplate restTemplate) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.grantType = grantType;
         this.redirectUri = redirectUri;
         this.tokenRequestUrl = tokenRequestUrl;
+        this.restTemplate = restTemplate;
     }
 
     public String getIdToken(final String code) {
@@ -73,7 +74,7 @@ public class GoogleClient {
     }
 
     private GoogleTokenResponse requestGoogleToken(final HttpEntity<MultiValueMap<String, String>> entity) {
-        return REST_TEMPLATE
+        return restTemplate
                 .exchange(tokenRequestUrl,
                         HttpMethod.POST,
                         entity,

@@ -6,7 +6,6 @@ import static com.woowacourse.thankoo.acceptance.builder.ReservationAssured.예�
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.ALL;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
-import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
@@ -27,6 +26,7 @@ import com.woowacourse.thankoo.acceptance.builder.CouponAssured;
 import com.woowacourse.thankoo.acceptance.builder.MeetingAssured;
 import com.woowacourse.thankoo.acceptance.builder.ReservationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
+import com.woowacourse.thankoo.common.fixtures.CouponFixture;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -60,7 +60,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class);
 
@@ -81,7 +81,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .status(HttpStatus.NO_CONTENT.value());
 
             CouponAssured.request()
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .status(HttpStatus.OK.value())
                     .쿠폰이_조회됨(3);
@@ -106,7 +106,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class);
 
@@ -152,7 +152,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class);
 
@@ -218,7 +218,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             CouponResponse couponResponse = CouponAssured.request()
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class).get(0);
 
@@ -250,7 +250,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             CouponResponse couponResponse = CouponAssured.request()
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class).get(0);
 
@@ -319,6 +319,21 @@ class CouponAcceptanceTest extends AcceptanceTest {
                                 쿠폰_요청(receiverToken1.getMemberId(), receiverToken2.getMemberId()))
                         .response()
                         .status(HttpStatus.OK.value());
+            }
+
+            @DisplayName("자기 자신에게 보내면 실패한다.")
+            @Test
+            void sendByMySelfException() {
+                TokenResponse senderToken = AuthenticationAssured.request()
+                        .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                        .로그인_한다(CODE_SKRR)
+                        .response()
+                        .body(TokenResponse.class);
+
+                CouponAssured.request()
+                        .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(senderToken.getMemberId()))
+                        .response()
+                        .status(HttpStatus.BAD_REQUEST.value());
             }
 
             @DisplayName("제목이 제약조건에 맞지 않을 경우 쿠폰 전송 실패한다.")
@@ -394,7 +409,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             CouponAssured.request()
                     .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(INVALID_TOKEN, NOT_USED)
+                    .받은_쿠폰을_조회한다(INVALID_TOKEN, CouponFixture.NOT_USED)
                     .response()
                     .status(HttpStatus.UNAUTHORIZED.value());
         }

@@ -28,7 +28,7 @@ public class ReceivedHeartResponse {
         this.heartId = heartId;
         this.sender = sender;
         this.count = count;
-        this.receivedAt =receivedAt;
+        this.receivedAt = receivedAt;
         this.last = last;
     }
 
@@ -38,5 +38,16 @@ public class ReceivedHeartResponse {
                 memberHeart.getCount(),
                 memberHeart.getModifiedAt(),
                 memberHeart.isLast());
+    }
+
+    @Override
+    public String toString() {
+        return "ReceivedHeartResponse{" +
+                "heartId=" + heartId +
+                ", sender=" + sender +
+                ", count=" + count +
+                ", receivedAt=" + receivedAt +
+                ", last=" + last +
+                '}';
     }
 }

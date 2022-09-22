@@ -17,7 +17,11 @@ import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 
+import com.woowacourse.thankoo.alarm.infrastructure.slack.CacheSlackUserRepository;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -32,11 +36,13 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @DisplayName("MeetingService 는 ")
 @ApplicationTest
@@ -56,6 +62,9 @@ class MeetingServiceTest {
 
     @Autowired
     private CouponRepository couponRepository;
+
+    @MockBean
+    private CacheSlackUserRepository cacheSlackUserRepository;
 
     @DisplayName("미팅을 완료할 때 ")
     @Nested
@@ -105,6 +114,73 @@ class MeetingServiceTest {
                     () -> assertThat(foundCoupon.getCouponStatus()).isEqualTo(CouponStatus.USED)
             );
         }
+    }
+
+    @DisplayName("오늘 있었던 미팅을 완료할 때 ")
+    @Nested
+    class DateMeetingCompleteTest {
+
+        @DisplayName("만남이 있으면 완료시킨다.")
+        @Test
+        void completeIfMeetingExist() {
+            LocalDateTime meetingDateTime = LocalDateTime.now().plusDays(1L);
+
+            Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Coupon coupon1 = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Long reservationId1 = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon1.getId(), meetingDateTime));
+
+            Coupon coupon2 = couponRepository.save(
+                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Long reservationId2 = reservationService.save(receiver.getId(),
+                    new ReservationRequest(coupon2.getId(), meetingDateTime));
+            reservationService.updateStatus(sender.getId(), reservationId1, new ReservationStatusRequest("accept"));
+            reservationService.updateStatus(sender.getId(), reservationId2, new ReservationStatusRequest("accept"));
+
+            meetingService.complete(meetingDateTime);
+
+            assertThat(meetingRepository.findAllByMeetingStatusAndTimeUnitTime(MeetingStatus.FINISHED, meetingDateTime))
+                    .hasSize(2);
+        }
+
+        @DisplayName("만남이 없을 경우에 예외가 발생하지 않는다.")
+        @Test
+        void completeNoMeeting() {
+            assertDoesNotThrow(() -> meetingService.complete(LocalDateTime.now()));
+        }
+    }
+
+    @DisplayName("해당 날짜에 미팅이 있는 경우 알림을 보낸다.")
+    @Test
+    void sendMessageTodayMeetingMembers() {
+        given(cacheSlackUserRepository.getTokenByEmail(anyString())).willReturn("token");
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Coupon coupon1 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId1 = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon1.getId(), LocalDateTime.now().plusDays(1L)));
+
+        Coupon coupon2 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId2 = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon2.getId(), LocalDateTime.now().plusDays(1L)));
+
+        Coupon coupon3 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId3 = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon3.getId(), LocalDateTime.now().plusDays(1L)));
+
+        reservationService.updateStatus(sender.getId(), reservationId1, new ReservationStatusRequest("accept"));
+        reservationService.updateStatus(sender.getId(), reservationId2, new ReservationStatusRequest("accept"));
+        reservationService.updateStatus(sender.getId(), reservationId3, new ReservationStatusRequest("accept"));
+
+        LocalDate date = LocalDate.now().plusDays(1L);
+        assertDoesNotThrow(() -> meetingService.sendMessageTodayMeetingMembers(date));
     }
 }
 

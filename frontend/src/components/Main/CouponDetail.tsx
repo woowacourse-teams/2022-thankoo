@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { useCouponDetail } from '../../hooks/Main/domain/useCouponDetail';
+import { useCouponDetail } from '../../hooks/Main/useCouponDetail';
 import { Coupon, CouponDetail } from '../../types';
 import CloseButton from '../@shared/CloseButton';
 import PageSlider from '../@shared/PageSlider';
@@ -8,8 +8,7 @@ import CouponDetailCoupon from './ConponDetail.coupon';
 import CouponDetailReservation from './CouponDetail.reservation';
 
 const CouponDetail = ({ couponId }: { couponId: number }) => {
-  const { couponDetail, isLoading, sentOrReceived, buttonOptions, close } =
-    useCouponDetail(couponId);
+  const { couponDetail, isLoading, buttonOptions, close } = useCouponDetail(couponId);
 
   return (
     <S.Container>
@@ -36,7 +35,7 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
                     key={idx}
                     bg={button.bg}
                     disabled={button.disabled}
-                    onClick={button.onClick && button.onClick}
+                    onClick={button?.onClick}
                   >
                     {button.text}
                   </S.Button>
@@ -66,7 +65,6 @@ const S = {
     transform: translate(-50%, -50%);
     width: 28rem;
     height: 40rem;
-    //height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;

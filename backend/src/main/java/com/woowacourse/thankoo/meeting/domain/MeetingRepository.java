@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.meeting.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -19,7 +20,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     Optional<Meeting> findTopByCouponId(@Param("couponId") Long couponId);
 
     @EntityGraph(attributePaths = "coupon", type = EntityGraphType.LOAD)
-    List<Meeting> findAllByMeetingStatusAndTimeUnit_Date(MeetingStatus status, LocalDate date);
+    List<Meeting> findAllByMeetingStatusAndTimeUnitTime(MeetingStatus status, LocalDateTime dateTime);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Meeting m SET m.meetingStatus = :status WHERE m.id IN (:meetingIds)")
@@ -29,5 +30,5 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
             + "LEFT JOIN FETCH mt.meetingMembers.values mtm "
             + "LEFT JOIN FETCH mtm.member m "
             + "WHERE mt.timeUnit.date = :date")
-    List<Meeting> findAllByTimeUnit_Date(@Param("date") LocalDate date);
+    List<Meeting> findAllByTimeUnitDate(@Param("date") LocalDate date);
 }

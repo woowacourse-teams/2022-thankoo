@@ -8,12 +8,12 @@ import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponCon
 import { couponTypeKeys } from '../types';
 
 import CouponLayout from '../components/@shared/CouponLayout';
-import Header from '../components/@shared/Header';
-import HeaderText from '../components/@shared/HeaderText';
-import PageLayout from '../components/@shared/PageLayout';
+import Header from '../components/@shared/Layout/Header';
+import PageLayout from '../components/@shared/Layout/PageLayout';
 import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmCouponContentModal';
 import useModal from '../hooks/useModal';
 import { couponTypes } from '../types/index';
+import HeaderText from '../components/@shared/Layout/HeaderText';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -138,6 +138,7 @@ const S = {
     padding: 10px;
 
     &::placeholder {
+      font-size: 18px;
       color: ${({ theme }) => theme.input.placeholder};
     }
     &:focus {
