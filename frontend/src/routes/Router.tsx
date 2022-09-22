@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import HeaderAndNavLayout from '../components/@shared/Layout/HeaderAndNavLayout';
 import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from './../constants/routes';
@@ -19,6 +19,11 @@ const UserProfile = lazy(() => import('./../pages/UserProfile'));
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');
+
+  const { search } = useLocation();
+  if (search) {
+    localStorage.setItem('query', search);
+  }
 
   return storageToken ? <Outlet /> : <Navigate to={ROUTE_PATH.SIGN_IN} replace />;
 };
@@ -57,7 +62,6 @@ const Router = () => {
           <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
           <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
           <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
-          <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
           <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
         </Route>
       </Route>
