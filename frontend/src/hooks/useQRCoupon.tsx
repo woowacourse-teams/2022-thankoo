@@ -41,7 +41,7 @@ const useQRCoupon = () => {
       },
       onError: () => {
         alert('등록되지 않은 쿠폰입니다.');
-        navigate(ROUTE_PATH.EXACT_MAIN);
+        navigate(ROUTE_PATH.EXACT_MAIN, { replace: true });
       },
       retry: false,
       enabled: !!code,
