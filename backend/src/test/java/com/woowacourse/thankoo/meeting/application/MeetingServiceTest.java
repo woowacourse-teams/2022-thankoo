@@ -169,8 +169,15 @@ class MeetingServiceTest {
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Long reservationId2 = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon2.getId(), LocalDateTime.now().plusDays(1L)));
+
+        Coupon coupon3 = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Long reservationId3 = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon3.getId(), LocalDateTime.now().plusDays(1L)));
+
         reservationService.updateStatus(sender.getId(), reservationId1, new ReservationStatusRequest("accept"));
         reservationService.updateStatus(sender.getId(), reservationId2, new ReservationStatusRequest("accept"));
+        reservationService.updateStatus(sender.getId(), reservationId3, new ReservationStatusRequest("accept"));
 
         LocalDate date = LocalDate.now().plusDays(1L);
         assertDoesNotThrow(() -> meetingService.sendMessageTodayMeetingMembers(date));

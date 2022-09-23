@@ -45,11 +45,14 @@ const DotCommonStyle = css`
 
 const S = {
   Layout: styled.div`
+    position: fixed;
     width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    top: 0;
+    left: 0;
   `,
   Spinner: styled.div`
     margin: 100px auto;

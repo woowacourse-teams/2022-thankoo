@@ -23,7 +23,7 @@ const Modal = () => {
           if (e.nativeEvent.key === 'Escape') close();
         }}
       >
-        <S.Dimmer onClick={() => close()} />
+        <S.Dimmer onClick={close} />
         {modalContent}
       </section>
     </Portal>
@@ -36,7 +36,7 @@ const S = {
   Dimmer: styled.div`
     position: fixed;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     top: 0;
     left: 0;
     background-color: #00000082;

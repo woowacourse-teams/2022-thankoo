@@ -62,7 +62,7 @@ public class MeetingService {
 
     public void sendMessageTodayMeetingMembers(final LocalDate date) {
         Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnitDate(date));
-        Members members = new Members(meetings.getMembers());
+        Members members = new Members(meetings.getDistinctMembers());
         if (!members.isEmpty()) {
             alarmSender.send(MeetingMessage.of(members.getEmails()));
         }

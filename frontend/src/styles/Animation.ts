@@ -32,17 +32,35 @@ export const unMountToast = keyframes`
 `;
 export const onMountFromBottomModal = keyframes`
   0% {
-        bottom: -100%;
+        transform: translate(-50%,50%);
       }
       100% {
-        bottom: 0;
+        transform: translate(-50%,0);
       }
 `;
 export const unMountToBottomModal = keyframes`
   0% {
-        bottom: 0%;
+        transform: translate(-50%,0);
       }
       100% {
-        bottom: -100%;
+        transform: translate(-50%,50%);
+      }
+`;
+
+export const onMountToCenterModal = keyframes`
+  0% {
+        transform: translate(-50%,0);
+      }
+      100% {
+        transform: translate(-50%,-50%);
+      }
+`;
+
+export const unMountCenterToButtomModal = keyframes`
+  0% {
+        transform: translate(-50%,-50%);
+      }
+      100% {
+        transform: translate(-50%,0);
       }
 `;

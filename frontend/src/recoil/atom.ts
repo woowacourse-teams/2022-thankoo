@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { atom } from 'recoil';
 import { UserProfile } from '../types';
 
@@ -19,7 +20,7 @@ export const modalVisibleAtom = atom({
   default: false,
 });
 
-export const modalContentAtom = atom<any>({
+export const modalContentAtom = atom<ReactNode>({
   key: 'modalContentAtom',
   default: null,
 });

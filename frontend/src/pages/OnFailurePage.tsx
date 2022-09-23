@@ -1,17 +1,21 @@
 import styled from '@emotion/styled';
+import { Suspense } from 'react';
+import Spinner from '../components/@shared/Spinner';
 
 const OnFailurePage = () => {
   return (
-    <S.Layout>
-      <S.SuccessCheckmark>
-        <S.CheckIcon>
-          <S.IconTip />
-          <S.IconLong />
-          <S.IconCircle />
-          <S.IconFix />
-        </S.CheckIcon>
-      </S.SuccessCheckmark>
-    </S.Layout>
+    <Suspense fallback={<Spinner />}>
+      <S.Layout>
+        <S.SuccessCheckmark>
+          <S.CheckIcon>
+            <S.IconTip />
+            <S.IconLong />
+            <S.IconCircle />
+            <S.IconFix />
+          </S.CheckIcon>
+        </S.SuccessCheckmark>
+      </S.Layout>
+    </Suspense>
   );
 };
 

@@ -8,8 +8,7 @@ import CouponDetailCoupon from './ConponDetail.coupon';
 import CouponDetailReservation from './CouponDetail.reservation';
 
 const CouponDetail = ({ couponId }: { couponId: number }) => {
-  const { couponDetail, isLoading, sentOrReceived, buttonOptions, close } =
-    useCouponDetail(couponId);
+  const { couponDetail, isLoading, buttonOptions, close } = useCouponDetail(couponId);
 
   return (
     <S.Container>
@@ -36,7 +35,7 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
                     key={idx}
                     bg={button.bg}
                     disabled={button.disabled}
-                    onClick={button.onClick && button.onClick}
+                    onClick={button?.onClick}
                   >
                     {button.text}
                   </S.Button>
@@ -65,8 +64,6 @@ const S = {
     z-index: 1000;
     transform: translate(-50%, -50%);
     width: 28rem;
-    height: 40rem;
-    //height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -111,7 +108,7 @@ const S = {
     color: ${({ theme, disabled }) =>
       disabled ? theme.button.disbaled.color : theme.button.abled.color};
     width: 100%;
-    padding: 0.7rem;
+    padding: 1rem;
     font-size: 1.5rem;
     height: fit-content;
   `,

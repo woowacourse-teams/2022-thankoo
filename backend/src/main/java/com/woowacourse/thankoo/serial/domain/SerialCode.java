@@ -16,7 +16,7 @@ public class SerialCode {
 
     private static final int CODE_LENGTH = 8;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", length = 50, nullable = false, unique = true)
     private String value;
 
     public SerialCode(final String value) {

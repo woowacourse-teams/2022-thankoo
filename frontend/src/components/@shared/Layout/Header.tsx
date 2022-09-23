@@ -7,7 +7,7 @@ const Header = styled.header`
   align-items: flex-start;
   gap: 1.2rem;
   color: ${({ theme }) => theme.header.color};
-  margin: 1rem 3vw;
+  margin: 3rem 3vw 0;
 `;
 
 export default Header;

@@ -1,21 +1,37 @@
 import { useQueryClient } from 'react-query';
 import {
+  RESERVATION_QUERY_KEYS,
   usePutCancelReseravation,
   usePutReservationStatus,
 } from '../../hooks/@queries/reservation';
+import { 예약요청응답별코멘트 } from '../../hooks/Main/useCouponDetail';
+import useToast from '../../hooks/useToast';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
 const Reservation = ({ couponType, time, memberName, reservationId, order }) => {
   const queryClient = useQueryClient();
+  const { insertToastItem } = useToast();
 
-  const { mutate: handleReservation } = usePutReservationStatus(reservationId);
+  const { mutate: handleReservation } = usePutReservationStatus(reservationId, {
+    onSuccess: status => {
+      insertToastItem(예약요청응답별코멘트[status]);
+      queryClient.invalidateQueries(RESERVATION_QUERY_KEYS.reservations);
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
+    },
+  });
 
   const option1 = order === 'received' ? '거절' : '취소';
   const option2 = order === 'received' ? '승인' : '수정';
   const { mutate: cancelReservation } = usePutCancelReseravation(reservationId, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['reservations']);
+      insertToastItem('예약을 취소했습니다');
+      queryClient.invalidateQueries([RESERVATION_QUERY_KEYS.reservations]);
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
     },
   });
 

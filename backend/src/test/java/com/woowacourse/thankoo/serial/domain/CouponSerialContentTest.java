@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("CouponSerialContent 는 ")
-public class CouponSerialContentTest {
+class CouponSerialContentTest {
 
     @DisplayName("쿠폰 시리얼 제목의 앞/뒤에 공백이 있을 경우 제거한다.")
     @Test
