@@ -1,4 +1,4 @@
-import { CreatedDate } from './date';
+import { YYYY, YYYYMMDD } from 'thankoo-utils-type';
 
 export type CouponStatus = 'expired' | 'used' | 'reserving' | 'reserved' | 'not_used';
 
@@ -8,7 +8,7 @@ export interface Coupon {
   receiver: UserProfile;
   content: CouponContent;
   status: CouponStatus;
-  createdDate: CreatedDate;
+  createdDate: YYYYMMDD;
 }
 export interface CouponDetail {
   coupon: Coupon;
