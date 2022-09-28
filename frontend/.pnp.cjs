@@ -68,6 +68,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-transition-group", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:4.4.5"],\
             ["recoil", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:0.7.4"],\
             ["style-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:3.3.1"],\
+            ["thankoo-utils-type", "npm:0.1.1"],\
             ["ts-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:9.3.1"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"],\
             ["webpack", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:5.73.0"],\
@@ -10034,6 +10035,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-transition-group", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:4.4.5"],\
             ["recoil", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:0.7.4"],\
             ["style-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:3.3.1"],\
+            ["thankoo-utils-type", "npm:0.1.1"],\
             ["ts-loader", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:9.3.1"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"],\
             ["webpack", "virtual:8496266982e7a1c989906c2289aaa0dd3fff839aebc052ac6d29d8a0e6a9dbf594ea82a3f5cbafe5e1a2d96d501a291f1baf3be1e32fdc53016032813fe7c650#npm:5.73.0"],\
@@ -10042,6 +10044,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["webpack-merge", "npm:5.8.0"]\
           ],\
           "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["thankoo-utils-type", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/cache/thankoo-utils-type-npm-0.1.1-d87249f570-2b94e560fe.zip/node_modules/thankoo-utils-type/",\
+          "packageDependencies": [\
+            ["thankoo-utils-type", "npm:0.1.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["through", [\
