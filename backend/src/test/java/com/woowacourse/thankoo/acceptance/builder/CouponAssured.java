@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.acceptance.builder;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.putWithToken;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
@@ -71,6 +72,11 @@ public class CouponAssured {
 
         public CouponRequestBuilder 주고_받은_쿠폰_개수를_조회한다(final String accessToken) {
             response = getWithToken("/api/coupons/count", accessToken);
+            return this;
+        }
+
+        public CouponRequestBuilder 쿠폰을_즉시_사용한다(final Long couponId, final String accessToken) {
+            response = putWithToken("/api/coupons/" + couponId + "/complete", accessToken);
             return this;
         }
 

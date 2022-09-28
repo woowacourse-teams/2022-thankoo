@@ -23,6 +23,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.NULL;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
@@ -30,6 +31,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -429,6 +432,30 @@ class CouponControllerTest extends ControllerTest {
                 responseFields(
                         fieldWithPath("sentCount").type(NUMBER).description("sent count"),
                         fieldWithPath("receivedCount").type(NUMBER).description("received count")
+                )
+        ));
+    }
+
+    @DisplayName("쿠폰을 즉시 사용한다.")
+    @Test
+    void completeCoupon() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString()))
+                .willReturn("1");
+
+        ResultActions resultActions = mockMvc.perform(put("/api/coupons/{couponId}/complete", 1L)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk());
+
+        resultActions.andDo(document("coupons/coupon-complete",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                pathParameters(
+                        parameterWithName("couponId").description("couponId")
                 )
         ));
     }
