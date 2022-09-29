@@ -43,6 +43,7 @@ public class CouponService {
     public void complete(final Long memberId, final Long couponId) {
         Member member = getMember(memberId);
         Coupon coupon = getCoupon(couponId);
+        coupon.complete(member.getId());
     }
 
     private Member getMember(final Long memberId) {
