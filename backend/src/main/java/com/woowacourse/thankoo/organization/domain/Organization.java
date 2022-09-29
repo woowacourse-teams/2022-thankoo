@@ -43,13 +43,13 @@ public class Organization extends BaseEntity {
     private OrganizationMembers organizationMembers;
 
     private Organization(final Long id,
-                         final String name,
+                         final OrganizationName organizationName,
                          final OrganizationCode code,
                          final int limitedSize,
                          final OrganizationMembers organizationMembers) {
         validateMaxLimitedSize(limitedSize);
         this.id = id;
-        this.name = new OrganizationName(name);
+        this.name = organizationName;
         this.code = code;
         this.limitedSize = limitedSize;
         this.organizationMembers = organizationMembers;
@@ -65,7 +65,7 @@ public class Organization extends BaseEntity {
                          final CodeGenerator codeGenerator,
                          final int limitedSize) {
         this(null,
-                name,
+                new OrganizationName(name),
                 OrganizationCode.create(codeGenerator),
                 limitedSize,
                 new OrganizationMembers(Collections.emptyList()));
@@ -73,8 +73,11 @@ public class Organization extends BaseEntity {
 
     public static Organization create(final String name,
                                       final CodeGenerator codeGenerator,
-                                      final int limitedSize) {
-        return new Organization(name, codeGenerator, limitedSize);
+                                      final int limitedSize,
+                                      final OrganizationValidator organizationValidator) {
+        Organization organization = new Organization(name, codeGenerator, limitedSize);
+        organizationValidator.validate(organization);
+        return organization;
     }
 
     @Override
