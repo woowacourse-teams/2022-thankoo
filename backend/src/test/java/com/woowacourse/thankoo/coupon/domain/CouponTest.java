@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
+import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -144,7 +145,7 @@ class CouponTest {
             Coupon coupon = new Coupon(1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED);
 
             assertThatThrownBy(() -> coupon.complete(3L))
-                    .isInstanceOf(InvalidCouponException.class)
+                    .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("쿠폰을 즉시사용할 수 있는 회원이 아닙니다.");
         }
 
