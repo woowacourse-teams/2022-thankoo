@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
+import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -124,7 +125,7 @@ public class Coupon extends BaseEntity {
         }
 
         if (!isSender(memberId) && !isReceiver(memberId)) {
-            throw new InvalidCouponException(ErrorType.CAN_NOT_COMPLETE_MISMATCH_MEMBER);
+            throw new InvalidMemberException(ErrorType.CAN_NOT_COMPLETE_MISMATCH_MEMBER);
         }
 
         couponStatus = CouponStatus.USED;
