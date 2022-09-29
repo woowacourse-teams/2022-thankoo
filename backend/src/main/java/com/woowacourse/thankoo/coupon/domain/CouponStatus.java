@@ -38,4 +38,8 @@ public enum CouponStatus {
     public boolean isUsed() {
         return this == USED;
     }
+
+    public boolean isExpired() {
+        return this == EXPIRED;
+    }
 }

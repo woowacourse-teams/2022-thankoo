@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import java.util.Objects;
@@ -111,6 +112,22 @@ public class Coupon extends BaseEntity {
 
     public boolean isSameCouponContent(final CouponContent couponContent) {
         return this.couponContent.equals(couponContent);
+    }
+
+    public void complete(final Long memberId) {
+        if (couponStatus.isReserving()) {
+            Events.publish(new CouponCompleteEvent(id));
+        }
+
+        if (couponStatus.isReserved() || couponStatus.isUsed() || couponStatus.isExpired()) {
+            throw new InvalidCouponException(ErrorType.CAN_NOT_COMPLETE);
+        }
+
+        if (!isSender(memberId) && !isReceiver(memberId)) {
+            throw new InvalidCouponException(ErrorType.CAN_NOT_COMPLETE_MISMATCH_MEMBER);
+        }
+
+        couponStatus = CouponStatus.USED;
     }
 
     @Override

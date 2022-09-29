@@ -160,6 +160,10 @@ public class Reservation extends BaseEntity {
         Events.publish(ReservationCanceledEvent.of(coupon, memberId));
     }
 
+    public void complete() {
+        reservationStatus = ReservationStatus.ACCEPT;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
