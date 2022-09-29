@@ -12,6 +12,7 @@ public enum ErrorType {
 
     INVALID_ORGANIZATION_CODE(1101, "잘못된 조직 코드입니다."),
     INVALID_ORGANIZATION_NAME(1102, "잘못된 조직 이름입니다."),
+    INVALID_LIMITED_SIZE(1103, "조직의 정원을 다시 설정하세요."),
 
     NOT_FOUND_MEMBER(2001, "존재하지 않는 회원입니다."),
     INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),

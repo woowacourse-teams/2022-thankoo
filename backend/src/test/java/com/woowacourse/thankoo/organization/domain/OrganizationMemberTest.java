@@ -18,7 +18,7 @@ class OrganizationMemberTest {
     @DisplayName("정상적으로 생성한다.")
     @Test
     void create() {
-        Organization organization = Organization.create(ORGANIZATION_NAME, new OrganizationCodeGenerator());
+        Organization organization = Organization.create(ORGANIZATION_NAME, new OrganizationCodeGenerator(), 100);
         assertDoesNotThrow(() -> new OrganizationMember(
                 new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL),
                 organization,

@@ -1,8 +1,11 @@
 package com.woowacourse.thankoo.organization.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.Collections;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +23,8 @@ import lombok.NoArgsConstructor;
 public class Organization extends BaseEntity {
 
     private static final int NAME_LENGTH = 12;
+    private static final int MIN_LIMITED_SIZE = 10;
+    private static final int MAX_LIMITED_SIZE = 500;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,27 +36,45 @@ public class Organization extends BaseEntity {
     @Embedded
     private OrganizationCode code;
 
+    @Column(name = "limited_size")
+    private int limitedSize;
+
     @Embedded
     private OrganizationMembers organizationMembers;
 
     private Organization(final Long id,
                          final String name,
                          final OrganizationCode code,
+                         final int limitedSize,
                          final OrganizationMembers organizationMembers) {
+        validateMaxLimitedSize(limitedSize);
         this.id = id;
         this.name = new OrganizationName(name);
         this.code = code;
+        this.limitedSize = limitedSize;
         this.organizationMembers = organizationMembers;
     }
 
+    private void validateMaxLimitedSize(final int limitedSize) {
+        if (limitedSize < MIN_LIMITED_SIZE || limitedSize > MAX_LIMITED_SIZE) {
+            throw new InvalidOrganizationException(ErrorType.INVALID_LIMITED_SIZE);
+        }
+    }
+
     private Organization(final String name,
-                         final CodeGenerator codeGenerator) {
-        this(null, name, OrganizationCode.create(codeGenerator), new OrganizationMembers(Collections.emptyList()));
+                         final CodeGenerator codeGenerator,
+                         final int limitedSize) {
+        this(null,
+                name,
+                OrganizationCode.create(codeGenerator),
+                limitedSize,
+                new OrganizationMembers(Collections.emptyList()));
     }
 
     public static Organization create(final String name,
-                                      final CodeGenerator codeGenerator) {
-        return new Organization(name, codeGenerator);
+                                      final CodeGenerator codeGenerator,
+                                      final int limitedSize) {
+        return new Organization(name, codeGenerator, limitedSize);
     }
 
     @Override
@@ -69,5 +92,16 @@ public class Organization extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "id=" + id +
+                ", name=" + name +
+                ", code=" + code +
+                ", limitedSize=" + limitedSize +
+                ", organizationMembers=" + organizationMembers +
+                '}';
     }
 }
