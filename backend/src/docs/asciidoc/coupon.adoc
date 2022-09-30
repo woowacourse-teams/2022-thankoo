@@ -55,4 +55,4 @@ operation::coupons/count[snippets='http-request,http-response']
 
 === 쿠폰 즉시 사용
 
-operation::coupons/coupon-complete[snippets='http-request,http-response']
+operation::coupons/coupon-use[snippets='http-request,http-response']

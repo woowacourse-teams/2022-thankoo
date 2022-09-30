@@ -56,7 +56,7 @@ public class CouponController {
         return ResponseEntity.ok(couponQueryService.getCouponTotalCount(memberId));
     }
 
-    @PutMapping("/{couponId}/complete")
+    @PutMapping("/{couponId}/use")
     public ResponseEntity<Void> complete(@AuthenticationPrincipal final Long memberId,
                                          @PathVariable final Long couponId) {
         couponService.complete(memberId, couponId);
