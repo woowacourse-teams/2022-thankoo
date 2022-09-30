@@ -80,7 +80,7 @@ const S = {
   `,
   DotsWrapper: styled.div`
     width: 100%;
-    margin: 10px auto;
+    margin: 1.5rem auto;
     display: flex;
     gap: 7px;
     justify-content: center;

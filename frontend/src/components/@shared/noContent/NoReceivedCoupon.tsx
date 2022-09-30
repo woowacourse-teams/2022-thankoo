@@ -17,7 +17,7 @@ const NoReceivedCoupon = () => {
           기브 앤 테이크를 노려볼까요...!?
         </S.Comment>
         <Link to={ROUTE_PATH.SELECT_RECEIVER}>
-          <S.Button>마음 보내기💛</S.Button>
+          <S.Button>쿠폰 보내기</S.Button>
         </Link>
       </S.Box>
     </S.Container>
@@ -50,7 +50,7 @@ const S = {
   Button: styled.button`
     background-color: ${({ theme }) => theme.primary};
     color: ${({ theme }) => theme.button.abled};
-    padding: 8px 12px;
+    padding: 1rem;
     border: none;
     border-radius: 6px;
     margin-top: 20px;
