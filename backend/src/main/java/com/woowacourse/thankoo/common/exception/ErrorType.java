@@ -24,7 +24,7 @@ public enum ErrorType {
     CAN_NOT_CREATE_COUPON_GROUP(3006, "쿠폰 그룹을 생성할 수 없습니다."),
     NOT_IN_SAME_COUPON_GROUP(3007, "동일한 쿠폰 그룹이 아닙니다."),
     CAN_NOT_CREATE_COUPON(3008, "쿠폰을 생성할 수 없습니다."),
-    CAN_NOT_COMPLETE(3009, "쿠폰을 즉시사용할 수 있는 상태가 아닙니다."),
+    CAN_NOT_USE_COUPON(3009, "쿠폰을 즉시사용할 수 있는 상태가 아닙니다."),
     CAN_NOT_COMPLETE_MISMATCH_MEMBER(3010, "쿠폰을 즉시사용할 수 있는 회원이 아닙니다."),
 
     INVALID_RESERVATION_TIME(4001, "유효하지 않은 일정입니다."),

@@ -134,7 +134,7 @@ public class Coupon extends BaseEntity {
 
     private void validateStatus() {
         if (!couponStatus.isCompleteStatus()) {
-            throw new InvalidCouponException(ErrorType.CAN_NOT_COMPLETE);
+            throw new InvalidCouponException(ErrorType.CAN_NOT_USE_COUPON);
         }
     }
 
