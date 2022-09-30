@@ -116,19 +116,36 @@ public class Coupon extends BaseEntity {
     }
 
     public void complete(final Long memberId) {
+        validateExchangedMember(memberId);
+        validateStatus();
+        publishCouponCompleteEvent();
+        couponStatus = CouponStatus.USED;
+    }
+
+    private void validateExchangedMember(final Long memberId) {
+        if (!isExchangedMember(memberId)) {
+            throw new InvalidMemberException(ErrorType.CAN_NOT_COMPLETE_MISMATCH_MEMBER);
+        }
+    }
+
+    private boolean isExchangedMember(final Long memberId) {
+        return isSender(memberId) || isReceiver(memberId);
+    }
+
+    private void validateStatus() {
+        if (!isCompleteStatus()) {
+            throw new InvalidCouponException(ErrorType.CAN_NOT_COMPLETE);
+        }
+    }
+
+    private boolean isCompleteStatus() {
+        return !couponStatus.isReserved() && !couponStatus.isUsed() && !couponStatus.isExpired();
+    }
+
+    private void publishCouponCompleteEvent() {
         if (couponStatus.isReserving()) {
             Events.publish(new CouponCompleteEvent(id));
         }
-
-        if (couponStatus.isReserved() || couponStatus.isUsed() || couponStatus.isExpired()) {
-            throw new InvalidCouponException(ErrorType.CAN_NOT_COMPLETE);
-        }
-
-        if (!isSender(memberId) && !isReceiver(memberId)) {
-            throw new InvalidMemberException(ErrorType.CAN_NOT_COMPLETE_MISMATCH_MEMBER);
-        }
-
-        couponStatus = CouponStatus.USED;
     }
 
     @Override
