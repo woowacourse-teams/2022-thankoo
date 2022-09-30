@@ -381,7 +381,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
         @DisplayName("쿠폰을 즉시 사용한다.")
         @Test
-        void Complete() {
+        void complete() {
             TokenResponse senderToken = AuthenticationAssured.request()
                     .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
                     .로그인_한다(CODE_SKRR)
