@@ -59,6 +59,7 @@ public class CouponController {
     @PutMapping("/{couponId}/complete")
     public ResponseEntity<Void> complete(@AuthenticationPrincipal final Long memberId,
                                          @PathVariable final Long couponId) {
+        couponService.complete(memberId, couponId);
         return ResponseEntity.ok().build();
     }
 }

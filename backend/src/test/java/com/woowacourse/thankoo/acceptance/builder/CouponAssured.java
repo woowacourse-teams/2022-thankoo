@@ -122,6 +122,14 @@ public class CouponAssured {
             );
         }
 
+        public void 쿠폰의_상태가_조회됨(final Long couponId, final String status) {
+            List<CouponResponse> responses = bodies(CouponResponse.class);
+            CouponResponse couponResponse = responses.stream()
+                    .filter(it -> it.getCouponId().equals(couponId)).findFirst()
+                    .orElseThrow();
+            assertThat(couponResponse.getStatus()).isEqualTo(status);
+        }
+
         public void 쿠폰_개수가_조회됨(final int sentCount, final int receivedCount) {
             CouponTotalResponse couponTotalResponse = body(CouponTotalResponse.class);
             assertAll(

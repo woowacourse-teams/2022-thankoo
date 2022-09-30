@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.reservation.application;
 
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
@@ -33,6 +34,7 @@ import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequ
 import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
+import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
@@ -250,5 +252,24 @@ class ReservationServiceTest {
         Reservation reservation1 = reservationRepository.findById(reservation1Id).get();
 
         assertThat(reservation1.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
+    }
+
+    @DisplayName("쿠폰을 즉시 완료하면 예약이 승인으로 변경된다.")
+    @Test
+    void complete() {
+        Coupon coupon = new Coupon(1L, 2L, new CouponContent(TYPE, TITLE, MESSAGE), NOT_USED);
+        couponRepository.save(coupon);
+
+        Reservation reservation = Reservation.reserve(LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                ReservationStatus.WAITING, 2L,
+                coupon);
+
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        coupon.complete(2L);
+
+        Reservation acceptReservation = reservationRepository.findById(savedReservation.getId()).get();
+
+        assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT);
     }
 }

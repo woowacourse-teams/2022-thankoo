@@ -399,10 +399,11 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             Long couponId = couponResponse.getCouponId();
 
-            CouponResponseBuilder response = CouponAssured.request()
+            CouponAssured.request()
                     .쿠폰을_즉시_사용한다(couponId, receiverToken.getAccessToken())
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), USED)
                     .response()
-                    .status(HttpStatus.OK.value());
+                    .쿠폰의_상태가_조회됨(couponId, USED);
         }
     }
 
