@@ -115,11 +115,7 @@ public class Coupon extends BaseEntity {
         return this.couponContent.equals(couponContent);
     }
 
-    public boolean isCompleteStatus() {
-        return !couponStatus.isReserved() && !couponStatus.isUsed() && !couponStatus.isExpired();
-    }
-
-    public void complete(final Long memberId) {
+    public void use(final Long memberId) {
         validateExchangedMember(memberId);
         validateStatus();
         publishCouponCompleteEvent();
@@ -137,7 +133,7 @@ public class Coupon extends BaseEntity {
     }
 
     private void validateStatus() {
-        if (!isCompleteStatus()) {
+        if (!couponStatus.isCompleteStatus()) {
             throw new InvalidCouponException(ErrorType.CAN_NOT_COMPLETE);
         }
     }

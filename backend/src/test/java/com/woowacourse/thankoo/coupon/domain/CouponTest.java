@@ -134,7 +134,7 @@ class CouponTest {
         void isNotUsed(CouponStatus status) {
             Coupon coupon = new Coupon(1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), status);
 
-            assertThatThrownBy(() -> coupon.complete(1L))
+            assertThatThrownBy(() -> coupon.use(1L))
                     .isInstanceOf(InvalidCouponException.class)
                     .hasMessage("쿠폰을 즉시사용할 수 있는 상태가 아닙니다.");
         }
@@ -144,7 +144,7 @@ class CouponTest {
         void isNotSenderOrReceiver() {
             Coupon coupon = new Coupon(1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED);
 
-            assertThatThrownBy(() -> coupon.complete(3L))
+            assertThatThrownBy(() -> coupon.use(3L))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("쿠폰을 즉시사용할 수 있는 회원이 아닙니다.");
         }
@@ -154,7 +154,7 @@ class CouponTest {
         void complete() {
             Coupon coupon = new Coupon(1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED);
 
-            coupon.complete(1L);
+            coupon.use(1L);
 
             assertThat(coupon.getCouponStatus()).isEqualTo(USED);
         }

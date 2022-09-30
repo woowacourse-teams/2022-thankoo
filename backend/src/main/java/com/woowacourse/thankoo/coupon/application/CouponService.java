@@ -10,7 +10,6 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +42,7 @@ public class CouponService {
     public void complete(final Long memberId, final Long couponId) {
         Member member = getMember(memberId);
         Coupon coupon = getCoupon(couponId);
-        coupon.complete(member.getId());
+        coupon.use(member.getId());
     }
 
     private Member getMember(final Long memberId) {
