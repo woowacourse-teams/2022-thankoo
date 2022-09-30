@@ -115,6 +115,10 @@ public class Coupon extends BaseEntity {
         return this.couponContent.equals(couponContent);
     }
 
+    public boolean isCompleteStatus() {
+        return !couponStatus.isReserved() && !couponStatus.isUsed() && !couponStatus.isExpired();
+    }
+
     public void complete(final Long memberId) {
         validateExchangedMember(memberId);
         validateStatus();
@@ -138,14 +142,14 @@ public class Coupon extends BaseEntity {
         }
     }
 
-    private boolean isCompleteStatus() {
-        return !couponStatus.isReserved() && !couponStatus.isUsed() && !couponStatus.isExpired();
-    }
-
     private void publishCouponCompleteEvent() {
         if (couponStatus.isReserving()) {
             Events.publish(new CouponCompleteEvent(id));
         }
+    }
+
+    public boolean isReserving() {
+        return couponStatus.isReserving();
     }
 
     @Override

@@ -160,8 +160,12 @@ public class Reservation extends BaseEntity {
         Events.publish(ReservationCanceledEvent.of(coupon, memberId));
     }
 
-    public void complete() {
-        reservationStatus = ReservationStatus.ACCEPT;
+    public void cancelByUsedCoupon() {
+        if (coupon.isReserving()) {
+            reservationStatus = ReservationStatus.CANCELED;
+            return;
+        }
+        throw new InvalidReservationException(ErrorType.CAN_NOT_CANCEL_COUPON_STATUS);
     }
 
     @Override

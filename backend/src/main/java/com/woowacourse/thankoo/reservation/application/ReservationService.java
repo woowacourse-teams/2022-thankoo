@@ -84,7 +84,7 @@ public class ReservationService {
     @EventListener
     public void complete(final CouponCompleteEvent event) {
         Reservation reservation = getReservation(event.getCouponId());
-        reservation.complete();
+        reservation.cancelByUsedCoupon();
     }
 
     private Reservation getReservation(final Long couponId) {

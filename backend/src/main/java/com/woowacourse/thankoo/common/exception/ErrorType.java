@@ -33,6 +33,7 @@ public enum ErrorType {
     NOT_FOUND_RESERVATION(4004, "존재하지 않는 예약입니다."),
     NOT_FOUND_RESERVATION_STATUS(4005, "존재하지 않는 예약 상태입니다."),
     CAN_NOT_CHANGE_RESERVATION_STATUS(4006, "예약 상태를 변경할 수 없습니다."),
+    CAN_NOT_CANCEL_COUPON_STATUS(4007, "예약을 취소할 수 없는 쿠폰 상태입니다."),
 
     INVALID_MEETING_MEMBER(5001, "잘못된 미팅 참여자입니다."),
     INVALID_MEETING_MEMBER_COUNT(5002, "미팅 참여자는 두 명이어야 합니다."),

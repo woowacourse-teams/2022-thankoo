@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
+import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -34,7 +35,6 @@ import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequ
 import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
-import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
@@ -60,6 +60,9 @@ class ReservationServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private CouponService couponService;
 
     @DisplayName("예약을 생성할 때 ")
     @Nested
@@ -254,22 +257,20 @@ class ReservationServiceTest {
         assertThat(reservation1.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
     }
 
-    @DisplayName("쿠폰을 즉시 완료하면 예약이 승인으로 변경된다.")
+    @DisplayName("쿠폰이 완료되면 예약이 취소 상태로 변경된다.")
     @Test
     void complete() {
-        Coupon coupon = new Coupon(1L, 2L, new CouponContent(TYPE, TITLE, MESSAGE), NOT_USED);
-        couponRepository.save(coupon);
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+        Coupon coupon = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE), NOT_USED));
 
-        Reservation reservation = Reservation.reserve(LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
-                ReservationStatus.WAITING, 2L,
-                coupon);
+        Long reservationId = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
-        Reservation savedReservation = reservationRepository.save(reservation);
+        couponService.complete(receiver.getId(), coupon.getId());
+        Reservation acceptReservation = reservationRepository.findById(reservationId).get();
 
-        coupon.complete(2L);
-
-        Reservation acceptReservation = reservationRepository.findById(savedReservation.getId()).get();
-
-        assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.ACCEPT);
+        assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
     }
 }
