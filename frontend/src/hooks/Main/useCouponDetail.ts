@@ -118,7 +118,6 @@ export const useCouponDetail = (couponId: number) => {
             }
           },
         },
-        immediateUseButton,
       ],
       used: [{ text: '이미 사용된 쿠폰입니다', disable: true, bg: '#838383' }],
       expired: [{ text: '만료된 쿠폰입니다', disable: true, bg: '#838383' }],
@@ -127,22 +126,22 @@ export const useCouponDetail = (couponId: number) => {
       not_used: [immediateUseButton],
       reserving: [
         {
-          text: '승인',
-          disabled: false,
-          bg: 'tomato',
-          onClick: () => {
-            if (confirm('예약을 승인하시겠습니까?')) {
-              handleReservation('accept');
-            }
-          },
-        },
-        {
           text: '거절',
           disabled: false,
           bg: '#838383',
           onClick: () => {
             if (confirm('예약을 거절하시겠습니까?')) {
               handleReservation('deny');
+            }
+          },
+        },
+        {
+          text: '승인',
+          disabled: false,
+          bg: 'tomato',
+          onClick: () => {
+            if (confirm('예약을 승인하시겠습니까?')) {
+              handleReservation('accept');
             }
           },
         },
@@ -158,7 +157,6 @@ export const useCouponDetail = (couponId: number) => {
             }
           },
         },
-        immediateUseButton,
       ],
       used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
       expired: [{ text: '만료된 쿠폰입니다', disabled: true, bg: '#838383' }],
