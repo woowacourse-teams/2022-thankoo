@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 class PasswordEncryptionTest {
 
     @Autowired
-    PasswordEncryption passwordEncryption;
+    private PasswordEncryption passwordEncryption;
 
     @DisplayName("주어진 비밀번호를 암호화해야 한다.")
     @Test

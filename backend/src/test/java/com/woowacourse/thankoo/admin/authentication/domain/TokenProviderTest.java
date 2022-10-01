@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 class TokenProviderTest {
 
     @Autowired
-    TokenProvider accessTokenProvider;
+    private TokenProvider accessTokenProvider;
 
     @DisplayName("토큰을 생성해 반환해야 한다.")
     @Test
