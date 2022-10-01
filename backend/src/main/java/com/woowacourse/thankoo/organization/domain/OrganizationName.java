@@ -16,7 +16,7 @@ public class OrganizationName {
 
     private static final int NAME_MAX_LENGTH = 12;
 
-    @Column(name = "name", length = 50, unique = true)
+    @Column(name = "name", length = 50, unique = true, nullable = false)
     private String value;
 
     public OrganizationName(String value) {

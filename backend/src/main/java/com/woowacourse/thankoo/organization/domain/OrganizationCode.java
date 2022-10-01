@@ -16,7 +16,7 @@ public class OrganizationCode {
 
     private static final int DEFAULT_SIZE = 8;
 
-    @Column(name = "code", length = 20, unique = true)
+    @Column(name = "code", length = 20, unique = true, nullable = false)
     private String value;
 
     private OrganizationCode(final String value) {

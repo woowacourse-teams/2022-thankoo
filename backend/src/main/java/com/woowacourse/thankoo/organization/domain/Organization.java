@@ -36,7 +36,7 @@ public class Organization extends BaseEntity {
     @Embedded
     private OrganizationCode code;
 
-    @Column(name = "limited_size")
+    @Column(name = "limited_size", nullable = false)
     private int limitedSize;
 
     @Embedded

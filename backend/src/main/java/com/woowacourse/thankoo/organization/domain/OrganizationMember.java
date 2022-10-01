@@ -26,17 +26,17 @@ public class OrganizationMember {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id")
+    @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
-    @Column(name = "order_number")
+    @Column(name = "order_number", nullable = false)
     private int orderNumber;
 
-    @Column(name = "last_accessed")
+    @Column(name = "last_accessed", nullable = false)
     private boolean lastAccessed;
 
     public OrganizationMember(final Long id,
