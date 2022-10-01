@@ -16,7 +16,9 @@ public enum AdminErrorType {
     DUPLICATE_COUPON_SERIAL("시리얼 번호가 중복됩니다."),
     INVALID_COUPON_SERIAL_SIZE("생성할 수 있는 시리얼 번호를 초과했습니다."),
 
-    CANNOT_ENCRYPT_PASSWORD("비밀번호 암호화 중 에러가 발생했습니다.");
+    CANNOT_ENCRYPT_PASSWORD("비밀번호 암호화 중 에러가 발생했습니다."),
+    INVALID_LOGIN_INFORMATION("올바르지 않은 비밀번호 또는 이름입니다.")
+    ;
 
     private final String message;
 

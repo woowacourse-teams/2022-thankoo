@@ -1,6 +1,9 @@
 package com.woowacourse.thankoo.admin.common;
 
+import antlr.preprocessor.Preprocessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.thankoo.admin.authentication.application.AdminAuthenticationService;
+import com.woowacourse.thankoo.admin.authentication.presentation.AdminAuthenticationController;
 import com.woowacourse.thankoo.admin.coupon.application.AdminCouponQueryService;
 import com.woowacourse.thankoo.admin.coupon.application.AdminCouponService;
 import com.woowacourse.thankoo.admin.coupon.presentation.AdminCouponController;
@@ -17,12 +20,16 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
+import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest({
         AdminMemberController.class,
         AdminCouponController.class,
-        AdminCouponSerialController.class
+        AdminCouponSerialController.class,
+        AdminAuthenticationController.class
 })
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
@@ -54,4 +61,15 @@ public class AdminControllerTest {
 
     @MockBean
     protected AdminCouponSerialQueryService adminCouponSerialQueryService;
+
+    @MockBean
+    protected AdminAuthenticationService adminAuthenticationService;
+
+    protected OperationResponsePreprocessor getResponsePreprocessor() {
+        return Preprocessors.preprocessResponse(Preprocessors.prettyPrint());
+    }
+
+    protected OperationRequestPreprocessor getRequestPreprocessor() {
+        return Preprocessors.preprocessRequest(Preprocessors.prettyPrint());
+    }
 }

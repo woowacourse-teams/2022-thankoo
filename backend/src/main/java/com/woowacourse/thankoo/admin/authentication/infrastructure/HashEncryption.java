@@ -8,6 +8,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,9 @@ public class HashEncryption implements PasswordEncryption {
         try {
             KeySpec spec = new PBEKeySpec(plainPassword.toCharArray(), salt.getBytes(), iterationCount, keyLength);
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(PBKDF2_WITH_SHA1);
-            return keyFactory.generateSecret(spec).getEncoded().toString();
+            byte[] encodedPassword = keyFactory.generateSecret(spec)
+                    .getEncoded();
+            return Base64.encodeBase64String(encodedPassword);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new InvalidEncryptionAlgorithmException(AdminErrorType.CANNOT_ENCRYPT_PASSWORD);
         }

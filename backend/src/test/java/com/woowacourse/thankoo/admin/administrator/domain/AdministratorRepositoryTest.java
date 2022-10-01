@@ -19,7 +19,8 @@ class AdministratorRepositoryTest {
     void getByName() {
         Administrator newAdministrator = administratorRepository.save(new Administrator("adminName",
                 "password", AdministratorRole.ROOT));
-        Administrator foundAdministrator = administratorRepository.findAdministratorByName("adminName");
+        Administrator foundAdministrator = administratorRepository.findAdministratorByName("adminName")
+                .get();
 
         assertThat(newAdministrator).isEqualTo(foundAdministrator);
     }
