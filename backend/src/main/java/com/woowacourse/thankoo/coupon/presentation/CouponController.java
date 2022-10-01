@@ -57,9 +57,9 @@ public class CouponController {
     }
 
     @PutMapping("/{couponId}/use")
-    public ResponseEntity<Void> complete(@AuthenticationPrincipal final Long memberId,
-                                         @PathVariable final Long couponId) {
-        couponService.complete(memberId, couponId);
+    public ResponseEntity<Void> useCouponImmediately(@AuthenticationPrincipal final Long memberId,
+                                                     @PathVariable final Long couponId) {
+        couponService.useImmediately(memberId, couponId);
         return ResponseEntity.ok().build();
     }
 }

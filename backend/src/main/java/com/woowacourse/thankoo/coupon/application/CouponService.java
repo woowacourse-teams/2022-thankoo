@@ -39,7 +39,7 @@ public class CouponService {
                 && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
     }
 
-    public void complete(final Long memberId, final Long couponId) {
+    public void useImmediately(final Long memberId, final Long couponId) {
         Member member = getMember(memberId);
         Coupon coupon = getCoupon(couponId);
         coupon.use(member.getId());

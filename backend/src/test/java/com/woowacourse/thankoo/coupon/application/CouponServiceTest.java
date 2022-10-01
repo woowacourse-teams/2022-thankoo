@@ -123,7 +123,7 @@ class CouponServiceTest {
 
             Coupon savedCoupon = couponRepository.save(coupon);
 
-            couponService.complete(receiver.getId(), savedCoupon.getId());
+            couponService.useImmediately(receiver.getId(), savedCoupon.getId());
 
             Coupon completedCoupon = couponRepository.findById(savedCoupon.getId()).get();
 
@@ -142,7 +142,7 @@ class CouponServiceTest {
 
             Coupon savedCoupon = couponRepository.save(coupon);
 
-            assertThatThrownBy(() -> couponService.complete(hoho.getId(), savedCoupon.getId()))
+            assertThatThrownBy(() -> couponService.useImmediately(hoho.getId(), savedCoupon.getId()))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("쿠폰을 즉시사용할 수 있는 회원이 아닙니다.");
         }
@@ -158,7 +158,7 @@ class CouponServiceTest {
 
             Coupon savedCoupon = couponRepository.save(coupon);
 
-            assertThatThrownBy(() -> couponService.complete(receiver.getId(), savedCoupon.getId()))
+            assertThatThrownBy(() -> couponService.useImmediately(receiver.getId(), savedCoupon.getId()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("존재하지 않는 예약 상태입니다.");
         }

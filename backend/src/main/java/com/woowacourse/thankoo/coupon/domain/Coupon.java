@@ -116,31 +116,31 @@ public class Coupon extends BaseEntity {
     }
 
     public void use(final Long memberId) {
-        validateExchangedMember(memberId);
+        validateMemberCanUseCoupon(memberId);
         validateStatus();
         publishCouponCompleteEvent();
         couponStatus = CouponStatus.USED;
     }
 
-    private void validateExchangedMember(final Long memberId) {
-        if (!isExchangedMember(memberId)) {
-            throw new InvalidMemberException(ErrorType.CAN_NOT_COMPLETE_MISMATCH_MEMBER);
+    private void validateMemberCanUseCoupon(final Long memberId) {
+        if (!isAttendee(memberId)) {
+            throw new InvalidMemberException(ErrorType.CAN_NOT_USE_MISMATCH_MEMBER);
         }
     }
 
-    private boolean isExchangedMember(final Long memberId) {
+    private boolean isAttendee(final Long memberId) {
         return isSender(memberId) || isReceiver(memberId);
     }
 
     private void validateStatus() {
-        if (!couponStatus.isCompleteStatus()) {
+        if (!couponStatus.isStatusAbleToComplete()) {
             throw new InvalidCouponException(ErrorType.CAN_NOT_USE_COUPON);
         }
     }
 
     private void publishCouponCompleteEvent() {
-        if (couponStatus.isReserving()) {
-            Events.publish(new CouponCompleteEvent(id));
+        if (isReserving()) {
+            Events.publish(new CouponCompletedEvent(id));
         }
     }
 
