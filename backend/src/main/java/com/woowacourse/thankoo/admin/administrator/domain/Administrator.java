@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.admin.administrator.domain;
 
+import com.woowacourse.thankoo.admin.common.domain.AdminBaseEntity;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "administrator")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Administrator {
+public class Administrator extends AdminBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
