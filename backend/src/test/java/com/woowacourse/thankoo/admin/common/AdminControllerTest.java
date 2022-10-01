@@ -4,6 +4,7 @@ import antlr.preprocessor.Preprocessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.admin.authentication.application.AdminAuthenticationService;
 import com.woowacourse.thankoo.admin.authentication.presentation.AdminAuthenticationController;
+import com.woowacourse.thankoo.admin.authentication.presentation.TokenDecoder;
 import com.woowacourse.thankoo.admin.coupon.application.AdminCouponQueryService;
 import com.woowacourse.thankoo.admin.coupon.application.AdminCouponService;
 import com.woowacourse.thankoo.admin.coupon.presentation.AdminCouponController;
@@ -43,6 +44,9 @@ public class AdminControllerTest {
 
     @MockBean
     protected JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    protected TokenDecoder tokenDecoder;
 
     @MockBean
     protected AuthenticationContext authenticationContext;
