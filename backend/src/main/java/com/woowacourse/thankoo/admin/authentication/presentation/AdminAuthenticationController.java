@@ -16,8 +16,7 @@ public class AdminAuthenticationController {
     private final AdminAuthenticationService authenticationService;
 
     @PostMapping("/admin/sign-in")
-    public ResponseEntity<AdminSignInResponse> signIn(@RequestBody final AdminSignInRequest loginRequest) {
-        AdminSignInResponse loginResponse = authenticationService.signIn(loginRequest);
-        return ResponseEntity.ok().body(loginResponse);
+    public ResponseEntity<AdminSignInResponse> signIn(@RequestBody final AdminSignInRequest signInRequest) {
+        return ResponseEntity.ok().body(authenticationService.signIn(signInRequest));
     }
 }

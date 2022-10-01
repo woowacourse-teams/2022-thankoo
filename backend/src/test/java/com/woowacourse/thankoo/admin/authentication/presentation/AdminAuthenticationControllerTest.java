@@ -6,6 +6,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -43,6 +44,10 @@ class AdminAuthenticationControllerTest extends AdminControllerTest {
         resultActions.andDo(document("admin/authentication/sign-in",
                 getRequestPreprocessor(),
                 getResponsePreprocessor(),
+                requestFields(
+                        fieldWithPath("name").type(STRING).description("admin name"),
+                        fieldWithPath("password").type(STRING).description("admin password")
+                ),
                 responseFields(
                         fieldWithPath("adminId").type(NUMBER).description("admin id"),
                         fieldWithPath("accessToken").type(STRING).description("JWT access token")
