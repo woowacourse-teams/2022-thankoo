@@ -18,7 +18,7 @@ class TokenProviderTest {
     @DisplayName("토큰을 생성해 반환해야 한다.")
     @Test
     void create() {
-        final String token = accessTokenProvider.create("payload");
+        String token = accessTokenProvider.create("payload");
 
         assertThat(token).isNotNull();
     }
