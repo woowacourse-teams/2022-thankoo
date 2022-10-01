@@ -161,7 +161,7 @@ public class Reservation extends BaseEntity {
     }
 
     public void cancelByUsedCoupon() {
-        if (coupon.isReserving()) {
+        if (coupon.isReserving() && reservationStatus.isWaiting()) {
             reservationStatus = ReservationStatus.CANCELED;
             return;
         }

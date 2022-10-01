@@ -270,5 +270,48 @@ class ReservationTest {
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("예약 상태를 변경할 수 없습니다.");
         }
+
+        @DisplayName("사용된 쿠폰으로 예약을 취소하는 경우라면")
+        @Nested
+        class WhenCancelByCoupon {
+
+            @DisplayName("예약이 대기중인 상태라면 예약이 취소된다.")
+            @Test
+            void cancelByWaitingStatus() {
+
+                Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+                Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
+
+                Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
+                        new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED);
+                Reservation reservation = Reservation.reserve(LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                        ReservationStatus.WAITING,
+                        receiver.getId(), coupon);
+
+                reservation.cancelByUsedCoupon();
+
+                assertThat(reservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
+            }
+
+            @DisplayName("예약이 대기중인 상태가 아니라면 예약 취소에 실패한다.")
+            @Test
+            void cancelInvalidStatus() {
+
+                Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+                Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
+
+                Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
+                        new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED);
+                Reservation reservation = Reservation.reserve(LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
+                        ReservationStatus.ACCEPT,
+                        receiver.getId(), coupon);
+
+                assertThatThrownBy(reservation::cancelByUsedCoupon)
+                        .isInstanceOf(InvalidReservationException.class)
+                        .hasMessage("예약을 취소할 수 없는 쿠폰 상태입니다.");
+            }
+        }
     }
 }
