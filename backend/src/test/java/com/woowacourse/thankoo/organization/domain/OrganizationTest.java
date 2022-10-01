@@ -63,7 +63,7 @@ class OrganizationTest {
             assertThatThrownBy(
                     () -> Organization.create(ORGANIZATION_NAME, new OrganizationCodeGenerator(), value, validator))
                     .isInstanceOf(InvalidOrganizationException.class)
-                    .hasMessage("조직의 정원을 다시 설정하세요.");
+                    .hasMessage("유효하지 않은 조직의 인원입니다.");
         }
     }
 }
