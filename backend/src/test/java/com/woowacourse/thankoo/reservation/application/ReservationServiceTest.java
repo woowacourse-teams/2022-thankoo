@@ -26,6 +26,7 @@ import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
+import com.woowacourse.thankoo.coupon.domain.CouponUsedEvent;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -259,7 +260,7 @@ class ReservationServiceTest {
 
     @DisplayName("쿠폰이 완료되면 예약이 취소 상태로 변경된다.")
     @Test
-    void complete() {
+    void use() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
         Coupon coupon = couponRepository.save(
@@ -269,6 +270,24 @@ class ReservationServiceTest {
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
         couponService.useImmediately(receiver.getId(), coupon.getId());
+        Reservation acceptReservation = reservationRepository.findById(reservationId).get();
+
+        assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
+    }
+
+    @DisplayName("쿠폰 사용 이벤트로 예약을 취소한다.")
+    @Test
+    void complete() {
+        Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+        Coupon coupon = couponRepository.save(
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE), NOT_USED));
+
+        Long reservationId = reservationService.save(receiver.getId(),
+                new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
+
+        CouponUsedEvent couponUsedEvent = new CouponUsedEvent(coupon.getId());
+        reservationService.cancelReservation(couponUsedEvent);
         Reservation acceptReservation = reservationRepository.findById(reservationId).get();
 
         assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
