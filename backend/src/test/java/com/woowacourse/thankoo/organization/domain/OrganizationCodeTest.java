@@ -32,5 +32,4 @@ class OrganizationCodeTest {
             assertThat(rawCode).hasSize(8);
         }
     }
-
 }

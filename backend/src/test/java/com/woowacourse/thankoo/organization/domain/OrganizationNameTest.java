@@ -27,7 +27,7 @@ class OrganizationNameTest {
 
         @DisplayName("이름 기준에 맞지 않으면 실패한다.")
         @ParameterizedTest
-        @ValueSource(strings = {"", " ", "우아한테크코스의땡쿠BackendEngineer"})
+        @ValueSource(strings = {"", " ", "우아한테크코스의땡쿠화이팅", "우테코땡쿠의BackendEngineer"})
         void sizeFailed(final String value) {
             assertThatThrownBy(() -> new OrganizationName(value))
                     .isInstanceOf(InvalidOrganizationException.class)
