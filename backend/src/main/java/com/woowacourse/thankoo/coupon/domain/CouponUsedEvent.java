@@ -3,11 +3,11 @@ package com.woowacourse.thankoo.coupon.domain;
 import lombok.Getter;
 
 @Getter
-public class CouponCompletedEvent {
+public class CouponUsedEvent {
 
     private final Long couponId;
 
-    public CouponCompletedEvent(final Long couponId) {
+    public CouponUsedEvent(final Long couponId) {
         this.couponId = couponId;
     }
 }

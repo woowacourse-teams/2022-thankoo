@@ -118,7 +118,7 @@ public class Coupon extends BaseEntity {
     public void use(final Long memberId) {
         validateMemberCanUseCoupon(memberId);
         validateStatus();
-        publishCouponCompleteEvent();
+        publishCouponCompletedEvent();
         couponStatus = CouponStatus.USED;
     }
 
@@ -138,9 +138,9 @@ public class Coupon extends BaseEntity {
         }
     }
 
-    private void publishCouponCompleteEvent() {
+    private void publishCouponCompletedEvent() {
         if (isReserving()) {
-            Events.publish(new CouponCompletedEvent(id));
+            Events.publish(new CouponUsedEvent(id));
         }
     }
 

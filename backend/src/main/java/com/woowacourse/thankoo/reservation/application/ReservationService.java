@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.reservation.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
-import com.woowacourse.thankoo.coupon.domain.CouponCompletedEvent;
+import com.woowacourse.thankoo.coupon.domain.CouponUsedEvent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
@@ -82,7 +82,7 @@ public class ReservationService {
     }
 
     @EventListener
-    public void cancelReservation(final CouponCompletedEvent event) {
+    public void cancelReservation(final CouponUsedEvent event) {
         Reservation reservation = getReservation(event.getCouponId());
         reservation.cancelByUsedCoupon();
     }
