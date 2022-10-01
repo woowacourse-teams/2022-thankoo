@@ -1,8 +1,8 @@
 package com.woowacourse.thankoo.admin.authentication.presentation;
 
 import com.woowacourse.thankoo.admin.authentication.application.AdminAuthenticationService;
-import com.woowacourse.thankoo.admin.authentication.application.dto.AdminLoginRequest;
-import com.woowacourse.thankoo.admin.authentication.presentation.dto.AdminLoginResponse;
+import com.woowacourse.thankoo.admin.authentication.application.dto.AdminSignInRequest;
+import com.woowacourse.thankoo.admin.authentication.presentation.dto.AdminSignInResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +16,8 @@ public class AdminAuthenticationController {
     private final AdminAuthenticationService authenticationService;
 
     @PostMapping("/admin/sign-in")
-    public ResponseEntity<AdminLoginResponse> signIn(@RequestBody final AdminLoginRequest loginRequest) {
-        AdminLoginResponse loginResponse = authenticationService.login(loginRequest);
+    public ResponseEntity<AdminSignInResponse> signIn(@RequestBody final AdminSignInRequest loginRequest) {
+        AdminSignInResponse loginResponse = authenticationService.signIn(loginRequest);
         return ResponseEntity.ok().body(loginResponse);
     }
 }

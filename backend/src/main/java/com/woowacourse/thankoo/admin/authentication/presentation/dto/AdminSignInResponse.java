@@ -3,12 +3,12 @@ package com.woowacourse.thankoo.admin.authentication.presentation.dto;
 import lombok.Getter;
 
 @Getter
-public class AdminLoginResponse {
+public class AdminSignInResponse {
 
     private final Long adminId;
     private final String accessToken;
 
-    public AdminLoginResponse(final Long adminId, final String accessToken) {
+    public AdminSignInResponse(final Long adminId, final String accessToken) {
         this.adminId = adminId;
         this.accessToken = accessToken;
     }

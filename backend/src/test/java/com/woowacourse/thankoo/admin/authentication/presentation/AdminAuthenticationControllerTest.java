@@ -12,8 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.thankoo.admin.authentication.application.dto.AdminLoginRequest;
-import com.woowacourse.thankoo.admin.authentication.presentation.dto.AdminLoginResponse;
+import com.woowacourse.thankoo.admin.authentication.application.dto.AdminSignInRequest;
+import com.woowacourse.thankoo.admin.authentication.presentation.dto.AdminSignInResponse;
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,11 +25,11 @@ class AdminAuthenticationControllerTest extends AdminControllerTest {
 
     @DisplayName("로그인을 하면 토큰을 반환한다.")
     @Test
-    void login() throws Exception {
-        AdminLoginResponse response = new AdminLoginResponse(1L, "accessToken");
-        AdminLoginRequest request = new AdminLoginRequest("name", "password");
+    void signIn() throws Exception {
+        AdminSignInResponse response = new AdminSignInResponse(1L, "accessToken");
+        AdminSignInRequest request = new AdminSignInRequest("name", "password");
 
-        given(adminAuthenticationService.login(any()))
+        given(adminAuthenticationService.signIn(any()))
                 .willReturn(response);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/sign-in")

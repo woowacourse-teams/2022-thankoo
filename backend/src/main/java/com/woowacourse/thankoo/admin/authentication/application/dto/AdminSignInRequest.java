@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class AdminLoginRequest {
+public class AdminSignInRequest {
 
     private String name;
     private String password;
 
-    public AdminLoginRequest(final String name, final String password) {
+    public AdminSignInRequest(final String name, final String password) {
         this.name = name;
         this.password = password;
     }
