@@ -40,7 +40,8 @@ class AdminAuthenticationServiceTest {
             Administrator administrator = new Administrator("name", encryptedPassword, AdministratorRole.ROOT);
             administratorRepository.save(administrator);
 
-            AdminSignInResponse loginResponse = authenticationService.signIn(new AdminSignInRequest("name", "password"));
+            AdminSignInResponse loginResponse = authenticationService.signIn(
+                    new AdminSignInRequest("name", "password"));
             assertThat(loginResponse.getAccessToken()).isNotNull();
         }
 

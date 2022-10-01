@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.admin.common;
 
-import antlr.preprocessor.Preprocessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.admin.authentication.application.AdminAuthenticationService;
 import com.woowacourse.thankoo.admin.authentication.presentation.AdminAuthenticationController;

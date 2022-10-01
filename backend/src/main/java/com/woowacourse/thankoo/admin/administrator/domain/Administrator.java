@@ -46,9 +46,9 @@ public class Administrator {
         this(null, name, password, role);
     }
 
-   public boolean isSamePassword(final String password) {
+    public boolean isSamePassword(final String password) {
         return this.password.equals(password);
-   }
+    }
 
     @Override
     public boolean equals(final Object o) {

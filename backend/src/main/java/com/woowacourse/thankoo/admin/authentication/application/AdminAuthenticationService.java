@@ -26,7 +26,8 @@ public class AdminAuthenticationService {
                 .orElseThrow(() -> new InvalidLoginInformationException(AdminErrorType.INVALID_LOGIN_INFORMATION));
         String encryptedPassword = passwordEncryption.encrypt(loginRequest.getPassword());
         validatePassword(encryptedPassword, administrator);
-        return new AdminSignInResponse(administrator.getId(), accessTokenProvider.create(administrator.getId().toString()));
+        return new AdminSignInResponse(administrator.getId(),
+                accessTokenProvider.create(administrator.getId().toString()));
     }
 
     private void validatePassword(final String encryptedPassword, final Administrator administrator) {
