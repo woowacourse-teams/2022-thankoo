@@ -24,13 +24,13 @@ public class Administrator extends AdminBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false, unique = true)
+    @Column(name="name", length = 20, nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name="password", nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name="role", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private AdministratorRole role;
 
