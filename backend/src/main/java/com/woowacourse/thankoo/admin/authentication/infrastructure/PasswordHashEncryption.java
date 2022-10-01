@@ -13,16 +13,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HashEncryption implements PasswordEncryption {
+public class PasswordHashEncryption implements PasswordEncryption {
 
     private final String salt;
     private final int iterationCount;
     private final int keyLength;
     private static final String PBKDF2_WITH_SHA1 = "PBKDF2WithHmacSHA1";
 
-    public HashEncryption(@Value("${admin.encryption.pbkdf2.salt}") final String salt,
-                          @Value("${admin.encryption.pbkdf2.iteration-count}") final int iterationCount,
-                          @Value("${admin.encryption.pbkdf2.key-length}") final int keyLength) {
+    public PasswordHashEncryption(@Value("${admin.encryption.pbkdf2.salt}") final String salt,
+                                  @Value("${admin.encryption.pbkdf2.iteration-count}") final int iterationCount,
+                                  @Value("${admin.encryption.pbkdf2.key-length}") final int keyLength) {
         this.salt = salt;
         this.iterationCount = iterationCount;
         this.keyLength = keyLength;
