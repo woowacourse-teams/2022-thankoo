@@ -1,16 +1,40 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]; then
-    echo "please insert property environment like ( -e prod | --environment dev )"
+if [ $# -ne 4 ]; then
+    echo "please insert property environment like ( -e prod | --environment dev && -ni 1.1.1.1 | --nip 2.2.2.2 )"
     exit 1
 fi
 
-if [ "$1" != "-e" ] && [ "$1" != "--environment" ]; then
-    echo "this argument not allowed : $1"
-    exit 1
+ENVIRONMENT=""
+NGINX_IP=""
+
+while (($#)); do
+    case "$1" in
+            -e|--environment)
+                    if [ -n "$2" ]; then
+                            ENVIRONMENT=$2
+                            shift 2
+                    fi
+                    ;;
+            -ni|--nip)
+                    if [ -n "$2" ]; then
+                            NGINX_IP=$2
+                            shift 2
+                    fi
+                    ;;
+
+    esac
+done
+
+if [ -z "$ENVIRONMENT" ]; then
+        echo " > environment를 입력해주세요."
+        exit 1
 fi
 
-ENVIRONMENT=$2
+if [ -z "$NGINX_IP" ]; then
+        echo " > nginx ip를 입력해주세요."
+        exit 1
+fi
 
 JAR_NAME=$(ls *.jar)
 BLUE_PORT=""
@@ -74,8 +98,12 @@ function startGreen() {
     done
 }
 
-function setNginxPort() {
+function setNginxEnvironment() {
     echo " > nginx 포트 설정을 바꿀 sh 파일을 전송한다. "
+    scp -o StrictHostKeyChecking=no -i key-thankoo.pem /home/ubuntu/nginx-conf.sh ubuntu@"$NGINX_IP":/home/ubuntu
+    ssh -o StrictHostKeyChecking=no -i key-thankoo.pem ubuntu@"$NGINX_IP" chmod 755 nginx-conf.sh
+    ssh -o StrictHostKeyChecking=no -i key-thankoo.pem ubuntu@"$NGINX_IP" ./nginx-conf.sh -i "$(curl ifconfig.me)" -p "$GREEN_PORT"
+    sleep 3
 }
 
 function killBlue() {
@@ -90,5 +118,5 @@ function killBlue() {
 
 extractBlueGreenPort
 startGreen
-setNginxPort
+setNginxEnvironment
 killBlue
