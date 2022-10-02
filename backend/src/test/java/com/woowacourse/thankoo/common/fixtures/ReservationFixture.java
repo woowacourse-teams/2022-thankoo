@@ -10,4 +10,7 @@ public class ReservationFixture {
     public static LocalDateTime time(final Long plusDays) {
         return LocalDateTime.now().plusDays(plusDays);
     }
+
+    private ReservationFixture() {
+    }
 }
