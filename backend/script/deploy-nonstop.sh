@@ -44,28 +44,27 @@ function startGreen() {
     nohup java -jar -Dserver.port="$GREEN_PORT" -Duser.timezone="Asia/Seoul" -Dspring.profiles.active="$ENVIRONMENT" "$JAR_NAME" --spring.config.location=classpath:/thankoo-backend-secret/application-"$ENVIRONMENT".yml > /dev/null 2>&1 &
     echo " > green 배포까지 Health Check"
 
-    for retry_count in {1..10}
+    for RETRY_COUNT in {1..5}
     do
-      response=$(curl -s http://localhost:"$GREEN_PORT"/actuator/health)
-      up_count=$(echo "$response" | grep -c UP)
+      RESPONSE=$(curl -s http://localhost:"$GREEN_PORT"/actuator/health)
+      UP_COUNT=$(echo "$RESPONSE" | grep -c UP)
 
-      if [ "$up_count" -ge 1 ]
+      if [ "$UP_COUNT" -ge 1 ]
       then
           echo "> Health check 성공"
           break
       else
           echo "> Health check의 응답을 알 수 없거나 혹은 status가 UP이 아닙니다."
-          echo "> Health check: ${response}"
+          echo "> Health check: ${RESPONSE}"
       fi
 
-      if [ "$retry_count" -eq 10 ]
+      if [ "$RETRY_COUNT" -eq 5 ]
       then
-        echo "> Health check 실패. "
-        echo "> Nginx에 연결하지 않고 배포를 종료합니다."
+        echo "> Health check 최종 실패. 배포 종료"
         exit 1
       fi
 
-      echo "> Health check 연결 실패. 재시도..."
+      echo "> Health check 연결 실패. 시도 횟수: $RETRY_COUNT / 5"
       sleep 10
     done
 }
