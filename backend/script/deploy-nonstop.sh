@@ -32,11 +32,16 @@ function extractBlueGreenPort() {
       echo " > No Blue Port "
       GREEN_PORT=8080
     fi
-    echo " > BLUE_PORT = $BLUE_PORT"
-    echo " > GREEN_PORT = $GREEN_PORT"
+    echo " > 종료될 BLUE_PORT = $BLUE_PORT"
+    echo " > 실행될 GREEN_PORT = $GREEN_PORT"
 
-    BLUE_PID=$(lsof -i:$BLUE_PORT | tail -n 1 | awk '{print $2}')
-    echo " > BLUE_PID = $BLUE_PID"
+    if [ -n "$BLUE_PORT" ] 
+    then
+      BLUE_PID=$(lsof -i:$BLUE_PORT | tail -n 1 | awk '{print $2}')
+      echo " > 종료될 BLUE_PID = $BLUE_PID"
+    else
+      echo " > 종료될 BLUE Port가 존재하지 않습니다."
+    fi
 }
 
 function startGreen() {
@@ -44,7 +49,7 @@ function startGreen() {
     nohup java -jar -Dserver.port="$GREEN_PORT" -Duser.timezone="Asia/Seoul" -Dspring.profiles.active="$ENVIRONMENT" "$JAR_NAME" --spring.config.location=classpath:/thankoo-backend-secret/application-"$ENVIRONMENT".yml > /dev/null 2>&1 &
     echo " > green 배포까지 Health Check"
 
-    for RETRY_COUNT in {1..5}
+    for RETRY_COUNT in {1..10}
     do
       RESPONSE=$(curl -s http://localhost:"$GREEN_PORT"/actuator/health)
       UP_COUNT=$(echo "$RESPONSE" | grep -c UP)
@@ -58,14 +63,14 @@ function startGreen() {
           echo "> Health check: ${RESPONSE}"
       fi
 
-      if [ "$RETRY_COUNT" -eq 5 ]
+      if [ "$RETRY_COUNT" -eq 10 ]
       then
         echo "> Health check 최종 실패. 배포 종료"
         exit 1
       fi
 
-      echo "> Health check 연결 실패. 시도 횟수: $RETRY_COUNT / 5"
-      sleep 10
+      echo "> Health check 연결 실패. 시도 횟수: $RETRY_COUNT / 10"
+      sleep 5
     done
 }
 
