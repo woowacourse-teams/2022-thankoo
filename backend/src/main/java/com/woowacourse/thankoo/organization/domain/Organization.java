@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Organization extends BaseEntity {
 
-    private static final int NAME_LENGTH = 12;
     private static final int MIN_LIMITED_SIZE = 10;
     private static final int MAX_LIMITED_SIZE = 500;
 
