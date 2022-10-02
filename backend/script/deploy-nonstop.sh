@@ -58,14 +58,6 @@ function extractBlueGreenPort() {
     fi
     echo "> 종료될 BLUE_PORT = $BLUE_PORT"
     echo "> 실행될 GREEN_PORT = $GREEN_PORT"
-
-    if [ -n "$BLUE_PORT" ] 
-    then
-      BLUE_PID=$(lsof -i:$BLUE_PORT | tail -n 1 | awk '{print $2}')
-      echo "> 종료될 BLUE_PID = $BLUE_PID"
-    else
-      echo "> 종료될 BLUE Port가 존재하지 않습니다."
-    fi
 }
 
 function startGreen() {
@@ -108,12 +100,19 @@ function setNginxEnvironment() {
 
 function killBlue() {
     echo "> Kill Blue"
-    if [ -z "$BLUE_PID" ]; then
-                echo "종료할 Process가 없습니다."
-          else
-                kill -9 "$BLUE_PID"
-                echo "$BLUE_PID 프로세스 종료"
-          fi
+    if [ -n "$BLUE_PORT" ];
+    then
+      BLUE_PID=$(lsof -i:$BLUE_PORT | tail -n 1 | awk '{print $2}')
+      echo "> 종료될 BLUE_PID = $BLUE_PID"
+    fi
+
+    if [ -z "$BLUE_PID" ];
+    then
+      echo "종료할 Process가 없습니다."
+    else
+      kill -9 "$BLUE_PID"
+      echo "$BLUE_PID 프로세스 종료"
+    fi
 }
 
 extractBlueGreenPort
