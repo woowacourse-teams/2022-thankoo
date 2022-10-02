@@ -53,17 +53,17 @@ FILE_LINE=$(tail -n 2 /etc/nginx/conf.d/service-url.inc | wc -l)
 
 if [ "$FILE_LINE" -eq 1 ]
 then
-    echo " > 추가할 IP/PORT: $IP:$PORT"
-    echo " > IP/PORT 추가"
+    echo "> 추가할 IP/PORT: $IP:$PORT"
+    echo "> IP/PORT 추가"
     echo "set \$service_url_B ${IP}:${PORT};" | sudo tee -a /etc/nginx/conf.d/service-url.inc
-    echo " > 작성 대기"
+    echo "> 작성 대기"
     sleep 3
 
-    echo " > Nginx 재시작"
+    echo "> Nginx 재시작"
     sudo systemctl restart nginx
 else
-    echo " > 수정할 IP/PORT: $IP:$PORT"
-    echo " > IP/PORT 추가"
+    echo "> 수정할 IP/PORT: $IP:$PORT"
+    echo "> IP/PORT 추가"
     echo "set \$service_url_A ${IP}:${PORT};" | sudo tee /etc/nginx/conf.d/service-url.inc
 fi
 
