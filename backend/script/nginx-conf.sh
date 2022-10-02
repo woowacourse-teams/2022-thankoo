@@ -1,7 +1,9 @@
 #!/bin/bash
 
+echo "> Nginx 설정 시작"
+
 if [ $# -eq 0 ]; then
-    echo " > IP와 Port 번호를 입력하세요"
+    echo "> IP와 Port 번호를 입력하세요"
     exit 1
 fi
 
@@ -38,12 +40,12 @@ while (($#)); do
 done
 
 if [ -z "$IP" ]; then
-        echo " > ip를 입력해주세요."
+        echo "> ip를 입력해주세요."
         exit 1
 fi
 
 if [ -z "$PORT" ]; then
-        echo " > 포트를 입력해주세요."
+        echo "> 포트를 입력해주세요."
         exit 1
 fi
 
@@ -64,5 +66,7 @@ else
     echo " > IP/PORT 추가"
     echo "set \$service_url_A ${IP}:${PORT};" | sudo tee /etc/nginx/conf.d/service-url.inc
 fi
+
+echo "> Nginx 설정 종료"
 
 exit 0;

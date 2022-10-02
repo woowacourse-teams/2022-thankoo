@@ -27,12 +27,12 @@ while (($#)); do
 done
 
 if [ -z "$ENVIRONMENT" ]; then
-        echo " > environment를 입력해주세요."
+        echo "> environment를 입력해주세요."
         exit 1
 fi
 
 if [ -z "$NGINX_IP" ]; then
-        echo " > nginx ip를 입력해주세요."
+        echo "> nginx ip를 입력해주세요."
         exit 1
 fi
 
@@ -53,25 +53,25 @@ function extractBlueGreenPort() {
       BLUE_PORT=8080
       GREEN_PORT=8081
     else
-      echo " > No Blue Port "
+      echo "> No Blue Port "
       GREEN_PORT=8080
     fi
-    echo " > 종료될 BLUE_PORT = $BLUE_PORT"
-    echo " > 실행될 GREEN_PORT = $GREEN_PORT"
+    echo "> 종료될 BLUE_PORT = $BLUE_PORT"
+    echo "> 실행될 GREEN_PORT = $GREEN_PORT"
 
     if [ -n "$BLUE_PORT" ] 
     then
       BLUE_PID=$(lsof -i:$BLUE_PORT | tail -n 1 | awk '{print $2}')
-      echo " > 종료될 BLUE_PID = $BLUE_PID"
+      echo "> 종료될 BLUE_PID = $BLUE_PID"
     else
-      echo " > 종료될 BLUE Port가 존재하지 않습니다."
+      echo "> 종료될 BLUE Port가 존재하지 않습니다."
     fi
 }
 
 function startGreen() {
-    echo " > Start Green"
+    echo "> Start Green"
     nohup java -jar -Dserver.port="$GREEN_PORT" -Duser.timezone="Asia/Seoul" -Dspring.profiles.active="$ENVIRONMENT" "$JAR_NAME" --spring.config.location=classpath:/thankoo-backend-secret/application-"$ENVIRONMENT".yml > /dev/null 2>&1 &
-    echo " > green 배포까지 Health Check"
+    echo "> green 배포까지 Health Check"
 
     for RETRY_COUNT in {1..10}
     do
@@ -107,7 +107,7 @@ function setNginxEnvironment() {
 }
 
 function killBlue() {
-    echo " > Kill Blue"
+    echo "> Kill Blue"
     if [ -z "$BLUE_PID" ]; then
                 echo "종료할 Process가 없습니다."
           else
