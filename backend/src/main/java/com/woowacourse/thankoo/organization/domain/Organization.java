@@ -56,7 +56,7 @@ public class Organization extends BaseEntity {
 
     private void validateMaxLimitedSize(final int limitedSize) {
         if (limitedSize < MIN_LIMITED_SIZE || limitedSize > MAX_LIMITED_SIZE) {
-            throw new InvalidOrganizationException(ErrorType.INVALID_LIMITED_SIZE);
+            throw new InvalidOrganizationException(ErrorType.INVALID_ORGANIZATION_LIMITED_SIZE);
         }
     }
 
