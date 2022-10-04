@@ -107,7 +107,7 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    height: calc(79.5% - 5.5rem);
+    overflow: auto;
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;
@@ -155,8 +155,7 @@ const S = {
   TabsNavWrapper: styled.div`
     display: flex;
     justify-content: space-between;
-    height: 3.2rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
   `,
   UsedCouponToggleForm: styled.form`
     display: flex;
