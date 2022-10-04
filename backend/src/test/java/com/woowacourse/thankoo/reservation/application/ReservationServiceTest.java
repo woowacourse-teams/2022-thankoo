@@ -260,7 +260,7 @@ class ReservationServiceTest {
 
     @DisplayName("쿠폰이 완료되면 예약이 취소 상태로 변경된다.")
     @Test
-    void use() {
+    void cancelReservationWhenCouponUsed() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
         Coupon coupon = couponRepository.save(
@@ -277,7 +277,7 @@ class ReservationServiceTest {
 
     @DisplayName("쿠폰 사용 이벤트로 예약을 취소한다.")
     @Test
-    void complete() {
+    void cancelReservation() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
         Coupon coupon = couponRepository.save(

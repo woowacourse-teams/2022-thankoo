@@ -146,7 +146,7 @@ class CouponTest {
 
         @DisplayName("받는이 또는 보낸이고 완료할 수 있는 상태라면 사용한다.")
         @Test
-        void complete() {
+        void use() {
             Coupon coupon = new Coupon(1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED);
 
             coupon.use(1L);
