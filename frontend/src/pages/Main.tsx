@@ -107,7 +107,7 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    height: calc(79.5% - 5.5rem);
+    overflow: auto;
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;
