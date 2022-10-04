@@ -25,5 +25,5 @@ export const API_PATH = {
   POST_USER_HEART: `/hearts/send`,
   GET_QR_COUPON: code => `/coupon-serials?code=${code}`,
   POST_QR_SERIAL: '/coupon-serials',
-  COMPLETE_COUPON: couponId => `/coupons/${couponId}/complete`,
+  COMPLETE_COUPON: couponId => `/coupons/${couponId}/use`,
 };
