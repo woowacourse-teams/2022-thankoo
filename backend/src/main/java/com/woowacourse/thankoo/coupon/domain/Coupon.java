@@ -123,12 +123,12 @@ public class Coupon extends BaseEntity {
     }
 
     private void validateMemberCanUseCoupon(final Long memberId) {
-        if (!isAttendee(memberId)) {
+        if (!canMemberUseCoupon(memberId)) {
             throw new InvalidMemberException(ErrorType.CAN_NOT_USE_MISMATCH_MEMBER);
         }
     }
 
-    private boolean isAttendee(final Long memberId) {
+    private boolean canMemberUseCoupon(final Long memberId) {
         return isSender(memberId) || isReceiver(memberId);
     }
 
