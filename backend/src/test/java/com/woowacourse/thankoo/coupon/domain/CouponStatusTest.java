@@ -63,6 +63,6 @@ class CouponStatusTest {
     @ParameterizedTest
     @ValueSource(strings = {"NOT_USED", "RESERVING"})
     void isNotUsed(CouponStatus status) {
-        assertThat(status.isStatusAbleToUse()).isTrue();
+        assertThat(status.canImmediatelyUse()).isTrue();
     }
 }
