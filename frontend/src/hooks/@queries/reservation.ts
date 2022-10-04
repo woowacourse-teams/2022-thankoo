@@ -58,22 +58,16 @@ export const usePutReservationStatus = (
     onSuccess: (status: 예약요청응답Type) => {},
     onError: (error: AxiosError<ErrorType>) => {},
   }
-) => {
-  const queryClient = useQueryClient();
-
-  return useMutation(
-    (status: 예약요청응답Type) => putReservationStatusRequest(status, reservationId),
-    {
-      onSuccess: (_, variables: 예약요청응답Type) => {
-        handleSuccess(variables);
-      },
-      onError: (error: AxiosError<ErrorType>) => {
-        onError?.(error);
-      },
-      retry: false,
-    }
-  );
-};
+) =>
+  useMutation((status: 예약요청응답Type) => putReservationStatusRequest(status, reservationId), {
+    onSuccess: (_, variables: 예약요청응답Type) => {
+      handleSuccess(variables);
+    },
+    onError: (error: AxiosError<ErrorType>) => {
+      onError?.(error);
+    },
+    retry: false,
+  });
 
 /** FETCHER */
 

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { atom } from 'recoil';
-import { UserProfile } from '../types';
+import { CouponTransmitStatus, UserProfile } from '../types';
 
 //checked users
 export const checkedUsersAtom = atom<UserProfile[]>({
@@ -30,8 +30,7 @@ export const targetCouponAtom = atom<any>({
   default: null,
 });
 
-type SentOrReceivedNavType = '받은' | '보낸';
-export const sentOrReceivedAtom = atom<SentOrReceivedNavType>({
+export const sentOrReceivedAtom = atom<CouponTransmitStatus>({
   key: 'sentOrReceived',
   default: '받은',
 });
