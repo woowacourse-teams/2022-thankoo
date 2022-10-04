@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.acceptance.builder;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.putWithToken;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
@@ -74,6 +75,11 @@ public class CouponAssured {
             return this;
         }
 
+        public CouponRequestBuilder 쿠폰을_즉시_사용한다(final Long couponId, final String accessToken) {
+            response = putWithToken("/api/coupons/" + couponId + "/use", accessToken);
+            return this;
+        }
+
         public CouponResponseBuilder response() {
             return new CouponResponseBuilder(response);
         }
@@ -114,6 +120,14 @@ public class CouponAssured {
                     () -> assertThat(couponDetailResponse.getMeeting()).isNotNull(),
                     () -> assertThat(couponDetailResponse.getReservation()).isNull()
             );
+        }
+
+        public void 쿠폰의_상태가_조회됨(final Long couponId, final String status) {
+            List<CouponResponse> responses = bodies(CouponResponse.class);
+            CouponResponse couponResponse = responses.stream()
+                    .filter(it -> it.getCouponId().equals(couponId)).findFirst()
+                    .orElseThrow();
+            assertThat(couponResponse.getStatus()).isEqualTo(status);
         }
 
         public void 쿠폰_개수가_조회됨(final int sentCount, final int receivedCount) {

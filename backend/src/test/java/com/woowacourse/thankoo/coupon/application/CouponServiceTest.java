@@ -4,6 +4,7 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
@@ -13,6 +14,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
+import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
+import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -20,11 +23,14 @@ import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
+import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
+import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -99,6 +105,62 @@ class CouponServiceTest {
                     new ContentRequest(TYPE, TITLE, MESSAGE))))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
+        }
+    }
+
+    @DisplayName("쿠폰을 바로 사용할 때")
+    @Nested
+    class Use {
+
+        @DisplayName("사용하지 않은 상태라면 사용된 상태로 변경한다.")
+        @Test
+        void useCoupon() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Coupon coupon = new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                    NOT_USED);
+
+            Coupon savedCoupon = couponRepository.save(coupon);
+
+            couponService.useImmediately(receiver.getId(), savedCoupon.getId());
+
+            Coupon usedCoupon = couponRepository.findById(savedCoupon.getId()).get();
+
+            assertThat(usedCoupon.getCouponStatus()).isEqualTo(CouponStatus.USED);
+        }
+
+        @DisplayName("받는이가 아니라면 예외가 발생한다.")
+        @Test
+        void saveInvalidMemberException() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Coupon coupon = new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                    NOT_USED);
+
+            Coupon savedCoupon = couponRepository.save(coupon);
+
+            assertThatThrownBy(() -> couponService.useImmediately(hoho.getId(), savedCoupon.getId()))
+                    .isInstanceOf(InvalidMemberException.class)
+                    .hasMessage("쿠폰을 즉시사용할 수 있는 회원이 아닙니다.");
+        }
+
+        @DisplayName("유효하지 않은 상태라면 예외가 발생한다.")
+        @Test
+        void useInvalidCouponStatus() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Coupon coupon = new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                    CouponStatus.RESERVING);
+
+            Coupon savedCoupon = couponRepository.save(coupon);
+
+            assertThatThrownBy(() -> couponService.useImmediately(receiver.getId(), savedCoupon.getId()))
+                    .isInstanceOf(InvalidReservationException.class)
+                    .hasMessage("존재하지 않는 예약 상태입니다.");
         }
     }
 }

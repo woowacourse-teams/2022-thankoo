@@ -6,6 +6,7 @@ import static com.woowacourse.thankoo.acceptance.builder.ReservationAssured.예�
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.ALL;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE_OVER;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.NOT_USED;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
@@ -375,6 +376,33 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .response()
                         .status(HttpStatus.BAD_REQUEST.value());
             }
+        }
+
+        @DisplayName("쿠폰을 즉시 사용한다.")
+        @Test
+        void use() {
+            TokenResponse senderToken = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .token();
+
+            TokenResponse receiverToken = AuthenticationAssured.request()
+                    .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                    .token();
+
+            CouponResponse couponResponse = CouponAssured.request()
+                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .response()
+                    .bodies(CouponResponse.class).get(0);
+
+            Long couponId = couponResponse.getCouponId();
+
+            CouponAssured.request()
+                    .쿠폰을_즉시_사용한다(couponId, receiverToken.getAccessToken())
+                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), USED)
+                    .response()
+                    .쿠폰의_상태가_조회됨(couponId, USED);
         }
     }
 

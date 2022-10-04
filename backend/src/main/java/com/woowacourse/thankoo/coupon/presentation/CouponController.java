@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,5 +54,12 @@ public class CouponController {
     @GetMapping("/count")
     public ResponseEntity<CouponTotalResponse> getCouponTotalCount(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(couponQueryService.getCouponTotalCount(memberId));
+    }
+
+    @PutMapping("/{couponId}/use")
+    public ResponseEntity<Void> useCouponImmediately(@AuthenticationPrincipal final Long memberId,
+                                                     @PathVariable final Long couponId) {
+        couponService.useImmediately(memberId, couponId);
+        return ResponseEntity.ok().build();
     }
 }

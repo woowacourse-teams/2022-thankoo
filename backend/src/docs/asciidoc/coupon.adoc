@@ -52,3 +52,7 @@ operation::coupons/get-coupon-meeting[snippets='http-request,http-response']
 === 주고 받은 쿠폰 개수 조회
 
 operation::coupons/count[snippets='http-request,http-response']
+
+=== 쿠폰 즉시 사용
+
+operation::coupons/coupon-use[snippets='http-request,http-response']

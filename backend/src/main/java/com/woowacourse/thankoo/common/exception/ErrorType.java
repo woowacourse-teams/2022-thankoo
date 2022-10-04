@@ -24,6 +24,8 @@ public enum ErrorType {
     CAN_NOT_CREATE_COUPON_GROUP(3006, "쿠폰 그룹을 생성할 수 없습니다."),
     NOT_IN_SAME_COUPON_GROUP(3007, "동일한 쿠폰 그룹이 아닙니다."),
     CAN_NOT_CREATE_COUPON(3008, "쿠폰을 생성할 수 없습니다."),
+    CAN_NOT_USE_COUPON(3009, "쿠폰을 즉시사용할 수 있는 상태가 아닙니다."),
+    CAN_NOT_USE_MISMATCH_MEMBER(3010, "쿠폰을 즉시사용할 수 있는 회원이 아닙니다."),
 
     INVALID_RESERVATION_TIME(4001, "유효하지 않은 일정입니다."),
     INVALID_RESERVATION_MEMBER_MISMATCH(4002, "예약을 요청할 수 없는 회원입니다."),
@@ -31,6 +33,7 @@ public enum ErrorType {
     NOT_FOUND_RESERVATION(4004, "존재하지 않는 예약입니다."),
     NOT_FOUND_RESERVATION_STATUS(4005, "존재하지 않는 예약 상태입니다."),
     CAN_NOT_CHANGE_RESERVATION_STATUS(4006, "예약 상태를 변경할 수 없습니다."),
+    CAN_NOT_CANCEL_COUPON_STATUS(4007, "예약을 취소할 수 없는 쿠폰 상태입니다."),
 
     INVALID_MEETING_MEMBER(5001, "잘못된 미팅 참여자입니다."),
     INVALID_MEETING_MEMBER_COUNT(5002, "미팅 참여자는 두 명이어야 합니다."),
@@ -57,6 +60,7 @@ public enum ErrorType {
     REQUEST_EXCEPTION(9001, "http 요청 에러입니다."),
     INVALID_PATH(9002, "잘못된 경로입니다."),
     UNHANDLED_EXCEPTION(9999, "예상치 못한 예외입니다.");
+
     private final int code;
     private final String message;
 

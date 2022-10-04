@@ -6,7 +6,7 @@ import com.woowacourse.thankoo.admin.qrcode.presentation.dto.AdminSerialRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +18,7 @@ public class AdminQrCodeController {
 
     private final AdminQrCodeService adminQrCodeService;
 
-    @PostMapping
-    @RequestMapping
+    @GetMapping
     public ResponseEntity<List<AdminLinkResponse>> getQrCode(@RequestBody final AdminSerialRequest adminSerialRequest) {
         return ResponseEntity.ok(adminQrCodeService.getLinks(adminSerialRequest));
     }

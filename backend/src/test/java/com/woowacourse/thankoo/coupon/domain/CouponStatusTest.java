@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("CouponStatus 는 ")
 class CouponStatusTest {
@@ -56,5 +57,12 @@ class CouponStatusTest {
             "EXPIRED:false"}, delimiter = ':')
     void isInReserveOrUsed(CouponStatus status, Boolean isRight) {
         assertThat(status.isInReserveOrUsed()).isEqualTo(isRight);
+    }
+
+    @DisplayName("쿠폰을 완료할 수 있는 상태인지 확인한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"NOT_USED", "RESERVING"})
+    void isNotUsed(CouponStatus status) {
+        assertThat(status.canImmediatelyUse()).isTrue();
     }
 }

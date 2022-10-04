@@ -1,8 +1,10 @@
 package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
+import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -111,6 +113,39 @@ public class Coupon extends BaseEntity {
 
     public boolean isSameCouponContent(final CouponContent couponContent) {
         return this.couponContent.equals(couponContent);
+    }
+
+    public void use(final Long memberId) {
+        validateMemberCanUseCoupon(memberId);
+        validateStatus();
+        publishCouponUsedEvent();
+        couponStatus = CouponStatus.USED;
+    }
+
+    private void validateMemberCanUseCoupon(final Long memberId) {
+        if (!canUseCoupon(memberId)) {
+            throw new InvalidMemberException(ErrorType.CAN_NOT_USE_MISMATCH_MEMBER);
+        }
+    }
+
+    private boolean canUseCoupon(final Long memberId) {
+        return isSender(memberId) || isReceiver(memberId);
+    }
+
+    private void validateStatus() {
+        if (!couponStatus.canImmediatelyUse()) {
+            throw new InvalidCouponException(ErrorType.CAN_NOT_USE_COUPON);
+        }
+    }
+
+    private void publishCouponUsedEvent() {
+        if (isReserving()) {
+            Events.publish(new CouponUsedEvent(id));
+        }
+    }
+
+    public boolean isReserving() {
+        return couponStatus.isReserving();
     }
 
     @Override
