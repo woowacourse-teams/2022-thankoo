@@ -23,7 +23,8 @@ public class AdminAuthenticationService {
 
     public AdminSignInResponse signIn(final AdminSignInRequest loginRequest) {
         Administrator administrator = administratorRepository.findAdministratorByName(loginRequest.getName())
-                .orElseThrow(() -> new InvalidLoginInformationUnAuthenticationException(AdminErrorType.INVALID_LOGIN_INFORMATION));
+                .orElseThrow(() -> new InvalidLoginInformationUnAuthenticationException(
+                        AdminErrorType.INVALID_LOGIN_INFORMATION));
         String encryptedPassword = passwordEncryption.encrypt(loginRequest.getPassword());
         validatePassword(encryptedPassword, administrator);
         return new AdminSignInResponse(administrator.getId(),
