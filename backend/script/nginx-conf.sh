@@ -3,7 +3,7 @@
 echo "> Nginx 설정 시작"
 
 if [ $# -eq 0 ]; then
-    echo "> IP와 Port 번호를 입력하세요"
+    echo "> IP와 Port 번호를 입력하세요."
     exit 1
 fi
 
@@ -49,23 +49,11 @@ if [ -z "$PORT" ]; then
         exit 1
 fi
 
-FILE_LINE=$(tail -n 2 /etc/nginx/conf.d/service-url.inc | wc -l)
+echo " > 수정할 IP/PORT: $IP:$PORT"
+echo " > IP/PORT 추가"
+echo "set \$service_url ${IP}:${PORT};" | sudo tee /etc/nginx/conf.d/service-url.inc
 
-if [ "$FILE_LINE" -eq 1 ]
-then
-    echo "> 추가할 IP/PORT: $IP:$PORT"
-    echo "> IP/PORT 추가"
-    echo "set \$service_url_B ${IP}:${PORT};" | sudo tee -a /etc/nginx/conf.d/service-url.inc
-    echo "> 작성 대기"
-    sleep 3
-
-    echo "> Nginx 재시작"
-    sudo systemctl restart nginx
-else
-    echo "> 수정할 IP/PORT: $IP:$PORT"
-    echo "> IP/PORT 추가"
-    echo "set \$service_url_A ${IP}:${PORT};" | sudo tee /etc/nginx/conf.d/service-url.inc
-fi
+sudo systemctl reload nginx
 
 echo "> Nginx 설정 종료"
 
