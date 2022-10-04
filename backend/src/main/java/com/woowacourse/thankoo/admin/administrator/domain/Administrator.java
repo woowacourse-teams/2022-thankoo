@@ -24,17 +24,19 @@ public class Administrator extends AdminBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name", length = 20, nullable = false, unique = true)
+    @Column(name = "name", length = 20, nullable = false, unique = true)
     private String name;
 
-    @Column(name="password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name="role", nullable = false)
+    @Column(name = "role", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private AdministratorRole role;
 
-    public Administrator(final Long id, final String name, final String password,
+    public Administrator(final Long id,
+                         final String name,
+                         final String password,
                          final AdministratorRole role) {
         this.id = id;
         this.name = name;
@@ -42,7 +44,8 @@ public class Administrator extends AdminBaseEntity {
         this.role = role;
     }
 
-    public Administrator(final String name, final String password,
+    public Administrator(final String name,
+                         final String password,
                          final AdministratorRole role) {
         this(null, name, password, role);
     }
