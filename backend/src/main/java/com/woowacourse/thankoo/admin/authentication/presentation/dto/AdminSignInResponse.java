@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.admin.authentication.presentation.dto;
 
+import com.woowacourse.thankoo.common.logging.MaskingUtil;
 import lombok.Getter;
 
 @Getter
@@ -17,7 +18,7 @@ public class AdminSignInResponse {
     public String toString() {
         return "AdminLoginResponse{" +
                 "adminId=" + adminId +
-                ", accessToken='" + accessToken + '\'' +
+                ", accessToken='" + MaskingUtil.mask(accessToken, 3) + '\'' +
                 '}';
     }
 }
