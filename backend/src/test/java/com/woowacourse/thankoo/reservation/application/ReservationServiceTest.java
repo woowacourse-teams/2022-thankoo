@@ -286,8 +286,7 @@ class ReservationServiceTest {
         Long reservationId = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
-        CouponUsedEvent couponUsedEvent = new CouponUsedEvent(coupon.getId());
-        reservationService.cancelReservation(couponUsedEvent);
+        reservationService.cancelReservation(coupon.getId());
         Reservation acceptReservation = reservationRepository.findById(reservationId).get();
 
         assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);

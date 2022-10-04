@@ -2,7 +2,6 @@ package com.woowacourse.thankoo.reservation.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
-import com.woowacourse.thankoo.coupon.domain.CouponUsedEvent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
@@ -19,7 +18,6 @@ import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,9 +79,8 @@ public class ReservationService {
         couponRepository.updateCouponStatus(CouponStatus.NOT_USED, reservations.getCouponIds());
     }
 
-    @EventListener
-    public void cancelReservation(final CouponUsedEvent event) {
-        Reservation reservation = getReservation(event.getCouponId());
+    public void cancelReservation(final Long couponId) {
+        Reservation reservation = getReservation(couponId);
         reservation.cancelByUsedCoupon();
     }
 

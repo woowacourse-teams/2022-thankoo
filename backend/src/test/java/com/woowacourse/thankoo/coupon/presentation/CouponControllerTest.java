@@ -438,7 +438,7 @@ class CouponControllerTest extends ControllerTest {
 
     @DisplayName("쿠폰을 즉시 사용한다.")
     @Test
-    void completeCoupon() throws Exception {
+    void useCoupon() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 

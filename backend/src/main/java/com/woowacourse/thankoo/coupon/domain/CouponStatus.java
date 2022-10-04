@@ -43,7 +43,7 @@ public enum CouponStatus {
         return this == EXPIRED;
     }
 
-    public boolean isStatusAbleToComplete() {
+    public boolean isStatusAbleToUse() {
         return this != RESERVED && this != USED && this != EXPIRED;
     }
 }

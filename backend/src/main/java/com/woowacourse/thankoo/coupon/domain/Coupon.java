@@ -118,7 +118,7 @@ public class Coupon extends BaseEntity {
     public void use(final Long memberId) {
         validateMemberCanUseCoupon(memberId);
         validateStatus();
-        publishCouponCompletedEvent();
+        publishCouponUsedEvent();
         couponStatus = CouponStatus.USED;
     }
 
@@ -133,12 +133,12 @@ public class Coupon extends BaseEntity {
     }
 
     private void validateStatus() {
-        if (!couponStatus.isStatusAbleToComplete()) {
+        if (!couponStatus.isStatusAbleToUse()) {
             throw new InvalidCouponException(ErrorType.CAN_NOT_USE_COUPON);
         }
     }
 
-    private void publishCouponCompletedEvent() {
+    private void publishCouponUsedEvent() {
         if (isReserving()) {
             Events.publish(new CouponUsedEvent(id));
         }

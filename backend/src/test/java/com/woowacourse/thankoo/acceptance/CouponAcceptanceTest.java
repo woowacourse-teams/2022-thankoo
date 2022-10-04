@@ -24,7 +24,6 @@ import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.ACCEPT;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.CouponAssured;
-import com.woowacourse.thankoo.acceptance.builder.CouponAssured.CouponResponseBuilder;
 import com.woowacourse.thankoo.acceptance.builder.MeetingAssured;
 import com.woowacourse.thankoo.acceptance.builder.ReservationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
@@ -381,7 +380,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
         @DisplayName("쿠폰을 즉시 사용한다.")
         @Test
-        void complete() {
+        void use() {
             TokenResponse senderToken = AuthenticationAssured.request()
                     .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
                     .로그인_한다(CODE_SKRR)

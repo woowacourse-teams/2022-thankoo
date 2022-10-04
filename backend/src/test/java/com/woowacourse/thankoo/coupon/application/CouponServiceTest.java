@@ -110,11 +110,11 @@ class CouponServiceTest {
 
     @DisplayName("쿠폰을 바로 사용할 때")
     @Nested
-    class Complete {
+    class Use {
 
-        @DisplayName("사용하지 않은 상태라면 완료 처리한다.")
+        @DisplayName("사용하지 않은 상태라면 사용된 상태로 변경한다.")
         @Test
-        void completeCoupon() {
+        void useCoupon() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
@@ -125,9 +125,9 @@ class CouponServiceTest {
 
             couponService.useImmediately(receiver.getId(), savedCoupon.getId());
 
-            Coupon completedCoupon = couponRepository.findById(savedCoupon.getId()).get();
+            Coupon usedCoupon = couponRepository.findById(savedCoupon.getId()).get();
 
-            assertThat(completedCoupon.getCouponStatus()).isEqualTo(CouponStatus.USED);
+            assertThat(usedCoupon.getCouponStatus()).isEqualTo(CouponStatus.USED);
         }
 
         @DisplayName("받는이가 아니라면 예외가 발생한다.")
@@ -149,7 +149,7 @@ class CouponServiceTest {
 
         @DisplayName("유효하지 않은 상태라면 예외가 발생한다.")
         @Test
-        void completeInvalidCouponStatus() {
+        void useInvalidCouponStatus() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 

@@ -122,13 +122,8 @@ class CouponTest {
             coupon.use();
             assertThat(coupon.getCouponStatus()).isEqualTo(USED);
         }
-    }
 
-    @DisplayName("쿠폰을 즉시 사용할 때")
-    @Nested
-    class CompleteTest {
-
-        @DisplayName("쿠폰이 즉시 완료할 수 있는 상태가 아니라면 예외가 발생한다.")
+        @DisplayName("쿠폰을 완료할 수 있는 상태가 아니라면 예외가 발생한다.")
         @ParameterizedTest
         @ValueSource(strings = {"RESERVED", "USED", "EXPIRED"})
         void isNotUsed(CouponStatus status) {
@@ -149,7 +144,7 @@ class CouponTest {
                     .hasMessage("쿠폰을 즉시사용할 수 있는 회원이 아닙니다.");
         }
 
-        @DisplayName("즉시 사용한다.")
+        @DisplayName("받는이 또는 보낸이고 완료할 수 있는 상태라면 사용한다.")
         @Test
         void complete() {
             Coupon coupon = new Coupon(1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED);
