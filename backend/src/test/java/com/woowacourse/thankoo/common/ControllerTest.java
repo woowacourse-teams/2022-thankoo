@@ -60,9 +60,6 @@ public class ControllerTest {
     protected AuthenticationService authenticationService;
 
     @MockBean
-    protected TokenDecoder tokenDecoder;
-
-    @MockBean
     protected JwtTokenProvider jwtTokenProvider;
 
     @MockBean
