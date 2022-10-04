@@ -19,7 +19,6 @@ public class AdminQrCodeController {
     private final AdminQrCodeService adminQrCodeService;
 
     @PostMapping
-    @RequestMapping
     public ResponseEntity<List<AdminLinkResponse>> getQrCode(@RequestBody final AdminSerialRequest adminSerialRequest) {
         return ResponseEntity.ok(adminQrCodeService.getLinks(adminSerialRequest));
     }
