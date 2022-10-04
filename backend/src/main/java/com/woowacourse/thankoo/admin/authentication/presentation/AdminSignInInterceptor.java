@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.admin.authentication.presentation;
 
-import com.woowacourse.thankoo.admin.authentication.exception.InvalidTokenException;
+import com.woowacourse.thankoo.admin.authentication.exception.InvalidTokenUnAuthenticationException;
 import com.woowacourse.thankoo.admin.authentication.infrastructure.AdminAuthorizationExtractor;
 import com.woowacourse.thankoo.admin.common.exception.AdminErrorType;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class AdminSignInInterceptor implements HandlerInterceptor {
         }
 
         String accessToken = AdminAuthorizationExtractor.extract(request)
-                .orElseThrow(() -> new InvalidTokenException(AdminErrorType.INVALID_TOKEN));
+                .orElseThrow(() -> new InvalidTokenUnAuthenticationException(AdminErrorType.INVALID_TOKEN));
         log.debug("[ Administrator Auth Request ] ADMINISTRATOR_ID = {} ",
                 Long.valueOf(accessTokenDecoder.decode(accessToken)));
         return true;

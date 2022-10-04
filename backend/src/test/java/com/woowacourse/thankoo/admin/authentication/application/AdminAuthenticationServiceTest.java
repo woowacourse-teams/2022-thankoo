@@ -8,7 +8,7 @@ import com.woowacourse.thankoo.admin.administrator.domain.AdministratorRepositor
 import com.woowacourse.thankoo.admin.administrator.domain.AdministratorRole;
 import com.woowacourse.thankoo.admin.authentication.application.dto.AdminSignInRequest;
 import com.woowacourse.thankoo.admin.authentication.domain.PasswordEncryption;
-import com.woowacourse.thankoo.admin.authentication.exception.InvalidLoginInformationException;
+import com.woowacourse.thankoo.admin.authentication.exception.InvalidLoginInformationUnAuthenticationException;
 import com.woowacourse.thankoo.admin.authentication.presentation.dto.AdminSignInResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import org.junit.jupiter.api.DisplayName;
@@ -52,7 +52,7 @@ class AdminAuthenticationServiceTest {
             administratorRepository.save(administrator);
 
             assertThatThrownBy(() -> authenticationService.signIn(new AdminSignInRequest("name", "wrongPassword")))
-                    .isInstanceOf(InvalidLoginInformationException.class)
+                    .isInstanceOf(InvalidLoginInformationUnAuthenticationException.class)
                     .hasMessage("올바르지 않은 비밀번호 또는 이름입니다.");
         }
     }

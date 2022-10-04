@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.admin.authentication.infrastructure;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.woowacourse.thankoo.admin.authentication.exception.InvalidTokenException;
+import com.woowacourse.thankoo.admin.authentication.exception.InvalidTokenUnAuthenticationException;
 import com.woowacourse.thankoo.admin.authentication.presentation.TokenDecoder;
 import com.woowacourse.thankoo.admin.common.exception.AdminErrorType;
 import io.jsonwebtoken.JwtException;
@@ -31,7 +31,7 @@ public class AccessTokenDecoder implements TokenDecoder {
                     .getBody()
                     .getSubject();
         } catch (JwtException e) {
-            throw new InvalidTokenException(AdminErrorType.INVALID_TOKEN);
+            throw new InvalidTokenUnAuthenticationException(AdminErrorType.INVALID_TOKEN);
         }
     }
 }

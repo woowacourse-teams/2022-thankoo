@@ -5,7 +5,7 @@ import com.woowacourse.thankoo.admin.administrator.domain.AdministratorRepositor
 import com.woowacourse.thankoo.admin.authentication.application.dto.AdminSignInRequest;
 import com.woowacourse.thankoo.admin.authentication.domain.PasswordEncryption;
 import com.woowacourse.thankoo.admin.authentication.domain.TokenProvider;
-import com.woowacourse.thankoo.admin.authentication.exception.InvalidLoginInformationException;
+import com.woowacourse.thankoo.admin.authentication.exception.InvalidLoginInformationUnAuthenticationException;
 import com.woowacourse.thankoo.admin.authentication.presentation.dto.AdminSignInResponse;
 import com.woowacourse.thankoo.admin.common.exception.AdminErrorType;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class AdminAuthenticationService {
 
     public AdminSignInResponse signIn(final AdminSignInRequest loginRequest) {
         Administrator administrator = administratorRepository.findAdministratorByName(loginRequest.getName())
-                .orElseThrow(() -> new InvalidLoginInformationException(AdminErrorType.INVALID_LOGIN_INFORMATION));
+                .orElseThrow(() -> new InvalidLoginInformationUnAuthenticationException(AdminErrorType.INVALID_LOGIN_INFORMATION));
         String encryptedPassword = passwordEncryption.encrypt(loginRequest.getPassword());
         validatePassword(encryptedPassword, administrator);
         return new AdminSignInResponse(administrator.getId(),
@@ -32,7 +32,7 @@ public class AdminAuthenticationService {
 
     private void validatePassword(final String encryptedPassword, final Administrator administrator) {
         if (!administrator.isSamePassword(encryptedPassword)) {
-            throw new InvalidLoginInformationException(AdminErrorType.INVALID_LOGIN_INFORMATION);
+            throw new InvalidLoginInformationUnAuthenticationException(AdminErrorType.INVALID_LOGIN_INFORMATION);
         }
     }
 }
