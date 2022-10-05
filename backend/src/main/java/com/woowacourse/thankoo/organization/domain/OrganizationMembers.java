@@ -34,4 +34,11 @@ public class OrganizationMembers {
         return values.stream()
                 .anyMatch(organizationMember -> organizationMember.isSameMember(member));
     }
+
+    @Override
+    public String toString() {
+        return "OrganizationMembers{" +
+                "values=" + values +
+                '}';
+    }
 }

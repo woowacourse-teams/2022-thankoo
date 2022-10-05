@@ -83,8 +83,8 @@ public class OrganizationMember {
     public String toString() {
         return "OrganizationMember{" +
                 "id=" + id +
-                ", member=" + member +
-                ", organization=" + organization +
+                ", member=" + member.getId() +
+                ", organization=" + organization.getId() +
                 ", orderNumber=" + orderNumber +
                 ", lastAccessed=" + lastAccessed +
                 '}';

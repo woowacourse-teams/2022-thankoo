@@ -1,5 +1,13 @@
 package com.woowacourse.thankoo.organization.domain;
 
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -7,6 +15,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
+import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +24,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 @DisplayName("OrganizationRepository 는 ")
 @RepositoryTest
@@ -21,6 +32,9 @@ class OrganizationRepositoryTest {
 
     @Autowired
     private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     private OrganizationValidator organizationValidator;
 
@@ -85,5 +99,22 @@ class OrganizationRepositoryTest {
         Organization organization = organizationRepository.save(
                 Organization.create(ORGANIZATION_WOOWACOURSE, length -> "ABCDEFG1", 100, organizationValidator));
         assertThat(organizationRepository.findByCodeValue("ABCDEFG1").get().getId()).isEqualTo(organization.getId());
+    }
+
+    @DisplayName("member로 조직을 찾는다.")
+    @Test
+    void findByMemberOrganizations() {
+        Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization1 = organizationRepository.save(
+                Organization.create(ORGANIZATION_WOOWACOURSE, length -> "ABCDEFG1", 100, organizationValidator));
+
+        Organization organization2 = organizationRepository.save(
+                Organization.create(ORGANIZATION_THANKOO, length -> "ABCDEFG2", 100, organizationValidator));
+
+        organization1.join(lala, 1);
+        organization2.join(lala, 2);
+
+        assertThat(organizationRepository.findByMemberOrganizations(lala)).hasSize(2);
     }
 }
