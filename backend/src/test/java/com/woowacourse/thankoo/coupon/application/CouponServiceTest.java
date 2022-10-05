@@ -127,7 +127,7 @@ class CouponServiceTest {
 
             Coupon usedCoupon = couponRepository.findById(savedCoupon.getId()).get();
 
-            assertThat(usedCoupon.getCouponStatus()).isEqualTo(CouponStatus.USED);
+            assertThat(usedCoupon.getCouponStatus()).isEqualTo(CouponStatus.USED_IMMEDIATELY);
         }
 
         @DisplayName("받는이가 아니라면 예외가 발생한다.")

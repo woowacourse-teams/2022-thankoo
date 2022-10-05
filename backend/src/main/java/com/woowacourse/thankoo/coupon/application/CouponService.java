@@ -42,7 +42,7 @@ public class CouponService {
     public void useImmediately(final Long memberId, final Long couponId) {
         Member member = getMember(memberId);
         Coupon coupon = getCoupon(couponId);
-        coupon.use(member.getId());
+        coupon.useImmediately(member.getId());
     }
 
     private Member getMember(final Long memberId) {

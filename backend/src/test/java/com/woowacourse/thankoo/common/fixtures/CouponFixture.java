@@ -13,6 +13,7 @@ public class CouponFixture {
 
     public static final String NOT_USED = "not-used";
     public static final String USED = "used";
+    public static final String USED_IMMEDIATELY = "usedI";
     public static final String ALL = "all";
 
     public static final String TITLE_OVER = "abcdefghijklmnopqrstu";

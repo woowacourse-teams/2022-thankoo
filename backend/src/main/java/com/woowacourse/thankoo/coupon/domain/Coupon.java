@@ -115,11 +115,11 @@ public class Coupon extends BaseEntity {
         return this.couponContent.equals(couponContent);
     }
 
-    public void use(final Long memberId) {
+    public void useImmediately(final Long memberId) {
         validateMemberCanUseCoupon(memberId);
         validateStatus();
         publishCouponUsedEvent();
-        couponStatus = CouponStatus.USED;
+        couponStatus = CouponStatus.USED_IMMEDIATELY;
     }
 
     private void validateMemberCanUseCoupon(final Long memberId) {
