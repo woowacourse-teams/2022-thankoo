@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.organization.domain;
 
+import com.woowacourse.thankoo.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -23,5 +24,14 @@ public class OrganizationMembers {
 
     public int size() {
         return values.size();
+    }
+
+    public void add(final OrganizationMember organizationMember) {
+        values.add(organizationMember);
+    }
+
+    public boolean isMemberAlreadyExist(final Member member) {
+        return values.stream()
+                .anyMatch(organizationMember -> organizationMember.isSameMember(member));
     }
 }

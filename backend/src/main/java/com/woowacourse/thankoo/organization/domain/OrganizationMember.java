@@ -58,6 +58,10 @@ public class OrganizationMember {
         this(null, member, organization, orderNumber, lastAccessed);
     }
 
+    public boolean isSameMember(final Member member) {
+        return this.member.equals(member);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
