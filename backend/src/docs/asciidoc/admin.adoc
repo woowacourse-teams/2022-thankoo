@@ -36,3 +36,6 @@ operation::admin/serial/get-serial[snippets='http-request,http-response']
 
 === 시리얼 번호로 QR 링크 생성
 operation::admin/serial/get-link[snippets='http-request,http-response']
+
+== 어드민 로그인
+operation::admin/authentication/sign-in[snippets='http-request,http-response']

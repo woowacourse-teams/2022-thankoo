@@ -9,6 +9,7 @@ import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_2;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_3;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -24,6 +25,7 @@ import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.serial.application.dto.AdminCouponSerialRequest;
 import com.woowacourse.thankoo.admin.serial.presentation.dto.AdminCouponSerialResponse;
 import java.util.List;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -38,10 +40,13 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
+        given(tokenDecoder.decode(anyString()))
+                .willReturn("1");
         AdminCouponSerialRequest couponSerialRequest = new AdminCouponSerialRequest(
                 1L, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .content(objectMapper.writeValueAsString(couponSerialRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -62,6 +67,8 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("회원의 id로 쿠폰 시리얼을 조회한다.")
     @Test
     void getByMemberId() throws Exception {
+        given(tokenDecoder.decode(anyString()))
+                .willReturn("1");
         given(adminCouponSerialQueryService.getByMemberId(anyLong()))
                 .willReturn(List.of(
                         new AdminCouponSerialResponse(1L, SERIAL_1, 2L, NEO_NAME, "COFFEE"),
@@ -70,6 +77,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/admin/serial")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .param("memberId", "1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

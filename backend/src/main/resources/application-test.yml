@@ -48,3 +48,13 @@ profile-image:
   image-path: classpath:static/profile-image/*.svg
 
 origin: https://thankoo.co.kr
+
+admin:
+  encryption:
+    pbkdf2:
+      salt: csclxnexia70000000
+      iteration-count: 65536
+      key-length: 128
+  token:
+    key: acwoFWrRtHoTpxczELrTOhfsQNewXLhviNzE
+    validity: 1000000

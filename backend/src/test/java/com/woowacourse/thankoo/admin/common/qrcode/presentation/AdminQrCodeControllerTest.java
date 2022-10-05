@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.admin.common.qrcode.presentation;
 
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.ARRAY;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.ResultActions;
@@ -37,6 +39,8 @@ class AdminQrCodeControllerTest extends AdminControllerTest {
     @DisplayName("시리얼 코드로 QR 코드를 가져온다.")
     @Test
     void getCoupons() throws Exception {
+        given(tokenDecoder.decode(anyString()))
+                .willReturn("1");
         given(adminQrCodeService.getLinks(any()))
                 .willReturn(List.of(
                         new AdminLinkResponse("http://test-qrserver/1"),
@@ -47,6 +51,7 @@ class AdminQrCodeControllerTest extends AdminControllerTest {
         AdminSerialRequest requests = new AdminSerialRequest(List.of("1234", "1235", "1236"));
 
         ResultActions resultActions = mockMvc.perform(get("/admin/qrcode")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requests)))
                 .andDo(print())
