@@ -124,7 +124,7 @@ public class Coupon extends BaseEntity {
 
     private void validateMemberCanUseCoupon(final Long memberId) {
         if (!canUseCoupon(memberId)) {
-            throw new InvalidMemberException(ErrorType.CAN_NOT_USE_MISMATCH_MEMBER);
+            throw new InvalidMemberException(ErrorType.CAN_NOT_USE_IMMEDIATELY_MISMATCH_MEMBER);
         }
     }
 
@@ -134,7 +134,7 @@ public class Coupon extends BaseEntity {
 
     private void validateStatus() {
         if (!couponStatus.canImmediatelyUse()) {
-            throw new InvalidCouponException(ErrorType.CAN_NOT_USE_COUPON);
+            throw new InvalidCouponException(ErrorType.CAN_NOT_USE_IMMEDIATELY_COUPON);
         }
     }
 

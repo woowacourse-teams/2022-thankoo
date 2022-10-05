@@ -110,9 +110,9 @@ class CouponServiceTest {
 
     @DisplayName("쿠폰을 바로 사용할 때")
     @Nested
-    class Use {
+    class UseImmediately {
 
-        @DisplayName("사용하지 않은 상태라면 사용된 상태로 변경한다.")
+        @DisplayName("즉시 사용할 수 있는 상태라면 쿠폰을 즉시 사용 상태로 변경한다.")
         @Test
         void useCoupon() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
@@ -144,7 +144,7 @@ class CouponServiceTest {
 
             assertThatThrownBy(() -> couponService.useImmediately(hoho.getId(), savedCoupon.getId()))
                     .isInstanceOf(InvalidMemberException.class)
-                    .hasMessage("쿠폰을 즉시사용할 수 있는 회원이 아닙니다.");
+                    .hasMessage("쿠폰을 즉시 사용할 수 있는 회원이 아닙니다.");
         }
 
         @DisplayName("유효하지 않은 상태라면 예외가 발생한다.")
