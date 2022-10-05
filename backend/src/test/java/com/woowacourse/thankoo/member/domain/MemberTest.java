@@ -38,22 +38,24 @@ class MemberTest {
                 .hasMessage("올바르지 않은 이메일 형식입니다.");
     }
 
-    @DisplayName("둘 중 동일한 id를 판별한다.")
+    @DisplayName("하나라도 같은 id가 있는지 판별한다.")
     @Test
     void hasSameId() {
         Member member = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-        assertThat(member.hasSameId(List.of(1L, 2L))).isTrue();
+
+        assertThat(member.includeOneOfId(List.of(1L, 2L))).isTrue();
     }
 
-    @DisplayName("동일한 id를 판별한다.")
+    @DisplayName("동일한 id인지 판별한다.")
     @Test
     void isSameId() {
         Member member = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+
         assertThat(member.isSameId(1L)).isTrue();
     }
 
-    @Nested
     @DisplayName("이름을 변경할 때 ")
+    @Nested
     class UpdateNameTest {
 
         @DisplayName("정상적인 이름으로 변경하면 변경에 성공한다.")
@@ -70,19 +72,34 @@ class MemberTest {
         @ValueSource(strings = {" ", "abcdefghijkabcdefghijk1"})
         void updateBlankNameException(String name) {
             Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+
             assertThatThrownBy(() -> member.updateName(name))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("올바르지 않은 이름입니다.");
-
         }
     }
 
-    @DisplayName("프로필 이미지를 변경할 때 정상적인 프로필 이미지로 변경하면 변경에 성공한다.")
-    @Test
-    void updateProfileImage() {
-        Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-        member.updateProfileImage(HUNI_IMAGE_URL, List.of(HUNI_IMAGE_URL, SKRR_IMAGE_URL));
+    @DisplayName("프로필 이미지를 변경할 때 ")
+    @Nested
+    class UpdateProfileImage {
 
-        assertThat(member.getImageUrl()).isEqualTo(HUNI_IMAGE_URL);
+        @DisplayName("정상적인 프로필 이미지로 변경하면 변경에 성공한다.")
+        @Test
+        void updateProfileImage() {
+            Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+            member.updateProfileImage(HUNI_IMAGE_URL, List.of(HUNI_IMAGE_URL, SKRR_IMAGE_URL));
+
+            assertThat(member.getImageUrl()).isEqualTo(HUNI_IMAGE_URL);
+        }
+
+        @DisplayName("일치하지 않는 이미지로 변경하면 예외가 발생한다.")
+        @Test
+        void updateInvalidProfileImageThrowException() {
+            Member member = new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+
+            assertThatThrownBy(() -> member.updateProfileImage("no.svg", List.of(HUNI_IMAGE_URL, SKRR_IMAGE_URL)))
+                    .isInstanceOf(InvalidMemberException.class)
+                    .hasMessage("올바르지 않은 프로필 이미지입니다.");
+        }
     }
 }
