@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,13 @@ class NameTest {
         Name name = new Name(" name ");
 
         assertThat(name.getValue()).isEqualTo("name");
+    }
+
+    @DisplayName("올바른 이름은 성공한다.")
+    @ParameterizedTest(name = "name = {0}")
+    @ValueSource(strings = {"a", "abcde"})
+    void createName(String value) {
+        assertDoesNotThrow(() -> new Name(value));
     }
 
     @DisplayName("이름에 공백이거나 유효하지 않은 길이인 경우 예외가 발생한다.")
