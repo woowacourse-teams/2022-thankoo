@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.organization.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.Collections;
 import java.util.Objects;
@@ -77,6 +78,10 @@ public class Organization extends BaseEntity {
         Organization organization = new Organization(name, codeGenerator, limitedSize);
         organizationValidator.validate(organization);
         return organization;
+    }
+
+    public void join(final Member member) {
+
     }
 
     @Override

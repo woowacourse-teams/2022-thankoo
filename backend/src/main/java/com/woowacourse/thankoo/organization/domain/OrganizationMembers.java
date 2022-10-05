@@ -20,4 +20,8 @@ public class OrganizationMembers {
     public OrganizationMembers(final List<OrganizationMember> values) {
         this.values = values;
     }
+
+    public int size() {
+        return values.size();
+    }
 }
