@@ -15,6 +15,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,5 +34,13 @@ class MembersTest {
         List<String> emails = members.getEmails();
 
         assertThat(emails).containsExactly(HUNI_EMAIL, LALA_EMAIL, SKRR_EMAIL, HOHO_EMAIL);
+    }
+
+    @DisplayName("비어있는지 확인한다.")
+    @Test
+    void isEmpty() {
+        Members members = new Members(Collections.emptyList());
+
+        assertThat(members.isEmpty()).isTrue();
     }
 }
