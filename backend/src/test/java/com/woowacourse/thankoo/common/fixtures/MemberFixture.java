@@ -22,13 +22,12 @@ public class MemberFixture {
     public static final String HUNI_SOCIAL_ID = "4";
     public static final String NEO_SOCIAL_ID = "5";
 
-    public static final String COMMON_IMAGE_URL = "/profile-image/";
+    private static final String COMMON_IMAGE_URL = "/profile-image/";
 
-    public static final String SKRR_IMAGE_NAME = "user_skull.svg";
-    public static final String HUNI_IMAGE_NAME = "user_pig.svg";
-
-    public static final String SKRR_IMAGE_URL = COMMON_IMAGE_URL + SKRR_IMAGE_NAME;
-    public static final String HUNI_IMAGE_URL = COMMON_IMAGE_URL + HUNI_IMAGE_NAME;
+    public static final String HOHO_IMAGE_URL = COMMON_IMAGE_URL + "user_hoho.svg";
+    public static final String SKRR_IMAGE_URL = COMMON_IMAGE_URL + "user_skull.svg";
+    public static final String LALA_IMAGE_URL = COMMON_IMAGE_URL + "user_lala.svg";
+    public static final String HUNI_IMAGE_URL = COMMON_IMAGE_URL + "user_pig.svg";
 
     private MemberFixture() {
     }
