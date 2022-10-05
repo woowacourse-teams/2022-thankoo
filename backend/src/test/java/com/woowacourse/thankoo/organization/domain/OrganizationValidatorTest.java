@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.organization.domain;
 
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_NAME;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -37,11 +37,11 @@ class OrganizationValidatorTest {
         @DisplayName("코드, 이름중복이 없으면 통과한다.")
         @Test
         void success() {
-            Organization organization1 = Organization.create(ORGANIZATION_NAME, codeGenerator, 10,
+            Organization organization1 = Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 10,
                     organizationValidator);
             organizationRepository.save(organization1);
 
-            Organization organization2 = Organization.create(ORGANIZATION_NAME + "a", codeGenerator, 100,
+            Organization organization2 = Organization.create(ORGANIZATION_WOOWACOURSE + "a", codeGenerator, 100,
                     organizationValidator);
             assertDoesNotThrow(() -> organizationValidator.validate(organization2));
         }
@@ -49,7 +49,7 @@ class OrganizationValidatorTest {
         @DisplayName("코드가 중복되면 예외가 발생한다.")
         @Test
         void duplicateCode() {
-            Organization organization = Organization.create(ORGANIZATION_NAME, codeGenerator, 10,
+            Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 10,
                     organizationValidator);
             organizationRepository.save(organization);
 
@@ -61,11 +61,11 @@ class OrganizationValidatorTest {
         @DisplayName("이름이 중복되면 예외가 발생한다.")
         @Test
         void duplicateName() {
-            Organization organization1 = Organization.create(ORGANIZATION_NAME, codeGenerator, 10,
+            Organization organization1 = Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 10,
                     organizationValidator);
             organizationRepository.save(organization1);
 
-            assertThatThrownBy(() -> Organization.create(ORGANIZATION_NAME, codeGenerator, 100, organizationValidator))
+            assertThatThrownBy(() -> Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 100, organizationValidator))
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("잘못된 조직 이름입니다.");
         }

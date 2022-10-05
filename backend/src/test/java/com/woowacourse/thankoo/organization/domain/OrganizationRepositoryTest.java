@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.organization.domain;
 
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_NAME;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -41,7 +41,7 @@ class OrganizationRepositoryTest {
             given(codeGenerator.create(8)).willReturn("ABCDEFG1");
 
             organizationRepository.save(
-                    Organization.create(ORGANIZATION_NAME, codeGenerator, 100, organizationValidator));
+                    Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 100, organizationValidator));
 
             assertThat(organizationRepository.existsByCode(OrganizationCode.create(codeGenerator))).isTrue();
         }
@@ -51,7 +51,7 @@ class OrganizationRepositoryTest {
         void notExist() {
             CodeGenerator codeGenerator = new OrganizationCodeGenerator();
             organizationRepository.save(
-                    Organization.create(ORGANIZATION_NAME, codeGenerator, 100, organizationValidator));
+                    Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 100, organizationValidator));
             assertThat(organizationRepository.existsByCode(OrganizationCode.create(codeGenerator))).isFalse();
         }
     }
@@ -65,8 +65,8 @@ class OrganizationRepositoryTest {
         void exist() {
             CodeGenerator codeGenerator = new OrganizationCodeGenerator();
             organizationRepository.save(
-                    Organization.create(ORGANIZATION_NAME, codeGenerator, 100, organizationValidator));
-            assertThat(organizationRepository.existsByName(new OrganizationName(ORGANIZATION_NAME))).isTrue();
+                    Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 100, organizationValidator));
+            assertThat(organizationRepository.existsByName(new OrganizationName(ORGANIZATION_WOOWACOURSE))).isTrue();
         }
 
         @DisplayName("존재하지 않으면 false를 반환한다.")
@@ -74,8 +74,16 @@ class OrganizationRepositoryTest {
         void notExist() {
             CodeGenerator codeGenerator = new OrganizationCodeGenerator();
             organizationRepository.save(
-                    Organization.create(ORGANIZATION_NAME, codeGenerator, 100, organizationValidator));
-            assertThat(organizationRepository.existsByName(new OrganizationName(ORGANIZATION_NAME + "a"))).isFalse();
+                    Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 100, organizationValidator));
+            assertThat(organizationRepository.existsByName(new OrganizationName(ORGANIZATION_WOOWACOURSE + "a"))).isFalse();
         }
+    }
+
+    @DisplayName("code로 조직을 찾는다.")
+    @Test
+    void findByCodeValue() {
+        Organization organization = organizationRepository.save(
+                Organization.create(ORGANIZATION_WOOWACOURSE, length -> "ABCDEFG1", 100, organizationValidator));
+        assertThat(organizationRepository.findByCodeValue("ABCDEFG1").get().getId()).isEqualTo(organization.getId());
     }
 }
