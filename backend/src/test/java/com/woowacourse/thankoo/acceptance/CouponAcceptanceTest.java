@@ -11,6 +11,7 @@ import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE_OVER;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TYPE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.USED;
+import static com.woowacourse.thankoo.common.fixtures.CouponFixture.USED_IMMEDIATELY;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.INVALID_TOKEN;
@@ -166,6 +167,9 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(1), 1L))
                     .예약에_응답한다(senderToken.getAccessToken(), ACCEPT)
                     .done();
+
+            CouponAssured.request()
+                            .쿠폰을_즉시_사용한다(couponResponses.get(2).getCouponId(), receiverToken.getAccessToken());
 
             MeetingAssured.request()
                     .미팅을_조회한다(receiverToken.getAccessToken())
@@ -380,7 +384,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
         @DisplayName("쿠폰을 즉시 사용한다.")
         @Test
-        void use() {
+        void useImmediately() {
             TokenResponse senderToken = AuthenticationAssured.request()
                     .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
                     .로그인_한다(CODE_SKRR)
@@ -402,7 +406,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .쿠폰을_즉시_사용한다(couponId, receiverToken.getAccessToken())
                     .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), USED)
                     .response()
-                    .쿠폰의_상태가_조회됨(couponId, USED);
+                    .쿠폰의_상태가_조회됨(couponId, USED_IMMEDIATELY);
         }
     }
 
