@@ -140,7 +140,7 @@ public class Coupon extends BaseEntity {
 
     private void publishCouponUsedEvent() {
         if (isReserving()) {
-            Events.publish(new CouponUsedEvent(id));
+            Events.publish(new CouponImmediatelyUsedEvent(id));
         }
     }
 
