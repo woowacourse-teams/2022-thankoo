@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Email {
 
-    private static final String EMAIL_REGEX_PATTERN = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$";
+    private static final Pattern EMAIL_REGEX = Pattern.compile(
+            "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,6}$");
 
     @Column(name = "email")
     private String value;
@@ -26,9 +27,13 @@ public class Email {
     }
 
     private void validateEmail(final String email) {
-        if (email.isBlank() || !Pattern.matches(EMAIL_REGEX_PATTERN, email)) {
+        if (email.isBlank() || !isValidPattern(email)) {
             throw new InvalidMemberException(ErrorType.INVALID_MEMBER_EMAIL);
         }
+    }
+
+    private boolean isValidPattern(final String email) {
+        return EMAIL_REGEX.matcher(email).matches();
     }
 
     @Override
