@@ -137,7 +137,7 @@ class CouponTest {
 
             assertThatThrownBy(() -> coupon.useImmediately(1L))
                     .isInstanceOf(InvalidCouponException.class)
-                    .hasMessage("쿠폰을 즉시사용할 수 있는 상태가 아닙니다.");
+                    .hasMessage("쿠폰을 즉시 사용할 수 있는 상태가 아닙니다.");
         }
 
         @DisplayName("받는이와 보낸이가 아니라면 예외가 발생한다.")
@@ -147,7 +147,7 @@ class CouponTest {
 
             assertThatThrownBy(() -> coupon.useImmediately(3L))
                     .isInstanceOf(InvalidMemberException.class)
-                    .hasMessage("쿠폰을 즉시사용할 수 있는 회원이 아닙니다.");
+                    .hasMessage("쿠폰을 즉시 사용할 수 있는 회원이 아닙니다.");
         }
 
         @DisplayName("받는이 또는 보낸이고 완료할 수 있는 상태라면 사용한다.")
