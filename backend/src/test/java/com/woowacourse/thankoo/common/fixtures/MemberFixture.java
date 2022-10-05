@@ -29,4 +29,7 @@ public class MemberFixture {
 
     public static final String SKRR_IMAGE_URL = COMMON_IMAGE_URL + SKRR_IMAGE_NAME;
     public static final String HUNI_IMAGE_URL = COMMON_IMAGE_URL + HUNI_IMAGE_NAME;
+
+    private MemberFixture() {
+    }
 }

@@ -10,6 +10,10 @@ public enum ErrorType {
     INVALID_TOKEN(1003, "유효하지 않은 토큰입니다."),
     FORBIDDEN(1004, "권한이 없습니다."),
 
+    INVALID_ORGANIZATION_CODE(1101, "잘못된 조직 코드입니다."),
+    INVALID_ORGANIZATION_NAME(1102, "잘못된 조직 이름입니다."),
+    INVALID_ORGANIZATION_LIMITED_SIZE(1103, "유효하지 않은 조직의 인원입니다."),
+
     NOT_FOUND_MEMBER(2001, "존재하지 않는 회원입니다."),
     INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),
     INVALID_MEMBER_EMAIL(2003, "올바르지 않은 이메일 형식입니다."),
