@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import HeaderText from '../layout/HeaderText';
-import BottomNavBar from '../components/PageButton/BottomNavBar';
 import Reservation from '../components/Reservations/Reservation';
 import useReservations from '../hooks/Reservations/useReservations';
 import NoReservation from '../components/@shared/noContent/NoReservation';
@@ -61,7 +60,7 @@ type CouponStatusNavProps = {
 
 const S = {
   Body: styled.section`
-    height: calc(79.5% - 5.5rem);
+    height: 100%;
     display: flex;
     flex-direction: column;
     padding: 5px 0;

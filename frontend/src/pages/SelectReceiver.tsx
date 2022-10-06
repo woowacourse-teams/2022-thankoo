@@ -2,18 +2,14 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
-import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import CheckedUsers from '../components/SelectReceiver/CheckedUsers';
 import ListViewUsers from '../components/SelectReceiver/ListViewUsers';
 import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
 import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
 
-import Header from '../layout/Header';
-import PageLayout from '../layout/PageLayout';
 import { ROUTE_PATH } from '../constants/routes';
 import HeaderText from '../layout/HeaderText';
-import { Suspense } from 'react';
-import Spinner from '../components/@shared/Spinner';
+import MainPageLayout from '../layout/MainPageLayout';
 
 const SelectReceiver = () => {
   const {
@@ -30,13 +26,8 @@ const SelectReceiver = () => {
   } = useSelectReceiver();
 
   return (
-    <PageLayout>
-      <S.Header>
-        <Link to='/'>
-          <ArrowBackButton />
-        </Link>
-        <HeaderText>누구한테 보낼까요?</HeaderText>
-      </S.Header>
+    <MainPageLayout>
+      <S.Header>누구한테 보낼까요?</S.Header>
       <S.Body>
         {checkedUsers.length !== 0 && (
           <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
@@ -44,25 +35,26 @@ const SelectReceiver = () => {
         <S.InputWrapper>
           <UserSearchInput value={keyword} setKeyword={setKeyword} />
         </S.InputWrapper>
-        {members && (
-          <ListViewUsers
-            users={matchedUsers}
-            isCheckedUser={isCheckedUser}
-            onClickUser={toggleUser}
-          />
-        )}
+        <S.Section isShowUser={!!checkedUsers?.length}>
+          {members && (
+            <ListViewUsers
+              users={matchedUsers}
+              isCheckedUser={isCheckedUser}
+              onClickUser={toggleUser}
+            />
+          )}
+          <S.SendButtonBox>
+            <S.LongButton
+              to={checkedUsers.length ? `${ROUTE_PATH.ENTER_COUPON_CONTENT}` : '#'}
+              disabled={!checkedUsers.length}
+            >
+              다 고르셨나요?
+              <ArrowForwardIosIcon />
+            </S.LongButton>
+          </S.SendButtonBox>
+        </S.Section>
       </S.Body>
-
-      <S.SendButtonBox>
-        <S.LongButton
-          to={checkedUsers.length ? `${ROUTE_PATH.ENTER_COUPON_CONTENT}` : '#'}
-          disabled={!checkedUsers.length}
-        >
-          다 고르셨나요?
-          <ArrowForwardIosIcon />
-        </S.LongButton>
-      </S.SendButtonBox>
-    </PageLayout>
+    </MainPageLayout>
   );
 };
 
@@ -70,17 +62,19 @@ type ButtonProps = {
   disabled: boolean;
 };
 
+type SectionProps = {
+  isShowUser: boolean;
+};
+
 const S = {
-  Header: styled(Header)`
-    height: 10%;
+  Header: styled(HeaderText)`
+    color: white;
   `,
   Body: styled.div`
-    display: block;
-    overflow: hidden;
+    display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 15px 3vw;
-    height: calc(80% - 5.5rem - 5%);
+    padding: 0 0 15px;
+    height: calc(100% - 6rem);
   `,
   InputWrapper: styled.div`
     margin: 15px 0;
@@ -117,10 +111,22 @@ const S = {
     justify-content: center;
     align-items: center;
   `,
+  Section: styled.section<SectionProps>`
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    ${({ isShowUser }) =>
+      isShowUser
+        ? css`
+            height: calc(100% - 12.8rem);
+          `
+        : css`
+            height: calc(100% - 7rem);
+          `}
+  `,
   LongButton: styled(Link)<ButtonProps>`
-    position: fixed;
-    bottom: 5%;
-    width: 80%;
+    bottom: 11%;
+    width: 100%;
     max-width: 680px;
     transition: all ease-in-out 0.1s;
     ${({ disabled, theme }) =>

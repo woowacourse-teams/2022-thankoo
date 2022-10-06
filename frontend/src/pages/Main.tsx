@@ -86,10 +86,6 @@ const Main = () => {
         ) : (
           <NoReceivedCoupon />
         )}
-
-        <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
-          <S.SendIcon />
-        </S.SelectReceiverButton>
       </S.Body>
     </MainPageLayout>
   );
@@ -108,6 +104,7 @@ const S = {
     display: flex;
     flex-direction: column;
     overflow: auto;
+    height: 100%;
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;

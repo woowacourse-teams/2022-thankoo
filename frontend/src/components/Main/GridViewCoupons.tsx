@@ -48,7 +48,7 @@ const S = {
     place-items: center;
     justify-content: space-around;
     overflow-y: auto;
-    padding-bottom: 15rem;
+    padding-bottom: 5rem;
 
     &::-webkit-scrollbar {
       width: 2px;

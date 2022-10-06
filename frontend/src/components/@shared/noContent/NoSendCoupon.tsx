@@ -38,7 +38,7 @@ const S = {
     color: ${({ theme }) => theme.header.color};
     text-align: center;
     gap: 8px;
-    padding: 30px 10px;
+    padding: 0 10px 60px 10px;
   `,
   IconWrapper: styled.div`
     height: 70px;
