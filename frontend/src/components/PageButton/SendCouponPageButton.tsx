@@ -14,7 +14,7 @@ const SendCouponPageButton = () => {
         <S.IconWrapper>
           <S.Icon />
         </S.IconWrapper>
-        <p>쿠폰</p>
+        <S.ButtonText>보내기</S.ButtonText>
       </S.ButtonWrapper>
     </S.Link>
   );
@@ -71,5 +71,8 @@ const S = {
     border-radius: 50%;
     background-color: ${({ theme }) => theme.primary};
     font-size: 1em;
+  `,
+  ButtonText: styled.p`
+    word-break: keep-all;
   `,
 };

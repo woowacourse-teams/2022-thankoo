@@ -134,7 +134,7 @@ const S = {
   UserName: styled.span`
     grid-area: un;
     height: 100%;
-    line-height: 3rem;
+    line-height: 3.5rem;
     font-size: 18px;
     color: ${({ theme }) => theme.page.color};
   `,
@@ -152,14 +152,15 @@ const S = {
     padding: 0.6rem 0;
     text-align: center;
     gap: 3px;
+    justify-content: center;
   `,
   CountLabel: styled.div`
     color: #c9c9c9;
-    font-size: 1.5rem;
+    font-size: 1rem;
   `,
   CountNum: styled.div`
     color: mediumspringgreen; //10회 미만 darksalmon 10회 이상 mediumspringgreen 30회 이상 fuchsia 100회 이상 gold
-    font-size: 1.7rem;
+    font-size: 1.5rem;
   `,
   SendButtonWrapper: styled.div`
     grid-area: cb;
@@ -179,7 +180,7 @@ const S = {
 
     text-align: center;
     background-color: ${({ canSend }) => (canSend ? `#ff7a62` : `#adadad`)};
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     line-height: 3rem;
 
     color: ${({ canSend }) => (canSend ? 'white' : '#7a7a7a')};
