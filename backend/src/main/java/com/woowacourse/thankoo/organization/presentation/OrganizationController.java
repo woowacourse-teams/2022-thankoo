@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.organization.presentation;
 
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
+import com.woowacourse.thankoo.organization.application.OrganizationQueryService;
 import com.woowacourse.thankoo.organization.application.OrganizationService;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
@@ -19,10 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrganizationController {
 
     private final OrganizationService organizationService;
+    private final OrganizationQueryService organizationQueryService;
 
     @GetMapping("/me")
     public ResponseEntity<List<OrganizationResponse>> getMyOrganizations(@AuthenticationPrincipal final Long memberId) {
-        return null;
+        return ResponseEntity.ok(organizationQueryService.getMemberOrganizations(memberId));
     }
 
     @PostMapping("/join")

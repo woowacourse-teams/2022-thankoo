@@ -17,6 +17,7 @@ import com.woowacourse.thankoo.meeting.application.MeetingService;
 import com.woowacourse.thankoo.meeting.presentation.MeetingController;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
+import com.woowacourse.thankoo.organization.application.OrganizationQueryService;
 import com.woowacourse.thankoo.organization.application.OrganizationService;
 import com.woowacourse.thankoo.organization.presentation.OrganizationController;
 import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
@@ -99,6 +100,9 @@ public class ControllerTest {
 
     @MockBean
     protected OrganizationService organizationService;
+
+    @MockBean
+    protected OrganizationQueryService organizationQueryService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());

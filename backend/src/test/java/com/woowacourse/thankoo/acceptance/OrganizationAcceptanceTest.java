@@ -27,7 +27,7 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("내 조직을 조회할 떄 ")
     @Nested
-    class MyOrganizationClass {
+    class MyOrganizationTest {
 
         @DisplayName("조직이 없을 경우 예외가 발생한다.")
         @Test
@@ -42,7 +42,27 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
             OrganizationAssured.request()
                     .내_조직을_조회한다(userToken)
                     .response()
-                    .status(HttpStatus.BAD_REQUEST.value());
+                    .status(HttpStatus.OK.value())
+                    .내_조직이_없다();
+        }
+
+        @DisplayName("조직이 있을 경우 조회한다.")
+        @Test
+        void getMyOrganizations() {
+            TokenResponse userToken = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .response()
+                    .body(TokenResponse.class);
+
+            기본_조직이_생성됨();
+            OrganizationAssured.request()
+                    .조직에_참여한다(userToken, 조직_번호("WOOWACO1"))
+                    .조직에_참여한다(userToken, 조직_번호("THANKOO1"))
+                    .내_조직을_조회한다(userToken)
+                    .response()
+                    .status(HttpStatus.OK.value())
+                    .조직을_조회한다("WOOWACO1", "THANKOO1");
         }
     }
 
