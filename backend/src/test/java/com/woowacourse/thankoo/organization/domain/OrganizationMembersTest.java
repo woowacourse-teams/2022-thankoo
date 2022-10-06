@@ -60,16 +60,4 @@ class OrganizationMembersTest {
         organizationMembers.add(new OrganizationMember(member, organization, 1, true));
         assertThat(organizationMembers.size()).isEqualTo(1);
     }
-
-    @DisplayName("이미 회원이 참여중이다.")
-    @Test
-    void isMemberExist() {
-        Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, length -> "ABCDEFG1", 100,
-                organizationValidator);
-        Member member = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
-        OrganizationMembers organizationMembers = new OrganizationMembers(new ArrayList<>());
-
-        organizationMembers.add(new OrganizationMember(member, organization, 1, true));
-        assertThat(organizationMembers.isMemberAlreadyExist(member)).isTrue();
-    }
 }

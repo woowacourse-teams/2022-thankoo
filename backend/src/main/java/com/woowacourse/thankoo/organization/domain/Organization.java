@@ -81,14 +81,19 @@ public class Organization extends BaseEntity {
         return organization;
     }
 
-    public void join(final Member member, final int lastOrder) {
+    public void join(final Member member, final OrganizationMembers memberJoiningOrganizations) {
+        validateJoin(memberJoiningOrganizations);
+        memberJoiningOrganizations.toPreviousAccessed();
+        organizationMembers.add(new OrganizationMember(member, this, memberJoiningOrganizations.size() + NEXT_ORDER, true));
+    }
+
+    private void validateJoin(final OrganizationMembers memberJoiningOrganizations) {
         if (limitedSize == organizationMembers.size()) {
             throw new InvalidOrganizationException(ErrorType.INVALID_ORGANIZATION_SIZE);
         }
-        if (organizationMembers.isMemberAlreadyExist(member)) {
+        if (memberJoiningOrganizations.isAlreadyContains(this)) {
             throw new InvalidOrganizationException(ErrorType.ALREADY_JOIN_ORGANIZATION);
         }
-        organizationMembers.add(new OrganizationMember(member, this, lastOrder + NEXT_ORDER, true));
     }
 
     @Override

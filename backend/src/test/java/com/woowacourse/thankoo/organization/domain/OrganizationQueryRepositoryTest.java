@@ -58,8 +58,15 @@ class OrganizationQueryRepositoryTest {
         Organization organization2 = organizationRepository.save(
                 Organization.create(ORGANIZATION_THANKOO, length -> "ABCDEFG2", 100, organizationValidator));
 
-        organization1.join(member, 0);
-        organization2.join(member, 1);
+        OrganizationMembers organizationMembers1 = new OrganizationMembers(
+                organizationRepository.findOrganizationMembersByMember(
+                        member));
+        organization1.join(member, organizationMembers1);
+
+        OrganizationMembers organizationMembers2 = new OrganizationMembers(
+                organizationRepository.findOrganizationMembersByMember(
+                        member));
+        organization2.join(member, organizationMembers2);
 
         organizationRepository.flush();
 

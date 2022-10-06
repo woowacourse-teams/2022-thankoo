@@ -15,8 +15,7 @@ import static org.mockito.Mockito.doNothing;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
+import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -88,12 +87,14 @@ class OrganizationTest {
         void sizeOverFlow() {
             Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(),
                     10, validator);
-            LongStream.rangeClosed(1, 10)
-                    .forEach(i -> organization.join(new Member(i, "na" + i, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL),
-                            1));
+            for (long i = 1; i <= 10; i++) {
+                Member member = new Member(i, "na" + i, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL);
+                organization.join(member, new OrganizationMembers(new ArrayList<>()));
+            }
 
             assertThatThrownBy(
-                    () -> organization.join(new Member(11L, HUNI_NAME, HUNI_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL), 1))
+                    () -> organization.join(new Member(11L, HUNI_NAME, HUNI_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL),
+                            new OrganizationMembers(new ArrayList<>())))
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("더이상 참여할 수 없습니다.");
         }
@@ -103,9 +104,13 @@ class OrganizationTest {
         void alreadyJoined() {
             Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(),
                     10, validator);
-            organization.join(new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL), 1);
+
+            Member member = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL);
+            organization.join(member, new OrganizationMembers(new ArrayList<>()));
+
             assertThatThrownBy(
-                    () -> organization.join(new Member(1L, HUNI_NAME, HUNI_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL), 1))
+                    () -> organization.join(new Member(1L, HUNI_NAME, HUNI_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL),
+                            organization.getOrganizationMembers()))
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("이미 참여중입니다.");
         }
@@ -116,7 +121,8 @@ class OrganizationTest {
             Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(),
                     10, validator);
             assertDoesNotThrow(
-                    () -> organization.join(new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL), 1));
+                    () -> organization.join(new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL),
+                            new OrganizationMembers(new ArrayList<>())));
         }
     }
 }

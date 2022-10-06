@@ -6,6 +6,8 @@ import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
 import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationMember;
+import com.woowacourse.thankoo.organization.domain.OrganizationMembers;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.List;
@@ -27,7 +29,8 @@ public class OrganizationService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
 
-        List<Organization> organizations = organizationRepository.findByMemberOrganizations(member);
-        organization.join(member, organizations.size());
+        OrganizationMembers organizationMembers = new OrganizationMembers(
+                organizationRepository.findOrganizationMembersByMember(member));
+        organization.join(member, organizationMembers);
     }
 }

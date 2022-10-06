@@ -30,9 +30,15 @@ public class OrganizationMembers {
         values.add(organizationMember);
     }
 
-    public boolean isMemberAlreadyExist(final Member member) {
+    public boolean isAlreadyContains(final Organization organization) {
         return values.stream()
-                .anyMatch(organizationMember -> organizationMember.isSameMember(member));
+                .anyMatch(organizationMember -> organizationMember.isSameOrganization(organization));
+    }
+
+    public void toPreviousAccessed() {
+        for (OrganizationMember value : values) {
+            value.toPreviousAccessed();
+        }
     }
 
     @Override

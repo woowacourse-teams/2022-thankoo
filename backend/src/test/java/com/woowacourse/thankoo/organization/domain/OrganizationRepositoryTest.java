@@ -101,9 +101,9 @@ class OrganizationRepositoryTest {
         assertThat(organizationRepository.findByCodeValue("ABCDEFG1").get().getId()).isEqualTo(organization.getId());
     }
 
-    @DisplayName("member로 조직을 찾는다.")
+    @DisplayName("member로 조직-멤버를 찾는다.")
     @Test
-    void findByMemberOrganizations() {
+    void findByOrganizationMembersByMember() {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Organization organization1 = organizationRepository.save(
@@ -112,9 +112,17 @@ class OrganizationRepositoryTest {
         Organization organization2 = organizationRepository.save(
                 Organization.create(ORGANIZATION_THANKOO, length -> "ABCDEFG2", 100, organizationValidator));
 
-        organization1.join(lala, 0);
-        organization2.join(lala, 1);
+        OrganizationMembers organizationMembers1 = new OrganizationMembers(
+                organizationRepository.findOrganizationMembersByMember(
+                        lala));
+        organization1.join(lala, organizationMembers1);
 
-        assertThat(organizationRepository.findByMemberOrganizations(lala)).hasSize(2);
+
+        OrganizationMembers organizationMembers2 = new OrganizationMembers(
+                organizationRepository.findOrganizationMembersByMember(
+                        lala));
+        organization2.join(lala, organizationMembers2);
+
+        assertThat(organizationRepository.findOrganizationMembersByMember(lala)).hasSize(2);
     }
 }
