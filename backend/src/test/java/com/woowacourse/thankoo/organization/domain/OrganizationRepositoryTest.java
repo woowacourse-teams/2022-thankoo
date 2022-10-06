@@ -112,8 +112,8 @@ class OrganizationRepositoryTest {
         Organization organization2 = organizationRepository.save(
                 Organization.create(ORGANIZATION_THANKOO, length -> "ABCDEFG2", 100, organizationValidator));
 
-        organization1.join(lala, 1);
-        organization2.join(lala, 2);
+        organization1.join(lala, 0);
+        organization2.join(lala, 1);
 
         assertThat(organizationRepository.findByMemberOrganizations(lala)).hasSize(2);
     }
