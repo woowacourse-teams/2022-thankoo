@@ -77,7 +77,7 @@ const S = {
     height: calc(100% - 6rem);
   `,
   InputWrapper: styled.div`
-    margin: 15px 0;
+    margin-bottom: 15px;
   `,
   UsersImages: styled.div`
     display: flex;

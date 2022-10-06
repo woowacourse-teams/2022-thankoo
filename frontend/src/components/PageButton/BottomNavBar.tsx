@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import CouponsPageButton from './CouponListPageButton';
+import HeartPageButton from './HeartPageButton';
 import ReservationPageButton from './ReservationPageButton';
 import ScheduledPageButton from './ScheduledPageButton';
 import SendCouponPageButton from './SendCouponPageButton';
 
 const buttons = [
   <CouponsPageButton />,
+  <HeartPageButton />,
   <SendCouponPageButton />,
   <ReservationPageButton />,
   <ScheduledPageButton />,

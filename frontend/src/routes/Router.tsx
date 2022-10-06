@@ -56,13 +56,13 @@ const Router = () => {
             <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
             <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
             <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
+            <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
           </Route>
         </Route>
         <Route element={<SpinnerSuspense />}>
           <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
           <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
           <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
-          <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
         </Route>
       </Route>
       <Route element={<UnAuthOnly />}>

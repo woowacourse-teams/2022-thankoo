@@ -21,22 +21,17 @@ const NoMeeting = () => {
 
 const S = {
   Container: styled.div`
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     opacity: 0.9;
   `,
   Box: styled.div`
     ${FlexCenter}
     flex-direction: column;
-    width: 280px;
     height: fit-content;
     border-radius: 10px;
     color: ${({ theme }) => theme.header.color};
     text-align: center;
     gap: 8px;
-    padding: 30px 10px;
+    padding: 30px 0;
   `,
   IconWrapper: styled.div`
     height: 70px;

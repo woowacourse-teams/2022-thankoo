@@ -1,9 +1,5 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import { FlexCenter } from '../styles/mixIn';
-import ArrowBackButton from './../components/@shared/ArrowBackButton';
-import Header from '../layout/Header';
-import PageLayout from '../layout/PageLayout';
 import { BASE_URL } from './../constants/api';
 import { useGetHearts, usePostHeartMutation } from './../hooks/@queries/hearts';
 import { useGetMembers } from './../hooks/@queries/members';
@@ -11,6 +7,7 @@ import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
 import { useState } from 'react';
 import useFilterMatchedUser from '../hooks/useFilterMatchedUser';
 import HeaderText from '../layout/HeaderText';
+import MainPageLayout from '../layout/MainPageLayout';
 
 const Hearts = () => {
   const [keyword, setKeyword] = useState('');
@@ -27,13 +24,8 @@ const Hearts = () => {
   const received = heartHistory?.received!;
 
   return (
-    <PageLayout>
-      <S.Header>
-        <Link to='/'>
-          <ArrowBackButton />
-        </Link>
-        <HeaderText>당신의 마음을 툭... 던져볼까요?</HeaderText>
-      </S.Header>
+    <MainPageLayout>
+      <S.Header>상대를 콕 찔러볼까요?</S.Header>
       <S.Body>
         <S.InputWrapper>
           <UserSearchInput value={keyword} setKeyword={setKeyword} />
@@ -60,7 +52,7 @@ const Hearts = () => {
                 </S.UserImageWrapper>
                 <S.UserName>{user.name}</S.UserName>
                 {modifiedLastReceived && (
-                  <S.ModifiedAt>{`${modifiedLastReceived}에 툭!`}</S.ModifiedAt>
+                  <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>
                 )}
 
                 <S.CountWrapper>
@@ -76,7 +68,7 @@ const Hearts = () => {
                       }
                     }}
                   >
-                    툭
+                    콕
                   </S.SendButton>
                 </S.SendButtonWrapper>
               </S.UserWrappr>
@@ -84,22 +76,19 @@ const Hearts = () => {
           })}
         </S.MembersContainer>
       </S.Body>
-    </PageLayout>
+    </MainPageLayout>
   );
 };
 
 type CheckBoxProp = { canSend: boolean };
 
 const S = {
-  Header: styled(Header)`
-    height: 10%;
+  Header: styled(HeaderText)`
+    color: white;
+    line-height: 2.5rem;
   `,
   Body: styled.div`
     height: calc(80%);
-    overflow: auto;
-    ::-webkit-scrollbar {
-      display: none;
-    }
   `,
   MembersContainer: styled.div`
     width: 100%;
@@ -108,12 +97,16 @@ const S = {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+
+    overflow: auto;
+    height: calc(100% - 5rem);
+    padding-bottom: 17rem;
   `,
   InputWrapper: styled.div`
-    margin: 3rem 3vw;
+    margin-bottom: 1.5rem;
   `,
   UserWrappr: styled.div<CheckBoxProp>`
-    width: 92%;
+    width: 99.5%;
     height: 5rem;
     display: grid;
     grid-template-areas:
@@ -142,7 +135,7 @@ const S = {
     grid-area: un;
     height: 100%;
     line-height: 3rem;
-    font-size: 2rem;
+    font-size: 18px;
     color: ${({ theme }) => theme.page.color};
   `,
   ModifiedAt: styled.div`
@@ -177,6 +170,9 @@ const S = {
     height: 100%;
   `,
   SendButton: styled.span<CheckBoxProp>`
+    display: grid;
+    place-items: center;
+
     width: 80%;
     height: 65%;
     border-radius: 8px;
