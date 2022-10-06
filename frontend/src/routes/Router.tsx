@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
-import HeaderAndNavLayout from '../components/@shared/Layout/HeaderAndNavLayout';
+import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from './../constants/routes';
 

@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import HeaderText from '../components/@shared/Layout/HeaderText';
+import HeaderText from '../layout/HeaderText';
 import BottomNavBar from '../components/PageButton/BottomNavBar';
 import Reservation from '../components/Reservations/Reservation';
 import useReservations from '../hooks/Reservations/useReservations';
 import NoReservation from '../components/@shared/noContent/NoReservation';
-import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
+import MainPageLayout from '../layout/MainPageLayout';
 
 const ReservationNav = ['received', 'sent'];
 

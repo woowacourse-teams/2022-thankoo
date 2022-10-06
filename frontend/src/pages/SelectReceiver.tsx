@@ -8,10 +8,10 @@ import ListViewUsers from '../components/SelectReceiver/ListViewUsers';
 import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
 import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
 
-import Header from '../components/@shared/Layout/Header';
-import PageLayout from '../components/@shared/Layout/PageLayout';
+import Header from '../layout/Header';
+import PageLayout from '../layout/PageLayout';
 import { ROUTE_PATH } from '../constants/routes';
-import HeaderText from '../components/@shared/Layout/HeaderText';
+import HeaderText from '../layout/HeaderText';
 import { Suspense } from 'react';
 import Spinner from '../components/@shared/Spinner';
 

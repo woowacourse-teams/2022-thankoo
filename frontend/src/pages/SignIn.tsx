@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import GoogleIcon from '@mui/icons-material/Google';
-import PageLayout from '../components/@shared/Layout/PageLayout';
+import PageLayout from '../layout/PageLayout';
 import { FlexCenter } from '../styles/mixIn';
 import BirdLogoWhite from './../components/@shared/LogoWhite';
 import useSignIn from './../hooks/SignIn/useSignIn';

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import HeaderText from '../components/@shared/Layout/HeaderText';
-import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
+import HeaderText from '../layout/HeaderText';
+import MainPageLayout from '../layout/MainPageLayout';
 import { COUPON_IMAGE } from '../constants/coupon';
 import useMeetings from '../hooks/Meetings/useMeetings';
 import NoMeeting from './../components/@shared/noContent/NoMeeting';

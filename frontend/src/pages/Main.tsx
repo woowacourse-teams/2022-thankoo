@@ -11,8 +11,8 @@ import { couponTypeKeys, couponTypes } from '../types';
 import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
 import useMain from '../hooks/Main/useMain';
-import HeaderText from '../components/@shared/Layout/HeaderText';
-import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
+import HeaderText from '../layout/HeaderText';
+import MainPageLayout from '../layout/MainPageLayout';
 import useQRCoupon from '../hooks/useQRCoupon';
 import Spinner from '../components/@shared/Spinner';
 
