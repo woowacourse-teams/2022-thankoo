@@ -1,0 +1,4 @@
+[[Organization]]
+
+=== 조직 참여
+operation::organizations/join[snippets='http-request,http-response']

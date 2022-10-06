@@ -10,13 +10,9 @@ import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANI
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.OrganizationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
-import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
-import com.woowacourse.thankoo.organization.domain.CodeGenerator;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
-import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,7 +40,6 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
 
             기본_조직이_생성됨();
             OrganizationAssured.request()
-                    .조직에_참여한다(userToken, 조직_번호("WOOWACO1"))
                     .내_조직을_조회한다(userToken)
                     .response()
                     .status(HttpStatus.BAD_REQUEST.value());
