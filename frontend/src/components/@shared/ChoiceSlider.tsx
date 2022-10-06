@@ -77,12 +77,13 @@ const S = {
     position: relative;
   `,
   Content: styled.div<OptionsProps>`
-    width: ${({ show }) => (show ? '80%' : '100%')};
+    width: ${({ show }) => (show ? '78%' : '100%')};
     min-width: 55%;
     transition: all ease-in-out 0.1s;
     z-index: 3;
     overflow: hidden;
     border-radius: 11px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   `,
   Options: styled.div<OptionsProps>`
     display: flex;
@@ -102,12 +103,13 @@ const S = {
     padding: 10px;
     border: none;
     border-radius: 11px;
-    width: ${({ index, show }) => (show ? `${100 - (2 - index) * 10}%` : '100%')};
+    width: ${({ index, show }) => (show ? `${100 - (2 - index) * 11}%` : '100%')};
     transition: all ease-in-out 0.1s;
     height: 100%;
     z-index: ${({ index }) => 2 - index};
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   `,
 };

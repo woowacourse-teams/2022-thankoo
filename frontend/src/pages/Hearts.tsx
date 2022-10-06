@@ -174,12 +174,12 @@ const S = {
     place-items: center;
 
     width: 80%;
-    height: 65%;
+    height: 80%;
     border-radius: 8px;
 
     text-align: center;
     background-color: ${({ canSend }) => (canSend ? `#ff7a62` : `#adadad`)};
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     line-height: 3rem;
 
     color: ${({ canSend }) => (canSend ? 'white' : '#7a7a7a')};
