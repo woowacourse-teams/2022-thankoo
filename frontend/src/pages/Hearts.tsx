@@ -46,7 +46,7 @@ const Hearts = () => {
             )?.count;
 
             return (
-              <S.UserWrappr key={user.id} canSend={canSend}>
+              <S.UserWrappr key={user.id}>
                 <S.UserImageWrapper>
                   <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
                 </S.UserImageWrapper>
@@ -105,7 +105,7 @@ const S = {
   InputWrapper: styled.div`
     margin-bottom: 1.5rem;
   `,
-  UserWrappr: styled.div<CheckBoxProp>`
+  UserWrappr: styled.div`
     width: 99.5%;
     height: 5rem;
     display: grid;
@@ -116,7 +116,6 @@ const S = {
     grid-template-rows: 60% 40%;
     border-radius: 5px;
     gap: 2px 0;
-    border: 0.1rem solid ${({ canSend }) => (canSend ? 'tomato' : '#787878')};
   `,
   UserImageWrapper: styled.div`
     grid-area: ui;
@@ -126,7 +125,7 @@ const S = {
   `,
 
   UserImage: styled.img`
-    transform: scale(0.4);
+    width: 30px;
 
     border-radius: 50%;
     object-fit: cover;
@@ -135,7 +134,7 @@ const S = {
     grid-area: un;
     height: 100%;
     line-height: 3.5rem;
-    font-size: 18px;
+    font-size: 16px;
     color: ${({ theme }) => theme.page.color};
   `,
   ModifiedAt: styled.div`
