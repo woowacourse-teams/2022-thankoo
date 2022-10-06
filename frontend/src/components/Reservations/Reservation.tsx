@@ -73,15 +73,16 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
         <Slider.Options>
           {order === 'received' ? (
             <>
-              <Slider.OptionItem isAccept={false} onClick={handleClickOption[order][0]}>
+              <Slider.OptionItem index={1} isAccept={false} onClick={handleClickOption[order][0]}>
                 {option1}
               </Slider.OptionItem>
-              <Slider.OptionItem isAccept={true} onClick={handleClickOption[order][1]}>
+              <Slider.OptionItem index={2} isAccept={true} onClick={handleClickOption[order][1]}>
                 {option2}
               </Slider.OptionItem>
             </>
           ) : (
             <Slider.OptionItem
+              index={1}
               style={{ width: optionsWidth }}
               isAccept={false}
               onClick={handleClickOption[order][0]}
