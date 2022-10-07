@@ -72,6 +72,7 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
         </Slider.Content>
         <Slider.Options>
           {order === 'received' ? (
+            /** TODO index는 Slider.OptionItem에서 자동으로 부여해주도록 수정 */
             <>
               <Slider.OptionItem index={1} isAccept={false} onClick={handleClickOption[order][0]}>
                 {option1}

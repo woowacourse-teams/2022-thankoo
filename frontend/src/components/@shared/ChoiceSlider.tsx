@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { createContext, Dispatch, Fragment, SetStateAction, useContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
 
 const ChoiceSlider = ({ children }) => {
   return <S.Container>{children}</S.Container>;
