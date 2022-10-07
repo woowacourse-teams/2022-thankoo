@@ -20,22 +20,18 @@ export type MeetingsResponse = {
 export const useGetMeetings = (
   {
     onSuccess,
+    select = () => [],
   }: {
-    onSuccess: (meeting: Meeting[]) => void;
-  } = { onSuccess: () => {} }
+    onSuccess?: (meeting: Meeting[]) => void;
+    select?: (meetings: Meeting[]) => MeetingsResponse[];
+  } = { onSuccess: () => {}, select: () => [] }
 ) =>
   useQuery<MeetingsResponse[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest(), {
     onSuccess: meeting => {
       onSuccess?.(meeting);
     },
     select: (meetings: Meeting[]) => {
-      const today = new Date().toISOString().split('T')[0];
-      const isMeetingTodayAddedMeetings = meetings.map(meeting => ({
-        ...meeting,
-        isMeetingToday: meeting.time.meetingTime.split(' ')[0] === today,
-      }));
-
-      return isMeetingTodayAddedMeetings;
+      return select?.(meetings);
     },
   });
 
