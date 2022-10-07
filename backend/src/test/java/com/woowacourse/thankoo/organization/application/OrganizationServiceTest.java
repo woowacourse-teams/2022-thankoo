@@ -58,6 +58,7 @@ class OrganizationServiceTest {
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization.getCode().getValue()));
 
             List<OrganizationMember> organizationMembers = organizationRepository.findOrganizationMembersByMember(lala);
+
             assertAll(
                     () -> assertThat(organizationMembers).hasSize(1),
                     () -> assertThat(organizationMembers.get(0).getOrderNumber()).isEqualTo(1),
@@ -86,7 +87,6 @@ class OrganizationServiceTest {
                     () -> assertThat(organizationMembers.get(0).isLastAccessed()).isFalse(),
                     () -> assertThat(organizationMembers.get(1).isLastAccessed()).isTrue()
             );
-
         }
     }
 }
