@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { createContext, Fragment, useContext, useState } from 'react';
+import { createContext, Dispatch, Fragment, SetStateAction, useContext, useState } from 'react';
 
 const ChoiceSlider = ({ children }) => {
   return <S.Container>{children}</S.Container>;
@@ -7,35 +7,49 @@ const ChoiceSlider = ({ children }) => {
 
 export default ChoiceSlider;
 
+type ContentProps = {
+  show: boolean;
+  totalLength: number;
+};
 type OptionsProps = {
   show: boolean;
 };
 type OptionItemProps = {
   isAccept: boolean;
+  totalIndex: number;
   index: number;
   show: boolean;
 };
 type ToggleContextState = {
   toggle: boolean;
-  setToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  setToggle: Dispatch<SetStateAction<boolean>>;
+  length: number;
+  setLength: Dispatch<SetStateAction<number>>;
 };
-const ToggleContext = createContext<ToggleContextState>({ toggle: false, setToggle: () => {} });
+const ToggleContext = createContext<ToggleContextState>({
+  toggle: false,
+  setToggle: () => {},
+  length: 0,
+  setLength: () => {},
+});
 
 ChoiceSlider.Inner = ({ children, ...props }) => {
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState<boolean>(false);
+  const [length, setLength] = useState<number>(0);
 
   return (
-    <ToggleContext.Provider {...props} value={{ toggle, setToggle }}>
+    <ToggleContext.Provider {...props} value={{ toggle, setToggle, length, setLength }}>
       <S.Inner>{children}</S.Inner>
     </ToggleContext.Provider>
   );
 };
 
 ChoiceSlider.Content = ({ children, ...props }) => {
-  const { toggle, setToggle } = useContext(ToggleContext);
+  const { toggle, setToggle, length } = useContext(ToggleContext);
 
   return (
     <S.Content
+      totalLength={length}
       show={toggle}
       onClick={() => {
         setToggle(prev => !prev);
@@ -47,7 +61,10 @@ ChoiceSlider.Content = ({ children, ...props }) => {
   );
 };
 ChoiceSlider.Options = ({ children, ...props }) => {
-  const { toggle } = useContext(ToggleContext);
+  const { toggle, setLength } = useContext(ToggleContext);
+  const hasChildren = Array.isArray(children.props.children);
+  const length = hasChildren ? children.props.children.length : 1;
+  setLength(length);
 
   return (
     <S.Options show={toggle} {...props}>
@@ -57,14 +74,21 @@ ChoiceSlider.Options = ({ children, ...props }) => {
 };
 
 ChoiceSlider.OptionItem = ({ children, onClick, index, isAccept, ...props }) => {
-  const { setToggle, toggle } = useContext(ToggleContext);
+  const { setToggle, toggle, length } = useContext(ToggleContext);
   const onClickItem = () => {
     onClick();
     setToggle(prev => !prev);
   };
 
   return (
-    <S.OptionItem show={toggle} index={index} isAccept={isAccept} onClick={onClickItem} {...props}>
+    <S.OptionItem
+      show={toggle}
+      index={index}
+      totalIndex={length}
+      isAccept={isAccept}
+      onClick={onClickItem}
+      {...props}
+    >
       {children}
     </S.OptionItem>
   );
@@ -76,8 +100,8 @@ const S = {
     display: flex;
     position: relative;
   `,
-  Content: styled.div<OptionsProps>`
-    width: ${({ show }) => (show ? '78%' : '100%')};
+  Content: styled.div<ContentProps>`
+    width: ${({ show, totalLength }) => (show ? `${100 - totalLength * 11}%` : '100%')};
     min-width: 55%;
     transition: all ease-in-out 0.1s;
     z-index: 3;
@@ -103,7 +127,8 @@ const S = {
     padding: 10px;
     border: none;
     border-radius: 11px;
-    width: ${({ index, show }) => (show ? `${100 - (2 - index) * 11}%` : '100%')};
+    width: ${({ index, show, totalIndex }) =>
+      show ? `${100 - (totalIndex - index) * 11}%` : '100%'};
     transition: all ease-in-out 0.1s;
     height: 100%;
     z-index: ${({ index }) => 2 - index};

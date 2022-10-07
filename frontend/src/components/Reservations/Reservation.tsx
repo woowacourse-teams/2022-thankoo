@@ -83,7 +83,7 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
           ) : (
             <Slider.OptionItem
               index={1}
-              style={{ width: optionsWidth }}
+              // style={{ width: optionsWidth }}
               isAccept={false}
               onClick={handleClickOption[order][0]}
             >
