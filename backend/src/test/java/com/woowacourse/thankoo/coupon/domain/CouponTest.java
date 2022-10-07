@@ -6,7 +6,7 @@ import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.RESERVED;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.RESERVING;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.USED;
-import static com.woowacourse.thankoo.coupon.domain.CouponStatus.USED_IMMEDIATELY;
+import static com.woowacourse.thankoo.coupon.domain.CouponStatus.IMMEDIATELY_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -157,7 +157,7 @@ class CouponTest {
 
             coupon.useImmediately(1L);
 
-            assertThat(coupon.getCouponStatus()).isEqualTo(USED_IMMEDIATELY);
+            assertThat(coupon.getCouponStatus()).isEqualTo(IMMEDIATELY_USED);
         }
     }
 }

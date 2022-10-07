@@ -134,7 +134,7 @@ class CouponQueryServiceTest {
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED),
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
-                        CouponStatus.USED_IMMEDIATELY)
+                        CouponStatus.IMMEDIATELY_USED)
         ));
 
         List<CouponResponse> responses = couponQueryService.getReceivedCoupons(receiver.getId(), ALL);
@@ -292,7 +292,7 @@ class CouponQueryServiceTest {
             Coupon coupon = couponRepository.save(new Coupon(sender.getId(),
                     receiver.getId(),
                     new CouponContent(TYPE, TITLE, MESSAGE),
-                    CouponStatus.USED_IMMEDIATELY));
+                    CouponStatus.IMMEDIATELY_USED));
 
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(), coupon.getId());
 

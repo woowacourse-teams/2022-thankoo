@@ -54,7 +54,7 @@ class CouponStatusTest {
     @DisplayName("쿠폰이 즉시 사용인지 확인한다.")
     @Test
     void immediatelyUsed() {
-        CouponStatus couponStatus = CouponStatus.USED_IMMEDIATELY;
+        CouponStatus couponStatus = CouponStatus.IMMEDIATELY_USED;
 
         assertThat(couponStatus.isImmediatelyUsed()).isTrue();
     }

@@ -10,7 +10,7 @@ public enum CouponStatus {
     RESERVING,
     RESERVED,
     USED,
-    USED_IMMEDIATELY,
+    IMMEDIATELY_USED,
     EXPIRED;
 
     public static CouponStatus of(final String name) {
@@ -41,7 +41,7 @@ public enum CouponStatus {
     }
 
     public boolean isImmediatelyUsed() {
-        return this == USED_IMMEDIATELY;
+        return this == IMMEDIATELY_USED;
     }
 
     public boolean isExpired() {

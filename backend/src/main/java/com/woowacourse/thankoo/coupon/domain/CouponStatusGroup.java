@@ -11,9 +11,9 @@ import lombok.Getter;
 public enum CouponStatusGroup {
 
     NOT_USED("not-used", Arrays.asList(CouponStatus.NOT_USED, CouponStatus.RESERVING, CouponStatus.RESERVED)),
-    USED("used", Arrays.asList(CouponStatus.USED, CouponStatus.EXPIRED, CouponStatus.USED_IMMEDIATELY)),
+    USED("used", Arrays.asList(CouponStatus.USED, CouponStatus.EXPIRED, CouponStatus.IMMEDIATELY_USED)),
     ALL("all", Arrays.asList(CouponStatus.NOT_USED, CouponStatus.RESERVING, CouponStatus.RESERVED,
-            CouponStatus.USED, CouponStatus.EXPIRED, CouponStatus.USED_IMMEDIATELY));
+            CouponStatus.USED, CouponStatus.EXPIRED, CouponStatus.IMMEDIATELY_USED));
 
     private final String title;
     private final List<CouponStatus> statuses;
