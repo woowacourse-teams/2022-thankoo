@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import CouponsPageButton from './CouponListPageButton';
 import HeartPageButton from './HeartPageButton';
 import ReservationPageButton from './ReservationPageButton';
-import ScheduledPageButton from './ScheduledPageButton';
+import ScheduledPageButton from './MeetingPageButton';
 import SendCouponPageButton from './SendCouponPageButton';
 
 const buttons = [

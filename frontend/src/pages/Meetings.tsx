@@ -6,11 +6,7 @@ import useMeetings from '../hooks/Meetings/useMeetings';
 import NoMeeting from './../components/@shared/noContent/NoMeeting';
 
 const Meetings = () => {
-  const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate } = useMeetings();
-
-  if (isLoading) {
-    return <div></div>;
-  }
+  const { meetings, isTodayMeetingExist, nearestMeetingDate } = useMeetings();
 
   return (
     <MainPageLayout>
@@ -18,14 +14,14 @@ const Meetings = () => {
         {meetings?.length
           ? isTodayMeetingExist
             ? '오늘 예정된 약속이 있습니다'
-            : `${diffWithNearestDate}일 뒤 약속이 있습니다`
+            : `${nearestMeetingDate}일 뒤 약속이 있습니다`
           : '예정된 약속이 없습니다.'}
       </S.HeaderText>
       <S.Body>
         {meetings?.length !== 0 ? (
           meetings?.map((meeting, idx) => (
-            <S.Meeting isToday={diffWithNearestDate === 0 && idx === 0} key={idx}>
-              {diffWithNearestDate === 0 && idx === 0 && <S.TodayStrap>오늘</S.TodayStrap>}
+            <S.Meeting isToday={meeting.isMeetingToday} key={idx}>
+              {meeting.isMeetingToday && <S.TodayStrap>오늘</S.TodayStrap>}
               <S.CouponImageWrapper>
                 <S.CouponTypeImage src={COUPON_IMAGE[meeting.couponType]} />
               </S.CouponImageWrapper>
@@ -69,6 +65,7 @@ const S = {
     display: block;
     flex-direction: column;
     gap: 1rem;
+    height: 100%;
     overflow: auto;
   `,
   Meeting: styled.div<MeetingWrapperProps>`
