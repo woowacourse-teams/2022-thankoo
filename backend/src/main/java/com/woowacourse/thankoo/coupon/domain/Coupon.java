@@ -115,16 +115,16 @@ public class Coupon extends BaseEntity {
         return this.couponContent.equals(couponContent);
     }
 
-    public void use(final Long memberId) {
+    public void useImmediately(final Long memberId) {
         validateMemberCanUseCoupon(memberId);
         validateStatus();
         publishCouponUsedEvent();
-        couponStatus = CouponStatus.USED;
+        couponStatus = CouponStatus.IMMEDIATELY_USED;
     }
 
     private void validateMemberCanUseCoupon(final Long memberId) {
         if (!canUseCoupon(memberId)) {
-            throw new InvalidMemberException(ErrorType.CAN_NOT_USE_MISMATCH_MEMBER);
+            throw new InvalidMemberException(ErrorType.CAN_NOT_USE_IMMEDIATELY_MISMATCH_MEMBER);
         }
     }
 
@@ -134,13 +134,13 @@ public class Coupon extends BaseEntity {
 
     private void validateStatus() {
         if (!couponStatus.canImmediatelyUse()) {
-            throw new InvalidCouponException(ErrorType.CAN_NOT_USE_COUPON);
+            throw new InvalidCouponException(ErrorType.CAN_NOT_USE_IMMEDIATELY_COUPON);
         }
     }
 
     private void publishCouponUsedEvent() {
         if (isReserving()) {
-            Events.publish(new CouponUsedEvent(id));
+            Events.publish(new CouponImmediatelyUsedEvent(id));
         }
     }
 

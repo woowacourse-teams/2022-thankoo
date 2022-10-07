@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.reservation.application;
 
-import com.woowacourse.thankoo.coupon.domain.CouponUsedEvent;
+import com.woowacourse.thankoo.coupon.domain.CouponImmediatelyUsedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -14,7 +14,7 @@ public class ReservationEventListener {
     private final ReservationService reservationService;
 
     @EventListener
-    public void handle(final CouponUsedEvent couponUsedEvent) {
-        reservationService.cancelReservation(couponUsedEvent.getCouponId());
+    public void handle(final CouponImmediatelyUsedEvent couponImmediatelyUsedEvent) {
+        reservationService.cancelReservation(couponImmediatelyUsedEvent.getCouponId());
     }
 }

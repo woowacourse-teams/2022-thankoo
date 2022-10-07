@@ -132,13 +132,15 @@ class CouponQueryServiceTest {
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
                 new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
-                        CouponStatus.NOT_USED)
+                        CouponStatus.NOT_USED),
+                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.IMMEDIATELY_USED)
         ));
 
         List<CouponResponse> responses = couponQueryService.getReceivedCoupons(receiver.getId(), ALL);
 
         assertAll(
-                () -> assertThat(responses).hasSize(3),
+                () -> assertThat(responses).hasSize(4),
                 () -> assertThat(responses.get(0).getSender().getId()).isEqualTo(sender.getId()),
                 () -> assertThat(responses.get(0).getReceiver().getId()).isEqualTo(receiver.getId())
         );
@@ -275,6 +277,25 @@ class CouponQueryServiceTest {
 
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
                     coupon.getId());
+            assertAll(
+                    () -> assertThat(couponDetailResponse.getReservation()).isNull(),
+                    () -> assertThat(couponDetailResponse.getMeeting()).isNull()
+            );
+        }
+
+        @DisplayName("즉시 사용한 단건 쿠폰을 조회하는 경우 쿠폰만 조회한다.")
+        @Test
+        void getCouponImmediately() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Coupon coupon = couponRepository.save(new Coupon(sender.getId(),
+                    receiver.getId(),
+                    new CouponContent(TYPE, TITLE, MESSAGE),
+                    CouponStatus.IMMEDIATELY_USED));
+
+            CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(), coupon.getId());
+
             assertAll(
                     () -> assertThat(couponDetailResponse.getReservation()).isNull(),
                     () -> assertThat(couponDetailResponse.getMeeting()).isNull()
