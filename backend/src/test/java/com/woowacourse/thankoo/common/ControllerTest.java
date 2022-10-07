@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.common;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.thankoo.admin.authentication.presentation.TokenDecoder;
 import com.woowacourse.thankoo.authentication.application.AuthenticationService;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
@@ -57,6 +58,9 @@ public class ControllerTest {
 
     @MockBean
     protected AuthenticationService authenticationService;
+
+    @MockBean
+    protected TokenDecoder tokenDecoder;
 
     @MockBean
     protected JwtTokenProvider jwtTokenProvider;

@@ -50,7 +50,8 @@ class AdminCouponSerialQueryServiceTest {
                 new CouponSerial(SERIAL_2, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
         couponSerialRepository.save(new CouponSerial(SERIAL_3, hoho.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
-        List<AdminCouponSerialResponse> adminCouponSerialRespons = adminCouponSerialQueryService.getByMemberId(member.getId());
+        List<AdminCouponSerialResponse> adminCouponSerialRespons = adminCouponSerialQueryService.getByMemberId(
+                member.getId());
 
         assertThat(adminCouponSerialRespons).hasSize(2);
     }
