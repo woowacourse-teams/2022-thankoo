@@ -19,7 +19,7 @@ export type MeetingsResponse = {
 
 export const useGetMeetings = (
   {
-    onSuccess = () => {},
+    onSuccess,
   }: {
     onSuccess: (meeting: Meeting[]) => void;
   } = { onSuccess: () => {} }
