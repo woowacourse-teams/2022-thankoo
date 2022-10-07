@@ -4,8 +4,11 @@ import static com.woowacourse.thankoo.acceptance.builder.OrganizationAssured.조
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_SKRR;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_NO_CODE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO_CODE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.OrganizationAssured;
@@ -57,12 +60,12 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
 
             기본_조직이_생성됨();
             OrganizationAssured.request()
-                    .조직에_참여한다(userToken, 조직_번호("WOOWACO1"))
-                    .조직에_참여한다(userToken, 조직_번호("THANKOO1"))
+                    .조직에_참여한다(userToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(userToken, 조직_번호(ORGANIZATION_THANKOO_CODE))
                     .내_조직을_조회한다(userToken)
                     .response()
                     .status(HttpStatus.OK.value())
-                    .조직을_조회한다("WOOWACO1", "THANKOO1");
+                    .조직을_조회한다(ORGANIZATION_WOOWACOURSE_CODE, ORGANIZATION_THANKOO_CODE);
         }
     }
 
@@ -80,7 +83,7 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
                     .body(TokenResponse.class);
 
             OrganizationAssured.request()
-                    .조직에_참여한다(userToken, 조직_번호("NO_ORG"))
+                    .조직에_참여한다(userToken, 조직_번호(ORGANIZATION_NO_CODE))
                     .response()
                     .status(HttpStatus.BAD_REQUEST.value());
         }
@@ -96,7 +99,7 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
 
             기본_조직이_생성됨();
             OrganizationAssured.request()
-                    .조직에_참여한다(userToken, 조직_번호("WOOWACO1"))
+                    .조직에_참여한다(userToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
                     .response()
                     .status(HttpStatus.OK.value());
         }
@@ -104,12 +107,12 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
 
     private void 기본_조직이_생성됨() {
         Organization organization1 = Organization.create(ORGANIZATION_WOOWACOURSE,
-                length -> "WOOWACO1",
+                length -> ORGANIZATION_WOOWACOURSE_CODE,
                 30,
                 new OrganizationValidator(organizationRepository));
 
         Organization organization2 = Organization.create(ORGANIZATION_THANKOO,
-                length -> "THANKOO1",
+                length -> ORGANIZATION_THANKOO_CODE,
                 30,
                 new OrganizationValidator(organizationRepository));
         organizationRepository.save(organization1);

@@ -1,7 +1,9 @@
 package com.woowacourse.thankoo.organization.presentation;
 
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO_CODE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -41,7 +43,7 @@ class OrganizationControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        OrganizationJoinRequest organizationJoinRequest = new OrganizationJoinRequest("WOOWACO1");
+        OrganizationJoinRequest organizationJoinRequest = new OrganizationJoinRequest(ORGANIZATION_WOOWACOURSE_CODE);
         doNothing().when(organizationService).join(anyLong(), any(OrganizationJoinRequest.class));
 
         ResultActions resultActions = mockMvc.perform(post("/api/organizations/join")
@@ -71,13 +73,13 @@ class OrganizationControllerTest extends ControllerTest {
                 OrganizationResponse.from(
                         new MemberOrganization(1L,
                                 ORGANIZATION_THANKOO,
-                                "THANKOO1",
+                                ORGANIZATION_THANKOO_CODE,
                                 1,
                                 true)),
                 OrganizationResponse.from(
                         new MemberOrganization(2L,
                                 ORGANIZATION_WOOWACOURSE,
-                                "WOOWACO1",
+                                ORGANIZATION_WOOWACOURSE_CODE,
                                 2,
                                 false)
                 )

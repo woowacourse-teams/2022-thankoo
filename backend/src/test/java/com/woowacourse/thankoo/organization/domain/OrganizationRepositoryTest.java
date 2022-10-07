@@ -1,14 +1,13 @@
 package com.woowacourse.thankoo.organization.domain;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO_CODE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -24,7 +23,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 @DisplayName("OrganizationRepository 는 ")
 @RepositoryTest
@@ -89,7 +87,8 @@ class OrganizationRepositoryTest {
             CodeGenerator codeGenerator = new OrganizationCodeGenerator();
             organizationRepository.save(
                     Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 100, organizationValidator));
-            assertThat(organizationRepository.existsByName(new OrganizationName(ORGANIZATION_WOOWACOURSE + "a"))).isFalse();
+            assertThat(organizationRepository.existsByName(
+                    new OrganizationName(ORGANIZATION_WOOWACOURSE + "a"))).isFalse();
         }
     }
 
@@ -97,8 +96,10 @@ class OrganizationRepositoryTest {
     @Test
     void findByCodeValue() {
         Organization organization = organizationRepository.save(
-                Organization.create(ORGANIZATION_WOOWACOURSE, length -> "ABCDEFG1", 100, organizationValidator));
-        assertThat(organizationRepository.findByCodeValue("ABCDEFG1").get().getId()).isEqualTo(organization.getId());
+                Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
+                        organizationValidator));
+        assertThat(organizationRepository.findByCodeValue(ORGANIZATION_WOOWACOURSE_CODE).get().getId()).isEqualTo(
+                organization.getId());
     }
 
     @DisplayName("member로 조직-멤버를 찾는다.")
@@ -107,20 +108,19 @@ class OrganizationRepositoryTest {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Organization organization1 = organizationRepository.save(
-                Organization.create(ORGANIZATION_WOOWACOURSE, length -> "ABCDEFG1", 100, organizationValidator));
+                Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
+                        organizationValidator));
 
         Organization organization2 = organizationRepository.save(
-                Organization.create(ORGANIZATION_THANKOO, length -> "ABCDEFG2", 100, organizationValidator));
+                Organization.create(ORGANIZATION_THANKOO, length -> ORGANIZATION_THANKOO_CODE, 100,
+                        organizationValidator));
 
         OrganizationMembers organizationMembers1 = new OrganizationMembers(
-                organizationRepository.findOrganizationMembersByMember(
-                        lala));
+                organizationRepository.findOrganizationMembersByMember(lala));
         organization1.join(lala, organizationMembers1);
 
-
         OrganizationMembers organizationMembers2 = new OrganizationMembers(
-                organizationRepository.findOrganizationMembersByMember(
-                        lala));
+                organizationRepository.findOrganizationMembersByMember(lala));
         organization2.join(lala, organizationMembers2);
 
         assertThat(organizationRepository.findOrganizationMembersByMember(lala)).hasSize(2);
