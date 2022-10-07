@@ -22,6 +22,9 @@ const NoMeeting = () => {
 const S = {
   Container: styled.div`
     opacity: 0.9;
+    height: 100%;
+    display: grid;
+    place-items: center;
   `,
   Box: styled.div`
     ${FlexCenter}

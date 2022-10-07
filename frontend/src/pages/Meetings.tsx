@@ -67,7 +67,6 @@ const S = {
   `,
   Body: styled.section`
     display: flex;
-    justify-content: center;
     flex-direction: column;
     gap: 1rem;
     padding: 5vh 0;
