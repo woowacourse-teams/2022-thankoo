@@ -17,11 +17,13 @@ export type MeetingsResponse = {
   isMeetingToday: boolean;
 };
 
-export const useGetMeetings = ({
-  onSuccess = () => {},
-}: {
-  onSuccess: (meeting: Meeting[]) => void;
-}) =>
+export const useGetMeetings = (
+  {
+    onSuccess = () => {},
+  }: {
+    onSuccess: (meeting: Meeting[]) => void;
+  } = { onSuccess: () => {} }
+) =>
   useQuery<MeetingsResponse[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest(), {
     onSuccess: meeting => {
       onSuccess?.(meeting);

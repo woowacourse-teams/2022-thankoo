@@ -8,7 +8,7 @@ import { useGetMeetings } from '../../hooks/@queries/meeting';
 
 const MeetingPageButton = () => {
   const location = useLocation();
-  const { data: meetings } = useGetMeetings({ onSuccess: () => {} });
+  const { data: meetings } = useGetMeetings();
   const todayMeetingCount = useMemo(() => {
     if (!!meetings?.length) {
       return meetings.filter(meeting => meeting.isMeetingToday).length;
