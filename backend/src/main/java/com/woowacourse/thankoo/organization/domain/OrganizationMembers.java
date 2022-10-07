@@ -1,6 +1,5 @@
 package com.woowacourse.thankoo.organization.domain;
 
-import com.woowacourse.thankoo.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;

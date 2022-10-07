@@ -65,7 +65,8 @@ class OrganizationValidatorTest {
                     organizationValidator);
             organizationRepository.save(organization1);
 
-            assertThatThrownBy(() -> Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 100, organizationValidator))
+            assertThatThrownBy(
+                    () -> Organization.create(ORGANIZATION_WOOWACOURSE, codeGenerator, 100, organizationValidator))
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("잘못된 조직 이름입니다.");
         }

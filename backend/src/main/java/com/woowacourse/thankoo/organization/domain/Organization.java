@@ -84,7 +84,12 @@ public class Organization extends BaseEntity {
     public void join(final Member member, final OrganizationMembers memberJoiningOrganizations) {
         validateJoin(memberJoiningOrganizations);
         memberJoiningOrganizations.toPreviousAccessed();
-        organizationMembers.add(new OrganizationMember(member, this, memberJoiningOrganizations.size() + NEXT_ORDER, true));
+        organizationMembers.add(
+                new OrganizationMember(member,
+                        this,
+                        memberJoiningOrganizations.size() + NEXT_ORDER,
+                        true)
+        );
     }
 
     private void validateJoin(final OrganizationMembers memberJoiningOrganizations) {

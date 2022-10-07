@@ -96,7 +96,7 @@ class OrganizationTest {
                     () -> organization.join(new Member(11L, HUNI_NAME, HUNI_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL),
                             new OrganizationMembers(new ArrayList<>())))
                     .isInstanceOf(InvalidOrganizationException.class)
-                    .hasMessage("더이상 참여할 수 없습니다.");
+                    .hasMessage("조직에 더이상 참여할 수 없습니다.");
         }
 
         @DisplayName("이미 참여 중이면 예외가 발생한다.")
@@ -112,7 +112,7 @@ class OrganizationTest {
                     () -> organization.join(new Member(1L, HUNI_NAME, HUNI_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL),
                             organization.getOrganizationMembers()))
                     .isInstanceOf(InvalidOrganizationException.class)
-                    .hasMessage("이미 참여중입니다.");
+                    .hasMessage("조직에 이미 참여중입니다.");
         }
 
         @DisplayName("참여에 성공한다.")

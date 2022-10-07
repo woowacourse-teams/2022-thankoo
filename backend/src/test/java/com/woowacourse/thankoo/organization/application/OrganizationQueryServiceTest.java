@@ -49,7 +49,10 @@ class OrganizationQueryServiceTest {
             Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
             organizationRepository.save(
-                    Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(), 100, organizationValidator));
+                    Organization.create(ORGANIZATION_WOOWACOURSE,
+                            new OrganizationCodeGenerator(),
+                            100,
+                            organizationValidator));
 
             assertThat(organizationQueryService.getMemberOrganizations(lala.getId())).isEmpty();
         }
@@ -60,7 +63,10 @@ class OrganizationQueryServiceTest {
             Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
             Organization organization = organizationRepository.save(
-                    Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(), 100, organizationValidator));
+                    Organization.create(ORGANIZATION_WOOWACOURSE,
+                            new OrganizationCodeGenerator(),
+                            100,
+                            organizationValidator));
 
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization.getCode().getValue()));
 

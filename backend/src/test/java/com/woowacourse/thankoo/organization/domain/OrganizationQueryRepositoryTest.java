@@ -55,10 +55,16 @@ class OrganizationQueryRepositoryTest {
         Member member = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL));
 
         Organization organization1 = organizationRepository.save(
-                Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100, organizationValidator));
+                Organization.create(ORGANIZATION_WOOWACOURSE,
+                        length -> ORGANIZATION_WOOWACOURSE_CODE,
+                        100,
+                        organizationValidator));
 
         Organization organization2 = organizationRepository.save(
-                Organization.create(ORGANIZATION_THANKOO, length -> ORGANIZATION_THANKOO_CODE, 100, organizationValidator));
+                Organization.create(ORGANIZATION_THANKOO,
+                        length -> ORGANIZATION_THANKOO_CODE,
+                        100,
+                        organizationValidator));
 
         OrganizationMembers organizationMembers1 = new OrganizationMembers(
                 organizationRepository.findOrganizationMembersByMember(member));

@@ -1,8 +1,5 @@
 package com.woowacourse.thankoo.organization.application;
 
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
@@ -10,7 +7,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -53,7 +50,10 @@ class OrganizationServiceTest {
             Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
             Organization organization = organizationRepository.save(
-                    Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(), 100, organizationValidator));
+                    Organization.create(ORGANIZATION_WOOWACOURSE,
+                            new OrganizationCodeGenerator(),
+                            100,
+                            organizationValidator));
 
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization.getCode().getValue()));
 
@@ -72,10 +72,16 @@ class OrganizationServiceTest {
             Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
             Organization organization1 = organizationRepository.save(
-                    Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(), 100, organizationValidator));
+                    Organization.create(ORGANIZATION_WOOWACOURSE,
+                            new OrganizationCodeGenerator(),
+                            100,
+                            organizationValidator));
 
             Organization organization2 = organizationRepository.save(
-                    Organization.create(ORGANIZATION_THANKOO, new OrganizationCodeGenerator(), 100, organizationValidator));
+                    Organization.create(ORGANIZATION_THANKOO,
+                            new OrganizationCodeGenerator(),
+                            100,
+                            organizationValidator));
 
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization1.getCode().getValue()));
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization2.getCode().getValue()));
