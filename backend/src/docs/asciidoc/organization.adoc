@@ -1,0 +1,7 @@
+[[Organization]]
+
+=== 조직 참여
+operation::organizations/join[snippets='http-request,http-response']
+
+=== 내 조직 조회
+operation::organizations/get-my-organizations[snippets='http-request,http-response']

@@ -2,8 +2,9 @@ package com.woowacourse.thankoo.organization.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -24,6 +25,7 @@ public class Organization extends BaseEntity {
 
     private static final int MIN_LIMITED_SIZE = 10;
     private static final int MAX_LIMITED_SIZE = 500;
+    private static final int NEXT_ORDER = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,7 +69,7 @@ public class Organization extends BaseEntity {
                 new OrganizationName(name),
                 OrganizationCode.create(codeGenerator),
                 limitedSize,
-                new OrganizationMembers(Collections.emptyList()));
+                new OrganizationMembers(new ArrayList<>()));
     }
 
     public static Organization create(final String name,
@@ -77,6 +79,26 @@ public class Organization extends BaseEntity {
         Organization organization = new Organization(name, codeGenerator, limitedSize);
         organizationValidator.validate(organization);
         return organization;
+    }
+
+    public void join(final Member member, final OrganizationMembers memberJoiningOrganizations) {
+        validateJoin(memberJoiningOrganizations);
+        memberJoiningOrganizations.toPreviousAccessed();
+        organizationMembers.add(
+                new OrganizationMember(member,
+                        this,
+                        memberJoiningOrganizations.size() + NEXT_ORDER,
+                        true)
+        );
+    }
+
+    private void validateJoin(final OrganizationMembers memberJoiningOrganizations) {
+        if (limitedSize == organizationMembers.size()) {
+            throw new InvalidOrganizationException(ErrorType.INVALID_ORGANIZATION_SIZE);
+        }
+        if (memberJoiningOrganizations.isAlreadyContains(this)) {
+            throw new InvalidOrganizationException(ErrorType.ALREADY_JOIN_ORGANIZATION);
+        }
     }
 
     @Override

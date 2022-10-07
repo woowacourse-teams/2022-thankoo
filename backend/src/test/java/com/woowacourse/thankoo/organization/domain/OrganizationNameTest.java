@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.organization.domain;
 
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_NAME;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -22,7 +22,7 @@ class OrganizationNameTest {
         @DisplayName("이름이 기준에 맞으면 성공한다.")
         @Test
         void success() {
-            assertDoesNotThrow(() -> new OrganizationName(ORGANIZATION_NAME));
+            assertDoesNotThrow(() -> new OrganizationName(ORGANIZATION_WOOWACOURSE));
         }
 
         @DisplayName("이름 기준에 맞지 않으면 실패한다.")

@@ -29,6 +29,8 @@ include::heart.adoc[]
 
 == Serial
 include::serial.adoc[]
+== Organization
+include::organization.adoc[]
 
 = Admin
 include::admin.adoc[]

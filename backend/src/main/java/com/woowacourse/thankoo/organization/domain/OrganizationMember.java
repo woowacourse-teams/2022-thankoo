@@ -58,6 +58,16 @@ public class OrganizationMember {
         this(null, member, organization, orderNumber, lastAccessed);
     }
 
+    public boolean isSameOrganization(final Organization organization) {
+        return this.organization.equals(organization);
+    }
+
+    public void toPreviousAccessed() {
+        if (lastAccessed) {
+            lastAccessed = false;
+        }
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -79,8 +89,8 @@ public class OrganizationMember {
     public String toString() {
         return "OrganizationMember{" +
                 "id=" + id +
-                ", member=" + member +
-                ", organization=" + organization +
+                ", member=" + member.getId() +
+                ", organization=" + organization.getId() +
                 ", orderNumber=" + orderNumber +
                 ", lastAccessed=" + lastAccessed +
                 '}';

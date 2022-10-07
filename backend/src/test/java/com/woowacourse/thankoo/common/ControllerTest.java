@@ -18,6 +18,9 @@ import com.woowacourse.thankoo.meeting.application.MeetingService;
 import com.woowacourse.thankoo.meeting.presentation.MeetingController;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
+import com.woowacourse.thankoo.organization.application.OrganizationQueryService;
+import com.woowacourse.thankoo.organization.application.OrganizationService;
+import com.woowacourse.thankoo.organization.presentation.OrganizationController;
 import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.presentation.ReservationController;
@@ -43,7 +46,8 @@ import org.springframework.test.web.servlet.MockMvc;
         ReservationController.class,
         MeetingController.class,
         HeartController.class,
-        CouponSerialController.class
+        CouponSerialController.class,
+        OrganizationController.class
 })
 @Import(MockMvcConfig.class)
 @AutoConfigureRestDocs
@@ -97,6 +101,12 @@ public class ControllerTest {
 
     @MockBean
     protected CouponSerialQueryService couponSerialQueryService;
+
+    @MockBean
+    protected OrganizationService organizationService;
+
+    @MockBean
+    protected OrganizationQueryService organizationQueryService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());
