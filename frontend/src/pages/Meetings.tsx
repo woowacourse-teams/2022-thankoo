@@ -66,11 +66,10 @@ const S = {
     color: white;
   `,
   Body: styled.section`
-    display: flex;
+    display: block;
     flex-direction: column;
     gap: 1rem;
-    padding: 5vh 0;
-    height: 100%;
+    overflow: auto;
   `,
   Meeting: styled.div<MeetingWrapperProps>`
     position: relative;
@@ -86,6 +85,7 @@ const S = {
     border: ${({ theme, isToday }) => (isToday ? '2px solid tomato' : 'unset')};
     overflow: hidden;
     font-size: 1.5rem;
+    margin: 10px 0;
   `,
   TodayStrap: styled.span`
     position: absolute;
