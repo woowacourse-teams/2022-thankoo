@@ -28,7 +28,6 @@ public class OrganizationQueryRepository {
         return jdbcTemplate.query(sql, parameter, ROW_MAPPER);
     }
 
-
     private static RowMapper<MemberOrganization> rowMapper() {
         return ((rs, rowNum) ->
                 new MemberOrganization(rs.getLong("organization_id"),
