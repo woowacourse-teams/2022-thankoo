@@ -40,7 +40,6 @@ const S = {
       active &&
       css`
         opacity: 1;
-        transform: scale(1.15);
       `};
   `,
   Icon: styled(ConfirmationNumberIcon)`
@@ -50,10 +49,6 @@ const S = {
     transition: all ease-in;
     transition-duration: 0.2s;
     -webkit-transition-duration: 0.2s;
-
-    &:active {
-      background-color: ${({ theme }) => theme.button.active.background};
-    }
   `,
   IconWrapper: styled.div`
     transform: scale(1.6);

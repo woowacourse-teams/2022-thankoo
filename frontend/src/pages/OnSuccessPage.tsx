@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import Spinner from '../components/@shared/Spinner';
 import CreateReservationSuccess from '../components/CreateReservation/CreateReservationSuccess';
 import EnterCouponContentSuccess from '../components/EnterCouponContent/EnterCouponContentSuccess';
 import { ROUTE_PATH } from '../constants/routes';
+import PageLayout from '../layout/PageLayout';
 import { onSuccessContentAtom } from '../recoil/atom';
 
 const OnSucessModalComponents = {
@@ -23,18 +23,12 @@ const OnSuccessPage = () => {
     }
   }, []);
 
-  return (
-    <Suspense fallback={<Spinner />}>
-      <S.Layout>{OnSucessModalComponents[page]?.(props)}</S.Layout>
-    </Suspense>
-  );
+  return <S.Layout>{OnSucessModalComponents[page]?.(props)}</S.Layout>;
 };
 
 const S = {
-  Layout: styled.div`
+  Layout: styled(PageLayout)`
     position: absolute;
-    background-color: black;
-    width: 100vw;
     height: 100vh;
     top: 50%;
     left: 50%;
