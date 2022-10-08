@@ -36,7 +36,11 @@ const Reservations = () => {
         <S.ListView>
           {reservations?.length > 0 ? (
             reservations.map(reservation => (
-              <Reservation key={reservation.reservationId} order={orderBy} {...reservation} />
+              <Reservation
+                key={reservation.reservationId}
+                transmitStatus={orderBy}
+                {...reservation}
+              />
             ))
           ) : (
             <NoReservation />
