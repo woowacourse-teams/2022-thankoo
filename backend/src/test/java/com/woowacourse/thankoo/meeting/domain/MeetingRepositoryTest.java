@@ -9,11 +9,14 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.time;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -21,6 +24,9 @@ import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
+import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
 import com.woowacourse.thankoo.reservation.domain.ReservationRepository;
 import com.woowacourse.thankoo.reservation.domain.ReservationStatus;
@@ -29,8 +35,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("MeetingRepository 는 ")
@@ -49,13 +57,28 @@ class MeetingRepositoryTest {
     @Autowired
     private CouponRepository couponRepository;
 
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    private OrganizationValidator organizationValidator;
+
+    @BeforeEach
+    void setUp() {
+        organizationValidator = Mockito.mock(OrganizationValidator.class);
+        doNothing().when(organizationValidator).validate(any(Organization.class));
+    }
+
+
     @DisplayName("쿠폰으로 미팅을 조회한다.")
     @Test
     void findMeetingByCoupon() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
         Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Reservation reservation = reservationRepository.save(
                 Reservation.reserve(time(1L),
                         TimeZoneType.ASIA_SEOUL,
@@ -82,9 +105,12 @@ class MeetingRepositoryTest {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         for (int i = 0; i < 3; i++) {
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Reservation reservation = reservationRepository.save(
                     Reservation.reserve(dateTime,
                             TimeZoneType.ASIA_SEOUL,
@@ -115,9 +141,12 @@ class MeetingRepositoryTest {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         for (int i = 0; i < 3; i++) {
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Reservation reservation = reservationRepository.save(
                     Reservation.reserve(dateTime1,
                             TimeZoneType.ASIA_SEOUL,
@@ -133,7 +162,8 @@ class MeetingRepositoryTest {
         }
 
         Coupon coupon1 = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Reservation reservation1 = reservationRepository.save(
                 Reservation.reserve(dateTime2,
                         TimeZoneType.ASIA_SEOUL,
@@ -160,10 +190,13 @@ class MeetingRepositoryTest {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         List<Long> meetingIds = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Reservation reservation = reservationRepository.save(
                     Reservation.reserve(time(1L),
                             TimeZoneType.ASIA_SEOUL,
@@ -194,9 +227,12 @@ class MeetingRepositoryTest {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         for (int i = 0; i < 3; i++) {
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Reservation reservation = reservationRepository.save(
                     Reservation.reserve(time(1L),
                             TimeZoneType.ASIA_SEOUL,

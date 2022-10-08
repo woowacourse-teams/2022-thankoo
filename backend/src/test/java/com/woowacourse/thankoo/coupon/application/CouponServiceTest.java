@@ -14,6 +14,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,6 +31,11 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.organization.application.OrganizationService;
+import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
+import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -53,6 +59,15 @@ class CouponServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private OrganizationService organizationService;
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private OrganizationValidator organizationValidator;
+
     @DisplayName("쿠폰을 저장할 때 ")
     @Nested
     class SaveCouponTest {
@@ -62,6 +77,10 @@ class CouponServiceTest {
         void save() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
+
             couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
 
@@ -77,6 +96,9 @@ class CouponServiceTest {
             Member receiver1 = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver2 = memberRepository.save(new Member(SKRR_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver1.getId(), receiver2.getId());
+
             couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver1.getId(), receiver2.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE)));
 
@@ -90,6 +112,9 @@ class CouponServiceTest {
         void saveInvalidMembersException() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId());
+
             assertThatThrownBy(() -> couponService.saveAll(sender.getId(), new CouponRequest(List.of(sender.getId()),
                     new ContentRequest(TYPE, TITLE, MESSAGE))))
                     .isInstanceOf(InvalidCouponException.class)
@@ -100,6 +125,9 @@ class CouponServiceTest {
         @Test
         void saveInvalidMemberException() {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId());
 
             assertThatThrownBy(() -> couponService.saveAll(sender.getId(), new CouponRequest(List.of(0L),
                     new ContentRequest(TYPE, TITLE, MESSAGE))))
@@ -118,7 +146,11 @@ class CouponServiceTest {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
-            Coupon coupon = new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
+
+            Coupon coupon = new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                    new CouponContent(COFFEE, TITLE, MESSAGE),
                     NOT_USED);
 
             Coupon savedCoupon = couponRepository.save(coupon);
@@ -137,7 +169,11 @@ class CouponServiceTest {
             Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
             Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
-            Coupon coupon = new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId(), hoho.getId());
+
+            Coupon coupon = new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                    new CouponContent(COFFEE, TITLE, MESSAGE),
                     NOT_USED);
 
             Coupon savedCoupon = couponRepository.save(coupon);
@@ -153,7 +189,11 @@ class CouponServiceTest {
             Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
-            Coupon coupon = new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
+
+            Coupon coupon = new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                    new CouponContent(COFFEE, TITLE, MESSAGE),
                     CouponStatus.RESERVING);
 
             Coupon savedCoupon = couponRepository.save(coupon);
@@ -161,6 +201,12 @@ class CouponServiceTest {
             assertThatThrownBy(() -> couponService.useImmediately(receiver.getId(), savedCoupon.getId()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("존재하지 않는 예약 상태입니다.");
+        }
+    }
+
+    private void join(final String code, final Long... memberIds) {
+        for (Long memberId : memberIds) {
+            organizationService.join(memberId, new OrganizationJoinRequest(code));
         }
     }
 }

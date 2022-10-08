@@ -49,7 +49,7 @@ class ReservationTest {
             LocalDateTime futureDate = LocalDateTime.now().plusMinutes(1L);
             Long receiverId = 2L;
 
-            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
             assertAll(
@@ -71,7 +71,7 @@ class ReservationTest {
             LocalDateTime futureDate = LocalDateTime.now().minusSeconds(1L);
             Long receiverId = 2L;
 
-            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
             assertThatThrownBy(() -> Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
@@ -86,7 +86,7 @@ class ReservationTest {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
-            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
             assertThatThrownBy(() -> Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
@@ -102,7 +102,7 @@ class ReservationTest {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
-            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     couponStatus);
             assertThatThrownBy(() -> Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING,
                     receiverId, coupon))
@@ -123,7 +123,7 @@ class ReservationTest {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
-            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(futureDate,
                     TimeZoneType.ASIA_SEOUL,
@@ -145,7 +145,7 @@ class ReservationTest {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
-            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(futureDate,
                     TimeZoneType.ASIA_SEOUL,
@@ -166,7 +166,7 @@ class ReservationTest {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Long receiverId = 2L;
 
-            Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL,
                     ReservationStatus.WAITING,
@@ -187,7 +187,8 @@ class ReservationTest {
             LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
             Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
             Member hoho = new Member(2L, HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL);
-            Coupon coupon = new Coupon(huni.getId(), hoho.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, huni.getId(), hoho.getId(),
+                    new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL,
                     ReservationStatus.WAITING, hoho.getId(), coupon);
@@ -209,7 +210,7 @@ class ReservationTest {
             Long receiverId = 2L;
             Long senderId = 1L;
 
-            Coupon coupon = new Coupon(senderId, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, senderId, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(futureDate,
                     TimeZoneType.ASIA_SEOUL,
@@ -239,7 +240,7 @@ class ReservationTest {
             Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
             Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
 
-            Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
+            Coupon coupon = new Coupon(1L, sender.getId(), receiver.getId(),
                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(futureDate,
@@ -260,7 +261,7 @@ class ReservationTest {
             Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
             Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
 
-            Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
+            Coupon coupon = new Coupon(1L, sender.getId(), receiver.getId(),
                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(futureDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.ACCEPT,
@@ -282,7 +283,7 @@ class ReservationTest {
                 Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
                 Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
 
-                Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
+                Coupon coupon = new Coupon(1L, sender.getId(), receiver.getId(),
                         new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED);
                 Reservation reservation = Reservation.reserve(LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
@@ -301,7 +302,7 @@ class ReservationTest {
                 Member sender = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
                 Member receiver = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
 
-                Coupon coupon = new Coupon(sender.getId(), receiver.getId(),
+                Coupon coupon = new Coupon(1L, sender.getId(), receiver.getId(),
                         new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED);
                 Reservation reservation = Reservation.reserve(LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,

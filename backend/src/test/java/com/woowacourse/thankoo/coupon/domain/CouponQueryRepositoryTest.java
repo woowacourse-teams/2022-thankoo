@@ -11,17 +11,24 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
+import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -38,11 +45,18 @@ class CouponQueryRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    private OrganizationValidator organizationValidator;
+
     private CouponQueryRepository couponQueryRepository;
 
     @BeforeEach
     void setUp() {
         couponQueryRepository = new CouponQueryRepository(new NamedParameterJdbcTemplate(dataSource));
+        organizationValidator = Mockito.mock(OrganizationValidator.class);
+        doNothing().when(organizationValidator).validate(any(Organization.class));
     }
 
     @DisplayName("사용하지 않은 받은 coupon 을 조회한다.")
@@ -51,12 +65,17 @@ class CouponQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         couponRepository.saveAll(List.of(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.USED)
         ));
 
@@ -72,12 +91,17 @@ class CouponQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         couponRepository.saveAll(List.of(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.USED)
         ));
 
@@ -93,12 +117,17 @@ class CouponQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         couponRepository.saveAll(List.of(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.USED)
         ));
 
@@ -113,12 +142,18 @@ class CouponQueryRepositoryTest {
     void findBySenderId() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         couponRepository.saveAll(List.of(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.USED)
         ));
 
@@ -132,7 +167,10 @@ class CouponQueryRepositoryTest {
     void findById() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
-        Coupon coupon = couponRepository.save(new Coupon(sender.getId(), receiver.getId(),
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
+        Coupon coupon = couponRepository.save(new Coupon(organization.getId(), sender.getId(), receiver.getId(),
                 new CouponContent(TYPE, TITLE, MESSAGE), CouponStatus.NOT_USED));
 
         MemberCoupon memberCoupon = couponQueryRepository.findByCouponId(coupon.getId()).get();
@@ -149,16 +187,23 @@ class CouponQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
         couponRepository.saveAll(List.of(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.USED),
-                new Coupon(receiver.getId(), sender.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), receiver.getId(), sender.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(receiver.getId(), sender.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                new Coupon(organization.getId(), receiver.getId(), sender.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.USED)
         ));
 

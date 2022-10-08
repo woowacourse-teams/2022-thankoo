@@ -358,7 +358,7 @@ class CouponControllerTest extends ControllerTest {
                 MeetingResponse.of(new Meeting(1L, List.of(huni, lala),
                         new TimeUnit(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
                         MeetingStatus.ON_PROGRESS,
-                        new Coupon(huni.getId(), lala.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                        new Coupon(1L, huni.getId(), lala.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                                 CouponStatus.RESERVED))));
 
         given(couponQueryService.getCouponDetail(anyLong(), anyLong()))

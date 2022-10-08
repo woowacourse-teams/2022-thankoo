@@ -12,6 +12,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,6 +24,11 @@ import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import com.woowacourse.thankoo.organization.application.OrganizationService;
+import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
+import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.presentation.dto.SimpleReservationResponse;
 import java.time.LocalDateTime;
@@ -47,6 +53,15 @@ class ReservationQueryServiceTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private OrganizationService organizationService;
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private OrganizationValidator organizationValidator;
+
     @DisplayName("받은 예약을 조회한다.")
     @Test
     void getReceivedReservations() {
@@ -54,14 +69,21 @@ class ReservationQueryServiceTest {
         Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), lala.getId(), skrr.getId(), huni.getId());
+
         Coupon coupon1 = couponRepository.save(
-                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                        NOT_USED));
         Coupon coupon2 = couponRepository.save(
-                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                        NOT_USED));
         Coupon coupon3 = couponRepository.save(
-                new Coupon(skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                        NOT_USED));
         Coupon coupon4 = couponRepository.save(
-                new Coupon(huni.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), huni.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                        NOT_USED));
 
         reservationService.save(skrr.getId(),
                 new ReservationRequest(coupon1.getId(), LocalDateTime.now().plusDays(1L)));
@@ -87,14 +109,21 @@ class ReservationQueryServiceTest {
         Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), lala.getId(), skrr.getId());
+
         Coupon coupon1 = couponRepository.save(
-                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                        NOT_USED));
         Coupon coupon2 = couponRepository.save(
-                new Coupon(lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                        NOT_USED));
         Coupon coupon3 = couponRepository.save(
-                new Coupon(skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                        NOT_USED));
         Coupon coupon4 = couponRepository.save(
-                new Coupon(lala.getId(), huni.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), lala.getId(), huni.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                        NOT_USED));
 
         reservationService.save(skrr.getId(),
                 new ReservationRequest(coupon1.getId(), LocalDateTime.now().plusDays(1L)));
@@ -111,5 +140,11 @@ class ReservationQueryServiceTest {
                 () -> assertThat(reservations).hasSize(1),
                 () -> assertThat(reservations).extracting("memberName").containsOnly(SKRR_NAME)
         );
+    }
+
+    private void join(final String code, final Long... memberIds) {
+        for (Long memberId : memberIds) {
+            organizationService.join(memberId, new OrganizationJoinRequest(code));
+        }
     }
 }
