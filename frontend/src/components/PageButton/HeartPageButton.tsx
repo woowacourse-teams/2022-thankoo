@@ -1,28 +1,24 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routes';
-import { useGetReservations } from '../../hooks/@queries/reservation';
 
-const ReservationPageButton = () => {
-  const location = useLocation();
-  const { data } = useGetReservations('received');
+const HeartPageButton = () => {
+  const { pathname } = useLocation();
 
   return (
-    <S.Link to={ROUTE_PATH.RESERVATIONS}>
-      <S.ButtonWrapper active={location.pathname === ROUTE_PATH.RESERVATIONS}>
+    <S.Link to={ROUTE_PATH.HEARTS}>
+      <S.ButtonWrapper active={pathname === ROUTE_PATH.HEARTS}>
         <S.IconWrapper>
           <S.Icon />
         </S.IconWrapper>
-        <p>예약</p>
-        {data && data.length !== 0 && <S.Count>{data.length}</S.Count>}
+        <p>콕</p>
       </S.ButtonWrapper>
     </S.Link>
   );
 };
-
-export default ReservationPageButton;
+export default HeartPageButton;
 
 type ButtonProps = {
   active: boolean;
@@ -45,7 +41,7 @@ const S = {
         opacity: 1;
       `};
   `,
-  Icon: styled(NotificationsActiveIcon)`
+  Icon: styled(FavoriteIcon)`
     border-radius: 50%;
     padding: 0.5rem;
 
@@ -57,7 +53,7 @@ const S = {
     transform: scale(1.6);
     margin-bottom: 0.5rem;
   `,
-  Count: styled.span`
+  ReceivedReservationCount: styled.span`
     position: absolute;
     top: -7px;
     right: -7px;

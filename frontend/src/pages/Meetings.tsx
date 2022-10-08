@@ -1,16 +1,12 @@
 import styled from '@emotion/styled';
-import HeaderText from '../components/@shared/Layout/HeaderText';
-import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
+import HeaderText from '../layout/HeaderText';
+import MainPageLayout from '../layout/MainPageLayout';
 import { COUPON_IMAGE } from '../constants/coupon';
 import useMeetings from '../hooks/Meetings/useMeetings';
 import NoMeeting from './../components/@shared/noContent/NoMeeting';
 
 const Meetings = () => {
-  const { isLoading, meetings, isError, isTodayMeetingExist, diffWithNearestDate } = useMeetings();
-
-  if (isLoading) {
-    return <div></div>;
-  }
+  const { meetings, isTodayMeetingExist, nearestMeetingDate } = useMeetings();
 
   return (
     <MainPageLayout>
@@ -18,14 +14,14 @@ const Meetings = () => {
         {meetings?.length
           ? isTodayMeetingExist
             ? '오늘 예정된 약속이 있습니다'
-            : `${diffWithNearestDate}일 뒤 약속이 있습니다`
+            : `${nearestMeetingDate}일 뒤 약속이 있습니다`
           : '예정된 약속이 없습니다.'}
       </S.HeaderText>
       <S.Body>
         {meetings?.length !== 0 ? (
           meetings?.map((meeting, idx) => (
-            <S.Meeting isToday={diffWithNearestDate === 0 && idx === 0} key={idx}>
-              {diffWithNearestDate === 0 && idx === 0 && <S.TodayStrap>오늘</S.TodayStrap>}
+            <S.Meeting isToday={meeting.isMeetingToday} key={idx}>
+              {meeting.isMeetingToday && <S.TodayStrap>오늘</S.TodayStrap>}
               <S.CouponImageWrapper>
                 <S.CouponTypeImage src={COUPON_IMAGE[meeting.couponType]} />
               </S.CouponImageWrapper>
@@ -66,10 +62,11 @@ const S = {
     color: white;
   `,
   Body: styled.section`
-    display: flex;
+    display: block;
     flex-direction: column;
     gap: 1rem;
-    padding: 5vh 3vw;
+    height: 100%;
+    overflow: auto;
   `,
   Meeting: styled.div<MeetingWrapperProps>`
     position: relative;
@@ -85,6 +82,7 @@ const S = {
     border: ${({ theme, isToday }) => (isToday ? '2px solid tomato' : 'unset')};
     overflow: hidden;
     font-size: 1.5rem;
+    margin: 10px 0;
   `,
   TodayStrap: styled.span`
     position: absolute;

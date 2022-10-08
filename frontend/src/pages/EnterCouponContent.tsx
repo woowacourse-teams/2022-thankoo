@@ -8,12 +8,12 @@ import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponCon
 import { couponTypeKeys } from '../types';
 
 import CouponLayout from '../components/@shared/CouponLayout';
-import Header from '../components/@shared/Layout/Header';
-import PageLayout from '../components/@shared/Layout/PageLayout';
+import Header from '../layout/Header';
+import PageLayout from '../layout/PageLayout';
 import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmCouponContentModal';
 import useModal from '../hooks/useModal';
 import { couponTypes } from '../types/index';
-import HeaderText from '../components/@shared/Layout/HeaderText';
+import HeaderText from '../layout/HeaderText';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 

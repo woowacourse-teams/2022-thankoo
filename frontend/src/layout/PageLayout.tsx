@@ -6,7 +6,7 @@ const PageLayout = styled.div`
   padding: 0 0.5rem;
   max-width: 55rem;
   margin: 0 auto;
-  height: 100%;
+  height: calc(100% - 6rem);
   position: relative;
 `;
 

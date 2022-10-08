@@ -32,7 +32,6 @@ const S = {
     height: 6rem;
     gap: 10px;
     padding-top: 3px;
-    overflow: scroll hidden;
 
     ::-webkit-scrollbar {
       display: none;

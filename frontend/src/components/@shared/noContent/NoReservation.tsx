@@ -12,7 +12,7 @@ const NoReservation = () => {
         <S.Comment>
           예약이 없네요👻
           <br />
-          쿠폰함에서 예약을 잡을 수 있어요!
+          홈에서 예약을 잡을 수 있어요!
         </S.Comment>
       </S.Box>
     </S.Container>

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Meeting } from '../../types';
-import { useGetMeetings } from '../@queries/meeting';
+import { MeetingsResponse, useGetMeetings } from '../@queries/meeting';
 
 const dayDifferenceFromToday = meetingDay => {
   const today = new Date();
@@ -18,9 +18,20 @@ const dayDifferenceFromToday = meetingDay => {
 };
 
 const useMeetings = () => {
-  const { data: meetings, isLoading, isError, isSuccess } = useGetMeetings();
-  const [diffWithNearestDate, setDiffWithNearestDate] = useState<number>(0);
-  const [meeting, setMeeting] = useState<Meeting[]>([]);
+  const [nearestMeetingDate, setNearestMeetingDate] = useState<number>(0);
+  const { data: meetings } = useGetMeetings({
+    onSuccess: (meetings: Meeting[]) => {
+      if (!!meetings.length) {
+        const meetingDay = new Date(
+          meetings[0]?.time?.meetingTime.replaceAll('-', '/').split(' ')[0]
+        );
+
+        setNearestMeetingDate(dayDifferenceFromToday(meetingDay));
+      }
+    },
+  });
+
+  const todayFormattedDateString = new Date().toJSON().split('T')[0];
 
   meetings?.sort(
     (m1, m2) =>
@@ -28,19 +39,11 @@ const useMeetings = () => {
       Number(new Date(m2.time?.meetingTime.replaceAll('-', '/')))
   );
 
-  useEffect(() => {
-    if (meetings) {
-      const meetingDay = new Date(
-        meetings[0]?.time?.meetingTime.replaceAll('-', '/').split(' ')[0]
-      );
+  const isTodayMeetingExist = meetings?.length
+    ? meetings[0].time.meetingTime.split(' ')[0] === todayFormattedDateString
+    : false;
 
-      setDiffWithNearestDate(dayDifferenceFromToday(meetingDay));
-    }
-  }, [isSuccess]);
-
-  const isTodayMeetingExist = diffWithNearestDate === 0;
-
-  return { meetings, isLoading, isError, isTodayMeetingExist, diffWithNearestDate };
+  return { meetings, isTodayMeetingExist, nearestMeetingDate };
 };
 
 export default useMeetings;

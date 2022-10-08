@@ -1,16 +1,13 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import { FlexCenter } from '../styles/mixIn';
-import ArrowBackButton from './../components/@shared/ArrowBackButton';
-import Header from '../components/@shared/Layout/Header';
-import PageLayout from '../components/@shared/Layout/PageLayout';
 import { BASE_URL } from './../constants/api';
 import { useGetHearts, usePostHeartMutation } from './../hooks/@queries/hearts';
 import { useGetMembers } from './../hooks/@queries/members';
 import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
 import { useState } from 'react';
 import useFilterMatchedUser from '../hooks/useFilterMatchedUser';
-import HeaderText from '../components/@shared/Layout/HeaderText';
+import HeaderText from '../layout/HeaderText';
+import MainPageLayout from '../layout/MainPageLayout';
 
 const Hearts = () => {
   const [keyword, setKeyword] = useState('');
@@ -27,13 +24,8 @@ const Hearts = () => {
   const received = heartHistory?.received!;
 
   return (
-    <PageLayout>
-      <S.Header>
-        <Link to='/'>
-          <ArrowBackButton />
-        </Link>
-        <HeaderText>당신의 마음을 툭... 던져볼까요?</HeaderText>
-      </S.Header>
+    <MainPageLayout>
+      <S.Header>상대를 콕 찔러볼까요?</S.Header>
       <S.Body>
         <S.InputWrapper>
           <UserSearchInput value={keyword} setKeyword={setKeyword} />
@@ -54,13 +46,13 @@ const Hearts = () => {
             )?.count;
 
             return (
-              <S.UserWrappr key={user.id} canSend={canSend}>
+              <S.UserWrappr key={user.id}>
                 <S.UserImageWrapper>
                   <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
                 </S.UserImageWrapper>
                 <S.UserName>{user.name}</S.UserName>
                 {modifiedLastReceived && (
-                  <S.ModifiedAt>{`${modifiedLastReceived}에 툭!`}</S.ModifiedAt>
+                  <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>
                 )}
 
                 <S.CountWrapper>
@@ -76,7 +68,7 @@ const Hearts = () => {
                       }
                     }}
                   >
-                    툭
+                    콕
                   </S.SendButton>
                 </S.SendButtonWrapper>
               </S.UserWrappr>
@@ -84,22 +76,19 @@ const Hearts = () => {
           })}
         </S.MembersContainer>
       </S.Body>
-    </PageLayout>
+    </MainPageLayout>
   );
 };
 
 type CheckBoxProp = { canSend: boolean };
 
 const S = {
-  Header: styled(Header)`
-    height: 10%;
+  Header: styled(HeaderText)`
+    color: white;
+    line-height: 2.5rem;
   `,
   Body: styled.div`
     height: calc(80%);
-    overflow: auto;
-    ::-webkit-scrollbar {
-      display: none;
-    }
   `,
   MembersContainer: styled.div`
     width: 100%;
@@ -108,12 +97,16 @@ const S = {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+
+    overflow: auto;
+    height: calc(100% - 5rem);
+    padding-bottom: 17rem;
   `,
   InputWrapper: styled.div`
-    margin: 3rem 3vw;
+    margin-bottom: 1.5rem;
   `,
-  UserWrappr: styled.div<CheckBoxProp>`
-    width: 92%;
+  UserWrappr: styled.div`
+    width: 99.5%;
     height: 5rem;
     display: grid;
     grid-template-areas:
@@ -123,7 +116,6 @@ const S = {
     grid-template-rows: 60% 40%;
     border-radius: 5px;
     gap: 2px 0;
-    border: 0.1rem solid ${({ canSend }) => (canSend ? 'tomato' : '#787878')};
   `,
   UserImageWrapper: styled.div`
     grid-area: ui;
@@ -133,7 +125,7 @@ const S = {
   `,
 
   UserImage: styled.img`
-    transform: scale(0.4);
+    width: 30px;
 
     border-radius: 50%;
     object-fit: cover;
@@ -141,8 +133,8 @@ const S = {
   UserName: styled.span`
     grid-area: un;
     height: 100%;
-    line-height: 3rem;
-    font-size: 2rem;
+    line-height: 3.5rem;
+    font-size: 16px;
     color: ${({ theme }) => theme.page.color};
   `,
   ModifiedAt: styled.div`
@@ -159,14 +151,15 @@ const S = {
     padding: 0.6rem 0;
     text-align: center;
     gap: 3px;
+    justify-content: center;
   `,
   CountLabel: styled.div`
     color: #c9c9c9;
-    font-size: 1.5rem;
+    font-size: 1rem;
   `,
   CountNum: styled.div`
     color: mediumspringgreen; //10회 미만 darksalmon 10회 이상 mediumspringgreen 30회 이상 fuchsia 100회 이상 gold
-    font-size: 1.7rem;
+    font-size: 1.5rem;
   `,
   SendButtonWrapper: styled.div`
     grid-area: cb;
@@ -177,13 +170,16 @@ const S = {
     height: 100%;
   `,
   SendButton: styled.span<CheckBoxProp>`
+    display: grid;
+    place-items: center;
+
     width: 80%;
-    height: 65%;
+    height: 80%;
     border-radius: 8px;
 
     text-align: center;
     background-color: ${({ canSend }) => (canSend ? `#ff7a62` : `#adadad`)};
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     line-height: 3rem;
 
     color: ${({ canSend }) => (canSend ? 'white' : '#7a7a7a')};

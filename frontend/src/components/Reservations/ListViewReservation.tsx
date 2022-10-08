@@ -39,12 +39,11 @@ const S = {
   Container: styled.div<ContentProp>`
     display: grid;
     grid-template-areas:
-      'ci un cb'
-      'ci ed cb';
-    grid-template-columns: 22% 58% 20%;
+      'ci un'
+      'ci ed';
+    grid-template-columns: 22% 78%;
     gap: 5px 0;
     padding: 1.5rem;
-    border-radius: 5px;
     background-color: ${({ backgroundColor }) => backgroundColor};
     color: ${({ color }) => color};
     align-items: center;

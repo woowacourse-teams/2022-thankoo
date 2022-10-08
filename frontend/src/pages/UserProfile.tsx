@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
-import Header from '../components/@shared/Layout/Header';
+import Header from '../layout/Header';
 import Input from '../components/@shared/Input';
-import PageLayout from '../components/@shared/Layout/PageLayout';
+import PageLayout from '../layout/PageLayout';
 import ProfileUserImage from '../components/Profile/ProfileUserImage';
 import SignOutButton from '../components/Profile/SignOutButton';
 import useUserProfile from '../hooks/Profile/useUserProfile';
 import { USER_NICKNAME_MAX_LENGTH } from './../constants/users';
-import HeaderText from '../components/@shared/Layout/HeaderText';
+import HeaderText from '../layout/HeaderText';
 
 const UserProfile = () => {
   const { profile, isNameEdit, name, handleClickModifyNameButton, exchangeCount, setName } =

@@ -1,33 +1,30 @@
 import styled from '@emotion/styled';
-import { Suspense } from 'react';
-import Spinner from '../components/@shared/Spinner';
+import PageLayout from '../layout/PageLayout';
 
 const OnFailurePage = () => {
   return (
-    <Suspense fallback={<Spinner />}>
-      <S.Layout>
-        <S.SuccessCheckmark>
-          <S.CheckIcon>
-            <S.IconTip />
-            <S.IconLong />
-            <S.IconCircle />
-            <S.IconFix />
-          </S.CheckIcon>
-        </S.SuccessCheckmark>
-      </S.Layout>
-    </Suspense>
+    <S.Layout>
+      <S.SuccessCheckmark>
+        <S.CheckIcon>
+          <S.IconTip />
+          <S.IconLong />
+          <S.IconCircle />
+          <S.IconFix />
+        </S.CheckIcon>
+      </S.SuccessCheckmark>
+    </S.Layout>
   );
 };
 
 const S = {
-  Layout: styled.div`
+  Layout: styled(PageLayout)`
     position: absolute;
     background-color: black;
-    width: 100vw;
     height: 100vh;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: white;
   `,
   SuccessCheckmark: styled.div`
     position: relative;

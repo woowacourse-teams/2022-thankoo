@@ -2,14 +2,38 @@ import { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import { ErrorType, Meeting } from '../../types';
+import { CouponType, ErrorType, Meeting, MeetingTime, UserProfile } from '../../types';
 
 export const MEETING_QUERY_KEYS = {
   meetings: 'meetings',
 };
 
-export const useGetMeetings = () =>
-  useQuery<Meeting[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest());
+export type MeetingsResponse = {
+  meetingId: number;
+  couponType: CouponType;
+  time: MeetingTime;
+  members: UserProfile[];
+  memberName: string;
+  isMeetingToday: boolean;
+};
+
+export const useGetMeetings = (
+  {
+    onSuccess,
+    select = () => [],
+  }: {
+    onSuccess?: (meeting: Meeting[]) => void;
+    select?: (meetings: Meeting[]) => MeetingsResponse[];
+  } = { onSuccess: () => {}, select: () => [] }
+) =>
+  useQuery<MeetingsResponse[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest(), {
+    onSuccess: meeting => {
+      onSuccess?.(meeting);
+    },
+    select: (meetings: Meeting[]) => {
+      return select?.(meetings);
+    },
+  });
 
 export const usePutCompleteMeeting = (
   meetingId,

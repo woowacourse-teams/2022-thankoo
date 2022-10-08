@@ -1,28 +1,25 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routes';
-import { useGetReservations } from '../../hooks/@queries/reservation';
 
-const ReservationPageButton = () => {
-  const location = useLocation();
-  const { data } = useGetReservations('received');
+const SendCouponPageButton = () => {
+  const { pathname } = useLocation();
 
   return (
-    <S.Link to={ROUTE_PATH.RESERVATIONS}>
-      <S.ButtonWrapper active={location.pathname === ROUTE_PATH.RESERVATIONS}>
+    <S.Link to={ROUTE_PATH.SELECT_RECEIVER}>
+      <S.ButtonWrapper active={pathname === ROUTE_PATH.SELECT_RECEIVER}>
         <S.IconWrapper>
           <S.Icon />
         </S.IconWrapper>
-        <p>예약</p>
-        {data && data.length !== 0 && <S.Count>{data.length}</S.Count>}
+        <S.ButtonText>보내기</S.ButtonText>
       </S.ButtonWrapper>
     </S.Link>
   );
 };
-
-export default ReservationPageButton;
+export default SendCouponPageButton;
 
 type ButtonProps = {
   active: boolean;
@@ -45,7 +42,7 @@ const S = {
         opacity: 1;
       `};
   `,
-  Icon: styled(NotificationsActiveIcon)`
+  Icon: styled(ConfirmationNumberIcon)`
     border-radius: 50%;
     padding: 0.5rem;
 
@@ -57,7 +54,7 @@ const S = {
     transform: scale(1.6);
     margin-bottom: 0.5rem;
   `,
-  Count: styled.span`
+  ReceivedReservationCount: styled.span`
     position: absolute;
     top: -7px;
     right: -7px;
@@ -69,5 +66,8 @@ const S = {
     border-radius: 50%;
     background-color: ${({ theme }) => theme.primary};
     font-size: 1em;
+  `,
+  ButtonText: styled.p`
+    word-break: keep-all;
   `,
 };

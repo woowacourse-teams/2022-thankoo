@@ -30,7 +30,7 @@ const S = {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    max-width: 680px;
+    max-width: 55rem;
     width: 100%;
     background-color: #272727;
     border-radius: 7% 7% 0 0;

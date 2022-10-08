@@ -1,11 +1,21 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routes';
+import { useGetMeetings } from '../../hooks/@queries/meeting';
 
-const ScheduledPageButton = () => {
+const MeetingPageButton = () => {
   const location = useLocation();
+  const { data: meetings } = useGetMeetings();
+  const todayMeetingCount = useMemo(() => {
+    if (!!meetings?.length) {
+      return meetings.filter(meeting => meeting.isMeetingToday).length;
+    }
+
+    return 0;
+  }, [meetings?.length]);
 
   return (
     <S.Link to={ROUTE_PATH.MEETINGS}>
@@ -14,6 +24,7 @@ const ScheduledPageButton = () => {
           <S.Icon />
         </S.IconWrapper>
         <p>약속</p>
+        {todayMeetingCount !== 0 && <S.Count>{todayMeetingCount}</S.Count>}
       </S.ButtonWrapper>
     </S.Link>
   );
@@ -31,13 +42,14 @@ const S = {
     }
   `,
   ButtonWrapper: styled.div<ButtonProps>`
+    position: relative;
+
     opacity: 0.5;
 
     ${({ active }) =>
       active &&
       css`
         opacity: 1;
-        transform: scale(1.15);
       `};
   `,
   Icon: styled(EventAvailableIcon)`
@@ -47,14 +59,24 @@ const S = {
     transition: all ease-in;
     transition-duration: 0.2s;
     -webkit-transition-duration: 0.2s;
-    &:active {
-      background-color: ${({ theme }) => theme.button.active.background};
-    }
   `,
   IconWrapper: styled.div`
     transform: scale(1.5);
     margin-bottom: 0.5rem;
   `,
+  Count: styled.span`
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.3em;
+    height: 1.3em;
+    border-radius: 50%;
+    background-color: ${({ theme }) => theme.primary};
+    font-size: 1em;
+  `,
 };
 
-export default ScheduledPageButton;
+export default MeetingPageButton;

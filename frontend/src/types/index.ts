@@ -27,6 +27,7 @@ export interface Meeting {
   time: MeetingTime;
   members: UserProfile[];
   memberName: string;
+  isMeetingToday: boolean;
 }
 
 export type Reservation = {
