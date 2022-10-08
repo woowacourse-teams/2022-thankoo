@@ -1,15 +1,12 @@
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
 import { FlexCenter } from '../../../styles/mixIn';
 import useToast from './../../../hooks/useToast';
-import { toastStackAtom } from './../../../recoil/atom';
 import { onMountToast, unMountToast } from './../../../styles/Animation';
 import CloseButton from './../CloseButton';
 
 const ToastItem = ({ toastKey, comment }) => {
   const { toastRef, closeToastItem, duration } = useToast();
-  const toastStack = useRecoilValue(toastStackAtom);
 
   useEffect(() => {
     if (toastRef.current) {
