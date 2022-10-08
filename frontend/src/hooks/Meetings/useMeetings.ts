@@ -1,21 +1,7 @@
 import { useState } from 'react';
-import { Meeting } from '../../types';
-import { MeetingsResponse, useGetMeetings } from '../@queries/meeting';
-
-const dayDifferenceFromToday = meetingDay => {
-  const today = new Date();
-
-  const dayForCal =
-    `${meetingDay.getFullYear()}` +
-    `${String(meetingDay.getMonth()).padStart(2, '0')}` +
-    `${String(meetingDay.getDate()).padStart(2, '0')}`;
-  const todayForCal =
-    `${today.getFullYear()}` +
-    `${String(today.getMonth()).padStart(2, '0')}` +
-    `${String(today.getDate()).padStart(2, '0')}`;
-
-  return Number(dayForCal) - Number(todayForCal);
-};
+import { Meeting } from '../../types/meeting';
+import { dayDifferenceFromToday } from '../../utils/date';
+import { useGetMeetings } from '../@queries/meeting';
 
 const useMeetings = () => {
   const [nearestMeetingDate, setNearestMeetingDate] = useState<number>(0);
