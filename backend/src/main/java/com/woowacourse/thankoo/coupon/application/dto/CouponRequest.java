@@ -21,9 +21,10 @@ public class CouponRequest {
         this.content = content;
     }
 
+    // TODO : Organization Id 를 parameter로 받으면 추가한다.
     public List<Coupon> toEntities(final Long senderId) {
         return receiverIds.stream()
-                .map(id -> new Coupon(senderId, id, toCouponContent(), CouponStatus.NOT_USED))
+                .map(id -> new Coupon(1L, senderId, id, toCouponContent(), CouponStatus.NOT_USED))
                 .collect(Collectors.toList());
     }
 

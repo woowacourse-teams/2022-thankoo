@@ -37,7 +37,7 @@ class CouponSentEventTest {
     private List<Coupon> createRawCoupons(final CouponType couponType) {
         List<Coupon> coupons = new ArrayList<>();
         for (long id = 1; id < 4; id++) {
-            coupons.add(new Coupon(id, 1L, id + 1, new CouponContent(couponType, TITLE, MESSAGE),
+            coupons.add(new Coupon(id, 1L, 1L, id + 1, new CouponContent(couponType, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
         }
         return coupons;

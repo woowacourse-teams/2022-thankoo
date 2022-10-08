@@ -52,9 +52,10 @@ public class CouponSerialService {
         }
     }
 
+    // TODO : CouponSerial의 조직에 따른 조직 입력 추가 필요.
     private Coupon createCoupon(final Member receiver, final CouponSerial couponSerial) {
         CouponSerialContent content = couponSerial.getContent();
-        return new Coupon(couponSerial.getSenderId(), receiver.getId(),
+        return new Coupon(1L, couponSerial.getSenderId(), receiver.getId(),
                 new CouponContent(couponSerial.getCouponSerialType().getValue(), content.getTitle(),
                         content.getMessage()), CouponStatus.NOT_USED);
     }
