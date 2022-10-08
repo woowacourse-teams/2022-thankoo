@@ -2,7 +2,10 @@ import { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import { CouponType, ErrorType, Meeting, MeetingTime, UserProfile } from '../../types';
+import { ErrorType } from '../../types/api';
+import { CouponType } from '../../types/coupon';
+import { Meeting, MeetingTime } from '../../types/meeting';
+import { UserProfile } from '../../types/user';
 
 export const MEETING_QUERY_KEYS = {
   meetings: 'meetings',
@@ -20,18 +23,22 @@ export type MeetingsResponse = {
 export const useGetMeetings = (
   {
     onSuccess,
-    select = () => [],
   }: {
-    onSuccess?: (meeting: Meeting[]) => void;
-    select?: (meetings: Meeting[]) => MeetingsResponse[];
-  } = { onSuccess: () => {}, select: () => [] }
+    onSuccess: (meeting: Meeting[]) => void;
+  } = { onSuccess: () => {} }
 ) =>
   useQuery<MeetingsResponse[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest(), {
     onSuccess: meeting => {
       onSuccess?.(meeting);
     },
     select: (meetings: Meeting[]) => {
-      return select?.(meetings);
+      const today = new Date().toISOString().split('T')[0];
+      const selectedMeetings = meetings.map(meeting => ({
+        ...meeting,
+        isMeetingToday: meeting.time.meetingTime.split(' ')[0] === today,
+      }));
+
+      return selectedMeetings;
     },
   });
 
