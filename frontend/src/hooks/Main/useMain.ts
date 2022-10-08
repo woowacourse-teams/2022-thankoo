@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { sentOrReceivedAtom } from '../../recoil/atom';
 import {
-  CouponStatus,
   CouponStatusPriority,
   CouponType,
   UserCanSeeCoupons,
@@ -13,15 +12,13 @@ import { useGetCoupons } from '../@queries/coupon';
 
 //낮을 수록 우선순위가 높다
 const COUPON_STATUS_PRIORITY: CouponStatusPriority = {
-  reserving: 0,
-  reserved: 1,
+  reserved: 0,
+  reserving: 1,
   not_used: 2,
 };
 
+//TODO 해당하는 status가 없더라도 에러가 나지 않고 있다.
 const userCanSeeCouponsStatus: UserCanSeeCoupons[] = ['not_used', 'reserved', 'reserving'];
-const userCantSeeCouponsStatus: UserCantSeeCoupons[] = ['expired', 'immediately_used', 'used'];
-
-// const isUserCanSeeCoupon = (status: CouponStatus): boolean => userCantSeeCouponsStatus.find(status);
 
 const useMain = () => {
   const [sentOrReceived, setSentOrReceived] = useRecoilState(sentOrReceivedAtom);
