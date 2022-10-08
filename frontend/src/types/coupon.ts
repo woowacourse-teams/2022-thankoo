@@ -54,3 +54,7 @@ type CouponDetailButtonPropsByCouponStatus = {
 export type CouponDetailButton = {
   [T in CouponTransmitStatus]: CouponDetailButtonPropsByCouponStatus;
 };
+
+export type UserCanSeeCoupons = 'reserving' | 'reserved' | 'not_used';
+export type UserCantSeeCoupons = Exclude<CouponStatus, UserCanSeeCoupons>;
+export type CouponStatusPriority = { [T in UserCanSeeCoupons]: number };
