@@ -21,7 +21,7 @@ const CreateReservation = () => {
     date,
     time,
     setTime,
-    yesterday,
+    today,
     couponDetail,
     createReservation,
   } = useCreateReservation();
@@ -45,7 +45,7 @@ const CreateReservation = () => {
             type='date'
             value={date}
             onChange={setReservationDate}
-            min={yesterday}
+            min={today}
             max={`${new Date().getFullYear()}-12-31`}
           />
         </S.Area>
