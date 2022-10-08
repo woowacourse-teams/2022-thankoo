@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { UserProfile } from '../../types';
+import { UserProfile } from '../../types/user';
 import ListViewUser from './ListViewUser';
 
 const ListViewUsers = ({

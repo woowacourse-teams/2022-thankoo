@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { sentOrReceivedAtom } from '../../recoil/atom';
-import { CouponType } from '../../types';
+import { CouponType } from '../../types/coupon';
 import { sorted } from '../../utils';
 import { useGetCoupons } from '../@queries/coupon';
 
@@ -20,7 +20,7 @@ const useMain = () => {
   const { data, isLoading, error } = useGetCoupons(sentOrReceived);
 
   const edittedCouponsBySentOrReceived =
-    sentOrReceived === '보낸'
+    sentOrReceived === 'sent'
       ? data?.map(coupon => {
           const tempSender = coupon.sender;
           const tempReceiver = coupon.receiver;

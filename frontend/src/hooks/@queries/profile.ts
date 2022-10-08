@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from 'react-query';
-import { UserProfile } from '../../types';
 import { API_PATH } from '../../constants/api';
 import { client } from '../../apis/axios';
+import { UserProfile } from '../../types/user';
 
 export interface exchangeCount {
   sentCount: number;

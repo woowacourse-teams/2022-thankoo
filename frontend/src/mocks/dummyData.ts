@@ -1,4 +1,4 @@
-import { Coupon } from '../types';
+import { Coupon } from '../types/coupon';
 
 interface User {
   id: number;

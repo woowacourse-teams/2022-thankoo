@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { COUPON_STATUS_STRAP_TEXT } from '../../constants/coupon';
-import { Coupon, CouponStatus } from '../../types';
+import { Coupon, CouponStatus } from '../../types/coupon';
 import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
 import ModalWrapper from './ModalWrapper';
@@ -9,7 +9,7 @@ const strapStatus = ['reserving', 'reserved'];
 
 const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   const isOnReserve = status => strapStatus.includes(status);
-  const isCompleted = status => status === 'used';
+  const isCompleted = status => status === 'used' || status === 'immediately_used';
 
   return (
     <S.Container>
