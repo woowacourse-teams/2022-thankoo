@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
-import { dateFormmater } from '../../utils/date';
+import { serverDateFormmater } from '../../utils/date';
 
 const ListViewReservation = ({ memberName, reservationId, couponType, meetingTime }) => {
-  const { day, date, time } = dateFormmater(meetingTime);
+  const { day, date, time } = serverDateFormmater(meetingTime);
 
   return (
     <S.Container

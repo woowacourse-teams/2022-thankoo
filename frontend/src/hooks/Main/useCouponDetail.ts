@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { sentOrReceivedAtom, targetCouponAtom } from '../../recoil/atom';
+import { CouponDetailButton, CouponDetailButtonProps } from '../../types/coupon';
 import { COUPON_QUERY_KEY, useGetCouponDetail, usePutCompleteCoupon } from '../@queries/coupon';
 import { usePutCompleteMeeting } from '../@queries/meeting';
 import { usePutCancelReseravation, usePutReservationStatus } from '../@queries/reservation';
@@ -68,7 +69,7 @@ export const useCouponDetail = (couponId: number) => {
     },
   });
 
-  const immediateUseButton = {
+  const immediateUseButton: CouponDetailButtonProps = {
     text: '즉시 사용하기',
     bg: 'tomato',
     disabled: false,
@@ -79,8 +80,8 @@ export const useCouponDetail = (couponId: number) => {
     },
   };
 
-  const COUPON_STATUS_BUTTON = {
-    받은: {
+  const COUPON_STATUS_BUTTON: CouponDetailButton = {
+    received: {
       not_used: [
         {
           text: '예약 하기',
@@ -119,10 +120,11 @@ export const useCouponDetail = (couponId: number) => {
           },
         },
       ],
-      used: [{ text: '이미 사용된 쿠폰입니다', disable: true, bg: '#838383' }],
-      expired: [{ text: '만료된 쿠폰입니다', disable: true, bg: '#838383' }],
+      used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
+      immediately_used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
+      expired: [{ text: '만료된 쿠폰입니다', disabled: true, bg: '#838383' }],
     },
-    보낸: {
+    sent: {
       not_used: [immediateUseButton],
       reserving: [
         {
@@ -159,6 +161,7 @@ export const useCouponDetail = (couponId: number) => {
         },
       ],
       used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
+      immediately_used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
       expired: [{ text: '만료된 쿠폰입니다', disabled: true, bg: '#838383' }],
     },
   };

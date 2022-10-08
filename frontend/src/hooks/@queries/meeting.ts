@@ -1,11 +1,20 @@
 import { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
+import { YYYYMMDD } from 'thankoo-utils-type';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
 import { ErrorType } from '../../types/api';
 import { CouponType } from '../../types/coupon';
 import { Meeting, MeetingTime } from '../../types/meeting';
 import { UserProfile } from '../../types/user';
+import { sorted } from '../../utils';
+import {
+  getDayDifference,
+  getTimeDifference,
+  isExpiredDate,
+  krLocaleDateFormatter,
+  serverDateFormmater,
+} from '../../utils/date';
 
 export const MEETING_QUERY_KEYS = {
   meetings: 'meetings',
@@ -18,27 +27,35 @@ export type MeetingsResponse = {
   members: UserProfile[];
   memberName: string;
   isMeetingToday: boolean;
+  dDay: number;
+  meetingDate: YYYYMMDD;
+  meetingTime: string;
 };
 
-export const useGetMeetings = (
-  {
-    onSuccess,
-  }: {
-    onSuccess: (meeting: Meeting[]) => void;
-  } = { onSuccess: () => {} }
-) =>
-  useQuery<MeetingsResponse[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest(), {
-    onSuccess: meeting => {
-      onSuccess?.(meeting);
-    },
-    select: (meetings: Meeting[]) => {
-      const today = new Date().toISOString().split('T')[0];
-      const selectedMeetings = meetings.map(meeting => ({
-        ...meeting,
-        isMeetingToday: meeting.time.meetingTime.split(' ')[0] === today,
-      }));
+const { fullDate: today } = krLocaleDateFormatter(new Date().toLocaleDateString());
 
-      return selectedMeetings;
+export const useGetMeetings = () =>
+  useQuery<MeetingsResponse[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest(), {
+    select: (meetings: Meeting[]) => {
+      const validMeetings = meetings
+        .map(meeting => {
+          const { date, time } = serverDateFormmater(meeting.time.meetingTime);
+
+          return {
+            ...meeting,
+            meetingDate: date,
+            meetingTime: time.slice(0, 5),
+            isMeetingToday: date === today,
+            dDay: getDayDifference(date, today),
+          };
+        })
+        .filter(meeting => isExpiredDate(meeting.time.meetingTime));
+
+      const sortedMeetings = sorted(validMeetings, (m1, m2) =>
+        getTimeDifference(m1.time.meetingTime, m2.time.meetingTime)
+      );
+
+      return sortedMeetings;
     },
   });
 

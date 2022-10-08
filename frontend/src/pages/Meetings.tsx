@@ -4,22 +4,17 @@ import MainPageLayout from '../layout/MainPageLayout';
 import { COUPON_IMAGE } from '../constants/coupon';
 import useMeetings from '../hooks/Meetings/useMeetings';
 import NoMeeting from './../components/@shared/noContent/NoMeeting';
+import ConditionalViewer from '../components/@shared/ConditionalViewer';
 
 const Meetings = () => {
-  const { meetings, isTodayMeetingExist, nearestMeetingDate } = useMeetings();
+  const { meetings, meetingDateAnnouncement } = useMeetings();
 
   return (
     <MainPageLayout>
-      <S.HeaderText>
-        {meetings?.length
-          ? isTodayMeetingExist
-            ? '오늘 예정된 약속이 있습니다'
-            : `${nearestMeetingDate}일 뒤 약속이 있습니다`
-          : '예정된 약속이 없습니다.'}
-      </S.HeaderText>
+      <S.HeaderText>{meetingDateAnnouncement}</S.HeaderText>
       <S.Body>
-        {meetings?.length !== 0 ? (
-          meetings?.map((meeting, idx) => (
+        <ConditionalViewer condition={meetings?.length !== 0} replacement={<NoMeeting />}>
+          {meetings?.map((meeting, idx) => (
             <S.Meeting isToday={meeting.isMeetingToday} key={idx}>
               {meeting.isMeetingToday && <S.TodayStrap>오늘</S.TodayStrap>}
               <S.CouponImageWrapper>
@@ -33,19 +28,17 @@ const Meetings = () => {
                 <S.DateWrapper>
                   <S.DetailWrapper>
                     <S.Label>날짜</S.Label>
-                    <span>{meeting.time?.meetingTime.split(' ')[0]}</span>
+                    <span>{meeting.meetingDate}</span>
                   </S.DetailWrapper>
                   <S.DetailWrapper>
                     <S.Label>시간</S.Label>
-                    <span>{meeting.time?.meetingTime.split(' ')[1].slice(0, 5)}</span>
+                    <span>{meeting.meetingTime}</span>
                   </S.DetailWrapper>
                 </S.DateWrapper>
               </S.MeetingDetail>
             </S.Meeting>
-          ))
-        ) : (
-          <NoMeeting />
-        )}
+          ))}
+        </ConditionalViewer>
       </S.Body>
     </MainPageLayout>
   );

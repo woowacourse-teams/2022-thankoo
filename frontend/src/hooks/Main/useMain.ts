@@ -1,46 +1,51 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { sentOrReceivedAtom } from '../../recoil/atom';
-import { CouponType } from '../../types/coupon';
+import { CouponStatusPriority, CouponType, UserCanSeeCoupons } from '../../types/coupon';
 import { sorted } from '../../utils';
 import { useGetCoupons } from '../@queries/coupon';
 
-const COUPON_STATUS_PRIORITY = {
+//낮을 수록 우선순위가 높다
+const COUPON_STATUS_PRIORITY: CouponStatusPriority = {
+  reserved: 0,
+  reserving: 1,
   not_used: 2,
-  reserving: 0,
-  reserved: 1,
-  used: 10,
 };
+
+//TODO 해당하는 status가 없더라도 에러가 나지 않고 있다.
+const userCanSeeCouponsStatus: UserCanSeeCoupons[] = ['not_used', 'reserved', 'reserving'];
 
 const useMain = () => {
   const [sentOrReceived, setSentOrReceived] = useRecoilState(sentOrReceivedAtom);
   const [currentType, setCurrentType] = useState<CouponType>('entire');
   const [showUsedCouponsWith, setShowUsedCouponsWith] = useState(false);
 
-  const { data, isLoading, error } = useGetCoupons(sentOrReceived);
+  const { data: coupons, isLoading, error } = useGetCoupons(sentOrReceived);
 
-  const edittedCouponsBySentOrReceived =
+  const couponsEditedByTransmitStatus =
     sentOrReceived === 'sent'
-      ? data?.map(coupon => {
-          const tempSender = coupon.sender;
-          const tempReceiver = coupon.receiver;
-          return { ...coupon, receiver: tempSender, sender: tempReceiver };
+      ? coupons?.map(coupon => {
+          const [receiver, sender] = [coupon.sender, coupon.receiver];
+
+          return { ...coupon, receiver, sender };
         })
-      : data;
+      : coupons;
 
-  const filteredCoupons = edittedCouponsBySentOrReceived
+  const userCanSeeCoupons = couponsEditedByTransmitStatus
     ?.filter(coupon => coupon.content.couponType === currentType || currentType === 'entire')
-    .filter(coupon => (!showUsedCouponsWith ? coupon.status !== 'used' : true));
+    .filter(coupon =>
+      !showUsedCouponsWith ? userCanSeeCouponsStatus.some(status => status === coupon.status) : true
+    );
 
-  const sortedCoupons = sorted(
-    filteredCoupons,
+  const sortedUserCanSeeCoupons = sorted(
+    userCanSeeCoupons,
     (coupon1, coupon2) =>
       COUPON_STATUS_PRIORITY[coupon1.status] - COUPON_STATUS_PRIORITY[coupon2.status]
   );
 
   return {
     setCurrentType,
-    coupons: showUsedCouponsWith ? filteredCoupons : sortedCoupons,
+    coupons: showUsedCouponsWith ? userCanSeeCoupons : sortedUserCanSeeCoupons,
     isLoading,
     error,
     currentType,
