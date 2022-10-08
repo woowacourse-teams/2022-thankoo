@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { sentOrReceivedAtom } from '../../recoil/atom';
-import {
-  CouponStatusPriority,
-  CouponType,
-  UserCanSeeCoupons,
-  UserCantSeeCoupons,
-} from '../../types/coupon';
+import { CouponStatusPriority, CouponType, UserCanSeeCoupons } from '../../types/coupon';
 import { sorted } from '../../utils';
 import { useGetCoupons } from '../@queries/coupon';
 
