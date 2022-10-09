@@ -102,6 +102,10 @@ public class Organization extends BaseEntity {
         }
     }
 
+    public boolean containsMember(final Member member) {
+        return organizationMembers.containsMember(member);
+    }
+
     public boolean containsMembers(final List<Member> members) {
         return members.stream()
                 .allMatch(member -> organizationMembers.containsMember(member));

@@ -87,10 +87,10 @@ class HeartControllerTest extends ControllerTest {
                 List.of(new Heart(1L, 1L, huni.getId(), lala.getId(), 1, true)),
                 List.of(new Heart(2L, 1L, hoho.getId(), huni.getId(), 1, true),
                         new Heart(3L, 1L, skrr.getId(), huni.getId(), 1, true)));
-        given(heartService.getEachHeartsLast(anyLong()))
+        given(heartService.getEachHeartsLast(anyLong(), anyLong()))
                 .willReturn(heartResponses);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/hearts/me")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/hearts/me")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

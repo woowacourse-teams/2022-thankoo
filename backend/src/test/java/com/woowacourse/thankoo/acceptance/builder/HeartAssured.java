@@ -29,8 +29,8 @@ public class HeartAssured {
             return this;
         }
 
-        public HeartRequestBuilder 응답_가능한_마음을_조회한다(final String accessToken) {
-            response = getWithToken("/api/hearts/me", accessToken);
+        public HeartRequestBuilder 응답_가능한_마음을_조회한다(final Long organizationId, final String accessToken) {
+            response = getWithToken("/api/organizations/" + organizationId + "/hearts/me", accessToken);
             return this;
         }
 

@@ -82,11 +82,22 @@ public class HeartService {
     }
 
     @Transactional(readOnly = true)
-    public HeartResponses getEachHeartsLast(final Long memberId) {
+    public HeartResponses getEachHeartsLast(final Long organizationId, final Long memberId) {
         Member member = getMember(memberId);
-        List<Heart> sentHeart = heartRepository.findBySenderIdAndLast(member.getId(), true);
-        List<Heart> receivedHeart = heartRepository.findByReceiverIdAndLast(member.getId(), true);
+        Organization organization = getOrganization(organizationId);
+        validateOrganizationMember(member, organization);
+
+        List<Heart> sentHeart = heartRepository.findByOrganizationIdAndSenderIdAndLast(organization.getId(),
+                member.getId(), true);
+        List<Heart> receivedHeart = heartRepository.findByOrganizationIdAndReceiverIdAndLast(organization.getId(),
+                member.getId(), true);
 
         return HeartResponses.of(sentHeart, receivedHeart);
+    }
+
+    private void validateOrganizationMember(final Member member, final Organization organization) {
+        if (!organization.containsMember(member)) {
+            throw new InvalidOrganizationMemberException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
+        }
     }
 }

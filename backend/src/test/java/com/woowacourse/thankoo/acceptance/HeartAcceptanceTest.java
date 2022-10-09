@@ -111,7 +111,7 @@ class HeartAcceptanceTest extends AcceptanceTest {
                 .마음을_보낸다(organization.getId(), senderToken2.getAccessToken(), receiverToken.getMemberId())
                 .마음을_보낸다(organization.getId(), senderToken3.getAccessToken(), receiverToken.getMemberId())
                 .마음을_보낸다(organization.getId(), receiverToken.getAccessToken(), senderToken2.getMemberId())
-                .응답_가능한_마음을_조회한다(receiverToken.getAccessToken())
+                .응답_가능한_마음을_조회한다(organization.getId(), receiverToken.getAccessToken())
                 .response()
                 .status(HttpStatus.OK.value())
                 .조회_성공(1, 2);

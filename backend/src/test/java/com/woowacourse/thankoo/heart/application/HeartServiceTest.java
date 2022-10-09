@@ -167,7 +167,7 @@ class HeartServiceTest {
 
         heartService.send(organization.getId(), huni.getId(), new HeartRequest(lala.getId()));
 
-        HeartResponses heartResponses = heartService.getEachHeartsLast(huni.getId());
+        HeartResponses heartResponses = heartService.getEachHeartsLast(organization.getId(), huni.getId());
         List<HeartResponse> sentHearts = heartResponses.getSent();
         List<HeartResponse> receivedHearts = heartResponses.getReceived();
 

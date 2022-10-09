@@ -135,6 +135,27 @@ class OrganizationTest {
     @Nested
     class ContainsTest {
 
+        @DisplayName("회원이 가입되어있으면 true 를 반환한다.")
+        @Test
+        void containsMember() {
+            Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(),
+                    10, validator);
+            Member lala = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+            organization.join(lala, new OrganizationMembers(new ArrayList<>()));
+
+            assertThat(organization.containsMember(lala)).isTrue();
+        }
+
+        @DisplayName("회원이 가입되어있지 않으면 false 를 반환한다.")
+        @Test
+        void notContainsMember() {
+            Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(),
+                    10, validator);
+            Member lala = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+
+            assertThat(organization.containsMember(lala)).isFalse();
+        }
+
         @DisplayName("모든 회원이 가입되어있으면 true 를 반환한다.")
         @Test
         void containsAllMembers() {
@@ -150,7 +171,7 @@ class OrganizationTest {
 
         @DisplayName("한 명이라도 가입되어있지 않으면 false 를 반환한다.")
         @Test
-        void noContainsAnyMembers() {
+        void notContainsAnyMembers() {
             Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(),
                     10, validator);
             Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL);

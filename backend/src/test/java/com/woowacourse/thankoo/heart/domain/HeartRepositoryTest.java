@@ -75,7 +75,8 @@ class HeartRepositoryTest {
 
         heartRepository.save(Heart.start(organization.getId(), huni.getId(), skrr.getId()));
         heartRepository.save(Heart.start(organization.getId(), huni.getId(), lala.getId()));
-        List<Heart> hearts = heartRepository.findBySenderIdAndLast(huni.getId(), true);
+        List<Heart> hearts = heartRepository.findByOrganizationIdAndSenderIdAndLast(organization.getId(), huni.getId(),
+                true);
         assertThat(hearts).hasSize(2);
     }
 
@@ -89,7 +90,8 @@ class HeartRepositoryTest {
 
         heartRepository.save(Heart.start(organization.getId(), skrr.getId(), huni.getId()));
         heartRepository.save(Heart.start(organization.getId(), lala.getId(), huni.getId()));
-        List<Heart> hearts = heartRepository.findByReceiverIdAndLast(huni.getId(), true);
+        List<Heart> hearts = heartRepository.findByOrganizationIdAndReceiverIdAndLast(organization.getId(),
+                huni.getId(), true);
         assertThat(hearts).hasSize(2);
     }
 }
