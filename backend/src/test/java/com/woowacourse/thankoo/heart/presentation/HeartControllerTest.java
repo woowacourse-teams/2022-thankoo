@@ -84,9 +84,9 @@ class HeartControllerTest extends ControllerTest {
         Member hoho = new Member(3L, HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL);
         Member skrr = new Member(4L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
         HeartResponses heartResponses = HeartResponses.of(
-                List.of(new Heart(1L, huni.getId(), lala.getId(), 1, true)),
-                List.of(new Heart(2L, hoho.getId(), huni.getId(), 1, true),
-                        new Heart(3L, skrr.getId(), huni.getId(), 1, true)));
+                List.of(new Heart(1L, 1L, huni.getId(), lala.getId(), 1, true)),
+                List.of(new Heart(2L, 1L, hoho.getId(), huni.getId(), 1, true),
+                        new Heart(3L, 1L, skrr.getId(), huni.getId(), 1, true)));
         given(heartService.getEachHeartsLast(anyLong()))
                 .willReturn(heartResponses);
 
