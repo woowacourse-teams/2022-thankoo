@@ -10,9 +10,17 @@ export const engDayTo요일 = {
   Sun: '일',
 };
 
+const getNowKrLocaleFullDateISOFormat = () =>
+  new Date().toLocaleDateString() +
+  ' ' +
+  new Date()
+    .toLocaleTimeString('ko-KR', { hour12: false })
+    .replace('시 ', ':')
+    .replace('분 ', ':')
+    .replace('초', '');
+
 export const isExpiredDate = (time): boolean => {
-  const date = new Date();
-  const now = date.toLocaleDateString() + ' ' + date.toLocaleTimeString().split(' ')[1];
+  const now = getNowKrLocaleFullDateISOFormat();
 
   return getTimeDifference(now, time) < 0;
 };
