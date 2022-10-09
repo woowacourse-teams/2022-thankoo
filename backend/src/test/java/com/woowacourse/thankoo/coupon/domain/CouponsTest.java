@@ -61,6 +61,7 @@ class CouponsTest {
                     List.of(
                             new Coupon(1L,
                                     1L,
+                                    1L,
                                     2L,
                                     new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                                     CouponStatus.NOT_USED)
@@ -74,7 +75,7 @@ class CouponsTest {
         @Test
         void distributeFailedDifferentSender() {
             List<Coupon> values = createRawCoupons(1L);
-            values.add(new Coupon(4L, 2L, 3L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            values.add(new Coupon(4L, 1L, 2L, 3L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
             assertThatThrownBy(() -> Coupons.distribute(values))
@@ -86,7 +87,7 @@ class CouponsTest {
         @Test
         void distributeFailedDifferentContent() {
             List<Coupon> values = createRawCoupons(1L);
-            values.add(new Coupon(4L, 2L, 3L, new CouponContent(CouponType.MEAL, TITLE, MESSAGE),
+            values.add(new Coupon(4L, 1L, 2L, 3L, new CouponContent(CouponType.MEAL, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
             assertThatThrownBy(() -> Coupons.distribute(values))
@@ -111,7 +112,7 @@ class CouponsTest {
         @Test
         void getRepresentativeSenderIdDifferentSenderFailed() {
             List<Coupon> values = createRawCoupons(1L);
-            values.add(new Coupon(4L, 2L, 3L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            values.add(new Coupon(4L, 1L, 2L, 3L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
             Coupons coupons = new Coupons(values);
@@ -138,7 +139,7 @@ class CouponsTest {
         @Test
         void getRepresentativeCouponContentDifferentCouponContentFailed() {
             List<Coupon> values = createRawCoupons(1L);
-            values.add(new Coupon(4L, 2L, 3L, new CouponContent(CouponType.MEAL, TITLE, MESSAGE),
+            values.add(new Coupon(4L, 1L, 2L, 3L, new CouponContent(CouponType.MEAL, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
             Coupons coupons = new Coupons(values);
@@ -156,7 +157,7 @@ class CouponsTest {
     private List<Coupon> createRawCoupons(final Long senderId) {
         List<Coupon> coupons = new ArrayList<>();
         for (long id = 1; id < 4; id++) {
-            coupons.add(new Coupon(id, senderId, id + 1, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+            coupons.add(new Coupon(id, 1L, senderId, id + 1, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
         }
         return coupons;

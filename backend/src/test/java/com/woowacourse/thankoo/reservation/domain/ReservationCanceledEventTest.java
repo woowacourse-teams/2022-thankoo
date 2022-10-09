@@ -19,7 +19,7 @@ class ReservationCanceledEventTest {
     @DisplayName("알람 스펙으로 변경한다.")
     @Test
     void toAlarmSpecification() {
-        Coupon coupon = new Coupon(1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+        Coupon coupon = new Coupon(1L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
 
         ReservationCanceledEvent reservationCanceledEvent = ReservationCanceledEvent.of(coupon, 2L);

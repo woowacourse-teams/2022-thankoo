@@ -24,7 +24,7 @@ class ReservationSentEventTest {
         LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
         Long receiverId = 2L;
 
-        Coupon coupon = new Coupon(1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+        Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
         Reservation reservation = Reservation.reserve(futureDate,
                 TimeZoneType.ASIA_SEOUL,

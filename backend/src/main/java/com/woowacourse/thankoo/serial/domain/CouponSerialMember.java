@@ -31,8 +31,9 @@ public class CouponSerialMember {
         this.status = CouponSerialStatus.valueOf(status);
     }
 
+    // TODO : CouponSerial의 조직에 따른 조직 입력 추가 필요. (조회 모델에 생성 코드가 있네요.)
     public Coupon createCoupon(final Long receiverId, CouponContent couponContent) {
-        return new Coupon(senderId, receiverId, couponContent, NOT_USED);
+        return new Coupon(1L, senderId, receiverId, couponContent, NOT_USED);
     }
 
     public boolean isUsed() {
