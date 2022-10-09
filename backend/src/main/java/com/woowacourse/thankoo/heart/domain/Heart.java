@@ -90,14 +90,17 @@ public class Heart extends BaseEntity {
         this(null, 1L, senderId, receiverId, count, last);
     }
 
-    public static Heart start(final Long senderId, final Long receiverId) {
-        Heart heart = new Heart(senderId, receiverId, START_COUNT, true);
+    public static Heart start(final Long organizationId, final Long senderId, final Long receiverId) {
+        Heart heart = new Heart(organizationId, senderId, receiverId, START_COUNT, true);
         Events.publish(HeartSentEvent.from(heart));
         return heart;
     }
 
-    public static Heart firstReply(final Long senderId, final Long receiverId, final Heart oppositeHeart) {
-        Heart heart = new Heart(senderId, receiverId, 0, false);
+    public static Heart firstReply(final Long organizationId,
+                                   final Long senderId,
+                                   final Long receiverId,
+                                   final Heart oppositeHeart) {
+        Heart heart = new Heart(organizationId, senderId, receiverId, 0, false);
         heart.send(oppositeHeart);
         return heart;
     }

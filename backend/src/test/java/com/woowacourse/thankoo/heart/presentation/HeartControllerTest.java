@@ -53,9 +53,9 @@ class HeartControllerTest extends ControllerTest {
     void send() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        doNothing().when(heartService).send(anyLong(), any(HeartRequest.class));
+        doNothing().when(heartService).send(anyLong(), anyLong(), any(HeartRequest.class));
 
-        ResultActions resultActions = mockMvc.perform(post("/api/hearts/send")
+        ResultActions resultActions = mockMvc.perform(post("/api/organizations/1/hearts/send")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .content(objectMapper.writeValueAsString(new HeartRequest(1L)))
                         .contentType(MediaType.APPLICATION_JSON))

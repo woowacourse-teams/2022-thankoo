@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -99,6 +100,11 @@ public class Organization extends BaseEntity {
         if (memberJoiningOrganizations.isAlreadyContains(this)) {
             throw new InvalidOrganizationException(ErrorType.ALREADY_JOIN_ORGANIZATION);
         }
+    }
+
+    public boolean containsMembers(final List<Member> members) {
+        return members.stream()
+                .allMatch(member -> organizationMembers.containsMember(member));
     }
 
     @Override

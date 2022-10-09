@@ -23,8 +23,9 @@ public class HeartAssured {
 
     public static class HeartRequestBuilder extends RequestBuilder {
 
-        public HeartRequestBuilder 마음을_보낸다(final String accessToken, final Long receiverId) {
-            response = postWithToken("/api/hearts/send", accessToken, new HeartRequest(receiverId));
+        public HeartRequestBuilder 마음을_보낸다(final Long organizationId, final String accessToken, final Long receiverId) {
+            response = postWithToken("/api/organizations/" + organizationId + "/hearts/send", accessToken,
+                    new HeartRequest(receiverId));
             return this;
         }
 

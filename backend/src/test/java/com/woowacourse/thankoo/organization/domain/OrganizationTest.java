@@ -5,6 +5,10 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -16,6 +20,7 @@ import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -123,6 +128,36 @@ class OrganizationTest {
             assertDoesNotThrow(
                     () -> organization.join(new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL),
                             new OrganizationMembers(new ArrayList<>())));
+        }
+    }
+
+    @DisplayName("회원 가입여부를 확인할 때 ")
+    @Nested
+    class ContainsTest {
+
+        @DisplayName("모든 회원이 가입되어있으면 true 를 반환한다.")
+        @Test
+        void containsAllMembers() {
+            Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(),
+                    10, validator);
+            Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL);
+            Member lala = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+            organization.join(huni, new OrganizationMembers(new ArrayList<>()));
+            organization.join(lala, new OrganizationMembers(new ArrayList<>()));
+
+            assertThat(organization.containsMembers(List.of(huni, lala))).isTrue();
+        }
+
+        @DisplayName("한 명이라도 가입되어있지 않으면 false 를 반환한다.")
+        @Test
+        void noContainsAnyMembers() {
+            Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE, new OrganizationCodeGenerator(),
+                    10, validator);
+            Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL);
+            Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+            organization.join(huni, new OrganizationMembers(new ArrayList<>()));
+
+            assertThat(organization.containsMembers(List.of(huni, lala))).isFalse();
         }
     }
 }
