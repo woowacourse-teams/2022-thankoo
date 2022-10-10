@@ -104,18 +104,4 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
                     .status(HttpStatus.OK.value());
         }
     }
-
-    private void 기본_조직이_생성됨() {
-        Organization organization1 = Organization.create(ORGANIZATION_WOOWACOURSE,
-                length -> ORGANIZATION_WOOWACOURSE_CODE,
-                30,
-                new OrganizationValidator(organizationRepository));
-
-        Organization organization2 = Organization.create(ORGANIZATION_THANKOO,
-                length -> ORGANIZATION_THANKOO_CODE,
-                30,
-                new OrganizationValidator(organizationRepository));
-        organizationRepository.save(organization1);
-        organizationRepository.save(organization2);
-    }
 }
