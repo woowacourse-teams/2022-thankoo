@@ -20,7 +20,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
-import com.woowacourse.thankoo.heart.application.dto.HeartRequest;
+import com.woowacourse.thankoo.heart.application.dto.HeartSendRequest;
+import com.woowacourse.thankoo.heart.domain.Heart;
 import com.woowacourse.thankoo.heart.domain.HeartRepository;
 import com.woowacourse.thankoo.heart.exception.InvalidHeartException;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartResponse;
@@ -74,9 +75,10 @@ class HeartServiceTest {
             Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
             join(organization.getCode().getValue(), huni.getId(), skrr.getId());
 
-            heartService.send(organization.getId(), huni.getId(), new HeartRequest(skrr.getId()));
+            heartService.send(new HeartSendRequest(organization.getId(), huni.getId(), skrr.getId()));
+            Heart heart = heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).orElseThrow();
 
-            assertThat(heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).get()).isNotNull();
+            assertThat(heart).isNotNull();
         }
 
         @DisplayName("상대가 마음을 보내면 내가 보낼 수 있다.")
@@ -87,11 +89,11 @@ class HeartServiceTest {
             Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
             join(organization.getCode().getValue(), huni.getId(), skrr.getId());
 
-            heartService.send(organization.getId(), huni.getId(), new HeartRequest(skrr.getId()));
-            heartService.send(organization.getId(), skrr.getId(), new HeartRequest(huni.getId()));
+            heartService.send(new HeartSendRequest(organization.getId(), huni.getId(), skrr.getId()));
+            heartService.send(new HeartSendRequest(organization.getId(), skrr.getId(), huni.getId()));
+            Heart heart = heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).orElseThrow();
 
-            assertThat(
-                    heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).get().isLast()).isFalse();
+            assertThat(heart.isLast()).isFalse();
         }
 
         @DisplayName("연달아 두 번 보낼 경우 실패한다.")
@@ -102,11 +104,11 @@ class HeartServiceTest {
             Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
             join(organization.getCode().getValue(), huni.getId(), skrr.getId());
 
-            heartService.send(organization.getId(), huni.getId(), new HeartRequest(skrr.getId()));
-            heartService.send(organization.getId(), skrr.getId(), new HeartRequest(huni.getId()));
+            heartService.send(new HeartSendRequest(organization.getId(), huni.getId(), skrr.getId()));
+            heartService.send(new HeartSendRequest(organization.getId(), skrr.getId(), huni.getId()));
 
             assertThatThrownBy(
-                    () -> heartService.send(organization.getId(), skrr.getId(), new HeartRequest(huni.getId())))
+                    () -> heartService.send(new HeartSendRequest(organization.getId(), skrr.getId(), huni.getId())))
                     .isInstanceOf(InvalidHeartException.class)
                     .hasMessage("마음을 보낼 수 없습니다.");
         }
@@ -119,7 +121,7 @@ class HeartServiceTest {
             join(organization.getCode().getValue(), skrr.getId());
 
             assertThatThrownBy(
-                    () -> heartService.send(organization.getId(), skrr.getId(), new HeartRequest(100L)))
+                    () -> heartService.send(new HeartSendRequest(organization.getId(), skrr.getId(), 100L)))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -132,7 +134,7 @@ class HeartServiceTest {
             join(organization.getCode().getValue(), skrr.getId());
 
             assertThatThrownBy(
-                    () -> heartService.send(organization.getId(), 100L, new HeartRequest(skrr.getId())))
+                    () -> heartService.send(new HeartSendRequest(organization.getId(), 100L, skrr.getId())))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -146,7 +148,7 @@ class HeartServiceTest {
             join(organization.getCode().getValue(), huni.getId());
 
             assertThatThrownBy(
-                    () -> heartService.send(organization.getId(), huni.getId(), new HeartRequest(skrr.getId())))
+                    () -> heartService.send(new HeartSendRequest(organization.getId(), huni.getId(), skrr.getId())))
                     .isInstanceOf(InvalidOrganizationMemberException.class)
                     .hasMessage("조직에 가입되지 않은 회원입니다.");
         }
@@ -162,7 +164,7 @@ class HeartServiceTest {
             join(thankoo.getCode().getValue(), skrr.getId());
 
             assertThatThrownBy(
-                    () -> heartService.send(woowacourse.getId(), huni.getId(), new HeartRequest(skrr.getId())))
+                    () -> heartService.send(new HeartSendRequest(woowacourse.getId(), huni.getId(), skrr.getId())))
                     .isInstanceOf(InvalidOrganizationMemberException.class)
                     .hasMessage("조직에 가입되지 않은 회원입니다.");
         }
@@ -178,11 +180,11 @@ class HeartServiceTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
         join(organization.getCode().getValue(), huni.getId(), skrr.getId(), lala.getId(), hoho.getId());
 
-        heartService.send(organization.getId(), skrr.getId(), new HeartRequest(huni.getId()));
-        heartService.send(organization.getId(), lala.getId(), new HeartRequest(huni.getId()));
-        heartService.send(organization.getId(), hoho.getId(), new HeartRequest(huni.getId()));
+        heartService.send(new HeartSendRequest(organization.getId(), skrr.getId(), huni.getId()));
+        heartService.send(new HeartSendRequest(organization.getId(), lala.getId(), huni.getId()));
+        heartService.send(new HeartSendRequest(organization.getId(), hoho.getId(), huni.getId()));
 
-        heartService.send(organization.getId(), huni.getId(), new HeartRequest(lala.getId()));
+        heartService.send(new HeartSendRequest(organization.getId(), huni.getId(), lala.getId()));
 
         HeartResponses heartResponses = heartService.getEachHeartsLast(organization.getId(), huni.getId());
         List<HeartResponse> sentHearts = heartResponses.getSent();

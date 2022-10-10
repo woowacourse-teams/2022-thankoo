@@ -2,7 +2,8 @@ package com.woowacourse.thankoo.heart.presentation;
 
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
 import com.woowacourse.thankoo.heart.application.HeartService;
-import com.woowacourse.thankoo.heart.application.dto.HeartRequest;
+import com.woowacourse.thankoo.heart.application.dto.HeartSendRequest;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartRequest;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class HeartController {
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long memberId,
                                      @PathVariable final Long organizationId,
                                      @RequestBody final HeartRequest heartRequest) {
-        heartService.send(organizationId, memberId, heartRequest);
+        heartService.send(HeartSendRequest.from(organizationId, memberId, heartRequest));
         return ResponseEntity.ok().build();
     }
 
