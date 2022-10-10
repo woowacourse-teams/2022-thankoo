@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 public class AdminSerialRequest {
 
     private List<String> serials;
-    private Long organizationId;
 
-    public AdminSerialRequest(final List<String> serials, final Long organizationId) {
+    public AdminSerialRequest(final List<String> serials) {
         this.serials = serials;
-        this.organizationId = organizationId;
     }
 }
