@@ -23,6 +23,8 @@ import com.woowacourse.thankoo.organization.application.OrganizationService;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
+import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
@@ -68,7 +70,8 @@ class CouponSerialQueryServiceTest {
                     new CouponSerial(organization.getId(), SERIAL_1, member.getId(), COFFEE, NOT_USED, NEO_TITLE,
                             NEO_MESSAGE));
 
-            CouponSerialResponse response = couponSerialQueryService.getCouponSerialByCode(member.getId(), SERIAL_1);
+            CouponSerialResponse response = couponSerialQueryService.getCouponSerialByCode(
+                    new CouponSerialRequest(member.getId(), organization.getId(), SERIAL_1));
 
             assertAll(
                     () -> assertThat(response.getOrganizationId()).isEqualTo(organization.getId()),
@@ -82,8 +85,10 @@ class CouponSerialQueryServiceTest {
         @Test
         void getCouponSerialByNotExistsSerialCode() {
             Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+            Organization organization = saveDefaultOrganizationAndJoinedMember(member);
 
-            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(member.getId(), SERIAL_1))
+            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(
+                    new CouponSerialRequest(member.getId(), organization.getId(), SERIAL_1)))
                     .isInstanceOf(InvalidCouponSerialException.class)
                     .hasMessage("존재하지 않는 쿠폰 시리얼 번호입니다.");
         }
@@ -95,9 +100,24 @@ class CouponSerialQueryServiceTest {
             couponSerialRepository.save(
                     new CouponSerial(organization.getId(), SERIAL_1, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
-            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(1L, SERIAL_1))
+            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(
+                    new CouponSerialRequest(1L, organization.getId(), SERIAL_1)))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
+        }
+
+        @DisplayName("조직에 가입되지 않은 경우 예외를 발생한다.")
+        @Test
+        void getCouponSerialByNotJoinedOrganization() {
+            Member member = memberRepository.save(new Member(NEO_NAME, NEO_EMAIL, NEO_SOCIAL_ID, HUNI_IMAGE_URL));
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            couponSerialRepository.save(
+                    new CouponSerial(organization.getId(), SERIAL_1, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+
+            assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(
+                    new CouponSerialRequest(member.getId(), organization.getId(), SERIAL_1)))
+                    .isInstanceOf(InvalidOrganizationException.class)
+                    .hasMessage("조직에 가입되지 않은 회원입니다.");
         }
 
         private Organization saveDefaultOrganizationAndJoinedMember(Member member) {
