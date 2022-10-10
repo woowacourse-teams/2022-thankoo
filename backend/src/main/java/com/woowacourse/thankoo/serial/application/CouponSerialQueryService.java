@@ -21,7 +21,8 @@ public class CouponSerialQueryService {
 
     public CouponSerialResponse getCouponSerialByCode(final Long memberId, final String code) {
         validateExistedMember(memberId);
-        return CouponSerialResponse.from(getCouponSerialMember(code));
+        CouponSerialMember couponSerialMember = getCouponSerialMember(code);
+        return CouponSerialResponse.from(couponSerialMember);
     }
 
     private void validateExistedMember(final Long memberId) {

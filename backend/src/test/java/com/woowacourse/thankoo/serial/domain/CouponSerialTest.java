@@ -21,7 +21,7 @@ class CouponSerialTest {
     @ParameterizedTest
     @ValueSource(strings = {"  ", "1234567", "123456789"})
     void invalidSerialCode(String code) {
-        assertThatThrownBy(() -> new CouponSerial(code, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE))
+        assertThatThrownBy(() -> new CouponSerial(1L, code, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE))
                 .isInstanceOf(InvalidCouponSerialException.class)
                 .hasMessage("유효하지 않은 쿠폰 시리얼 번호입니다.");
     }
@@ -29,7 +29,7 @@ class CouponSerialTest {
     @Test
     @DisplayName("코드 생성자를 통해 쿠폰 시리얼을 생성한다.")
     void createBySerialCreator() {
-        CouponSerial couponSerial = new CouponSerial(SERIAL_1, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE);
+        CouponSerial couponSerial = new CouponSerial(1L, SERIAL_1, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE);
 
         assertThat(couponSerial.getSerialCode()).isEqualTo(new SerialCode(SERIAL_1));
     }
