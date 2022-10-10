@@ -61,7 +61,7 @@ public class HeartService {
     }
 
     private Organization getOrganization(final Long organizationId) {
-        return organizationRepository.findById(organizationId)
+        return organizationRepository.findWithMemberById(organizationId)
                 .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
     }
 

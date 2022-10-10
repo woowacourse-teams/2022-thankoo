@@ -95,11 +95,23 @@ class OrganizationRepositoryTest {
     @DisplayName("code로 조직을 찾는다.")
     @Test
     void findByCodeValue() {
-        Organization organization = organizationRepository.save(
+        Organization woowacource = organizationRepository.save(
                 Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
                         organizationValidator));
-        assertThat(organizationRepository.findByCodeValue(ORGANIZATION_WOOWACOURSE_CODE).get().getId()).isEqualTo(
-                organization.getId());
+        Organization organization = organizationRepository.findByCodeValue(ORGANIZATION_WOOWACOURSE_CODE).orElseThrow();
+
+        assertThat(organization.getId()).isEqualTo(woowacource.getId());
+    }
+
+    @DisplayName("id로 조직을 찾는다.")
+    @Test
+    void findWithMemberById() {
+        Organization woowacource = organizationRepository.save(
+                Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
+                        organizationValidator));
+        Organization organization = organizationRepository.findWithMemberById(woowacource.getId()).orElseThrow();
+
+        assertThat(organization.getId()).isEqualTo(woowacource.getId());
     }
 
     @DisplayName("member로 조직-멤버를 찾는다.")
