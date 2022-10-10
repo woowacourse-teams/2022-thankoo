@@ -25,6 +25,9 @@ public class CouponSerial extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "organization_id", nullable = false)
+    private Long organizationId;
+
     @Embedded
     private SerialCode serialCode;
 
@@ -43,12 +46,14 @@ public class CouponSerial extends BaseEntity {
     private CouponSerialContent content;
 
     public CouponSerial(final Long id,
+                        final Long organizationId,
                         final SerialCode serialCode,
                         final Long senderId,
                         final CouponSerialType couponSerialType,
                         final CouponSerialStatus status,
                         final CouponSerialContent content) {
         this.id = id;
+        this.organizationId = organizationId;
         this.serialCode = serialCode;
         this.senderId = senderId;
         this.couponSerialType = couponSerialType;
@@ -56,21 +61,24 @@ public class CouponSerial extends BaseEntity {
         this.content = content;
     }
 
-    public CouponSerial(final SerialCode serialCode,
+    public CouponSerial(final Long organizationId,
+                        final SerialCode serialCode,
                         final Long senderId,
                         final CouponSerialType couponSerialType,
                         final CouponSerialStatus status,
                         final CouponSerialContent content) {
-        this(null, serialCode, senderId, couponSerialType, status, content);
+        this(null, organizationId, serialCode, senderId, couponSerialType, status, content);
     }
 
-    public CouponSerial(final String code,
+    public CouponSerial(final Long organizationId,
+                        final String code,
                         final Long senderId,
                         final CouponSerialType couponSerialType,
                         final CouponSerialStatus status,
                         final String title,
                         final String message) {
-        this(null, new SerialCode(code), senderId, couponSerialType, status, new CouponSerialContent(title, message));
+        this(null, organizationId, new SerialCode(code), senderId, couponSerialType, status,
+                new CouponSerialContent(title, message));
     }
 
     public void use() {

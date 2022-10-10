@@ -31,8 +31,10 @@ public class AdminCouponSerialRequest {
         this.message = message;
     }
 
+    // todo : input organization id
     public CouponSerial from(final SerialCode serialCode, final Long senderId) {
-        return new CouponSerial(serialCode,
+        return new CouponSerial(1L,
+                serialCode,
                 senderId,
                 CouponSerialType.of(couponType),
                 CouponSerialStatus.NOT_USED,
