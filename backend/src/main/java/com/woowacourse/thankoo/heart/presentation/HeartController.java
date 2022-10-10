@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/organizations/{organizationId}")
+@RequestMapping("/api/organizations/{organizationId}/hearts")
 @RequiredArgsConstructor
 public class HeartController {
 
     private final HeartService heartService;
 
-    @PostMapping("/hearts/send")
+    @PostMapping("/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long memberId,
                                      @PathVariable final Long organizationId,
                                      @RequestBody final HeartRequest heartRequest) {
@@ -28,7 +28,7 @@ public class HeartController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/hearts/me")
+    @GetMapping("/me")
     public ResponseEntity<HeartResponses> getReceivedHearts(@AuthenticationPrincipal final Long memberId,
                                                             @PathVariable final Long organizationId) {
         return ResponseEntity.ok(heartService.getEachHeartsLast(organizationId, memberId));
