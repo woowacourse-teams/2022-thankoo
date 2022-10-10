@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -9,6 +10,7 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,17 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
 
+    @Deprecated
     public void saveAll(final Long senderId, final CouponRequest couponRequest) {
         validateMember(senderId, couponRequest.getReceiverIds());
         Coupons coupons = Coupons.distribute(couponRequest.toEntities(senderId));
+        couponRepository.saveAll(coupons.getValues());
+    }
+
+    // TODO : 조직 검증 머지되면 추가할 것
+    public void saveAll(final CouponCommand couponCommand) {
+        validateMember(couponCommand.getSenderId(), couponCommand.getReceiverIds());
+        Coupons coupons = Coupons.distribute(couponCommand.toEntities());
         couponRepository.saveAll(coupons.getValues());
     }
 

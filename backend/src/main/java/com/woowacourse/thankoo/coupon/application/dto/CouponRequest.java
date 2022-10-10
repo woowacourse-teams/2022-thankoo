@@ -21,15 +21,15 @@ public class CouponRequest {
         this.content = content;
     }
 
-    // TODO : Organization Id 를 parameter로 받으면 추가한다.
+    @Deprecated
     public List<Coupon> toEntities(final Long senderId) {
         return receiverIds.stream()
-                .map(id -> new Coupon(1L, senderId, id, toCouponContent(), CouponStatus.NOT_USED))
+                .map(id -> new Coupon(1L, senderId, id, content.toEntity(), CouponStatus.NOT_USED))
                 .collect(Collectors.toList());
     }
 
-    public CouponContent toCouponContent() {
-        return content.toEntity();
+    public CouponCommand toCouponCommand(final Long organizationId, final Long senderId) {
+        return new CouponCommand(organizationId, senderId, receiverIds, content.toCouponCommand());
     }
 
     @Override

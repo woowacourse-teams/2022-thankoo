@@ -50,13 +50,25 @@ public class CouponAssured {
 
     public static class CouponRequestBuilder extends RequestBuilder {
 
+        @Deprecated
         public CouponRequestBuilder 쿠폰을_전송한다(final String accessToken, final CouponRequest couponRequest) {
             response = postWithToken("/api/coupons/send", accessToken, couponRequest);
             return this;
         }
 
+        public CouponRequestBuilder 쿠폰을_전송한다(final Long organizationId, final String accessToken, final CouponRequest couponRequest) {
+            response = postWithToken("/api/organizations/" + organizationId + "/coupons/send", accessToken, couponRequest);
+            return this;
+        }
+
+        @Deprecated
         public CouponRequestBuilder 받은_쿠폰을_조회한다(final String accessToken, final String status) {
             response = getWithToken("/api/coupons/received?status=" + status, accessToken);
+            return this;
+        }
+
+        public CouponRequestBuilder 받은_쿠폰을_조회한다(final Long organizationId, final String accessToken, final String status) {
+            response = getWithToken("/api/organizations/" + organizationId + "/coupons/received?status=" + status, accessToken);
             return this;
         }
 

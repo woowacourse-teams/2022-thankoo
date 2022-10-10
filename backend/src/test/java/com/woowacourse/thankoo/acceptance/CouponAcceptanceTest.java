@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.acceptance;
 
 import static com.woowacourse.thankoo.acceptance.builder.CouponAssured.잘못된_쿠폰_요청;
 import static com.woowacourse.thankoo.acceptance.builder.CouponAssured.쿠폰_요청;
+import static com.woowacourse.thankoo.acceptance.builder.OrganizationAssured.조직_번호;
 import static com.woowacourse.thankoo.acceptance.builder.ReservationAssured.예약_요청;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.ALL;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
@@ -21,15 +22,18 @@ import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_SKRR;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HOHO_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HUNI_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
 import static com.woowacourse.thankoo.common.fixtures.ReservationFixture.ACCEPT;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.CouponAssured;
 import com.woowacourse.thankoo.acceptance.builder.MeetingAssured;
+import com.woowacourse.thankoo.acceptance.builder.OrganizationAssured;
 import com.woowacourse.thankoo.acceptance.builder.ReservationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.common.fixtures.CouponFixture;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -57,12 +61,22 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .body(TokenResponse.class);
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(senderToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             List<CouponResponse> couponResponses = CouponAssured.request()
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class);
 
@@ -83,7 +97,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .status(HttpStatus.NO_CONTENT.value());
 
             CouponAssured.request()
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .status(HttpStatus.OK.value())
                     .쿠폰이_조회됨(3);
@@ -103,12 +117,22 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .body(TokenResponse.class);
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(senderToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             List<CouponResponse> couponResponses = CouponAssured.request()
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class);
 
@@ -129,7 +153,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .status(HttpStatus.NO_CONTENT.value());
 
             CouponAssured.request()
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), USED)
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), USED)
                     .response()
                     .status(HttpStatus.OK.value())
                     .쿠폰이_조회됨(1);
@@ -149,12 +173,22 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .body(TokenResponse.class);
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(senderToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             List<CouponResponse> couponResponses = CouponAssured.request()
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class);
 
@@ -178,7 +212,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .status(HttpStatus.NO_CONTENT.value());
 
             CouponAssured.request()
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), ALL)
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), ALL)
                     .response()
                     .status(HttpStatus.OK.value())
                     .쿠폰이_조회됨(4);
@@ -198,9 +232,19 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .body(TokenResponse.class);
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(senderToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             CouponAssured.request()
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
                     .보낸_쿠폰을_조회한다(senderToken.getAccessToken())
                     .response()
                     .status(HttpStatus.OK.value())
@@ -221,9 +265,19 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .body(TokenResponse.class);
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(senderToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             CouponResponse couponResponse = CouponAssured.request()
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class).get(0);
 
@@ -253,9 +307,19 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .body(TokenResponse.class);
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(senderToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             CouponResponse couponResponse = CouponAssured.request()
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), CouponFixture.NOT_USED)
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), CouponFixture.NOT_USED)
                     .response()
                     .bodies(CouponResponse.class).get(0);
 
@@ -286,10 +350,20 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .response()
                     .body(TokenResponse.class);
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(token1, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(token2, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(token1)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             CouponAssured.request()
-                    .쿠폰을_전송한다(token1.getAccessToken(), 쿠폰_요청(token2.getMemberId()))
-                    .쿠폰을_전송한다(token1.getAccessToken(), 쿠폰_요청(token2.getMemberId()))
-                    .쿠폰을_전송한다(token2.getAccessToken(), 쿠폰_요청(token1.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, token1.getAccessToken(), 쿠폰_요청(token2.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, token1.getAccessToken(), 쿠폰_요청(token2.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, token2.getAccessToken(), 쿠폰_요청(token1.getMemberId()))
                     .주고_받은_쿠폰_개수를_조회한다(token1.getAccessToken())
                     .response()
                     .status(HttpStatus.OK.value())
@@ -319,8 +393,19 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .response()
                         .body(TokenResponse.class);
 
+                기본_조직이_생성됨();
+                OrganizationResponse organizationResponse = OrganizationAssured.request()
+                        .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                        .조직에_참여한다(receiverToken1, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                        .조직에_참여한다(receiverToken2, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                        .내_조직을_조회한다(senderToken)
+                        .response()
+                        .bodies(OrganizationResponse.class).get(0);
+
+                Long organizationId = organizationResponse.getOrganizationId();
+
                 CouponAssured.request()
-                        .쿠폰을_전송한다(senderToken.getAccessToken(),
+                        .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(),
                                 쿠폰_요청(receiverToken1.getMemberId(), receiverToken2.getMemberId()))
                         .response()
                         .status(HttpStatus.OK.value());
@@ -335,8 +420,17 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .response()
                         .body(TokenResponse.class);
 
+                기본_조직이_생성됨();
+                OrganizationResponse organizationResponse = OrganizationAssured.request()
+                        .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                        .내_조직을_조회한다(senderToken)
+                        .response()
+                        .bodies(OrganizationResponse.class).get(0);
+
+                Long organizationId = organizationResponse.getOrganizationId();
+
                 CouponAssured.request()
-                        .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(senderToken.getMemberId()))
+                        .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(senderToken.getMemberId()))
                         .response()
                         .status(HttpStatus.BAD_REQUEST.value());
             }
@@ -355,8 +449,18 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .response()
                         .body(TokenResponse.class);
 
+                기본_조직이_생성됨();
+                OrganizationResponse organizationResponse = OrganizationAssured.request()
+                        .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                        .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                        .내_조직을_조회한다(senderToken)
+                        .response()
+                        .bodies(OrganizationResponse.class).get(0);
+
+                Long organizationId = organizationResponse.getOrganizationId();
+
                 CouponAssured.request()
-                        .쿠폰을_전송한다(senderToken.getAccessToken(),
+                        .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(),
                                 잘못된_쿠폰_요청(TYPE, TITLE_OVER, MESSAGE, receiverToken.getMemberId()))
                         .response()
                         .status(HttpStatus.BAD_REQUEST.value());
@@ -374,8 +478,18 @@ class CouponAcceptanceTest extends AcceptanceTest {
                         .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
                         .token();
 
+                기본_조직이_생성됨();
+                OrganizationResponse organizationResponse = OrganizationAssured.request()
+                        .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                        .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                        .내_조직을_조회한다(senderToken)
+                        .response()
+                        .bodies(OrganizationResponse.class).get(0);
+
+                Long organizationId = organizationResponse.getOrganizationId();
+
                 CouponAssured.request()
-                        .쿠폰을_전송한다(senderToken.getAccessToken(),
+                        .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(),
                                 잘못된_쿠폰_요청(TYPE, TITLE, MESSAGE_OVER, receiverToken.getMemberId()))
                         .response()
                         .status(HttpStatus.BAD_REQUEST.value());
@@ -394,9 +508,19 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
                     .token();
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(senderToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             CouponResponse couponResponse = CouponAssured.request()
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), NOT_USED)
                     .response()
                     .bodies(CouponResponse.class).get(0);
 
@@ -404,7 +528,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             CouponAssured.request()
                     .쿠폰을_즉시_사용한다(couponId, receiverToken.getAccessToken())
-                    .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), USED)
+                    .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), USED)
                     .response()
                     .쿠폰의_상태가_조회됨(couponId, USED_IMMEDIATELY);
         }
@@ -421,8 +545,17 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
                     .token();
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(receiverToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             CouponAssured.request()
-                    .쿠폰을_전송한다(INVALID_TOKEN, 쿠폰_요청(receiverToken.getMemberId()))
+                    .쿠폰을_전송한다(organizationId, INVALID_TOKEN, 쿠폰_요청(receiverToken.getMemberId()))
                     .response()
                     .status(HttpStatus.UNAUTHORIZED.value());
         }
@@ -439,9 +572,19 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
                     .token();
 
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                    .내_조직을_조회한다(senderToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            Long organizationId = organizationResponse.getOrganizationId();
+
             CouponAssured.request()
-                    .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                    .받은_쿠폰을_조회한다(INVALID_TOKEN, CouponFixture.NOT_USED)
+                    .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                    .받은_쿠폰을_조회한다(organizationId, INVALID_TOKEN, CouponFixture.NOT_USED)
                     .response()
                     .status(HttpStatus.UNAUTHORIZED.value());
         }
