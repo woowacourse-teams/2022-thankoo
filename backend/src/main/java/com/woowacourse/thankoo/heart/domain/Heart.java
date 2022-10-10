@@ -76,18 +76,12 @@ public class Heart extends BaseEntity {
         }
     }
 
-    // private
-    public Heart(final Long organizationId,
-                 final Long senderId,
-                 final Long receiverId,
-                 final int count,
-                 final boolean last) {
+    private Heart(final Long organizationId,
+                  final Long senderId,
+                  final Long receiverId,
+                  final int count,
+                  final boolean last) {
         this(null, organizationId, senderId, receiverId, count, last);
-    }
-
-    // 삭제
-    public Heart(final Long senderId, final Long receiverId, final int count, final boolean last) {
-        this(null, 1L, senderId, receiverId, count, last);
     }
 
     public static Heart start(final Long organizationId, final Long senderId, final Long receiverId) {
