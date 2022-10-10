@@ -14,6 +14,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createThankooOrganization;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -146,6 +147,22 @@ class HeartServiceTest {
 
             assertThatThrownBy(
                     () -> heartService.send(organization.getId(), huni.getId(), new HeartRequest(skrr.getId())))
+                    .isInstanceOf(InvalidOrganizationMemberException.class)
+                    .hasMessage("조직에 가입되지 않은 회원입니다.");
+        }
+
+        @DisplayName("다른 조직에 가입된 회원에게 보낼 경우 예외가 발생한다.")
+        @Test
+        void sendOtherOrganizationMember() {
+            Organization woowacourse = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            Organization thankoo = organizationRepository.save(createThankooOrganization(organizationValidator));
+            Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+            join(woowacourse.getCode().getValue(), huni.getId());
+            join(thankoo.getCode().getValue(), skrr.getId());
+
+            assertThatThrownBy(
+                    () -> heartService.send(woowacourse.getId(), huni.getId(), new HeartRequest(skrr.getId())))
                     .isInstanceOf(InvalidOrganizationMemberException.class)
                     .hasMessage("조직에 가입되지 않은 회원입니다.");
         }

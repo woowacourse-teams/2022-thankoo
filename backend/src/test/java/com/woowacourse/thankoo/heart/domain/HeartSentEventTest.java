@@ -13,7 +13,7 @@ class HeartSentEventTest {
     @DisplayName("알람 스펙으로 변경한다.")
     @Test
     void toAlarmSpecification() {
-        Heart heart = new Heart(1L, 1L, 2L, 1, true);
+        Heart heart = new Heart(1L, 1L, 1L, 2L, 1, true);
 
         HeartSentEvent heartSentEvent = HeartSentEvent.from(heart);
         AlarmSpecification alarmSpecification = heartSentEvent.toAlarmSpecification();
@@ -24,5 +24,4 @@ class HeartSentEventTest {
                 () -> assertThat(alarmSpecification.getContents()).containsExactly("1", "1")
         );
     }
-
 }
