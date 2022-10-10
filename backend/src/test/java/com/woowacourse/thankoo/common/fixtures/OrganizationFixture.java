@@ -17,6 +17,11 @@ public class OrganizationFixture {
                 organizationValidator);
     }
 
+    public static Organization createThankooOrganization(final OrganizationValidator organizationValidator) {
+        return Organization.create(ORGANIZATION_THANKOO, length -> ORGANIZATION_THANKOO_CODE, 50,
+                organizationValidator);
+    }
+
     private OrganizationFixture() {
     }
 }

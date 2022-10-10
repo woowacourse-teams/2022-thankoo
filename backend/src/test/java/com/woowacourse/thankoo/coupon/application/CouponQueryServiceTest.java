@@ -17,6 +17,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createThankooOrganization;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -25,6 +26,7 @@ import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -87,27 +89,36 @@ class CouponQueryServiceTest {
     @Autowired
     private OrganizationValidator organizationValidator;
 
-    @DisplayName("받은 쿠폰 중 사용하지 않은 쿠폰을 조회한다.")
+    @DisplayName("조직에서 받은 쿠폰 중 사용하지 않은 쿠폰 쿠폰을 조회한다.")
     @Test
-    void getReceivedCouponsNotUsed() {
+    void getReceivedCouponsNotUsedInOrganization() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
-        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
+        Organization organization1 = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization1.getCode().getValue(), sender.getId(), receiver.getId());
+
+        Organization organization2 = organizationRepository.save(createThankooOrganization(organizationValidator));
+        join(organization2.getCode().getValue(), sender.getId(), receiver.getId());
+
         couponRepository.saveAll(List.of(
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.EXPIRED),
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(organization2.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED)
         ));
 
-        List<CouponResponse> responses = couponQueryService.getReceivedCoupons(receiver.getId(), NOT_USED);
+        CouponSelectCommand couponSelectCommand = new CouponSelectCommand(organization1.getId(), receiver.getId(),
+                NOT_USED);
+        List<CouponResponse> responses = couponQueryService.getReceivedCouponsByOrganization(couponSelectCommand);
 
         assertAll(
                 () -> assertThat(responses).hasSize(2),
@@ -116,28 +127,36 @@ class CouponQueryServiceTest {
         );
     }
 
-    @DisplayName("받은 쿠폰 중 사용한 쿠폰을 조회한다.")
+    @DisplayName("조직에서 받은 쿠폰 중 사용한 쿠폰을 조회한다.")
     @Test
-    void getReceivedCouponsUsed() {
+    void getReceivedCouponsUsedInOrganization() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
-        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
+        Organization organization1 = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization1.getCode().getValue(), sender.getId(), receiver.getId());
+
+        Organization organization2 = organizationRepository.save(createThankooOrganization(organizationValidator));
+        join(organization2.getCode().getValue(), sender.getId(), receiver.getId());
 
         couponRepository.saveAll(List.of(
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.EXPIRED),
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization2.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.EXPIRED),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED)
         ));
 
-        List<CouponResponse> responses = couponQueryService.getReceivedCoupons(receiver.getId(), USED);
+        CouponSelectCommand couponSelectCommand = new CouponSelectCommand(organization1.getId(), receiver.getId(),
+                USED);
+        List<CouponResponse> responses = couponQueryService.getReceivedCouponsByOrganization(couponSelectCommand);
 
         assertAll(
                 () -> assertThat(responses).hasSize(1),
@@ -146,9 +165,9 @@ class CouponQueryServiceTest {
         );
     }
 
-    @DisplayName("모든 받은 쿠폰을 조회한다.")
+    @DisplayName("조직에서 받은 모든 쿠폰을 조회한다.")
     @Test
-    void getReceivedCouponsAll() {
+    void getReceivedCouponsAllInOrganization() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
@@ -170,7 +189,8 @@ class CouponQueryServiceTest {
                         CouponStatus.IMMEDIATELY_USED)
         ));
 
-        List<CouponResponse> responses = couponQueryService.getReceivedCoupons(receiver.getId(), ALL);
+        CouponSelectCommand couponSelectCommand = new CouponSelectCommand(organization.getId(), receiver.getId(), ALL);
+        List<CouponResponse> responses = couponQueryService.getReceivedCouponsByOrganization(couponSelectCommand);
 
         assertAll(
                 () -> assertThat(responses).hasSize(4),

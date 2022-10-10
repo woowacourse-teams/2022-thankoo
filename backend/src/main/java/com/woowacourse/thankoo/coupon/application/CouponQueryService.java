@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
 import com.woowacourse.thankoo.coupon.domain.CouponQueryRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponStatusGroup;
@@ -27,10 +28,22 @@ public class CouponQueryService {
     private final ReservationProvider reservationProvider;
     private final MeetingProvider meetingProvider;
 
+    @Deprecated(since = "when organization will be merged")
     public List<CouponResponse> getReceivedCoupons(final Long receiverId, final String status) {
         List<String> statusNames = CouponStatusGroup.findStatusNames(status);
         return couponQueryRepository.findByReceiverIdAndStatus(receiverId, statusNames)
                 .stream()
+                .map(CouponResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<CouponResponse> getReceivedCouponsByOrganization(final CouponSelectCommand couponSelectCommand) {
+        List<String> statusNames = CouponStatusGroup.findStatusNames(couponSelectCommand.getStatus());
+        return couponQueryRepository.findByOrganizationIdAndReceiverIdAndStatus(
+                        couponSelectCommand.getOrganizationId(),
+                        couponSelectCommand.getMemberId(),
+                        statusNames
+                ).stream()
                 .map(CouponResponse::of)
                 .collect(Collectors.toList());
     }

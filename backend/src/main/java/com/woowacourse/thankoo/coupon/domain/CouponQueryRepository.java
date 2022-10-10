@@ -35,6 +35,7 @@ public class CouponQueryRepository {
                         rs.getDate("created_at").toLocalDate());
     }
 
+    @Deprecated(since = "when organization will be merged")
     public List<MemberCoupon> findByReceiverIdAndStatus(final Long receiverId,
                                                         final List<String> couponStatuses) {
         String sql = "SELECT c.id as coupon_id, "
@@ -53,6 +54,31 @@ public class CouponQueryRepository {
                 + "ORDER BY c.id DESC";
 
         SqlParameterSource parameters = new MapSqlParameterSource("receiverId", receiverId)
+                .addValue("couponStatuses", couponStatuses);
+        return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
+    }
+
+    public List<MemberCoupon> findByOrganizationIdAndReceiverIdAndStatus(final Long organizationId,
+                                                                         final Long receiverId,
+                                                                         final List<String> couponStatuses) {
+        String sql = "SELECT c.id as coupon_id, "
+                + "s.id as sender_id, s.name as sender_name, "
+                + "s.email as sender_email, s.social_id as sender_social_id, "
+                + "s.image_url as sender_image_url,"
+                + "r.id as receiver_id, r.name as receiver_name, "
+                + "r.email as receiver_email, r.social_id as receiver_social_id,"
+                + "r.image_url as receiver_image_url,"
+                + "c.coupon_type, c.title, c.message, c.status, c.created_at "
+                + "FROM coupon as c "
+                + "JOIN member as s ON c.sender_id = s.id "
+                + "JOIN member as r ON c.receiver_id = r.id "
+                + "WHERE c.organization_id = :organizationId "
+                + "AND c.receiver_id = :receiverId "
+                + "AND c.status IN (:couponStatuses) "
+                + "ORDER BY c.id DESC";
+
+        SqlParameterSource parameters = new MapSqlParameterSource("organizationId", organizationId)
+                .addValue("receiverId", receiverId)
                 .addValue("couponStatuses", couponStatuses);
         return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
     }
