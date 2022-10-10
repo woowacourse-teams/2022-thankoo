@@ -18,6 +18,7 @@ public class CouponSerialQueryRepository {
         return (rs, rowNum) ->
                 new CouponSerialMember(
                         rs.getLong("id"),
+                        rs.getLong("organization_id"),
                         rs.getString("code"),
                         rs.getLong("sender_id"),
                         rs.getString("sender_name"),

@@ -106,6 +106,7 @@ public class CouponSerial extends BaseEntity {
     public String toString() {
         return "CouponSerial{" +
                 "id=" + id +
+                ", organizationId=" + organizationId +
                 ", serialCode=" + serialCode +
                 ", senderId=" + senderId +
                 ", couponSerialType=" + couponSerialType +

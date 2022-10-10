@@ -10,6 +10,7 @@ import lombok.Getter;
 public class CouponSerialMember {
 
     private final Long id;
+    private final Long organizationId;
     private final SerialCode code;
     private final Long senderId;
     private final String senderName;
@@ -17,6 +18,7 @@ public class CouponSerialMember {
     private final CouponSerialStatus status;
 
     public CouponSerialMember(final Long id,
+                              final Long organizationId,
                               final String code,
                               final Long senderId,
                               final String senderName,
@@ -24,6 +26,7 @@ public class CouponSerialMember {
                               final String status) {
 
         this.id = id;
+        this.organizationId = organizationId;
         this.code = new SerialCode(code);
         this.senderId = senderId;
         this.senderName = senderName;
