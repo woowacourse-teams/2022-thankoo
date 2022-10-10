@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
-import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.serial.application.dto.SerialCodeRequest;
 import com.woowacourse.thankoo.serial.presentation.dto.CouponSerialResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -17,8 +17,8 @@ public class CouponSerialAssured {
     private CouponSerialAssured() {
     }
 
-    public static CouponSerialRequest 쿠폰_시리얼_요청(final String serialCode) {
-        return new CouponSerialRequest(serialCode);
+    public static SerialCodeRequest 쿠폰_시리얼_요청(final String serialCode) {
+        return new SerialCodeRequest(serialCode);
     }
 
     public static CouponSerialRequestBuilder request() {
@@ -34,7 +34,7 @@ public class CouponSerialAssured {
         }
 
         public CouponSerialAssured.CouponSerialRequestBuilder 쿠폰_시리얼을_사용한다(final String accessToken,
-                                                                           final CouponSerialRequest request) {
+                                                                           final SerialCodeRequest request) {
             response = postWithToken("/api/coupon-serials", accessToken, request);
             return this;
         }

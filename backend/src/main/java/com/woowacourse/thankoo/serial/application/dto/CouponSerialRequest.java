@@ -1,16 +1,17 @@
 package com.woowacourse.thankoo.serial.application.dto;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class CouponSerialRequest {
 
-    private String serialCode;
+    private final Long memberId;
+    private final Long organizationId;
+    private final String code;
 
-    public CouponSerialRequest(final String serialCode) {
-        this.serialCode = serialCode;
+    public CouponSerialRequest(final Long memberId, final Long organizationId, final String code) {
+        this.memberId = memberId;
+        this.organizationId = organizationId;
+        this.code = code;
     }
 }

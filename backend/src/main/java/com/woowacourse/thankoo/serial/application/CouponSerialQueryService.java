@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.serial.application;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.MemberQueryRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerialMember;
 import com.woowacourse.thankoo.serial.domain.CouponSerialQueryRepository;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
@@ -19,9 +20,9 @@ public class CouponSerialQueryService {
     private final CouponSerialQueryRepository couponSerialQueryRepository;
     private final MemberQueryRepository memberQueryRepository;
 
-    public CouponSerialResponse getCouponSerialByCode(final Long memberId, final String code) {
-        validateExistedMember(memberId);
-        CouponSerialMember couponSerialMember = getCouponSerialMember(code);
+    public CouponSerialResponse getCouponSerialByCode(final CouponSerialRequest couponSerialRequest) {
+        validateExistedMember(couponSerialRequest.getMemberId());
+        CouponSerialMember couponSerialMember = getCouponSerialMember(couponSerialRequest.getCode());
         return CouponSerialResponse.from(couponSerialMember);
     }
 

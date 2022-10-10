@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.serial.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -82,6 +84,9 @@ public class CouponSerial extends BaseEntity {
     }
 
     public void use() {
+        if (status.isUsed()) {
+            throw new InvalidCouponSerialException(ErrorType.INVALID_COUPON_SERIAL_EXPIRATION);
+        }
         this.status = CouponSerialStatus.USED;
     }
 
