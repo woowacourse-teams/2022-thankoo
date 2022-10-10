@@ -92,8 +92,10 @@ public class CouponAssured {
             return this;
         }
 
-        public CouponRequestBuilder 쿠폰을_즉시_사용한다(final Long couponId, final String accessToken) {
-            response = putWithToken("/api/coupons/" + couponId + "/use", accessToken);
+        public CouponRequestBuilder 쿠폰을_즉시_사용한다(final Long organizationId, final Long couponId,
+                                                final String accessToken) {
+            response = putWithToken("/api/organizations/" + organizationId + "/coupons/" + couponId + "/use",
+                    accessToken);
             return this;
         }
 

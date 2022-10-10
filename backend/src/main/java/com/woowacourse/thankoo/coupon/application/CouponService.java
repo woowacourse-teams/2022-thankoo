@@ -10,7 +10,6 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
-import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,10 +48,11 @@ public class CouponService {
                 && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
     }
 
-    public void useImmediately(final Long memberId, final Long couponId) {
+    // TODO : 조직 검증 머지되면 추가할 것
+    public void useImmediately(final Long memberId, final Long organizationId, final Long couponId) {
         Member member = getMember(memberId);
         Coupon coupon = getCoupon(couponId);
-        coupon.useImmediately(member.getId());
+        coupon.useImmediately(member.getId(), organizationId);
     }
 
     private Member getMember(final Long memberId) {

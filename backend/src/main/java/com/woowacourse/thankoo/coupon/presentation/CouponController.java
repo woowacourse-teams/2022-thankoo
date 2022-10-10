@@ -77,10 +77,12 @@ public class CouponController {
         return ResponseEntity.ok(couponQueryService.getCouponTotalCount(memberId));
     }
 
-    @PutMapping("/coupons/{couponId}/use")
+    @PutMapping("/organizations/{organizationId}/coupons/{couponId}/use")
     public ResponseEntity<Void> useCouponImmediately(@AuthenticationPrincipal final Long memberId,
+                                                     @PathVariable final Long organizationId,
                                                      @PathVariable final Long couponId) {
-        couponService.useImmediately(memberId, couponId);
+        couponService.useImmediately(memberId, organizationId, couponId);
         return ResponseEntity.ok().build();
     }
+
 }

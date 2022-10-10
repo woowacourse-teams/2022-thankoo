@@ -81,7 +81,8 @@ class CouponServiceTest {
             Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
             join(organization.getCode().getValue(), sender.getId(), receiver.getId());
 
-            CouponRequest couponRequest = new CouponRequest(List.of(receiver.getId()), new ContentRequest(TYPE, TITLE, MESSAGE));
+            CouponRequest couponRequest = new CouponRequest(List.of(receiver.getId()),
+                    new ContentRequest(TYPE, TITLE, MESSAGE));
             couponService.saveAll(couponRequest.toCouponCommand(organization.getId(), sender.getId()));
 
             List<Coupon> coupons = couponRepository.findAll();
@@ -116,9 +117,11 @@ class CouponServiceTest {
             Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
             join(organization.getCode().getValue(), sender.getId());
 
-            CouponRequest couponRequest = new CouponRequest(List.of(sender.getId()), new ContentRequest(TYPE, TITLE, MESSAGE));
+            CouponRequest couponRequest = new CouponRequest(List.of(sender.getId()),
+                    new ContentRequest(TYPE, TITLE, MESSAGE));
 
-            assertThatThrownBy(() -> couponService.saveAll(couponRequest.toCouponCommand(organization.getId(), sender.getId())))
+            assertThatThrownBy(
+                    () -> couponService.saveAll(couponRequest.toCouponCommand(organization.getId(), sender.getId())))
                     .isInstanceOf(InvalidCouponException.class)
                     .hasMessage("쿠폰을 생성할 수 없습니다.");
         }
@@ -133,7 +136,8 @@ class CouponServiceTest {
 
             CouponRequest couponRequest = new CouponRequest(List.of(0L), new ContentRequest(TYPE, TITLE, MESSAGE));
 
-            assertThatThrownBy(() -> couponService.saveAll(couponRequest.toCouponCommand(organization.getId(), sender.getId())))
+            assertThatThrownBy(
+                    () -> couponService.saveAll(couponRequest.toCouponCommand(organization.getId(), sender.getId())))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -141,7 +145,7 @@ class CouponServiceTest {
 
     @DisplayName("쿠폰을 바로 사용할 때")
     @Nested
-    class UseImmediately {
+    class UseImmediatelyTest {
 
         @DisplayName("즉시 사용할 수 있는 상태라면 쿠폰을 즉시 사용 상태로 변경한다.")
         @Test
@@ -158,7 +162,7 @@ class CouponServiceTest {
 
             Coupon savedCoupon = couponRepository.save(coupon);
 
-            couponService.useImmediately(receiver.getId(), savedCoupon.getId());
+            couponService.useImmediately(receiver.getId(), organization.getId(), savedCoupon.getId());
 
             Coupon usedCoupon = couponRepository.findById(savedCoupon.getId()).orElseThrow();
 
@@ -181,7 +185,8 @@ class CouponServiceTest {
 
             Coupon savedCoupon = couponRepository.save(coupon);
 
-            assertThatThrownBy(() -> couponService.useImmediately(hoho.getId(), savedCoupon.getId()))
+            assertThatThrownBy(
+                    () -> couponService.useImmediately(hoho.getId(), organization.getId(), savedCoupon.getId()))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("쿠폰을 즉시 사용할 수 있는 회원이 아닙니다.");
         }
@@ -201,7 +206,8 @@ class CouponServiceTest {
 
             Coupon savedCoupon = couponRepository.save(coupon);
 
-            assertThatThrownBy(() -> couponService.useImmediately(receiver.getId(), savedCoupon.getId()))
+            assertThatThrownBy(
+                    () -> couponService.useImmediately(receiver.getId(), organization.getId(), savedCoupon.getId()))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("존재하지 않는 예약 상태입니다.");
         }

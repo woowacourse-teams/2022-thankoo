@@ -203,7 +203,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .done();
 
             CouponAssured.request()
-                    .쿠폰을_즉시_사용한다(couponResponses.get(2).getCouponId(), receiverToken.getAccessToken());
+                    .쿠폰을_즉시_사용한다(couponResponses.get(2).getCouponId(), organizationId, receiverToken.getAccessToken());
 
             MeetingAssured.request()
                     .미팅을_조회한다(receiverToken.getAccessToken())
@@ -527,7 +527,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
             Long couponId = couponResponse.getCouponId();
 
             CouponAssured.request()
-                    .쿠폰을_즉시_사용한다(couponId, receiverToken.getAccessToken())
+                    .쿠폰을_즉시_사용한다(couponId, organizationId, receiverToken.getAccessToken())
                     .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), USED)
                     .response()
                     .쿠폰의_상태가_조회됨(couponId, USED_IMMEDIATELY);

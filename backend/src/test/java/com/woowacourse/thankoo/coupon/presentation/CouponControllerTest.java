@@ -453,9 +453,10 @@ class CouponControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        ResultActions resultActions = mockMvc.perform(put("/api/coupons/{couponId}/use", 1L)
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
-                        .accept(MediaType.APPLICATION_JSON))
+        ResultActions resultActions = mockMvc.perform(
+                        put("/api/organizations/{organizationId}/coupons/{couponId}/use", 1L, 1L)
+                                .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk());
@@ -466,6 +467,7 @@ class CouponControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 pathParameters(
+                        parameterWithName("organizationId").description("organizationId"),
                         parameterWithName("couponId").description("couponId")
                 )
         ));
