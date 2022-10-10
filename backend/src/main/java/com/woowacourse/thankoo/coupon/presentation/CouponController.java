@@ -3,9 +3,6 @@ package com.woowacourse.thankoo.coupon.presentation;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
 import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
-import com.woowacourse.thankoo.coupon.application.dto.ContentCommand;
-import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
-import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
@@ -62,9 +59,10 @@ public class CouponController {
         return ResponseEntity.ok(couponQueryService.getReceivedCouponsByOrganization(couponSelectCommand));
     }
 
-    @GetMapping("/coupons/sent")
-    public ResponseEntity<List<CouponResponse>> sentCoupons(@AuthenticationPrincipal final Long senderId) {
-        return ResponseEntity.ok(couponQueryService.getSentCoupons(senderId));
+    @GetMapping("/organizations/{organizationId}/coupons/sent")
+    public ResponseEntity<List<CouponResponse>> sentCoupons(@AuthenticationPrincipal final Long senderId,
+                                                            @PathVariable final Long organizationId) {
+        return ResponseEntity.ok(couponQueryService.getSentCouponsByOrganization(organizationId, senderId));
     }
 
     @GetMapping("/coupons/{couponId}")

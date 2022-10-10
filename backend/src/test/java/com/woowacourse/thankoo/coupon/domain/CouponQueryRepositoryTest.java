@@ -149,21 +149,26 @@ class CouponQueryRepositoryTest {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization organization1 = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization organization2 = organizationRepository.save(createThankooOrganization(organizationValidator));
 
         couponRepository.saveAll(List.of(
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED),
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization2.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.RESERVED),
-                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED),
+                new Coupon(organization1.getId(), sender.getId(), receiver.getId(),
                         new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.USED)
         ));
 
-        List<MemberCoupon> memberCoupons = couponQueryRepository.findBySenderId(sender.getId());
+        List<MemberCoupon> memberCoupons = couponQueryRepository.findByOrganizationIdAndSenderId(organization1.getId(),
+                sender.getId());
 
         assertThat(memberCoupons).hasSize(3);
     }

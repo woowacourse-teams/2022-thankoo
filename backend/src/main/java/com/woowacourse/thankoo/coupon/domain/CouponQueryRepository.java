@@ -83,7 +83,7 @@ public class CouponQueryRepository {
         return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
     }
 
-    public List<MemberCoupon> findBySenderId(final Long senderId) {
+    public List<MemberCoupon> findByOrganizationIdAndSenderId(final Long organizationId, final Long senderId) {
         String sql = "SELECT c.id as coupon_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "s.email as sender_email, s.social_id as sender_social_id,"
@@ -95,10 +95,12 @@ public class CouponQueryRepository {
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
-                + "WHERE c.sender_id = :senderId "
+                + "WHERE c.organization_id = :organizationId "
+                + "AND c.sender_id = :senderId "
                 + "ORDER BY c.id DESC";
 
-        SqlParameterSource parameters = new MapSqlParameterSource("senderId", senderId);
+        SqlParameterSource parameters = new MapSqlParameterSource("organizationId", organizationId)
+                .addValue("senderId", senderId);
         return jdbcTemplate.query(sql, parameters, ROW_MAPPER);
     }
 

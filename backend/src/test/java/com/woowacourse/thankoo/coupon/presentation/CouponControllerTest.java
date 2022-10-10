@@ -259,9 +259,9 @@ class CouponControllerTest extends ControllerTest {
                 CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
-        given(couponQueryService.getSentCoupons(anyLong()))
+        given(couponQueryService.getSentCouponsByOrganization(anyLong(), anyLong()))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/sent")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/sent")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

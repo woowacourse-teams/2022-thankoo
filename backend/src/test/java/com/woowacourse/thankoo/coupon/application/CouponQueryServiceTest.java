@@ -205,10 +205,15 @@ class CouponQueryServiceTest {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        couponService.saveAll(sender.getId(), new CouponRequest(List.of(receiver.getId()),
-                new ContentRequest(TYPE, TITLE, MESSAGE)));
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
 
-        List<CouponResponse> responses = couponQueryService.getSentCoupons(sender.getId());
+        CouponRequest couponRequest = new CouponRequest(List.of(receiver.getId()),
+                new ContentRequest(TYPE, TITLE, MESSAGE));
+        couponService.saveAll(couponRequest.toCouponCommand(organization.getId(), sender.getId()));
+
+        List<CouponResponse> responses = couponQueryService.getSentCouponsByOrganization(organization.getId(),
+                sender.getId());
 
         assertAll(
                 () -> assertThat(responses).hasSize(1),

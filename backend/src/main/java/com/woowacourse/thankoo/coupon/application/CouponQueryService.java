@@ -48,8 +48,8 @@ public class CouponQueryService {
                 .collect(Collectors.toList());
     }
 
-    public List<CouponResponse> getSentCoupons(final Long senderId) {
-        return couponQueryRepository.findBySenderId(senderId)
+    public List<CouponResponse> getSentCouponsByOrganization(final Long organizationId, final Long senderId) {
+        return couponQueryRepository.findByOrganizationIdAndSenderId(organizationId, senderId)
                 .stream()
                 .map(CouponResponse::of)
                 .collect(Collectors.toList());
