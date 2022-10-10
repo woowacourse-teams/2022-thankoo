@@ -65,10 +65,11 @@ public class CouponController {
         return ResponseEntity.ok(couponQueryService.getSentCouponsByOrganization(organizationId, senderId));
     }
 
-    @GetMapping("/coupons/{couponId}")
+    @GetMapping("/organizations/{organizationId}/coupons/{couponId}")
     public ResponseEntity<CouponDetailResponse> getCoupon(@AuthenticationPrincipal final Long memberId,
+                                                          @PathVariable final Long organizationId,
                                                           @PathVariable final Long couponId) {
-        return ResponseEntity.ok(couponQueryService.getCouponDetail(memberId, couponId));
+        return ResponseEntity.ok(couponQueryService.getCouponDetail(memberId, organizationId, couponId));
     }
 
     @GetMapping("/coupons/count")

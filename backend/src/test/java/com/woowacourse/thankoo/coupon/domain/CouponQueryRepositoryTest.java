@@ -188,6 +188,7 @@ class CouponQueryRepositoryTest {
 
         assertAll(
                 () -> assertThat(memberCoupon).isNotNull(),
+                () -> assertThat(memberCoupon.getOrganizationId()).isEqualTo(organization.getId()),
                 () -> assertThat(memberCoupon.getCouponId()).isEqualTo(coupon.getId())
         );
     }

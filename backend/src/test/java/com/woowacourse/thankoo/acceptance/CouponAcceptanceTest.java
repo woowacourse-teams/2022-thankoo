@@ -287,7 +287,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             CouponAssured
                     .request()
-                    .쿠폰_단건_정보를_조회한다(couponResponse.getCouponId(), receiverToken.getAccessToken())
+                    .쿠폰_단건_정보를_조회한다(couponResponse.getCouponId(), organizationId, receiverToken.getAccessToken())
                     .response()
                     .status(HttpStatus.OK.value())
                     .단건_쿠폰과_예약이_조회됨();
@@ -330,7 +330,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
             CouponAssured
                     .request()
-                    .쿠폰_단건_정보를_조회한다(couponResponse.getCouponId(), receiverToken.getAccessToken())
+                    .쿠폰_단건_정보를_조회한다(couponResponse.getCouponId(), organizationId, receiverToken.getAccessToken())
                     .response()
                     .status(HttpStatus.OK.value())
                     .단건_쿠폰과_미팅이_조회됨();

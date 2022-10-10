@@ -22,6 +22,7 @@ public class CouponQueryRepository {
     private static RowMapper<MemberCoupon> rowMapper() {
         return (rs, rowNum) ->
                 new MemberCoupon(rs.getLong("coupon_id"),
+                        rs.getLong("organization_id"),
                         new Member(rs.getLong("sender_id"), rs.getString("sender_name"),
                                 rs.getString("sender_email"), rs.getString("sender_social_id"),
                                 rs.getString("sender_image_url")),
@@ -38,7 +39,7 @@ public class CouponQueryRepository {
     @Deprecated(since = "when organization will be merged")
     public List<MemberCoupon> findByReceiverIdAndStatus(final Long receiverId,
                                                         final List<String> couponStatuses) {
-        String sql = "SELECT c.id as coupon_id, "
+        String sql = "SELECT c.id as coupon_id, c.organization_id as organization_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "s.email as sender_email, s.social_id as sender_social_id, "
                 + "s.image_url as sender_image_url,"
@@ -61,7 +62,7 @@ public class CouponQueryRepository {
     public List<MemberCoupon> findByOrganizationIdAndReceiverIdAndStatus(final Long organizationId,
                                                                          final Long receiverId,
                                                                          final List<String> couponStatuses) {
-        String sql = "SELECT c.id as coupon_id, "
+        String sql = "SELECT c.id as coupon_id, c.organization_id as organization_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "s.email as sender_email, s.social_id as sender_social_id, "
                 + "s.image_url as sender_image_url,"
@@ -84,7 +85,7 @@ public class CouponQueryRepository {
     }
 
     public List<MemberCoupon> findByOrganizationIdAndSenderId(final Long organizationId, final Long senderId) {
-        String sql = "SELECT c.id as coupon_id, "
+        String sql = "SELECT c.id as coupon_id, c.organization_id as organization_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "s.email as sender_email, s.social_id as sender_social_id,"
                 + "s.image_url as sender_image_url,"
@@ -105,7 +106,7 @@ public class CouponQueryRepository {
     }
 
     public Optional<MemberCoupon> findByCouponId(final Long couponId) {
-        String sql = "SELECT c.id as coupon_id, "
+        String sql = "SELECT c.id as coupon_id, c.organization_id as organization_id, "
                 + "s.id as sender_id, s.name as sender_name, "
                 + "s.email as sender_email, s.social_id as sender_social_id,"
                 + "s.image_url as sender_image_url,"
@@ -116,7 +117,7 @@ public class CouponQueryRepository {
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
-                + "WHERE c.id = :couponId ";
+                + "WHERE c.id = :couponId";
 
         SqlParameterSource parameters = new MapSqlParameterSource("couponId", couponId);
         try {

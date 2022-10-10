@@ -55,8 +55,9 @@ public class CouponQueryService {
                 .collect(Collectors.toList());
     }
 
-    public CouponDetailResponse getCouponDetail(final Long memberId, final Long couponId) {
+    public CouponDetailResponse getCouponDetail(final Long memberId, final Long organizationId, final Long couponId) {
         MemberCoupon memberCoupon = getMemberCoupon(couponId);
+        validateCouponOrganization(organizationId, memberCoupon);
         validateCouponOwner(memberId, memberCoupon);
 
         CouponStatus couponStatus = CouponStatus.of(memberCoupon.getStatus());
@@ -64,6 +65,13 @@ public class CouponQueryService {
             return getCouponDetailResponse(couponId, memberCoupon, couponStatus);
         }
         return CouponDetailResponse.of(memberCoupon);
+    }
+
+    // TODO : 라라 코드 머지 후 에러 내용 변경
+    private void validateCouponOrganization(final Long organizationId, final MemberCoupon memberCoupon) {
+        if (!memberCoupon.isInOrganization(organizationId)) {
+            throw new InvalidCouponException(ErrorType.NOT_FOUND_COUPON);
+        }
     }
 
     private MemberCoupon getMemberCoupon(final Long couponId) {

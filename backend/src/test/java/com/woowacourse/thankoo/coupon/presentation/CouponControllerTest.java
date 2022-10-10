@@ -110,8 +110,10 @@ class CouponControllerTest extends ControllerTest {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now()))
+                CouponResponse.of(
+                        new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now()))
         );
 
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
@@ -157,8 +159,9 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
@@ -205,10 +208,13 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                CouponResponse.of(
+                        new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now())),
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
@@ -255,8 +261,9 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
         given(couponQueryService.getSentCouponsByOrganization(anyLong(), anyLong()))
@@ -303,14 +310,14 @@ class CouponControllerTest extends ControllerTest {
 
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);
         CouponDetailResponse couponDetailResponse = CouponDetailResponse.from(
-                new MemberCoupon(1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
+                new MemberCoupon(1L, 1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
                         CouponStatus.RESERVING.name(), LocalDate.now()),
                 new ReservationResponse(1L, TimeResponse.from(localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
                         ReservationStatus.WAITING.name()));
 
-        given(couponQueryService.getCouponDetail(anyLong(), anyLong()))
+        given(couponQueryService.getCouponDetail(anyLong(), anyLong(), anyLong()))
                 .willReturn(couponDetailResponse);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -357,7 +364,7 @@ class CouponControllerTest extends ControllerTest {
 
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);
         CouponDetailResponse couponDetailResponse = CouponDetailResponse.from(
-                new MemberCoupon(1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
+                new MemberCoupon(1L, 1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
                         CouponStatus.RESERVING.name(), LocalDate.now()),
                 MeetingResponse.of(new Meeting(1L, List.of(huni, lala),
                         new TimeUnit(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
@@ -365,9 +372,9 @@ class CouponControllerTest extends ControllerTest {
                         new Coupon(1L, huni.getId(), lala.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                                 CouponStatus.RESERVED))));
 
-        given(couponQueryService.getCouponDetail(anyLong(), anyLong()))
+        given(couponQueryService.getCouponDetail(anyLong(), anyLong(), anyLong()))
                 .willReturn(couponDetailResponse);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

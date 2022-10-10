@@ -31,6 +31,7 @@ import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
+import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
@@ -242,9 +243,29 @@ class CouponQueryServiceTest {
                     new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
 
-            assertThatThrownBy(() -> couponQueryService.getCouponDetail(other.getId(), coupon.getId()))
+            assertThatThrownBy(
+                    () -> couponQueryService.getCouponDetail(other.getId(), organization.getId(), coupon.getId()))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("올바르지 않은 회원입니다.");
+        }
+
+        @DisplayName("조직 내 쿠폰이 아닐 경우 예외가 발생한다.")
+        @Test
+        void invalidOrganization() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
+
+            Coupon coupon = couponRepository.save(new Coupon(organization.getId(), sender.getId(),
+                    receiver.getId(),
+                    new CouponContent(TYPE, TITLE, MESSAGE),
+                    CouponStatus.NOT_USED));
+
+            assertThatThrownBy(() -> couponQueryService.getCouponDetail(sender.getId(), 0L, coupon.getId()))
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("존재하지 않는 쿠폰입니다.");
         }
 
         @DisplayName("쿠폰 상태가 예약 중일 때 예약 정보를 함께 조회한다.")
@@ -268,6 +289,7 @@ class CouponQueryServiceTest {
                     new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
 
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    organization.getId(),
                     coupon.getId());
 
             assertThat(couponDetailResponse.getReservation()
@@ -297,6 +319,7 @@ class CouponQueryServiceTest {
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    organization.getId(),
                     coupon.getId());
             assertThat(couponDetailResponse.getMeeting()).isNotNull();
         }
@@ -326,6 +349,7 @@ class CouponQueryServiceTest {
             meetingService.complete(sender.getId(), simpleMeetingResponse.getMeetingId());
 
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    organization.getId(),
                     coupon.getId());
 
             assertAll(
@@ -349,6 +373,7 @@ class CouponQueryServiceTest {
                     CouponStatus.NOT_USED));
 
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    organization.getId(),
                     coupon.getId());
             assertAll(
                     () -> assertThat(couponDetailResponse.getReservation()).isNull(),
@@ -371,6 +396,7 @@ class CouponQueryServiceTest {
                     CouponStatus.IMMEDIATELY_USED));
 
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),
+                    organization.getId(),
                     coupon.getId());
 
             assertAll(
