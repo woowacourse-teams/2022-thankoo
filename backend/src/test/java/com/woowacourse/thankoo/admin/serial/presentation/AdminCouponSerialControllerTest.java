@@ -40,10 +40,10 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
-        given(tokenDecoder.decode(anyString()))
-                .willReturn("1");
+        given(tokenDecoder.decode(anyString())).willReturn("1");
+
         AdminCouponSerialRequest couponSerialRequest = new AdminCouponSerialRequest(
-                1L, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE);
+                1L, 1L, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -55,7 +55,8 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
         resultActions.andDo(document("admin/serial/save-serial",
                 Preprocessors.preprocessRequest(prettyPrint()),
                 requestFields(
-                        fieldWithPath("memberId").type(STRING).description("coach id"),
+                        fieldWithPath("memberId").type(NUMBER).description("coach id"),
+                        fieldWithPath("organizationId").type(NUMBER).description("organization id"),
                         fieldWithPath("couponType").type(STRING).description("coupon type"),
                         fieldWithPath("quantity").type(NUMBER).description("quantity"),
                         fieldWithPath("title").type(NUMBER).description("title"),

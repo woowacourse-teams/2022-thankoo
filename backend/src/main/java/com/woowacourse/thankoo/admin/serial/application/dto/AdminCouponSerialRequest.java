@@ -14,26 +14,28 @@ import lombok.NoArgsConstructor;
 public class AdminCouponSerialRequest {
 
     private Long memberId;
+    private Long organizationId;
     private String couponType;
     private int quantity;
     private String title;
     private String message;
 
     public AdminCouponSerialRequest(final Long memberId,
+                                    final Long organizationId,
                                     final String couponType,
                                     final int quantity,
                                     final String title,
                                     final String message) {
         this.memberId = memberId;
+        this.organizationId = organizationId;
         this.couponType = couponType;
         this.quantity = quantity;
         this.title = title;
         this.message = message;
     }
 
-    // todo : input organization id
     public CouponSerial from(final SerialCode serialCode, final Long senderId) {
-        return new CouponSerial(1L,
+        return new CouponSerial(organizationId,
                 serialCode,
                 senderId,
                 CouponSerialType.of(couponType),
