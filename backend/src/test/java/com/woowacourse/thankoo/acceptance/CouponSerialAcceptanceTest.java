@@ -51,7 +51,6 @@ class CouponSerialAcceptanceTest extends AcceptanceTest {
 
             Long senderId = senderToken.getMemberId();
 
-            //todo: 다른 PR이 머지되면 수정한다.
             기본_조직이_생성됨();
             OrganizationResponse organizationResponse = OrganizationAssured.request()
                     .조직에_참여한다(receiverToken, new OrganizationJoinRequest(ORGANIZATION_WOOWACOURSE_CODE))
@@ -84,7 +83,6 @@ class CouponSerialAcceptanceTest extends AcceptanceTest {
                     .로그인_한다(CODE_SKRR)
                     .token();
 
-            //todo: 다른 PR이 머지되면 수정한다.
             기본_조직이_생성됨();
             OrganizationResponse organizationResponse = OrganizationAssured.request()
                     .조직에_참여한다(senderToken, new OrganizationJoinRequest(ORGANIZATION_WOOWACOURSE_CODE))
