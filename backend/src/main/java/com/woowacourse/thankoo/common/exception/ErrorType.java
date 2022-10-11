@@ -17,6 +17,7 @@ public enum ErrorType {
     INVALID_ORGANIZATION_SIZE(1105, "조직에 더이상 참여할 수 없습니다."),
     ALREADY_JOIN_ORGANIZATION(1106, "조직에 이미 참여중입니다."),
     NOT_JOINED_MEMBER_OF_ORGANIZATION(1107, "조직에 가입되지 않은 회원입니다."),
+    COUPON_NOT_BELONGS_TO_ORGANIZATION(1108, "조직 내 쿠폰이 아닙니다."),
 
     NOT_FOUND_MEMBER(2001, "존재하지 않는 회원입니다."),
     INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),

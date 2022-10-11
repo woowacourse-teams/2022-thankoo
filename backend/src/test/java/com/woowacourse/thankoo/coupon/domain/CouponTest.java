@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -127,7 +128,7 @@ class CouponTest {
 
     @DisplayName("쿠폰을 즉시 사용할 때")
     @Nested
-    class UsedImmediately {
+    class UseImmediatelyTest {
 
         @DisplayName("쿠폰을 완료할 수 있는 상태가 아니라면 예외가 발생한다.")
         @ParameterizedTest
@@ -135,7 +136,7 @@ class CouponTest {
         void invalidUseImmediatelyStatus(CouponStatus status) {
             Coupon coupon = new Coupon(1L, 1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), status);
 
-            assertThatThrownBy(() -> coupon.useImmediately(1L))
+            assertThatThrownBy(() -> coupon.useImmediately(1L, 1L))
                     .isInstanceOf(InvalidCouponException.class)
                     .hasMessage("쿠폰을 즉시 사용할 수 있는 상태가 아닙니다.");
         }
@@ -145,9 +146,19 @@ class CouponTest {
         void isNotSenderOrReceiver() {
             Coupon coupon = new Coupon(1L, 1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED);
 
-            assertThatThrownBy(() -> coupon.useImmediately(3L))
+            assertThatThrownBy(() -> coupon.useImmediately(3L, 1L))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("쿠폰을 즉시 사용할 수 있는 회원이 아닙니다.");
+        }
+
+        @DisplayName("조직 내 쿠폰이 아니라면 예외가 발생한다.")
+        @Test
+        void isNotInOrganization() {
+            Coupon coupon = new Coupon(1L, 1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED);
+
+            assertThatThrownBy(() -> coupon.useImmediately(1L, 2L))
+                    .isInstanceOf(InvalidOrganizationException.class)
+                    .hasMessage("쿠폰을 즉시 사용할 수 있는 상태가 아닙니다.");
         }
 
         @DisplayName("받는이 또는 보낸이고 완료할 수 있는 상태라면 사용한다.")
@@ -155,7 +166,7 @@ class CouponTest {
         void useImmediately() {
             Coupon coupon = new Coupon(1L, 1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED);
 
-            coupon.useImmediately(1L);
+            coupon.useImmediately(1L, 1L);
 
             assertThat(coupon.getCouponStatus()).isEqualTo(IMMEDIATELY_USED);
         }

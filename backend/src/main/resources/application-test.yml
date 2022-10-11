@@ -1,9 +1,5 @@
 server:
   port: 8180
-  tomcat:
-    max-connections: 100
-    threads:
-      max: 50
 
 spring:
   jpa:
@@ -20,9 +16,6 @@ spring:
     url: jdbc:h2:mem:thankoo-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
-    hikari:
-      maximumPoolSize: 51
-      idleTimeout: 10000
 
 security:
   jwt:

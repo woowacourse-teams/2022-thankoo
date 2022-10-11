@@ -18,7 +18,7 @@ public class OrganizationFixture {
     }
 
     public static Organization createThankooOrganization(final OrganizationValidator organizationValidator) {
-        return Organization.create(ORGANIZATION_THANKOO, length -> ORGANIZATION_THANKOO_CODE, 10,
+        return Organization.create(ORGANIZATION_THANKOO, length -> ORGANIZATION_THANKOO_CODE, 50,
                 organizationValidator);
     }
 
