@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.heart.application.dto;
+package com.woowacourse.thankoo.heart.presentation.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
