@@ -29,9 +29,10 @@ public class ReservationQueryService {
         return toReservationResponses(receivedReservations);
     }
 
-    public List<SimpleReservationResponse> getSentReservations(final Long memberId) {
+    public List<SimpleReservationResponse> getSentReservations(final Long memberId, final Long organizationId) {
         Member member = getMemberById(memberId);
         List<ReservationCoupon> sentReservations = reservationQueryRepository.findSentReservations(member.getId(),
+                organizationId,
                 LocalDateTime.now());
         return toReservationResponses(sentReservations);
     }

@@ -41,10 +41,11 @@ public class ReservationController {
         return ResponseEntity.ok(reservationQueryService.getReceivedReservations(memberId, organizationId));
     }
 
-    @GetMapping("/reservations/sent")
+    @GetMapping("/organizations/{organizationId}/reservations/sent")
     public ResponseEntity<List<SimpleReservationResponse>> getSentReservations(
-            @AuthenticationPrincipal final Long memberId) {
-        return ResponseEntity.ok(reservationQueryService.getSentReservations(memberId));
+            @AuthenticationPrincipal final Long memberId,
+            @PathVariable final Long organizationId) {
+        return ResponseEntity.ok(reservationQueryService.getSentReservations(memberId, organizationId));
     }
 
     @PutMapping("/reservations/{reservationId}")

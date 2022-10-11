@@ -113,15 +113,17 @@ class ReservationQueryRepositoryTest {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization organization1 = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization organization2 = organizationRepository.save(createThankooOrganization(organizationValidator));
+
         Coupon coupon1 = couponRepository.save(
-                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization1.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED));
         Coupon coupon2 = couponRepository.save(
-                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization2.getId(), skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED));
         Coupon coupon3 = couponRepository.save(
-                new Coupon(organization.getId(), skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization1.getId(), skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED));
 
         LocalDateTime meetingDate = LocalDateTime.now().plusDays(1L);
@@ -129,13 +131,14 @@ class ReservationQueryRepositoryTest {
                 Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
                         coupon1));
         reservationRepository.save(
-                Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, skrr.getId(),
+                Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, lala.getId(),
                         coupon2));
         reservationRepository.save(
                 Reservation.reserve(meetingDate, TimeZoneType.ASIA_SEOUL, ReservationStatus.WAITING, lala.getId(),
                         coupon3));
 
         List<ReservationCoupon> sentReservations = reservationQueryRepository.findSentReservations(lala.getId(),
+                organization1.getId(),
                 LocalDateTime.now());
 
         assertAll(

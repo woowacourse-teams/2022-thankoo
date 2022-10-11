@@ -119,17 +119,27 @@ class ReservationAcceptanceTest extends AcceptanceTest {
                 .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
                 .token();
 
+        기본_조직이_생성됨();
+        OrganizationResponse organizationResponse = OrganizationAssured.request()
+                .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                .내_조직을_조회한다(senderToken)
+                .response()
+                .bodies(OrganizationResponse.class).get(0);
+
+        Long organizationId = organizationResponse.getOrganizationId();
+
         List<CouponResponse> couponResponses = CouponAssured.request()
-                .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                .쿠폰을_전송한다(senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
-                .받은_쿠폰을_조회한다(receiverToken.getAccessToken(), NOT_USED)
+                .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                .쿠폰을_전송한다(organizationId, senderToken.getAccessToken(), 쿠폰_요청(receiverToken.getMemberId()))
+                .받은_쿠폰을_조회한다(organizationId, receiverToken.getAccessToken(), NOT_USED)
                 .response()
                 .bodies(CouponResponse.class);
 
         ReservationAssured.request()
                 .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(0), 1L))
                 .예약을_요청한다(receiverToken.getAccessToken(), 예약_요청(couponResponses.get(1), 1L))
-                .보낸_예약을_조회한다(receiverToken.getAccessToken())
+                .보낸_예약을_조회한다(receiverToken.getAccessToken(), organizationId)
                 .response()
                 .status(HttpStatus.OK.value())
                 .예약이_조회됨(2);

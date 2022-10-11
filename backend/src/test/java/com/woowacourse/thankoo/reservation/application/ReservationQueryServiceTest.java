@@ -135,7 +135,8 @@ class ReservationQueryServiceTest {
         reservationService.save(huni.getId(),
                 new ReservationRequest(coupon4.getId(), LocalDateTime.now().plusDays(1L)));
 
-        List<SimpleReservationResponse> reservations = reservationQueryService.getSentReservations(lala.getId());
+        List<SimpleReservationResponse> reservations = reservationQueryService.getSentReservations(lala.getId(),
+                organization.getId());
 
         assertAll(
                 () -> assertThat(reservations).hasSize(1),
