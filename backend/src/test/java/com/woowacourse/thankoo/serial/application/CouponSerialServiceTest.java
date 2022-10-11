@@ -62,7 +62,7 @@ class CouponSerialServiceTest {
 
     @DisplayName("회원이 시리얼 쿠폰을 사용할 때")
     @Nested
-    class CreateCouponSerial {
+    class CreateCouponSerialTest {
 
         @DisplayName("유효한 경우 시리얼을 만료처리한다. (커피)")
         @Test
@@ -100,7 +100,7 @@ class CouponSerialServiceTest {
 
             couponSerialService.use(receiver.getId(), new SerialCodeRequest(SERIAL_1));
 
-            CouponSerial usedSerial = couponSerialRepository.findById(notUsedSerial.getId()).get();
+            CouponSerial usedSerial = couponSerialRepository.findById(notUsedSerial.getId()).orElseThrow();
 
             assertThat(usedSerial.getStatus()).isEqualTo(USED);
             assertThat(usedSerial.getCouponSerialType()).isEqualTo(MEAL);

@@ -57,7 +57,7 @@ class AdminCouponSerialServiceTest {
 
     @DisplayName("쿠폰 시리얼을 생성할 때 ")
     @Nested
-    class CreateCouponSerial {
+    class CreateCouponSerialTest {
 
         @DisplayName("쿠폰 시리얼을 요청 개수만큼 생성한다.")
         @Test

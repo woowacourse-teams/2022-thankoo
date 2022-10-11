@@ -58,7 +58,7 @@ class CouponSerialQueryServiceTest {
 
     @DisplayName("시리얼 번호로 쿠폰 시리얼을 조회할 때 ")
     @Nested
-    class GetCouponSerial {
+    class GetCouponSerialTest {
 
         @DisplayName("존재하는 경우 쿠폰 시리얼을 반환한다.")
         @Test
