@@ -1,30 +1,90 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import PageLayout from '../layout/PageLayout';
 import BirdLogoWhite from '../components/@shared/LogoWhite';
-import { FlexCenter } from '../styles/mixIn';
+import { css } from '@emotion/react';
+import { ORGANIZATIONS } from '../routes/Router';
+
+type ButtonProps = {
+  size?: 'medium' | 'small' | 'large';
+  type?: 'primary' | 'secondary' | 'primaryLight' | 'secondaryLight';
+};
+
+const ButtonStyleOptions = {
+  size: {
+    medium: '1.5rem',
+    small: '1rem',
+    large: '2rem',
+  },
+  bg: {
+    primary: 'tomato',
+    primaryLight: '#cdcac7',
+    secondary: '',
+    secondaryLight: '',
+  },
+  color: {
+    primary: 'white',
+  },
+};
+
+const Button = styled.button<ButtonProps>`
+  ${({ size = 'medium', type = 'primary' }) => css`
+    width: 100%;
+    padding: ${ButtonStyleOptions.size[size]} 1rem;
+    background-color: ${ButtonStyleOptions.bg[type]};
+    color: ${ButtonStyleOptions.color[type]};
+    border: none;
+    border-radius: 4px;
+  `}
+`;
 
 const Organization = () => {
+  const organization = ORGANIZATIONS[0];
+
   return (
-    <PageLayout>
-      <S.Header>
-        <BirdLogoWhite size={'70px'} />
-        <S.HeaderText>땡쿠</S.HeaderText>
-      </S.Header>
-      <div style={{}}>땡쿠에서 우테코 4기 팀에 참여</div>
-    </PageLayout>
+    <S.Container>
+      <S.Inner>
+        <S.Header>
+          <BirdLogoWhite size={'60px'} />
+          <S.HeaderText>Thankoo</S.HeaderText>
+        </S.Header>
+        <S.Body>
+          <S.Description>
+            <S.OrganiztionDescription>
+              <S.Organization>{organization.organizationName}</S.Organization>의 멤버가 되어보세요
+            </S.OrganiztionDescription>
+            <S.ServiceDescription>
+              땡쿠는 멤버들 간 쿠폰을 주고 받을 수 있는 앱입니다.
+            </S.ServiceDescription>
+          </S.Description>
+          <div style={{ display: 'flex', flexFlow: 'column' }}>
+            <span>현재 멤버 : 97명</span>
+            <span>후이 님, 호호 님 외 95명의 다른 사용자가 이미 참여했습니다.</span>
+          </div>
+        </S.Body>
+        <S.JoinSection>
+          <Button size='medium'>{organization.organizationName}에 참여하기</Button>
+        </S.JoinSection>
+      </S.Inner>
+    </S.Container>
   );
 };
 export default Organization;
 
 const S = {
   Container: styled(PageLayout)`
-    align-items: center;
-    justify-content: center;
-    color: white;
+    height: 100%;
+    padding: 0 1rem;
+    gap: 3rem;
+  `,
+  Inner: styled.main`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 5rem 0;
+    gap: 3rem;
   `,
   Header: styled.header`
-    padding: 5rem 5rem 5rem 3rem;
+    height: 20%;
 
     display: flex;
     justify-content: center;
@@ -32,8 +92,40 @@ const S = {
     gap: 1rem;
   `,
   HeaderText: styled.h1`
-    font-size: 3rem;
+    font-size: 2.8rem;
     color: white;
     font-weight: bold;
+  `,
+  Body: styled.article`
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    color: white;
+    text-align: center;
+    gap: 6rem;
+    font-size: 1.5rem;
+  `,
+  Description: styled.section`
+    display: flex;
+    flex-flow: column;
+    gap: 1.5rem;
+  `,
+  OrganiztionDescription: styled.span`
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+    word-break: keep-all;
+  `,
+  Organization: styled.span`
+    /* color: white; */
+  `,
+  ServiceDescription: styled.span`
+    font-size: 1.8rem;
+    word-break: keep-all;
+  `,
+  JoinSection: styled.section`
+    display: grid;
+    place-items: center;
+    width: 100%;
   `,
 };

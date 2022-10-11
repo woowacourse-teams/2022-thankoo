@@ -15,7 +15,6 @@ const SignIn = () => {
         <S.Body>
           <S.LogoWrapper>
             <BirdLogoWhite size='150rem' />
-            <span>땡쿠</span>
           </S.LogoWrapper>
           <S.SignInButton onClick={redirectGoogleAuth}>
             <S.GoogleLogoICon src={GoogleLogo} alt='google_login' />
