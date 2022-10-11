@@ -34,7 +34,7 @@ import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequ
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
-import com.woowacourse.thankoo.organization.exception.InvalidOrganizationMemberException;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -149,7 +149,7 @@ class HeartServiceTest {
 
             assertThatThrownBy(
                     () -> heartService.send(new HeartSendRequest(organization.getId(), huni.getId(), skrr.getId())))
-                    .isInstanceOf(InvalidOrganizationMemberException.class)
+                    .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("조직에 가입되지 않은 회원입니다.");
         }
 
@@ -165,7 +165,7 @@ class HeartServiceTest {
 
             assertThatThrownBy(
                     () -> heartService.send(new HeartSendRequest(woowacourse.getId(), huni.getId(), skrr.getId())))
-                    .isInstanceOf(InvalidOrganizationMemberException.class)
+                    .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("조직에 가입되지 않은 회원입니다.");
         }
     }

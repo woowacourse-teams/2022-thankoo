@@ -12,7 +12,6 @@ import com.woowacourse.thankoo.member.exception.InvalidMemberException;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
-import com.woowacourse.thankoo.organization.exception.InvalidOrganizationMemberException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +60,7 @@ public class HeartService {
                                              final Member receiver,
                                              final Organization organization) {
         if (!organization.containsMembers(List.of(sender, receiver))) {
-            throw new InvalidOrganizationMemberException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
+            throw new InvalidOrganizationException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
         }
     }
 
@@ -97,7 +96,7 @@ public class HeartService {
 
     private void validateOrganizationMember(final Member member, final Organization organization) {
         if (!organization.containsMember(member)) {
-            throw new InvalidOrganizationMemberException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
+            throw new InvalidOrganizationException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
         }
     }
 }
