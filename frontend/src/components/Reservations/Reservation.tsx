@@ -1,63 +1,25 @@
-import { useQueryClient } from 'react-query';
-import {
-  RESERVATION_QUERY_KEYS,
-  usePutCancelReseravation,
-  usePutReservationStatus,
-} from '../../hooks/@queries/reservation';
-import { 예약요청응답별코멘트 } from '../../hooks/Main/useCouponDetail';
-import useToast from '../../hooks/useToast';
+import useReservation from '../../hooks/Reservations/useReservation';
+import { CouponTransmitStatus, CouponType } from '../../types/coupon';
+import { MeetingTime } from '../../types/meeting';
 import Slider from '../@shared/ChoiceSlider';
 import ListViewReservation from './ListViewReservation';
 
-const Reservation = ({ couponType, time, memberName, reservationId, order }) => {
-  const queryClient = useQueryClient();
-  const { insertToastItem } = useToast();
+type ReservationProps = {
+  couponType: CouponType;
+  time: MeetingTime;
+  memberName: string;
+  reservationId: number;
+  transmitStatus: CouponTransmitStatus;
+};
 
-  const { mutate: handleReservation } = usePutReservationStatus(reservationId, {
-    onSuccess: status => {
-      insertToastItem(예약요청응답별코멘트[status]);
-      queryClient.invalidateQueries(RESERVATION_QUERY_KEYS.reservations);
-    },
-    onError: error => {
-      insertToastItem(error.response?.data.message);
-    },
-  });
-
-  const option1 = order === 'received' ? '거절' : '취소';
-  const option2 = order === 'received' ? '승인' : '수정';
-  const { mutate: cancelReservation } = usePutCancelReseravation(reservationId, {
-    onSuccess: () => {
-      insertToastItem('예약을 취소했습니다');
-      queryClient.invalidateQueries([RESERVATION_QUERY_KEYS.reservations]);
-    },
-    onError: error => {
-      insertToastItem(error.response?.data.message);
-    },
-  });
-
-  /** TODO 성공 실패 시 토스트 커스텀으로 올릴 수 있다. */
-  const handleClickOption = {
-    received: [
-      () => {
-        if (confirm('예약을 거절하시겠습니까?')) {
-          handleReservation('deny');
-        }
-      },
-      () => {
-        if (confirm(`예약을 수락하시겠습니까? \n ${time?.meetingTime}`)) {
-          handleReservation('accept');
-        }
-      },
-    ],
-    sent: [
-      () => {
-        if (confirm('예약을 취소하시겠습니까?')) {
-          cancelReservation();
-        }
-      },
-    ],
-  };
-  const optionsWidth = order === 'sent' ? '60%' : '100%';
+const Reservation = ({
+  couponType,
+  time,
+  memberName,
+  reservationId,
+  transmitStatus,
+}: ReservationProps) => {
+  const { handleClickOption } = useReservation({ reservationId, time });
 
   return (
     <Slider>
@@ -71,24 +33,31 @@ const Reservation = ({ couponType, time, memberName, reservationId, order }) => 
           />
         </Slider.Content>
         <Slider.Options>
-          {order === 'received' ? (
+          {transmitStatus === 'received' ? (
             /** TODO index는 Slider.OptionItem에서 자동으로 부여해주도록 수정 */
             <>
-              <Slider.OptionItem index={1} isAccept={false} onClick={handleClickOption[order][0]}>
-                {option1}
+              <Slider.OptionItem
+                index={1}
+                isAccept={false}
+                onClick={handleClickOption[transmitStatus][0]}
+              >
+                거절
               </Slider.OptionItem>
-              <Slider.OptionItem index={2} isAccept={true} onClick={handleClickOption[order][1]}>
-                {option2}
+              <Slider.OptionItem
+                index={2}
+                isAccept={true}
+                onClick={handleClickOption[transmitStatus][1]}
+              >
+                승인
               </Slider.OptionItem>
             </>
           ) : (
             <Slider.OptionItem
               index={1}
-              // style={{ width: optionsWidth }}
               isAccept={false}
-              onClick={handleClickOption[order][0]}
+              onClick={handleClickOption[transmitStatus][0]}
             >
-              {option1}
+              취소
             </Slider.OptionItem>
           )}
         </Slider.Options>

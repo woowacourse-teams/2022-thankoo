@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { forwardRef, LegacyRef, ReactNode, Ref } from 'react';
+import { forwardRef, LegacyRef, ReactNode } from 'react';
 import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
 import { onMountFromBottomModal, unMountToBottomModal } from '../../../styles/Animation';
 

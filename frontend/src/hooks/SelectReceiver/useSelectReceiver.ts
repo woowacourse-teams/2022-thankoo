@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { checkedUsersAtom } from '../../recoil/atom';
-import { UserProfile } from '../../types';
+import { UserProfile } from '../../types/user';
 import { useGetMembers } from '../@queries/members';
 import useFilterMatchedUser from '../useFilterMatchedUser';
 

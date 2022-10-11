@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import useModal from '../../hooks/useModal';
-import { CouponType, couponTypes, UserProfile } from '../../types';
+import { CouponType, couponTypes } from '../../types/coupon';
+import { UserProfile } from '../../types/user';
 import BottomSheetLayout from '../@shared/Modal/BottomSheetLayout';
 import { BASE_URL } from './../../constants/api';
 

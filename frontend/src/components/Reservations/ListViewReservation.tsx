@@ -1,19 +1,10 @@
 import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
-const dayKorean = {
-  Mon: '월',
-  Tue: '화',
-  Wed: '수',
-  Thu: '목',
-  Fri: '금',
-  Sat: '토',
-  Sun: '일',
-};
+import { serverDateFormmater } from '../../utils/date';
+
 const ListViewReservation = ({ memberName, reservationId, couponType, meetingTime }) => {
-  const day = dayKorean[new Date(meetingTime.split(' ')[0]).toString().slice(0, 3)];
-  const date = meetingTime.split(' ')[0];
-  const time = meetingTime.split(' ')[1].slice(0, 5);
+  const { day, date, time } = serverDateFormmater(meetingTime);
 
   return (
     <S.Container

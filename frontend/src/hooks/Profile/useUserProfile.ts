@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { UserProfile } from '../../types';
+import { UserProfile } from '../../types/user';
 import {
   PROFILE_QUERY_KEY,
   useGetCouponExchangeCount,

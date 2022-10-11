@@ -1,49 +1,15 @@
-import { useState } from 'react';
-import { Meeting } from '../../types';
-import { MeetingsResponse, useGetMeetings } from '../@queries/meeting';
-
-const dayDifferenceFromToday = meetingDay => {
-  const today = new Date();
-
-  const dayForCal =
-    `${meetingDay.getFullYear()}` +
-    `${String(meetingDay.getMonth()).padStart(2, '0')}` +
-    `${String(meetingDay.getDate()).padStart(2, '0')}`;
-  const todayForCal =
-    `${today.getFullYear()}` +
-    `${String(today.getMonth()).padStart(2, '0')}` +
-    `${String(today.getDate()).padStart(2, '0')}`;
-
-  return Number(dayForCal) - Number(todayForCal);
-};
+import { useGetMeetings } from '../@queries/meeting';
 
 const useMeetings = () => {
-  const [nearestMeetingDate, setNearestMeetingDate] = useState<number>(0);
-  const { data: meetings } = useGetMeetings({
-    onSuccess: (meetings: Meeting[]) => {
-      if (!!meetings.length) {
-        const meetingDay = new Date(
-          meetings[0]?.time?.meetingTime.replaceAll('-', '/').split(' ')[0]
-        );
+  const { data: meetings } = useGetMeetings();
 
-        setNearestMeetingDate(dayDifferenceFromToday(meetingDay));
-      }
-    },
-  });
+  const meetingDateAnnouncement = meetings?.length
+    ? meetings[0].isMeetingToday
+      ? '오늘 예정된 약속이 있습니다'
+      : `${meetings[0].dDay}일 뒤 약속이 있습니다`
+    : '예정된 약속이 없습니다.';
 
-  const todayFormattedDateString = new Date().toJSON().split('T')[0];
-
-  meetings?.sort(
-    (m1, m2) =>
-      Number(new Date(m1.time?.meetingTime.replaceAll('-', '/'))) -
-      Number(new Date(m2.time?.meetingTime.replaceAll('-', '/')))
-  );
-
-  const isTodayMeetingExist = meetings?.length
-    ? meetings[0].time.meetingTime.split(' ')[0] === todayFormattedDateString
-    : false;
-
-  return { meetings, isTodayMeetingExist, nearestMeetingDate };
+  return { meetings, meetingDateAnnouncement };
 };
 
 export default useMeetings;
