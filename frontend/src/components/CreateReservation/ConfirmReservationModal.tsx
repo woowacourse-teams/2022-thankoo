@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import useModal from '../../hooks/useModal';
+import Button from '../@shared/Button';
 import BottomSheetLayout from '../@shared/Modal/BottomSheetLayout';
 
 const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
@@ -23,10 +24,10 @@ const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
         </S.ConfirmContentWrapper>
       </S.SpaceBetween>
       <S.ButtonWrapper>
-        <S.Button onClick={submit} primary>
-          예약
-        </S.Button>
-        <S.Button onClick={close}>취소</S.Button>
+        <Button onClick={close} color='secondaryLight'>
+          취소
+        </Button>
+        <Button onClick={submit}>예약</Button>
       </S.ButtonWrapper>
     </BottomSheetLayout>
   );
@@ -64,15 +65,5 @@ const S = {
     width: 100%;
     display: flex;
     gap: 5px;
-  `,
-  Button: styled.button<ButtonProps>`
-    width: 100%;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 1.5rem;
-    padding: 1rem 0;
-
-    background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
   `,
 };

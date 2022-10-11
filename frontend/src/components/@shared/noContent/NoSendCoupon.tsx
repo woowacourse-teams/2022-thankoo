@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { FlexCenter } from '../../../styles/mixIn';
+import Button from '../Button';
 import IconEmptyList from '../LogoEmptyList';
 
 const NoSendCoupon = () => {
@@ -17,7 +18,7 @@ const NoSendCoupon = () => {
           원하는 상대에게 쿠폰을 선물해보세요!
         </S.Comment>
         <Link to={`${ROUTE_PATH.SELECT_RECEIVER}`}>
-          <S.Button>선물하기💛</S.Button>
+          <Button size='small'>선물하기💛</Button>
         </Link>
       </S.Box>
     </S.Container>
@@ -46,14 +47,6 @@ const S = {
   Comment: styled.h3`
     font-size: 1.5rem;
     line-height: 30px;
-  `,
-  Button: styled.button`
-    background-color: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.button.abled};
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    margin-top: 20px;
   `,
 };
 export default NoSendCoupon;

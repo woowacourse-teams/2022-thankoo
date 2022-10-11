@@ -1,4 +1,5 @@
 import { YYYYMMDD } from 'thankoo-utils-type';
+import { ButtonColor } from '../components/@shared/Button';
 import { Meeting } from './meeting';
 import { Reservation } from './reservation';
 import { UserProfile } from './user';
@@ -38,12 +39,10 @@ export const couponTypeValues = Object.values(couponTypes);
 export const couponTypeKeys = Object.keys(couponTypes);
 export type CouponType = keyof typeof couponTypes;
 
-type CouponDetailButtonBGColors = 'tomato' | '#838383' | '#5c5c5c';
-
 export type CouponDetailButtonProps = {
   text: string;
-  bg: CouponDetailButtonBGColors;
-  disabled: boolean;
+  color: ButtonColor;
+  isDisabled?: boolean;
   onClick?: () => void;
 };
 
