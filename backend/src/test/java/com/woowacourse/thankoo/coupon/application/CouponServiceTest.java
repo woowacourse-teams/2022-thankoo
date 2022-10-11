@@ -188,6 +188,28 @@ class CouponServiceTest {
             assertThat(usedCoupon.getCouponStatus()).isEqualTo(CouponStatus.IMMEDIATELY_USED);
         }
 
+        @DisplayName("조직 내 회원이 아니라면 쿠폰을 즉시 사용할 수 없다.")
+        @Test
+        void useCouponNotInOrganization() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver = memberRepository.save(new Member(SKRR_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member other = memberRepository.save(new Member(SKRR_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
+
+            Coupon coupon = new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                    new CouponContent(COFFEE, TITLE, MESSAGE),
+                    NOT_USED);
+
+            Coupon savedCoupon = couponRepository.save(coupon);
+
+            assertThatThrownBy(
+                    () -> couponService.useImmediately(other.getId(), organization.getId(), savedCoupon.getId()))
+                    .isInstanceOf(InvalidOrganizationException.class)
+                    .hasMessage("조직에 가입되지 않은 회원입니다.");
+        }
+
         @DisplayName("받는이가 아니라면 예외가 발생한다.")
         @Test
         void saveInvalidMemberException() {
