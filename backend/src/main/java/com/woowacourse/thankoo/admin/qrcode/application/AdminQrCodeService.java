@@ -23,8 +23,8 @@ public class AdminQrCodeService {
 
     private final OrganizationRepository organizationRepository;
 
-    public List<AdminLinkResponse> getLinks(final AdminSerialRequest adminSerialRequest, final Long organizationId) {
-        Organization organization = getOrganization(organizationId);
+    public List<AdminLinkResponse> getLinks(final AdminSerialRequest adminSerialRequest) {
+        Organization organization = getOrganization(adminSerialRequest.getOrganizationId());
         return adminSerialRequest.getSerials().stream()
                 .map(serial -> new AdminLinkResponse(MessageFormat.format(URL, serial, organization.getId())))
                 .collect(Collectors.toList());

@@ -39,7 +39,7 @@ class AdminQrCodeServiceTest {
         @DisplayName("조직이 존재하지 않으면 예외를 발생한다.")
         @Test
         void notFoundOrganization() {
-            assertThatThrownBy(() -> qrCodeService.getLinks(new AdminSerialRequest(List.of(SERIAL_1, SERIAL_2)), 1L))
+            assertThatThrownBy(() -> qrCodeService.getLinks(new AdminSerialRequest(List.of(SERIAL_1, SERIAL_2), 1L)))
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("조직을 찾을 수 없습니다.");
         }
@@ -49,7 +49,7 @@ class AdminQrCodeServiceTest {
         void createQrCodeLink() {
             Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
             List<AdminLinkResponse> links = qrCodeService.getLinks(
-                    new AdminSerialRequest(List.of(SERIAL_1, SERIAL_2)), organization.getId());
+                    new AdminSerialRequest(List.of(SERIAL_1, SERIAL_2), organization.getId()));
 
             assertThat(links).hasSize(2);
         }
