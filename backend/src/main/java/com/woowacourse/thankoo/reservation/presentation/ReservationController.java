@@ -20,33 +20,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/reservations")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ReservationController {
 
     private final ReservationService reservationService;
     private final ReservationQueryService reservationQueryService;
 
-    @PostMapping
+    @PostMapping("/reservations")
     public ResponseEntity<Void> reserve(@AuthenticationPrincipal final Long memberId,
                                         @RequestBody @Valid final ReservationRequest reservationRequest) {
         Long reserveId = reservationService.save(memberId, reservationRequest);
         return ResponseEntity.created(URI.create("/api/reservations/" + reserveId)).build();
     }
 
-    @GetMapping("/received")
+    @GetMapping("/organizations/{organizationId}/reservations/received")
     public ResponseEntity<List<SimpleReservationResponse>> getReceivedReservations(
-            @AuthenticationPrincipal final Long memberId) {
-        return ResponseEntity.ok(reservationQueryService.getReceivedReservations(memberId));
+            @AuthenticationPrincipal final Long memberId,
+            @PathVariable final Long organizationId) {
+        return ResponseEntity.ok(reservationQueryService.getReceivedReservations(memberId, organizationId));
     }
 
-    @GetMapping("/sent")
+    @GetMapping("/reservations/sent")
     public ResponseEntity<List<SimpleReservationResponse>> getSentReservations(
             @AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(reservationQueryService.getSentReservations(memberId));
     }
 
-    @PutMapping("/{reservationId}")
+    @PutMapping("/reservations/{reservationId}")
     public ResponseEntity<Void> updateStatus(@AuthenticationPrincipal final Long memberId,
                                              @PathVariable final Long reservationId,
                                              @RequestBody final ReservationStatusRequest reservationStatusRequest) {
@@ -54,7 +55,7 @@ public class ReservationController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{reservationId}/cancel")
+    @PutMapping("/reservations/{reservationId}/cancel")
     public ResponseEntity<Void> cancel(@AuthenticationPrincipal final Long memberId,
                                        @PathVariable final Long reservationId) {
         reservationService.cancel(memberId, reservationId);

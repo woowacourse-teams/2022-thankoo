@@ -94,7 +94,8 @@ class ReservationQueryServiceTest {
         reservationService.save(lala.getId(),
                 new ReservationRequest(coupon4.getId(), LocalDateTime.now().plusDays(1L)));
 
-        List<SimpleReservationResponse> reservations = reservationQueryService.getReceivedReservations(lala.getId());
+        List<SimpleReservationResponse> reservations = reservationQueryService.getReceivedReservations(lala.getId(),
+                organization.getId());
 
         assertAll(
                 () -> assertThat(reservations).hasSize(2),

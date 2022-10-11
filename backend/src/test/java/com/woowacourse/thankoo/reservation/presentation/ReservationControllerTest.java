@@ -95,7 +95,7 @@ class ReservationControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        given(reservationQueryService.getReceivedReservations(anyLong()))
+        given(reservationQueryService.getReceivedReservations(anyLong(), anyLong()))
                 .willReturn(List.of(
                         SimpleReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())),
@@ -105,7 +105,7 @@ class ReservationControllerTest extends ControllerTest {
                                 TimeZoneType.ASIA_SEOUL.getId())))
                 );
 
-        ResultActions resultActions = mockMvc.perform(get("/api/reservations/received")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/reservations/received")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())

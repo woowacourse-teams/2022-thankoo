@@ -10,6 +10,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createThankooOrganization;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,15 +73,17 @@ class ReservationQueryRepositoryTest {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization organization1 = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization organization2 = organizationRepository.save(createThankooOrganization(organizationValidator));
+
         Coupon coupon1 = couponRepository.save(
-                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization1.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED));
         Coupon coupon2 = couponRepository.save(
-                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization2.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED));
         Coupon coupon3 = couponRepository.save(
-                new Coupon(organization.getId(), skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization1.getId(), skrr.getId(), lala.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED));
 
         LocalDateTime meetingDate = LocalDateTime.now().plusDays(1L);
@@ -95,10 +98,11 @@ class ReservationQueryRepositoryTest {
                         coupon3));
 
         List<ReservationCoupon> receivedReservations = reservationQueryRepository.findReceivedReservations(lala.getId(),
+                organization1.getId(),
                 LocalDateTime.now());
 
         assertAll(
-                () -> assertThat(receivedReservations).hasSize(2),
+                () -> assertThat(receivedReservations).hasSize(1),
                 () -> assertThat(receivedReservations).extracting("memberName").containsOnly(SKRR_NAME)
         );
     }
