@@ -57,7 +57,6 @@ public class CouponService {
                 .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
     }
 
-    // TODO : 조직 검증 머지되면 추가할 것
     public void useImmediately(final Long memberId, final Long organizationId, final Long couponId) {
         Member member = getMember(memberId);
         Organization organization = getOrganization(organizationId);
