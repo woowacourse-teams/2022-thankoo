@@ -37,7 +37,7 @@ public class CouponSerialService {
         validateContainsMemberWithOrganization(receiver, organization);
         couponSerial.use();
 
-        couponRepository.save(createCoupon(organization.getId(), receiver, couponSerial));
+        couponRepository.save(coupon(organization.getId(), receiver, couponSerial));
     }
 
     private CouponSerial getSerialByCode(final String serialCode) {
@@ -61,10 +61,20 @@ public class CouponSerialService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    private Coupon createCoupon(final Long organizationId, final Member receiver, final CouponSerial couponSerial) {
+    private Coupon coupon(final Long organizationId, final Member receiver, final CouponSerial couponSerial) {
+        return new Coupon(
+                organizationId,
+                couponSerial.getSenderId(),
+                receiver.getId(),
+                couponContent(couponSerial),
+                CouponStatus.NOT_USED);
+    }
+
+    private static CouponContent couponContent(final CouponSerial couponSerial) {
         CouponSerialContent content = couponSerial.getContent();
-        return new Coupon(organizationId, couponSerial.getSenderId(), receiver.getId(),
-                new CouponContent(couponSerial.getCouponSerialType().getValue(), content.getTitle(),
-                        content.getMessage()), CouponStatus.NOT_USED);
+        return new CouponContent(
+                couponSerial.getCouponSerialType().getValue(),
+                content.getTitle(),
+                content.getMessage());
     }
 }
