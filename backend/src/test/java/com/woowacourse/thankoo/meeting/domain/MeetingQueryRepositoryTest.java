@@ -10,6 +10,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createThankooOrganization;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -84,14 +85,15 @@ class MeetingQueryRepositoryTest {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
-        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization organization1 = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization organization2 = organizationRepository.save(createThankooOrganization(organizationValidator));
 
         List<Coupon> coupons = couponRepository.saveAll(List.of(
-                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization1.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED),
-                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization1.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED),
-                new Coupon(organization.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
+                new Coupon(organization2.getId(), lala.getId(), skrr.getId(), new CouponContent(COFFEE, TITLE, MESSAGE),
                         NOT_USED))
         );
 
@@ -104,13 +106,14 @@ class MeetingQueryRepositoryTest {
             reservation.update(lala, ReservationStatus.ACCEPT, reservedMeetingCreator);
         }
 
-        MeetingQueryCondition condition = new MeetingQueryCondition(lala.getId(), LocalDateTime.now(),
+        MeetingQueryCondition condition = new MeetingQueryCondition(lala.getId(), organization1.getId(),
+                LocalDateTime.now(),
                 MeetingStatus.ON_PROGRESS.name());
         List<MeetingCoupon> meetingsByMembers = meetingQueryRepository.findMeetingsByMemberIdAndTimeAndStatus(
                 condition);
 
         assertAll(
-                () -> assertThat(meetingsByMembers).hasSize(3),
+                () -> assertThat(meetingsByMembers).hasSize(2),
                 () -> assertThat(meetingsByMembers).extracting("memberName").containsOnly(SKRR_NAME)
         );
     }

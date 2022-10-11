@@ -345,7 +345,8 @@ class CouponQueryServiceTest {
                     new ReservationRequest(coupon.getId(), timeResponse.getMeetingTime()));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            SimpleMeetingResponse simpleMeetingResponse = meetingQueryService.findMeetings(sender.getId()).get(0);
+            SimpleMeetingResponse simpleMeetingResponse = meetingQueryService.findMeetings(sender.getId(),
+                    organization.getId()).get(0);
             meetingService.complete(sender.getId(), simpleMeetingResponse.getMeetingId());
 
             CouponDetailResponse couponDetailResponse = couponQueryService.getCouponDetail(receiver.getId(),

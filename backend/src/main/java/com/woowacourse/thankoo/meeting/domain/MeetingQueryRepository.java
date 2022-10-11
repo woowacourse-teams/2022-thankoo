@@ -35,8 +35,11 @@ public class MeetingQueryRepository {
                 + "JOIN meeting AS mt ON mm.meeting_id = mt.id "
                 + "JOIN coupon AS c ON mt.coupon_id = c.id "
                 + "JOIN member AS m ON c.sender_id = m.id OR c.receiver_id = m.id "
-                + "WHERE mm.member_id = :memberId AND m.id != :memberId "
-                + "AND mt.time > :time AND mt.status = :status";
+                + "WHERE mm.member_id = :memberId "
+                + "AND m.id != :memberId "
+                + "AND c.organization_id = :organizationId "
+                + "AND mt.time > :time "
+                + "AND mt.status = :status";
 
         SqlParameterSource parameters = new BeanPropertySqlParameterSource(meetingQueryCondition);
         return jdbcTemplate.query(sql, parameters, ROW_MAPPER);

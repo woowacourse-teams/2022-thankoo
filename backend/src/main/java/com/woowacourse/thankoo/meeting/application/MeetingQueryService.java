@@ -18,8 +18,9 @@ public class MeetingQueryService {
 
     private final MeetingQueryRepository meetingQueryRepository;
 
-    public List<SimpleMeetingResponse> findMeetings(final Long memberId) {
+    public List<SimpleMeetingResponse> findMeetings(final Long memberId, final Long organizationId) {
         MeetingQueryCondition meetingQueryCondition = new MeetingQueryCondition(memberId,
+                organizationId,
                 LocalDateTime.now(),
                 MeetingStatus.ON_PROGRESS.name());
         return meetingQueryRepository.findMeetingsByMemberIdAndTimeAndStatus(meetingQueryCondition).stream()
