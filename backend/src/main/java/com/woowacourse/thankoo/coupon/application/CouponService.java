@@ -10,6 +10,10 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,30 +26,47 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
+    private final OrganizationRepository organizationRepository;
 
     @Deprecated
     public void saveAll(final Long senderId, final CouponRequest couponRequest) {
-        validateMember(senderId, couponRequest.getReceiverIds());
         Coupons coupons = Coupons.distribute(couponRequest.toEntities(senderId));
         couponRepository.saveAll(coupons.getValues());
     }
 
     // TODO : 조직 검증 머지되면 추가할 것
     public void saveAll(final CouponCommand couponCommand) {
-        validateMember(couponCommand.getSenderId(), couponCommand.getReceiverIds());
+        Member sender = getMember(couponCommand.getSenderId());
+        List<Member> receivers = memberRepository.findByIdIn(couponCommand.getReceiverIds());
+        validateMember(couponCommand.getReceiverIds(), receivers);
+
+        Organization organization = getOrganization(couponCommand.getOrganizationId());
+        validateOrganizationMembers(sender, receivers, organization);
+
         Coupons coupons = Coupons.distribute(couponCommand.toEntities());
         couponRepository.saveAll(coupons.getValues());
     }
 
-    private void validateMember(final Long senderId, final List<Long> receiverIds) {
-        if (!isExistMembers(senderId, receiverIds)) {
+    private void validateMember(final List<Long> receiverIds, final List<Member> receivers) {
+        if (receiverIds.size() != receivers.size()) {
             throw new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER);
         }
     }
 
-    private boolean isExistMembers(final Long senderId, final List<Long> receiverIds) {
-        return memberRepository.existsById(senderId)
-                && memberRepository.countByIdIn(receiverIds) == receiverIds.size();
+    private Organization getOrganization(final Long organizationId) {
+        return organizationRepository.findWithMemberById(organizationId)
+                .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
+    }
+
+    private void validateOrganizationMembers(final Member sender,
+                                             final List<Member> receivers,
+                                             final Organization organization) {
+        List<Member> members = new ArrayList<>();
+        members.add(sender);
+        members.addAll(receivers);
+        if (!organization.containsMembers(members)) {
+            throw new InvalidOrganizationException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
+        }
     }
 
     // TODO : 조직 검증 머지되면 추가할 것

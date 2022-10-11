@@ -36,6 +36,7 @@ import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequ
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import com.woowacourse.thankoo.reservation.exception.InvalidReservationException;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -107,6 +108,24 @@ class CouponServiceTest {
             List<Coupon> coupons = couponRepository.findAll();
 
             assertThat(coupons).hasSize(2);
+        }
+
+        @DisplayName("조직에 속한 회원이 아니면 보내지 못한다.")
+        @Test
+        void saveAllNotOrganizationMember() {
+            Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver1 = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member receiver2 = memberRepository.save(new Member(SKRR_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver1.getId());
+
+            CouponRequest couponRequest = new CouponRequest(List.of(receiver1.getId(), receiver2.getId()),
+                    new ContentRequest(TYPE, TITLE, MESSAGE));
+            assertThatThrownBy(
+                    () -> couponService.saveAll(couponRequest.toCouponCommand(organization.getId(), sender.getId())))
+                    .isInstanceOf(InvalidOrganizationException.class)
+                    .hasMessage("조직에 가입되지 않은 회원입니다.");
         }
 
         @DisplayName("자신에게 보내는 경우 예외가 발생한다.")
