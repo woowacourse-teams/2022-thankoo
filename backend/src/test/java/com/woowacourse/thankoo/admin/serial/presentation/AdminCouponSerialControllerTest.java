@@ -78,7 +78,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
         resultActions.andDo(document("admin/serial/get-serial",
                 Preprocessors.preprocessResponse(prettyPrint()),
                 responseFields(
-                        fieldWithPath("[].id").type(STRING).description("id"),
+                        fieldWithPath("[].serialId").type(STRING).description("serialId"),
                         fieldWithPath("[].code").type(STRING).description("code"),
                         fieldWithPath("[].senderId").type(STRING).description("senderId"),
                         fieldWithPath("[].senderName").type(STRING).description("senderName"),

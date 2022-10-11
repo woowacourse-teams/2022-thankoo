@@ -6,12 +6,12 @@ import lombok.Getter;
 @Getter
 public class AdminMemberResponse {
 
-    private final Long id;
+    private final Long memberId;
     private final String name;
     private final String email;
 
-    public AdminMemberResponse(final Long id, final String name, final String email) {
-        this.id = id;
+    public AdminMemberResponse(final Long memberId, final String name, final String email) {
+        this.memberId = memberId;
         this.name = name;
         this.email = email;
     }
@@ -23,7 +23,7 @@ public class AdminMemberResponse {
     @Override
     public String toString() {
         return "AdminMemberResponse{" +
-                "id=" + id +
+                "id=" + memberId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
