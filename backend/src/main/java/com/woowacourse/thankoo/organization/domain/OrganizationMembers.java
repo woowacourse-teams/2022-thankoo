@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.organization.domain;
 
+import com.woowacourse.thankoo.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -38,6 +39,11 @@ public class OrganizationMembers {
         for (OrganizationMember value : values) {
             value.toPreviousAccessed();
         }
+    }
+
+    public boolean containsMember(final Member member) {
+        return values.stream()
+                .anyMatch(organizationMember -> organizationMember.isSameMember(member));
     }
 
     @Override
