@@ -13,6 +13,7 @@ import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -67,10 +68,9 @@ public class CouponQueryService {
         return CouponDetailResponse.of(memberCoupon);
     }
 
-    // TODO : 라라 코드 머지 후 에러 내용 변경
     private void validateCouponOrganization(final Long organizationId, final MemberCoupon memberCoupon) {
         if (!memberCoupon.isInOrganization(organizationId)) {
-            throw new InvalidCouponException(ErrorType.NOT_FOUND_COUPON);
+            throw new InvalidOrganizationException(ErrorType.COUPON_NOT_BELONGS_TO_ORGANIZATION);
         }
     }
 

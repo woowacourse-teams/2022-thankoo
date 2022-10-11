@@ -31,7 +31,6 @@ import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
-import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
@@ -45,6 +44,7 @@ import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequ
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
@@ -264,8 +264,8 @@ class CouponQueryServiceTest {
                     CouponStatus.NOT_USED));
 
             assertThatThrownBy(() -> couponQueryService.getCouponDetail(sender.getId(), 0L, coupon.getId()))
-                    .isInstanceOf(InvalidCouponException.class)
-                    .hasMessage("존재하지 않는 쿠폰입니다.");
+                    .isInstanceOf(InvalidOrganizationException.class)
+                    .hasMessage("조직 내 쿠폰이 아닙니다.");
         }
 
         @DisplayName("쿠폰 상태가 예약 중일 때 예약 정보를 함께 조회한다.")
