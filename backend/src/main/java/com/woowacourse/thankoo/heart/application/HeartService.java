@@ -47,14 +47,6 @@ public class HeartService {
         heart.send(getHeart(foundOppositeHeart));
     }
 
-    private void validateOrganizationMembers(final Member sender,
-                                             final Member receiver,
-                                             final Organization organization) {
-        if (!organization.containsMembers(List.of(sender, receiver))) {
-            throw new InvalidOrganizationMemberException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
-        }
-    }
-
     private Member getMember(final Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
@@ -63,6 +55,14 @@ public class HeartService {
     private Organization getOrganization(final Long organizationId) {
         return organizationRepository.findWithMemberById(organizationId)
                 .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
+    }
+
+    private void validateOrganizationMembers(final Member sender,
+                                             final Member receiver,
+                                             final Organization organization) {
+        if (!organization.containsMembers(List.of(sender, receiver))) {
+            throw new InvalidOrganizationMemberException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
+        }
     }
 
     private Heart getHeart(final Optional<Heart> heart) {
