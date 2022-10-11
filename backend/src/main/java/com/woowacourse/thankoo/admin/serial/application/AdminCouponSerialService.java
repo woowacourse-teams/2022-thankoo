@@ -46,7 +46,7 @@ public class AdminCouponSerialService {
     }
 
     private Organization getOrganization(final Long organizationId) {
-        return organizationRepository.findById(organizationId)
+        return organizationRepository.findWithMemberById(organizationId)
                 .orElseThrow(() -> new AdminInvalidOrganizationException(AdminErrorType.NOT_FOUND_ORGANIZATION));
     }
 
