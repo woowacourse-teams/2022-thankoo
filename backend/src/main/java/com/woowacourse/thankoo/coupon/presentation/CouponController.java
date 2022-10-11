@@ -28,27 +28,12 @@ public class CouponController {
     private final CouponService couponService;
     private final CouponQueryService couponQueryService;
 
-    @Deprecated
-    @PostMapping("/coupons/send")
-    public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
-                                     @RequestBody final CouponRequest couponRequest) {
-        couponService.saveAll(senderId, couponRequest);
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("organizations/{organizationId}/coupons/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
                                      @PathVariable final Long organizationId,
                                      @RequestBody final CouponRequest couponRequest) {
         couponService.saveAll(couponRequest.toCouponCommand(organizationId, senderId));
         return ResponseEntity.ok().build();
-    }
-
-    @Deprecated(since = "when organization will be merged")
-    @GetMapping("/coupons/received")
-    public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receiverId,
-                                                                @RequestParam final String status) {
-        return ResponseEntity.ok(couponQueryService.getReceivedCoupons(receiverId, status));
     }
 
     @GetMapping("/organizations/{organizationId}/coupons/received")

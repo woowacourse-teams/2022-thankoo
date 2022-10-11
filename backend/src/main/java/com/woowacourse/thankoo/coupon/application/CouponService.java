@@ -2,7 +2,6 @@ package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
-import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
@@ -27,12 +26,6 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
     private final OrganizationRepository organizationRepository;
-
-    @Deprecated
-    public void saveAll(final Long senderId, final CouponRequest couponRequest) {
-        Coupons coupons = Coupons.distribute(couponRequest.toEntities(senderId));
-        couponRepository.saveAll(coupons.getValues());
-    }
 
     public void saveAll(final CouponCommand couponCommand) {
         Member sender = getMember(couponCommand.getSenderId());
