@@ -35,10 +35,6 @@ const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
 
 export default ConfirmReservationModal;
 
-type ButtonProps = {
-  primary?: boolean;
-};
-
 const S = {
   ConfirmContentWrapper: styled.div`
     display: flex;

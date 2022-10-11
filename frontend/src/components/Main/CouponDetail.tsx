@@ -47,11 +47,6 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
 
 export default CouponDetail;
 
-type ButtonProps = {
-  bg: string;
-  disabled: boolean;
-};
-
 const S = {
   Container: styled.section`
     position: fixed;

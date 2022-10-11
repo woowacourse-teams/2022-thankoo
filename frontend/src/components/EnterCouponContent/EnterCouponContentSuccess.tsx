@@ -78,10 +78,6 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
 
 export default EnterCouponContentSuccess;
 
-type ButtonProps = {
-  primary?: boolean;
-};
-
 const SpaceBetween = {
   display: 'flex',
   justifyContent: 'space-between',

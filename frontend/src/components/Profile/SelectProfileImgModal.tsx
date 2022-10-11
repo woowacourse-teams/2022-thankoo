@@ -49,9 +49,7 @@ export default SelectProfileImgModal;
 type ConfirmCouponContentModalProps = {
   show: boolean;
 };
-type ButtonProps = {
-  primary?: boolean;
-};
+
 type IconWrapperProp = {
   isSelected: boolean;
 };

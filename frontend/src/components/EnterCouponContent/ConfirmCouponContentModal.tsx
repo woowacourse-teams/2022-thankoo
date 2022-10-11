@@ -48,7 +48,7 @@ const ConfirmCouponContentModal = ({
         <S.ConfirmContentText>{message}</S.ConfirmContentText>
       </S.ConfirmContentWrapper>
       <S.ButtonWrapper>
-        <Button color='secondary' onClick={close}>
+        <Button color='secondaryLight' onClick={close}>
           취소
         </Button>
         <Button onClick={submit}>전송</Button>
@@ -58,10 +58,6 @@ const ConfirmCouponContentModal = ({
 };
 
 export default ConfirmCouponContentModal;
-
-type ButtonProps = {
-  primary?: boolean;
-};
 
 const S = {
   ReceiversWrapper: styled.div`

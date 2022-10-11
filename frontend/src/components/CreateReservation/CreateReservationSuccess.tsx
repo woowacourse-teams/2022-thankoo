@@ -63,10 +63,6 @@ const CreateReservationSuccess = ({ receiver, date, time }) => {
 
 export default CreateReservationSuccess;
 
-type ButtonProps = {
-  primary?: boolean;
-};
-
 const SpaceBetween = {
   display: 'flex',
   'justify-content': 'space-between',

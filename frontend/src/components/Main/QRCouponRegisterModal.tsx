@@ -93,10 +93,6 @@ const QRCouponRegisterModal = ({
 
 export default QRCouponRegisterModal;
 
-type ButtonProps = {
-  primary?: boolean;
-};
-
 const S = {
   Container: styled.section`
     position: fixed;
