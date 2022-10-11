@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.common.domain.BaseEntity;
 import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.heart.exception.InvalidHeartException;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -119,5 +120,33 @@ public class Heart extends BaseEntity {
 
     private void changeStatus() {
         last = !last;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Heart)) {
+            return false;
+        }
+        Heart heart = (Heart) o;
+        return Objects.equals(id, heart.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Heart{" +
+                "id=" + id +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", count=" + count +
+                ", last=" + last +
+                '}';
     }
 }
