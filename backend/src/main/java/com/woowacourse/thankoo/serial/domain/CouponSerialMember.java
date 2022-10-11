@@ -29,4 +29,8 @@ public class CouponSerialMember {
         this.couponType = CouponSerialType.of(couponType);
         this.status = CouponSerialStatus.valueOf(status);
     }
+
+    public boolean isUsed() {
+        return status == CouponSerialStatus.USED;
+    }
 }

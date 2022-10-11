@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -121,9 +122,18 @@ public class Coupon extends BaseEntity {
         return this.couponContent.equals(couponContent);
     }
 
+    @Deprecated
     public void useImmediately(final Long memberId) {
         validateMemberCanUseCoupon(memberId);
         validateStatus();
+        publishCouponUsedEvent();
+        couponStatus = CouponStatus.IMMEDIATELY_USED;
+    }
+
+    public void useImmediately(final Long memberId, final Long organizationId) {
+        validateMemberCanUseCoupon(memberId);
+        validateStatus();
+        validateOrganization(organizationId);
         publishCouponUsedEvent();
         couponStatus = CouponStatus.IMMEDIATELY_USED;
     }
@@ -141,6 +151,12 @@ public class Coupon extends BaseEntity {
     private void validateStatus() {
         if (!couponStatus.canImmediatelyUse()) {
             throw new InvalidCouponException(ErrorType.CAN_NOT_USE_IMMEDIATELY_COUPON);
+        }
+    }
+
+    private void validateOrganization(final Long organizationId) {
+        if (!this.organizationId.equals(organizationId)) {
+            throw new InvalidOrganizationException(ErrorType.CAN_NOT_USE_IMMEDIATELY_COUPON);
         }
     }
 

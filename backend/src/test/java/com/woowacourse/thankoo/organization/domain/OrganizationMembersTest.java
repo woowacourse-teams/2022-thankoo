@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -88,5 +89,32 @@ class OrganizationMembersTest {
         organizationMembers.toPreviousAccessed();
 
         assertThat(organizationMembers.getValues().get(0).isLastAccessed()).isFalse();
+    }
+
+    @DisplayName("조직에 회원 존재 여부를 확인할 때")
+    @Nested
+    class ContainsTest {
+
+        @DisplayName("존재하면 true 를 반환한다.")
+        @Test
+        void containsMember() {
+            Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE,
+                    length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
+                    organizationValidator);
+            Member member = new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+            OrganizationMembers organizationMembers = new OrganizationMembers(new ArrayList<>());
+            organizationMembers.add(new OrganizationMember(member, organization, 1, true));
+
+            assertThat(organizationMembers.containsMember(member)).isTrue();
+        }
+
+        @DisplayName("존재하지 않으면 false 를 반환한다.")
+        @Test
+        void notContainsMember() {
+            Member member = new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+            OrganizationMembers organizationMembers = new OrganizationMembers(new ArrayList<>());
+
+            assertThat(organizationMembers.containsMember(member)).isFalse();
+        }
     }
 }

@@ -9,6 +9,7 @@ import lombok.Getter;
 public class MemberCoupon {
 
     private final Long couponId;
+    private final Long organizationId;
     private final Member sender;
     private final Member receiver;
     private final String couponType;
@@ -18,6 +19,7 @@ public class MemberCoupon {
     private final LocalDate createdDate;
 
     public MemberCoupon(final Long couponId,
+                        final Long organizationId,
                         final Member sender,
                         final Member receiver,
                         final String couponType,
@@ -26,6 +28,7 @@ public class MemberCoupon {
                         final String status,
                         final LocalDate createdDate) {
         this.couponId = couponId;
+        this.organizationId = organizationId;
         this.sender = sender;
         this.receiver = receiver;
         this.couponType = couponType;
@@ -39,6 +42,10 @@ public class MemberCoupon {
         return sender.isSameId(memberId) || receiver.isSameId(memberId);
     }
 
+    public boolean isInOrganization(final Long organizationId) {
+        return this.organizationId.equals(organizationId);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -48,7 +55,8 @@ public class MemberCoupon {
             return false;
         }
         MemberCoupon that = (MemberCoupon) o;
-        return Objects.equals(couponId, that.couponId) && Objects.equals(sender, that.sender)
+        return Objects.equals(couponId, that.couponId) && Objects.equals(organizationId, that.organizationId)
+                && Objects.equals(sender, that.sender)
                 && Objects.equals(receiver, that.receiver) && Objects.equals(couponType,
                 that.couponType) && Objects.equals(title, that.title) && Objects.equals(message,
                 that.message) && Objects.equals(status, that.status) && Objects.equals(createdDate,
@@ -57,13 +65,15 @@ public class MemberCoupon {
 
     @Override
     public int hashCode() {
-        return Objects.hash(couponId, sender, receiver, couponType, title, message, status, createdDate);
+        return Objects.hash(couponId, organizationId, sender, receiver, couponType, title, message, status,
+                createdDate);
     }
 
     @Override
     public String toString() {
         return "MemberCoupon{" +
                 "couponId=" + couponId +
+                ", organizationId=" + organizationId +
                 ", sender=" + sender.getId() +
                 ", receiver=" + receiver.getId() +
                 ", couponType='" + couponType + '\'' +
