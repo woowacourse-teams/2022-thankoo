@@ -42,6 +42,9 @@ const CreateReservationSuccess = ({ receiver, date, time }) => {
           </div>
         </S.ContenstWrapper>
         <S.ButtonWrapper>
+          <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
+            <S.Button>홈으로</S.Button>
+          </S.StyledLink>
           <S.StyledLink to={ROUTE_PATH.RESERVATIONS} onClick={pageReset}>
             <S.Button
               onClick={() => {
@@ -51,9 +54,6 @@ const CreateReservationSuccess = ({ receiver, date, time }) => {
             >
               예약 확인하기
             </S.Button>
-          </S.StyledLink>
-          <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
-            <S.Button>홈으로</S.Button>
           </S.StyledLink>
         </S.ButtonWrapper>
       </S.Wrapper>
