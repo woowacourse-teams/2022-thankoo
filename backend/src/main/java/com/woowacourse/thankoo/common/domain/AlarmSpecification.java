@@ -14,18 +14,9 @@ public class AlarmSpecification {
     public static final String HEART_SENT = "heart_sent";
 
     private final String alarmType;
-    private Long organizationId;
+    private final Long organizationId;
     private final List<Long> targetIds;
     private final List<String> contents;
-
-    @Deprecated
-    public AlarmSpecification(final String alarmType,
-                              final List<Long> targetIds,
-                              final List<String> contents) {
-        this.alarmType = alarmType;
-        this.targetIds = targetIds;
-        this.contents = contents;
-    }
 
     public AlarmSpecification(final String alarmType,
                               final Long organizationId,
