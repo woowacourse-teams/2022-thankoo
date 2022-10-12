@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class CouponCoffeeMessageFormStrategy extends CouponMessageFormStrategy {
 
     private static final String COFFEE_PRETEXT = "\uD83D\uDC8C 커피 쿠폰이 도착했어요.";  // 💌
+    private static final String ACCEPT_TITLE_LINK = "/organization/{0}";
     private static final String COFFEE_TYPE = "커피☕";
 
     private final AlarmMemberProvider alarmMemberProvider;
@@ -30,11 +31,15 @@ public class CouponCoffeeMessageFormStrategy extends CouponMessageFormStrategy {
         return Message.builder()
                 .email(receiverEmails)
                 .title(COFFEE_PRETEXT)
-                .titleLink(alarmLinkGenerator.getRootUrl())
+                .titleLink(createLink(alarm.getOrganizationId()))
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(TITLE, alarm.getContentAt(TITLE_INDEX)))
                 .content(MessageFormat.format(TYPE, COFFEE_TYPE))
                 .build();
+    }
+
+    private String createLink(final Long organizationId) {
+        return alarmLinkGenerator.createUrl(MessageFormat.format(ACCEPT_TITLE_LINK, organizationId));
     }
 
     @Override

@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public abstract class AlarmEvent {
 
-    private String alarmType;
+    private final String alarmType;
 
     protected AlarmEvent(final String alarmType) {
         this.alarmType = alarmType;
