@@ -18,14 +18,14 @@ public class ReservationSentEvent extends AlarmEvent {
     private final LocalDateTime reservationTime;
 
     public ReservationSentEvent(final String alarmType,
-                                final Long organizationId,
                                 final Long receiverId,
+                                final Long organizationId,
                                 final Long senderId,
                                 final String couponTitle,
                                 final LocalDateTime reservationTime) {
         super(alarmType);
-        this.organizationId = organizationId;
         this.receiverId = receiverId;
+        this.organizationId = organizationId;
         this.senderId = senderId;
         this.reservationTime = reservationTime;
         this.couponTitle = couponTitle;
