@@ -3,17 +3,21 @@ import styled from '@emotion/styled';
 
 export type ButtonSize = 'medium' | 'small' | 'large';
 export type ButtonColor = 'primary' | 'secondary' | 'primaryLight' | 'secondaryLight';
-
-type ButtonProps = {
+export interface ButtonProps {
   size?: ButtonSize;
   color?: ButtonColor;
   isDisabled?: boolean;
-};
+}
 
-const ButtonStyleOptions = {
+export const ButtonStyleOptions = {
   size: {
     medium: '1.3rem',
     small: '1rem',
+    large: '1.7rem',
+  },
+  fontSize: {
+    medium: '1.4rem',
+    small: '1.2rem',
     large: '1.7rem',
   },
   bg: {
@@ -32,7 +36,7 @@ const ButtonStyleOptions = {
 const Button = styled.button<ButtonProps>`
   ${({ size = 'medium', color = 'primary', isDisabled = false }) => css`
     width: 100%;
-    font-size: ${ButtonStyleOptions.size[size]};
+    font-size: ${ButtonStyleOptions.fontSize[size]};
     padding: ${ButtonStyleOptions.size[size]} 1rem;
     background-color: ${ButtonStyleOptions.bg[color]};
     color: ${ButtonStyleOptions.fontColor[color]};
