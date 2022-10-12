@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.admin.organization.application;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatNoException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequeest;
+import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
 import com.woowacourse.thankoo.admin.organization.domain.AdminOrganizationRepository;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.organization.domain.Organization;
@@ -36,7 +36,7 @@ class AdminOrganizationServiceTest {
         @DisplayName("생성가능한 조직이면 생성한다.")
         @Test
         void createOrganizationSuccess() {
-            AdminOrganizationCreationRequeest organizationCreationRequeest = new AdminOrganizationCreationRequeest(
+            AdminOrganizationCreationRequest organizationCreationRequeest = new AdminOrganizationCreationRequest(
                     "newOrg", 10);
 
             assertThatNoException()
@@ -46,7 +46,7 @@ class AdminOrganizationServiceTest {
         @DisplayName("기존 조직과 이름이 중복되면 에러가 발생한다.")
         @Test
         void createOrganizationFailDueToNameDuplicated() {
-            AdminOrganizationCreationRequeest organizationCreationRequest = new AdminOrganizationCreationRequeest(
+            AdminOrganizationCreationRequest organizationCreationRequest = new AdminOrganizationCreationRequest(
                     "exsitOrg", 10);
             Organization organization = Organization.create("exsitOrg", new OrganizationCodeGenerator(), 10,
                     new OrganizationValidator(organizationRepository));
@@ -60,7 +60,7 @@ class AdminOrganizationServiceTest {
         @DisplayName("조직 제한 인원을 초과하면 에러가 발생한다.")
         @Test
         void createOrganizationFailDueToOverStaffed() {
-            AdminOrganizationCreationRequeest organizationCreationRequeest = new AdminOrganizationCreationRequeest(
+            AdminOrganizationCreationRequest organizationCreationRequeest = new AdminOrganizationCreationRequest(
                     "newOrg", 501);
 
             assertThatThrownBy(() -> adminOrganizationService.createOrganization(organizationCreationRequeest))

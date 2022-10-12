@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.admin.organization.application;
 
-import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequeest;
+import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
 import com.woowacourse.thankoo.admin.organization.domain.AdminOrganizationRepository;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
@@ -17,7 +17,7 @@ public class AdminOrganizationService {
     private final AdminOrganizationRepository adminOrganizationRepository;
     private final OrganizationValidator organizationValidator;
 
-    public void createOrganization(final AdminOrganizationCreationRequeest organizationCreationRequeest) {
+    public void createOrganization(final AdminOrganizationCreationRequest organizationCreationRequeest) {
         String organizationName = organizationCreationRequeest.getName();
         Organization newOrganization = Organization.create(organizationName,
                 new OrganizationCodeGenerator(),

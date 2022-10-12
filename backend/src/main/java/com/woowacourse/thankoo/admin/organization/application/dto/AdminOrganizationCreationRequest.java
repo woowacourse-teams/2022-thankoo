@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AdminOrganizationCreationRequeest {
+public class AdminOrganizationCreationRequest {
 
     private String name;
     private int limitedSize;
 
-    public AdminOrganizationCreationRequeest(final String name, final int limitedSize) {
+    public AdminOrganizationCreationRequest(final String name, final int limitedSize) {
         this.name = name;
         this.limitedSize = limitedSize;
     }
