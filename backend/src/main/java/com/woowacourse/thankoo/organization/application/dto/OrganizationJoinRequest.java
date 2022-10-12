@@ -13,4 +13,11 @@ public class OrganizationJoinRequest {
     public OrganizationJoinRequest(final String code) {
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return "OrganizationJoinRequest{" +
+                "code='" + code + '\'' +
+                '}';
+    }
 }

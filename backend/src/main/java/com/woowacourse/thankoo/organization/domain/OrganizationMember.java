@@ -72,6 +72,10 @@ public class OrganizationMember {
         }
     }
 
+    public void toLastAccessed() {
+        lastAccessed = true;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

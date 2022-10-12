@@ -97,4 +97,35 @@ class OrganizationServiceTest {
             );
         }
     }
+
+    @DisplayName("조직에 접근하면 해당 조직을 최근 접근 조직으로 변경한다.")
+    @Test
+    void access() {
+        Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization woowacourse = organizationRepository.save(
+                Organization.create(ORGANIZATION_WOOWACOURSE,
+                        new OrganizationCodeGenerator(),
+                        100,
+                        organizationValidator));
+
+        Organization thankoo = organizationRepository.save(
+                Organization.create(ORGANIZATION_THANKOO,
+                        new OrganizationCodeGenerator(),
+                        100,
+                        organizationValidator));
+
+        organizationService.join(lala.getId(), new OrganizationJoinRequest(woowacourse.getCode().getValue()));
+        organizationService.join(lala.getId(), new OrganizationJoinRequest(thankoo.getCode().getValue()));
+        organizationService.access(lala.getId(), woowacourse.getId());
+
+        List<OrganizationMember> organizationMembers = organizationRepository.findOrganizationMembersByMemberOrderByOrderNumber(
+                lala);
+
+        assertAll(
+                () -> assertThat(organizationMembers).hasSize(2),
+                () -> assertThat(organizationMembers.get(0).isLastAccessed()).isTrue(),
+                () -> assertThat(organizationMembers.get(1).isLastAccessed()).isFalse()
+        );
+    }
 }

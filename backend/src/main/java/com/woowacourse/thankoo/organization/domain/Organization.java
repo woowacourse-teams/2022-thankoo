@@ -97,7 +97,7 @@ public class Organization extends BaseEntity {
         if (limitedSize == organizationMembers.size()) {
             throw new InvalidOrganizationException(ErrorType.INVALID_ORGANIZATION_SIZE);
         }
-        if (memberJoiningOrganizations.isAlreadyContains(this)) {
+        if (memberJoiningOrganizations.containsOrganization(this)) {
             throw new InvalidOrganizationException(ErrorType.ALREADY_JOIN_ORGANIZATION);
         }
     }

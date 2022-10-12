@@ -12,6 +12,9 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createThankooOrganization;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createTossOrganization;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -66,7 +69,7 @@ class OrganizationMembersTest {
 
     @DisplayName("이미 조직을 포함한다.")
     @Test
-    void isAlreadyContains() {
+    void containsOrganization() {
         Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE,
                 length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
                 organizationValidator);
@@ -74,7 +77,7 @@ class OrganizationMembersTest {
         OrganizationMembers organizationMembers = new OrganizationMembers(new ArrayList<>());
         organizationMembers.add(new OrganizationMember(member, organization, 1, true));
 
-        assertThat(organizationMembers.isAlreadyContains(organization)).isTrue();
+        assertThat(organizationMembers.containsOrganization(organization)).isTrue();
     }
 
     @DisplayName("이전에 접근한 것으로 변경한다.")
@@ -116,5 +119,22 @@ class OrganizationMembersTest {
 
             assertThat(organizationMembers.containsMember(member)).isFalse();
         }
+    }
+
+    @DisplayName("해당 조직을 최근 접근한 조직으로 변경한다.")
+    @Test
+    void switchLastAccessed() {
+        Organization woowacourse = createDefaultOrganization(organizationValidator);
+        Organization thankoo = createThankooOrganization(organizationValidator);
+        Organization toss = createTossOrganization(organizationValidator);
+
+        Member member = new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+        OrganizationMembers organizationMembers = new OrganizationMembers(new ArrayList<>());
+        organizationMembers.add(new OrganizationMember(member, woowacourse, 1, true));
+        organizationMembers.add(new OrganizationMember(member, thankoo, 2, true));
+        organizationMembers.add(new OrganizationMember(member, toss, 3, true));
+        organizationMembers.switchLastAccessed(thankoo);
+
+        assertThat(organizationMembers.getValues().get(1).isLastAccessed()).isTrue();
     }
 }
