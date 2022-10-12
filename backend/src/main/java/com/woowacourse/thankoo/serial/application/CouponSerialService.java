@@ -8,11 +8,13 @@ import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
-import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
+import com.woowacourse.thankoo.serial.application.dto.SerialCodeRequest;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import com.woowacourse.thankoo.serial.domain.CouponSerialContent;
 import com.woowacourse.thankoo.serial.domain.CouponSerialRepository;
-import com.woowacourse.thankoo.serial.domain.CouponSerialStatus;
 import com.woowacourse.thankoo.serial.exeption.InvalidCouponSerialException;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,19 +28,32 @@ public class CouponSerialService {
     private final CouponSerialRepository couponSerialRepository;
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
+    private final OrganizationRepository organizationRepository;
 
-    public void use(final Long memberId, final CouponSerialRequest couponSerialRequest) {
+    public void use(final Long memberId, final SerialCodeRequest serialCodeRequest) {
         Member receiver = getMemberById(memberId);
-        CouponSerial couponSerial = getSerialByName(couponSerialRequest.getSerialCode());
-        Coupon coupon = createCoupon(receiver, couponSerial);
-        validateStatus(couponSerial.getStatus());
+        CouponSerial couponSerial = getSerialByCode(serialCodeRequest.getSerialCode());
+        Organization organization = getOrganization(couponSerial.getOrganizationId());
+        validateContainsMemberWithOrganization(receiver, organization);
         couponSerial.use();
-        couponRepository.save(coupon);
+
+        couponRepository.save(coupon(organization.getId(), receiver, couponSerial));
     }
 
-    private CouponSerial getSerialByName(final String serialCode) {
+    private CouponSerial getSerialByCode(final String serialCode) {
         return couponSerialRepository.findBySerialCodeValue(serialCode)
                 .orElseThrow(() -> new InvalidCouponSerialException(ErrorType.NOT_FOUND_COUPON_SERIAL));
+    }
+
+    private Organization getOrganization(final Long organizationId) {
+        return organizationRepository.findWithMemberById(organizationId)
+                .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
+    }
+
+    private void validateContainsMemberWithOrganization(final Member member, final Organization organization) {
+        if (!organization.containsMember(member)) {
+            throw new InvalidOrganizationException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
+        }
     }
 
     private Member getMemberById(final Long memberId) {
@@ -46,17 +61,20 @@ public class CouponSerialService {
                 .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
-    private void validateStatus(final CouponSerialStatus status) {
-        if (status.isUsed()) {
-            throw new InvalidCouponSerialException(ErrorType.INVALID_COUPON_SERIAL_EXPIRATION);
-        }
+    private Coupon coupon(final Long organizationId, final Member receiver, final CouponSerial couponSerial) {
+        return new Coupon(
+                organizationId,
+                couponSerial.getSenderId(),
+                receiver.getId(),
+                couponContent(couponSerial),
+                CouponStatus.NOT_USED);
     }
 
-    // TODO : CouponSerial의 조직에 따른 조직 입력 추가 필요.
-    private Coupon createCoupon(final Member receiver, final CouponSerial couponSerial) {
+    private static CouponContent couponContent(final CouponSerial couponSerial) {
         CouponSerialContent content = couponSerial.getContent();
-        return new Coupon(1L, couponSerial.getSenderId(), receiver.getId(),
-                new CouponContent(couponSerial.getCouponSerialType().getValue(), content.getTitle(),
-                        content.getMessage()), CouponStatus.NOT_USED);
+        return new CouponContent(
+                couponSerial.getCouponSerialType().getValue(),
+                content.getTitle(),
+                content.getMessage());
     }
 }

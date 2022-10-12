@@ -20,7 +20,10 @@ public enum AdminErrorType {
     INVALID_LOGIN_INFORMATION("올바르지 않은 비밀번호 또는 이름입니다."),
     NOT_AUTHENTICATED("인증되지 않은 어드민입니다."),
     ALREADY_AUTHENTICATED("이미 인증된 어드민입니다."),
-    INVALID_TOKEN("유효하지 않은 토큰입니다");
+    INVALID_TOKEN("유효하지 않은 토큰입니다"),
+
+    NOT_FOUND_ORGANIZATION("조직을 찾을 수 없습니다."),
+    NOT_JOINED_MEMBER_OF_ORGANIZATION("조직에 가입되지 않은 회원입니다.");
 
     private final String message;
 
