@@ -12,16 +12,19 @@ public class ReservationSentEvent extends AlarmEvent {
     private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
 
     private final Long receiverId;
+    private final Long organizationId;
     private final Long senderId;
     private final String couponTitle;
     private final LocalDateTime reservationTime;
 
     public ReservationSentEvent(final String alarmType,
+                                final Long organizationId,
                                 final Long receiverId,
                                 final Long senderId,
                                 final String couponTitle,
                                 final LocalDateTime reservationTime) {
         super(alarmType);
+        this.organizationId = organizationId;
         this.receiverId = receiverId;
         this.senderId = senderId;
         this.reservationTime = reservationTime;
@@ -31,6 +34,7 @@ public class ReservationSentEvent extends AlarmEvent {
     public static ReservationSentEvent from(final Reservation reservation) {
         Coupon reservedCoupon = reservation.getCoupon();
         return new ReservationSentEvent(AlarmSpecification.RESERVATION_SENT,
+                reservedCoupon.getOrganizationId(),
                 reservedCoupon.getSenderId(),
                 reservation.getMemberId(),
                 reservedCoupon.getCouponContent().getTitle(),
@@ -40,6 +44,7 @@ public class ReservationSentEvent extends AlarmEvent {
     @Override
     public AlarmSpecification toAlarmSpecification() {
         return new AlarmSpecification(getAlarmType(),
+                organizationId,
                 List.of(receiverId),
                 List.of(String.valueOf(senderId),
                         couponTitle,
@@ -50,6 +55,7 @@ public class ReservationSentEvent extends AlarmEvent {
     public String toString() {
         return "ReservationSentEvent{" +
                 "receiverId=" + receiverId +
+                ", organizationId=" + organizationId +
                 ", senderId=" + senderId +
                 ", couponTitle='" + couponTitle + '\'' +
                 ", reservationTime=" + reservationTime +

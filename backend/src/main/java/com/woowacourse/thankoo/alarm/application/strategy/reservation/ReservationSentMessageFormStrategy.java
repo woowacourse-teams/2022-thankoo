@@ -17,7 +17,7 @@ public class ReservationSentMessageFormStrategy extends ReservationMessageFormSt
 
     private static final int CONTENT_SIZE = 3;
 
-    private static final String TITLE_LINK = "/reservations";
+    private static final String TITLE_LINK = "/organization/{0}/reservations";
     private static final String PRETEXT = "\uD83D\uDC9D 예약 요청이 도착했어요.";
     private static final String DATE = "예약 요청일 : {0}";
 
@@ -34,7 +34,7 @@ public class ReservationSentMessageFormStrategy extends ReservationMessageFormSt
 
         return Message.builder()
                 .title(PRETEXT)
-                .titleLink(alarmLinkGenerator.createUrl(TITLE_LINK))
+                .titleLink(alarmLinkGenerator.createUrl(MessageFormat.format(TITLE_LINK, alarm.getOrganizationId())))
                 .email(receiverEmails)
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
