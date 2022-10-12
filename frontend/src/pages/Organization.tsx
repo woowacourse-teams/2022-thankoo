@@ -3,39 +3,7 @@ import PageLayout from '../layout/PageLayout';
 import BirdLogoWhite from '../components/@shared/LogoWhite';
 import { css } from '@emotion/react';
 import { ORGANIZATIONS } from '../routes/Router';
-
-type ButtonProps = {
-  size?: 'medium' | 'small' | 'large';
-  type?: 'primary' | 'secondary' | 'primaryLight' | 'secondaryLight';
-};
-
-const ButtonStyleOptions = {
-  size: {
-    medium: '1.5rem',
-    small: '1rem',
-    large: '2rem',
-  },
-  bg: {
-    primary: 'tomato',
-    primaryLight: '#cdcac7',
-    secondary: '',
-    secondaryLight: '',
-  },
-  color: {
-    primary: 'white',
-  },
-};
-
-const Button = styled.button<ButtonProps>`
-  ${({ size = 'medium', type = 'primary' }) => css`
-    width: 100%;
-    padding: ${ButtonStyleOptions.size[size]} 1rem;
-    background-color: ${ButtonStyleOptions.bg[type]};
-    color: ${ButtonStyleOptions.color[type]};
-    border: none;
-    border-radius: 4px;
-  `}
-`;
+import Button from '../components/@shared/Button';
 
 const Organization = () => {
   const organization = ORGANIZATIONS[0];
@@ -62,7 +30,7 @@ const Organization = () => {
           </div>
         </S.Body>
         <S.JoinSection>
-          <Button size='medium'>{organization.organizationName}에 참여하기</Button>
+          <Button>{organization.organizationName}에 참여하기</Button>
         </S.JoinSection>
       </S.Inner>
     </S.Container>

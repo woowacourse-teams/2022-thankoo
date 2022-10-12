@@ -99,16 +99,6 @@ const S = {
     /* height: 15%; */
     align-items: flex-end;
   `,
-  Button: styled.button`
-    border: none;
-    border-radius: 4px;
-    background-color: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.button.abled.color};
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.5rem;
-    height: fit-content;
-  `,
   UseCouponLink: styled(Link)`
     width: 100%;
   `,
