@@ -22,27 +22,27 @@ public class HeartMessageFormStrategy implements MessageFormStrategy {
     private static final int COUNT_INDEX = 1;
 
     private static final String TITLE = "{0}님이 당신에게 마음을 {1}번 보냈어요 ❤️";
-    private static final String TITLE_LINK = "/hearts";
+    private static final String TITLE_LINK = "/organization/{0}/hearts";
 
     private final AlarmMemberProvider alarmMemberProvider;
     private final AlarmLinkGenerator alarmLinkGenerator;
 
     @Override
     public Message createFormat(final Alarm alarm) {
-        validateContentSize(alarm, CONTENT_SIZE);
+        validateContentSize(alarm);
         List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
         String senderName = alarmMemberProvider.getSenderName(alarm.getContentAt(SENDER_ID_INDEX));
 
         return Message.builder()
                 .email(receiverEmails)
                 .title(MessageFormat.format(TITLE, senderName, String.valueOf(alarm.getContentAt(COUNT_INDEX))))
-                .titleLink(alarmLinkGenerator.createUrl(TITLE_LINK))
+                .titleLink(alarmLinkGenerator.createUrl(MessageFormat.format(TITLE_LINK, alarm.getOrganizationId())))
                 .contents(Collections.emptyList())
                 .build();
     }
 
-    private void validateContentSize(final Alarm alarm, final int size) {
-        if (!alarm.hasContentsSize(size)) {
+    private void validateContentSize(final Alarm alarm) {
+        if (!alarm.hasContentsSize(CONTENT_SIZE)) {
             throw new InvalidAlarmException(ErrorType.INVALID_ALARM_FORMAT);
         }
     }
