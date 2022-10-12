@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
@@ -16,6 +17,7 @@ public class Coupons {
 
     public Coupons(final List<Coupon> values) {
         validateCouponSize(values);
+        validateOrganizationIds(values);
         this.values = List.copyOf(values);
     }
 
@@ -23,6 +25,19 @@ public class Coupons {
         if (values.isEmpty()) {
             throw new InvalidCouponException(ErrorType.CAN_NOT_CREATE_COUPON_GROUP);
         }
+    }
+
+    private void validateOrganizationIds(final List<Coupon> values) {
+        Set<Long> organizationIds = toOrganizationIds(values);
+        if (organizationIds.size() != 1) {
+            throw new InvalidCouponException(ErrorType.CAN_NOT_CREATE_COUPON_GROUP_UNMATCHED_ORGANIZATIONS);
+        }
+    }
+
+    private Set<Long> toOrganizationIds(final List<Coupon> values) {
+        return values.stream()
+                .map(Coupon::getOrganizationId)
+                .collect(Collectors.toSet());
     }
 
     public static Coupons distribute(final List<Coupon> values) {
@@ -75,5 +90,9 @@ public class Coupons {
     private boolean isSameCouponContents(final CouponContent representativeCouponContent) {
         return values.stream()
                 .allMatch(value -> value.isSameCouponContent(representativeCouponContent));
+    }
+
+    public Long getOrganizationId() {
+        return values.iterator().next().getOrganizationId();
     }
 }
