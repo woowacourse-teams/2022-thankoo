@@ -13,6 +13,7 @@ import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmC
 import useModal from '../hooks/useModal';
 import HeaderText from '../layout/HeaderText';
 import { couponTypeKeys, couponTypes } from '../types/coupon';
+import LongButton from '../components/@shared/LongButton';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -70,7 +71,7 @@ const EnterCouponContent = () => {
           />
         </S.Form>
       </S.Body>
-      <S.LongButton
+      <LongButton
         onClick={() => {
           show();
           setModalContent(
@@ -87,7 +88,7 @@ const EnterCouponContent = () => {
       >
         {checkedUsers.length}명에게 쿠폰 전송하기
         <ArrowForwardIosIcon />
-      </S.LongButton>
+      </LongButton>
     </PageLayout>
   );
 };
@@ -143,27 +144,6 @@ const S = {
     &:focus {
       outline: ${({ theme }) => `3px solid ${theme.primary}`};
     }
-  `,
-  LongButton: styled.button`
-    border: none;
-    border-radius: 30px;
-    font-size: 18px;
-    margin: 0 3vw;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    ${({ disabled, theme }) =>
-      disabled
-        ? css`
-            background-color: ${theme.button.disbaled.background};
-            color: ${theme.button.disbaled.color};
-            cursor: not-allowed;
-          `
-        : css`
-            background-color: ${theme.button.active.background};
-            color: ${theme.button.active.color};
-          `}
   `,
   CouponBox: styled.div`
     margin: 0 auto;
