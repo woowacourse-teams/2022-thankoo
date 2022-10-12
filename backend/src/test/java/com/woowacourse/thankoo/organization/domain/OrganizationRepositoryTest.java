@@ -17,6 +17,7 @@ import com.woowacourse.thankoo.common.annotations.RepositoryTest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -95,46 +96,69 @@ class OrganizationRepositoryTest {
     @DisplayName("code로 조직을 찾는다.")
     @Test
     void findByCodeValue() {
-        Organization woowacource = organizationRepository.save(
+        Organization woowacourse = organizationRepository.save(
                 Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
                         organizationValidator));
         Organization organization = organizationRepository.findByCodeValue(ORGANIZATION_WOOWACOURSE_CODE).orElseThrow();
 
-        assertThat(organization.getId()).isEqualTo(woowacource.getId());
+        assertThat(organization.getId()).isEqualTo(woowacourse.getId());
     }
 
     @DisplayName("id로 조직을 찾는다.")
     @Test
     void findWithMemberById() {
-        Organization woowacource = organizationRepository.save(
+        Organization woowacourse = organizationRepository.save(
                 Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
                         organizationValidator));
-        Organization organization = organizationRepository.findWithMemberById(woowacource.getId()).orElseThrow();
+        Organization organization = organizationRepository.findWithMemberById(woowacourse.getId()).orElseThrow();
 
-        assertThat(organization.getId()).isEqualTo(woowacource.getId());
+        assertThat(organization.getId()).isEqualTo(woowacourse.getId());
     }
 
-    @DisplayName("member로 조직-멤버를 찾는다.")
+    @DisplayName("member로 가입 순서로 정렬된 조직-멤버를 찾는다.")
     @Test
-    void findByOrganizationMembersByMember() {
+    void findOrganizationMembersByMemberOrderByOrderNumber() {
         Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Organization organization1 = organizationRepository.save(
                 Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
                         organizationValidator));
-
         Organization organization2 = organizationRepository.save(
                 Organization.create(ORGANIZATION_THANKOO, length -> ORGANIZATION_THANKOO_CODE, 100,
                         organizationValidator));
 
-        OrganizationMembers organizationMembers1 = new OrganizationMembers(
+        organization2.join(lala, new OrganizationMembers(List.of()));
+        OrganizationMembers joinedOrganizationMembers = new OrganizationMembers(
                 organizationRepository.findOrganizationMembersByMember(lala));
-        organization1.join(lala, organizationMembers1);
+        organization1.join(lala, joinedOrganizationMembers);
 
-        OrganizationMembers organizationMembers2 = new OrganizationMembers(
+        List<OrganizationMember> organizationMembers = organizationRepository.findOrganizationMembersByMemberOrderByOrderNumber(
+                lala);
+
+        assertThat(organizationMembers).extracting("organization")
+                .containsExactly(organization2, organization1);
+    }
+
+    @DisplayName("member로 조직-멤버를 찾는다.")
+    @Test
+    void findOrganizationMembersByMember() {
+        Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization1 = organizationRepository.save(
+                Organization.create(ORGANIZATION_WOOWACOURSE, length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
+                        organizationValidator));
+        Organization organization2 = organizationRepository.save(
+                Organization.create(ORGANIZATION_THANKOO, length -> ORGANIZATION_THANKOO_CODE, 100,
+                        organizationValidator));
+
+        organization1.join(lala, new OrganizationMembers(List.of()));
+        OrganizationMembers joinedOrganizationMembers = new OrganizationMembers(
                 organizationRepository.findOrganizationMembersByMember(lala));
-        organization2.join(lala, organizationMembers2);
+        organization2.join(lala, joinedOrganizationMembers);
 
-        assertThat(organizationRepository.findOrganizationMembersByMember(lala)).hasSize(2);
+        List<OrganizationMember> organizationMembers = organizationRepository.findOrganizationMembersByMember(lala);
+
+        assertThat(organizationMembers).extracting("organization")
+                .containsOnly(organization1, organization2);
     }
 }

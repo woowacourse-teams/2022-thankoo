@@ -67,11 +67,11 @@ class OrganizationQueryRepositoryTest {
                         organizationValidator));
 
         OrganizationMembers organizationMembers1 = new OrganizationMembers(
-                organizationRepository.findOrganizationMembersByMember(member));
+                organizationRepository.findOrganizationMembersByMemberOrderByOrderNumber(member));
         organization1.join(member, organizationMembers1);
 
         OrganizationMembers organizationMembers2 = new OrganizationMembers(
-                organizationRepository.findOrganizationMembersByMember(member));
+                organizationRepository.findOrganizationMembersByMemberOrderByOrderNumber(member));
         organization2.join(member, organizationMembers2);
 
         organizationRepository.flush();

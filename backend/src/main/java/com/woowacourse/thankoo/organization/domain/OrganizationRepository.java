@@ -21,11 +21,16 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
 
     @Query("SELECT DISTINCT o FROM Organization o "
             + "LEFT JOIN FETCH o.organizationMembers.values om "
-            + "WHERE o.code.value = :code")
+            + "WHERE o.code.value = :code ")
     Optional<Organization> findByCodeValue(@Param("code") String code);
 
     @Query("SELECT om FROM OrganizationMember om "
             + "WHERE om.member = :member "
-            + "ORDER BY om.orderNumber")
+            + "ORDER BY om.orderNumber ")
+    List<OrganizationMember> findOrganizationMembersByMemberOrderByOrderNumber(@Param("member") Member member);
+
+    @Query("SELECT om FROM OrganizationMember om "
+            + "LEFT JOIN FETCH om.organization o "
+            + "WHERE om.member = :member ")
     List<OrganizationMember> findOrganizationMembersByMember(@Param("member") Member member);
 }

@@ -57,7 +57,8 @@ class OrganizationServiceTest {
 
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization.getCode().getValue()));
 
-            List<OrganizationMember> organizationMembers = organizationRepository.findOrganizationMembersByMember(lala);
+            List<OrganizationMember> organizationMembers = organizationRepository.findOrganizationMembersByMemberOrderByOrderNumber(
+                    lala);
 
             assertAll(
                     () -> assertThat(organizationMembers).hasSize(1),
@@ -86,7 +87,8 @@ class OrganizationServiceTest {
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization1.getCode().getValue()));
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization2.getCode().getValue()));
 
-            List<OrganizationMember> organizationMembers = organizationRepository.findOrganizationMembersByMember(lala);
+            List<OrganizationMember> organizationMembers = organizationRepository.findOrganizationMembersByMemberOrderByOrderNumber(
+                    lala);
 
             assertAll(
                     () -> assertThat(organizationMembers).hasSize(2),
