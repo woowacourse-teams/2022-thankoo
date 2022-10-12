@@ -35,4 +35,15 @@ public class AdminCouponSerialResponse {
                 couponSerialMember.getSenderName(),
                 couponSerialMember.getCouponType().getValue());
     }
+
+    @Override
+    public String toString() {
+        return "AdminCouponSerialResponse{" +
+                "serialId=" + serialId +
+                ", code='" + code + '\'' +
+                ", senderId=" + senderId +
+                ", senderName='" + senderName + '\'' +
+                ", couponType='" + couponType + '\'' +
+                '}';
+    }
 }

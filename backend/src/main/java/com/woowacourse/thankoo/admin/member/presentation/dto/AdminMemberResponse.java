@@ -23,7 +23,7 @@ public class AdminMemberResponse {
     @Override
     public String toString() {
         return "AdminMemberResponse{" +
-                "id=" + memberId +
+                "memberId=" + memberId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
