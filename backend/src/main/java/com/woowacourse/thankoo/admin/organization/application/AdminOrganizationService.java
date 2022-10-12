@@ -17,11 +17,11 @@ public class AdminOrganizationService {
     private final AdminOrganizationRepository adminOrganizationRepository;
     private final OrganizationValidator organizationValidator;
 
-    public void createOrganization(final AdminOrganizationCreationRequest organizationCreationRequeest) {
-        String organizationName = organizationCreationRequeest.getName();
+    public void createOrganization(final AdminOrganizationCreationRequest organizationCreationRequest) {
+        String organizationName = organizationCreationRequest.getName();
         Organization newOrganization = Organization.create(organizationName,
                 new OrganizationCodeGenerator(),
-                organizationCreationRequeest.getLimitedSize(),
+                organizationCreationRequest.getLimitedSize(),
                 organizationValidator);
         adminOrganizationRepository.save(newOrganization);
     }

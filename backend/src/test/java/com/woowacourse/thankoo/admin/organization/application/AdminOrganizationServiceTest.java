@@ -67,6 +67,5 @@ class AdminOrganizationServiceTest {
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("유효하지 않은 조직의 인원입니다.");
         }
-
     }
 }
