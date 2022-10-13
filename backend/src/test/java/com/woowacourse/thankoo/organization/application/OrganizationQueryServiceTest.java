@@ -4,7 +4,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
@@ -14,7 +14,8 @@ import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequ
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
-import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -48,13 +49,11 @@ class OrganizationQueryServiceTest {
         void empty() {
             Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
-            organizationRepository.save(
-                    Organization.create(ORGANIZATION_WOOWACOURSE,
-                            new OrganizationCodeGenerator(),
-                            100,
-                            organizationValidator));
+            organizationRepository.save(createDefaultOrganization(organizationValidator));
+            List<OrganizationResponse> memberOrganizations = organizationQueryService.getMemberOrganizations(
+                    lala.getId());
 
-            assertThat(organizationQueryService.getMemberOrganizations(lala.getId())).isEmpty();
+            assertThat(memberOrganizations).isEmpty();
         }
 
         @DisplayName("있으면 반환한다.")
@@ -62,15 +61,12 @@ class OrganizationQueryServiceTest {
         void success() {
             Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
 
-            Organization organization = organizationRepository.save(
-                    Organization.create(ORGANIZATION_WOOWACOURSE,
-                            new OrganizationCodeGenerator(),
-                            100,
-                            organizationValidator));
-
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
             organizationService.join(lala.getId(), new OrganizationJoinRequest(organization.getCode().getValue()));
+            List<OrganizationResponse> memberOrganizations = organizationQueryService.getMemberOrganizations(
+                    lala.getId());
 
-            assertThat(organizationQueryService.getMemberOrganizations(lala.getId())).hasSize(1);
+            assertThat(memberOrganizations).hasSize(1);
         }
     }
 }

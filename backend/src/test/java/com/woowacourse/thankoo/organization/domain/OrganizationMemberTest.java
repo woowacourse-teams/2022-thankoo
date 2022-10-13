@@ -35,10 +35,7 @@ class OrganizationMemberTest {
                 organizationValidator);
 
         assertDoesNotThrow(() -> new OrganizationMember(
-                new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL),
-                organization,
-                1,
-                true));
+                new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL), organization, 1, true));
     }
 
     @DisplayName("동일한 조직이다.")
@@ -48,11 +45,7 @@ class OrganizationMemberTest {
                 organizationValidator);
         Member member = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL);
 
-        OrganizationMember organizationMember = new OrganizationMember(
-                member,
-                organization,
-                1,
-                true);
+        OrganizationMember organizationMember = new OrganizationMember(member, organization, 1, true);
 
         assertThat(organizationMember.isSameOrganization(organization)).isTrue();
     }
