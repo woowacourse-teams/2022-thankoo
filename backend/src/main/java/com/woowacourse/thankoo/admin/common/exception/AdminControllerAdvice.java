@@ -18,7 +18,7 @@ public class AdminControllerAdvice {
     }
 
     @ExceptionHandler(AdminUnAuthenticationException.class)
-    public ResponseEntity<AdminErrorResponse> adminUnAuthenticationExceptionhandler(final AdminUnAuthenticationException e) {
+    public ResponseEntity<AdminErrorResponse> adminUnAuthenticationExceptionHandler(final AdminUnAuthenticationException e) {
         log.warn("Admin UnAuthentication Exception", e);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AdminErrorResponse(e.getMessage()));
     }
