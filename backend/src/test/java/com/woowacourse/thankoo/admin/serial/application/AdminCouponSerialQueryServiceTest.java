@@ -30,6 +30,7 @@ import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.serial.domain.CouponSerial;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ class AdminCouponSerialQueryServiceTest {
     @Autowired
     private OrganizationValidator organizationValidator;
 
+    @Disabled
     @DisplayName("회원의 id로 쿠폰 시리얼을 모두 조회한다.")
     @Test
     void getByMemberId() {
