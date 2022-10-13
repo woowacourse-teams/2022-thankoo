@@ -118,5 +118,10 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
                 .조직에_접근한다(userToken, organizationResponse.getOrganizationId())
                 .response()
                 .status(HttpStatus.OK.value());
+
+        OrganizationAssured.request()
+                .내_조직을_조회한다(userToken)
+                .response()
+                .조직상태가_변경됨(organizationResponse.getOrganizationId(), true);
     }
 }

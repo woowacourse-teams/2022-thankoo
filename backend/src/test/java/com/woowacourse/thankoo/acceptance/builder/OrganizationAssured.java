@@ -75,6 +75,17 @@ public class OrganizationAssured {
             );
         }
 
+        public void 조직상태가_변경됨(final Long organizationId, final boolean lassAccessed) {
+            List<OrganizationResponse> responses = bodies(OrganizationResponse.class);
+
+            OrganizationResponse organizationResponse = responses.stream()
+                    .filter(r -> organizationId.equals(r.getOrganizationId()))
+                    .findFirst()
+                    .orElseThrow();
+
+            assertThat(organizationResponse.isLastAccessed()).isEqualTo(lassAccessed);
+        }
+
         public OrganizationResponseBuilder status(final int code) {
             assertThat(response.statusCode()).isEqualTo(code);
             return this;
