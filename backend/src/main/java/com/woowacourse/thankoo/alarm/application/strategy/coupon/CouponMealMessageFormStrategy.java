@@ -31,12 +31,15 @@ public class CouponMealMessageFormStrategy extends CouponMessageFormStrategy {
         return Message.builder()
                 .email(receiverEmails)
                 .title(MEAL_PRETEXT)
-                .titleLink(alarmLinkGenerator.createUrl(
-                        MessageFormat.format(ACCEPT_TITLE_LINK, alarm.getOrganizationId())))
+                .titleLink(createLink(alarm.getOrganizationId()))
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(TITLE, alarm.getContentAt(TITLE_INDEX)))
                 .content(MessageFormat.format(TYPE, MEAL_TYPE))
                 .build();
+    }
+
+    private String createLink(final Long organizationId) {
+        return alarmLinkGenerator.createUrl(MessageFormat.format(ACCEPT_TITLE_LINK, organizationId));
     }
 
     @Override

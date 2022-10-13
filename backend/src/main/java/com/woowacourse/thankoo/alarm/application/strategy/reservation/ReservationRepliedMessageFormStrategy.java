@@ -40,8 +40,7 @@ public class ReservationRepliedMessageFormStrategy extends ReservationMessageFor
                 .titleLink(getTitleLink(status, alarm.getOrganizationId()))
                 .email(receiverEmails)
                 .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
-                .content(MessageFormat.format(RESERVATION_STATUS,
-                        getStatusMessage(status)))
+                .content(MessageFormat.format(RESERVATION_STATUS, getStatusMessage(status)))
                 .build();
     }
 

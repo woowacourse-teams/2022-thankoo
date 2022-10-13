@@ -36,9 +36,13 @@ public class HeartMessageFormStrategy implements MessageFormStrategy {
         return Message.builder()
                 .email(receiverEmails)
                 .title(MessageFormat.format(TITLE, senderName, String.valueOf(alarm.getContentAt(COUNT_INDEX))))
-                .titleLink(alarmLinkGenerator.createUrl(MessageFormat.format(TITLE_LINK, alarm.getOrganizationId())))
+                .titleLink(createLink(alarm.getOrganizationId()))
                 .contents(Collections.emptyList())
                 .build();
+    }
+
+    private String createLink(final Long organizationId) {
+        return alarmLinkGenerator.createUrl(MessageFormat.format(TITLE_LINK, organizationId));
     }
 
     private void validateContentSize(final Alarm alarm) {
