@@ -2,6 +2,9 @@ package com.woowacourse.thankoo.coupon.domain;
 
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.CouponFixture.TITLE;
+import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
+import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
+import static com.woowacourse.thankoo.coupon.domain.CouponType.MEAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -45,20 +48,6 @@ class CouponsTest {
                 .hasMessage("쿠폰 그룹을 생성할 수 없습니다.");
     }
 
-    @DisplayName("조직의 id가 1개가 아닌 경우 예외가 발생한다.")
-    @Test
-    void duplicateOrganizationIds() {
-        List<Long> organizationIds = List.of(1L, 1L, 2L);
-        List<Coupon> values = organizationIds.stream()
-                .map(organizationId -> new Coupon(organizationId, 1L, 2L,
-                        new CouponContent(CouponType.COFFEE, TITLE, MESSAGE), CouponStatus.NOT_USED))
-                .collect(Collectors.toList());
-
-        assertThatThrownBy(() -> new Coupons(values))
-                .isInstanceOf(InvalidCouponException.class)
-                .hasMessage("다른 조직으로 생성할 수 없습니다.");
-    }
-
     @DisplayName("쿠폰을 발급할 때 ")
     @Nested
     class DistributeTest {
@@ -80,8 +69,8 @@ class CouponsTest {
                                     ORGANIZATION_ID,
                                     1L,
                                     2L,
-                                    new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
-                                    CouponStatus.NOT_USED)
+                                    new CouponContent(COFFEE, TITLE, MESSAGE),
+                                    NOT_USED)
                     )
             );
 
@@ -92,8 +81,7 @@ class CouponsTest {
         @Test
         void distributeFailedDifferentSender() {
             List<Coupon> values = createRawCoupons();
-            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
-                    CouponStatus.NOT_USED));
+            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
 
             assertThatThrownBy(() -> Coupons.distribute(values))
                     .isInstanceOf(InvalidCouponException.class)
@@ -104,12 +92,25 @@ class CouponsTest {
         @Test
         void distributeFailedDifferentContent() {
             List<Coupon> values = createRawCoupons();
-            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(CouponType.MEAL, TITLE, MESSAGE),
-                    CouponStatus.NOT_USED));
+            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(MEAL, TITLE, MESSAGE), NOT_USED));
 
             assertThatThrownBy(() -> Coupons.distribute(values))
                     .isInstanceOf(InvalidCouponException.class)
                     .hasMessage("동일한 쿠폰 그룹이 아닙니다.");
+        }
+
+        @DisplayName("조직의 id가 1개가 아닌 경우 예외가 발생한다.")
+        @Test
+        void duplicateOrganizationIds() {
+            List<Long> organizationIds = List.of(1L, 1L, 2L);
+            List<Coupon> values = organizationIds.stream()
+                    .map(organizationId -> new Coupon(organizationId, 1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE),
+                            NOT_USED))
+                    .collect(Collectors.toList());
+
+            assertThatThrownBy(() -> Coupons.distribute(values))
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("다른 조직으로 생성할 수 없습니다.");
         }
     }
 
@@ -129,8 +130,7 @@ class CouponsTest {
         @Test
         void getRepresentativeSenderIdDifferentSenderFailed() {
             List<Coupon> values = createRawCoupons();
-            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
-                    CouponStatus.NOT_USED));
+            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
 
             Coupons coupons = new Coupons(values);
             assertThatThrownBy(coupons::getRepresentativeSenderId)
@@ -149,15 +149,15 @@ class CouponsTest {
             Coupons coupons = Coupons.distribute(createRawCoupons());
 
             assertThat(coupons.getRepresentativeCouponContent())
-                    .isEqualTo(new CouponContent(CouponType.COFFEE, TITLE, MESSAGE));
+                    .isEqualTo(new CouponContent(COFFEE, TITLE, MESSAGE));
         }
 
         @DisplayName("CouponContent 가 다를 경우 대표 Content 를 가져오지 못한다.")
         @Test
         void getRepresentativeCouponContentDifferentCouponContentFailed() {
             List<Coupon> values = createRawCoupons();
-            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(CouponType.MEAL, TITLE, MESSAGE),
-                    CouponStatus.NOT_USED));
+            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(MEAL, TITLE, MESSAGE),
+                    NOT_USED));
 
             Coupons coupons = new Coupons(values);
             assertThatThrownBy(coupons::getRepresentativeCouponContent)
@@ -184,8 +184,7 @@ class CouponsTest {
         List<Coupon> coupons = new ArrayList<>();
         for (long id = 1; id < 4; id++) {
             coupons.add(
-                    new Coupon(id, ORGANIZATION_ID, 1L, id + 1, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
-                            CouponStatus.NOT_USED));
+                    new Coupon(id, ORGANIZATION_ID, 1L, id + 1, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         }
         return coupons;
     }

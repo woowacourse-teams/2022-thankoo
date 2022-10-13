@@ -17,7 +17,6 @@ public class Coupons {
 
     public Coupons(final List<Coupon> values) {
         validateCouponSize(values);
-        validateOrganizationIds(values);
         this.values = List.copyOf(values);
     }
 
@@ -27,23 +26,24 @@ public class Coupons {
         }
     }
 
-    private void validateOrganizationIds(final List<Coupon> values) {
+    public static Coupons distribute(final List<Coupon> values) {
+        Coupons coupons = new Coupons(values);
+        validateOrganizationIds(values);
+        Events.publish(CouponSentEvent.from(coupons));
+        return coupons;
+    }
+
+    private static void validateOrganizationIds(final List<Coupon> values) {
         Set<Long> organizationIds = toOrganizationIds(values);
         if (organizationIds.size() != 1) {
             throw new InvalidCouponException(ErrorType.CAN_NOT_CREATE_COUPON_GROUP_UNMATCHED_ORGANIZATIONS);
         }
     }
 
-    private Set<Long> toOrganizationIds(final List<Coupon> values) {
+    private static Set<Long> toOrganizationIds(final List<Coupon> values) {
         return values.stream()
                 .map(Coupon::getOrganizationId)
                 .collect(Collectors.toSet());
-    }
-
-    public static Coupons distribute(final List<Coupon> values) {
-        Coupons coupons = new Coupons(values);
-        Events.publish(CouponSentEvent.from(coupons));
-        return coupons;
     }
 
     public List<Long> getCouponIds() {
