@@ -92,7 +92,7 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
                         parameterWithName("memberId").description("memberId")
                 ),
                 responseFields(
-                        fieldWithPath("[].id").type(NUMBER).description("id"),
+                        fieldWithPath("[].serialId").type(NUMBER).description("serialId"),
                         fieldWithPath("[].organizationId").type(NUMBER).description("organizationI"),
                         fieldWithPath("[].code").type(STRING).description("code"),
                         fieldWithPath("[].senderId").type(STRING).description("senderId"),
