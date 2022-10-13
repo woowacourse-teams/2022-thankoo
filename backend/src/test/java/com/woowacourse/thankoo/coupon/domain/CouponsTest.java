@@ -81,7 +81,8 @@ class CouponsTest {
         @Test
         void distributeFailedDifferentSender() {
             List<Coupon> values = createRawCoupons();
-            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            values.add(new Coupon(4L, ORGANIZATION_ID, 2L, 3L, new CouponContent(COFFEE, TITLE, MESSAGE),
+                    NOT_USED));
 
             assertThatThrownBy(() -> Coupons.distribute(values))
                     .isInstanceOf(InvalidCouponException.class)
@@ -166,13 +167,34 @@ class CouponsTest {
         }
     }
 
-    @DisplayName("쿠폰들에서 조직의 id를 가져온다.")
-    @Test
-    void getOrganizationId() {
-        Coupons coupons = givenCoupons();
-        Long organizationId = coupons.getOrganizationId();
+    @DisplayName("쿠폰들에서 조직의 id를 가져올 때 ")
+    @Nested
+    class GetOrganizationIdTest {
 
-        assertThat(organizationId).isEqualTo(1L);
+        @DisplayName("쿠폰들에서 조직의 id를 가져온다.")
+        @Test
+        void getOrganizationId() {
+            Coupons coupons = givenCoupons();
+            Long organizationId = coupons.getRepresentingOrganizationId();
+
+            assertThat(organizationId).isEqualTo(1L);
+        }
+
+        @DisplayName("쿠폰들에서 조직의 id를 가져올때 조직이 여러개라면 예외가 발생한다.")
+        @Test
+        void getOrganizationIdException() {
+            List<Long> organizationIds = List.of(1L, 1L, 2L);
+            List<Coupon> values = organizationIds.stream()
+                    .map(organizationId -> new Coupon(organizationId, 1L, 2L, new CouponContent(COFFEE, TITLE, MESSAGE),
+                            NOT_USED))
+                    .collect(Collectors.toList());
+
+            Coupons coupons = new Coupons(values);
+
+            assertThatThrownBy(coupons::getRepresentingOrganizationId)
+                    .isInstanceOf(InvalidCouponException.class)
+                    .hasMessage("조회하려는 조직이 1개가 아닙니다.");
+        }
     }
 
     private Coupons givenCoupons() {

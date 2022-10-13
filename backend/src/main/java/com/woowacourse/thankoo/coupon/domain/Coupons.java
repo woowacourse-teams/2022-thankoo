@@ -4,7 +4,6 @@ import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;
 
@@ -34,16 +33,16 @@ public class Coupons {
     }
 
     private static void validateOrganizationIds(final List<Coupon> values) {
-        Set<Long> organizationIds = toOrganizationIds(values);
-        if (organizationIds.size() != 1) {
+        if (countSameOrganizationIds(values) != 1) {
             throw new InvalidCouponException(ErrorType.CAN_NOT_CREATE_COUPON_GROUP_UNMATCHED_ORGANIZATIONS);
         }
     }
 
-    private static Set<Long> toOrganizationIds(final List<Coupon> values) {
+    private static long countSameOrganizationIds(final List<Coupon> values) {
         return values.stream()
                 .map(Coupon::getOrganizationId)
-                .collect(Collectors.toSet());
+                .distinct()
+                .count();
     }
 
     public List<Long> getCouponIds() {
@@ -92,7 +91,10 @@ public class Coupons {
                 .allMatch(value -> value.isSameCouponContent(representativeCouponContent));
     }
 
-    public Long getOrganizationId() {
+    public Long getRepresentingOrganizationId() {
+        if (countSameOrganizationIds(values) != 1) {
+            throw new InvalidCouponException(ErrorType.COUPON_GROUP_UNMATCHED_ORGANIZATIONS);
+        }
         return values.iterator().next().getOrganizationId();
     }
 }

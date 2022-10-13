@@ -36,6 +36,7 @@ public enum ErrorType {
     CAN_NOT_USE_IMMEDIATELY_COUPON(3009, "쿠폰을 즉시 사용할 수 있는 상태가 아닙니다."),
     CAN_NOT_USE_IMMEDIATELY_MISMATCH_MEMBER(3010, "쿠폰을 즉시 사용할 수 있는 회원이 아닙니다."),
     CAN_NOT_CREATE_COUPON_GROUP_UNMATCHED_ORGANIZATIONS(3010, "다른 조직으로 생성할 수 없습니다."),
+    COUPON_GROUP_UNMATCHED_ORGANIZATIONS(3011, "조회하려는 조직이 1개가 아닙니다."),
 
     INVALID_RESERVATION_TIME(4001, "유효하지 않은 일정입니다."),
     INVALID_RESERVATION_MEMBER_MISMATCH(4002, "예약을 요청할 수 없는 회원입니다."),
