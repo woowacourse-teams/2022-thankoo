@@ -45,7 +45,8 @@ public class HeartSentEvent extends AlarmEvent {
     @Override
     public String toString() {
         return "HeartSentEvent{" +
-                "receiverId=" + receiverId +
+                "organizationId=" + organizationId +
+                ", receiverId=" + receiverId +
                 ", senderId=" + senderId +
                 ", count=" + count +
                 '}';
