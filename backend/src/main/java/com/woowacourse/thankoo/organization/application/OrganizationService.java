@@ -31,11 +31,6 @@ public class OrganizationService {
         organization.join(member, organizationMembers);
     }
 
-    private Member getMember(final Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
-    }
-
     public void access(final Long memberId, final Long organizationId) {
         Member member = getMember(memberId);
         OrganizationMembers organizationMembers = new OrganizationMembers(
@@ -46,6 +41,11 @@ public class OrganizationService {
         validateOrganization(organizationMembers, organization);
 
         organizationMembers.switchLastAccessed(organization);
+    }
+
+    private Member getMember(final Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new InvalidMemberException(ErrorType.NOT_FOUND_MEMBER));
     }
 
     private void validateOrganization(final OrganizationMembers organizationMembers, final Organization organization) {
