@@ -41,8 +41,7 @@ class OrganizationControllerTest extends ControllerTest {
     @DisplayName("조직에 참여한다.")
     @Test
     void join() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         OrganizationJoinRequest organizationJoinRequest = new OrganizationJoinRequest(ORGANIZATION_WOOWACOURSE_CODE);
         doNothing().when(organizationService).join(anyLong(), any(OrganizationJoinRequest.class));
@@ -67,8 +66,7 @@ class OrganizationControllerTest extends ControllerTest {
     @DisplayName("회원의 조직을 조회한다.")
     @Test
     void getMemberOrganizations() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         List<OrganizationResponse> organizationResponses = List.of(
                 OrganizationResponse.from(
@@ -85,6 +83,7 @@ class OrganizationControllerTest extends ControllerTest {
                                 false)
                 )
         );
+
         given(organizationQueryService.getMemberOrganizations(anyLong())).willReturn(organizationResponses);
 
         ResultActions resultActions = mockMvc.perform(get("/api/organizations/me")
@@ -110,8 +109,7 @@ class OrganizationControllerTest extends ControllerTest {
     @DisplayName("조직에 접근한다.")
     @Test
     void access() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         doNothing().when(organizationService).access(anyLong(), anyLong());
 
