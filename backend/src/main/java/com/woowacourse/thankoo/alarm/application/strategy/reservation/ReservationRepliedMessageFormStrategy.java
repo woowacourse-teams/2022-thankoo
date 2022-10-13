@@ -20,8 +20,8 @@ public class ReservationRepliedMessageFormStrategy extends ReservationMessageFor
     private static final String PRETEXT_RESPONSE = "\uD83D\uDC7B {0}님이 예약 요청에 응답했어요.";
     private static final int STATUS_INDEX = 2;
     private static final String ACCEPT_SIGN = "ACCEPT";
-    private static final String ACCEPT_TITLE_LINK = "/organization/{0}/meetings";
-    private static final String DECLINE_TITLE_LINK = "/organization/{0}";
+    private static final String ACCEPT_TITLE_LINK = "/organizations/{0}/meetings";
+    private static final String DECLINE_TITLE_LINK = "/organizations/{0}";
     private static final String RESERVATION_STATUS = "예약 상태 : {0}";
     private static final String ACCEPT_MESSAGE = "승인\uD83E\uDD70";
     private static final String DECLINE_MESSAGE = "거절\uD83D\uDE05";

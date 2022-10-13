@@ -17,7 +17,7 @@ public class ReservationSentMessageFormStrategy extends ReservationMessageFormSt
 
     private static final int CONTENT_SIZE = 3;
 
-    private static final String TITLE_LINK = "/organization/{0}/reservations";
+    private static final String TITLE_LINK = "/organizations/{0}/reservations";
     private static final String PRETEXT = "\uD83D\uDC9D 예약 요청이 도착했어요.";
     private static final String DATE = "예약 요청일 : {0}";
 

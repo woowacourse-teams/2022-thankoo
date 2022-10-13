@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class CouponMealMessageFormStrategy extends CouponMessageFormStrategy {
 
     private static final String MEAL_PRETEXT = "\uD83D\uDC8C 식사 쿠폰이 도착했어요.";
-    private static final String ACCEPT_TITLE_LINK = "/organization/{0}";
+    private static final String ACCEPT_TITLE_LINK = "/organizations/{0}";
     private static final String MEAL_TYPE = "식사\uD83C\uDF54";
 
     private final AlarmMemberProvider alarmMemberProvider;

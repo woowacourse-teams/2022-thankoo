@@ -22,7 +22,7 @@ public class HeartMessageFormStrategy implements MessageFormStrategy {
     private static final int COUNT_INDEX = 1;
 
     private static final String TITLE = "{0}님이 당신에게 마음을 {1}번 보냈어요 ❤️";
-    private static final String TITLE_LINK = "/organization/{0}/hearts";
+    private static final String TITLE_LINK = "/organizations/{0}/hearts";
 
     private final AlarmMemberProvider alarmMemberProvider;
     private final AlarmLinkGenerator alarmLinkGenerator;
