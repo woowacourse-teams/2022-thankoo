@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("HeartSentEvent 는 ")
 class HeartSentEventTest {
 
+    private static final Long ORGANIZATION_ID = 1L;
+
     @DisplayName("알람 스펙으로 변경한다.")
     @Test
     void toAlarmSpecification() {
@@ -20,6 +22,7 @@ class HeartSentEventTest {
 
         assertAll(
                 () -> assertThat(alarmSpecification.getAlarmType()).isEqualTo(AlarmSpecification.HEART_SENT),
+                () -> assertThat(alarmSpecification.getOrganizationId()).isEqualTo(ORGANIZATION_ID),
                 () -> assertThat(alarmSpecification.getTargetIds()).containsExactly(2L),
                 () -> assertThat(alarmSpecification.getContents()).containsExactly("1", "1")
         );

@@ -18,13 +18,15 @@ import org.junit.jupiter.api.Test;
 @DisplayName("ReservationSentEvent 는 ")
 class ReservationSentEventTest {
 
+    private static final Long ORGANIZATION_ID = 1L;
+
     @DisplayName("알람 스펙으로 변경한다.")
     @Test
     void toAlarmSpecification() {
         LocalDateTime futureDate = LocalDateTime.now().plusDays(1L);
         Long receiverId = 2L;
 
-        Coupon coupon = new Coupon(1L, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+        Coupon coupon = new Coupon(ORGANIZATION_ID, 1L, receiverId, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
         Reservation reservation = Reservation.reserve(futureDate,
                 TimeZoneType.ASIA_SEOUL,
@@ -39,6 +41,7 @@ class ReservationSentEventTest {
 
         assertAll(
                 () -> assertThat(alarmSpecification.getAlarmType()).isEqualTo(AlarmSpecification.RESERVATION_SENT),
+                () -> assertThat(alarmSpecification.getOrganizationId()).isEqualTo(ORGANIZATION_ID),
                 () -> assertThat(alarmSpecification.getTargetIds()).containsExactly(1L),
                 () -> assertThat(alarmSpecification.getContents()).containsExactly("2", TITLE, format)
         );

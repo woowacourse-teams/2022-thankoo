@@ -34,6 +34,7 @@ class MessageTest {
                 .willReturn(expected);
 
         Alarm alarm = Alarm.create(new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE,
+                1L,
                 List.of(2L, 3L),
                 List.of(String.valueOf(1L), "title", "coffee"))
         );
