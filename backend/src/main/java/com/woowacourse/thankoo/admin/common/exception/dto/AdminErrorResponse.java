@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AdminErrorResponse {
 
-
     private String message;
 
     public AdminErrorResponse(final String message) {
