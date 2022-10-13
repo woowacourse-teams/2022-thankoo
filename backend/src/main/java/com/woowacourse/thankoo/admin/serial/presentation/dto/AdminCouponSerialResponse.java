@@ -9,20 +9,20 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AdminCouponSerialResponse {
 
-    private Long id;
+    private Long serialId;
     private Long organizationId;
     private String code;
     private Long senderId;
     private String senderName;
     private String couponType;
 
-    public AdminCouponSerialResponse(final Long id,
+    public AdminCouponSerialResponse(final Long serialId,
                                      final Long organizationId,
                                      final String code,
                                      final Long senderId,
                                      final String senderName,
                                      final String couponType) {
-        this.id = id;
+        this.serialId = serialId;
         this.organizationId = organizationId;
         this.code = code;
         this.senderId = senderId;
