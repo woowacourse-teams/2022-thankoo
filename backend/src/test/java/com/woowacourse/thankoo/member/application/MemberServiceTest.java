@@ -1,15 +1,16 @@
 package com.woowacourse.thankoo.member.application;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -40,9 +41,9 @@ class MemberServiceTest {
     @DisplayName("본인을 제외한 모든 회원을 조회한다.")
     @Test
     void getMembersExcludeMe() {
-        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
-        memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
-        memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
+        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, LALA_IMAGE_URL));
+        memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HOHO_IMAGE_URL));
+        memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, HUNI_IMAGE_URL));
 
         List<MemberResponse> memberResponses = memberService.getMembersExcludeMe(member.getId());
 
@@ -55,25 +56,28 @@ class MemberServiceTest {
     @DisplayName("내 정보를 조회한다.")
     @Test
     void getMember() {
-        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, LALA_IMAGE_URL));
 
         MemberResponse memberResponse = memberService.getMember(member.getId());
 
-        assertThat(memberResponse).usingRecursiveComparison()
-                .isEqualTo(MemberResponse.of(member));
+        assertAll(
+                () -> assertThat(memberResponse.getName()).isEqualTo(LALA_NAME),
+                () -> assertThat(memberResponse.getEmail()).isEqualTo(LALA_EMAIL),
+                () -> assertThat(memberResponse.getImageUrl()).isEqualTo(LALA_IMAGE_URL)
+        );
     }
 
-    @Nested
     @DisplayName("회원 이름을 수정할 때 ")
+    @Nested
     class UpdateNameTest {
 
         @DisplayName("회원이 존재하면 정상적으로 이름을 수정한다.")
         @Test
         void updateMemberName() {
-            Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, LALA_IMAGE_URL));
             memberService.updateMemberName(member.getId(), new MemberNameRequest(HUNI_NAME));
 
-            Member foundMember = memberRepository.findById(member.getId()).get();
+            Member foundMember = memberRepository.findById(member.getId()).orElseThrow();
 
             assertAll(
                     () -> assertThat(foundMember).isNotNull(),
@@ -90,17 +94,17 @@ class MemberServiceTest {
         }
     }
 
-    @Nested
     @DisplayName("회원 프로필 이미지를 수정할 때 ")
+    @Nested
     class UpdateProfileImageTest {
 
         @DisplayName("회원이 존재하면 정상적으로 프로필 이미지를 수정한다.")
         @Test
         void updateMemberName() {
-            Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member member = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, LALA_IMAGE_URL));
             memberService.updateMemberProfileImage(member.getId(), new MemberProfileImageRequest(HUNI_IMAGE_URL));
 
-            Member foundMember = memberRepository.findById(member.getId()).get();
+            Member foundMember = memberRepository.findById(member.getId()).orElseThrow();
 
             assertAll(
                     () -> assertThat(foundMember).isNotNull(),
@@ -121,6 +125,6 @@ class MemberServiceTest {
     @DisplayName("모든 회원 프로필 이미지들을 조회한다.")
     @Test
     void getProfileImages() {
-        assertThat(memberService.getProfileImages()).hasSize(8);
+        assertThat(memberService.getProfileImages()).hasSizeGreaterThanOrEqualTo(0);
     }
 }
