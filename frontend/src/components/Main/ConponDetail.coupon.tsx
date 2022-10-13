@@ -2,20 +2,19 @@ import styled from '@emotion/styled';
 import { forwardRef, LegacyRef } from 'react';
 import GridViewCoupon from './GridViewCoupon';
 import CouponLayout from '../@shared/CouponLayout';
-import { Coupon } from '../../types';
 import { useRecoilValue } from 'recoil';
 import { sentOrReceivedAtom } from '../../recoil/atom';
 import { FlexColumn, FlexSpaceBetween, gap } from '../../styles/mixIn';
-import { css } from '@emotion/react';
+import { Coupon } from '../../types/coupon';
 
 const ConponDetailNotUsed = ({ coupon }: { coupon: Coupon }, ref: LegacyRef<HTMLDivElement>) => {
   const sentOrReceived = useRecoilValue(sentOrReceivedAtom);
-  const isSent = sentOrReceived === '보낸';
+  const isSent = sentOrReceived === 'sent';
 
   return (
     <S.Contents ref={ref}>
       <S.CouponArea>
-        {sentOrReceived === '보낸' ? (
+        {sentOrReceived === 'sent' ? (
           <CouponLayout
             id={coupon?.receiver.id}
             couponType={coupon?.content.couponType}

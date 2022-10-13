@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import { ErrorType } from '../../types';
+import { ErrorType } from '../../types/api';
 import { COUPON_QUERY_KEY } from './coupon';
 
 type OrderByType = 'received' | 'sent';

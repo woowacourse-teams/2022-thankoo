@@ -8,11 +8,11 @@ import Time from '../components/@shared/Time';
 import ConfirmReservationModal from '../components/CreateReservation/ConfirmReservationModal';
 import useModal from '../hooks/useModal';
 import ArrowBackButton from './../components/@shared/ArrowBackButton';
-import Header from '../components/@shared/Layout/Header';
-import PageLayout from '../components/@shared/Layout/PageLayout';
+import Header from '../layout/Header';
+import PageLayout from '../layout/PageLayout';
 import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
-import HeaderText from '../components/@shared/Layout/HeaderText';
+import HeaderText from '../layout/HeaderText';
 
 const CreateReservation = () => {
   const {
@@ -21,7 +21,7 @@ const CreateReservation = () => {
     date,
     time,
     setTime,
-    yesterday,
+    today,
     couponDetail,
     createReservation,
   } = useCreateReservation();
@@ -45,7 +45,7 @@ const CreateReservation = () => {
             type='date'
             value={date}
             onChange={setReservationDate}
-            min={yesterday}
+            min={today}
             max={`${new Date().getFullYear()}-12-31`}
           />
         </S.Area>

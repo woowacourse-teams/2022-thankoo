@@ -1,11 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import HeaderText from '../components/@shared/Layout/HeaderText';
-import BottomNavBar from '../components/PageButton/BottomNavBar';
+import HeaderText from '../layout/HeaderText';
 import Reservation from '../components/Reservations/Reservation';
 import useReservations from '../hooks/Reservations/useReservations';
 import NoReservation from '../components/@shared/noContent/NoReservation';
-import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
+import MainPageLayout from '../layout/MainPageLayout';
 
 const ReservationNav = ['received', 'sent'];
 
@@ -37,7 +36,11 @@ const Reservations = () => {
         <S.ListView>
           {reservations?.length > 0 ? (
             reservations.map(reservation => (
-              <Reservation key={reservation.reservationId} order={orderBy} {...reservation} />
+              <Reservation
+                key={reservation.reservationId}
+                transmitStatus={orderBy}
+                {...reservation}
+              />
             ))
           ) : (
             <NoReservation />
@@ -61,7 +64,7 @@ type CouponStatusNavProps = {
 
 const S = {
   Body: styled.section`
-    height: calc(79.5% - 5.5rem);
+    height: 100%;
     display: flex;
     flex-direction: column;
     padding: 5px 0;

@@ -62,7 +62,7 @@ public class AdminMemberControllerTest extends AdminControllerTest {
                         parameterWithName("endDate").description("endDate")
                 ),
                 responseFields(
-                        fieldWithPath("[].id").type(NUMBER).description("id"),
+                        fieldWithPath("[].memberId").type(NUMBER).description("member id"),
                         fieldWithPath("[].name").type(STRING).description("name"),
                         fieldWithPath("[].email").type(STRING).description("email")
                 )

@@ -17,14 +17,14 @@ export const COUPON_IMAGE = {
 };
 
 export const COUPON_STATUS_BUTTON = {
-  받은: {
+  received: {
     not_used: [{ text: '예약 하기', bg: 'tomato', disabled: false }],
     reserving: [{ text: '예약 취소', bg: 'tomato', disabled: false }],
     reserved: [{ text: '사용 완료', bg: 'tomato', disabled: false }],
     used: '이미 사용된 쿠폰입니다',
     expired: '만료된 쿠폰입니다',
   },
-  보낸: {
+  sent: {
     not_used: [
       {
         text: '상대가 아직 예약하지 않았습니다.',
@@ -56,8 +56,30 @@ export const COUPON_STATUS_STRAP_TEXT = {
   reserving: '예약 중',
   reserved: '예약 완료',
   used: '이미 사용된 쿠폰입니다',
+  immediately_used: '이미 사용된 쿠폰입니다',
   expired: '만료된 쿠폰입니다',
 };
 
 export const COUPON_TITLE_MAX_LENGTH = 20;
 export const COUPON_MESSEGE_MAX_LENGTH = 100;
+
+export const initialCouponState = {
+  couponId: 0,
+  sender: {
+    id: 0,
+    name: '',
+    email: '',
+    imageUrl: '',
+  },
+  receiver: {
+    id: 0,
+    name: '',
+    email: '',
+    imageUrl: '',
+  },
+  content: {
+    couponType: '',
+    title: '',
+    message: '',
+  },
+};

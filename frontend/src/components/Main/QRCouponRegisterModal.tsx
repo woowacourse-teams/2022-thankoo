@@ -12,7 +12,8 @@ import { QRCouponResponse } from '../../hooks/useQRCoupon';
 import useToast from '../../hooks/useToast';
 import { onMountToCenterModal, unMountCenterToButtomModal } from '../../styles/Animation';
 import { FlexColumn } from '../../styles/mixIn';
-import { couponTypes, ErrorType } from '../../types';
+import { ErrorType } from '../../types/api';
+import { couponTypes } from '../../types/coupon';
 
 const QRCouponRegisterModal = ({
   QRCode,

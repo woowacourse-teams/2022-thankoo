@@ -6,17 +6,16 @@ import GridViewCoupons from '../components/Main/GridViewCoupons';
 
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
-import { ROUTE_PATH } from '../constants/routes';
-import { couponTypeKeys, couponTypes } from '../types';
 import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
 import useMain from '../hooks/Main/useMain';
-import HeaderText from '../components/@shared/Layout/HeaderText';
-import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
+import HeaderText from '../layout/HeaderText';
+import MainPageLayout from '../layout/MainPageLayout';
 import useQRCoupon from '../hooks/useQRCoupon';
 import Spinner from '../components/@shared/Spinner';
+import { couponTypeKeys, couponTypes } from '../types/coupon';
 
-const sentOrReceivedArray = ['받은', '보낸'];
+const sentOrReceivedArray = ['received', 'sent'];
 
 const Main = () => {
   const {
@@ -40,17 +39,17 @@ const Main = () => {
         <S.SliderDiv length={2} current={sentOrReceivedArray.indexOf(sentOrReceived)} />
         <S.CouponStatusNav
           onClick={() => {
-            setSentOrReceived('받은');
+            setSentOrReceived('received');
           }}
-          selected={sentOrReceived === '받은'}
+          selected={sentOrReceived === 'received'}
         >
           <S.HeaderText>받은 쿠폰함</S.HeaderText>
         </S.CouponStatusNav>
         <S.CouponStatusNav
           onClick={() => {
-            setSentOrReceived('보낸');
+            setSentOrReceived('sent');
           }}
-          selected={sentOrReceived === '보낸'}
+          selected={sentOrReceived === 'sent'}
         >
           <S.HeaderText>보낸 쿠폰함</S.HeaderText>
         </S.CouponStatusNav>
@@ -81,15 +80,11 @@ const Main = () => {
           <Spinner />
         ) : coupons?.length ? (
           <GridViewCoupons coupons={coupons} />
-        ) : sentOrReceived === '보낸' ? (
+        ) : sentOrReceived === 'sent' ? (
           <NoSendCoupon />
         ) : (
           <NoReceivedCoupon />
         )}
-
-        <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
-          <S.SendIcon />
-        </S.SelectReceiverButton>
       </S.Body>
     </MainPageLayout>
   );
@@ -108,6 +103,7 @@ const S = {
     display: flex;
     flex-direction: column;
     overflow: auto;
+    height: 100%;
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;

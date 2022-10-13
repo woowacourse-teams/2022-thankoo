@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Outlet } from 'react-router-dom';
-import BottomNavBar from '../../PageButton/BottomNavBar';
-import UserProfileButton from '../UserProfileButton';
+import BottomNavBar from '../components/PageButton/BottomNavBar';
+import UserProfileButton from '../components/@shared/UserProfileButton';
 import PageLayout from './PageLayout';
 
 export default () => {

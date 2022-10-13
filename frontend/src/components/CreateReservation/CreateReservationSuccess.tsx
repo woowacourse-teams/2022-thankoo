@@ -8,7 +8,7 @@ import { onSuccessContentAtom, ReservationNavAtom } from './../../recoil/atom';
 
 const CreateReservationSuccess = ({ receiver, date, time }) => {
   const pageReset = useResetRecoilState(onSuccessContentAtom);
-  const [reservationNav, setReservationNav] = useRecoilState(ReservationNavAtom);
+  const [_, setReservationNav] = useRecoilState(ReservationNavAtom);
 
   return (
     <S.Container>

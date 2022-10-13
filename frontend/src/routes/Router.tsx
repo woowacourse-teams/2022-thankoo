@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
-import HeaderAndNavLayout from '../components/@shared/Layout/HeaderAndNavLayout';
+import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from './../constants/routes';
 
@@ -53,16 +53,16 @@ const Router = () => {
         <Route element={<HeaderAndNavLayout />}>
           <Route element={<SpinnerSuspense />}>
             <Route path={ROUTE_PATH.MAIN} element={<Main />} />
+            <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
             <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
             <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
+            <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
           </Route>
         </Route>
         <Route element={<SpinnerSuspense />}>
           <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
-          <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
           <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
           <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
-          <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
         </Route>
       </Route>
       <Route element={<UnAuthOnly />}>

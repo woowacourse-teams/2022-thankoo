@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom, sentOrReceivedAtom } from '../../recoil/atom';
-import { couponTypes } from '../../types';
+import { couponTypes } from '../../types/coupon';
 import SuccessAnimation from '../@shared/SuccessAnimation';
 import { BASE_URL } from './../../constants/api';
 import { onSuccessContentAtom } from './../../recoil/atom';
@@ -13,7 +13,7 @@ import { onSuccessContentAtom } from './../../recoil/atom';
 const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) => {
   const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
   const pageReset = useResetRecoilState(onSuccessContentAtom);
-  const [sentOrReceived, setSentOrReceived] = useRecoilState(sentOrReceivedAtom);
+  const [_, setSentOrReceived] = useRecoilState(sentOrReceivedAtom);
 
   useEffect(() => {
     resetCheckedUsers();
@@ -63,7 +63,7 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
           <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
             <S.Button
               onClick={() => {
-                setSentOrReceived('보낸');
+                setSentOrReceived('sent');
               }}
               primary
             >

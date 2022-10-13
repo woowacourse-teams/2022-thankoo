@@ -1,9 +1,17 @@
 import styled from '@emotion/styled';
 import CouponsPageButton from './CouponListPageButton';
+import HeartPageButton from './HeartPageButton';
 import ReservationPageButton from './ReservationPageButton';
-import ScheduledPageButton from './ScheduledPageButton';
+import ScheduledPageButton from './MeetingPageButton';
+import SendCouponPageButton from './SendCouponPageButton';
 
-const buttons = [<CouponsPageButton />, <ReservationPageButton />, <ScheduledPageButton />];
+const buttons = [
+  <CouponsPageButton />,
+  <HeartPageButton />,
+  <SendCouponPageButton />,
+  <ReservationPageButton />,
+  <ScheduledPageButton />,
+];
 
 const BottomNavBar = () => {
   return (

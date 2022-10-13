@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { forwardRef, LegacyRef } from 'react';
 import { Link } from 'react-router-dom';
-import { CouponDetail } from '../../types';
+import { CouponDetail } from '../../types/coupon';
 import { BASE_URL } from './../../constants/api';
 
 const CouponDetailReserve = (
