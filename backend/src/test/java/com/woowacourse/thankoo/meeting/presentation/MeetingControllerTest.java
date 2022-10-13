@@ -51,10 +51,10 @@ class MeetingControllerTest extends ControllerTest {
                         new MeetingCoupon(3L, LocalDateTime.now().plusDays(1L), TimeZoneType.ASIA_SEOUL,
                                 CouponType.COFFEE.name(), SKRR_NAME))
         );
-        given(meetingQueryService.findMeetings(anyLong()))
+        given(meetingQueryService.findMeetings(anyLong(), anyLong()))
                 .willReturn(responses);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/meetings")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/meetings")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
                 .andDo(print())
                 .andExpect(status().isOk());

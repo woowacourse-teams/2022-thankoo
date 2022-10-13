@@ -91,7 +91,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .done();
 
             MeetingAssured.request()
-                    .미팅을_조회한다(receiverToken.getAccessToken())
+                    .미팅을_조회한다(receiverToken.getAccessToken(), organizationId)
                     .미팅을_완료한다(senderToken.getAccessToken())
                     .response()
                     .status(HttpStatus.NO_CONTENT.value());
@@ -147,7 +147,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .done();
 
             MeetingAssured.request()
-                    .미팅을_조회한다(receiverToken.getAccessToken())
+                    .미팅을_조회한다(receiverToken.getAccessToken(), organizationId)
                     .미팅을_완료한다(senderToken.getAccessToken())
                     .response()
                     .status(HttpStatus.NO_CONTENT.value());
@@ -206,7 +206,7 @@ class CouponAcceptanceTest extends AcceptanceTest {
                     .쿠폰을_즉시_사용한다(couponResponses.get(2).getCouponId(), organizationId, receiverToken.getAccessToken());
 
             MeetingAssured.request()
-                    .미팅을_조회한다(receiverToken.getAccessToken())
+                    .미팅을_조회한다(receiverToken.getAccessToken(), organizationId)
                     .미팅을_완료한다(senderToken.getAccessToken())
                     .response()
                     .status(HttpStatus.NO_CONTENT.value());

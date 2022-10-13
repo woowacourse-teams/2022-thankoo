@@ -78,7 +78,8 @@ class MeetingQueryServiceTest {
 
         reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-        List<SimpleMeetingResponse> simpleMeetingResponse = meetingQueryService.findMeetings(receiver.getId());
+        List<SimpleMeetingResponse> simpleMeetingResponse = meetingQueryService.findMeetings(receiver.getId(),
+                organization.getId());
 
         assertAll(
                 () -> assertThat(simpleMeetingResponse).hasSize(1),
