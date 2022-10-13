@@ -30,9 +30,14 @@ public class OrganizationMembers {
         values.add(organizationMember);
     }
 
-    public boolean isAlreadyContains(final Organization organization) {
+    public boolean containsOrganization(final Organization organization) {
         return values.stream()
                 .anyMatch(organizationMember -> organizationMember.isSameOrganization(organization));
+    }
+
+    public boolean containsMember(final Member member) {
+        return values.stream()
+                .anyMatch(organizationMember -> organizationMember.isSameMember(member));
     }
 
     public void toPreviousAccessed() {
@@ -41,9 +46,14 @@ public class OrganizationMembers {
         }
     }
 
-    public boolean containsMember(final Member member) {
-        return values.stream()
-                .anyMatch(organizationMember -> organizationMember.isSameMember(member));
+    public void switchLastAccessed(final Organization organization) {
+        for (OrganizationMember value : values) {
+            if (value.isSameOrganization(organization)) {
+                value.toLastAccessed();
+                continue;
+            }
+            value.toPreviousAccessed();
+        }
     }
 
     @Override

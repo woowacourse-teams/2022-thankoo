@@ -1,9 +1,7 @@
 package com.woowacourse.thankoo.acceptance;
 
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO_CODE;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createThankooOrganization;
 
 import com.woowacourse.thankoo.common.support.DataClearExtension;
 import com.woowacourse.thankoo.organization.domain.Organization;
@@ -33,16 +31,10 @@ abstract class AcceptanceTest {
     }
 
     protected void 기본_조직이_생성됨() {
-        Organization organization1 = Organization.create(ORGANIZATION_WOOWACOURSE,
-                length -> ORGANIZATION_WOOWACOURSE_CODE,
-                30,
-                new OrganizationValidator(organizationRepository));
+        Organization woowacourse = createDefaultOrganization(new OrganizationValidator(organizationRepository));
+        Organization thankoo = createThankooOrganization(new OrganizationValidator(organizationRepository));
 
-        Organization organization2 = Organization.create(ORGANIZATION_THANKOO,
-                length -> ORGANIZATION_THANKOO_CODE,
-                30,
-                new OrganizationValidator(organizationRepository));
-        organizationRepository.save(organization1);
-        organizationRepository.save(organization2);
+        organizationRepository.save(woowacourse);
+        organizationRepository.save(thankoo);
     }
 }

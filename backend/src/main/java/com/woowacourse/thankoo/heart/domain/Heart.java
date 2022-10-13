@@ -143,6 +143,7 @@ public class Heart extends BaseEntity {
     public String toString() {
         return "Heart{" +
                 "id=" + id +
+                ", organizationId=" + organizationId +
                 ", senderId=" + senderId +
                 ", receiverId=" + receiverId +
                 ", count=" + count +

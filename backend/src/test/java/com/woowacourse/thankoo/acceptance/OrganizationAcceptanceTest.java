@@ -11,6 +11,7 @@ import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANI
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.OrganizationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -94,5 +95,33 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
                     .response()
                     .status(HttpStatus.OK.value());
         }
+    }
+
+    @DisplayName("조직에 접근한다.")
+    @Test
+    void access() {
+        TokenResponse userToken = AuthenticationAssured.request()
+                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                .로그인_한다(CODE_SKRR)
+                .response()
+                .body(TokenResponse.class);
+
+        기본_조직이_생성됨();
+        OrganizationResponse organizationResponse = OrganizationAssured.request()
+                .조직에_참여한다(userToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                .조직에_참여한다(userToken, 조직_번호(ORGANIZATION_THANKOO_CODE))
+                .내_조직을_조회한다(userToken)
+                .response()
+                .bodies(OrganizationResponse.class).get(0);
+
+        OrganizationAssured.request()
+                .조직에_접근한다(userToken, organizationResponse.getOrganizationId())
+                .response()
+                .status(HttpStatus.OK.value());
+
+        OrganizationAssured.request()
+                .내_조직을_조회한다(userToken)
+                .response()
+                .조직상태가_변경됨(organizationResponse.getOrganizationId(), true);
     }
 }
