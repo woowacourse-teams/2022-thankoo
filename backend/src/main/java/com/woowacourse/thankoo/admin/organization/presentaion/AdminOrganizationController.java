@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/organization")
+@RequestMapping("/admin/organizations")
 public class AdminOrganizationController {
 
     private final AdminOrganizationService adminOrganizationService;

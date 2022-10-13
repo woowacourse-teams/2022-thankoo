@@ -32,7 +32,7 @@ class AdminOrganizationControllerTest extends AdminControllerTest {
         AdminOrganizationCreationRequest organizationCreationRequest = new AdminOrganizationCreationRequest("newOrg",
                 40);
 
-        ResultActions resultActions = mockMvc.perform(post("/admin/organization")
+        ResultActions resultActions = mockMvc.perform(post("/admin/organizations")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .content(objectMapper.writeValueAsString(organizationCreationRequest))
                         .contentType(MediaType.APPLICATION_JSON))
