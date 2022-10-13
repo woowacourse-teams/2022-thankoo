@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -68,6 +69,7 @@ class AdminCouponSerialQueryRepositoryTest {
         doNothing().when(organizationValidator).validate(any(Organization.class));
     }
 
+    @Disabled
     @DisplayName("코치의 id로 가진 쿠폰 시리얼을 모두 조회한다.")
     @Test
     void getByMemberId() {
