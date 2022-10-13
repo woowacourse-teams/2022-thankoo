@@ -40,7 +40,7 @@ class MeetingsTest {
 
         List<Meeting> meetings = new ArrayList<>();
         for (int id = 0; id < 3; id++) {
-            Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
             Reservation reservation = Reservation.reserve(time(1L),
@@ -69,7 +69,7 @@ class MeetingsTest {
 
         List<Meeting> meetings = new ArrayList<>();
         for (int id = 0; id < 3; id++) {
-            Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
             Reservation reservation = Reservation.reserve(time(1L),
@@ -98,7 +98,7 @@ class MeetingsTest {
 
         List<Meeting> meetings = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
 
             Reservation reservation = Reservation.reserve(time(1L),
@@ -141,7 +141,7 @@ class MeetingsTest {
 
             List<Meeting> meetings = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
-                Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+                Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                         CouponStatus.NOT_USED);
 
                 Reservation reservation = Reservation.reserve(time(1L),

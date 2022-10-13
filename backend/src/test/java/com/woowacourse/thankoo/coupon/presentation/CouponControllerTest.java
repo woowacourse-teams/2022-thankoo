@@ -41,7 +41,9 @@ import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.common.domain.TimeUnit;
 import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
+import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
@@ -75,9 +77,9 @@ class CouponControllerTest extends ControllerTest {
     void sendCoupon() throws Exception {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
-        doNothing().when(couponService).saveAll(anyLong(), any(CouponRequest.class));
+        doNothing().when(couponService).saveAll(any(CouponCommand.class));
 
-        ResultActions resultActions = mockMvc.perform(post("/api/coupons/send")
+        ResultActions resultActions = mockMvc.perform(post("/api/organizations/1/coupons/send")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .content(objectMapper.writeValueAsString(new CouponRequest(List.of(1L),
                                 new ContentRequest(TYPE, TITLE, MESSAGE))))
@@ -108,13 +110,15 @@ class CouponControllerTest extends ControllerTest {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now()))
+                CouponResponse.of(
+                        new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now()))
         );
 
-        given(couponQueryService.getReceivedCoupons(anyLong(), anyString()))
+        given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + NOT_USED)
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + NOT_USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -155,13 +159,15 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
-        given(couponQueryService.getReceivedCoupons(anyLong(), anyString()))
+        given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + USED)
+
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -202,15 +208,19 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                CouponResponse.of(
+                        new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now())),
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
-        given(couponQueryService.getReceivedCoupons(anyLong(), anyString()))
+        given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received?status=" + ALL)
+
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + ALL)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -251,13 +261,14 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(2L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
+                CouponResponse.of(
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
-        given(couponQueryService.getSentCoupons(anyLong()))
+        given(couponQueryService.getSentCouponsByOrganization(anyLong(), anyLong()))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/sent")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/sent")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -299,14 +310,14 @@ class CouponControllerTest extends ControllerTest {
 
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);
         CouponDetailResponse couponDetailResponse = CouponDetailResponse.from(
-                new MemberCoupon(1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
+                new MemberCoupon(1L, 1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
                         CouponStatus.RESERVING.name(), LocalDate.now()),
                 new ReservationResponse(1L, TimeResponse.from(localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
                         ReservationStatus.WAITING.name()));
 
-        given(couponQueryService.getCouponDetail(anyLong(), anyLong()))
+        given(couponQueryService.getCouponDetail(anyLong(), anyLong(), anyLong()))
                 .willReturn(couponDetailResponse);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -353,17 +364,17 @@ class CouponControllerTest extends ControllerTest {
 
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);
         CouponDetailResponse couponDetailResponse = CouponDetailResponse.from(
-                new MemberCoupon(1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
+                new MemberCoupon(1L, 1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
                         CouponStatus.RESERVING.name(), LocalDate.now()),
                 MeetingResponse.of(new Meeting(1L, List.of(huni, lala),
                         new TimeUnit(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
                         MeetingStatus.ON_PROGRESS,
-                        new Coupon(huni.getId(), lala.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+                        new Coupon(1L, huni.getId(), lala.getId(), new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                                 CouponStatus.RESERVED))));
 
-        given(couponQueryService.getCouponDetail(anyLong(), anyLong()))
+        given(couponQueryService.getCouponDetail(anyLong(), anyLong(), anyLong()))
                 .willReturn(couponDetailResponse);
-        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -442,9 +453,10 @@ class CouponControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString()))
                 .willReturn("1");
 
-        ResultActions resultActions = mockMvc.perform(put("/api/coupons/{couponId}/use", 1L)
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
-                        .accept(MediaType.APPLICATION_JSON))
+        ResultActions resultActions = mockMvc.perform(
+                        put("/api/organizations/{organizationId}/coupons/{couponId}/use", 1L, 1L)
+                                .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk());
@@ -455,6 +467,7 @@ class CouponControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 pathParameters(
+                        parameterWithName("organizationId").description("organizationId"),
                         parameterWithName("couponId").description("couponId")
                 )
         ));

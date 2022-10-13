@@ -21,14 +21,15 @@ public class CouponRequest {
         this.content = content;
     }
 
+    @Deprecated
     public List<Coupon> toEntities(final Long senderId) {
         return receiverIds.stream()
-                .map(id -> new Coupon(senderId, id, toCouponContent(), CouponStatus.NOT_USED))
+                .map(id -> new Coupon(1L, senderId, id, content.toEntity(), CouponStatus.NOT_USED))
                 .collect(Collectors.toList());
     }
 
-    public CouponContent toCouponContent() {
-        return content.toEntity();
+    public CouponCommand toCouponCommand(final Long organizationId, final Long senderId) {
+        return new CouponCommand(organizationId, senderId, receiverIds, content.toCouponCommand());
     }
 
     @Override

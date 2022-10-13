@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.serial.presentation;
 
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.SERIAL_1;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.coupon.domain.CouponType;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.serial.application.dto.SerialCodeRequest;
 import com.woowacourse.thankoo.serial.presentation.dto.CouponSerialResponse;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
@@ -36,13 +37,12 @@ class CouponSerialControllerTest extends ControllerTest {
     @DisplayName("시리얼 코드로 쿠폰 시리얼을 조회한다.")
     @Test
     void getCouponSerial() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
-        given(couponSerialQueryService.getCouponSerialByCode(anyLong(), anyString()))
-                .willReturn(new CouponSerialResponse(1L, 2L, NEO_NAME, CouponType.COFFEE.getValue()));
+        given(couponSerialQueryService.getCouponSerialByCode(any(CouponSerialRequest.class)))
+                .willReturn(new CouponSerialResponse(1L, 1L, 1L, NEO_NAME, CouponType.COFFEE.getValue()));
 
-        ResultActions resultActions = mockMvc.perform(get("/api/coupon-serials")
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupon-serials")
                         .param("code", SERIAL_1)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -61,6 +61,7 @@ class CouponSerialControllerTest extends ControllerTest {
                 ),
                 responseFields(
                         fieldWithPath("id").type(NUMBER).description("id"),
+                        fieldWithPath("organizationId").type(NUMBER).description("organizationId"),
                         fieldWithPath("senderId").type(NUMBER).description("sender id"),
                         fieldWithPath("senderName").type(STRING).description("sender name"),
                         fieldWithPath("couponType").type(STRING).description("coupon type")
@@ -70,11 +71,10 @@ class CouponSerialControllerTest extends ControllerTest {
 
     @DisplayName("쿠폰 시리얼을 사용한다.")
     @Test
-    void createCouponWithSerial() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+    void useCouponSerial() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
-        CouponSerialRequest request = new CouponSerialRequest(SERIAL_1);
+        SerialCodeRequest request = new SerialCodeRequest(SERIAL_1);
 
         ResultActions resultActions = mockMvc.perform(post("/api/coupon-serials")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")

@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.acceptance.builder;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.putWithToken;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -41,6 +42,11 @@ public class OrganizationAssured {
             return this;
         }
 
+        public OrganizationRequestBuilder 조직에_접근한다(final TokenResponse tokenResponse, final Long organizationId) {
+            response = putWithToken("/api/organizations/" + organizationId + "/access", tokenResponse.getAccessToken());
+            return this;
+        }
+
         public OrganizationResponseBuilder response() {
             return new OrganizationResponseBuilder(response);
         }
@@ -60,13 +66,24 @@ public class OrganizationAssured {
             List<OrganizationResponse> responses = bodies(OrganizationResponse.class);
 
             List<String> responseCodes = responses.stream()
-                    .map(response -> response.getOrganizationCode())
+                    .map(OrganizationResponse::getOrganizationCode)
                     .collect(Collectors.toList());
 
             assertAll(
                     () -> assertThat(responses).hasSize(codes.length),
                     () -> assertThat(responseCodes).containsExactly(codes)
             );
+        }
+
+        public void 조직상태가_변경됨(final Long organizationId, final boolean lassAccessed) {
+            List<OrganizationResponse> responses = bodies(OrganizationResponse.class);
+
+            OrganizationResponse organizationResponse = responses.stream()
+                    .filter(r -> organizationId.equals(r.getOrganizationId()))
+                    .findFirst()
+                    .orElseThrow();
+
+            assertThat(organizationResponse.isLastAccessed()).isEqualTo(lassAccessed);
         }
 
         public OrganizationResponseBuilder status(final int code) {

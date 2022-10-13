@@ -10,6 +10,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.MEAL;
@@ -21,11 +22,14 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.admin.coupon.domain.AdminCouponRepository;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
+import com.woowacourse.thankoo.admin.organization.domain.AdminOrganizationRepository;
 import com.woowacourse.thankoo.admin.reservation.domain.AdminReservationRepository;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,16 +53,26 @@ class AdminCouponReservationServiceTest {
     @Autowired
     private AdminReservationRepository adminReservationRepository;
 
+    @Autowired
+    private AdminOrganizationRepository adminOrganizationRepository;
+
+    @Autowired
+    private OrganizationValidator organizationValidator;
+
     @DisplayName("쿠폰들의 예약을 취소한다.")
     @Test
     void cancelReservation() {
         Member sender = adminMemberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = adminMemberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-        Coupon coffeeCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-        Coupon mealCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                new CouponContent(MEAL, TITLE, MESSAGE), NOT_USED));
+        Organization organization = adminOrganizationRepository.save(createDefaultOrganization(organizationValidator));
+
+        Coupon coffeeCoupon = adminCouponRepository.save(
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+        Coupon mealCoupon = adminCouponRepository.save(
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(MEAL, TITLE, MESSAGE), NOT_USED));
 
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(2L);
 

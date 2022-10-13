@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.alarm.application.strategy.reservation;
 
+import static com.woowacourse.thankoo.common.domain.AlarmSpecification.RESERVATION_REPLIED;
 import static com.woowacourse.thankoo.common.fixtures.AlarmFixture.ROOT_LINK;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
@@ -29,6 +30,7 @@ class ReservationRepliedMessageFormStrategyTest {
 
     private static final String PRETEXT = "\uD83D\uDC7B {0}님이 예약 요청에 응답했어요.";
     private static final String COUPON_TITLE = "널 좋아해";
+    private static final Long ORGANIZATION_ID = 1L;
 
     @Autowired
     private ReservationRepliedMessageFormStrategy reservationRepliedMessageFormStrategy;
@@ -43,14 +45,14 @@ class ReservationRepliedMessageFormStrategyTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.RESERVATION_REPLIED, List.of(hoho.getId()),
+                new AlarmSpecification(RESERVATION_REPLIED, ORGANIZATION_ID, List.of(hoho.getId()),
                         List.of(String.valueOf(lala.getId()), COUPON_TITLE, "DENY")));
 
         Message message = reservationRepliedMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(MessageFormat.format(PRETEXT, "lala")),
-                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK),
+                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + ORGANIZATION_ID),
                 () -> assertThat(message.getContents()).containsExactly(
                         "쿠폰 : 널 좋아해",
                         "예약 상태 : 거절\uD83D\uDE05"
@@ -65,14 +67,14 @@ class ReservationRepliedMessageFormStrategyTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.RESERVATION_REPLIED, List.of(hoho.getId()),
+                new AlarmSpecification(RESERVATION_REPLIED, ORGANIZATION_ID, List.of(hoho.getId()),
                         List.of(String.valueOf(lala.getId()), COUPON_TITLE, "ACCEPT")));
 
         Message message = reservationRepliedMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(MessageFormat.format(PRETEXT, "lala")),
-                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + "/meetings"),
+                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + ORGANIZATION_ID + "/meetings"),
                 () -> assertThat(message.getContents()).containsExactly(
                         "쿠폰 : 널 좋아해",
                         "예약 상태 : 승인\uD83E\uDD70"

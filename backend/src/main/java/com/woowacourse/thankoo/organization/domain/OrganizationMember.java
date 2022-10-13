@@ -62,10 +62,18 @@ public class OrganizationMember {
         return this.organization.equals(organization);
     }
 
+    public boolean isSameMember(final Member member) {
+        return this.member.equals(member);
+    }
+
     public void toPreviousAccessed() {
         if (lastAccessed) {
             lastAccessed = false;
         }
+    }
+
+    public void toLastAccessed() {
+        lastAccessed = true;
     }
 
     @Override

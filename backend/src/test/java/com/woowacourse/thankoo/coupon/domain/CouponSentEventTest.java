@@ -15,6 +15,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("CouponSentEvent 는 ")
 class CouponSentEventTest {
 
+    private static final Long ORGANIZATION_ID = 1L;
+
     @DisplayName("알람 스펙으로 변경한다.")
     @ParameterizedTest
     @CsvSource(value = {"COFFEE:coupon_sent_coffee", "MEAL:coupon_sent_meal"}, delimiter = ':')
@@ -24,6 +26,7 @@ class CouponSentEventTest {
 
         assertAll(
                 () -> assertThat(alarmSpecification.getAlarmType()).isEqualTo(alarmType),
+                () -> assertThat(alarmSpecification.getOrganizationId()).isEqualTo(ORGANIZATION_ID),
                 () -> assertThat(alarmSpecification.getTargetIds()).containsExactly(2L, 3L, 4L),
                 () -> assertThat(alarmSpecification.getContents()).containsExactly("1", TITLE, couponType.getValue())
         );
@@ -37,7 +40,7 @@ class CouponSentEventTest {
     private List<Coupon> createRawCoupons(final CouponType couponType) {
         List<Coupon> coupons = new ArrayList<>();
         for (long id = 1; id < 4; id++) {
-            coupons.add(new Coupon(id, 1L, id + 1, new CouponContent(couponType, TITLE, MESSAGE),
+            coupons.add(new Coupon(id, ORGANIZATION_ID, 1L, id + 1, new CouponContent(couponType, TITLE, MESSAGE),
                     CouponStatus.NOT_USED));
         }
         return coupons;

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class ReservationCanceledMessageFormStrategy extends ReservationMessageFormStrategy {
 
     private static final int CONTENT_SIZE = 2;
+    private static final String ACCEPT_TITLE_LINK = "/organizations/{0}";
     private static final String PRETEXT_CANCEL = "\uD83D\uDE05 예약이 취소되었어요ㅜ";
 
     private final AlarmMemberProvider alarmMemberProvider;
@@ -30,10 +31,14 @@ public class ReservationCanceledMessageFormStrategy extends ReservationMessageFo
         return Message.builder()
                 .email(receiverEmails)
                 .title(PRETEXT_CANCEL)
-                .titleLink(alarmLinkGenerator.getRootUrl())
+                .titleLink(createLink(alarm.getOrganizationId()))
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
                 .build();
+    }
+
+    private String createLink(final Long organizationId) {
+        return alarmLinkGenerator.createUrl(MessageFormat.format(ACCEPT_TITLE_LINK, organizationId));
     }
 
     @Override

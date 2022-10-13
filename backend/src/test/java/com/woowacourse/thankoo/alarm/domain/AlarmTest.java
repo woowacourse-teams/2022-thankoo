@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.alarm.domain;
 
+import static com.woowacourse.thankoo.common.domain.AlarmSpecification.COUPON_SENT_COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.thankoo.common.domain.AlarmSpecification;
@@ -12,12 +13,15 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("AlarmTest 는 ")
 class AlarmTest {
 
+    private static final Long ORGANIZATION_ID = 1L;
+
     @DisplayName("컨텐츠 사이즈를 갖고 있다.")
     @ParameterizedTest
     @CsvSource(value = {"1:true", "2:false"}, delimiter = ':')
     void hasContentsSize(final int size, final boolean result) {
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(1L), List.of("contents")));
+                new AlarmSpecification(COUPON_SENT_COFFEE, ORGANIZATION_ID, List.of(1L), List.of("contents")));
+
         assertThat(alarm.hasContentsSize(size)).isEqualTo(result);
     }
 
@@ -25,7 +29,7 @@ class AlarmTest {
     @Test
     void create() {
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(1L), List.of("contents")));
+                new AlarmSpecification(COUPON_SENT_COFFEE, ORGANIZATION_ID, List.of(1L), List.of("contents")));
 
         assertThat(alarm.getAlarmStatus()).isEqualTo(AlarmStatus.CREATED);
     }
@@ -34,7 +38,7 @@ class AlarmTest {
     @Test
     void getContentAt() {
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE, List.of(1L), List.of("contents")));
+                new AlarmSpecification(COUPON_SENT_COFFEE, ORGANIZATION_ID, List.of(1L), List.of("contents")));
 
         assertThat(alarm.getContentAt(0)).isEqualTo("contents");
     }

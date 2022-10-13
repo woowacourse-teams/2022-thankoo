@@ -31,7 +31,7 @@ class MeetingMemberTest {
     void has() {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
-        Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+        Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
 
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);

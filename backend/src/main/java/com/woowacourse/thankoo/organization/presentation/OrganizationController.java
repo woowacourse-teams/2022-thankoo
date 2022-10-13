@@ -9,7 +9,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +33,13 @@ public class OrganizationController {
     public ResponseEntity<Void> join(@AuthenticationPrincipal final Long memberId,
                                      @RequestBody final OrganizationJoinRequest organizationJoinRequest) {
         organizationService.join(memberId, organizationJoinRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{organizationId}/access")
+    public ResponseEntity<Void> access(@AuthenticationPrincipal final Long memberId,
+                                       @PathVariable final Long organizationId) {
+        organizationService.access(memberId, organizationId);
         return ResponseEntity.ok().build();
     }
 }

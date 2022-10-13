@@ -19,7 +19,7 @@ public class OrganizationCode {
     @Column(name = "code", length = 20, unique = true, nullable = false)
     private String value;
 
-    private OrganizationCode(final String value) {
+    public OrganizationCode(final String value) {
         validateCodeLength(value);
         this.value = value;
     }

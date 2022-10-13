@@ -6,17 +6,20 @@ import java.util.List;
 
 public class CouponSentEvent extends AlarmEvent {
 
+    private final Long organizationId;
     private final List<Long> receiverIds;
     private final Long senderId;
     private final String couponTitle;
     private final String couponType;
 
-    public CouponSentEvent(final String alarmType,
+    public CouponSentEvent(final Long organizationId,
+                           final String alarmType,
                            final List<Long> receiverIds,
                            final Long senderId,
                            final String couponTitle,
                            final String couponType) {
         super(alarmType);
+        this.organizationId = organizationId;
         this.receiverIds = receiverIds;
         this.senderId = senderId;
         this.couponTitle = couponTitle;
@@ -26,7 +29,8 @@ public class CouponSentEvent extends AlarmEvent {
     public static CouponSentEvent from(final Coupons coupons) {
         CouponContent couponContent = coupons.getRepresentativeCouponContent();
 
-        return new CouponSentEvent(decideAlarmType(couponContent),
+        return new CouponSentEvent(coupons.getRepresentingOrganizationId(),
+                decideAlarmType(couponContent),
                 coupons.getReceiverIds(),
                 coupons.getRepresentativeSenderId(),
                 couponContent.getTitle(),
@@ -44,6 +48,7 @@ public class CouponSentEvent extends AlarmEvent {
     @Override
     public AlarmSpecification toAlarmSpecification() {
         return new AlarmSpecification(getAlarmType(),
+                organizationId,
                 receiverIds,
                 List.of(String.valueOf(senderId), couponTitle, couponType));
     }
@@ -51,7 +56,8 @@ public class CouponSentEvent extends AlarmEvent {
     @Override
     public String toString() {
         return "CouponSentEvent{" +
-                "receiverIds=" + receiverIds +
+                "organizationId=" + organizationId +
+                ", receiverIds=" + receiverIds +
                 ", senderId=" + senderId +
                 ", couponTitle='" + couponTitle + '\'' +
                 ", couponType='" + couponType + '\'' +

@@ -4,10 +4,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO_CODE;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createThankooOrganization;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
@@ -53,26 +51,16 @@ class OrganizationQueryRepositoryTest {
     @Test
     void findMemberOrganizationsByMemberId() {
         Member member = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, HUNI_IMAGE_URL));
-
-        Organization organization1 = organizationRepository.save(
-                Organization.create(ORGANIZATION_WOOWACOURSE,
-                        length -> ORGANIZATION_WOOWACOURSE_CODE,
-                        100,
-                        organizationValidator));
-
-        Organization organization2 = organizationRepository.save(
-                Organization.create(ORGANIZATION_THANKOO,
-                        length -> ORGANIZATION_THANKOO_CODE,
-                        100,
-                        organizationValidator));
+        Organization woowacourse = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        Organization thankoo = organizationRepository.save(createThankooOrganization(organizationValidator));
 
         OrganizationMembers organizationMembers1 = new OrganizationMembers(
-                organizationRepository.findOrganizationMembersByMember(member));
-        organization1.join(member, organizationMembers1);
+                organizationRepository.findOrganizationMembersByMemberOrderByOrderNumber(member));
+        woowacourse.join(member, organizationMembers1);
 
         OrganizationMembers organizationMembers2 = new OrganizationMembers(
-                organizationRepository.findOrganizationMembersByMember(member));
-        organization2.join(member, organizationMembers2);
+                organizationRepository.findOrganizationMembersByMemberOrderByOrderNumber(member));
+        thankoo.join(member, organizationMembers2);
 
         organizationRepository.flush();
 
@@ -81,9 +69,9 @@ class OrganizationQueryRepositoryTest {
 
         assertAll(
                 () -> assertThat(memberOrganizations).hasSize(2),
-                () -> assertThat(memberOrganizations.get(0).getId()).isEqualTo(organization1.getId()),
+                () -> assertThat(memberOrganizations.get(0).getId()).isEqualTo(woowacourse.getId()),
                 () -> assertThat(memberOrganizations.get(0).getOrderNumber()).isEqualTo(1),
-                () -> assertThat(memberOrganizations.get(1).getId()).isEqualTo(organization2.getId()),
+                () -> assertThat(memberOrganizations.get(1).getId()).isEqualTo(thankoo.getId()),
                 () -> assertThat(memberOrganizations.get(1).getOrderNumber()).isEqualTo(2)
         );
     }

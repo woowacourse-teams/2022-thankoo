@@ -5,28 +5,20 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_SKRR;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_NO_CODE;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO_CODE;
-import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.OrganizationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
-import com.woowacourse.thankoo.organization.domain.Organization;
-import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
-import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 @DisplayName("OrganizationAcceptance 는 ")
 class OrganizationAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private OrganizationRepository organizationRepository;
 
     @DisplayName("내 조직을 조회할 떄 ")
     @Nested
@@ -105,17 +97,31 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
         }
     }
 
-    private void 기본_조직이_생성됨() {
-        Organization organization1 = Organization.create(ORGANIZATION_WOOWACOURSE,
-                length -> ORGANIZATION_WOOWACOURSE_CODE,
-                30,
-                new OrganizationValidator(organizationRepository));
+    @DisplayName("조직에 접근한다.")
+    @Test
+    void access() {
+        TokenResponse userToken = AuthenticationAssured.request()
+                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                .로그인_한다(CODE_SKRR)
+                .response()
+                .body(TokenResponse.class);
 
-        Organization organization2 = Organization.create(ORGANIZATION_THANKOO,
-                length -> ORGANIZATION_THANKOO_CODE,
-                30,
-                new OrganizationValidator(organizationRepository));
-        organizationRepository.save(organization1);
-        organizationRepository.save(organization2);
+        기본_조직이_생성됨();
+        OrganizationResponse organizationResponse = OrganizationAssured.request()
+                .조직에_참여한다(userToken, 조직_번호(ORGANIZATION_WOOWACOURSE_CODE))
+                .조직에_참여한다(userToken, 조직_번호(ORGANIZATION_THANKOO_CODE))
+                .내_조직을_조회한다(userToken)
+                .response()
+                .bodies(OrganizationResponse.class).get(0);
+
+        OrganizationAssured.request()
+                .조직에_접근한다(userToken, organizationResponse.getOrganizationId())
+                .response()
+                .status(HttpStatus.OK.value());
+
+        OrganizationAssured.request()
+                .내_조직을_조회한다(userToken)
+                .response()
+                .조직상태가_변경됨(organizationResponse.getOrganizationId(), true);
     }
 }

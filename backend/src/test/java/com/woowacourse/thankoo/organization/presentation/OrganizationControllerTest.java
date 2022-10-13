@@ -14,6 +14,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
@@ -40,8 +41,7 @@ class OrganizationControllerTest extends ControllerTest {
     @DisplayName("조직에 참여한다.")
     @Test
     void join() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         OrganizationJoinRequest organizationJoinRequest = new OrganizationJoinRequest(ORGANIZATION_WOOWACOURSE_CODE);
         doNothing().when(organizationService).join(anyLong(), any(OrganizationJoinRequest.class));
@@ -66,8 +66,7 @@ class OrganizationControllerTest extends ControllerTest {
     @DisplayName("회원의 조직을 조회한다.")
     @Test
     void getMemberOrganizations() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         List<OrganizationResponse> organizationResponses = List.of(
                 OrganizationResponse.from(
@@ -84,6 +83,7 @@ class OrganizationControllerTest extends ControllerTest {
                                 false)
                 )
         );
+
         given(organizationQueryService.getMemberOrganizations(anyLong())).willReturn(organizationResponses);
 
         ResultActions resultActions = mockMvc.perform(get("/api/organizations/me")
@@ -102,6 +102,25 @@ class OrganizationControllerTest extends ControllerTest {
                         fieldWithPath("[].organizationCode").type(STRING).description("organizationCode"),
                         fieldWithPath("[].orderNumber").type(NUMBER).description("orderName"),
                         fieldWithPath("[].lastAccessed").type(BOOLEAN).description("lastAccessed")
+                )
+        ));
+    }
+
+    @DisplayName("조직에 접근한다.")
+    @Test
+    void access() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
+
+        doNothing().when(organizationService).access(anyLong(), anyLong());
+
+        ResultActions resultActions = mockMvc.perform(put("/api/organizations/1/access")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("organizations/access",
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 )
         ));
     }
