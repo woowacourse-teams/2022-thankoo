@@ -50,9 +50,15 @@ public class ReservationRepliedMessageFormStrategy extends ReservationMessageFor
     }
 
     private String getTitleLink(final String status, final Long organizationId) {
-        return status.equals(ACCEPT_SIGN) ?
-                alarmLinkGenerator.createUrl(MessageFormat.format(ACCEPT_TITLE_LINK, organizationId))
-                : alarmLinkGenerator.createUrl(MessageFormat.format(DECLINE_TITLE_LINK, organizationId));
+        return status.equals(ACCEPT_SIGN) ? accept(organizationId) : decline(organizationId);
+    }
+
+    private String accept(final Long organizationId) {
+        return alarmLinkGenerator.createUrl(MessageFormat.format(ACCEPT_TITLE_LINK, organizationId));
+    }
+
+    private String decline(final Long organizationId) {
+        return alarmLinkGenerator.createUrl(MessageFormat.format(DECLINE_TITLE_LINK, organizationId));
     }
 
     private String getStatusMessage(final String status) {
