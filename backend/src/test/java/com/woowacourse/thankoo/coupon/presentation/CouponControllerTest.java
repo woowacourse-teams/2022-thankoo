@@ -205,8 +205,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("모든 받은 쿠폰을 조회한다.")
     @Test
     void getReceivedCouponsAll() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
@@ -220,8 +219,8 @@ class CouponControllerTest extends ControllerTest {
                         new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
-        given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
-                .willReturn(couponResponses);
+        given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class))).willReturn(
+                couponResponses);
 
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
                         .queryParam("status", ALL)
@@ -260,8 +259,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("보낸 쿠폰을 조회한다.")
     @Test
     void getSentCoupons() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
@@ -273,7 +271,8 @@ class CouponControllerTest extends ControllerTest {
 
         given(couponQueryService.getSentCouponsByOrganization(anyLong(), anyLong()))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/sent")
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/sent")
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

@@ -37,15 +37,15 @@ public class CouponController {
 
     @GetMapping("/coupons/received")
     public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receiverId,
-                                                                @RequestParam final Long organization,
+                                                                @RequestParam("organization") final Long organizationId,
                                                                 @RequestParam final String status) {
-        CouponSelectCommand couponSelectCommand = new CouponSelectCommand(organization, receiverId, status);
+        CouponSelectCommand couponSelectCommand = new CouponSelectCommand(organizationId, receiverId, status);
         return ResponseEntity.ok(couponQueryService.getReceivedCouponsByOrganization(couponSelectCommand));
     }
 
-    @GetMapping("/organizations/{organizationId}/coupons/sent")
+    @GetMapping("/coupons/sent")
     public ResponseEntity<List<CouponResponse>> sentCoupons(@AuthenticationPrincipal final Long senderId,
-                                                            @PathVariable final Long organizationId) {
+                                                            @RequestParam("organization") final Long organizationId) {
         return ResponseEntity.ok(couponQueryService.getSentCouponsByOrganization(organizationId, senderId));
     }
 

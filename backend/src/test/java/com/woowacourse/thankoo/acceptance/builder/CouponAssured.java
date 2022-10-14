@@ -70,7 +70,7 @@ public class CouponAssured {
         }
 
         public CouponRequestBuilder 보낸_쿠폰을_조회한다(final Long organizationId, final String accessToken) {
-            response = getWithToken("/api/organizations/" + organizationId + "/coupons/sent", accessToken);
+            response = getWithToken("/api/coupons/sent?organization=" + organizationId, accessToken);
             return this;
         }
 
