@@ -7,9 +7,13 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
+import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO_CODE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
@@ -92,6 +96,28 @@ class OrganizationMembersTest {
         organizationMembers.toPreviousAccessed();
 
         assertThat(organizationMembers.getValues().get(0).isLastAccessed()).isFalse();
+    }
+
+    @DisplayName("나를 제외한 조직원을 조회한다.")
+    @Test
+    void getExclude() {
+        Organization organization = Organization.create(ORGANIZATION_WOOWACOURSE,
+                length -> ORGANIZATION_WOOWACOURSE_CODE, 100,
+                organizationValidator);
+
+        Member lala = new Member(1L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, LALA_IMAGE_URL);
+        Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, LALA_IMAGE_URL);
+
+        OrganizationMembers organizationMembers = new OrganizationMembers(new ArrayList<>());
+        organizationMembers.add(new OrganizationMember(lala, organization, 1, true));
+        organizationMembers.add(new OrganizationMember(skrr, organization, 1, true));
+
+        List<OrganizationMember> organizationMembersExclude = organizationMembers.getExclude(skrr);
+
+        assertAll(
+                () -> assertThat(organizationMembersExclude).hasSize(1),
+                () -> assertThat(organizationMembersExclude.get(0).getMember()).isEqualTo(lala)
+        );
     }
 
     @DisplayName("조직에 회원 존재 여부를 확인할 때")
