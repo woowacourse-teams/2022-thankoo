@@ -1,7 +1,9 @@
 package com.woowacourse.thankoo.organization.domain;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -26,6 +28,16 @@ public class OrganizationQueryRepository {
 
         SqlParameterSource parameter = new MapSqlParameterSource("memberId", memberId);
         return jdbcTemplate.query(sql, parameter, ROW_MAPPER);
+    }
+
+    public Optional<SimpleOrganizationData> findByCode(final String code) {
+        String sql = "SELECT id, name FROM organization WHERE code = :code";
+
+        SqlParameterSource parameter = new MapSqlParameterSource("code", code);
+        return Optional.ofNullable(DataAccessUtils.singleResult(jdbcTemplate.query(sql, parameter,
+                (rs, rowNum) -> new SimpleOrganizationData(rs.getLong("id"),
+                        rs.getString("name")))
+        ));
     }
 
     private static RowMapper<MemberOrganization> rowMapper() {
