@@ -75,8 +75,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("쿠폰을 전송하면 200 OK 를 반환한다.")
     @Test
     void sendCoupon() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         doNothing().when(couponService).saveAll(any(CouponCommand.class));
 
         ResultActions resultActions = mockMvc.perform(post("/api/coupons/send")
@@ -105,8 +104,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("사용하지 않은 받은 쿠폰을 조회한다.")
     @Test
     void getReceivedCouponsNotUsed() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
@@ -119,7 +117,9 @@ class CouponControllerTest extends ControllerTest {
 
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + NOT_USED)
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
+                        .queryParam("status", NOT_USED)
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -168,7 +168,9 @@ class CouponControllerTest extends ControllerTest {
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + USED)
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
+                        .queryParam("organization", "1")
+                        .queryParam("status", USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -221,7 +223,9 @@ class CouponControllerTest extends ControllerTest {
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + ALL)
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
+                        .queryParam("status", ALL)
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
