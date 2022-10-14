@@ -33,6 +33,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -424,8 +425,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("보낸, 받은 쿠폰 개수를 조회한다.")
     @Test
     void getTotalCouponCount() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
@@ -456,11 +456,11 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("쿠폰을 즉시 사용한다.")
     @Test
     void useCoupon() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         ResultActions resultActions = mockMvc.perform(
-                        put("/api/organizations/{organizationId}/coupons/{couponId}/use", 1L, 1L)
+                        put("/api/coupons/{couponId}/use", 1L)
+                                .queryParam("organization", "1")
                                 .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -472,8 +472,10 @@ class CouponControllerTest extends ControllerTest {
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
+                requestParameters(
+                        parameterWithName("organization").description("organizationId")
+                ),
                 pathParameters(
-                        parameterWithName("organizationId").description("organizationId"),
                         parameterWithName("couponId").description("couponId")
                 )
         ));

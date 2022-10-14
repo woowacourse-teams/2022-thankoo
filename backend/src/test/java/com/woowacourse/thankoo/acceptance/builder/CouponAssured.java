@@ -87,7 +87,7 @@ public class CouponAssured {
 
         public CouponRequestBuilder 쿠폰을_즉시_사용한다(final Long organizationId, final Long couponId,
                                                 final String accessToken) {
-            response = putWithToken("/api/organizations/" + organizationId + "/coupons/" + couponId + "/use",
+            response = putWithToken("/api/coupons/" + couponId + "/use" + "?organization=" + organizationId,
                     accessToken);
             return this;
         }
