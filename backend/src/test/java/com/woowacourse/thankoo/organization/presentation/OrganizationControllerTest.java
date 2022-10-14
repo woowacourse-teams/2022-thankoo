@@ -27,7 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
 import com.woowacourse.thankoo.organization.domain.MemberOrganization;
+import com.woowacourse.thankoo.organization.domain.SimpleOrganizationData;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
@@ -59,6 +61,33 @@ class OrganizationControllerTest extends ControllerTest {
                 ),
                 requestFields(
                         fieldWithPath("code").type(STRING).description("code")
+                )
+        ));
+    }
+
+    @DisplayName("코드로 조직을 조회한다.")
+    @Test
+    void getOrganizationByCode() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
+
+        SimpleOrganizationResponse response = SimpleOrganizationResponse.from(
+                new SimpleOrganizationData(1L, ORGANIZATION_THANKOO));
+
+        given(organizationQueryService.getOrganizationByCode(anyString())).willReturn(response);
+
+        ResultActions resultActions = mockMvc.perform(get("/api/organizations/THANKOO1")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        resultActions.andDo(document("organizations/get-organization-by-code",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                responseFields(
+                        fieldWithPath("organizationId").type(NUMBER).description("organizationId"),
+                        fieldWithPath("name").type(STRING).description("name")
                 )
         ));
     }
