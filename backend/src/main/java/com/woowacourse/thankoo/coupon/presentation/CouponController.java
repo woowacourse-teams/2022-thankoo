@@ -37,8 +37,8 @@ public class CouponController {
 
     @GetMapping("/coupons/received")
     public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receiverId,
-                                                                @RequestParam("organization") final Long organizationId,
-                                                                @RequestParam final String status) {
+                                                                @RequestParam final String status,
+                                                                @RequestParam("organization") final Long organizationId) {
         CouponSelectCommand couponSelectCommand = new CouponSelectCommand(organizationId, receiverId, status);
         return ResponseEntity.ok(couponQueryService.getReceivedCouponsByOrganization(couponSelectCommand));
     }
@@ -49,10 +49,10 @@ public class CouponController {
         return ResponseEntity.ok(couponQueryService.getSentCouponsByOrganization(organizationId, senderId));
     }
 
-    @GetMapping("/organizations/{organizationId}/coupons/{couponId}")
+    @GetMapping("/coupons/{couponId}")
     public ResponseEntity<CouponDetailResponse> getCoupon(@AuthenticationPrincipal final Long memberId,
-                                                          @PathVariable final Long organizationId,
-                                                          @PathVariable final Long couponId) {
+                                                          @PathVariable final Long couponId,
+                                                          @RequestParam("organization") final Long organizationId) {
         return ResponseEntity.ok(couponQueryService.getCouponDetail(memberId, organizationId, couponId));
     }
 

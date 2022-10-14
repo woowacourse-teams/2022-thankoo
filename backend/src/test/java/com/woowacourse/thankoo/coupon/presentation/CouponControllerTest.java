@@ -219,8 +219,8 @@ class CouponControllerTest extends ControllerTest {
                         new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
         );
 
-        given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class))).willReturn(
-                couponResponses);
+        given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
+                .willReturn(couponResponses);
 
         ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
                         .queryParam("status", ALL)
@@ -321,7 +321,8 @@ class CouponControllerTest extends ControllerTest {
 
         given(couponQueryService.getCouponDetail(anyLong(), anyLong(), anyLong()))
                 .willReturn(couponDetailResponse);
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/1")
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -378,7 +379,8 @@ class CouponControllerTest extends ControllerTest {
 
         given(couponQueryService.getCouponDetail(anyLong(), anyLong(), anyLong()))
                 .willReturn(couponDetailResponse);
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/1")
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

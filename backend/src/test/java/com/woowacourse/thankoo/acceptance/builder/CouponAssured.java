@@ -76,7 +76,7 @@ public class CouponAssured {
 
         public CouponRequestBuilder 쿠폰_단건_정보를_조회한다(final Long organizationId, final Long couponId,
                                                    final String accessToken) {
-            response = getWithToken("/api/organizations/" + organizationId + "/coupons/" + couponId, accessToken);
+            response = getWithToken("/api/coupons/" + couponId + "?organization=" + organizationId, accessToken);
             return this;
         }
 
