@@ -28,11 +28,10 @@ public class CouponController {
     private final CouponService couponService;
     private final CouponQueryService couponQueryService;
 
-    @PostMapping("organizations/{organizationId}/coupons/send")
+    @PostMapping("/coupons/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
-                                     @PathVariable final Long organizationId,
                                      @RequestBody final CouponRequest couponRequest) {
-        couponService.saveAll(couponRequest.toCouponCommand(organizationId, senderId));
+        couponService.saveAll(couponRequest.toCouponCommand(senderId));
         return ResponseEntity.ok().build();
     }
 

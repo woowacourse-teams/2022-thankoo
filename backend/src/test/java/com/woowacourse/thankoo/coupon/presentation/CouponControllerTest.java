@@ -79,10 +79,10 @@ class CouponControllerTest extends ControllerTest {
                 .willReturn("1");
         doNothing().when(couponService).saveAll(any(CouponCommand.class));
 
-        ResultActions resultActions = mockMvc.perform(post("/api/organizations/1/coupons/send")
+        ResultActions resultActions = mockMvc.perform(post("/api/coupons/send")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
-                        .content(objectMapper.writeValueAsString(new CouponRequest(List.of(1L),
-                                new ContentRequest(TYPE, TITLE, MESSAGE))))
+                        .content(objectMapper.writeValueAsString(
+                                new CouponRequest(List.of(1L), 1L, new ContentRequest(TYPE, TITLE, MESSAGE))))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -94,6 +94,7 @@ class CouponControllerTest extends ControllerTest {
                 ),
                 requestFields(
                         fieldWithPath("receiverIds").type(ARRAY).description("receiverId"),
+                        fieldWithPath("organizationId").type(NUMBER).description("organizationId"),
                         fieldWithPath("content.couponType").type(STRING).description("couponType"),
                         fieldWithPath("content.title").type(STRING).description("title"),
                         fieldWithPath("content.message").type(STRING).description("message")

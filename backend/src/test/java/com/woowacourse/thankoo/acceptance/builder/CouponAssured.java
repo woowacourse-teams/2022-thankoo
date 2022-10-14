@@ -27,21 +27,28 @@ public class CouponAssured {
     }
 
     public static CouponRequest createCouponRequest(final List<Long> receiverIds,
+                                                    final Long organizationId,
                                                     final String type,
                                                     final String title,
                                                     final String message) {
-        return new CouponRequest(receiverIds, new ContentRequest(type, title, message));
+        return new CouponRequest(receiverIds, organizationId, new ContentRequest(type, title, message));
     }
 
-    public static CouponRequest 쿠폰_요청(final Long... ids) {
-        return createCouponRequest(Arrays.asList(ids), TYPE, TITLE, MESSAGE);
+    @Deprecated
+    public static CouponRequest 쿠폰_요청(final Long organizationId, final Long... ids) {
+        return 쿠폰_요청(organizationId, List.of(ids));
     }
 
-    public static CouponRequest 잘못된_쿠폰_요청(final String type,
+    public static CouponRequest 쿠폰_요청(final Long organizationId, final List<Long> receiverIds) {
+        return createCouponRequest(receiverIds, organizationId, TYPE, TITLE, MESSAGE);
+    }
+
+    public static CouponRequest 잘못된_쿠폰_요청(final Long organizationId,
+                                          final String type,
                                           final String title,
                                           final String message,
                                           final Long... ids) {
-        return createCouponRequest(Arrays.asList(ids), type, title, message);
+        return createCouponRequest(Arrays.asList(ids), organizationId, type, title, message);
     }
 
     public static CouponRequestBuilder request() {
@@ -50,10 +57,8 @@ public class CouponAssured {
 
     public static class CouponRequestBuilder extends RequestBuilder {
 
-        public CouponRequestBuilder 쿠폰을_전송한다(final Long organizationId, final String accessToken,
-                                             final CouponRequest couponRequest) {
-            response = postWithToken("/api/organizations/" + organizationId + "/coupons/send", accessToken,
-                    couponRequest);
+        public CouponRequestBuilder 쿠폰을_전송한다(final String accessToken, final CouponRequest couponRequest) {
+            response = postWithToken("/api/coupons/send", accessToken, couponRequest);
             return this;
         }
 
