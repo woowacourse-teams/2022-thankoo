@@ -5,13 +5,18 @@ import static com.woowacourse.thankoo.common.exception.ErrorType.UNHANDLED_EXCEP
 import com.woowacourse.thankoo.common.alert.SlackLogger;
 import com.woowacourse.thankoo.common.exception.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = {"com.woowacourse.thankoo.alarm", "com.woowacourse.thankoo.authentication",
+        "com.woowacourse.thankoo.common", "com.woowacourse.thankoo.coupon", "com.woowacourse.thankoo.header",
+        "com.woowacourse.thankoo.meeting", "com.woowacourse.thankoo.member", "com.woowacourse.thankoo.organization",
+        "com.woowacourse.thankoo.reservation", "com.woowacourse.thankoo.serial"})
 @Slf4j
 public class GlobalControllerAdvice {
 

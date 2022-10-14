@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = {"com.woowacourse.thankoo.admin"})
 @Slf4j
 public class AdminControllerAdvice {
 
@@ -18,7 +18,8 @@ public class AdminControllerAdvice {
     }
 
     @ExceptionHandler(AdminUnAuthenticationException.class)
-    public ResponseEntity<AdminErrorResponse> adminUnAuthenticationExceptionHandler(final AdminUnAuthenticationException e) {
+    public ResponseEntity<AdminErrorResponse> adminUnAuthenticationExceptionHandler(
+            final AdminUnAuthenticationException e) {
         log.warn("Admin UnAuthentication Exception", e);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AdminErrorResponse(e.getMessage()));
     }
