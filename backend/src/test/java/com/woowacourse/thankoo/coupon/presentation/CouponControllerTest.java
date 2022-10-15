@@ -56,6 +56,7 @@ import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.ReservationRe
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponUseRequest;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -64,6 +65,7 @@ import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.print.attribute.standard.Media;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -460,8 +462,9 @@ class CouponControllerTest extends ControllerTest {
 
         ResultActions resultActions = mockMvc.perform(
                         put("/api/coupons/{couponId}/use", 1L)
-                                .queryParam("organization", "1")
                                 .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(new CouponUseRequest(1L)))
                                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
@@ -472,11 +475,11 @@ class CouponControllerTest extends ControllerTest {
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
-                requestParameters(
-                        parameterWithName("organization").description("organizationId")
-                ),
                 pathParameters(
                         parameterWithName("couponId").description("couponId")
+                ),
+                requestFields(
+                        fieldWithPath("organizationId").description("organizationId")
                 )
         ));
     }

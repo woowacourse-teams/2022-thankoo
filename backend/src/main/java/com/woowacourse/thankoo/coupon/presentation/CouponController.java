@@ -5,9 +5,11 @@ import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
+import com.woowacourse.thankoo.coupon.application.dto.CouponUssCommand;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponUseRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -63,10 +65,9 @@ public class CouponController {
 
     @PutMapping("/coupons/{couponId}/use")
     public ResponseEntity<Void> useCouponImmediately(@AuthenticationPrincipal final Long memberId,
-                                                     @RequestParam("organization") final Long organizationId,
+                                                     @RequestBody final CouponUseRequest couponUseRequest,
                                                      @PathVariable final Long couponId) {
-        couponService.useImmediately(memberId, organizationId, couponId);
+        couponService.useImmediately(new CouponUssCommand(memberId, couponUseRequest.getOrganizationId(), couponId));
         return ResponseEntity.ok().build();
     }
-
 }
