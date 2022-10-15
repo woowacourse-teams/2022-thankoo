@@ -44,6 +44,7 @@ const S = {
     align-items: center;
     background-color: ${({ theme }) => theme.input.background};
     border-radius: 4px;
+    width: 100%;
   `,
   Input: styled.input`
     width: 100%;
