@@ -19,10 +19,8 @@ public class HeartSendRequest {
         this.receiverId = receiverId;
     }
 
-    public static HeartSendRequest from(final Long organizationId,
-                                        final Long senderId,
-                                        final HeartRequest heartRequest) {
-        return new HeartSendRequest(organizationId, senderId, heartRequest.getReceiverId());
+    public static HeartSendRequest from(final Long senderId, final HeartRequest heartRequest) {
+        return new HeartSendRequest(heartRequest.getOrganizationId(), senderId, heartRequest.getReceiverId());
     }
 
     @Override
