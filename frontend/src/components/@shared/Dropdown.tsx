@@ -56,9 +56,18 @@ Dropdown.Menu = ({ children, ...props }) => {
   );
 };
 
-Dropdown.Item = ({ children, selected, ...props }) => {
+Dropdown.Item = ({ children, selected, onClick = () => {}, ...props }) => {
+  const { setToggle } = useContext(ToggleContext);
+
   return (
-    <Item selected={selected} {...props}>
+    <Item
+      onClick={() => {
+        onClick?.();
+        setToggle(false);
+      }}
+      selected={selected}
+      {...props}
+    >
       {children}
     </Item>
   );
