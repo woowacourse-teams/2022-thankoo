@@ -34,7 +34,7 @@ public class OrganizationController {
     public ResponseEntity<List<OrganizationMemberResponse>> getOrganizationMembersExcludeMe(
             @AuthenticationPrincipal final Long memberId,
             @PathVariable final Long organizationId) {
-        return ResponseEntity.ok(organizationService.getOrganizationMembersExcludeMe(memberId, organizationId));
+        return ResponseEntity.ok(organizationQueryService.getOrganizationMembersExcludeMe(memberId, organizationId));
     }
 
     @PostMapping("/join")

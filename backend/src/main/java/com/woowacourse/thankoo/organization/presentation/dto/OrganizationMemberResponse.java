@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.organization.presentation.dto;
 
-import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.organization.domain.MemberModel;
 import com.woowacourse.thankoo.organization.domain.OrganizationMember;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,10 +23,17 @@ public class OrganizationMemberResponse {
     }
 
     public static OrganizationMemberResponse from(final OrganizationMember organizationMember) {
-        Member member = organizationMember.getMember();
+        com.woowacourse.thankoo.member.domain.Member member = organizationMember.getMember();
         return new OrganizationMemberResponse(member.getId(),
                 member.getName().getValue(),
                 member.getEmail().getValue(),
+                member.getImageUrl());
+    }
+
+    public static OrganizationMemberResponse from(final MemberModel member) {
+        return new OrganizationMemberResponse(member.getId(),
+                member.getName(),
+                member.getEmail(),
                 member.getImageUrl());
     }
 

@@ -138,7 +138,7 @@ class OrganizationControllerTest extends ControllerTest {
                 OrganizationMemberResponse.from(new OrganizationMember(lala, organization, 1, true))
         );
 
-        given(organizationService.getOrganizationMembersExcludeMe(anyLong(), anyLong())).willReturn(responses);
+        given(organizationQueryService.getOrganizationMembersExcludeMe(anyLong(), anyLong())).willReturn(responses);
 
         ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/members")
                         .header(HttpHeaders.AUTHORIZATION, ACCESS_TOKEN)

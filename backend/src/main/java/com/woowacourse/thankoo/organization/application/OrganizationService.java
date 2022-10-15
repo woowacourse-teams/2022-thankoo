@@ -9,9 +9,6 @@ import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationMembers;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
-import com.woowacourse.thankoo.organization.presentation.dto.OrganizationMemberResponse;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,18 +41,6 @@ public class OrganizationService {
         validateOrganization(organizationMembers, organization);
 
         organizationMembers.switchLastAccessed(organization);
-    }
-
-    @Transactional(readOnly = true)
-    public List<OrganizationMemberResponse> getOrganizationMembersExcludeMe(final Long memberId,
-                                                                            final Long organizationId) {
-        Organization organization = organizationRepository.findOrganizationByOrganizationId(organizationId);
-        OrganizationMembers organizationMembers = organization.getOrganizationMembers();
-        Member member = getMember(memberId);
-        return organizationMembers.getExclude(member)
-                .stream()
-                .map(OrganizationMemberResponse::from)
-                .collect(Collectors.toList());
     }
 
     private Member getMember(final Long memberId) {
