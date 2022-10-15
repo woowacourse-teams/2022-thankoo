@@ -406,7 +406,8 @@ class CouponAcceptanceTest extends AcceptanceTest {
 
                 CouponAssured.request()
                         .쿠폰을_전송한다(senderToken.getAccessToken(),
-                                쿠폰_요청(organizationId, receiverToken1.getMemberId(), receiverToken2.getMemberId()))
+                                쿠폰_요청(organizationId,
+                                        List.of(receiverToken1.getMemberId(), receiverToken2.getMemberId())))
                         .response()
                         .status(HttpStatus.OK.value());
             }

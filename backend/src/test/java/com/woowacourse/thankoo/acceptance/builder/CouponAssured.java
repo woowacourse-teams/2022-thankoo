@@ -34,9 +34,8 @@ public class CouponAssured {
         return new CouponRequest(receiverIds, organizationId, new ContentRequest(type, title, message));
     }
 
-    @Deprecated
-    public static CouponRequest 쿠폰_요청(final Long organizationId, final Long... ids) {
-        return 쿠폰_요청(organizationId, List.of(ids));
+    public static CouponRequest 쿠폰_요청(final Long organizationId, final Long id) {
+        return 쿠폰_요청(organizationId, List.of(id));
     }
 
     public static CouponRequest 쿠폰_요청(final Long organizationId, final List<Long> receiverIds) {
