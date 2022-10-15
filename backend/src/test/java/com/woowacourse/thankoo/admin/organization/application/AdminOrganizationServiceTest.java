@@ -1,16 +1,22 @@
 package com.woowacourse.thankoo.admin.organization.application;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatNoException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+import com.woowacourse.thankoo.admin.organization.application.dto.AdminGetOrganizationsRequest;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
 import com.woowacourse.thankoo.admin.organization.domain.AdminOrganizationRepository;
+import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminGetOrganizationResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
+import com.woowacourse.thankoo.organization.domain.CodeGenerator;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -67,5 +73,24 @@ class AdminOrganizationServiceTest {
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("유효하지 않은 조직의 인원입니다.");
         }
+    }
+
+    @DisplayName("조직을 조회한다.")
+    @Test
+    void getOrganizations() {
+        OrganizationValidator validator = new OrganizationValidator(organizationRepository);
+        CodeGenerator codeGenerator = new OrganizationCodeGenerator();
+
+        LocalDateTime startDateTime = LocalDateTime.now();
+        Organization organization1 = Organization.create("org1", codeGenerator, 15, validator);
+        Organization organization2 = Organization.create("org2", codeGenerator, 15, validator);
+        adminOrganizationRepository.save(organization1);
+        adminOrganizationRepository.save(organization2);
+        LocalDateTime endDateTime = LocalDateTime.now();
+        AdminGetOrganizationsRequest getOrganizationsRequest = new AdminGetOrganizationsRequest(startDateTime, endDateTime);
+        AdminGetOrganizationResponse actual = adminOrganizationService.getOrganizations(getOrganizationsRequest);
+        AdminGetOrganizationResponse expected = AdminGetOrganizationResponse.from(List.of(organization1, organization2));
+
+        assertThat(actual.getOrganizations().size()).isEqualTo(expected.getOrganizations().size());
     }
 }
