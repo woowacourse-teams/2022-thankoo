@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,17 +35,17 @@ public class ReservationController {
         return ResponseEntity.created(URI.create("/api/reservations/" + reserveId)).build();
     }
 
-    @GetMapping("/organizations/{organizationId}/reservations/received")
+    @GetMapping("/reservations/received")
     public ResponseEntity<List<SimpleReservationResponse>> getReceivedReservations(
             @AuthenticationPrincipal final Long memberId,
-            @PathVariable final Long organizationId) {
+            @RequestParam("organization") final Long organizationId) {
         return ResponseEntity.ok(reservationQueryService.getReceivedReservations(memberId, organizationId));
     }
 
-    @GetMapping("/organizations/{organizationId}/reservations/sent")
+    @GetMapping("/reservations/sent")
     public ResponseEntity<List<SimpleReservationResponse>> getSentReservations(
             @AuthenticationPrincipal final Long memberId,
-            @PathVariable final Long organizationId) {
+            @RequestParam("organization") final Long organizationId) {
         return ResponseEntity.ok(reservationQueryService.getSentReservations(memberId, organizationId));
     }
 
