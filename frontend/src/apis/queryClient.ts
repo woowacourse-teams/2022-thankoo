@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { QueryClient } from 'react-query';
+import { QueryClient, QueryClientConfig } from 'react-query';
 import { ROUTE_PATH } from '../constants/routes';
 import { clearAuth } from '../utils/auth';
 
@@ -40,17 +40,20 @@ const authErrorHandler = (error: AxiosError) => {
   }
 };
 
-const defaultQueryClientOptions = {
-  queries: {
-    onError: queryErrorHandler,
-    retry: retryHandler,
-  },
-  mutations: {
-    onError: mutateErrorHandler,
-    retry: retryHandler,
+const defaultOptions: QueryClientConfig = {
+  defaultOptions: {
+    queries: {
+      onError: queryErrorHandler,
+      retry: retryHandler,
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      onError: mutateErrorHandler,
+      retry: retryHandler,
+    },
   },
 };
 
 export const queryClient = new QueryClient({
-  defaultOptions: defaultQueryClientOptions,
+  ...defaultOptions,
 });
