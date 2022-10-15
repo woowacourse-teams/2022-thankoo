@@ -25,6 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
 import com.woowacourse.thankoo.common.annotations.RepositoryTest;
+import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import java.util.List;
 import javax.sql.DataSource;
@@ -62,8 +63,8 @@ class OrganizationQueryRepositoryTest {
     @DisplayName("회원의 조직을 순서대로 조회한다.")
     @Test
     void findMemberOrganizationsByMemberId() {
-        com.woowacourse.thankoo.member.domain.Member member = memberRepository.save(
-                new com.woowacourse.thankoo.member.domain.Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID,
+        Member member = memberRepository.save(
+                new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID,
                         HUNI_IMAGE_URL));
         Organization woowacourse = organizationRepository.save(createDefaultOrganization(organizationValidator));
         Organization thankoo = organizationRepository.save(createThankooOrganization(organizationValidator));
@@ -93,17 +94,17 @@ class OrganizationQueryRepositoryTest {
     @DisplayName("조직의 회원 중 내가 아닌 회원을 모두 조회한다.")
     @Test
     void findOrganizationByOrganizationIdNotMemberId() {
-        com.woowacourse.thankoo.member.domain.Member lala = memberRepository.save(
-                new com.woowacourse.thankoo.member.domain.Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID,
+        Member lala = memberRepository.save(
+                new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID,
                         LALA_IMAGE_URL));
-        com.woowacourse.thankoo.member.domain.Member skrr = memberRepository.save(
-                new com.woowacourse.thankoo.member.domain.Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID,
+        Member skrr = memberRepository.save(
+                new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID,
                         SKRR_IMAGE_URL));
-        com.woowacourse.thankoo.member.domain.Member hoho = memberRepository.save(
-                new com.woowacourse.thankoo.member.domain.Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID,
+        Member hoho = memberRepository.save(
+                new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID,
                         HOHO_IMAGE_URL));
-        com.woowacourse.thankoo.member.domain.Member huni = memberRepository.save(
-                new com.woowacourse.thankoo.member.domain.Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID,
+        Member huni = memberRepository.save(
+                new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID,
                         HUNI_IMAGE_URL));
 
         Organization organization1 = organizationRepository.save(createDefaultOrganization(organizationValidator));
@@ -125,7 +126,7 @@ class OrganizationQueryRepositoryTest {
                 () -> assertThat(members.get(1)).extracting("id").isEqualTo(skrr.getId())
         );
     }
-    
+
     @DisplayName("코드로 조직을 조회한다.")
     @Test
     void findByCode() {
