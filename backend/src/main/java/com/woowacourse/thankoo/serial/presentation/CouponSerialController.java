@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/coupon-serials")
 public class CouponSerialController {
 
     private final CouponSerialQueryService couponSerialQueryService;
     private final CouponSerialService couponSerialService;
 
-    @GetMapping("/coupon-serials")
+    @GetMapping
     public ResponseEntity<CouponSerialResponse> getCouponSerialBySerialCode(
             @AuthenticationPrincipal final Long memberId,
             @RequestParam("organization") final Long organizationId,
@@ -32,7 +32,7 @@ public class CouponSerialController {
         return ResponseEntity.ok(couponSerialQueryService.getCouponSerialByCode(couponSerialRequest));
     }
 
-    @PostMapping("/coupon-serials")
+    @PostMapping
     public ResponseEntity<Void> useCouponSerial(@AuthenticationPrincipal final Long memberId,
                                                 @RequestBody final SerialCodeRequest serialCodeRequest) {
         couponSerialService.use(memberId, serialCodeRequest);
