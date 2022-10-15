@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom, sentOrReceivedAtom } from '../../recoil/atom';
+import { FlexColumn, gap } from '../../styles/mixIn';
 import { couponTypes } from '../../types/coupon';
 import Button from '../@shared/Button';
 import SuccessAnimation from '../@shared/SuccessAnimation';
@@ -54,6 +55,8 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
           <div
             css={css`
               ${SpaceBetween}
+              ${FlexColumn}
+              ${gap('1rem')}
             `}
           >
             <S.Title>메세지</S.Title>
