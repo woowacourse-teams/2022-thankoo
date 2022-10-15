@@ -46,12 +46,12 @@ public class ReservationAssured {
         }
 
         public ReservationRequestBuilder 보낸_예약을_조회한다(final String token, final Long organizationId) {
-            response = getWithToken("/api/organizations/" + organizationId + "/reservations/sent", token);
+            response = getWithToken("/api/reservations/sent?organization=" + organizationId, token);
             return this;
         }
 
         public ReservationRequestBuilder 받은_예약을_조회한다(final String token, final Long organizationId) {
-            response = getWithToken("/api/organizations/" + organizationId + "/reservations/received", token);
+            response = getWithToken("/api/reservations/received?organization=" + organizationId, token);
             return this;
         }
 
