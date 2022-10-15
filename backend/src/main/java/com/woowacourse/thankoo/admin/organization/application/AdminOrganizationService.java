@@ -9,6 +9,7 @@ import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +31,13 @@ public class AdminOrganizationService {
         adminOrganizationRepository.save(newOrganization);
     }
 
-    public AdminGetOrganizationResponse getOrganizations(final AdminGetOrganizationsRequest getOrganizationsRequest) {
+    public List<AdminGetOrganizationResponse> getOrganizations(final AdminGetOrganizationsRequest getOrganizationsRequest) {
         LocalDateTime startDateTime = getOrganizationsRequest.getStartDateTime();
         LocalDateTime endDateTime = getOrganizationsRequest.getEndDateTime();
         List<Organization> organizations = adminOrganizationRepository.findAllByCreatedAtBetween(startDateTime,
                 endDateTime);
-        return AdminGetOrganizationResponse.from(organizations);
+        return organizations.stream()
+                .map(AdminGetOrganizationResponse::from)
+                .collect(Collectors.toList());
     }
 }

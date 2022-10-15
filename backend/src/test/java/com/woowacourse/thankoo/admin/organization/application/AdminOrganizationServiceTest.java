@@ -87,10 +87,12 @@ class AdminOrganizationServiceTest {
         adminOrganizationRepository.save(organization1);
         adminOrganizationRepository.save(organization2);
         LocalDateTime endDateTime = LocalDateTime.now();
-        AdminGetOrganizationsRequest getOrganizationsRequest = new AdminGetOrganizationsRequest(startDateTime, endDateTime);
-        AdminGetOrganizationResponse actual = adminOrganizationService.getOrganizations(getOrganizationsRequest);
-        AdminGetOrganizationResponse expected = AdminGetOrganizationResponse.from(List.of(organization1, organization2));
+        AdminGetOrganizationsRequest getOrganizationsRequest = new AdminGetOrganizationsRequest(startDateTime,
+                endDateTime);
+        List<AdminGetOrganizationResponse> actual = adminOrganizationService.getOrganizations(getOrganizationsRequest);
+        List<AdminGetOrganizationResponse> expected = List.of(AdminGetOrganizationResponse.from(organization1),
+                AdminGetOrganizationResponse.from(organization2));
 
-        assertThat(actual.getOrganizations().size()).isEqualTo(expected.getOrganizations().size());
+        assertThat(actual.size()).isEqualTo(expected.size());
     }
 }
