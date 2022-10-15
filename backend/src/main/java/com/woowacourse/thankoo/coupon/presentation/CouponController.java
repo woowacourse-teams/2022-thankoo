@@ -24,20 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/coupons")
 public class CouponController {
 
     private final CouponService couponService;
     private final CouponQueryService couponQueryService;
 
-    @PostMapping("/coupons/send")
+    @PostMapping("/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
                                      @RequestBody final CouponRequest couponRequest) {
         couponService.saveAll(couponRequest.toCouponCommand(senderId));
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/coupons/received")
+    @GetMapping("/received")
     public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receiverId,
                                                                 @RequestParam final String status,
                                                                 @RequestParam("organization") final Long organizationId) {
@@ -45,25 +45,25 @@ public class CouponController {
         return ResponseEntity.ok(couponQueryService.getReceivedCouponsByOrganization(couponSelectCommand));
     }
 
-    @GetMapping("/coupons/sent")
+    @GetMapping("/sent")
     public ResponseEntity<List<CouponResponse>> sentCoupons(@AuthenticationPrincipal final Long senderId,
                                                             @RequestParam("organization") final Long organizationId) {
         return ResponseEntity.ok(couponQueryService.getSentCouponsByOrganization(organizationId, senderId));
     }
 
-    @GetMapping("/coupons/{couponId}")
+    @GetMapping("/{couponId}")
     public ResponseEntity<CouponDetailResponse> getCoupon(@AuthenticationPrincipal final Long memberId,
                                                           @PathVariable final Long couponId,
                                                           @RequestParam("organization") final Long organizationId) {
         return ResponseEntity.ok(couponQueryService.getCouponDetail(memberId, organizationId, couponId));
     }
 
-    @GetMapping("/coupons/count")
+    @GetMapping("/count")
     public ResponseEntity<CouponTotalResponse> getCouponTotalCount(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(couponQueryService.getCouponTotalCount(memberId));
     }
 
-    @PutMapping("/coupons/{couponId}/use")
+    @PutMapping("/{couponId}/use")
     public ResponseEntity<Void> useCouponImmediately(@AuthenticationPrincipal final Long memberId,
                                                      @RequestBody final CouponUseRequest couponUseRequest,
                                                      @PathVariable final Long couponId) {
