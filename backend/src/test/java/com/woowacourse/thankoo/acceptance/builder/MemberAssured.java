@@ -78,7 +78,8 @@ public class MemberAssured {
             List<MemberResponse> memberResponses = bodies(MemberResponse.class);
             assertAll(
                     () -> assertThat(memberResponses).hasSize(names.length),
-                    () -> assertThat(memberResponses).extracting("name").containsExactly(names)
+                    () -> assertThat(memberResponses).extracting("name")
+                            .containsExactly(names)
             );
         }
 

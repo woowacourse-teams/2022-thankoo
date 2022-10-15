@@ -24,7 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.dto.TimeResponse;
+import com.woowacourse.thankoo.coupon.application.dto.ContentCommand;
 import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
+import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
@@ -209,9 +211,10 @@ class CouponQueryServiceTest {
         Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
         join(organization.getCode().getValue(), sender.getId(), receiver.getId());
 
-        CouponRequest couponRequest = new CouponRequest(List.of(receiver.getId()),
-                new ContentRequest(TYPE, TITLE, MESSAGE));
-        couponService.saveAll(couponRequest.toCouponCommand(organization.getId(), sender.getId()));
+        CouponCommand couponCommand = new CouponCommand(organization.getId(), sender.getId(),
+                List.of(receiver.getId()),
+                new ContentCommand(TYPE, TITLE, MESSAGE));
+        couponService.saveAll(couponCommand);
 
         List<CouponResponse> responses = couponQueryService.getSentCouponsByOrganization(organization.getId(),
                 sender.getId());

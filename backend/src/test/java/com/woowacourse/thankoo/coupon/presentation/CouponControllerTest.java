@@ -33,6 +33,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,6 +56,7 @@ import com.woowacourse.thankoo.coupon.infrastructure.integrate.dto.ReservationRe
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponUseRequest;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -63,6 +65,7 @@ import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.print.attribute.standard.Media;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,14 +78,13 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("쿠폰을 전송하면 200 OK 를 반환한다.")
     @Test
     void sendCoupon() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         doNothing().when(couponService).saveAll(any(CouponCommand.class));
 
-        ResultActions resultActions = mockMvc.perform(post("/api/organizations/1/coupons/send")
+        ResultActions resultActions = mockMvc.perform(post("/api/coupons/send")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
-                        .content(objectMapper.writeValueAsString(new CouponRequest(List.of(1L),
-                                new ContentRequest(TYPE, TITLE, MESSAGE))))
+                        .content(objectMapper.writeValueAsString(
+                                new CouponRequest(List.of(1L), 1L, new ContentRequest(TYPE, TITLE, MESSAGE))))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -94,6 +96,7 @@ class CouponControllerTest extends ControllerTest {
                 ),
                 requestFields(
                         fieldWithPath("receiverIds").type(ARRAY).description("receiverId"),
+                        fieldWithPath("organizationId").type(NUMBER).description("organizationId"),
                         fieldWithPath("content.couponType").type(STRING).description("couponType"),
                         fieldWithPath("content.title").type(STRING).description("title"),
                         fieldWithPath("content.message").type(STRING).description("message")
@@ -104,8 +107,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("사용하지 않은 받은 쿠폰을 조회한다.")
     @Test
     void getReceivedCouponsNotUsed() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
@@ -118,7 +120,9 @@ class CouponControllerTest extends ControllerTest {
 
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + NOT_USED)
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
+                        .queryParam("status", NOT_USED)
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -167,7 +171,9 @@ class CouponControllerTest extends ControllerTest {
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + USED)
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
+                        .queryParam("organization", "1")
+                        .queryParam("status", USED)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -202,8 +208,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("모든 받은 쿠폰을 조회한다.")
     @Test
     void getReceivedCouponsAll() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
@@ -220,7 +225,9 @@ class CouponControllerTest extends ControllerTest {
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
                 .willReturn(couponResponses);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/received?status=" + ALL)
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/received")
+                        .queryParam("status", ALL)
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -255,8 +262,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("보낸 쿠폰을 조회한다.")
     @Test
     void getSentCoupons() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
@@ -268,7 +274,8 @@ class CouponControllerTest extends ControllerTest {
 
         given(couponQueryService.getSentCouponsByOrganization(anyLong(), anyLong()))
                 .willReturn(couponResponses);
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/sent")
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/sent")
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -317,7 +324,8 @@ class CouponControllerTest extends ControllerTest {
 
         given(couponQueryService.getCouponDetail(anyLong(), anyLong(), anyLong()))
                 .willReturn(couponDetailResponse);
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/1")
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -374,7 +382,8 @@ class CouponControllerTest extends ControllerTest {
 
         given(couponQueryService.getCouponDetail(anyLong(), anyLong(), anyLong()))
                 .willReturn(couponDetailResponse);
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupons/1")
+        ResultActions resultActions = mockMvc.perform(get("/api/coupons/1")
+                        .queryParam("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -418,8 +427,7 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("보낸, 받은 쿠폰 개수를 조회한다.")
     @Test
     void getTotalCouponCount() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
@@ -450,12 +458,13 @@ class CouponControllerTest extends ControllerTest {
     @DisplayName("쿠폰을 즉시 사용한다.")
     @Test
     void useCoupon() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         ResultActions resultActions = mockMvc.perform(
-                        put("/api/organizations/{organizationId}/coupons/{couponId}/use", 1L, 1L)
+                        put("/api/coupons/{couponId}/use", 1L)
                                 .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(new CouponUseRequest(1L)))
                                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
@@ -467,8 +476,10 @@ class CouponControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 pathParameters(
-                        parameterWithName("organizationId").description("organizationId"),
                         parameterWithName("couponId").description("couponId")
+                ),
+                requestFields(
+                        fieldWithPath("organizationId").description("organizationId")
                 )
         ));
     }
