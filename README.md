@@ -1,17 +1,15 @@
 # 당신의 감정을 전달하세요. 땡쿠 💌
 
-## 땡쿠들 😎
+## Local 환경 배포
 
-### Backend
-|![](https://github.com/jayjaehunchoi.png?size=100)|![](https://github.com/sure-why-not.png?size=100)|![](https://github.com/yhh1056.png?size=100)|![](https://github.com/skullkim.png?size=100)|
-|:-:|:-:|:-:|:-:|
-|[후니](https://github.com/jayjaehunchoi)|[라라](https://github.com/sure-why-not)|[호호](https://github.com/yhh1056)|[스컬](https://github.com/skullkim)|
+1. -u 옵션에 도커 계정을 입력해주세요.
+2. -v 옵션에 배포할 버전을 입력해주세요. 
 
-### Frontend
-|![](https://github.com/KangYunHo1221.png?size=100)|![](https://github.com/kwannee.png?size=100)|
-|:-:|:-:|
-|[비녀](https://github.com/KangYunHo1221)|[후이](https://github.com/kwannee)|
+현재는 -u -v 순서대로 명령을 해야하는데 순서 바뀌어도 동작하게 만들고자합니다.
+먼저 만들어서 푸시해도 괜찮아요.
 
-## 땡쿠의 문화
-
-![https://user-images.githubusercontent.com/58363663/177715123-cd172900-2274-47d7-8b28-a238b062e711.png](https://user-images.githubusercontent.com/58363663/177715123-cd172900-2274-47d7-8b28-a238b062e711.png)
+``` shell
+## 빌드 예시
+cd backend
+sh local-deploy.sh -u yhh1056 -v 1.0.5
+```
