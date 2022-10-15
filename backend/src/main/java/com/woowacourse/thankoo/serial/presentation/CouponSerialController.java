@@ -9,7 +9,6 @@ import com.woowacourse.thankoo.serial.presentation.dto.CouponSerialResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +23,10 @@ public class CouponSerialController {
     private final CouponSerialQueryService couponSerialQueryService;
     private final CouponSerialService couponSerialService;
 
-    @GetMapping("/organizations/{organizationId}/coupon-serials")
+    @GetMapping("/coupon-serials")
     public ResponseEntity<CouponSerialResponse> getCouponSerialBySerialCode(
             @AuthenticationPrincipal final Long memberId,
-            @PathVariable final Long organizationId,
+            @RequestParam("organization") final Long organizationId,
             @RequestParam final String code) {
         CouponSerialRequest couponSerialRequest = new CouponSerialRequest(memberId, organizationId, code);
         return ResponseEntity.ok(couponSerialQueryService.getCouponSerialByCode(couponSerialRequest));
