@@ -1,0 +1,55 @@
+import { AxiosError } from 'axios';
+import { useMutation, useQuery } from 'react-query';
+import { client } from '../../apis/axios';
+import { API_PATH } from '../../constants/api';
+import { ErrorType, QueryHandlers } from '../../types/api';
+
+export const ORGANIZATION_QUERY_KEY = {
+  organizations: 'organizations',
+};
+
+type OrganizationResponse = {
+  organizationId: number;
+  organizationName: string;
+  organizationCode: string;
+  orderNumber: number;
+  lastAccessed: boolean;
+};
+
+export const useGetOrganizations = () =>
+  useQuery<OrganizationResponse[]>([ORGANIZATION_QUERY_KEY.organizations], getOrganizations);
+
+export const usePutJoinOrganization = ({ onSuccess, onError }: QueryHandlers) =>
+  useMutation(postJoinNewOrganization, {
+    onSuccess: () => {
+      onSuccess?.();
+    },
+    onError: (error: AxiosError<ErrorType>) => {
+      onError?.(error);
+    },
+    retry: false,
+  });
+
+export const usePutLastAccessedOrganization = ({ onSuccess, onError }: QueryHandlers) =>
+  useMutation((id: string) => putUpdateLastAccessedOrganization(id), {
+    onSuccess: () => {
+      onSuccess?.();
+    },
+    onError: (error: AxiosError<ErrorType>) => {
+      onError?.(error);
+    },
+  });
+
+//   FETCHER
+
+const getOrganizations = async () => {
+  const { data } = await client({ method: 'get', url: API_PATH.ORGANIZATIONS });
+
+  return data;
+};
+
+const postJoinNewOrganization = (code: string) =>
+  client({ method: 'post', url: API_PATH.JOIN_ORGANIZATION, data: { code } });
+
+const putUpdateLastAccessedOrganization = (id: string) =>
+  client({ method: 'put', url: API_PATH.UPDATE_LASTACCESSED_ORGANIZATION(id) });

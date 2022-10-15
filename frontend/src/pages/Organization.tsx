@@ -1,38 +1,65 @@
 import styled from '@emotion/styled';
 import PageLayout from '../layout/PageLayout';
 import BirdLogoWhite from '../components/@shared/LogoWhite';
-import { css } from '@emotion/react';
-import { ORGANIZATIONS } from '../routes/Router';
 import Button from '../components/@shared/Button';
+import { useNavigate } from 'react-router-dom';
+import Input from '../components/@shared/Input';
+import { useState, FormEvent } from 'react';
+import { ROUTE_PATH } from '../constants/routes';
+import useToast from '../hooks/useToast';
+import { usePutJoinOrganization } from '../hooks/@queries/organization';
+
+const INVITE_CODE_LENGTH = 8;
 
 const Organization = () => {
-  const organization = ORGANIZATIONS[0];
+  const navigate = useNavigate();
+  const [inviteCode, setInviteCode] = useState('');
+  const { insertToastItem } = useToast();
+  const { mutate: joinOrganization } = usePutJoinOrganization({
+    onSuccess: () => {
+      navigate(ROUTE_PATH.EXACT_MAIN);
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
+    },
+  });
+
+  const handleClickJoinButton = (e: FormEvent) => {
+    e.preventDefault();
+
+    joinOrganization(inviteCode);
+  };
 
   return (
     <S.Container>
-      <S.Inner>
-        <S.Header>
-          <BirdLogoWhite size={'60px'} />
-          <S.HeaderText>Thankoo</S.HeaderText>
-        </S.Header>
-        <S.Body>
-          <S.Description>
-            <S.OrganiztionDescription>
-              <S.Organization>{organization.organizationName}</S.Organization>의 멤버가 되어보세요
-            </S.OrganiztionDescription>
-            <S.ServiceDescription>
-              땡쿠는 멤버들 간 쿠폰을 주고 받을 수 있는 앱입니다.
-            </S.ServiceDescription>
-          </S.Description>
-          <div style={{ display: 'flex', flexFlow: 'column' }}>
-            <span>현재 멤버 : 97명</span>
-            <span>후이 님, 호호 님 외 95명의 다른 사용자가 이미 참여했습니다.</span>
-          </div>
-        </S.Body>
-        <S.JoinSection>
-          <Button>{organization.organizationName}에 참여하기</Button>
-        </S.JoinSection>
-      </S.Inner>
+      <S.Header>
+        <BirdLogoWhite size={'60px'} />
+        <S.HeaderText>Thankoo</S.HeaderText>
+      </S.Header>
+      <S.Body>
+        <S.OrganizationForm onSubmit={handleClickJoinButton}>
+          <Input
+            maxLength={INVITE_CODE_LENGTH}
+            setValue={setInviteCode}
+            value={inviteCode}
+            onChange={e => {
+              setInviteCode(e.target.value);
+            }}
+            type='text'
+            placeholder='초대 코드를 입력해주세요'
+            aria-label='초대 코드 입력창'
+          />
+          <S.ButtonWrapper>
+            <Button
+              type='submit'
+              size='small'
+              isDisabled={inviteCode.length !== INVITE_CODE_LENGTH}
+            >
+              참여하기
+            </Button>
+          </S.ButtonWrapper>
+        </S.OrganizationForm>
+      </S.Body>
     </S.Container>
   );
 };
@@ -42,13 +69,6 @@ const S = {
   Container: styled(PageLayout)`
     height: 100%;
     padding: 0 1rem;
-    gap: 3rem;
-  `,
-  Inner: styled.main`
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 5rem 0;
     gap: 3rem;
   `,
   Header: styled.header`
@@ -64,36 +84,22 @@ const S = {
     color: white;
     font-weight: bold;
   `,
-  Body: styled.article`
+  Body: styled.main`
+    height: 50%;
+
     display: flex;
-    flex-flow: column;
     align-items: center;
-    color: white;
-    text-align: center;
-    gap: 6rem;
-    font-size: 1.5rem;
+    justify-content: center;
   `,
-  Description: styled.section`
-    display: flex;
-    flex-flow: column;
-    gap: 1.5rem;
-  `,
-  OrganiztionDescription: styled.span`
-    font-size: 4rem;
-    font-weight: bold;
-    text-align: center;
-    word-break: keep-all;
-  `,
-  Organization: styled.span`
-    /* color: white; */
-  `,
-  ServiceDescription: styled.span`
-    font-size: 1.8rem;
-    word-break: keep-all;
-  `,
-  JoinSection: styled.section`
-    display: grid;
-    place-items: center;
+  OrganizationForm: styled.form`
     width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  `,
+  ButtonWrapper: styled.div`
+    width: 100px;
   `,
 };

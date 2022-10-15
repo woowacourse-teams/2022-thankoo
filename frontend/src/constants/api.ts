@@ -26,5 +26,7 @@ export const API_PATH = {
   GET_QR_COUPON: code => `/coupon-serials?code=${code}`,
   POST_QR_SERIAL: '/coupon-serials',
   COMPLETE_COUPON: couponId => `/coupons/${couponId}/use`,
-  ORGANIZATIONS: '/api/organizations/me',
+  ORGANIZATIONS: '/organizations/me',
+  JOIN_ORGANIZATION: '/organizations/join',
+  UPDATE_LASTACCESSED_ORGANIZATION: id => `/organizations/${id}/access`,
 };
