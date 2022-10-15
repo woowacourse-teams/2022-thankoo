@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.tomcat.jni.Local;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter

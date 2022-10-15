@@ -2,11 +2,9 @@ package com.woowacourse.thankoo.admin.organization.presentaion;
 
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.NUMBER;
 import static com.fasterxml.jackson.databind.node.JsonNodeType.STRING;
-import static io.restassured.RestAssured.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -23,12 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
 import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminGetOrganizationResponse;
-import com.woowacourse.thankoo.organization.domain.CodeGenerator;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationCode;
 import com.woowacourse.thankoo.organization.domain.OrganizationName;
-import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
-import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;

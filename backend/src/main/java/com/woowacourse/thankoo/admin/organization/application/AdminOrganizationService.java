@@ -31,7 +31,8 @@ public class AdminOrganizationService {
         adminOrganizationRepository.save(newOrganization);
     }
 
-    public List<AdminGetOrganizationResponse> getOrganizations(final AdminGetOrganizationsRequest getOrganizationsRequest) {
+    public List<AdminGetOrganizationResponse> getOrganizations(
+            final AdminGetOrganizationsRequest getOrganizationsRequest) {
         LocalDateTime startDateTime = getOrganizationsRequest.getStartDateTime();
         LocalDateTime endDateTime = getOrganizationsRequest.getEndDateTime();
         List<Organization> organizations = adminOrganizationRepository.findAllByCreatedAtBetween(startDateTime,

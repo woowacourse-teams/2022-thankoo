@@ -75,6 +75,7 @@ class AdminOrganizationServiceTest {
         }
     }
 
+
     @DisplayName("조직을 조회한다.")
     @Test
     void getOrganizations() {
@@ -89,7 +90,8 @@ class AdminOrganizationServiceTest {
         LocalDateTime endDateTime = LocalDateTime.now();
         AdminGetOrganizationsRequest getOrganizationsRequest = new AdminGetOrganizationsRequest(startDateTime,
                 endDateTime);
-        List<AdminGetOrganizationResponse> actual = adminOrganizationService.getOrganizations(getOrganizationsRequest);
+        List<AdminGetOrganizationResponse> actual = adminOrganizationService.getOrganizations(
+                getOrganizationsRequest);
         List<AdminGetOrganizationResponse> expected = List.of(AdminGetOrganizationResponse.from(organization1),
                 AdminGetOrganizationResponse.from(organization2));
 
