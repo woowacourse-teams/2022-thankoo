@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.organization.presentation.dto;
 
-import com.woowacourse.thankoo.organization.domain.SimpleOrganizationData;
+import com.woowacourse.thankoo.organization.domain.SimpleOrganization;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +17,8 @@ public class SimpleOrganizationResponse {
         this.name = name;
     }
 
-    public static SimpleOrganizationResponse from(final SimpleOrganizationData simpleOrganizationData) {
-        return new SimpleOrganizationResponse(simpleOrganizationData.getId(), simpleOrganizationData.getName());
+    public static SimpleOrganizationResponse from(final SimpleOrganization simpleOrganization) {
+        return new SimpleOrganizationResponse(simpleOrganization.getId(), simpleOrganization.getName());
     }
 
     @Override

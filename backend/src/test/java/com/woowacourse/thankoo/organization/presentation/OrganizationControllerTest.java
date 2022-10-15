@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
 import com.woowacourse.thankoo.organization.domain.MemberOrganization;
-import com.woowacourse.thankoo.organization.domain.SimpleOrganizationData;
+import com.woowacourse.thankoo.organization.domain.SimpleOrganization;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import java.util.List;
@@ -71,7 +71,7 @@ class OrganizationControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         SimpleOrganizationResponse response = SimpleOrganizationResponse.from(
-                new SimpleOrganizationData(1L, ORGANIZATION_THANKOO));
+                new SimpleOrganization(1L, ORGANIZATION_THANKOO));
 
         given(organizationQueryService.getOrganizationByCode(anyString())).willReturn(response);
 

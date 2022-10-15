@@ -81,10 +81,10 @@ class OrganizationQueryRepositoryTest {
     @Test
     void findByCode() {
         Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
-        SimpleOrganizationData simpleOrganizationData = new SimpleOrganizationData(organization.getId(),
+        SimpleOrganization simpleOrganization = new SimpleOrganization(organization.getId(),
                 organization.getName().getValue());
 
         assertThat(organizationQueryRepository.findByCode(ORGANIZATION_WOOWACOURSE_CODE).orElseThrow()).isEqualTo(
-                simpleOrganizationData);
+                simpleOrganization);
     }
 }

@@ -4,12 +4,12 @@ import java.util.Objects;
 import lombok.Getter;
 
 @Getter
-public class SimpleOrganizationData {
+public class SimpleOrganization {
 
     private final Long id;
     private final String name;
 
-    public SimpleOrganizationData(final Long id, final String name) {
+    public SimpleOrganization(final Long id, final String name) {
         this.id = id;
         this.name = name;
     }
@@ -19,15 +19,23 @@ public class SimpleOrganizationData {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof SimpleOrganizationData)) {
+        if (!(o instanceof SimpleOrganization)) {
             return false;
         }
-        SimpleOrganizationData that = (SimpleOrganizationData) o;
+        SimpleOrganization that = (SimpleOrganization) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleOrganization{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

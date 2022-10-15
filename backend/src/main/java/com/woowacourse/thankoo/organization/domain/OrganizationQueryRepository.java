@@ -30,12 +30,12 @@ public class OrganizationQueryRepository {
         return jdbcTemplate.query(sql, parameter, ROW_MAPPER);
     }
 
-    public Optional<SimpleOrganizationData> findByCode(final String code) {
+    public Optional<SimpleOrganization> findByCode(final String code) {
         String sql = "SELECT id, name FROM organization WHERE code = :code";
 
         SqlParameterSource parameter = new MapSqlParameterSource("code", code);
         return Optional.ofNullable(DataAccessUtils.singleResult(jdbcTemplate.query(sql, parameter,
-                (rs, rowNum) -> new SimpleOrganizationData(rs.getLong("id"),
+                (rs, rowNum) -> new SimpleOrganization(rs.getLong("id"),
                         rs.getString("name")))
         ));
     }
