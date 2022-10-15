@@ -47,6 +47,7 @@ const Button = styled.button<ButtonProps>`
       background-color: ${ButtonStyleOptions.bg['secondary']};
       color: ${ButtonStyleOptions.fontColor['secondary']};
       cursor: not-allowed;
+      pointer-events: none;
     `}
   `}
 `;
