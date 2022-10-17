@@ -22,10 +22,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.application.dto.ContentCommand;
-import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
-import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
-import com.woowacourse.thankoo.coupon.application.dto.CouponUssCommand;
+import com.woowacourse.thankoo.coupon.application.dto.CouponUseCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -192,7 +190,7 @@ class CouponServiceTest {
             Coupon savedCoupon = couponRepository.save(coupon);
 
             couponService.useImmediately(
-                    new CouponUssCommand(receiver.getId(), organization.getId(), savedCoupon.getId()));
+                    new CouponUseCommand(receiver.getId(), organization.getId(), savedCoupon.getId()));
 
             Coupon usedCoupon = couponRepository.findById(savedCoupon.getId()).orElseThrow();
 
@@ -214,10 +212,10 @@ class CouponServiceTest {
                     NOT_USED);
 
             Coupon savedCoupon = couponRepository.save(coupon);
-            CouponUssCommand couponUssCommand = new CouponUssCommand(other.getId(), organization.getId(), savedCoupon.getId());
+            CouponUseCommand couponUseCommand = new CouponUseCommand(other.getId(), organization.getId(), savedCoupon.getId());
 
             assertThatThrownBy(
-                    () -> couponService.useImmediately(couponUssCommand))
+                    () -> couponService.useImmediately(couponUseCommand))
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("조직에 가입되지 않은 회원입니다.");
         }
@@ -237,10 +235,10 @@ class CouponServiceTest {
                     NOT_USED);
 
             Coupon savedCoupon = couponRepository.save(coupon);
-            CouponUssCommand couponUssCommand = new CouponUssCommand(hoho.getId(), organization.getId(), savedCoupon.getId());
+            CouponUseCommand couponUseCommand = new CouponUseCommand(hoho.getId(), organization.getId(), savedCoupon.getId());
 
             assertThatThrownBy(
-                    () -> couponService.useImmediately(couponUssCommand))
+                    () -> couponService.useImmediately(couponUseCommand))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("쿠폰을 즉시 사용할 수 있는 회원이 아닙니다.");
         }
@@ -259,10 +257,10 @@ class CouponServiceTest {
                     CouponStatus.RESERVING);
 
             Coupon savedCoupon = couponRepository.save(coupon);
-            CouponUssCommand couponUssCommand = new CouponUssCommand(receiver.getId(), organization.getId(), savedCoupon.getId());
+            CouponUseCommand couponUseCommand = new CouponUseCommand(receiver.getId(), organization.getId(), savedCoupon.getId());
 
             assertThatThrownBy(
-                    () -> couponService.useImmediately(couponUssCommand))
+                    () -> couponService.useImmediately(couponUseCommand))
                     .isInstanceOf(InvalidReservationException.class)
                     .hasMessage("존재하지 않는 예약 상태입니다.");
         }
