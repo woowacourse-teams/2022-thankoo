@@ -44,7 +44,7 @@ public class OrganizationAssured {
                     tokenResponse.getAccessToken());
             return this;
         }
-        
+
         public OrganizationRequestBuilder 단건_조직을_조회한다(final TokenResponse tokenResponse, final String code) {
             response = getWithToken("/api/organizations/" + code, tokenResponse.getAccessToken());
             return this;

@@ -41,7 +41,7 @@ public class OrganizationQueryRepository {
                 .addValue("memberId", memberId);
         return jdbcTemplate.query(sql, parameter, memberRowMapper());
     }
-    
+
     public Optional<SimpleOrganization> findByCode(final String code) {
         String sql = "SELECT id, name FROM organization WHERE code = :code";
 

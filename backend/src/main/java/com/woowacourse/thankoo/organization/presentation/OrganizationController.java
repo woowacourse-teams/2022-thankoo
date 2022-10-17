@@ -37,7 +37,7 @@ public class OrganizationController {
             @PathVariable final Long organizationId) {
         return ResponseEntity.ok(organizationQueryService.getOrganizationMembersExcludeMe(memberId, organizationId));
     }
-    
+
     @GetMapping("/{code}")
     public ResponseEntity<SimpleOrganizationResponse> getOrganizationByCode(
             @AuthenticationPrincipal final Long memberId,
