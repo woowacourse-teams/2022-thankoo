@@ -1,10 +1,9 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from './../constants/routes';
 import Organization from '../pages/Organization';
-import { AccessController } from './AccessController';
 
 const CreateReservation = lazy(() => import('./../pages/CreateReservation'));
 const EnterCouponContent = lazy(() => import('./../pages/EnterCouponContent'));
@@ -18,6 +17,7 @@ const Reservations = lazy(() => import('./../pages/Reservations'));
 const SelectReceiver = lazy(() => import('./../pages/SelectReceiver'));
 const SignIn = lazy(() => import('./../pages/SignIn'));
 const UserProfile = lazy(() => import('./../pages/UserProfile'));
+const AccessController = lazy(() => import('./AccessController'));
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');

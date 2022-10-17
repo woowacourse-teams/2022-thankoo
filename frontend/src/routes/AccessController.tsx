@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { interceptRequest } from '../apis/axios';
 import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from '../constants/routes';
 import { useGetOrganizations } from '../hooks/@queries/organization';
 
-export const AccessController = () => {
+const AccessController = () => {
   const { data: organizations, isLoading } = useGetOrganizations();
 
   const organization = organizations?.find(organization => organization.lastAccessed);
@@ -20,6 +19,7 @@ export const AccessController = () => {
     <Navigate to={ROUTE_PATH.JOIN_ORGANIZATION} replace />
   );
 };
+export default AccessController;
 
 const OrganizationInjector = ({ organization }) => {
   interceptRequest(String(organization.organizationId));
