@@ -3,6 +3,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useOrganizationsDropdown } from '../../hooks/Organization/useOrganizationsDropdown';
 import { Link } from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routes';
+import styled from '@emotion/styled';
 
 const OrganizationsDropdown = () => {
   const { lastAccessedOrganization, organizations, updateLastAccessedOrganization } =
@@ -30,6 +31,7 @@ const OrganizationsDropdown = () => {
             {organization.organizationName}
           </Dropdown.Item>
         ))}
+        <SplitLine />
         <Dropdown.Item selected={false}>
           <Link to={ROUTE_PATH.JOIN_ORGANIZATION}>그룹 추가</Link>
         </Dropdown.Item>
@@ -38,3 +40,8 @@ const OrganizationsDropdown = () => {
   );
 };
 export default OrganizationsDropdown;
+
+const SplitLine = styled.hr`
+  width: 100%;
+  border: 0.1px solid lightgray;
+`;

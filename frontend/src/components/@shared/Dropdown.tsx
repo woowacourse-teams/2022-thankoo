@@ -127,7 +127,7 @@ const Item = styled.li<ItemProps>`
           color: #656f7a;
         `}
   font-size: 1.3rem;
-  padding: 1.4rem 1rem;
+  padding: 1rem;
 `;
 
 export default Dropdown;
