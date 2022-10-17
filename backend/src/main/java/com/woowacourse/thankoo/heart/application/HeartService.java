@@ -1,7 +1,7 @@
 package com.woowacourse.thankoo.heart.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
-import com.woowacourse.thankoo.heart.application.dto.HeartSendRequest;
+import com.woowacourse.thankoo.heart.application.dto.HeartSendCommand;
 import com.woowacourse.thankoo.heart.domain.Heart;
 import com.woowacourse.thankoo.heart.domain.HeartRepository;
 import com.woowacourse.thankoo.heart.exception.InvalidHeartException;
@@ -27,11 +27,11 @@ public class HeartService {
     private final MemberRepository memberRepository;
     private final OrganizationRepository organizationRepository;
 
-    public void send(final HeartSendRequest heartSendRequest) {
-        Member sender = getMember(heartSendRequest.getSenderId());
-        Member receiver = getMember(heartSendRequest.getReceiverId());
+    public void send(final HeartSendCommand heartSendCommand) {
+        Member sender = getMember(heartSendCommand.getSenderId());
+        Member receiver = getMember(heartSendCommand.getReceiverId());
 
-        Organization organization = getOrganization(heartSendRequest.getOrganizationId());
+        Organization organization = getOrganization(heartSendCommand.getOrganizationId());
         validateOrganizationMembers(sender, receiver, organization);
 
         Optional<Heart> foundHeart = heartRepository.findBySenderIdAndReceiverId(sender.getId(), receiver.getId());
