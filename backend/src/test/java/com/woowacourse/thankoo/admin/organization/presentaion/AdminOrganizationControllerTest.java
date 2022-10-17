@@ -65,24 +65,13 @@ class AdminOrganizationControllerTest extends AdminControllerTest {
     void getOrganizations() throws Exception {
         given(tokenDecoder.decode(anyString()))
                 .willReturn("1");
-        Organization organization1 = mock(Organization.class);
-        Organization organization2 = mock(Organization.class);
-        given(organization1.getId()).willReturn(1L);
-        given(organization1.getName()).willReturn(new OrganizationName("org1"));
-        given(organization1.getCode()).willReturn(new OrganizationCode("orgCode1"));
-        given(organization1.getLimitedSize()).willReturn(15);
-        given(organization1.getCreatedAt()).willReturn(LocalDateTime.now());
-        given(organization1.getModifiedAt()).willReturn(LocalDateTime.now());
 
-        given(organization2.getId()).willReturn(2L);
-        given(organization2.getName()).willReturn(new OrganizationName("org2"));
-        given(organization2.getCode()).willReturn(new OrganizationCode("orgCode2"));
-        given(organization2.getLimitedSize()).willReturn(15);
-        given(organization2.getCreatedAt()).willReturn(LocalDateTime.now());
-        given(organization2.getModifiedAt()).willReturn(LocalDateTime.now());
-
-        AdminGetOrganizationResponse responseElement1 = AdminGetOrganizationResponse.from(organization1);
-        AdminGetOrganizationResponse responseElement2 = AdminGetOrganizationResponse.from(organization2);
+        AdminGetOrganizationResponse responseElement1 = AdminGetOrganizationResponse.from(
+                new Organization(1L, new OrganizationName("땡쿠"), new OrganizationCode("orgCode1"), 15,
+                        new OrganizationMembers(List.of())));
+        AdminGetOrganizationResponse responseElement2 = AdminGetOrganizationResponse.from(
+                new Organization(2L, new OrganizationName("우아코스"), new OrganizationCode("orgCode2"), 15,
+                        new OrganizationMembers(List.of())));
         given(adminOrganizationService.getOrganizations(any()))
                 .willReturn(List.of(responseElement1, responseElement2));
 
