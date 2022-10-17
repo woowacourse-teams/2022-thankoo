@@ -5,12 +5,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
-import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_HUNI;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.CODE_LALA;
-import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HUNI_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.LALA_TOKEN;
-import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
 import com.woowacourse.thankoo.acceptance.builder.MemberAssured;
@@ -25,24 +21,6 @@ import org.springframework.http.HttpStatus;
 
 @DisplayName("MemberAcceptance 는 ")
 class MemberAcceptanceTest extends AcceptanceTest {
-
-    @DisplayName("본인을 제외한 모든 회원을 조회한다.")
-    @Test
-    void getMembersExcludeMe() {
-        TokenResponse tokenResponse = AuthenticationAssured.request()
-                .회원가입_한다(LALA_TOKEN, LALA_NAME)
-                .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
-                .회원가입_한다(HUNI_TOKEN, HUNI_NAME)
-                .로그인_한다(CODE_HUNI)
-                .response()
-                .body(TokenResponse.class);
-
-        MemberAssured.request()
-                .나를_제외한_모든_회원을_조회한다(tokenResponse)
-                .response()
-                .status(HttpStatus.OK.value())
-                .조회_성공한다(LALA_NAME, SKRR_NAME);
-    }
 
     @DisplayName("내 정보를 조회한다.")
     @Test
