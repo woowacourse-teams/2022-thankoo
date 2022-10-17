@@ -1,6 +1,8 @@
 import Dropdown from '../@shared/Dropdown';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useOrganizationsDropdown } from '../../hooks/Organization/useOrganizationsDropdown';
+import { Link } from 'react-router-dom';
+import { ROUTE_PATH } from '../../constants/routes';
 
 const OrganizationsDropdown = () => {
   const { lastAccessedOrganization, organizations, updateLastAccessedOrganization } =
@@ -28,6 +30,9 @@ const OrganizationsDropdown = () => {
             {organization.organizationName}
           </Dropdown.Item>
         ))}
+        <Dropdown.Item selected={false}>
+          <Link to={ROUTE_PATH.JOIN_ORGANIZATION}>그룹 추가</Link>
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
