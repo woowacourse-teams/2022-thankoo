@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
-import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminGetOrganizationResponse;
+import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminOrganizationResponse;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationCode;
 import com.woowacourse.thankoo.organization.domain.OrganizationName;
@@ -81,8 +81,8 @@ class AdminOrganizationControllerTest extends AdminControllerTest {
         given(organization2.getCreatedAt()).willReturn(LocalDateTime.now());
         given(organization2.getModifiedAt()).willReturn(LocalDateTime.now());
 
-        AdminGetOrganizationResponse responseElement1 = AdminGetOrganizationResponse.from(organization1);
-        AdminGetOrganizationResponse responseElement2 = AdminGetOrganizationResponse.from(organization2);
+        AdminOrganizationResponse responseElement1 = AdminOrganizationResponse.from(organization1);
+        AdminOrganizationResponse responseElement2 = AdminOrganizationResponse.from(organization2);
         given(adminOrganizationService.getOrganizations(any()))
                 .willReturn(List.of(responseElement1, responseElement2));
 

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class AdminGetOrganizationResponse {
+public class AdminOrganizationResponse {
 
     private Long organizationId;
     private String name;
@@ -25,12 +25,12 @@ public class AdminGetOrganizationResponse {
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
 
-    private AdminGetOrganizationResponse(final Long organizationId,
-                                         final String name,
-                                         final String code,
-                                         final int limitedSize,
-                                         final LocalDateTime createdAt,
-                                         final LocalDateTime modifiedAt) {
+    private AdminOrganizationResponse(final Long organizationId,
+                                      final String name,
+                                      final String code,
+                                      final int limitedSize,
+                                      final LocalDateTime createdAt,
+                                      final LocalDateTime modifiedAt) {
         this.organizationId = organizationId;
         this.name = name;
         this.code = code;
@@ -39,10 +39,10 @@ public class AdminGetOrganizationResponse {
         this.modifiedAt = modifiedAt;
     }
 
-    public static AdminGetOrganizationResponse from(final Organization organization) {
+    public static AdminOrganizationResponse from(final Organization organization) {
         OrganizationName organizationName = organization.getName();
         OrganizationCode organizationCode = organization.getCode();
-        return new AdminGetOrganizationResponse(organization.getId(),
+        return new AdminOrganizationResponse(organization.getId(),
                 organizationName.getValue(),
                 organizationCode.getValue(),
                 organization.getLimitedSize(),
