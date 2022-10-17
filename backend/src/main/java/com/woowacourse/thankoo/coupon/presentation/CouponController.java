@@ -5,7 +5,7 @@ import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
-import com.woowacourse.thankoo.coupon.application.dto.CouponUssCommand;
+import com.woowacourse.thankoo.coupon.application.dto.CouponUseCommand;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
@@ -67,7 +67,7 @@ public class CouponController {
     public ResponseEntity<Void> useCouponImmediately(@AuthenticationPrincipal final Long memberId,
                                                      @RequestBody final CouponUseRequest couponUseRequest,
                                                      @PathVariable final Long couponId) {
-        couponService.useImmediately(new CouponUssCommand(memberId, couponUseRequest.getOrganizationId(), couponId));
+        couponService.useImmediately(new CouponUseCommand(memberId, couponUseRequest.getOrganizationId(), couponId));
         return ResponseEntity.ok().build();
     }
 }

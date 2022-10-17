@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.thankoo.common.ControllerTest;
-import com.woowacourse.thankoo.heart.application.dto.HeartSendRequest;
+import com.woowacourse.thankoo.heart.application.dto.HeartSendCommand;
 import com.woowacourse.thankoo.heart.domain.Heart;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartRequest;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
@@ -55,7 +55,7 @@ class HeartControllerTest extends ControllerTest {
     @Test
     void send() throws Exception {
         given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
-        doNothing().when(heartService).send(any(HeartSendRequest.class));
+        doNothing().when(heartService).send(any(HeartSendCommand.class));
 
         ResultActions resultActions = mockMvc.perform(post("/api/hearts/send")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")

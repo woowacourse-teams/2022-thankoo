@@ -5,9 +5,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -45,37 +43,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("MemberController 는 ")
 class MemberControllerTest extends ControllerTest {
-
-    @DisplayName("본인을 제외한 모든 회원을 조회힌다.")
-    @Test
-    void getMembersExcludeMe() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
-
-        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
-        List<MemberResponse> memberResponses = List.of(MemberResponse.of(lala), MemberResponse.of(huni));
-        given(memberService.getMembersExcludeMe(anyLong())).willReturn(memberResponses);
-
-        ResultActions resultActions = mockMvc.perform(get("/api/members")
-                        .header(HttpHeaders.AUTHORIZATION, ACCESS_TOKEN)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpectAll(
-                        status().isOk(),
-                        content().string(objectMapper.writeValueAsString(memberResponses)));
-
-        resultActions.andDo(document("members/get-members",
-                getResponsePreprocessor(),
-                requestHeaders(
-                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
-                ),
-                responseFields(
-                        fieldWithPath("[].id").type(NUMBER).description("id"),
-                        fieldWithPath("[].name").type(STRING).description("name"),
-                        fieldWithPath("[].email").type(STRING).description("email"),
-                        fieldWithPath("[].imageUrl").type(STRING).description("imageUrl")
-                )));
-    }
 
     @DisplayName("내 정보를 조회한다.")
     @Test

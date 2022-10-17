@@ -2,7 +2,7 @@ package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
-import com.woowacourse.thankoo.coupon.application.dto.CouponUssCommand;
+import com.woowacourse.thankoo.coupon.application.dto.CouponUseCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
@@ -46,13 +46,13 @@ public class CouponService {
         }
     }
 
-    public void useImmediately(final CouponUssCommand couponUssCommand) {
-        Member member = getMember(couponUssCommand.getMemberId());
-        Long organizationId = couponUssCommand.getOrganizationId();
+    public void useImmediately(final CouponUseCommand couponUseCommand) {
+        Member member = getMember(couponUseCommand.getMemberId());
+        Long organizationId = couponUseCommand.getOrganizationId();
         Organization organization = getOrganization(organizationId);
         validateOrganizationMembers(List.of(member), organization);
 
-        Coupon coupon = getCoupon(couponUssCommand.getCouponId());
+        Coupon coupon = getCoupon(couponUseCommand.getCouponId());
         coupon.useImmediately(member.getId(), organizationId);
     }
 

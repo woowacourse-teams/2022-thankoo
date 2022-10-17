@@ -1,7 +1,12 @@
 package com.woowacourse.thankoo.organization.application;
 
+import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.organization.domain.MemberModel;
 import com.woowacourse.thankoo.organization.domain.OrganizationQueryRepository;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationMemberResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrganizationQueryService {
 
@@ -20,5 +25,21 @@ public class OrganizationQueryService {
                 .stream()
                 .map(OrganizationResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrganizationMemberResponse> getOrganizationMembersExcludeMe(final Long memberId,
+                                                                            final Long organizationId) {
+        List<MemberModel> members = organizationQueryRepository.findOrganizationMembersExcludeMe(
+                organizationId, memberId);
+        return members
+                .stream()
+                .map(OrganizationMemberResponse::from)
+                .collect(Collectors.toList());
+    }
+
+    public SimpleOrganizationResponse getOrganizationByCode(final String code) {
+        return SimpleOrganizationResponse.from(organizationQueryRepository.findByCode(code)
+                .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION)));
     }
 }

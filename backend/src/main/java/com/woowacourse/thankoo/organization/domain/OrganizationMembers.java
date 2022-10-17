@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.organization.domain;
 import com.woowacourse.thankoo.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
@@ -54,6 +55,12 @@ public class OrganizationMembers {
             }
             value.toPreviousAccessed();
         }
+    }
+
+    public List<OrganizationMember> getExclude(final Member member) {
+        return values.stream()
+                .filter(value -> !value.isSameMember(member))
+                .collect(Collectors.toList());
     }
 
     @Override
