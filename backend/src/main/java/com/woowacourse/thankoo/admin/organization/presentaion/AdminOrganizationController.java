@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.admin.organization.presentaion;
 import com.woowacourse.thankoo.admin.organization.application.AdminOrganizationService;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminGetOrganizationsRequest;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
-import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminOrganizationResponse;
+import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminGetOrganizationResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +29,9 @@ public class AdminOrganizationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AdminOrganizationResponse>> getOrganizations(
+    public ResponseEntity<List<AdminGetOrganizationResponse>> getOrganizations(
             @ModelAttribute final AdminGetOrganizationsRequest getOrganizationsRequest) {
-        List<AdminOrganizationResponse> organizations = adminOrganizationService.getOrganizations(
+        List<AdminGetOrganizationResponse> organizations = adminOrganizationService.getOrganizations(
                 getOrganizationsRequest);
         return ResponseEntity.ok(organizations);
     }

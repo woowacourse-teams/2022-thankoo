@@ -3,7 +3,7 @@ package com.woowacourse.thankoo.admin.organization.application;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminGetOrganizationsRequest;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
 import com.woowacourse.thankoo.admin.organization.domain.AdminOrganizationRepository;
-import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminOrganizationResponse;
+import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminGetOrganizationResponse;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
@@ -31,14 +31,14 @@ public class AdminOrganizationService {
         adminOrganizationRepository.save(newOrganization);
     }
 
-    public List<AdminOrganizationResponse> getOrganizations(
+    public List<AdminGetOrganizationResponse> getOrganizations(
             final AdminGetOrganizationsRequest getOrganizationsRequest) {
         LocalDateTime startDateTime = getOrganizationsRequest.getStartDateTime();
         LocalDateTime endDateTime = getOrganizationsRequest.getEndDateTime();
         List<Organization> organizations = adminOrganizationRepository.findAllByCreatedAtBetween(startDateTime,
                 endDateTime);
         return organizations.stream()
-                .map(AdminOrganizationResponse::from)
+                .map(AdminGetOrganizationResponse::from)
                 .collect(Collectors.toList());
     }
 }

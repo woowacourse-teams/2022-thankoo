@@ -7,7 +7,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminGetOrganizationsRequest;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
 import com.woowacourse.thankoo.admin.organization.domain.AdminOrganizationRepository;
-import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminOrganizationResponse;
+import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminGetOrganizationResponse;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.organization.domain.CodeGenerator;
 import com.woowacourse.thankoo.organization.domain.Organization;
@@ -90,10 +90,10 @@ class AdminOrganizationServiceTest {
         LocalDateTime endDateTime = LocalDateTime.now();
         AdminGetOrganizationsRequest getOrganizationsRequest = new AdminGetOrganizationsRequest(startDateTime,
                 endDateTime);
-        List<AdminOrganizationResponse> actual = adminOrganizationService.getOrganizations(
+        List<AdminGetOrganizationResponse> actual = adminOrganizationService.getOrganizations(
                 getOrganizationsRequest);
-        List<AdminOrganizationResponse> expected = List.of(AdminOrganizationResponse.from(organization1),
-                AdminOrganizationResponse.from(organization2));
+        List<AdminGetOrganizationResponse> expected = List.of(AdminGetOrganizationResponse.from(organization1),
+                AdminGetOrganizationResponse.from(organization2));
 
         assertThat(actual.size()).isEqualTo(expected.size());
     }
