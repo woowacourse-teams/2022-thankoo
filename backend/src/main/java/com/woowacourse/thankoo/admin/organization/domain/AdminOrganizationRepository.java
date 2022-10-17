@@ -1,6 +1,8 @@
 package com.woowacourse.thankoo.admin.organization.domain;
 
 import com.woowacourse.thankoo.organization.domain.Organization;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +15,6 @@ public interface AdminOrganizationRepository extends JpaRepository<Organization,
             + "LEFT JOIN FETCH om.member m "
             + "WHERE o.id = :id")
     Optional<Organization> findWithMemberById(@Param("id") Long id);
+
+    List<Organization> findAllByCreatedAtBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

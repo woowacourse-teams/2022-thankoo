@@ -1,9 +1,7 @@
 package com.woowacourse.thankoo.coupon.application.dto;
 
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class ContentCommand {
