@@ -1,7 +1,6 @@
 package com.woowacourse.thankoo.coupon.application.dto;
 
 import com.woowacourse.thankoo.coupon.domain.Coupon;
-import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import java.util.List;
 import java.util.stream.Collectors;
