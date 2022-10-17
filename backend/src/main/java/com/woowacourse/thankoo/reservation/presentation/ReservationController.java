@@ -17,38 +17,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
 
     private final ReservationService reservationService;
     private final ReservationQueryService reservationQueryService;
 
-    @PostMapping("/reservations")
+    @PostMapping
     public ResponseEntity<Void> reserve(@AuthenticationPrincipal final Long memberId,
                                         @RequestBody @Valid final ReservationRequest reservationRequest) {
         Long reserveId = reservationService.save(memberId, reservationRequest);
         return ResponseEntity.created(URI.create("/api/reservations/" + reserveId)).build();
     }
 
-    @GetMapping("/organizations/{organizationId}/reservations/received")
+    @GetMapping("/received")
     public ResponseEntity<List<SimpleReservationResponse>> getReceivedReservations(
             @AuthenticationPrincipal final Long memberId,
-            @PathVariable final Long organizationId) {
+            @RequestParam("organization") final Long organizationId) {
         return ResponseEntity.ok(reservationQueryService.getReceivedReservations(memberId, organizationId));
     }
 
-    @GetMapping("/organizations/{organizationId}/reservations/sent")
+    @GetMapping("/sent")
     public ResponseEntity<List<SimpleReservationResponse>> getSentReservations(
             @AuthenticationPrincipal final Long memberId,
-            @PathVariable final Long organizationId) {
+            @RequestParam("organization") final Long organizationId) {
         return ResponseEntity.ok(reservationQueryService.getSentReservations(memberId, organizationId));
     }
 
-    @PutMapping("/reservations/{reservationId}")
+    @PutMapping("/{reservationId}")
     public ResponseEntity<Void> updateStatus(@AuthenticationPrincipal final Long memberId,
                                              @PathVariable final Long reservationId,
                                              @RequestBody final ReservationStatusRequest reservationStatusRequest) {
@@ -56,7 +57,7 @@ public class ReservationController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/reservations/{reservationId}/cancel")
+    @PutMapping("/{reservationId}/cancel")
     public ResponseEntity<Void> cancel(@AuthenticationPrincipal final Long memberId,
                                        @PathVariable final Long reservationId) {
         reservationService.cancel(memberId, reservationId);
