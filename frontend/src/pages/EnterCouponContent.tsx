@@ -71,24 +71,26 @@ const EnterCouponContent = () => {
           />
         </S.Form>
       </S.Body>
-      <LongButton
-        onClick={() => {
-          show();
-          setModalContent(
-            <ConfirmCouponContentModal
-              title={title}
-              message={message}
-              receivers={checkedUsers}
-              submit={sendCoupon}
-              couponType={couponType}
-            />
-          );
-        }}
-        disabled={!isFilled}
-      >
-        {checkedUsers.length}명에게 쿠폰 전송하기
-        <ArrowForwardIosIcon />
-      </LongButton>
+      <S.ButtonWrapper>
+        <LongButton
+          onClick={() => {
+            show();
+            setModalContent(
+              <ConfirmCouponContentModal
+                title={title}
+                message={message}
+                receivers={checkedUsers}
+                submit={sendCoupon}
+                couponType={couponType}
+              />
+            );
+          }}
+          isDisabled={!isFilled}
+        >
+          {checkedUsers.length}명에게 쿠폰 전송하기
+          <ArrowForwardIosIcon />
+        </LongButton>
+      </S.ButtonWrapper>
     </PageLayout>
   );
 };
@@ -147,6 +149,9 @@ const S = {
   `,
   CouponBox: styled.div`
     margin: 0 auto;
+  `,
+  ButtonWrapper: styled.div`
+    margin: 0 1rem;
   `,
 };
 

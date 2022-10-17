@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import CouponsPageButton from './CouponListPageButton';
-import HeartPageButton from './HeartPageButton';
-import ReservationPageButton from './ReservationPageButton';
-import ScheduledPageButton from './MeetingPageButton';
-import SendCouponPageButton from './SendCouponPageButton';
+import CouponsPageButton from '../components/PageButton/CouponListPageButton';
+import HeartPageButton from '../components/PageButton/HeartPageButton';
+import ReservationPageButton from '../components/PageButton/ReservationPageButton';
+import ScheduledPageButton from '../components/PageButton/MeetingPageButton';
+import SendCouponPageButton from '../components/PageButton/SendCouponPageButton';
 
 const buttons = [
   <CouponsPageButton />,
@@ -16,9 +16,9 @@ const buttons = [
 const BottomNavBar = () => {
   return (
     <S.Bar>
-      {buttons.map((button, idx) => {
-        return <S.Button key={idx}>{button}</S.Button>;
-      })}
+      {buttons.map((button, idx) => (
+        <S.Button key={idx}>{button}</S.Button>
+      ))}
     </S.Bar>
   );
 };
@@ -36,7 +36,6 @@ const S = {
 
     border-top: 0.5px solid #8e8e8e90;
     background-color: #232323;
-    //padding-bottom: 0.5rem;
     z-index: 50;
   `,
   Button: styled.button`
