@@ -4,6 +4,7 @@ import PageLayout from '../layout/PageLayout';
 import { FlexCenter } from '../styles/mixIn';
 import BirdLogoWhite from './../components/@shared/LogoWhite';
 import useSignIn from './../hooks/SignIn/useSignIn';
+import GoogleLogo from '../assets/svg/google-color-icon.svg';
 
 const SignIn = () => {
   const { redirectGoogleAuth } = useSignIn();
@@ -16,7 +17,7 @@ const SignIn = () => {
             <BirdLogoWhite size='150rem' />
           </S.LogoWrapper>
           <S.SignInButton onClick={redirectGoogleAuth}>
-            <S.GoogleIcon />
+            <S.GoogleLogoICon src={GoogleLogo} alt='google_login' />
             Google로 계속하기
           </S.SignInButton>
         </S.Body>
@@ -41,10 +42,13 @@ const S = {
     padding: 3rem;
   `,
   LogoWrapper: styled.div`
+    position: relative;
     height: 320px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: right;
+    color: lightgray;
   `,
   GoogleIcon: styled(GoogleIcon)`
     fill: white;
@@ -57,10 +61,10 @@ const S = {
     border-radius: 15px;
     border: none;
 
-    background-color: ${({ theme }) => theme.button.abled.background};
+    background-color: #4d4d4d;
     color: ${({ theme }) => theme.button.abled.color};
 
-    -webkit-animation: glowing 2s ease-in-out infinite alternate;
+    /* -webkit-animation: glowing 2s ease-in-out infinite alternate;
     -moz-animation: glowing 2s ease-in-out infinite alternate;
     animation: glowing 2s ease-in-out infinite alternate;
 
@@ -70,10 +74,14 @@ const S = {
       }
       to {
         box-shadow: 0 0 0px #fff, 0 0 2px #ff6450, 0 0 4px #e4e7a7, 0 0 6px #ff6450, 0 0 8px #ff6450;
-      }
-    }
+      } */
+    /* } */
 
     cursor: pointer;
+  `,
+  GoogleLogoICon: styled.img`
+    width: 20px;
+    height: 20px;
   `,
 };
 

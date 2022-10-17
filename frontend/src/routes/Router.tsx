@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from './../constants/routes';
+import Organization from '../pages/Organization';
 
 const CreateReservation = lazy(() => import('./../pages/CreateReservation'));
 const EnterCouponContent = lazy(() => import('./../pages/EnterCouponContent'));
@@ -16,6 +17,7 @@ const Reservations = lazy(() => import('./../pages/Reservations'));
 const SelectReceiver = lazy(() => import('./../pages/SelectReceiver'));
 const SignIn = lazy(() => import('./../pages/SignIn'));
 const UserProfile = lazy(() => import('./../pages/UserProfile'));
+const AccessController = lazy(() => import('./AccessController'));
 
 const AuthOnly = () => {
   const storageToken = localStorage.getItem('token');
@@ -48,25 +50,22 @@ const Router = () => {
       <Route element={<SpinnerSuspense />}>
         <Route path={ROUTE_PATH.ON_SUCCESS} element={<OnSuccessPage />} />
         <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
-      </Route>
-      <Route element={<AuthOnly />}>
-        <Route element={<HeaderAndNavLayout />}>
-          <Route element={<SpinnerSuspense />}>
-            <Route path={ROUTE_PATH.MAIN} element={<Main />} />
-            <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
-            <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
-            <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
-            <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
+        <Route element={<AuthOnly />}>
+          <Route path={ROUTE_PATH.JOIN_ORGANIZATION} element={<Organization />} />
+          <Route element={<AccessController />}>
+            <Route element={<HeaderAndNavLayout />}>
+              <Route path={ROUTE_PATH.MAIN} element={<Main />} />
+              <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
+              <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
+              <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
+              <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
+            </Route>
+            <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
+            <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
+            <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
           </Route>
         </Route>
-        <Route element={<SpinnerSuspense />}>
-          <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
-          <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
-          <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
-        </Route>
-      </Route>
-      <Route element={<UnAuthOnly />}>
-        <Route element={<SpinnerSuspense />}>
+        <Route element={<UnAuthOnly />}>
           <Route path={ROUTE_PATH.SIGN_IN} element={<SignIn />} />
           <Route path={ROUTE_PATH.ENTER_NICKNAME} element={<EnterNickname />} />
         </Route>

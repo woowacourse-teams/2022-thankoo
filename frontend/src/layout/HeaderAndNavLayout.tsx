@@ -1,23 +1,18 @@
-import styled from '@emotion/styled';
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
-import BottomNavBar from '../components/PageButton/BottomNavBar';
-import UserProfileButton from '../components/@shared/UserProfileButton';
+import Spinner from '../components/@shared/Spinner';
+import BottomNavBar from './BottomNavBar';
 import PageLayout from './PageLayout';
+import TopNavBar from './TopNavBar';
 
 export default () => {
   return (
     <PageLayout>
-      <UserProfileWrapper>
-        <UserProfileButton />
-      </UserProfileWrapper>
-      <Outlet />
+      <TopNavBar />
+      <Suspense fallback={<Spinner />}>
+        <Outlet />
+      </Suspense>
       <BottomNavBar />
     </PageLayout>
   );
 };
-
-const UserProfileWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 1rem;
-`;

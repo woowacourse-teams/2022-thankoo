@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom, sentOrReceivedAtom } from '../../recoil/atom';
+import { FlexColumn, gap } from '../../styles/mixIn';
 import { couponTypes } from '../../types/coupon';
+import Button from '../@shared/Button';
 import SuccessAnimation from '../@shared/SuccessAnimation';
 import { BASE_URL } from './../../constants/api';
 import { onSuccessContentAtom } from './../../recoil/atom';
@@ -53,6 +55,8 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
           <div
             css={css`
               ${SpaceBetween}
+              ${FlexColumn}
+              ${gap('1rem')}
             `}
           >
             <S.Title>메세지</S.Title>
@@ -61,14 +65,13 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
         </S.ContenstWrapper>
         <S.ButtonWrapper>
           <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
-            <S.Button
+            <Button
               onClick={() => {
                 setSentOrReceived('sent');
               }}
-              primary
             >
               쿠폰 확인하기
-            </S.Button>
+            </Button>
           </S.StyledLink>
         </S.ButtonWrapper>
       </S.Wrapper>
@@ -77,10 +80,6 @@ const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) =>
 };
 
 export default EnterCouponContentSuccess;
-
-type ButtonProps = {
-  primary?: boolean;
-};
 
 const SpaceBetween = {
   display: 'flex',
@@ -149,15 +148,6 @@ const S = {
   ButtonWrapper: styled.div`
     ${SpaceBetween}
     gap:5px;
-  `,
-  Button: styled.button<ButtonProps>`
-    border: none;
-    border-radius: 4px;
-    background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
-    padding: 1rem;
-    color: white;
-    width: 100%;
-    font-size: 1.5rem;
   `,
   StyledLink: styled(Link)`
     width: 100%;

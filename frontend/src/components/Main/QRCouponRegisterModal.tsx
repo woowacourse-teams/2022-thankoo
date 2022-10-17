@@ -14,6 +14,7 @@ import { onMountToCenterModal, unMountCenterToButtomModal } from '../../styles/A
 import { FlexColumn } from '../../styles/mixIn';
 import { ErrorType } from '../../types/api';
 import { couponTypes } from '../../types/coupon';
+import Button from '../@shared/Button';
 
 const QRCouponRegisterModal = ({
   QRCode,
@@ -67,15 +68,8 @@ const QRCouponRegisterModal = ({
           <S.ContentText>{couponTypes[QRCode.couponType.toLocaleLowerCase()]}</S.ContentText>
         </S.ContentWrapper>
         <S.ButtonWrapper>
-          <S.Button
-            onClick={() => {
-              postQRSerial();
-            }}
-            primary
-          >
-            등록
-          </S.Button>
-          <S.Button
+          <Button
+            color='secondaryLight'
             onClick={() => {
               close();
               localStorage.removeItem('query');
@@ -83,7 +77,14 @@ const QRCouponRegisterModal = ({
             }}
           >
             취소
-          </S.Button>
+          </Button>
+          <Button
+            onClick={() => {
+              postQRSerial();
+            }}
+          >
+            등록
+          </Button>
         </S.ButtonWrapper>
       </S.Modal>
     </S.Container>
@@ -91,10 +92,6 @@ const QRCouponRegisterModal = ({
 };
 
 export default QRCouponRegisterModal;
-
-type ButtonProps = {
-  primary?: boolean;
-};
 
 const S = {
   Container: styled.section`
@@ -178,15 +175,5 @@ const S = {
     width: 100%;
     display: flex;
     gap: 5px;
-  `,
-  Button: styled.button<ButtonProps>`
-    width: 100%;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    padding: 1rem 0;
-    font-size: 1.5rem;
-
-    background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
   `,
 };

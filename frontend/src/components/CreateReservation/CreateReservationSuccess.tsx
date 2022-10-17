@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
+import Button from '../@shared/Button';
 import SuccessAnimation from '../@shared/SuccessAnimation';
 import { onSuccessContentAtom, ReservationNavAtom } from './../../recoil/atom';
 
@@ -42,18 +43,17 @@ const CreateReservationSuccess = ({ receiver, date, time }) => {
           </div>
         </S.ContenstWrapper>
         <S.ButtonWrapper>
+          <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
+            <Button color='secondaryLight'>홈으로</Button>
+          </S.StyledLink>
           <S.StyledLink to={ROUTE_PATH.RESERVATIONS} onClick={pageReset}>
-            <S.Button
+            <Button
               onClick={() => {
                 setReservationNav('sent');
               }}
-              primary
             >
               예약 확인하기
-            </S.Button>
-          </S.StyledLink>
-          <S.StyledLink to={ROUTE_PATH.EXACT_MAIN} onClick={pageReset}>
-            <S.Button>홈으로</S.Button>
+            </Button>
           </S.StyledLink>
         </S.ButtonWrapper>
       </S.Wrapper>
@@ -62,10 +62,6 @@ const CreateReservationSuccess = ({ receiver, date, time }) => {
 };
 
 export default CreateReservationSuccess;
-
-type ButtonProps = {
-  primary?: boolean;
-};
 
 const SpaceBetween = {
   display: 'flex',
@@ -111,15 +107,6 @@ const S = {
   ButtonWrapper: styled.div`
     ${SpaceBetween}
     gap:5px;
-  `,
-  Button: styled.button<ButtonProps>`
-    border: none;
-    border-radius: 4px;
-    background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
-    padding: 1rem;
-    font-size: 1.5rem;
-    color: white;
-    width: 100%;
   `,
   StyledLink: styled(Link)`
     width: 100%;
