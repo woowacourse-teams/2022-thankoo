@@ -104,7 +104,7 @@ class HeartServiceTest {
 
         @DisplayName("다른 조직의 동일한 상대에게도 또 보낼 수 있다.")
         @Test
-        void sendSameMemberDifferentOrganizaton() {
+        void sendSameMemberDifferentOrganization() {
             Organization woowacourse = organizationRepository.save(createDefaultOrganization(organizationValidator));
             Organization thankoo = organizationRepository.save(createThankooOrganization(organizationValidator));
 
