@@ -4,7 +4,6 @@ import com.woowacourse.thankoo.alarm.application.MessageFormStrategy;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,24 +32,6 @@ public class Message {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Message)) {
-            return false;
-        }
-        Message message = (Message) o;
-        return Objects.equals(title, message.title) && Objects.equals(titleLink, message.titleLink)
-                && Objects.equals(emails, message.emails) && Objects.equals(contents, message.contents);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, titleLink, emails, contents);
     }
 
     @Override

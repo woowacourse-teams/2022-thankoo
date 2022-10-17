@@ -10,7 +10,9 @@ import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationMemberResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -33,6 +35,18 @@ public class OrganizationAssured {
 
         public OrganizationRequestBuilder 내_조직을_조회한다(final TokenResponse tokenResponse) {
             response = getWithToken("/api/organizations/me", tokenResponse.getAccessToken());
+            return this;
+        }
+
+        public OrganizationRequestBuilder 나를_제외한_조직의_모든_회원을_조회한다(final TokenResponse tokenResponse,
+                                                                 final Long organizationId) {
+            response = getWithToken("/api/organizations/" + organizationId + "/members",
+                    tokenResponse.getAccessToken());
+            return this;
+        }
+
+        public OrganizationRequestBuilder 단건_조직을_조회한다(final TokenResponse tokenResponse, final String code) {
+            response = getWithToken("/api/organizations/" + code, tokenResponse.getAccessToken());
             return this;
         }
 
@@ -75,6 +89,12 @@ public class OrganizationAssured {
             );
         }
 
+        public void 코드명_조직이_조회됨(final String name) {
+            SimpleOrganizationResponse response = body(SimpleOrganizationResponse.class);
+
+            assertThat(response.getName()).isEqualTo(name);
+        }
+
         public void 조직상태가_변경됨(final Long organizationId, final boolean lassAccessed) {
             List<OrganizationResponse> responses = bodies(OrganizationResponse.class);
 
@@ -84,6 +104,12 @@ public class OrganizationAssured {
                     .orElseThrow();
 
             assertThat(organizationResponse.isLastAccessed()).isEqualTo(lassAccessed);
+        }
+
+        public void 나를_제외하고_모두_조회됨(final int size) {
+            List<OrganizationMemberResponse> responses = bodies(OrganizationMemberResponse.class);
+
+            assertThat(responses).hasSize(size);
         }
 
         public OrganizationResponseBuilder status(final int code) {
