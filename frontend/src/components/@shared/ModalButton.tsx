@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import useModal from '../../hooks/useModal';
 
-const ModalButton = ({ children, contents }: { children: JSX.Element; contents: ReactNode }) => {
+const ModalButton = ({ children, inner }: { children: JSX.Element; inner: ReactNode }) => {
   const { setModalContent, show } = useModal();
   const onClickBindedChildren = {
     ...children,
@@ -9,7 +9,7 @@ const ModalButton = ({ children, contents }: { children: JSX.Element; contents: 
       ...children.props,
       onClick: () => {
         show();
-        setModalContent(contents);
+        setModalContent(inner);
       },
     },
   };

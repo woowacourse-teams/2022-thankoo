@@ -13,6 +13,7 @@ import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
 import HeaderText from '../layout/HeaderText';
 import LongButton from '../components/@shared/LongButton';
+import ModalButton from '../components/@shared/ModalButton';
 
 const CreateReservation = () => {
   const {
@@ -25,7 +26,6 @@ const CreateReservation = () => {
     couponDetail,
     createReservation,
   } = useCreateReservation();
-  const { setModalContent, show, visible } = useModal();
 
   return (
     <S.PageLayout>
@@ -57,23 +57,21 @@ const CreateReservation = () => {
           <Time setSelectedTime={setTime} selectedTime={time} selectedDate={date} />
         </S.TimeArea>
       </S.Body>
-      <LongButton
-        isDisabled={!isFilled}
-        onClick={() => {
-          show();
-          setModalContent(
-            <ConfirmReservationModal
-              receiver={couponDetail?.coupon.sender.name}
-              date={date}
-              time={time}
-              submit={createReservation}
-            />
-          );
-        }}
+      <ModalButton
+        inner={
+          <ConfirmReservationModal
+            receiver={couponDetail?.coupon.sender.name}
+            date={date}
+            time={time}
+            submit={createReservation}
+          />
+        }
       >
-        약속 신청하기
-        <ArrowForwardIosIcon />
-      </LongButton>
+        <LongButton isDisabled={!isFilled}>
+          약속 신청하기
+          <ArrowForwardIosIcon />
+        </LongButton>
+      </ModalButton>
     </S.PageLayout>
   );
 };
