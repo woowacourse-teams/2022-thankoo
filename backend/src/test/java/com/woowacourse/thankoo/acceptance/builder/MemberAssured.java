@@ -11,8 +11,10 @@ import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
+import com.woowacourse.thankoo.member.presentation.dto.OrganizationMemberResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.List;
 
 public class MemberAssured {
 
@@ -48,6 +50,12 @@ public class MemberAssured {
             return this;
         }
 
+        public MemberRequestBuilder 나를_제외한_조직의_모든_회원을_조회한다(final TokenResponse tokenResponse,
+                                                                 final Long organizationId) {
+            response = getWithToken("/api/members?organization=" + organizationId, tokenResponse.getAccessToken());
+            return this;
+        }
+
         public MemberResponseBuilder response() {
             return new MemberResponseBuilder(response);
         }
@@ -74,6 +82,12 @@ public class MemberAssured {
         public void 프로필_이미지가_변경되었다(final String imageUrl) {
             String actualImageUrl = body(MemberResponse.class).getImageUrl();
             assertThat(imageUrl).isEqualTo(actualImageUrl);
+        }
+
+        public void 나를_제외하고_모두_조회됨(final int size) {
+            List<OrganizationMemberResponse> responses = bodies(OrganizationMemberResponse.class);
+
+            assertThat(responses).hasSize(size);
         }
     }
 }

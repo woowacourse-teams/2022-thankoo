@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.organization.presentation.dto;
+package com.woowacourse.thankoo.member.presentation.dto;
 
 import com.woowacourse.thankoo.organization.domain.MemberModel;
 import com.woowacourse.thankoo.organization.domain.OrganizationMember;
