@@ -30,8 +30,8 @@ public class CouponSerialAssured {
         public CouponSerialAssured.CouponSerialRequestBuilder 쿠폰_시리얼을_조회한다(final String accessToken,
                                                                            final Long organizationId,
                                                                            final String serialCode) {
-            response = getWithToken("/api/organizations/" + organizationId +
-                            "/coupon-serials?code=" + serialCode, accessToken);
+            response = getWithToken("/api" + "/coupon-serials?code=" + serialCode + "&organization=" + organizationId,
+                    accessToken);
             return this;
         }
 

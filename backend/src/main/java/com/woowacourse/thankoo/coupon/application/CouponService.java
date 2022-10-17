@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
+import com.woowacourse.thankoo.coupon.application.dto.CouponUseCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
@@ -45,16 +46,13 @@ public class CouponService {
         }
     }
 
-    private Organization getOrganization(final Long organizationId) {
-        return organizationRepository.findWithMemberById(organizationId)
-                .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
-    }
-
-    public void useImmediately(final Long memberId, final Long organizationId, final Long couponId) {
-        Member member = getMember(memberId);
+    public void useImmediately(final CouponUseCommand couponUseCommand) {
+        Member member = getMember(couponUseCommand.getMemberId());
+        Long organizationId = couponUseCommand.getOrganizationId();
         Organization organization = getOrganization(organizationId);
         validateOrganizationMembers(List.of(member), organization);
-        Coupon coupon = getCoupon(couponId);
+
+        Coupon coupon = getCoupon(couponUseCommand.getCouponId());
         coupon.useImmediately(member.getId(), organizationId);
     }
 
@@ -82,5 +80,10 @@ public class CouponService {
     private Coupon getCoupon(final Long couponId) {
         return couponRepository.findById(couponId)
                 .orElseThrow(() -> new InvalidCouponException(ErrorType.NOT_FOUND_COUPON));
+    }
+
+    private Organization getOrganization(final Long organizationId) {
+        return organizationRepository.findWithMemberById(organizationId)
+                .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
     }
 }

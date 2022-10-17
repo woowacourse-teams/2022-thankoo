@@ -19,11 +19,6 @@ public class ContentRequest {
         this.message = message;
     }
 
-    @Deprecated
-    public CouponContent toEntity() {
-        return new CouponContent(couponType, title, message);
-    }
-
     public ContentCommand toCouponCommand() {
         return new ContentCommand(couponType, title, message);
     }
