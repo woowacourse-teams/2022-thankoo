@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincip
 import com.woowacourse.thankoo.organization.application.OrganizationQueryService;
 import com.woowacourse.thankoo.organization.application.OrganizationService;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationMemberResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import java.util.List;
@@ -28,6 +29,13 @@ public class OrganizationController {
     @GetMapping("/me")
     public ResponseEntity<List<OrganizationResponse>> getMyOrganizations(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(organizationQueryService.getMemberOrganizations(memberId));
+    }
+
+    @GetMapping("/{organizationId}/members")
+    public ResponseEntity<List<OrganizationMemberResponse>> getOrganizationMembersExcludeMe(
+            @AuthenticationPrincipal final Long memberId,
+            @PathVariable final Long organizationId) {
+        return ResponseEntity.ok(organizationQueryService.getOrganizationMembersExcludeMe(memberId, organizationId));
     }
 
     @GetMapping("/{code}")

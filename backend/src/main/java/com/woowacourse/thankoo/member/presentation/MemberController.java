@@ -22,11 +22,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping
-    public ResponseEntity<List<MemberResponse>> getMembersExcludeMe(@AuthenticationPrincipal final Long memberId) {
-        return ResponseEntity.ok(memberService.getMembersExcludeMe(memberId));
-    }
-
     @GetMapping("/me")
     public ResponseEntity<MemberResponse> getMember(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(memberService.getMember(memberId));

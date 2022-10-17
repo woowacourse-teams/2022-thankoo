@@ -10,6 +10,7 @@ import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationMemberResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import io.restassured.response.ExtractableResponse;
@@ -34,6 +35,13 @@ public class OrganizationAssured {
 
         public OrganizationRequestBuilder 내_조직을_조회한다(final TokenResponse tokenResponse) {
             response = getWithToken("/api/organizations/me", tokenResponse.getAccessToken());
+            return this;
+        }
+
+        public OrganizationRequestBuilder 나를_제외한_조직의_모든_회원을_조회한다(final TokenResponse tokenResponse,
+                                                                 final Long organizationId) {
+            response = getWithToken("/api/organizations/" + organizationId + "/members",
+                    tokenResponse.getAccessToken());
             return this;
         }
 
@@ -96,6 +104,12 @@ public class OrganizationAssured {
                     .orElseThrow();
 
             assertThat(organizationResponse.isLastAccessed()).isEqualTo(lassAccessed);
+        }
+
+        public void 나를_제외하고_모두_조회됨(final int size) {
+            List<OrganizationMemberResponse> responses = bodies(OrganizationMemberResponse.class);
+
+            assertThat(responses).hasSize(size);
         }
 
         public OrganizationResponseBuilder status(final int code) {
