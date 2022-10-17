@@ -10,6 +10,7 @@ import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.HUNI_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OAuthFixture.SKRR_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_NO_CODE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_THANKOO_CODE;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
 
 import com.woowacourse.thankoo.acceptance.builder.AuthenticationAssured;
@@ -62,6 +63,44 @@ class OrganizationAcceptanceTest extends AcceptanceTest {
                     .response()
                     .status(HttpStatus.OK.value())
                     .조직을_조회한다(ORGANIZATION_WOOWACOURSE_CODE, ORGANIZATION_THANKOO_CODE);
+        }
+    }
+
+    @DisplayName("코드로 단건 조직을 조회할 때 ")
+    @Nested
+    class SingleOrganizationTest {
+
+        @DisplayName("있으면 조회한다.")
+        @Test
+        void getOrganization() {
+            TokenResponse userToken = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .response()
+                    .body(TokenResponse.class);
+
+            기본_조직이_생성됨();
+
+            OrganizationAssured.request()
+                    .단건_조직을_조회한다(userToken, ORGANIZATION_WOOWACOURSE_CODE)
+                    .response()
+                    .status(HttpStatus.OK.value())
+                    .코드명_조직이_조회됨(ORGANIZATION_WOOWACOURSE);
+        }
+
+        @DisplayName("없으면 예외가 발생한다.")
+        @Test
+        void noOrganization() {
+            TokenResponse userToken = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .response()
+                    .body(TokenResponse.class);
+
+            OrganizationAssured.request()
+                    .단건_조직을_조회한다(userToken, ORGANIZATION_WOOWACOURSE_CODE)
+                    .response()
+                    .status(HttpStatus.BAD_REQUEST.value());
         }
     }
 

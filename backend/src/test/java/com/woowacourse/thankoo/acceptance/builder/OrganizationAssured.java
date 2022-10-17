@@ -12,6 +12,7 @@ import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationMemberResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -41,6 +42,10 @@ public class OrganizationAssured {
                                                                  final Long organizationId) {
             response = getWithToken("/api/organizations/" + organizationId + "/members",
                     tokenResponse.getAccessToken());
+        }
+        
+        public OrganizationRequestBuilder 단건_조직을_조회한다(final TokenResponse tokenResponse, final String code) {
+            response = getWithToken("/api/organizations/" + code, tokenResponse.getAccessToken());
             return this;
         }
 
@@ -81,6 +86,12 @@ public class OrganizationAssured {
                     () -> assertThat(responses).hasSize(codes.length),
                     () -> assertThat(responseCodes).containsExactly(codes)
             );
+        }
+
+        public void 코드명_조직이_조회됨(final String name) {
+            SimpleOrganizationResponse response = body(SimpleOrganizationResponse.class);
+
+            assertThat(response.getName()).isEqualTo(name);
         }
 
         public void 조직상태가_변경됨(final Long organizationId, final boolean lassAccessed) {

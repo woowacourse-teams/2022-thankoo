@@ -6,6 +6,7 @@ import com.woowacourse.thankoo.organization.application.OrganizationService;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationMemberResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,13 @@ public class OrganizationController {
             @AuthenticationPrincipal final Long memberId,
             @PathVariable final Long organizationId) {
         return ResponseEntity.ok(organizationQueryService.getOrganizationMembersExcludeMe(memberId, organizationId));
+    }
+    
+    @GetMapping("/{code}")
+    public ResponseEntity<SimpleOrganizationResponse> getOrganizationByCode(
+            @AuthenticationPrincipal final Long memberId,
+            @PathVariable final String code) {
+        return ResponseEntity.ok(organizationQueryService.getOrganizationByCode(code));
     }
 
     @PostMapping("/join")
