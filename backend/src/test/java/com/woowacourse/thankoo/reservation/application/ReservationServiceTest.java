@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.application.CouponService;
+import com.woowacourse.thankoo.coupon.application.dto.CouponUseCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -327,7 +328,7 @@ class ReservationServiceTest {
         Long reservationId = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
-        couponService.useImmediately(receiver.getId(), organization.getId(), coupon.getId());
+        couponService.useImmediately(new CouponUseCommand(receiver.getId(), organization.getId(), coupon.getId()));
         Reservation acceptReservation = reservationRepository.findById(reservationId).get();
 
         assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);

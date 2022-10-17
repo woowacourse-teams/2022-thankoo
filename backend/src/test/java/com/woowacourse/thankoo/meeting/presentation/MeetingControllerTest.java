@@ -16,6 +16,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,8 +39,7 @@ class MeetingControllerTest extends ControllerTest {
     @DisplayName("회원의 미팅을 조회한다.")
     @Test
     void getMeetings() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         List<SimpleMeetingResponse> responses = List.of(
                 SimpleMeetingResponse.of(
@@ -54,8 +55,9 @@ class MeetingControllerTest extends ControllerTest {
         given(meetingQueryService.findMeetings(anyLong(), anyLong()))
                 .willReturn(responses);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/meetings")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken"))
+        ResultActions resultActions = mockMvc.perform(get("/api/meetings")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .queryParam("organization", "1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -63,6 +65,9 @@ class MeetingControllerTest extends ControllerTest {
                 getResponsePreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                requestParameters(
+                        parameterWithName("organization").description("organizationId")
                 ),
                 responseFields(
                         fieldWithPath("[].meetingId").type(NUMBER).description("id"),
