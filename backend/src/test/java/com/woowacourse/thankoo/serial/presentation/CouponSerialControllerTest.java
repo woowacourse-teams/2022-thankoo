@@ -42,8 +42,9 @@ class CouponSerialControllerTest extends ControllerTest {
         given(couponSerialQueryService.getCouponSerialByCode(any(CouponSerialRequest.class)))
                 .willReturn(new CouponSerialResponse(1L, 1L, 1L, NEO_NAME, CouponType.COFFEE.getValue()));
 
-        ResultActions resultActions = mockMvc.perform(get("/api/organizations/1/coupon-serials")
+        ResultActions resultActions = mockMvc.perform(get("/api/coupon-serials")
                         .param("code", SERIAL_1)
+                        .param("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -57,7 +58,8 @@ class CouponSerialControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 requestParameters(
-                        parameterWithName("code").description("serial code")
+                        parameterWithName("code").description("serial code"),
+                        parameterWithName("organization").description("organizationId")
                 ),
                 responseFields(
                         fieldWithPath("id").type(NUMBER).description("id"),

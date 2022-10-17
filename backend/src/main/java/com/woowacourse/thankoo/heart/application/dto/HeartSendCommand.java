@@ -7,22 +7,20 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class HeartSendRequest {
+public class HeartSendCommand {
 
     private Long organizationId;
     private Long senderId;
     private Long receiverId;
 
-    public HeartSendRequest(final Long organizationId, final Long senderId, final Long receiverId) {
+    public HeartSendCommand(final Long organizationId, final Long senderId, final Long receiverId) {
         this.organizationId = organizationId;
         this.senderId = senderId;
         this.receiverId = receiverId;
     }
 
-    public static HeartSendRequest from(final Long organizationId,
-                                        final Long senderId,
-                                        final HeartRequest heartRequest) {
-        return new HeartSendRequest(organizationId, senderId, heartRequest.getReceiverId());
+    public static HeartSendCommand from(final Long senderId, final HeartRequest heartRequest) {
+        return new HeartSendCommand(heartRequest.getOrganizationId(), senderId, heartRequest.getReceiverId());
     }
 
     @Override
