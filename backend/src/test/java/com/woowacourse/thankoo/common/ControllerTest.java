@@ -16,6 +16,7 @@ import com.woowacourse.thankoo.heart.presentation.HeartController;
 import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
 import com.woowacourse.thankoo.meeting.application.MeetingService;
 import com.woowacourse.thankoo.meeting.presentation.MeetingController;
+import com.woowacourse.thankoo.member.application.MemberQueryService;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
 import com.woowacourse.thankoo.organization.application.OrganizationQueryService;
@@ -80,6 +81,9 @@ public class ControllerTest {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected MemberQueryService memberQueryService;
 
     @MockBean
     protected ReservationService reservationService;

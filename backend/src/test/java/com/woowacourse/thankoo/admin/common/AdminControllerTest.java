@@ -63,10 +63,10 @@ public class AdminControllerTest {
     protected AdminCouponService adminCouponService;
 
     @MockBean
-    protected AdminCouponSerialService adminCouponSerialService;
+    protected AdminCouponSerialQueryService adminCouponSerialQueryService;
 
     @MockBean
-    protected AdminCouponSerialQueryService adminCouponSerialQueryService;
+    protected AdminCouponSerialService adminCouponSerialService;
 
     @MockBean
     protected AdminAuthenticationService adminAuthenticationService;
