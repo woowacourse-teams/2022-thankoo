@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.thankoo.admin.common.AdminControllerTest;
 import com.woowacourse.thankoo.admin.organization.application.dto.AdminOrganizationCreationRequest;
-import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminOrganizationResponse;
+import com.woowacourse.thankoo.admin.organization.presentaion.dto.AdminGetOrganizationResponse;
 import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationCode;
 import com.woowacourse.thankoo.organization.domain.OrganizationName;
@@ -63,8 +63,7 @@ class AdminOrganizationControllerTest extends AdminControllerTest {
     @DisplayName("조직을 조회한다.")
     @Test
     void getOrganizations() throws Exception {
-        given(tokenDecoder.decode(anyString()))
-                .willReturn("1");
+        given(tokenDecoder.decode(anyString())).willReturn("1");
         Organization organization1 = mock(Organization.class);
         Organization organization2 = mock(Organization.class);
         given(organization1.getId()).willReturn(1L);
@@ -81,8 +80,8 @@ class AdminOrganizationControllerTest extends AdminControllerTest {
         given(organization2.getCreatedAt()).willReturn(LocalDateTime.now());
         given(organization2.getModifiedAt()).willReturn(LocalDateTime.now());
 
-        AdminOrganizationResponse responseElement1 = AdminOrganizationResponse.from(organization1);
-        AdminOrganizationResponse responseElement2 = AdminOrganizationResponse.from(organization2);
+        AdminGetOrganizationResponse responseElement1 = AdminGetOrganizationResponse.from(organization1);
+        AdminGetOrganizationResponse responseElement2 = AdminGetOrganizationResponse.from(organization2);
         given(adminOrganizationService.getOrganizations(any()))
                 .willReturn(List.of(responseElement1, responseElement2));
 
