@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.organization.application.OrganizationQueryService
 import com.woowacourse.thankoo.organization.application.OrganizationService;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,13 @@ public class OrganizationController {
     @GetMapping("/me")
     public ResponseEntity<List<OrganizationResponse>> getMyOrganizations(@AuthenticationPrincipal final Long memberId) {
         return ResponseEntity.ok(organizationQueryService.getMemberOrganizations(memberId));
+    }
+
+    @GetMapping("/{code}")
+    public ResponseEntity<SimpleOrganizationResponse> getOrganizationByCode(
+            @AuthenticationPrincipal final Long memberId,
+            @PathVariable final String code) {
+        return ResponseEntity.ok(organizationQueryService.getOrganizationByCode(code));
     }
 
     @PostMapping("/join")

@@ -4,6 +4,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE_CODE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createThankooOrganization;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -74,5 +75,16 @@ class OrganizationQueryRepositoryTest {
                 () -> assertThat(memberOrganizations.get(1).getId()).isEqualTo(thankoo.getId()),
                 () -> assertThat(memberOrganizations.get(1).getOrderNumber()).isEqualTo(2)
         );
+    }
+
+    @DisplayName("코드로 조직을 조회한다.")
+    @Test
+    void findByCode() {
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        SimpleOrganization simpleOrganization = new SimpleOrganization(organization.getId(),
+                organization.getName().getValue());
+
+        assertThat(organizationQueryRepository.findByCode(ORGANIZATION_WOOWACOURSE_CODE).orElseThrow()).isEqualTo(
+                simpleOrganization);
     }
 }
