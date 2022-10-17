@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
@@ -39,16 +40,15 @@ class AdminQrCodeControllerTest extends AdminControllerTest {
     @DisplayName("시리얼 코드로 QR 코드를 가져온다.")
     @Test
     void getCoupons() throws Exception {
-        given(tokenDecoder.decode(anyString()))
-                .willReturn("1");
-        given(adminQrCodeService.getLinks(any()))
+        given(tokenDecoder.decode(anyString())).willReturn("1");
+        given(adminQrCodeService.getLinks(any(AdminSerialRequest.class)))
                 .willReturn(List.of(
                         new AdminLinkResponse("http://test-qrserver/1"),
                         new AdminLinkResponse("http://test-qrserver/2"),
                         new AdminLinkResponse("http://test-qrserver/3")
                 ));
 
-        AdminSerialRequest requests = new AdminSerialRequest(List.of("1234", "1235", "1236"));
+        AdminSerialRequest requests = new AdminSerialRequest(List.of("1234", "1235", "1236"), 1L);
 
         ResultActions resultActions = mockMvc.perform(get("/admin/qrcode")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -61,7 +61,8 @@ class AdminQrCodeControllerTest extends AdminControllerTest {
                 Preprocessors.preprocessRequest(prettyPrint()),
                 Preprocessors.preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("serials").type(ARRAY).description("serials")),
+                        fieldWithPath("serials").type(ARRAY).description("serials"),
+                        fieldWithPath("organizationId").type(NUMBER).description("organizationId")),
                 responseFields(
                         fieldWithPath("[].link").type(STRING).description("link")
                 )));

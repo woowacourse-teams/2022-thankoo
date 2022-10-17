@@ -18,6 +18,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,10 +42,10 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 시리얼을 생성한다.")
     @Test
     void saveSerial() throws Exception {
-        given(tokenDecoder.decode(anyString()))
-                .willReturn("1");
+        given(tokenDecoder.decode(anyString())).willReturn("1");
+
         AdminCouponSerialRequest couponSerialRequest = new AdminCouponSerialRequest(
-                1L, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE);
+                1L, 1L, "COFFEE", 5, NEO_TITLE, NEO_MESSAGE);
 
         ResultActions resultActions = mockMvc.perform(post("/admin/serial")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -55,7 +57,8 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
         resultActions.andDo(document("admin/serial/save-serial",
                 Preprocessors.preprocessRequest(prettyPrint()),
                 requestFields(
-                        fieldWithPath("memberId").type(STRING).description("coach id"),
+                        fieldWithPath("memberId").type(NUMBER).description("coach id"),
+                        fieldWithPath("organizationId").type(NUMBER).description("organization id"),
                         fieldWithPath("couponType").type(STRING).description("coupon type"),
                         fieldWithPath("quantity").type(NUMBER).description("quantity"),
                         fieldWithPath("title").type(NUMBER).description("title"),
@@ -67,13 +70,12 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
     @DisplayName("회원의 id로 쿠폰 시리얼을 조회한다.")
     @Test
     void getByMemberId() throws Exception {
-        given(tokenDecoder.decode(anyString()))
-                .willReturn("1");
+        given(tokenDecoder.decode(anyString())).willReturn("1");
         given(adminCouponSerialQueryService.getByMemberId(anyLong()))
                 .willReturn(List.of(
-                        new AdminCouponSerialResponse(1L, SERIAL_1, 2L, NEO_NAME, "COFFEE"),
-                        new AdminCouponSerialResponse(2L, SERIAL_2, 2L, NEO_NAME, "COFFEE"),
-                        new AdminCouponSerialResponse(3L, SERIAL_3, 2L, NEO_NAME, "COFFEE")
+                        new AdminCouponSerialResponse(1L, 1L, SERIAL_1, 2L, NEO_NAME, "COFFEE"),
+                        new AdminCouponSerialResponse(2L, 1L, SERIAL_2, 2L, NEO_NAME, "COFFEE"),
+                        new AdminCouponSerialResponse(3L, 1L, SERIAL_3, 2L, NEO_NAME, "COFFEE")
                 ));
 
         ResultActions resultActions = mockMvc.perform(get("/admin/serial")
@@ -84,9 +86,14 @@ class AdminCouponSerialControllerTest extends AdminControllerTest {
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("admin/serial/get-serial",
+                Preprocessors.preprocessRequest(prettyPrint()),
                 Preprocessors.preprocessResponse(prettyPrint()),
+                requestParameters(
+                        parameterWithName("memberId").description("memberId")
+                ),
                 responseFields(
-                        fieldWithPath("[].serialId").type(STRING).description("serialId"),
+                        fieldWithPath("[].serialId").type(NUMBER).description("serialId"),
+                        fieldWithPath("[].organizationId").type(NUMBER).description("organizationI"),
                         fieldWithPath("[].code").type(STRING).description("code"),
                         fieldWithPath("[].senderId").type(STRING).description("senderId"),
                         fieldWithPath("[].senderName").type(STRING).description("senderName"),

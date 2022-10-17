@@ -30,6 +30,7 @@ class ReservationSentMessageFormStrategyTest {
 
     private static final String PRETEXT = "\uD83D\uDC9D 예약 요청이 도착했어요.";
     private static final String COUPON_TITLE = "널 좋아해";
+    private static final Long ORGANIZATION_ID = 1L;
 
     @Autowired
     private ReservationSentMessageFormStrategy reservationSentMessageFormStrategy;
@@ -46,14 +47,14 @@ class ReservationSentMessageFormStrategyTest {
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.RESERVATION_SENT, List.of(hoho.getId()),
+                new AlarmSpecification(AlarmSpecification.RESERVATION_SENT, ORGANIZATION_ID, List.of(hoho.getId()),
                         List.of(String.valueOf(lala.getId()), COUPON_TITLE, dateTime)));
 
         Message message = reservationSentMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(PRETEXT),
-                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + "/reservations"),
+                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + ORGANIZATION_ID + "/reservations"),
                 () -> assertThat(message.getContents()).containsExactly(
                         "요청자 : lala",
                         "쿠폰 : 널 좋아해",

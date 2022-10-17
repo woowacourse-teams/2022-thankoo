@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import useModal from '../../hooks/useModal';
 import { CouponType, couponTypes } from '../../types/coupon';
 import { UserProfile } from '../../types/user';
+import Button from '../@shared/Button';
 import BottomSheetLayout from '../@shared/Modal/BottomSheetLayout';
 import { BASE_URL } from './../../constants/api';
 
@@ -47,20 +48,16 @@ const ConfirmCouponContentModal = ({
         <S.ConfirmContentText>{message}</S.ConfirmContentText>
       </S.ConfirmContentWrapper>
       <S.ButtonWrapper>
-        <S.Button onClick={submit} primary>
-          전송
-        </S.Button>
-        <S.Button onClick={close}>취소</S.Button>
+        <Button color='secondaryLight' onClick={close}>
+          취소
+        </Button>
+        <Button onClick={submit}>전송</Button>
       </S.ButtonWrapper>
     </BottomSheetLayout>
   );
 };
 
 export default ConfirmCouponContentModal;
-
-type ButtonProps = {
-  primary?: boolean;
-};
 
 const S = {
   ReceiversWrapper: styled.div`
@@ -111,15 +108,5 @@ const S = {
     width: 100%;
     display: flex;
     gap: 5px;
-  `,
-  Button: styled.button<ButtonProps>`
-    width: 100%;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    padding: 1rem 0;
-    font-size: 1.5rem;
-
-    background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
   `,
 };

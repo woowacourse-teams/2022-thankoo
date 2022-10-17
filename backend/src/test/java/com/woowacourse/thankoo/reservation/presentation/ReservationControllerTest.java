@@ -20,6 +20,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,8 +51,7 @@ class ReservationControllerTest extends ControllerTest {
         @DisplayName("올바른 요청이면 예약을 성공한다.")
         @Test
         void reserve() throws Exception {
-            given(jwtTokenProvider.getPayload(anyString()))
-                    .willReturn("1");
+            given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
             ResultActions resultActions = mockMvc.perform(post("/api/reservations")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -75,8 +76,7 @@ class ReservationControllerTest extends ControllerTest {
         @DisplayName("잘못된 일정이 실패한다.")
         @Test
         void reserveMeetingTimeFail() throws Exception {
-            given(jwtTokenProvider.getPayload(anyString()))
-                    .willReturn("1");
+            given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
             mockMvc.perform(post("/api/reservations")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
@@ -92,10 +92,9 @@ class ReservationControllerTest extends ControllerTest {
     @DisplayName("회원이 받은 예약을 조회한다.")
     @Test
     void getReceivedReservations() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
-        given(reservationQueryService.getReceivedReservations(anyLong()))
+        given(reservationQueryService.getReceivedReservations(anyLong(), anyLong()))
                 .willReturn(List.of(
                         SimpleReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())),
@@ -107,12 +106,16 @@ class ReservationControllerTest extends ControllerTest {
 
         ResultActions resultActions = mockMvc.perform(get("/api/reservations/received")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .queryParam("organization", "1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("reservations/get-received-reservations",
                 getResponsePreprocessor(),
+                requestParameters(
+                        parameterWithName("organization").description("organizationId")
+                ),
                 responseFields(
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName"),
@@ -126,10 +129,9 @@ class ReservationControllerTest extends ControllerTest {
     @DisplayName("회원이 보낸 예약을 조회한다.")
     @Test
     void getSentReservations() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
-        given(reservationQueryService.getSentReservations(anyLong()))
+        given(reservationQueryService.getSentReservations(anyLong(), anyLong()))
                 .willReturn(List.of(
                         SimpleReservationResponse.from(new ReservationCoupon(1L, HUNI_NAME, TYPE, LocalDateTime.now(),
                                 TimeZoneType.ASIA_SEOUL.getId())),
@@ -141,12 +143,16 @@ class ReservationControllerTest extends ControllerTest {
 
         ResultActions resultActions = mockMvc.perform(get("/api/reservations/sent")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .queryParam("organization", "1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
 
         resultActions.andDo(document("reservations/get-sent-reservations",
                 getResponsePreprocessor(),
+                requestParameters(
+                        parameterWithName("organization").description("organizationId")
+                ),
                 responseFields(
                         fieldWithPath("[].reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("[].memberName").type(STRING).description("memberName"),
@@ -160,8 +166,7 @@ class ReservationControllerTest extends ControllerTest {
     @DisplayName("예약 요청 상태를 변경한다.")
     @Test
     void updateReservationStatus() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         doNothing().when(reservationService).updateStatus(anyLong(), anyLong(), any(ReservationStatusRequest.class));
 
         ResultActions resultActions = mockMvc.perform(put("/api/reservations/1")
@@ -187,8 +192,7 @@ class ReservationControllerTest extends ControllerTest {
     @DisplayName("예약을 취소한다.")
     @Test
     void cancel() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
         doNothing().when(reservationService).cancel(anyLong(), anyLong());
 
         ResultActions resultActions = mockMvc.perform(put("/api/reservations/1/cancel")

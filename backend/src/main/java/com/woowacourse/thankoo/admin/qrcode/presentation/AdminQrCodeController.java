@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/qrcode")
+@RequestMapping("/admin")
 public class AdminQrCodeController {
 
     private final AdminQrCodeService adminQrCodeService;
 
-    @GetMapping
+    @GetMapping("/qrcode")
     public ResponseEntity<List<AdminLinkResponse>> getQrCode(@RequestBody final AdminSerialRequest adminSerialRequest) {
         return ResponseEntity.ok(adminQrCodeService.getLinks(adminSerialRequest));
     }

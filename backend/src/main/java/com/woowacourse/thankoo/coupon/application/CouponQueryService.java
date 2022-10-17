@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
 import com.woowacourse.thankoo.coupon.domain.CouponQueryRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponStatusGroup;
@@ -12,6 +13,7 @@ import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -27,23 +29,27 @@ public class CouponQueryService {
     private final ReservationProvider reservationProvider;
     private final MeetingProvider meetingProvider;
 
-    public List<CouponResponse> getReceivedCoupons(final Long receiverId, final String status) {
-        List<String> statusNames = CouponStatusGroup.findStatusNames(status);
-        return couponQueryRepository.findByReceiverIdAndStatus(receiverId, statusNames)
+    public List<CouponResponse> getReceivedCouponsByOrganization(final CouponSelectCommand couponSelectCommand) {
+        List<String> statusNames = CouponStatusGroup.findStatusNames(couponSelectCommand.getStatus());
+        return couponQueryRepository.findByOrganizationIdAndReceiverIdAndStatus(
+                        couponSelectCommand.getOrganizationId(),
+                        couponSelectCommand.getMemberId(),
+                        statusNames
+                ).stream()
+                .map(CouponResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<CouponResponse> getSentCouponsByOrganization(final Long organizationId, final Long senderId) {
+        return couponQueryRepository.findByOrganizationIdAndSenderId(organizationId, senderId)
                 .stream()
                 .map(CouponResponse::of)
                 .collect(Collectors.toList());
     }
 
-    public List<CouponResponse> getSentCoupons(final Long senderId) {
-        return couponQueryRepository.findBySenderId(senderId)
-                .stream()
-                .map(CouponResponse::of)
-                .collect(Collectors.toList());
-    }
-
-    public CouponDetailResponse getCouponDetail(final Long memberId, final Long couponId) {
+    public CouponDetailResponse getCouponDetail(final Long memberId, final Long organizationId, final Long couponId) {
         MemberCoupon memberCoupon = getMemberCoupon(couponId);
+        validateCouponOrganization(organizationId, memberCoupon);
         validateCouponOwner(memberId, memberCoupon);
 
         CouponStatus couponStatus = CouponStatus.of(memberCoupon.getStatus());
@@ -51,6 +57,12 @@ public class CouponQueryService {
             return getCouponDetailResponse(couponId, memberCoupon, couponStatus);
         }
         return CouponDetailResponse.of(memberCoupon);
+    }
+
+    private void validateCouponOrganization(final Long organizationId, final MemberCoupon memberCoupon) {
+        if (!memberCoupon.isInOrganization(organizationId)) {
+            throw new InvalidOrganizationException(ErrorType.COUPON_NOT_BELONGS_TO_ORGANIZATION);
+        }
     }
 
     private MemberCoupon getMemberCoupon(final Long couponId) {

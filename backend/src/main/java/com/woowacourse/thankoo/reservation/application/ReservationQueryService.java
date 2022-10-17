@@ -22,16 +22,17 @@ public class ReservationQueryService {
     private final ReservationQueryRepository reservationQueryRepository;
     private final MemberRepository memberRepository;
 
-    public List<SimpleReservationResponse> getReceivedReservations(final Long memberId) {
+    public List<SimpleReservationResponse> getReceivedReservations(final Long memberId, final Long organizationId) {
         Member member = getMemberById(memberId);
         List<ReservationCoupon> receivedReservations = reservationQueryRepository.findReceivedReservations(
-                member.getId(), LocalDateTime.now());
+                member.getId(), organizationId, LocalDateTime.now());
         return toReservationResponses(receivedReservations);
     }
 
-    public List<SimpleReservationResponse> getSentReservations(final Long memberId) {
+    public List<SimpleReservationResponse> getSentReservations(final Long memberId, final Long organizationId) {
         Member member = getMemberById(memberId);
         List<ReservationCoupon> sentReservations = reservationQueryRepository.findSentReservations(member.getId(),
+                organizationId,
                 LocalDateTime.now());
         return toReservationResponses(sentReservations);
     }

@@ -16,12 +16,16 @@ public enum ErrorType {
     NOT_FOUND_ORGANIZATION(1104, "조직을 찾을 수 없습니다."),
     INVALID_ORGANIZATION_SIZE(1105, "조직에 더이상 참여할 수 없습니다."),
     ALREADY_JOIN_ORGANIZATION(1106, "조직에 이미 참여중입니다."),
+    NOT_JOINED_MEMBER_OF_ORGANIZATION(1107, "조직에 가입되지 않은 회원입니다."),
+    COUPON_NOT_BELONGS_TO_ORGANIZATION(1108, "조직 내 쿠폰이 아닙니다."),
+    NOT_JOINED_ORGANIZATION(1109, "가입되지 않은 조직입니다."),
 
     NOT_FOUND_MEMBER(2001, "존재하지 않는 회원입니다."),
     INVALID_MEMBER_NAME(2002, "올바르지 않은 이름입니다."),
     INVALID_MEMBER_EMAIL(2003, "올바르지 않은 이메일 형식입니다."),
     INVALID_MEMBER(2004, "올바르지 않은 회원입니다."),
     INVALID_MEMBER_PROFILE_IMAGE(2005, "올바르지 않은 프로필 이미지입니다."),
+    INVALID_MEMBER_SOCIAL_ID(2006, "올바르지 않은 소셜 id 입니다."),
 
     INVALID_COUPON_TYPE(3001, "존재하지 않는 쿠폰 타입입니다."),
     INVALID_COUPON_TITLE(3002, "잘못된 쿠폰 제목입니다."),
@@ -33,6 +37,8 @@ public enum ErrorType {
     CAN_NOT_CREATE_COUPON(3008, "쿠폰을 생성할 수 없습니다."),
     CAN_NOT_USE_IMMEDIATELY_COUPON(3009, "쿠폰을 즉시 사용할 수 있는 상태가 아닙니다."),
     CAN_NOT_USE_IMMEDIATELY_MISMATCH_MEMBER(3010, "쿠폰을 즉시 사용할 수 있는 회원이 아닙니다."),
+    CAN_NOT_CREATE_COUPON_GROUP_UNMATCHED_ORGANIZATIONS(3010, "다른 조직으로 생성할 수 없습니다."),
+    COUPON_GROUP_UNMATCHED_ORGANIZATIONS(3011, "조회하려는 조직이 1개가 아닙니다."),
 
     INVALID_RESERVATION_TIME(4001, "유효하지 않은 일정입니다."),
     INVALID_RESERVATION_MEMBER_MISMATCH(4002, "예약을 요청할 수 없는 회원입니다."),

@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -13,6 +12,7 @@ import PageLayout from '../layout/PageLayout';
 import { ROUTE_PATH } from './../constants/routes';
 import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
 import HeaderText from '../layout/HeaderText';
+import LongButton from '../components/@shared/LongButton';
 
 const CreateReservation = () => {
   const {
@@ -57,8 +57,8 @@ const CreateReservation = () => {
           <Time setSelectedTime={setTime} selectedTime={time} selectedDate={date} />
         </S.TimeArea>
       </S.Body>
-      <S.LongButton
-        disabled={!isFilled}
+      <LongButton
+        isDisabled={!isFilled}
         onClick={() => {
           show();
           setModalContent(
@@ -73,7 +73,7 @@ const CreateReservation = () => {
       >
         약속 신청하기
         <ArrowForwardIosIcon />
-      </S.LongButton>
+      </LongButton>
     </S.PageLayout>
   );
 };
@@ -138,31 +138,6 @@ const S = {
   Calander: styled.div`
     height: 21rem;
     background-color: white;
-  `,
-  LongButton: styled.button`
-    position: fixed;
-    border-radius: 30px;
-    font-size: 1.7rem;
-    padding: 1rem 2rem;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: none;
-    display: flex;
-    width: 90%;
-    justify-content: space-between;
-    align-items: center;
-    ${({ disabled, theme }) =>
-      disabled
-        ? css`
-            background-color: ${theme.button.disbaled.background};
-            color: ${theme.button.disbaled.color};
-            cursor: not-allowed;
-          `
-        : css`
-            background-color: ${theme.button.active.background};
-            color: ${theme.button.active.color};
-          `}
   `,
 };
 

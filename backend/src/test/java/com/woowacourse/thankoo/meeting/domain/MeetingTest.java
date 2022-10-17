@@ -44,7 +44,7 @@ class MeetingTest {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(3L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
-        Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+        Coupon coupon = new Coupon(1L, 1L,  huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
         Reservation reservation = Reservation.reserve(time(1L),
                 TimeZoneType.ASIA_SEOUL,
@@ -69,7 +69,7 @@ class MeetingTest {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
         Member lala = new Member(3L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
-        Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+        Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
 
         LocalDateTime localDateTime = LocalDateTime.now().minusSeconds(1L);
@@ -88,7 +88,7 @@ class MeetingTest {
     void validateMemberCountException() {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
-        Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+        Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
         Reservation reservation = Reservation.reserve(time(1L),
                 TimeZoneType.ASIA_SEOUL,
@@ -116,7 +116,7 @@ class MeetingTest {
             Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
             Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
             Member other = new Member(3L, HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL);
-            Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(time(1L),
                     TimeZoneType.ASIA_SEOUL,
@@ -138,7 +138,7 @@ class MeetingTest {
         void statusNotOnProgressException() {
             Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
             Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
-            Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(time(1L),
                     TimeZoneType.ASIA_SEOUL,
@@ -159,7 +159,7 @@ class MeetingTest {
         void invalidCouponException() {
             Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
             Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
-            Coupon coupon = new Coupon(1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
+            Coupon coupon = new Coupon(1L, 1L, huni.getId(), skrr.getId(), new CouponContent(TYPE, TITLE, MESSAGE),
                     CouponStatus.NOT_USED);
             Reservation reservation = Reservation.reserve(time(1L),
                     TimeZoneType.ASIA_SEOUL,

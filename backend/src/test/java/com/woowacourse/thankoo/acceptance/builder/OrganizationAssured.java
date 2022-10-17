@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.acceptance.builder;
 
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.getWithToken;
 import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.postWithToken;
+import static com.woowacourse.thankoo.acceptance.support.fixtures.RestAssuredRequestFixture.putWithToken;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -9,7 +10,9 @@ import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
+import com.woowacourse.thankoo.organization.presentation.dto.OrganizationMemberResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
+import com.woowacourse.thankoo.organization.presentation.dto.SimpleOrganizationResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -35,9 +38,26 @@ public class OrganizationAssured {
             return this;
         }
 
+        public OrganizationRequestBuilder 나를_제외한_조직의_모든_회원을_조회한다(final TokenResponse tokenResponse,
+                                                                 final Long organizationId) {
+            response = getWithToken("/api/organizations/" + organizationId + "/members",
+                    tokenResponse.getAccessToken());
+            return this;
+        }
+
+        public OrganizationRequestBuilder 단건_조직을_조회한다(final TokenResponse tokenResponse, final String code) {
+            response = getWithToken("/api/organizations/" + code, tokenResponse.getAccessToken());
+            return this;
+        }
+
         public OrganizationRequestBuilder 조직에_참여한다(final TokenResponse tokenResponse,
                                                    final OrganizationJoinRequest request) {
             response = postWithToken("/api/organizations/join", tokenResponse.getAccessToken(), request);
+            return this;
+        }
+
+        public OrganizationRequestBuilder 조직에_접근한다(final TokenResponse tokenResponse, final Long organizationId) {
+            response = putWithToken("/api/organizations/" + organizationId + "/access", tokenResponse.getAccessToken());
             return this;
         }
 
@@ -60,13 +80,36 @@ public class OrganizationAssured {
             List<OrganizationResponse> responses = bodies(OrganizationResponse.class);
 
             List<String> responseCodes = responses.stream()
-                    .map(response -> response.getOrganizationCode())
+                    .map(OrganizationResponse::getOrganizationCode)
                     .collect(Collectors.toList());
 
             assertAll(
                     () -> assertThat(responses).hasSize(codes.length),
                     () -> assertThat(responseCodes).containsExactly(codes)
             );
+        }
+
+        public void 코드명_조직이_조회됨(final String name) {
+            SimpleOrganizationResponse response = body(SimpleOrganizationResponse.class);
+
+            assertThat(response.getName()).isEqualTo(name);
+        }
+
+        public void 조직상태가_변경됨(final Long organizationId, final boolean lassAccessed) {
+            List<OrganizationResponse> responses = bodies(OrganizationResponse.class);
+
+            OrganizationResponse organizationResponse = responses.stream()
+                    .filter(r -> organizationId.equals(r.getOrganizationId()))
+                    .findFirst()
+                    .orElseThrow();
+
+            assertThat(organizationResponse.isLastAccessed()).isEqualTo(lassAccessed);
+        }
+
+        public void 나를_제외하고_모두_조회됨(final int size) {
+            List<OrganizationMemberResponse> responses = bodies(OrganizationMemberResponse.class);
+
+            assertThat(responses).hasSize(size);
         }
 
         public OrganizationResponseBuilder status(final int code) {

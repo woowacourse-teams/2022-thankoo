@@ -32,13 +32,14 @@ public class Member extends BaseEntity {
     @Embedded
     private Email email;
 
-    @Column(name = "social_id")
+    @Column(name = "social_id", nullable = false)
     private String socialId;
 
-    @Column(name = "image_url", length = 2_000)
+    @Column(name = "image_url", length = 2_000, nullable = false)
     private String imageUrl;
 
     public Member(final Long id, final String name, final String email, final String socialId, final String imageUrl) {
+        validateSocialId(socialId);
         this.id = id;
         this.name = new Name(name);
         this.email = new Email(email);
@@ -48,6 +49,12 @@ public class Member extends BaseEntity {
 
     public Member(final String name, final String email, final String socialId, final String imageUrl) {
         this(null, name, email, socialId, imageUrl);
+    }
+
+    private void validateSocialId(final String socialId) {
+        if (socialId.isBlank()) {
+            throw new InvalidMemberException(ErrorType.INVALID_MEMBER_SOCIAL_ID);
+        }
     }
 
     public void updateName(final String name) {
@@ -70,7 +77,7 @@ public class Member extends BaseEntity {
                 .anyMatch(imageUrl::equals);
     }
 
-    public boolean hasSameId(final List<Long> ids) {
+    public boolean includesOneOfId(final List<Long> ids) {
         return ids.stream()
                 .anyMatch(this::isSameId);
     }

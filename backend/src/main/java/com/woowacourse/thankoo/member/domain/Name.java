@@ -16,7 +16,7 @@ public class Name {
 
     private static final int NAME_MAX_LENGTH = 5;
 
-    @Column(name = "name", length = 50)
+    @Column(name = "name", length = 50, nullable = false)
     private String value;
 
     public Name(String value) {

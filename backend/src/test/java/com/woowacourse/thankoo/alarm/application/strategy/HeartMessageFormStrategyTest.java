@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @ApplicationTest
 class HeartMessageFormStrategyTest {
 
+    private static final Long ORGANIZATION_ID = 1L;
+
     @Autowired
     private HeartMessageFormStrategy heartMessageFormStrategy;
 
@@ -39,15 +41,14 @@ class HeartMessageFormStrategyTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
         Alarm alarm = Alarm.create(
-                new AlarmSpecification(AlarmSpecification.RESERVATION_CANCELED, List.of(hoho.getId()),
+                new AlarmSpecification(AlarmSpecification.RESERVATION_CANCELED, ORGANIZATION_ID, List.of(hoho.getId()),
                         List.of(String.valueOf(lala.getId()), String.valueOf(2))));
 
         Message message = heartMessageFormStrategy.createFormat(alarm);
         assertAll(
                 () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo("lala님이 당신에게 마음을 2번 보냈어요 ❤️"),
-                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + "/hearts")
-
+                () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + ORGANIZATION_ID + "/hearts")
         );
     }
 }

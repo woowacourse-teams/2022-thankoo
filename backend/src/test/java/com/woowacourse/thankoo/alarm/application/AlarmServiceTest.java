@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.alarm.application;
 
+import static com.woowacourse.thankoo.common.domain.AlarmSpecification.COUPON_SENT_COFFEE;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_SOCIAL_ID;
@@ -27,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @ApplicationTest
 class AlarmServiceTest {
 
+    private static final Long ORGANIZATION_ID = 1L;
+
     @Autowired
     private AlarmService alarmService;
 
@@ -44,7 +47,7 @@ class AlarmServiceTest {
             Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
             Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE,
+            AlarmSpecification alarmSpecification = new AlarmSpecification(COUPON_SENT_COFFEE, ORGANIZATION_ID,
                     List.of(hoho.getId(), huni.getId()),
                     List.of(String.valueOf(lala.getId()), "coffee"));
 
@@ -60,7 +63,7 @@ class AlarmServiceTest {
             Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
             Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-            AlarmSpecification alarmSpecification = new AlarmSpecification(AlarmSpecification.COUPON_SENT_COFFEE,
+            AlarmSpecification alarmSpecification = new AlarmSpecification(COUPON_SENT_COFFEE, ORGANIZATION_ID,
                     List.of(hoho.getId(), huni.getId()),
                     List.of(String.valueOf(lala.getId()), "널 좋아해", "coffee"));
 

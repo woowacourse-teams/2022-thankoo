@@ -89,7 +89,7 @@ public class Meeting extends BaseEntity {
 
     private boolean isMemberNotOwnsCoupon(final List<Member> members, final Coupon coupon) {
         return members.stream()
-                .anyMatch(member -> !member.hasSameId(List.of(coupon.getReceiverId(), coupon.getSenderId())));
+                .anyMatch(member -> !member.includesOneOfId(List.of(coupon.getReceiverId(), coupon.getSenderId())));
     }
 
     private List<MeetingMember> convertToMeetingMember(final List<Member> members) {

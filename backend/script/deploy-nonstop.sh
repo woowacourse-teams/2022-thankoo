@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "> 배포 시작 😎 😎️ 😎 😎️ 😎 😎️"
+
 if [ $# -ne 4 ]; then
     echo "please insert property environment like ( -e prod | --environment dev && -ni 1.1.1.1 | --nip 2.2.2.2 )"
     exit 1
@@ -40,21 +42,30 @@ JAR_NAME=$(ls *.jar)
 BLUE_PORT=""
 GREEN_PORT=""
 BLUE_PID=""
-MAIN_PORT=$(curl -s http://localhost:8080/actuator/health)
-SUB_PORT=$(curl -s http://localhost:8081/actuator/health)
+MAIN_PORT=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/actuator/health)
+SUB_PORT=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8081/actuator/health)
+
 
 function extractBlueGreenPort() {
-    if [ -z "$MAIN_PORT" ] && [[ "$SUB_PORT" == *UP* ]]
+    if [ "$MAIN_PORT" == "200" ] && [ "$SUB_PORT" == "200" ]
+    then
+      echo "> PORT 2개 모두 떠있음. 배포 실패. "
+      exit 1
+    elif [ "$MAIN_PORT" == "000" ] && [ "$SUB_PORT" == "200" ]
     then
       BLUE_PORT=8081
       GREEN_PORT=8080
-    elif [ -z "$SUB_PORT" ] && [[ "$MAIN_PORT" == *UP* ]]
+    elif [ "$MAIN_PORT" == "200" ] && [ "$SUB_PORT" == "000" ]
     then
       BLUE_PORT=8080
       GREEN_PORT=8081
-    else
+    elif [ "$MAIN_PORT" == "000" ] && [ "$SUB_PORT" == "000" ]
+    then
       echo "> No Blue Port "
       GREEN_PORT=8080
+    else
+      echo "> 예외 상황. 배포 실패. "
+      exit 1
     fi
     echo "> 종료될 BLUE_PORT = $BLUE_PORT"
     echo "> 실행될 GREEN_PORT = $GREEN_PORT"
@@ -94,7 +105,7 @@ function setNginxEnvironment() {
     echo " > nginx 포트 설정을 바꿀 sh 파일을 전송한다. "
     scp -o StrictHostKeyChecking=no -i key-thankoo.pem /home/ubuntu/nginx-conf.sh ubuntu@"$NGINX_IP":/home/ubuntu
     ssh -o StrictHostKeyChecking=no -i key-thankoo.pem ubuntu@"$NGINX_IP" chmod 755 nginx-conf.sh
-    ssh -o StrictHostKeyChecking=no -i key-thankoo.pem ubuntu@"$NGINX_IP" ./nginx-conf.sh -i "$(curl ifconfig.me)" -p "$GREEN_PORT"
+    ssh -o StrictHostKeyChecking=no -i key-thankoo.pem ubuntu@"$NGINX_IP" ./nginx-conf.sh -i "$(hostname -I)" -p "$GREEN_PORT"
     sleep 3
 }
 

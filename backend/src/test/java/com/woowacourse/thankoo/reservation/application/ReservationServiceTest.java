@@ -13,6 +13,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponType.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.exception.ForbiddenException;
 import com.woowacourse.thankoo.coupon.application.CouponService;
+import com.woowacourse.thankoo.coupon.application.dto.CouponUseCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
@@ -30,6 +32,11 @@ import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
+import com.woowacourse.thankoo.organization.application.OrganizationService;
+import com.woowacourse.thankoo.organization.application.dto.OrganizationJoinRequest;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationRepository;
+import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationRequest;
 import com.woowacourse.thankoo.reservation.application.dto.ReservationStatusRequest;
 import com.woowacourse.thankoo.reservation.domain.Reservation;
@@ -64,6 +71,15 @@ class ReservationServiceTest {
     @Autowired
     private CouponService couponService;
 
+    @Autowired
+    private OrganizationService organizationService;
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private OrganizationValidator organizationValidator;
+
     @DisplayName("예약을 생성할 때 ")
     @Nested
     class SaveTest {
@@ -73,8 +89,12 @@ class ReservationServiceTest {
         void save() {
             Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Long reservationId = reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
             Coupon foundCoupon = couponRepository.findById(coupon.getId()).get();
@@ -90,8 +110,12 @@ class ReservationServiceTest {
         void saveTimeFailed() {
             Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
 
             assertThatThrownBy(() ->
                     reservationService.save(receiver.getId(),
@@ -118,8 +142,12 @@ class ReservationServiceTest {
             Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
             Member other = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
 
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId(), other.getId());
+
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
 
             assertThatThrownBy(() -> reservationService.save(other.getId(),
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L))))
@@ -133,8 +161,12 @@ class ReservationServiceTest {
     void updateStatusAccept() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
         Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Long reservationId = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
@@ -153,8 +185,12 @@ class ReservationServiceTest {
     void updateStatusDeny() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
         Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Long reservationId = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
@@ -173,8 +209,12 @@ class ReservationServiceTest {
     void sendMessageThenUpdateStatusDeny() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
         Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
         Long reservationId = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
@@ -190,8 +230,12 @@ class ReservationServiceTest {
         void cancel() {
             Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Long reservationId = reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
@@ -211,8 +255,12 @@ class ReservationServiceTest {
         void memberNotRequestMemberException() {
             Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Long reservationId = reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
@@ -226,8 +274,12 @@ class ReservationServiceTest {
         void reservationNotWaitingException() {
             Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
             Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+            Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            join(organization.getCode().getValue(), sender.getId(), receiver.getId());
             Coupon coupon = couponRepository.save(
-                    new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
             Long reservationId = reservationService.save(receiver.getId(),
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
@@ -243,8 +295,12 @@ class ReservationServiceTest {
     void cancelExpiredReservation() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
         Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
 
         LocalDateTime meetingTime = LocalDateTime.now().plusDays(1L);
         Long reservation1Id = reservationService.save(receiver.getId(),
@@ -262,13 +318,17 @@ class ReservationServiceTest {
     void cancelReservationWhenCouponUsed() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
         Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE), NOT_USED));
 
         Long reservationId = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
 
-        couponService.useImmediately(receiver.getId(), coupon.getId());
+        couponService.useImmediately(new CouponUseCommand(receiver.getId(), organization.getId(), coupon.getId()));
         Reservation acceptReservation = reservationRepository.findById(reservationId).get();
 
         assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
@@ -279,8 +339,12 @@ class ReservationServiceTest {
     void cancelReservation() {
         Member sender = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
         Coupon coupon = couponRepository.save(
-                new Coupon(sender.getId(), receiver.getId(), new CouponContent(TYPE, TITLE, MESSAGE), NOT_USED));
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE), NOT_USED));
 
         Long reservationId = reservationService.save(receiver.getId(),
                 new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
@@ -289,5 +353,11 @@ class ReservationServiceTest {
         Reservation acceptReservation = reservationRepository.findById(reservationId).get();
 
         assertThat(acceptReservation.getReservationStatus()).isEqualTo(ReservationStatus.CANCELED);
+    }
+
+    private void join(final String code, final Long... memberIds) {
+        for (Long memberId : memberIds) {
+            organizationService.join(memberId, new OrganizationJoinRequest(code));
+        }
     }
 }

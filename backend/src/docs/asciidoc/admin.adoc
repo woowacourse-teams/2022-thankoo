@@ -39,3 +39,11 @@ operation::admin/serial/get-link[snippets='http-request,http-response']
 
 == 어드민 로그인
 operation::admin/authentication/sign-in[snippets='http-request,http-response']
+
+== 조직
+
+=== 조직 생성
+operation::admin/organization/create-organization[snippets='http-request,http-response']
+
+=== 조직 검색
+operation::admin/organization/get-organizations[snippets='http-request,http-response']

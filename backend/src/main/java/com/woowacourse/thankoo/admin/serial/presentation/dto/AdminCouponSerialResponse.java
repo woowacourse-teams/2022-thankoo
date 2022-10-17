@@ -10,17 +10,20 @@ import lombok.NoArgsConstructor;
 public class AdminCouponSerialResponse {
 
     private Long serialId;
+    private Long organizationId;
     private String code;
     private Long senderId;
     private String senderName;
     private String couponType;
 
     public AdminCouponSerialResponse(final Long serialId,
+                                     final Long organizationId,
                                      final String code,
                                      final Long senderId,
                                      final String senderName,
                                      final String couponType) {
         this.serialId = serialId;
+        this.organizationId = organizationId;
         this.code = code;
         this.senderId = senderId;
         this.senderName = senderName;
@@ -29,6 +32,7 @@ public class AdminCouponSerialResponse {
 
     public static AdminCouponSerialResponse from(final CouponSerialMember couponSerialMember) {
         return new AdminCouponSerialResponse(
+                couponSerialMember.getOrganizationId(),
                 couponSerialMember.getId(),
                 couponSerialMember.getCode().getValue(),
                 couponSerialMember.getSenderId(),

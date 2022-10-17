@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { useState } from 'react';
 import { ProfileIconList } from '../../constants/profileIcon';
+import Button from '../@shared/Button';
 import { modalMountTime, modalUnMountTime } from './../../constants/modal';
 import useModal from './../../hooks/useModal';
 import ProfileIcon from './../@shared/ProfileIcon';
@@ -27,16 +28,17 @@ const SelectProfileImgModal = ({ editUserProfileImage }) => {
           ))}
         </S.ProfileContainer>
         <S.ButtonWrapper>
-          <S.Button
+          <Button color='secondaryLight' onClick={close}>
+            취소
+          </Button>
+          <Button
             onClick={() => {
               editUserProfileImage(selected);
               close();
             }}
-            primary
           >
             변경하기
-          </S.Button>
-          <S.Button onClick={close}>취소</S.Button>
+          </Button>
         </S.ButtonWrapper>
       </S.Wrapper>
     </S.Container>
@@ -47,9 +49,7 @@ export default SelectProfileImgModal;
 type ConfirmCouponContentModalProps = {
   show: boolean;
 };
-type ButtonProps = {
-  primary?: boolean;
-};
+
 type IconWrapperProp = {
   isSelected: boolean;
 };
@@ -170,14 +170,5 @@ const S = {
     width: 100%;
     display: flex;
     gap: 5px;
-  `,
-  Button: styled.button<ButtonProps>`
-    width: 100%;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    padding: 1rem 0;
-    font-size: 1.7rem;
-    background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
   `,
 };

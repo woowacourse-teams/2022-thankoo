@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -43,12 +44,12 @@ public class Organization extends BaseEntity {
     @Embedded
     private OrganizationMembers organizationMembers;
 
-    private Organization(final Long id,
-                         final OrganizationName organizationName,
-                         final OrganizationCode code,
-                         final int limitedSize,
-                         final OrganizationMembers organizationMembers) {
-        validateMaxLimitedSize(limitedSize);
+    public Organization(final Long id,
+                        final OrganizationName organizationName,
+                        final OrganizationCode code,
+                        final int limitedSize,
+                        final OrganizationMembers organizationMembers) {
+        validateLimitedSize(limitedSize);
         this.id = id;
         this.name = organizationName;
         this.code = code;
@@ -56,15 +57,13 @@ public class Organization extends BaseEntity {
         this.organizationMembers = organizationMembers;
     }
 
-    private void validateMaxLimitedSize(final int limitedSize) {
+    private void validateLimitedSize(final int limitedSize) {
         if (limitedSize < MIN_LIMITED_SIZE || limitedSize > MAX_LIMITED_SIZE) {
             throw new InvalidOrganizationException(ErrorType.INVALID_ORGANIZATION_LIMITED_SIZE);
         }
     }
 
-    private Organization(final String name,
-                         final CodeGenerator codeGenerator,
-                         final int limitedSize) {
+    private Organization(final String name, final CodeGenerator codeGenerator, final int limitedSize) {
         this(null,
                 new OrganizationName(name),
                 OrganizationCode.create(codeGenerator),
@@ -96,9 +95,18 @@ public class Organization extends BaseEntity {
         if (limitedSize == organizationMembers.size()) {
             throw new InvalidOrganizationException(ErrorType.INVALID_ORGANIZATION_SIZE);
         }
-        if (memberJoiningOrganizations.isAlreadyContains(this)) {
+        if (memberJoiningOrganizations.containsOrganization(this)) {
             throw new InvalidOrganizationException(ErrorType.ALREADY_JOIN_ORGANIZATION);
         }
+    }
+
+    public boolean containsMember(final Member member) {
+        return organizationMembers.containsMember(member);
+    }
+
+    public boolean containsMembers(final List<Member> members) {
+        return members.stream()
+                .allMatch(member -> organizationMembers.containsMember(member));
     }
 
     @Override

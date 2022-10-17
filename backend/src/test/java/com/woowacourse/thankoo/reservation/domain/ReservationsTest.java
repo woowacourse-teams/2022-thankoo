@@ -19,9 +19,9 @@ class ReservationsTest {
     @DisplayName("예약 id 들을 가져온다.")
     @Test
     void getIds() {
-        Coupon coupon1 = new Coupon(101L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+        Coupon coupon1 = new Coupon(101L, 1L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
-        Coupon coupon2 = new Coupon(102L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+        Coupon coupon2 = new Coupon(102L, 1L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
 
         LocalDateTime meetingDate = LocalDateTime.now().plusDays(1L);
@@ -38,9 +38,9 @@ class ReservationsTest {
     @DisplayName("예약된 쿠폰 id 들을 가져온다.")
     @Test
     void getCouponIds() {
-        Coupon coupon1 = new Coupon(101L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+        Coupon coupon1 = new Coupon(101L, 1L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
-        Coupon coupon2 = new Coupon(102L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
+        Coupon coupon2 = new Coupon(102L, 1L, 1L, 2L, new CouponContent(CouponType.COFFEE, TITLE, MESSAGE),
                 CouponStatus.NOT_USED);
 
         LocalDateTime meetingDate = LocalDateTime.now().plusDays(1L);

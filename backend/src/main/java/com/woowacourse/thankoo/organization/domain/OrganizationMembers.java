@@ -1,7 +1,9 @@
 package com.woowacourse.thankoo.organization.domain;
 
+import com.woowacourse.thankoo.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
@@ -29,15 +31,36 @@ public class OrganizationMembers {
         values.add(organizationMember);
     }
 
-    public boolean isAlreadyContains(final Organization organization) {
+    public boolean containsOrganization(final Organization organization) {
         return values.stream()
                 .anyMatch(organizationMember -> organizationMember.isSameOrganization(organization));
+    }
+
+    public boolean containsMember(final Member member) {
+        return values.stream()
+                .anyMatch(organizationMember -> organizationMember.isSameMember(member));
     }
 
     public void toPreviousAccessed() {
         for (OrganizationMember value : values) {
             value.toPreviousAccessed();
         }
+    }
+
+    public void switchLastAccessed(final Organization organization) {
+        for (OrganizationMember value : values) {
+            if (value.isSameOrganization(organization)) {
+                value.toLastAccessed();
+                continue;
+            }
+            value.toPreviousAccessed();
+        }
+    }
+
+    public List<OrganizationMember> getExclude(final Member member) {
+        return values.stream()
+                .filter(value -> !value.isSameMember(member))
+                .collect(Collectors.toList());
     }
 
     @Override

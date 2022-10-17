@@ -4,9 +4,12 @@ import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincip
 import com.woowacourse.thankoo.coupon.application.CouponQueryService;
 import com.woowacourse.thankoo.coupon.application.CouponService;
 import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
+import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
+import com.woowacourse.thankoo.coupon.application.dto.CouponUseCommand;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponUseRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,25 +33,29 @@ public class CouponController {
     @PostMapping("/send")
     public ResponseEntity<Void> send(@AuthenticationPrincipal final Long senderId,
                                      @RequestBody final CouponRequest couponRequest) {
-        couponService.saveAll(senderId, couponRequest);
+        couponService.saveAll(couponRequest.toCouponCommand(senderId));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/received")
     public ResponseEntity<List<CouponResponse>> receivedCoupons(@AuthenticationPrincipal final Long receiverId,
-                                                                @RequestParam final String status) {
-        return ResponseEntity.ok(couponQueryService.getReceivedCoupons(receiverId, status));
+                                                                @RequestParam final String status,
+                                                                @RequestParam("organization") final Long organizationId) {
+        CouponSelectCommand couponSelectCommand = new CouponSelectCommand(organizationId, receiverId, status);
+        return ResponseEntity.ok(couponQueryService.getReceivedCouponsByOrganization(couponSelectCommand));
     }
 
     @GetMapping("/sent")
-    public ResponseEntity<List<CouponResponse>> sentCoupons(@AuthenticationPrincipal final Long senderId) {
-        return ResponseEntity.ok(couponQueryService.getSentCoupons(senderId));
+    public ResponseEntity<List<CouponResponse>> sentCoupons(@AuthenticationPrincipal final Long senderId,
+                                                            @RequestParam("organization") final Long organizationId) {
+        return ResponseEntity.ok(couponQueryService.getSentCouponsByOrganization(organizationId, senderId));
     }
 
     @GetMapping("/{couponId}")
     public ResponseEntity<CouponDetailResponse> getCoupon(@AuthenticationPrincipal final Long memberId,
-                                                          @PathVariable final Long couponId) {
-        return ResponseEntity.ok(couponQueryService.getCouponDetail(memberId, couponId));
+                                                          @PathVariable final Long couponId,
+                                                          @RequestParam("organization") final Long organizationId) {
+        return ResponseEntity.ok(couponQueryService.getCouponDetail(memberId, organizationId, couponId));
     }
 
     @GetMapping("/count")
@@ -58,8 +65,9 @@ public class CouponController {
 
     @PutMapping("/{couponId}/use")
     public ResponseEntity<Void> useCouponImmediately(@AuthenticationPrincipal final Long memberId,
+                                                     @RequestBody final CouponUseRequest couponUseRequest,
                                                      @PathVariable final Long couponId) {
-        couponService.useImmediately(memberId, couponId);
+        couponService.useImmediately(new CouponUseCommand(memberId, couponUseRequest.getOrganizationId(), couponId));
         return ResponseEntity.ok().build();
     }
 }

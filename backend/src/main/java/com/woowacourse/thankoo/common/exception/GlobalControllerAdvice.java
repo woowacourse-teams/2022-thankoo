@@ -11,7 +11,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = {"com.woowacourse.thankoo.alarm", "com.woowacourse.thankoo.authentication",
+        "com.woowacourse.thankoo.common", "com.woowacourse.thankoo.coupon", "com.woowacourse.thankoo.header",
+        "com.woowacourse.thankoo.meeting", "com.woowacourse.thankoo.member", "com.woowacourse.thankoo.organization",
+        "com.woowacourse.thankoo.reservation", "com.woowacourse.thankoo.serial"})
 @Slf4j
 public class GlobalControllerAdvice {
 

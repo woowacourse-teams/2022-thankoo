@@ -4,10 +4,11 @@ import { useRecoilValue } from 'recoil';
 import Portal from '../../Portal';
 import { modalContentAtom } from '../../recoil/atom';
 import useModal from './../../hooks/useModal';
+import Dimmer from './Dimmer';
 
 const Modal = () => {
   const modalContent = useRecoilValue(modalContentAtom);
-  const { close } = useModal();
+  const { close, show } = useModal();
   const ref = useRef<any>();
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const Modal = () => {
           if (e.nativeEvent.key === 'Escape') close();
         }}
       >
-        <S.Dimmer onClick={close} />
+        <Dimmer show={show} onClick={close} />
         {modalContent}
       </section>
     </Portal>

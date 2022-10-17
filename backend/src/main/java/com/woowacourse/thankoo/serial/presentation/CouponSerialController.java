@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincip
 import com.woowacourse.thankoo.serial.application.CouponSerialQueryService;
 import com.woowacourse.thankoo.serial.application.CouponSerialService;
 import com.woowacourse.thankoo.serial.application.dto.CouponSerialRequest;
+import com.woowacourse.thankoo.serial.application.dto.SerialCodeRequest;
 import com.woowacourse.thankoo.serial.presentation.dto.CouponSerialResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,16 @@ public class CouponSerialController {
     @GetMapping
     public ResponseEntity<CouponSerialResponse> getCouponSerialBySerialCode(
             @AuthenticationPrincipal final Long memberId,
+            @RequestParam("organization") final Long organizationId,
             @RequestParam final String code) {
-        return ResponseEntity.ok(couponSerialQueryService.getCouponSerialByCode(memberId, code));
+        CouponSerialRequest couponSerialRequest = new CouponSerialRequest(memberId, organizationId, code);
+        return ResponseEntity.ok(couponSerialQueryService.getCouponSerialByCode(couponSerialRequest));
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCouponWithSerialCode(@AuthenticationPrincipal final Long memberId,
-                                                           @RequestBody final CouponSerialRequest couponSerialRequest) {
-        couponSerialService.use(memberId, couponSerialRequest);
+    public ResponseEntity<Void> useCouponSerial(@AuthenticationPrincipal final Long memberId,
+                                                @RequestBody final SerialCodeRequest serialCodeRequest) {
+        couponSerialService.use(memberId, serialCodeRequest);
         return ResponseEntity.ok().build();
     }
 }

@@ -1,4 +1,4 @@
-package com.woowacourse.thankoo.heart.application.dto;
+package com.woowacourse.thankoo.heart.presentation.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public class HeartRequest {
 
+    private Long organizationId;
     private Long receiverId;
 
-    public HeartRequest(final Long receiverId) {
+    public HeartRequest(final Long organizationId, final Long receiverId) {
+        this.organizationId = organizationId;
         this.receiverId = receiverId;
     }
 }

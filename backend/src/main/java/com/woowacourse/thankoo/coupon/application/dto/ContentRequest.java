@@ -19,8 +19,8 @@ public class ContentRequest {
         this.message = message;
     }
 
-    public CouponContent toEntity() {
-        return new CouponContent(couponType, title, message);
+    public ContentCommand toCouponCommand() {
+        return new ContentCommand(couponType, title, message);
     }
 
     @Override
