@@ -28,5 +28,5 @@ export const API_PATH = {
   COMPLETE_COUPON: couponId => `/coupons/${couponId}/use`,
   ORGANIZATIONS: '/organizations/me',
   JOIN_ORGANIZATION: '/organizations/join',
-  UPDATE_LASTACCESSED_ORGANIZATION: id => `/organizations/${id}/access`,
+  UPDATE_LAST_ACCESSED_ORGANIZATION: id => `/organizations/${id}/access`,
 };

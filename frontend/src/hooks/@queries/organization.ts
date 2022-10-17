@@ -56,4 +56,4 @@ const postJoinNewOrganization = (code: string) =>
   client({ method: 'post', url: API_PATH.JOIN_ORGANIZATION, data: { code } });
 
 const putUpdateLastAccessedOrganization = (id: string) =>
-  client({ method: 'put', url: API_PATH.UPDATE_LASTACCESSED_ORGANIZATION(id) });
+  client({ method: 'put', url: API_PATH.UPDATE_LAST_ACCESSED_ORGANIZATION(id) });
