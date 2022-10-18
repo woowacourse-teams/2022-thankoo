@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
@@ -10,10 +9,10 @@ import CouponLayout from '../components/@shared/CouponLayout';
 import Header from '../layout/Header';
 import PageLayout from '../layout/PageLayout';
 import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmCouponContentModal';
-import useModal from '../hooks/useModal';
 import HeaderText from '../layout/HeaderText';
 import { couponTypeKeys, couponTypes } from '../types/coupon';
 import LongButton from '../components/@shared/LongButton';
+import ModalWrapper from '../components/@shared/Modal/ModalWrapper';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -31,7 +30,6 @@ const EnterCouponContent = () => {
     handleOnchangeMessage,
     handleOnchangeTitle,
   } = useEnterCouponContent();
-  const { setModalContent, show } = useModal();
 
   return (
     <PageLayout>
@@ -72,24 +70,22 @@ const EnterCouponContent = () => {
         </S.Form>
       </S.Body>
       <S.ButtonWrapper>
-        <LongButton
-          onClick={() => {
-            show();
-            setModalContent(
-              <ConfirmCouponContentModal
-                title={title}
-                message={message}
-                receivers={checkedUsers}
-                submit={sendCoupon}
-                couponType={couponType}
-              />
-            );
-          }}
-          isDisabled={!isFilled}
+        <ModalWrapper
+          modal={
+            <ConfirmCouponContentModal
+              title={title}
+              message={message}
+              receivers={checkedUsers}
+              submit={sendCoupon}
+              couponType={couponType}
+            />
+          }
         >
-          {checkedUsers.length}명에게 쿠폰 전송하기
-          <ArrowForwardIosIcon />
-        </LongButton>
+          <LongButton isDisabled={!isFilled}>
+            {checkedUsers.length}명에게 쿠폰 전송하기
+            <ArrowForwardIosIcon />
+          </LongButton>
+        </ModalWrapper>
       </S.ButtonWrapper>
     </PageLayout>
   );
