@@ -34,9 +34,13 @@ public class HeartService {
         Organization organization = getOrganization(heartSendCommand.getOrganizationId());
         validateOrganizationMembers(sender, receiver, organization);
 
-        Optional<Heart> foundHeart = heartRepository.findBySenderIdAndReceiverId(sender.getId(), receiver.getId());
-        Optional<Heart> foundOppositeHeart = heartRepository.findBySenderIdAndReceiverId(receiver.getId(),
-                sender.getId());
+        Optional<Heart> foundHeart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(sender.getId(),
+                receiver.getId(),
+                organization.getId());
+        Optional<Heart> foundOppositeHeart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(
+                receiver.getId(),
+                sender.getId(),
+                organization.getId());
 
         if (foundHeart.isEmpty()) {
             create(organization, sender, receiver, foundOppositeHeart);

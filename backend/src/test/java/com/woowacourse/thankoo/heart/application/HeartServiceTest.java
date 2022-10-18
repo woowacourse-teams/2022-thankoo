@@ -76,7 +76,10 @@ class HeartServiceTest {
             join(organization.getCode().getValue(), huni.getId(), skrr.getId());
 
             heartService.send(new HeartSendCommand(organization.getId(), huni.getId(), skrr.getId()));
-            Heart heart = heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).orElseThrow();
+            Heart heart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(huni.getId(),
+                            skrr.getId(),
+                            organization.getId())
+                    .orElseThrow();
 
             assertThat(heart).isNotNull();
         }
@@ -91,9 +94,61 @@ class HeartServiceTest {
 
             heartService.send(new HeartSendCommand(organization.getId(), huni.getId(), skrr.getId()));
             heartService.send(new HeartSendCommand(organization.getId(), skrr.getId(), huni.getId()));
-            Heart heart = heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).orElseThrow();
+            Heart heart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(huni.getId(),
+                    skrr.getId(),
+                    organization.getId()
+            ).orElseThrow();
 
             assertThat(heart.isLast()).isFalse();
+        }
+
+        @DisplayName("다른 조직의 동일한 상대에게도 또 보낼 수 있다.")
+        @Test
+        void sendSameMemberDifferentOrganization() {
+            Organization woowacourse = organizationRepository.save(createDefaultOrganization(organizationValidator));
+            Organization thankoo = organizationRepository.save(createThankooOrganization(organizationValidator));
+
+            Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+            Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+            join(woowacourse.getCode().getValue(), huni.getId(), skrr.getId());
+            join(thankoo.getCode().getValue(), huni.getId(), skrr.getId());
+
+            heartService.send(new HeartSendCommand(woowacourse.getId(), huni.getId(), skrr.getId()));
+            heartService.send(new HeartSendCommand(woowacourse.getId(), skrr.getId(), huni.getId()));
+            heartService.send(new HeartSendCommand(woowacourse.getId(), huni.getId(), skrr.getId()));
+            Heart woowacourseHuniHeart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(huni.getId(),
+                    skrr.getId(),
+                    woowacourse.getId()
+            ).orElseThrow();
+
+            Heart woowacourseSkrrHeart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(skrr.getId(),
+                    huni.getId(),
+                    woowacourse.getId()
+            ).orElseThrow();
+
+            heartService.send(new HeartSendCommand(thankoo.getId(), huni.getId(), skrr.getId()));
+            heartService.send(new HeartSendCommand(thankoo.getId(), skrr.getId(), huni.getId()));
+
+            Heart thankooHuniHeart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(huni.getId(),
+                    skrr.getId(),
+                    thankoo.getId()
+            ).orElseThrow();
+
+            Heart thankooSkrrHeart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(skrr.getId(),
+                    huni.getId(),
+                    thankoo.getId()
+            ).orElseThrow();
+
+            assertAll(
+                    () -> assertThat(woowacourseHuniHeart.getCount()).isEqualTo(2),
+                    () -> assertThat(woowacourseHuniHeart.isLast()).isTrue(),
+                    () -> assertThat(woowacourseSkrrHeart.getCount()).isEqualTo(1),
+                    () -> assertThat(woowacourseSkrrHeart.isLast()).isFalse(),
+                    () -> assertThat(thankooHuniHeart.getCount()).isEqualTo(1),
+                    () -> assertThat(thankooHuniHeart.isLast()).isFalse(),
+                    () -> assertThat(thankooSkrrHeart.getCount()).isEqualTo(1),
+                    () -> assertThat(thankooSkrrHeart.isLast()).isTrue()
+            );
         }
 
         @DisplayName("연달아 두 번 보낼 경우 실패한다.")
