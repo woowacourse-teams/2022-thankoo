@@ -9,19 +9,17 @@ type ModalWrapperType = {
 
 const ModalWrapper = ({ children, modal }: ModalWrapperType) => {
   const { visible, show, setModalContent } = useModal();
-  const onClickBindedChildren = {
-    ...children,
-    props: {
-      ...children.props,
-      onClick: () => {
-        children.props.onClick?.();
+
+  return (
+    <Container
+      onClick={() => {
         show();
         setModalContent(modal);
-      },
-    },
-  };
-
-  return <Container>{onClickBindedChildren}</Container>;
+      }}
+    >
+      {children}
+    </Container>
+  );
 };
 
 export default ModalWrapper;
