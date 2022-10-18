@@ -1,7 +1,7 @@
 [[Member]]
-=== 본인을 제외한 모든 회원 조회
 
-operation::members/get-members[snippets='http-request,http-response']
+=== 조직 내 회원 조회
+operation::organizations/get-members[snippets='http-request,http-response']
 
 === 내 정보 조회
 
@@ -17,4 +17,4 @@ operation::members/update-member-profile-image[snippets='http-request,http-respo
 
 === 회원 프로필 이미지들을 조회
 
-operation::members/get-member-profile-images[snippets='http-request,http-response']
+operation::members/get-member-profile-images[snippets='http-request,http-response'[.line-through]#]#
