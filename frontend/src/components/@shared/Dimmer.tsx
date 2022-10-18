@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import useModal from '../../hooks/useModal';
 
 const Dimmer = ({ show, onClick }) => {
   return <Container onClick={onClick} show={show} />;
