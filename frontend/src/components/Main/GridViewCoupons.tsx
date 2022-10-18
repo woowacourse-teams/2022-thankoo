@@ -1,15 +1,34 @@
 import styled from '@emotion/styled';
 import { COUPON_STATUS_STRAP_TEXT } from '../../constants/coupon';
-import { Coupon, CouponStatus } from '../../types/coupon';
+import { CouponStatus, CouponTransmitStatus, CouponType } from '../../types/coupon';
+import useGridViewCoupons from './../../hooks/Main/useGridViewCoupons';
+import ModalWrapper from './../@shared/Modal/ModalWrapper';
+import NoReceivedCoupon from './../@shared/noContent/NoReceivedCoupon';
+import NoSendCoupon from './../@shared/noContent/NoSendCoupon';
 import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
-import ModalWrapper from '../@shared/Modal/ModalWrapper';
 
 const strapStatus = ['reserving', 'reserved'];
 
-const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
+const GridViewCoupons = ({
+  currentType,
+  sentOrReceived,
+  showUsedCouponsWith,
+}: {
+  currentType: CouponType;
+  sentOrReceived: CouponTransmitStatus;
+  showUsedCouponsWith: boolean;
+}) => {
+  const { coupons } = useGridViewCoupons(currentType, sentOrReceived, showUsedCouponsWith);
   const isOnReserve = status => strapStatus.includes(status);
   const isCompleted = status => status === 'used' || status === 'immediately_used';
+
+  if (coupons.length === 0 && sentOrReceived === 'sent') {
+    return <NoSendCoupon />;
+  }
+  if (coupons.length === 0 && sentOrReceived === 'received') {
+    return <NoReceivedCoupon />;
+  }
 
   return (
     <S.Container>
