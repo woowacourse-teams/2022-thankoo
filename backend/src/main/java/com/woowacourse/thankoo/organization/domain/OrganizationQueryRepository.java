@@ -30,18 +30,6 @@ public class OrganizationQueryRepository {
         return jdbcTemplate.query(sql, parameter, ROW_MAPPER);
     }
 
-    public List<MemberModel> findOrganizationMembersExcludeMe(final Long organizationId, final Long memberId) {
-        String sql = "SELECT m.id, m.name, m.email, m.image_url FROM organization AS o "
-                + "LEFT JOIN organization_member AS om ON o.id = om.organization_id "
-                + "LEFT JOIN member AS m ON om.member_id = m.id "
-                + "WHERE o.id = :organizationId "
-                + "AND m.id <> :memberId";
-
-        SqlParameterSource parameter = new MapSqlParameterSource("organizationId", organizationId)
-                .addValue("memberId", memberId);
-        return jdbcTemplate.query(sql, parameter, memberRowMapper());
-    }
-
     public Optional<SimpleOrganization> findByCode(final String code) {
         String sql = "SELECT id, name FROM organization WHERE code = :code";
 
@@ -60,12 +48,5 @@ public class OrganizationQueryRepository {
                         rs.getInt("order_number"),
                         rs.getBoolean("last_accessed"))
         );
-    }
-
-    private static RowMapper<MemberModel> memberRowMapper() {
-        return (rs, rowNum) -> new MemberModel(rs.getLong("id"),
-                rs.getString("name"),
-                rs.getString("email"),
-                rs.getString("image_url"));
     }
 }

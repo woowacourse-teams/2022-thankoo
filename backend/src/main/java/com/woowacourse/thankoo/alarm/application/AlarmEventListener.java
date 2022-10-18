@@ -19,5 +19,6 @@ public class AlarmEventListener {
     public void handle(final AlarmEvent alarmEvent) {
         log.debug("alarm event = {}", alarmEvent);
         alarmService.send(alarmEvent.toAlarmSpecification());
+        throw new RuntimeException();
     }
 }
