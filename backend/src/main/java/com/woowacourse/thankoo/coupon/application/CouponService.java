@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-//@Transactional
+@Transactional
 @RequiredArgsConstructor
 public class CouponService {
 
@@ -28,7 +28,6 @@ public class CouponService {
     private final MemberRepository memberRepository;
     private final OrganizationRepository organizationRepository;
 
-    @Transactional
     public void saveAll(final CouponCommand couponCommand) {
         Member sender = getMember(couponCommand.getSenderId());
         List<Member> receivers = memberRepository.findByIdIn(couponCommand.getReceiverIds());
@@ -47,7 +46,6 @@ public class CouponService {
         }
     }
 
-    @Transactional
     public void useImmediately(final CouponUseCommand couponUseCommand) {
         Member member = getMember(couponUseCommand.getMemberId());
         Long organizationId = couponUseCommand.getOrganizationId();
