@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
+import { Suspense } from 'react';
 import { COUPON_STATUS_STRAP_TEXT } from '../../constants/coupon';
 import { CouponStatus, CouponTransmitStatus, CouponType } from '../../types/coupon';
+import CustomErrorBoundary from './../../errors/CustomErrorBoundary';
+import ErrorFallBack from './../../errors/ErrorFallBack';
 import useGridViewCoupons from './../../hooks/Main/useGridViewCoupons';
 import ModalWrapper from './../@shared/Modal/ModalWrapper';
 import NoReceivedCoupon from './../@shared/noContent/NoReceivedCoupon';
 import NoSendCoupon from './../@shared/noContent/NoSendCoupon';
+import Spinner from './../@shared/Spinner';
 import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
 
@@ -33,7 +37,16 @@ const GridViewCoupons = ({
   return (
     <S.Container>
       {coupons.map(coupon => (
-        <ModalWrapper key={coupon.couponId} modal={<CouponDetail couponId={coupon.couponId} />}>
+        <ModalWrapper
+          key={coupon.couponId}
+          modal={
+            <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
+              <Suspense fallback={<Spinner />}>
+                <CouponDetail couponId={coupon.couponId} />
+              </Suspense>
+            </CustomErrorBoundary>
+          }
+        >
           <S.Relative>
             {isCompleted(coupon.status) && <S.CompleteDeem>사용 완료</S.CompleteDeem>}
             {isOnReserve(coupon.status) && (
