@@ -18,6 +18,7 @@ const Organization = () => {
   const { mutate: joinOrganization } = usePutJoinOrganization({
     onSuccess: () => {
       navigate(ROUTE_PATH.EXACT_MAIN);
+      window.location.reload();
     },
     onError: error => {
       insertToastItem(error.response?.data.message);
