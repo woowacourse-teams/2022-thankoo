@@ -8,12 +8,12 @@ import {
 import { 예약요청응답별코멘트 } from '../Main/useCouponDetail';
 import useToast from '../useToast';
 
-type useReservationParam = {
+type useListReservationItemProps = {
   reservationId: number;
   time: MeetingTime;
 };
 
-const useReservation = ({ reservationId, time }: useReservationParam) => {
+const useListReservationItem = ({ reservationId, time }: useListReservationItemProps) => {
   const queryClient = useQueryClient();
   const { insertToastItem } = useToast();
 
@@ -61,4 +61,4 @@ const useReservation = ({ reservationId, time }: useReservationParam) => {
 
   return { handleClickOption };
 };
-export default useReservation;
+export default useListReservationItem;

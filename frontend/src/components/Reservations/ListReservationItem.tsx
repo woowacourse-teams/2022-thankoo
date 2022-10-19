@@ -1,10 +1,10 @@
-import useReservation from '../../hooks/Reservations/useReservation';
+import useListReservationItem from '../../hooks/Reservations/useListReservationItem';
 import { CouponTransmitStatus, CouponType } from '../../types/coupon';
 import { MeetingTime } from '../../types/meeting';
 import Slider from '../@shared/ChoiceSlider';
-import ListViewReservation from './ListViewReservation';
+import ListViewReservationDetail from './ListViewReservation';
 
-type ReservationProps = {
+type ListReservationItemProps = {
   couponType: CouponType;
   time: MeetingTime;
   memberName: string;
@@ -12,20 +12,20 @@ type ReservationProps = {
   transmitStatus: CouponTransmitStatus;
 };
 
-const Reservation = ({
+const ListReservationItem = ({
   couponType,
   time,
   memberName,
   reservationId,
   transmitStatus,
-}: ReservationProps) => {
-  const { handleClickOption } = useReservation({ reservationId, time });
+}: ListReservationItemProps) => {
+  const { handleClickOption } = useListReservationItem({ reservationId, time });
 
   return (
     <Slider>
       <Slider.Inner>
         <Slider.Content>
-          <ListViewReservation
+          <ListViewReservationDetail
             couponType={couponType}
             meetingTime={time.meetingTime}
             memberName={memberName}
@@ -34,7 +34,6 @@ const Reservation = ({
         </Slider.Content>
         <Slider.Options>
           {transmitStatus === 'received' ? (
-            /** TODO index는 Slider.OptionItem에서 자동으로 부여해주도록 수정 */
             <>
               <Slider.OptionItem
                 index={1}
@@ -66,4 +65,4 @@ const Reservation = ({
   );
 };
 
-export default Reservation;
+export default ListReservationItem;
