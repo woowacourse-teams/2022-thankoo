@@ -42,6 +42,7 @@ export const usePutLastAccessedOrganization = ({ onSuccess, onError }: QueryHand
     onError: (error: AxiosError<ErrorType>) => {
       onError?.(error);
     },
+    retry: false,
   });
 
 //   FETCHER

@@ -7,7 +7,7 @@ const SignOutButton = () => {
   const navigate = useNavigate();
   const signOut = () => {
     clearAuth();
-    navigate(`${ROUTE_PATH.SIGN_IN}`);
+    navigate(`${ROUTE_PATH.SIGN_IN}`, { replace: true });
   };
 
   return <S.Container onClick={signOut}>로그아웃</S.Container>;
