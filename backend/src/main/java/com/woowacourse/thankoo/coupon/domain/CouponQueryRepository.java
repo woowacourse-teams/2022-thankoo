@@ -34,7 +34,7 @@ public class CouponQueryRepository {
                         rs.getString("message"),
                         rs.getString("status"),
                         rs.getDate("created_at").toLocalDate(),
-                        rs.getDate("modified_at").toLocalDate());
+                        rs.getTimestamp("modified_at").toLocalDateTime());
     }
 
     @Deprecated(since = "when organization will be merged")

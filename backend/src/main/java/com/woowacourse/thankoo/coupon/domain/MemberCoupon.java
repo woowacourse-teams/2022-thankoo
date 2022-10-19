@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.member.domain.Member;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.Getter;
 
@@ -17,7 +18,7 @@ public class MemberCoupon {
     private final String message;
     private final String status;
     private final LocalDate createdDate;
-    private final LocalDate modifiedDate;
+    private final LocalDateTime modifiedDateTime;
 
     public MemberCoupon(final Long couponId,
                         final Long organizationId,
@@ -28,7 +29,7 @@ public class MemberCoupon {
                         final String message,
                         final String status,
                         final LocalDate createdDate,
-                        final LocalDate modifiedDate) {
+                        final LocalDateTime modifiedDateTime) {
         this.couponId = couponId;
         this.organizationId = organizationId;
         this.sender = sender;
@@ -38,7 +39,7 @@ public class MemberCoupon {
         this.message = message;
         this.status = status;
         this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
+        this.modifiedDateTime = modifiedDateTime;
     }
 
     public boolean isOwner(final Long memberId) {
@@ -63,13 +64,13 @@ public class MemberCoupon {
                 && Objects.equals(receiver, that.receiver) && Objects.equals(couponType,
                 that.couponType) && Objects.equals(title, that.title) && Objects.equals(message,
                 that.message) && Objects.equals(status, that.status) && Objects.equals(createdDate,
-                that.createdDate) && Objects.equals(modifiedDate, that.modifiedDate);
+                that.createdDate) && Objects.equals(modifiedDateTime, that.modifiedDateTime);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(couponId, organizationId, sender, receiver, couponType, title, message, status,
-                createdDate, modifiedDate);
+                createdDate, modifiedDateTime);
     }
 
 
@@ -85,7 +86,7 @@ public class MemberCoupon {
                 ", message='" + message + '\'' +
                 ", status='" + status + '\'' +
                 ", createdDate=" + createdDate +
-                ", modifiedDate=" + modifiedDate +
+                ", modifiedDateTime=" + modifiedDateTime +
                 '}';
     }
 }
