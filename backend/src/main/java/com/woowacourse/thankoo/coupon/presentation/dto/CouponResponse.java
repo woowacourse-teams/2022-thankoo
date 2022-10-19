@@ -58,8 +58,8 @@ public class CouponResponse {
     public String toString() {
         return "CouponResponse{" +
                 "couponId=" + couponId +
-                ", sender=" + sender.getId() +
-                ", receiver=" + receiver.getId() +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
                 ", content=" + content +
                 ", status='" + status + '\'' +
                 ", createdDate=" + createdDate +
