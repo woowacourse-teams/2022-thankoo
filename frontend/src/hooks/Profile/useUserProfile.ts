@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { UserProfile } from '../../types/user';
 import {
   PROFILE_QUERY_KEY,
   useGetCouponExchangeCount,
@@ -10,16 +9,18 @@ import {
 import useToast from '../useToast';
 
 const useUserProfile = () => {
-  const { insertToastItem } = useToast();
   const queryClient = useQueryClient();
   const [isNameEdit, setIsNameEdit] = useState(false);
   const [name, setName] = useState<string>('');
 
-  const { data: profile } = useGetUserProfile({
-    onSuccess: (data: UserProfile) => {
-      setName(data.name);
-    },
-  });
+  const { insertToastItem } = useToast();
+  const { data: profile } = useGetUserProfile();
+
+  useEffect(() => {
+    if (profile) {
+      setName(profile?.name);
+    }
+  }, [profile]);
 
   const { data: exchangeCount } = useGetCouponExchangeCount();
 
