@@ -71,6 +71,7 @@ const EnterCouponContent = () => {
       </S.Body>
       <S.ButtonWrapper>
         <ModalWrapper
+          isDisabled={!isFilled}
           modal={
             <ConfirmCouponContentModal
               title={title}

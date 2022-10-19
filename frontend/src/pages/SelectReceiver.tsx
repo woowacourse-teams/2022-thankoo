@@ -122,6 +122,7 @@ const S = {
   `,
   ButtonLink: styled(Link)`
     width: 100%;
+    cursor: unset;
   `,
 };
 
