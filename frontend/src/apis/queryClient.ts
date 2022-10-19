@@ -17,20 +17,6 @@ const queryErrorHandler = error => {
 const mutateErrorHandler = error => {
   authErrorHandler(error);
 };
-const retryHandler = (failureCount, error) => {
-  const defaultRetryCount = 3;
-
-  if (
-    error.response?.status === INVALID_AUTH_STATUS ||
-    error.response?.data.errorCode === INVALID_MEMBER_ERROR_CODE ||
-    error.response?.data.errorCode === INVALID_AUTH_ERROR_CODE ||
-    failureCount === defaultRetryCount
-  ) {
-    return false;
-  }
-
-  return true;
-};
 
 const authErrorHandler = (error: AxiosError) => {
   const {
@@ -47,13 +33,13 @@ const defaultOptions: QueryClientConfig = {
   defaultOptions: {
     queries: {
       onError: queryErrorHandler,
-      retry: retryHandler,
+      retry: 3,
       refetchOnWindowFocus: false,
       suspense: true,
     },
     mutations: {
       onError: mutateErrorHandler,
-      retry: retryHandler,
+      retry: 3,
     },
   },
 };
