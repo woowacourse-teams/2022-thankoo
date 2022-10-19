@@ -42,4 +42,16 @@ public class AdminCouponSerialRequest {
                 CouponSerialStatus.NOT_USED,
                 new CouponSerialContent(title, message));
     }
+
+    @Override
+    public String toString() {
+        return "AdminCouponSerialRequest{" +
+                "memberId=" + memberId +
+                ", organizationId=" + organizationId +
+                ", couponType='" + couponType + '\'' +
+                ", quantity=" + quantity +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

@@ -13,4 +13,11 @@ public abstract class AlarmEvent {
     }
 
     public abstract AlarmSpecification toAlarmSpecification();
+
+    @Override
+    public String toString() {
+        return "AlarmEvent{" +
+                "alarmType='" + alarmType + '\'' +
+                '}';
+    }
 }

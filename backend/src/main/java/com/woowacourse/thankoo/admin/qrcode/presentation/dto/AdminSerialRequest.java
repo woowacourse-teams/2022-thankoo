@@ -16,4 +16,12 @@ public class AdminSerialRequest {
         this.serials = serials;
         this.organizationId = organizationId;
     }
+
+    @Override
+    public String toString() {
+        return "AdminSerialRequest{" +
+                "serials=" + serials +
+                ", organizationId=" + organizationId +
+                '}';
+    }
 }
