@@ -1,4 +1,7 @@
+import styled from '@emotion/styled';
 import React, { ErrorInfo } from 'react';
+import { FlexCenter } from '../styles/mixIn';
+import Button from './../components/@shared/Button';
 
 type Props = {
   children?: React.ReactNode;
@@ -38,10 +41,10 @@ class CustomErrorBoundary extends React.Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <>
+        <S.Container>
           <this.props.fallbackComponent />
-          <button onClick={this.reset.bind(this)}>재시도</button>
-        </>
+          <Button onClick={this.reset.bind(this)}>다시 시도하기</Button>
+        </S.Container>
       );
     }
     return this.props.children;
@@ -49,3 +52,20 @@ class CustomErrorBoundary extends React.Component<Props, State> {
 }
 
 export default CustomErrorBoundary;
+
+const S = {
+  Container: styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    ${FlexCenter};
+    flex-direction: column;
+    gap: 2.5rem;
+
+    button {
+      width: 100%;
+    }
+  `,
+};

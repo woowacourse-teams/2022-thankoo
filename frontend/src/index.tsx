@@ -10,6 +10,8 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 import { queryClient } from './apis/queryClient';
 import './assets/favicon/favicon.ico';
+import CustomErrorBoundary from './errors/CustomErrorBoundary';
+import ErrorFallBack from './errors/ErrorFallBack';
 import reset from './styles/GlobalReset';
 import global from './styles/GlobalStyled';
 import { ThemeProvider } from './styles/ThemeProvider';
@@ -29,7 +31,9 @@ root.render(
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeProvider>
-            <App />
+            <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
+              <App />
+            </CustomErrorBoundary>
           </ThemeProvider>
         </RecoilRoot>
         <ReactQueryDevtools />
