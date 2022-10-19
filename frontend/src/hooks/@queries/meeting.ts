@@ -32,7 +32,7 @@ export type MeetingsResponse = {
   meetingTime: string;
 };
 
-const { fullDate: today } = krLocaleDateFormatter(new Date().toLocaleDateString());
+const { fullDate: todayFullDate } = krLocaleDateFormatter(new Date().toLocaleDateString());
 
 export const useGetMeetings = () =>
   useQuery<MeetingsResponse[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest(), {
@@ -40,6 +40,7 @@ export const useGetMeetings = () =>
       const validMeetings = meetings
         .map(meeting => {
           const { date, time } = serverDateFormmater(meeting.time.meetingTime);
+          const today = todayFullDate.split('-')[0];
 
           return {
             ...meeting,
