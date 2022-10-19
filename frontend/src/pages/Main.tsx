@@ -159,6 +159,7 @@ const S = {
   `,
   UsedCouponCheckbox: styled.input`
     margin: 0 10px 0 0;
+    accent-color: tomato;
   `,
   UsedCouponCheckboxLabel: styled.label`
     font-size: 12px;
