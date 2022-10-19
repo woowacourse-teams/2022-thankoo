@@ -33,7 +33,8 @@ public class CouponQueryRepository {
                         rs.getString("title"),
                         rs.getString("message"),
                         rs.getString("status"),
-                        rs.getDate("created_at").toLocalDate());
+                        rs.getDate("created_at").toLocalDate(),
+                        rs.getDate("modified_at").toLocalDate());
     }
 
     @Deprecated(since = "when organization will be merged")
@@ -46,7 +47,7 @@ public class CouponQueryRepository {
                 + "r.id as receiver_id, r.name as receiver_name, "
                 + "r.email as receiver_email, r.social_id as receiver_social_id,"
                 + "r.image_url as receiver_image_url,"
-                + "c.coupon_type, c.title, c.message, c.status, c.created_at "
+                + "c.coupon_type, c.title, c.message, c.status, c.created_at, c.modified_at "
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
@@ -69,7 +70,7 @@ public class CouponQueryRepository {
                 + "r.id as receiver_id, r.name as receiver_name, "
                 + "r.email as receiver_email, r.social_id as receiver_social_id,"
                 + "r.image_url as receiver_image_url,"
-                + "c.coupon_type, c.title, c.message, c.status, c.created_at "
+                + "c.coupon_type, c.title, c.message, c.status, c.created_at, c.modified_at "
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
@@ -92,7 +93,7 @@ public class CouponQueryRepository {
                 + "r.id as receiver_id, r.name as receiver_name, "
                 + "r.email as receiver_email, r.social_id as receiver_social_id,"
                 + "r.image_url as receiver_image_url,"
-                + "c.coupon_type, c.title, c.message, c.status, c.created_at "
+                + "c.coupon_type, c.title, c.message, c.status, c.created_at, c.modified_at "
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "
@@ -113,7 +114,7 @@ public class CouponQueryRepository {
                 + "r.id as receiver_id, r.name as receiver_name, "
                 + "r.email as receiver_email, r.social_id as receiver_social_id,"
                 + "r.image_url as receiver_image_url,"
-                + "c.coupon_type, c.title, c.message, c.status, c.created_at "
+                + "c.coupon_type, c.title, c.message, c.status, c.created_at, c.modified_at "
                 + "FROM coupon as c "
                 + "JOIN member as s ON c.sender_id = s.id "
                 + "JOIN member as r ON c.receiver_id = r.id "

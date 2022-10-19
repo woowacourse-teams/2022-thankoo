@@ -18,19 +18,22 @@ public class CouponResponse {
     private CouponContentResponse content;
     private String status;
     private LocalDate createdDate;
+    private LocalDate modifiedDate;
 
     private CouponResponse(final Long couponId,
                            final MemberResponse sender,
                            final MemberResponse receiver,
                            final CouponContentResponse content,
                            final String status,
-                           final LocalDate createdDate) {
+                           final LocalDate createdDate,
+                           final LocalDate modifiedDate) {
         this.couponId = couponId;
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
         this.status = status.toLowerCase(Locale.ROOT);
         this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
     }
 
     public static CouponResponse of(final MemberCoupon memberCoupon) {
@@ -41,7 +44,8 @@ public class CouponResponse {
                         memberCoupon.getTitle(),
                         memberCoupon.getMessage()),
                 memberCoupon.getStatus(),
-                memberCoupon.getCreatedDate()
+                memberCoupon.getCreatedDate(),
+                memberCoupon.getModifiedDate()
         );
     }
 
@@ -54,6 +58,7 @@ public class CouponResponse {
                 ", content=" + content +
                 ", status='" + status + '\'' +
                 ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
                 '}';
     }
 }
