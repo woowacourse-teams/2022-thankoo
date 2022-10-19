@@ -49,6 +49,7 @@ const defaultOptions: QueryClientConfig = {
       onError: queryErrorHandler,
       retry: retryHandler,
       refetchOnWindowFocus: false,
+      suspense: true,
     },
     mutations: {
       onError: mutateErrorHandler,

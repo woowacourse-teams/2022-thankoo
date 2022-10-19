@@ -9,6 +9,7 @@ import { Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import Spinner from '../components/@shared/Spinner';
 import CustomErrorBoundary from '../errors/CustomErrorBoundary';
+import ErrorFallBack from '../errors/ErrorFallBack';
 import useMain from '../hooks/Main/useMain';
 import useQRCoupon from '../hooks/useQRCoupon';
 import HeaderText from '../layout/HeaderText';
@@ -16,10 +17,6 @@ import MainPageLayout from '../layout/MainPageLayout';
 import { couponTypeKeys, couponTypes } from '../types/coupon';
 
 const sentOrReceivedArray = ['received', 'sent'];
-
-const ErrorFallback = () => {
-  return <ErrorFallBack.Wrapper>에러발생!</ErrorFallBack.Wrapper>;
-};
 
 const Main = () => {
   const {
@@ -75,7 +72,7 @@ const Main = () => {
             </S.UsedCouponCheckboxLabel>
           </S.UsedCouponToggleForm>
         </S.TabsNavWrapper>
-        <CustomErrorBoundary fallbackComponent={ErrorFallback}>
+        <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
           <Suspense fallback={<Spinner />}>
             <GridViewCoupons
               currentType={currentType}
@@ -188,9 +185,4 @@ const S = {
   `,
 };
 
-const ErrorFallBack = {
-  Wrapper: styled.div`
-    color: white;
-  `,
-};
 export default Main;
