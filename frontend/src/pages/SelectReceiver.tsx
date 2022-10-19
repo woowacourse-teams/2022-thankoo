@@ -10,6 +10,7 @@ import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
 import { ROUTE_PATH } from '../constants/routes';
 import HeaderText from '../layout/HeaderText';
 import MainPageLayout from '../layout/MainPageLayout';
+import LongButton from '../components/@shared/LongButton';
 
 const SelectReceiver = () => {
   const {
@@ -44,22 +45,17 @@ const SelectReceiver = () => {
             />
           )}
           <S.SendButtonBox>
-            <S.LongButton
-              to={checkedUsers.length ? `${ROUTE_PATH.ENTER_COUPON_CONTENT}` : '#'}
-              disabled={!checkedUsers.length}
-            >
-              다 고르셨나요?
-              <ArrowForwardIosIcon />
-            </S.LongButton>
+            <S.ButtonLink to={checkedUsers.length ? `${ROUTE_PATH.ENTER_COUPON_CONTENT}` : '#'}>
+              <LongButton isDisabled={!checkedUsers.length}>
+                다 고르셨나요?
+                <ArrowForwardIosIcon />
+              </LongButton>
+            </S.ButtonLink>
           </S.SendButtonBox>
         </S.Section>
       </S.Body>
     </MainPageLayout>
   );
-};
-
-type ButtonProps = {
-  disabled: boolean;
 };
 
 type SectionProps = {
@@ -124,29 +120,8 @@ const S = {
             height: calc(100% - 7rem);
           `}
   `,
-  LongButton: styled(Link)<ButtonProps>`
-    bottom: 11%;
+  ButtonLink: styled(Link)`
     width: 100%;
-    max-width: 680px;
-    transition: all ease-in-out 0.1s;
-    ${({ disabled, theme }) =>
-      disabled
-        ? css`
-            background-color: ${theme.button.disbaled.background};
-            color: ${theme.button.disbaled.color};
-            cursor: not-allowed;
-          `
-        : css`
-            background-color: ${theme.button.active.background};
-            color: ${theme.button.active.color};
-          `}
-    border: none;
-    border-radius: 30px;
-    font-size: 1.7rem;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   `,
 };
 

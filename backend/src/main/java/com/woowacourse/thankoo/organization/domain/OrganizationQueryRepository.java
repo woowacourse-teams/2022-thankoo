@@ -19,7 +19,7 @@ public class OrganizationQueryRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public List<MemberOrganization> findMemberOrganizationsByMemberId(final Long memberId) {
-        String sql = "SELECT om.organization_id AS o_id, o.id AS id, o.name AS name, o.code As code, "
+        String sql = "SELECT om.organization_id AS organization_id, o.id AS id, o.name AS name, o.code As code, "
                 + "om.order_number AS order_number, om.last_accessed AS last_accessed "
                 + "FROM organization_member AS om "
                 + "JOIN organization AS o ON om.organization_id = o.id "

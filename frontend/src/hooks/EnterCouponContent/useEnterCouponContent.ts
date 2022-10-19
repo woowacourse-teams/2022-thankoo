@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { checkedUsersAtom } from '../../recoil/atom';
-import { CouponType } from '../../types/coupon';
+import { CouponTransmitableType } from '../../types/coupon';
 import { UserProfile } from '../../types/user';
 import { usePostCouponMutation } from '../@queries/coupon';
 import { useGetUserProfile } from '../@queries/profile';
@@ -17,7 +17,7 @@ const useEnterCouponContent = () => {
 
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
-  const [couponType, setCouponType] = useState<CouponType>('coffee');
+  const [couponType, setCouponType] = useState<CouponTransmitableType>('coffee');
   const checkedUsers = useRecoilValue<UserProfile[]>(checkedUsersAtom);
 
   const { data: userProfile } = useGetUserProfile();
@@ -72,8 +72,8 @@ const useEnterCouponContent = () => {
     setTitle,
     setMessage,
     checkedUsers,
-    currentUserName: userProfile?.name,
-    currentUserId: userProfile?.id,
+    currentUserName: userProfile?.name || '',
+    currentUserId: userProfile?.id || 0,
     handleOnchangeTitle,
     handleOnchangeMessage,
   };

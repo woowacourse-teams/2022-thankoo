@@ -1,14 +1,20 @@
 import styled from '@emotion/styled';
-import useModal from '../../hooks/useModal';
+import { ReactNode } from 'react';
+import useModal from '../../../hooks/useModal';
 
-const ModalWrapper = ({ children, modalContent }) => {
+type ModalWrapperType = {
+  children: JSX.Element;
+  modal: ReactNode;
+};
+
+const ModalWrapper = ({ children, modal }: ModalWrapperType) => {
   const { visible, show, setModalContent } = useModal();
 
   return (
     <Container
       onClick={() => {
         show();
-        setModalContent(modalContent);
+        setModalContent(modal);
       }}
     >
       {children}

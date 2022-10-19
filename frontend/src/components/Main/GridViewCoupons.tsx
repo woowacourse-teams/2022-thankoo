@@ -3,7 +3,7 @@ import { COUPON_STATUS_STRAP_TEXT } from '../../constants/coupon';
 import { Coupon, CouponStatus } from '../../types/coupon';
 import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
-import ModalWrapper from './ModalWrapper';
+import ModalWrapper from '../@shared/Modal/ModalWrapper';
 
 const strapStatus = ['reserving', 'reserved'];
 
@@ -14,10 +14,7 @@ const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
   return (
     <S.Container>
       {coupons.map(coupon => (
-        <ModalWrapper
-          key={coupon.couponId}
-          modalContent={<CouponDetail couponId={coupon.couponId} />}
-        >
+        <ModalWrapper key={coupon.couponId} modal={<CouponDetail couponId={coupon.couponId} />}>
           <S.Relative>
             {isCompleted(coupon.status) && <S.CompleteDeem>사용 완료</S.CompleteDeem>}
             {isOnReserve(coupon.status) && (
