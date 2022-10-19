@@ -1,25 +1,51 @@
 import styled from '@emotion/styled';
+import { useRecoilValue } from 'recoil';
+import { usePostCouponMutation } from '../../hooks/@queries/coupon';
 import useModal from '../../hooks/useModal';
 import { CouponType, couponTypes } from '../../types/coupon';
 import { UserProfile } from '../../types/user';
 import Button from '../@shared/Button';
 import BottomSheetLayout from '../@shared/Modal/BottomSheetLayout';
 import { BASE_URL } from './../../constants/api';
+import { ROUTE_PATH } from './../../constants/routes';
+import useOnSuccess from './../../hooks/useOnSuccess';
+import { checkedUsersAtom } from './../../recoil/atom';
 
 const ConfirmCouponContentModal = ({
-  submit,
   message,
   title,
   receivers,
   couponType,
 }: {
-  submit: () => void;
   message: string;
   title: string;
   receivers: UserProfile[];
   couponType: CouponType;
 }) => {
   const { close, modalContentRef } = useModal();
+  const { successNavigate } = useOnSuccess();
+  const checkedUsers = useRecoilValue<UserProfile[]>(checkedUsersAtom);
+
+  const { mutate: sendCoupon, isLoading } = usePostCouponMutation(
+    {
+      receiverIds: checkedUsers.map(user => user.id),
+      content: { couponType, title, message },
+    },
+    {
+      onSuccess: () => {
+        successNavigate({
+          page: ROUTE_PATH.ENTER_COUPON_CONTENT,
+          props: {
+            couponType,
+            message,
+            receivers: checkedUsers,
+            title,
+          },
+        });
+        close();
+      },
+    }
+  );
 
   return (
     <BottomSheetLayout ref={modalContentRef}>
@@ -51,7 +77,16 @@ const ConfirmCouponContentModal = ({
         <Button color='secondaryLight' onClick={close}>
           취소
         </Button>
-        <Button onClick={submit}>전송</Button>
+        <Button
+          onClick={() => {
+            if (!isLoading) {
+              sendCoupon();
+            }
+          }}
+          isLoading={isLoading}
+        >
+          전송
+        </Button>
       </S.ButtonWrapper>
     </BottomSheetLayout>
   );

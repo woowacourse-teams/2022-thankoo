@@ -7,6 +7,7 @@ export interface ButtonProps {
   size?: ButtonSize;
   color?: ButtonColor;
   isDisabled?: boolean;
+  isLoading?: boolean;
 }
 
 export const ButtonStyleOptions = {
@@ -22,6 +23,7 @@ export const ButtonStyleOptions = {
   },
   bg: {
     primary: 'tomato',
+    primaryBright: '#ff7e67',
     primaryLight: '#cdcac7',
     secondary: '#404040',
     secondaryLight: '#4a4a4a',
@@ -34,7 +36,7 @@ export const ButtonStyleOptions = {
 };
 
 const Button = styled.button<ButtonProps>`
-  ${({ size = 'medium', color = 'primary', isDisabled = false }) => css`
+  ${({ size = 'medium', color = 'primary', isDisabled = false, isLoading = false }) => css`
     width: 100%;
     font-size: ${ButtonStyleOptions.fontSize[size]};
     padding: ${ButtonStyleOptions.size[size]} 1rem;
@@ -48,6 +50,16 @@ const Button = styled.button<ButtonProps>`
       color: ${ButtonStyleOptions.fontColor['secondary']};
       cursor: not-allowed;
       pointer-events: none;
+    `}
+    ${isLoading &&
+    css`
+      background-color: ${ButtonStyleOptions.bg['primaryBright']};
+      cursor: default;
+      pointer-events: none;
+
+      ::after {
+        content: '중..';
+      }
     `}
   `}
 `;
