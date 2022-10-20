@@ -103,7 +103,7 @@ const S = {
     overflow: hidden;
     position: relative;
     transition: all ease-in-out 0.1s;
-
+    cursor: pointer;
     :hover,
     :active {
       opacity: 0.8;

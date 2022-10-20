@@ -10,8 +10,8 @@ export const engDayTo요일 = {
   Sun: '일',
 };
 
-const getNowKrLocaleFullDateISOFormat = () =>
-  new Date().toLocaleDateString() +
+export const getNowKrLocaleFullDateISOFormat = () =>
+  new Date().toLocaleDateString('ko-KR').replaceAll('. ', '-').replace('.', '') +
   ' ' +
   new Date()
     .toLocaleTimeString('ko-KR', { hour12: false })

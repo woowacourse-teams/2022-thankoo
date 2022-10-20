@@ -34,8 +34,8 @@ public class ReservationSentEvent extends AlarmEvent {
     public static ReservationSentEvent from(final Reservation reservation) {
         Coupon reservedCoupon = reservation.getCoupon();
         return new ReservationSentEvent(AlarmSpecification.RESERVATION_SENT,
-                reservedCoupon.getOrganizationId(),
                 reservedCoupon.getSenderId(),
+                reservedCoupon.getOrganizationId(),
                 reservation.getMemberId(),
                 reservedCoupon.getCouponContent().getTitle(),
                 reservation.getTimeUnit().getTime());

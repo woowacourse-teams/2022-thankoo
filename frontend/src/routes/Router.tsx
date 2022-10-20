@@ -1,10 +1,11 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
-import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Spinner from '../components/@shared/Spinner';
-import { ROUTE_PATH } from './../constants/routes';
+import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Organization from '../pages/Organization';
 import OrganizationsAccess from '../pages/OrganizationsAccess';
+import { ROUTE_PATH } from './../constants/routes';
+import NotFound from './../pages/NotFound';
 
 const CreateReservation = lazy(() => import('./../pages/CreateReservation'));
 const EnterCouponContent = lazy(() => import('./../pages/EnterCouponContent'));
@@ -60,7 +61,7 @@ const Router = () => {
           </Route>
           <Route element={<AccessController />}>
             <Route element={<HeaderAndNavLayout />}>
-              <Route path={ROUTE_PATH.MAIN} element={<Main />} />
+              <Route path={ROUTE_PATH.EXACT_MAIN} element={<Main />} />
               <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
               <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
               <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
@@ -69,6 +70,7 @@ const Router = () => {
             <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
             <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
             <Route path={ROUTE_PATH.PROFILE} element={<UserProfile />} />
+            <Route path={ROUTE_PATH.NOT_FOUND} element={<NotFound />} />
           </Route>
         </Route>
         <Route element={<UnAuthOnly />}>

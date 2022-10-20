@@ -4,51 +4,42 @@ import { FlexCenter } from '../../styles/mixIn';
 import { BASE_URL } from './../../constants/api';
 
 const Members = ({ searchKeyword }: { searchKeyword: string }) => {
-  const { matchedUsers, sentMembers, receivedMembers, postHeart } = useHeartsMembers(searchKeyword);
+  const { searchedUserWithState, postHeart } = useHeartsMembers(searchKeyword);
 
   return (
     <S.MembersContainer>
-      {matchedUsers?.map(user => {
-        const canSend =
-          !sentMembers?.some(sentHistory => sentHistory.receiverId === user.id) ||
-          receivedMembers?.some(receivedHistory => receivedHistory.senderId === user.id);
+      {searchedUserWithState?.map(
+        ({ user, canSend, count, modifiedLastReceived, receivedUserCount }) => {
+          return (
+            <S.UserWrappr key={user.id}>
+              <S.UserImageWrapper>
+                <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+              </S.UserImageWrapper>
+              <S.UserName>{user.name}</S.UserName>
+              {modifiedLastReceived && (
+                <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>
+              )}
 
-        const count = sentMembers?.find(sentHistory => sentHistory.receiverId === user.id)?.count;
-        const lastReceived =
-          sentMembers?.find(sentHistory => sentHistory.receiverId === user.id)?.modifiedAt ||
-          receivedMembers?.find(receiveHistory => receiveHistory.senderId === user.id)?.modifiedAt;
-        const modifiedLastReceived = lastReceived?.split(' ')[0];
-        const receivedUserCount = receivedMembers?.find(
-          receiveHistory => receiveHistory.senderId === user.id
-        )?.count;
-
-        return (
-          <S.UserWrappr key={user.id}>
-            <S.UserImageWrapper>
-              <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
-            </S.UserImageWrapper>
-            <S.UserName>{user.name}</S.UserName>
-            {modifiedLastReceived && <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>}
-
-            <S.CountWrapper>
-              <S.CountLabel>연속</S.CountLabel>{' '}
-              <S.CountNum>{`${count || receivedUserCount || 0}회`}</S.CountNum>
-            </S.CountWrapper>
-            <S.SendButtonWrapper>
-              <S.SendButton
-                canSend={canSend}
-                onClick={() => {
-                  if (canSend) {
-                    postHeart(user.id);
-                  }
-                }}
-              >
-                콕
-              </S.SendButton>
-            </S.SendButtonWrapper>
-          </S.UserWrappr>
-        );
-      })}
+              <S.CountWrapper>
+                <S.CountLabel>연속</S.CountLabel>{' '}
+                <S.CountNum>{`${count || receivedUserCount || 0}회`}</S.CountNum>
+              </S.CountWrapper>
+              <S.SendButtonWrapper>
+                <S.SendButton
+                  canSend={canSend}
+                  onClick={() => {
+                    if (canSend) {
+                      postHeart(user.id);
+                    }
+                  }}
+                >
+                  콕
+                </S.SendButton>
+              </S.SendButtonWrapper>
+            </S.UserWrappr>
+          );
+        }
+      )}
     </S.MembersContainer>
   );
 };
