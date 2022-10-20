@@ -8,38 +8,33 @@ const Members = ({ searchKeyword }: { searchKeyword: string }) => {
 
   return (
     <S.MembersContainer>
-      {searchedUserWithState?.map(
-        ({ user, canSend, count, modifiedLastReceived, receivedUserCount }) => {
-          return (
-            <S.UserWrappr key={user.id}>
-              <S.UserImageWrapper>
-                <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
-              </S.UserImageWrapper>
-              <S.UserName>{user.name}</S.UserName>
-              {modifiedLastReceived && (
-                <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>
-              )}
+      {searchedUserWithState?.map(({ user, canSend, modifiedLastReceived, count }) => {
+        return (
+          <S.UserWrappr key={user.id}>
+            <S.UserImageWrapper>
+              <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+            </S.UserImageWrapper>
+            <S.UserName>{user.name}</S.UserName>
+            {modifiedLastReceived && <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>}
 
-              <S.CountWrapper>
-                <S.CountLabel>연속</S.CountLabel>{' '}
-                <S.CountNum>{`${count || receivedUserCount || 0}회`}</S.CountNum>
-              </S.CountWrapper>
-              <S.SendButtonWrapper>
-                <S.SendButton
-                  canSend={canSend}
-                  onClick={() => {
-                    if (canSend) {
-                      postHeart(user.id);
-                    }
-                  }}
-                >
-                  콕
-                </S.SendButton>
-              </S.SendButtonWrapper>
-            </S.UserWrappr>
-          );
-        }
-      )}
+            <S.CountWrapper>
+              <S.CountLabel>연속</S.CountLabel> <S.CountNum>{`${count}회`}</S.CountNum>
+            </S.CountWrapper>
+            <S.SendButtonWrapper>
+              <S.SendButton
+                canSend={canSend}
+                onClick={() => {
+                  if (canSend) {
+                    postHeart(user.id);
+                  }
+                }}
+              >
+                콕
+              </S.SendButton>
+            </S.SendButtonWrapper>
+          </S.UserWrappr>
+        );
+      })}
     </S.MembersContainer>
   );
 };
@@ -60,10 +55,32 @@ const S = {
     overflow: auto;
     height: calc(100% - 5rem);
     padding-bottom: 17rem;
+
+    &::-webkit-scrollbar {
+      width: 2px;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 5px;
+    }
+
+    &:hover {
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 2px;
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: ${({ theme }) => theme.page.color};
+        border-radius: 5px;
+      }
+    }
   `,
   UserWrappr: styled.div`
     width: 99.5%;
-    height: 5rem;
+    min-height: 5rem;
     display: grid;
     grid-template-areas:
       'ui un ct cb'
