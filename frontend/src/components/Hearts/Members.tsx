@@ -55,6 +55,28 @@ const S = {
     overflow: auto;
     height: calc(100% - 5rem);
     padding-bottom: 17rem;
+
+    &::-webkit-scrollbar {
+      width: 2px;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 5px;
+    }
+
+    &:hover {
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 2px;
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: ${({ theme }) => theme.page.color};
+        border-radius: 5px;
+      }
+    }
   `,
   UserWrappr: styled.div`
     width: 99.5%;
