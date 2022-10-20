@@ -24,7 +24,7 @@ const useCreateReservation = () => {
 
   const { data: couponDetail } = useGetCouponDetail(couponId, {
     onError: () => {
-      navigate(ROUTE_PATH.EXACT_MAIN);
+      window.location.href = ROUTE_PATH.EXACT_MAIN;
     },
   });
 

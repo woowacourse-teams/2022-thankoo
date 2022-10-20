@@ -3,16 +3,16 @@ import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Link } from 'react-router-dom';
-import Time from '../components/@shared/Time';
-import ConfirmReservationModal from '../components/CreateReservation/ConfirmReservationModal';
-import ArrowBackButton from './../components/@shared/ArrowBackButton';
-import Header from '../layout/Header';
-import PageLayout from '../layout/PageLayout';
-import { ROUTE_PATH } from './../constants/routes';
-import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
-import HeaderText from '../layout/HeaderText';
 import LongButton from '../components/@shared/LongButton';
 import ModalWrapper from '../components/@shared/Modal/ModalWrapper';
+import Time from '../components/@shared/Time';
+import ConfirmReservationModal from '../components/CreateReservation/ConfirmReservationModal';
+import Header from '../layout/Header';
+import HeaderText from '../layout/HeaderText';
+import PageLayout from '../layout/PageLayout';
+import ArrowBackButton from './../components/@shared/ArrowBackButton';
+import { ROUTE_PATH } from './../constants/routes';
+import useCreateReservation from './../hooks/CreateReservation/useCreateReservation';
 
 const CreateReservation = () => {
   const {
@@ -57,6 +57,7 @@ const CreateReservation = () => {
         </S.TimeArea>
       </S.Body>
       <ModalWrapper
+        isDisabled={!time || !date}
         modal={
           <ConfirmReservationModal
             receiver={couponDetail?.coupon.sender.name}
