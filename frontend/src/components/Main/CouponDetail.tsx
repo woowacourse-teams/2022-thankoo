@@ -63,6 +63,21 @@ const S = {
     border-radius: 5px;
     background-color: #232323;
     padding: 2rem;
+
+    animation: subtle-pop-up 0.2s forwards;
+    @keyframes subtle-pop-up {
+      from {
+        transform: scale(0.9);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+    }
   `,
   Header: styled.div`
     display: flex;
