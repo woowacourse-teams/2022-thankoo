@@ -34,13 +34,8 @@ export const useGetCouponDetail = (
   );
 
 export const useGetCoupons = sentOrReceived =>
-  useQuery<Coupon[]>(
-    [COUPON_QUERY_KEY.coupon, sentOrReceived],
-    () => getCouponsRequest(sentOrReceived),
-    {
-      suspense: true,
-      useErrorBoundary: true,
-    }
+  useQuery<Coupon[]>([COUPON_QUERY_KEY.coupon, sentOrReceived], () =>
+    getCouponsRequest(sentOrReceived)
   );
 
 export const usePostCouponMutation = ({ receiverIds, content }, { onSuccess = () => {} } = {}) =>

@@ -79,9 +79,7 @@ const ConfirmCouponContentModal = ({
         </Button>
         <Button
           onClick={() => {
-            if (!isLoading) {
-              sendCoupon();
-            }
+            sendCoupon();
           }}
           isLoading={isLoading}
         >

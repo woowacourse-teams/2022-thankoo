@@ -10,7 +10,7 @@ const ProfileInfo = () => {
 
   return (
     <S.Body>
-      <ProfileUserImage src={profile ? profile?.imageUrl : 'default'} />
+      <ProfileUserImage src={profile?.imageUrl || 'default'} />
       <S.UserInfoBox>
         <S.UserInfoItem>
           <S.Bold>이름</S.Bold>
