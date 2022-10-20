@@ -58,7 +58,7 @@ const S = {
   `,
   UserWrappr: styled.div`
     width: 99.5%;
-    height: 5rem;
+    min-height: 5rem;
     display: grid;
     grid-template-areas:
       'ui un ct cb'
