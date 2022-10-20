@@ -71,7 +71,7 @@ class CouponSerialQueryServiceTest {
                             NEO_MESSAGE));
 
             CouponSerialResponse response = couponSerialQueryService.getCouponSerialByCode(
-                    new CouponSerialRequest(member.getId(), organization.getId(), SERIAL_1));
+                    new CouponSerialRequest(member.getId(), SERIAL_1));
 
             assertAll(
                     () -> assertThat(response.getOrganizationId()).isEqualTo(organization.getId()),
@@ -88,7 +88,7 @@ class CouponSerialQueryServiceTest {
             Organization organization = saveDefaultOrganizationAndJoinedMember(member);
 
             assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(
-                    new CouponSerialRequest(member.getId(), organization.getId(), SERIAL_1)))
+                    new CouponSerialRequest(member.getId(), SERIAL_1)))
                     .isInstanceOf(InvalidCouponSerialException.class)
                     .hasMessage("존재하지 않는 쿠폰 시리얼 번호입니다.");
         }
@@ -101,7 +101,7 @@ class CouponSerialQueryServiceTest {
                     new CouponSerial(organization.getId(), SERIAL_1, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
             assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(
-                    new CouponSerialRequest(1L, organization.getId(), SERIAL_1)))
+                    new CouponSerialRequest(1L, SERIAL_1)))
                     .isInstanceOf(InvalidMemberException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
@@ -115,7 +115,7 @@ class CouponSerialQueryServiceTest {
                     new CouponSerial(organization.getId(), SERIAL_1, 1L, COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
 
             assertThatThrownBy(() -> couponSerialQueryService.getCouponSerialByCode(
-                    new CouponSerialRequest(member.getId(), organization.getId(), SERIAL_1)))
+                    new CouponSerialRequest(member.getId(), SERIAL_1)))
                     .isInstanceOf(InvalidOrganizationException.class)
                     .hasMessage("조직에 가입되지 않은 회원입니다.");
         }

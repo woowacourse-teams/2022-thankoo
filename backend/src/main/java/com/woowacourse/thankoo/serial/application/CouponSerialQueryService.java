@@ -27,9 +27,10 @@ public class CouponSerialQueryService {
 
     public CouponSerialResponse getCouponSerialByCode(final CouponSerialRequest couponSerialRequest) {
         Member member = getMember(couponSerialRequest.getMemberId());
-        Organization organization = getOrganization(couponSerialRequest.getOrganizationId());
+        CouponSerialMember couponSerialMember = getCouponSerialMember(couponSerialRequest.getCode());
+        Organization organization = getOrganization(couponSerialMember.getOrganizationId());
         validateContainsMemberWithOrganization(member, organization);
-        return CouponSerialResponse.from(getCouponSerialMember(couponSerialRequest.getCode()));
+        return CouponSerialResponse.from(couponSerialMember);
     }
 
     private Member getMember(final Long memberId) {
