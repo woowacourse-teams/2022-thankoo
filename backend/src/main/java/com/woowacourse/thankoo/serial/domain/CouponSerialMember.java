@@ -40,7 +40,7 @@ public class CouponSerialMember {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof CouponSerialMember)) {
             return false;
         }
         CouponSerialMember that = (CouponSerialMember) o;
