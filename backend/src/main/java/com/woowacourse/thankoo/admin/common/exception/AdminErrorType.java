@@ -23,7 +23,9 @@ public enum AdminErrorType {
     INVALID_TOKEN("유효하지 않은 토큰입니다"),
 
     NOT_FOUND_ORGANIZATION("조직을 찾을 수 없습니다."),
-    NOT_JOINED_MEMBER_OF_ORGANIZATION("조직에 가입되지 않은 회원입니다.");
+    NOT_JOINED_MEMBER_OF_ORGANIZATION("조직에 가입되지 않은 회원입니다."),
+
+    UNHANDLED_EXCEPTION("예상치 못한 예외입니다.");
 
     private final String message;
 
