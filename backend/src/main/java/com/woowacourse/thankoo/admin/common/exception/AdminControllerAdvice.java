@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.admin.common.exception;
 
-import static com.woowacourse.thankoo.common.exception.ErrorType.UNHANDLED_EXCEPTION;
+import static com.woowacourse.thankoo.admin.common.exception.AdminErrorType.UNHANDLED_EXCEPTION;
 
 import com.woowacourse.thankoo.admin.common.exception.dto.AdminErrorResponse;
 import lombok.extern.slf4j.Slf4j;
