@@ -4,15 +4,22 @@ import { Link } from 'react-router-dom';
 import { CouponDetail } from '../../types/coupon';
 import { BASE_URL } from './../../constants/api';
 
+const defaultRawTime = `2000-01-01 00:00:00`;
+
 const CouponDetailReserve = (
   { couponDetail }: { couponDetail: CouponDetail },
   ref: LegacyRef<HTMLDivElement>
 ) => {
   const { coupon, reservation, meeting } = couponDetail;
-  const { time: RawTime } = reservation ||
-    meeting || { time: { meetingTime: new Date().toLocaleString() } };
-  const date = RawTime?.meetingTime.split(' ')[0];
-  const time = RawTime?.meetingTime.split(' ')[1].slice(0, 5);
+
+  const RawTime =
+    reservation?.time?.meetingTime ||
+    meeting?.time.meetingTime ||
+    coupon.modifiedDateTime ||
+    defaultRawTime;
+
+  const date = RawTime?.split(' ')[0];
+  const time = RawTime?.split(' ')[1].slice(0, 5);
 
   return (
     <S.Contents ref={ref}>

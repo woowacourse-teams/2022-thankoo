@@ -118,6 +118,7 @@ export const dummyCoupons: Coupon[] = [
     },
     status: 'not_used',
     createdDate: '2022-12-20',
+    modifiedDateTime: '2022-10-20 04:24:19',
   },
   {
     couponId: 2,
@@ -134,6 +135,7 @@ export const dummyCoupons: Coupon[] = [
     },
     status: 'not_used',
     createdDate: '2022-12-20',
+    modifiedDateTime: '2022-10-20 04:24:19',
   },
   {
     couponId: 3,
@@ -150,6 +152,7 @@ export const dummyCoupons: Coupon[] = [
     },
     status: 'reserving',
     createdDate: '2022-12-20',
+    modifiedDateTime: '2022-10-20 04:24:19',
   },
   {
     couponId: 4,
@@ -166,6 +169,7 @@ export const dummyCoupons: Coupon[] = [
     },
     status: 'reserved',
     createdDate: '2022-09-20',
+    modifiedDateTime: '2022-10-20 04:24:19',
   },
   // {
   //   couponId: 5, // Number (coupon history id)
