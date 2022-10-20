@@ -30,6 +30,7 @@ export const useGetCouponDetail = (
         onError();
       },
       retry: false,
+      useErrorBoundary: false,
     }
   );
 
