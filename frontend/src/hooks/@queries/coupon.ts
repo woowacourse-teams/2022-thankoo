@@ -2,8 +2,8 @@ import { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import { Coupon, CouponDetail } from '../../types/coupon';
 import { ErrorType } from '../../types/api';
+import { Coupon, CouponDetail } from '../../types/coupon';
 
 const SENT_OR_RECEIVED_API_PATH = {
   received: API_PATH.RECEIVED_COUPONS_ALL,

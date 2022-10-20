@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 
 const ChoiceSlider = ({ children }) => {
   return <S.Container>{children}</S.Container>;
@@ -64,7 +64,10 @@ ChoiceSlider.Options = ({ children, ...props }) => {
   const { toggle, setLength } = useContext(ToggleContext);
   const hasChildren = Array.isArray(children.props.children);
   const length = hasChildren ? children.props.children.length : 1;
-  setLength(length);
+
+  useEffect(() => {
+    setLength(length);
+  }, [length]);
 
   return (
     <S.Options show={toggle} {...props}>

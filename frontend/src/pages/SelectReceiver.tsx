@@ -7,24 +7,18 @@ import ListViewUsers from '../components/SelectReceiver/ListViewUsers';
 import UserSearchInput from '../components/SelectReceiver/UserSearchInput';
 import useSelectReceiver from '../hooks/SelectReceiver/useSelectReceiver';
 
+import { Suspense } from 'react';
+import LongButton from '../components/@shared/LongButton';
 import { ROUTE_PATH } from '../constants/routes';
 import HeaderText from '../layout/HeaderText';
 import MainPageLayout from '../layout/MainPageLayout';
-import LongButton from '../components/@shared/LongButton';
+import Spinner from './../components/@shared/Spinner';
+import CustomErrorBoundary from './../errors/CustomErrorBoundary';
+import ErrorFallBack from './../errors/ErrorFallBack';
 
 const SelectReceiver = () => {
-  const {
-    members,
-    isLoading,
-    error,
-    checkedUsers,
-    toggleUser,
-    uncheckUser,
-    isCheckedUser,
-    keyword,
-    setKeyword,
-    matchedUsers,
-  } = useSelectReceiver();
+  const { checkedUsers, toggleUser, uncheckUser, isCheckedUser, keyword, setKeyword } =
+    useSelectReceiver();
 
   return (
     <MainPageLayout>
@@ -37,13 +31,15 @@ const SelectReceiver = () => {
           <UserSearchInput value={keyword} setKeyword={setKeyword} />
         </S.InputWrapper>
         <S.Section isShowUser={!!checkedUsers?.length}>
-          {members && (
-            <ListViewUsers
-              users={matchedUsers}
-              isCheckedUser={isCheckedUser}
-              onClickUser={toggleUser}
-            />
-          )}
+          <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
+            <Suspense fallback={<Spinner />}>
+              <ListViewUsers
+                searchKeyword={keyword}
+                isCheckedUser={isCheckedUser}
+                onClickUser={toggleUser}
+              />
+            </Suspense>
+          </CustomErrorBoundary>
           <S.SendButtonBox>
             <S.ButtonLink to={checkedUsers.length ? `${ROUTE_PATH.ENTER_COUPON_CONTENT}` : '#'}>
               <LongButton isDisabled={!checkedUsers.length}>
