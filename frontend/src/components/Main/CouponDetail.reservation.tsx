@@ -3,16 +3,23 @@ import { forwardRef, LegacyRef } from 'react';
 import { Link } from 'react-router-dom';
 import { CouponDetail } from '../../types/coupon';
 import { BASE_URL } from './../../constants/api';
+import { getNowKrLocaleFullDateISOFormat, serverDateFormmater } from './../../utils/date';
+
+const defaultRawTime = getNowKrLocaleFullDateISOFormat();
 
 const CouponDetailReserve = (
   { couponDetail }: { couponDetail: CouponDetail },
   ref: LegacyRef<HTMLDivElement>
 ) => {
   const { coupon, reservation, meeting } = couponDetail;
-  const { time: RawTime } = reservation ||
-    meeting || { time: { meetingTime: new Date().toLocaleString() } };
-  const date = RawTime?.meetingTime.split(' ')[0];
-  const time = RawTime?.meetingTime.split(' ')[1].slice(0, 5);
+
+  const RawTime =
+    reservation?.time?.meetingTime ||
+    meeting?.time.meetingTime ||
+    coupon.modifiedDateTime ||
+    defaultRawTime;
+
+  const { date, time } = serverDateFormmater(RawTime);
 
   return (
     <S.Contents ref={ref}>

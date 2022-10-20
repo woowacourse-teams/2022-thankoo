@@ -19,6 +19,7 @@ export interface Coupon {
   content: CouponContent;
   status: CouponStatus;
   createdDate: YYYYMMDD;
+  modifiedDateTime: string;
 }
 export interface CouponDetail {
   coupon: Coupon;
