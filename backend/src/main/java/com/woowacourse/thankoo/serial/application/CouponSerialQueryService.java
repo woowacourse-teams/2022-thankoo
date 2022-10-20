@@ -27,9 +27,10 @@ public class CouponSerialQueryService {
 
     public CouponSerialResponse getCouponSerialByCode(final CouponSerialRequest couponSerialRequest) {
         Member member = getMember(couponSerialRequest.getMemberId());
-        Organization organization = getOrganization(couponSerialRequest.getOrganizationId());
-        validateContainsMemberWithOrganization(member, organization);
-        return CouponSerialResponse.from(getCouponSerialMember(couponSerialRequest.getCode()));
+        CouponSerialMember couponSerialMember = getCouponSerialMember(couponSerialRequest.getCode());
+        Organization organization = getOrganization(couponSerialMember.getOrganizationId());
+        validateMemberInOrganization(member, organization);
+        return CouponSerialResponse.of(couponSerialMember, organization.getName().getValue());
     }
 
     private Member getMember(final Long memberId) {
@@ -42,7 +43,7 @@ public class CouponSerialQueryService {
                 .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
     }
 
-    private void validateContainsMemberWithOrganization(final Member member, final Organization organization) {
+    private void validateMemberInOrganization(final Member member, final Organization organization) {
         if (!organization.containsMember(member)) {
             throw new InvalidOrganizationException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
         }

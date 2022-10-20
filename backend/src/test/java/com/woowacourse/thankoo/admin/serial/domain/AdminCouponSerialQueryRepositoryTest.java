@@ -69,7 +69,6 @@ class AdminCouponSerialQueryRepositoryTest {
         doNothing().when(organizationValidator).validate(any(Organization.class));
     }
 
-    @Disabled
     @DisplayName("코치의 id로 가진 쿠폰 시리얼을 모두 조회한다.")
     @Test
     void getByMemberId() {

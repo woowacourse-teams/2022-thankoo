@@ -24,7 +24,6 @@ import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import java.util.ArrayList;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -58,7 +57,6 @@ class CouponSerialQueryRepositoryTest {
         doNothing().when(organizationValidator).validate(any(Organization.class));
     }
 
-    @Disabled
     @DisplayName("시리얼 코드로 쿠폰 시리얼을 조회한다.")
     @Test
     void findByCode() {
@@ -69,7 +67,8 @@ class CouponSerialQueryRepositoryTest {
         organizationRepository.flush();
 
         couponSerialRepository.save(
-                new CouponSerial(organization.getId(), SERIAL_1, member.getId(), COFFEE, NOT_USED, NEO_TITLE, NEO_MESSAGE));
+                new CouponSerial(organization.getId(), SERIAL_1, member.getId(), COFFEE, NOT_USED, NEO_TITLE,
+                        NEO_MESSAGE));
 
         CouponSerialMember couponSerialMember = couponSerialQueryRepository.findByCode(SERIAL_1).orElseThrow();
 

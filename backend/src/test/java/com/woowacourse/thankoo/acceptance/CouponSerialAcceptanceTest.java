@@ -63,7 +63,7 @@ class CouponSerialAcceptanceTest extends AcceptanceTest {
             쿠폰_시리얼을_생성한다(organizationResponse.getOrganizationId(), senderId, SERIAL_1);
 
             CouponSerialAssured.request()
-                    .쿠폰_시리얼을_조회한다(receiverToken.getAccessToken(), organizationResponse.getOrganizationId(), SERIAL_1)
+                    .쿠폰_시리얼을_조회한다(receiverToken.getAccessToken(), SERIAL_1)
                     .response()
                     .status(HttpStatus.OK.value())
                     .단건_시리얼_쿠폰이_조회됨();

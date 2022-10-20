@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.serial.domain;
 
+import java.util.Objects;
 import lombok.Getter;
 
 @Getter
@@ -32,5 +33,38 @@ public class CouponSerialMember {
 
     public boolean isUsed() {
         return status == CouponSerialStatus.USED;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CouponSerialMember)) {
+            return false;
+        }
+        CouponSerialMember that = (CouponSerialMember) o;
+        return Objects.equals(id, that.id) && Objects.equals(organizationId, that.organizationId)
+                && Objects.equals(code, that.code) && Objects.equals(senderId, that.senderId)
+                && Objects.equals(senderName, that.senderName) && couponType == that.couponType
+                && status == that.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, organizationId, code, senderId, senderName, couponType, status);
+    }
+
+    @Override
+    public String toString() {
+        return "CouponSerialMember{" +
+                "id=" + id +
+                ", organizationId=" + organizationId +
+                ", code=" + code +
+                ", senderId=" + senderId +
+                ", senderName='" + senderName + '\'' +
+                ", couponType=" + couponType +
+                ", status=" + status +
+                '}';
     }
 }
