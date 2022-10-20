@@ -3,8 +3,9 @@ import { forwardRef, LegacyRef } from 'react';
 import { Link } from 'react-router-dom';
 import { CouponDetail } from '../../types/coupon';
 import { BASE_URL } from './../../constants/api';
+import { getNowKrLocaleFullDateISOFormat, serverDateFormmater } from './../../utils/date';
 
-const defaultRawTime = `2000-01-01 00:00:00`;
+const defaultRawTime = getNowKrLocaleFullDateISOFormat();
 
 const CouponDetailReserve = (
   { couponDetail }: { couponDetail: CouponDetail },
@@ -18,8 +19,7 @@ const CouponDetailReserve = (
     coupon.modifiedDateTime ||
     defaultRawTime;
 
-  const date = RawTime?.split(' ')[0];
-  const time = RawTime?.split(' ')[1].slice(0, 5);
+  const { date, time } = serverDateFormmater(RawTime);
 
   return (
     <S.Contents ref={ref}>
