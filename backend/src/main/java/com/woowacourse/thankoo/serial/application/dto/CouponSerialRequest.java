@@ -14,4 +14,13 @@ public class CouponSerialRequest {
         this.organizationId = organizationId;
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return "CouponSerialRequest{" +
+                "memberId=" + memberId +
+                ", organizationId=" + organizationId +
+                ", code='" + code + '\'' +
+                '}';
+    }
 }

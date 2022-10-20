@@ -18,4 +18,14 @@ public class MeetingQueryCondition {
         this.time = time;
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "MeetingQueryCondition{" +
+                "memberId=" + memberId +
+                ", organizationId=" + organizationId +
+                ", time=" + time +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

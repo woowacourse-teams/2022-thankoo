@@ -6,13 +6,13 @@ import TabsNav from '../components/@shared/TabsNav';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
 
 import CouponLayout from '../components/@shared/CouponLayout';
-import Header from '../layout/Header';
-import PageLayout from '../layout/PageLayout';
-import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmCouponContentModal';
-import HeaderText from '../layout/HeaderText';
-import { couponTypeKeys, couponTypes } from '../types/coupon';
 import LongButton from '../components/@shared/LongButton';
 import ModalWrapper from '../components/@shared/Modal/ModalWrapper';
+import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmCouponContentModal';
+import Header from '../layout/Header';
+import HeaderText from '../layout/HeaderText';
+import PageLayout from '../layout/PageLayout';
+import { couponTypeKeys, couponTypes } from '../types/coupon';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -26,7 +26,6 @@ const EnterCouponContent = () => {
     checkedUsers,
     currentUserId,
     currentUserName,
-    sendCoupon,
     handleOnchangeMessage,
     handleOnchangeTitle,
   } = useEnterCouponContent();
@@ -76,7 +75,6 @@ const EnterCouponContent = () => {
               title={title}
               message={message}
               receivers={checkedUsers}
-              submit={sendCoupon}
               couponType={couponType}
             />
           }

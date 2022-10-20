@@ -34,4 +34,14 @@ public class CouponCommand {
     public CouponContent toCouponContent() {
         return content.toEntity();
     }
+
+    @Override
+    public String toString() {
+        return "CouponCommand{" +
+                "organizationId=" + organizationId +
+                ", senderId=" + senderId +
+                ", receiverIds=" + receiverIds +
+                ", content=" + content +
+                '}';
+    }
 }

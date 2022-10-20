@@ -3,7 +3,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
 import { serverDateFormmater } from '../../utils/date';
 
-const ListViewReservation = ({ memberName, reservationId, couponType, meetingTime }) => {
+const ListViewReservationDetail = ({ memberName, reservationId, couponType, meetingTime }) => {
   const { day, date, time } = serverDateFormmater(meetingTime);
 
   return (
@@ -18,7 +18,7 @@ const ListViewReservation = ({ memberName, reservationId, couponType, meetingTim
   );
 };
 
-export default ListViewReservation;
+export default ListViewReservationDetail;
 
 type ContentProp = {
   backgroundColor: string;

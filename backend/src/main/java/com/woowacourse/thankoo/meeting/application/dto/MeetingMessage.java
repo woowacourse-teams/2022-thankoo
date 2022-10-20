@@ -20,4 +20,9 @@ public class MeetingMessage {
                 .contents(Collections.emptyList())
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "MeetingMessage{}";
+    }
 }

@@ -29,4 +29,12 @@ public class HeartResponses {
                 .map(HeartResponse::from)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "HeartResponses{" +
+                "sent=" + sent +
+                ", received=" + received +
+                '}';
+    }
 }

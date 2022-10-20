@@ -13,4 +13,11 @@ public class SerialCodeRequest {
     public SerialCodeRequest(final String serialCode) {
         this.serialCode = serialCode;
     }
+
+    @Override
+    public String toString() {
+        return "SerialCodeRequest{" +
+                "serialCode='" + serialCode + '\'' +
+                '}';
+    }
 }

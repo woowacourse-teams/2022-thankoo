@@ -28,4 +28,12 @@ public class TimeResponse {
     public static TimeResponse from(final LocalDateTime meetingTime, final String timeZone) {
         return new TimeResponse(meetingTime, timeZone);
     }
+
+    @Override
+    public String toString() {
+        return "TimeResponse{" +
+                "meetingTime=" + meetingTime +
+                ", timeZone='" + timeZone + '\'' +
+                '}';
+    }
 }
