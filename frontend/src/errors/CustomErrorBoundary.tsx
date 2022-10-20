@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import React, { ErrorInfo } from 'react';
 import { FlexCenter } from '../styles/mixIn';
-import Button from './../components/@shared/Button';
 
 type Props = {
   children?: React.ReactNode;
@@ -43,7 +42,6 @@ class CustomErrorBoundary extends React.Component<Props, State> {
       return (
         <S.Container>
           <this.props.fallbackComponent />
-          <Button onClick={this.reset.bind(this)}>다시 시도하기</Button>
         </S.Container>
       );
     }
@@ -64,6 +62,7 @@ const S = {
     flex-direction: column;
     gap: 2.5rem;
 
+    z-index: 1000;
     button {
       width: 100%;
     }

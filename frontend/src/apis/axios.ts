@@ -15,14 +15,8 @@ export const client = axios.create({
   ...defaultHeader,
 });
 
-const ORGANIZATIONS_REQUIRED_DOMAINS = [
-  'members',
-  'coupons',
-  'hearts',
-  'coupon-serials',
-  'reservations',
-  'meetings',
-];
+const ORGANIZATIONS_REQUIRED_DOMAINS = ['members', 'coupons', 'hearts', 'reservations', 'meetings'];
+
 const axiosDefaultRequestHandler = (config: AxiosRequestConfig, organizationId) => {
   if (!ORGANIZATIONS_REQUIRED_DOMAINS.some(domain => config.url?.split('/')[1].includes(domain))) {
     return config;
