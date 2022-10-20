@@ -44,7 +44,6 @@ class CouponSerialControllerTest extends ControllerTest {
 
         ResultActions resultActions = mockMvc.perform(get("/api/coupon-serials")
                         .param("code", SERIAL_1)
-                        .param("organization", "1")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -58,8 +57,7 @@ class CouponSerialControllerTest extends ControllerTest {
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
                 requestParameters(
-                        parameterWithName("code").description("serial code"),
-                        parameterWithName("organization").description("organizationId")
+                        parameterWithName("code").description("serial code")
                 ),
                 responseFields(
                         fieldWithPath("id").type(NUMBER).description("id"),

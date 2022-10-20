@@ -32,7 +32,7 @@ public class CouponSerialQueryRepository {
         String sql =
                 "SELECT s.id, s.organization_id, s.code, m.id AS sender_id, m.name AS sender_name, s.coupon_type, s.status "
                         + "FROM coupon_serial AS s "
-                        + "LEFT JOIN member AS m ON s.sender_id = m.id "
+                        + "JOIN member AS m ON s.sender_id = m.id "
                         + "WHERE s.code = :code";
 
         MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource()
