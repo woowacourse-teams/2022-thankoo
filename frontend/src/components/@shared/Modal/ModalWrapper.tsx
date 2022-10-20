@@ -5,16 +5,19 @@ import useModal from '../../../hooks/useModal';
 type ModalWrapperType = {
   children: JSX.Element;
   modal: ReactNode;
+  isDisabled?: boolean;
 };
 
-const ModalWrapper = ({ children, modal }: ModalWrapperType) => {
+const ModalWrapper = ({ children, modal, isDisabled = false }: ModalWrapperType) => {
   const { visible, show, setModalContent } = useModal();
 
   return (
     <Container
       onClick={() => {
-        show();
-        setModalContent(modal);
+        if (!isDisabled) {
+          show();
+          setModalContent(modal);
+        }
       }}
     >
       {children}
@@ -24,6 +27,4 @@ const ModalWrapper = ({ children, modal }: ModalWrapperType) => {
 
 export default ModalWrapper;
 
-const Container = styled.div`
-  cursor: pointer;
-`;
+const Container = styled.div``;
