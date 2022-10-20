@@ -67,14 +67,12 @@ const S = {
     animation: subtle-pop-up 0.2s forwards;
     @keyframes subtle-pop-up {
       from {
-        transform: scale(0.9);
-        transform: translate(-50%, -50%);
+        transform: scale(0.9), translate(-50%, -50%);
         opacity: 0;
       }
 
       to {
-        transform: scale(1);
-        transform: translate(-50%, -50%);
+        transform: scale(1), translate(-50%, -50%);
         opacity: 1;
       }
     }
