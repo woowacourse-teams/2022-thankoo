@@ -33,7 +33,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,7 +64,6 @@ import com.woowacourse.thankoo.reservation.domain.TimeZoneType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.print.attribute.standard.Media;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -113,9 +111,11 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
         List<CouponResponse> couponResponses = List.of(
                 CouponResponse.of(
-                        new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
+                        new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now(),
+                                LocalDateTime.now())),
                 CouponResponse.of(
-                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now()))
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now(),
+                                LocalDateTime.now()))
         );
 
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
@@ -149,7 +149,8 @@ class CouponControllerTest extends ControllerTest {
                         fieldWithPath("[].content.title").type(STRING).description("title"),
                         fieldWithPath("[].content.message").type(STRING).description("message"),
                         fieldWithPath("[].status").type(STRING).description("status"),
-                        fieldWithPath("[].createdDate").type(STRING).description("createdDate")
+                        fieldWithPath("[].createdDate").type(STRING).description("createdDate"),
+                        fieldWithPath("[].modifiedDateTime").type(STRING).description("modifiedDateTime")
                 )
         ));
     }
@@ -163,9 +164,10 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
-                CouponResponse.of(
-                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now(),
+                        LocalDateTime.now())),
+                CouponResponse.of(new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now(),
+                        LocalDateTime.now()))
         );
 
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
@@ -200,7 +202,8 @@ class CouponControllerTest extends ControllerTest {
                         fieldWithPath("[].content.title").type(STRING).description("title"),
                         fieldWithPath("[].content.message").type(STRING).description("message"),
                         fieldWithPath("[].status").type(STRING).description("status"),
-                        fieldWithPath("[].createdDate").type(STRING).description("createdDate")
+                        fieldWithPath("[].createdDate").type(STRING).description("createdDate"),
+                        fieldWithPath("[].modifiedDateTime").type(STRING).description("modifiedDateTime")
                 )
         ));
     }
@@ -214,12 +217,16 @@ class CouponControllerTest extends ControllerTest {
 
         List<CouponResponse> couponResponses = List.of(
                 CouponResponse.of(
-                        new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now())),
+                        new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "NOT_USED", LocalDate.now(),
+                                LocalDateTime.now())),
                 CouponResponse.of(
-                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now())),
-                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now(),
+                                LocalDateTime.now())),
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now(),
+                        LocalDateTime.now())),
                 CouponResponse.of(
-                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now(),
+                                LocalDateTime.now()))
         );
 
         given(couponQueryService.getReceivedCouponsByOrganization(any(CouponSelectCommand.class)))
@@ -254,7 +261,8 @@ class CouponControllerTest extends ControllerTest {
                         fieldWithPath("[].content.title").type(STRING).description("title"),
                         fieldWithPath("[].content.message").type(STRING).description("message"),
                         fieldWithPath("[].status").type(STRING).description("status"),
-                        fieldWithPath("[].createdDate").type(STRING).description("createdDate")
+                        fieldWithPath("[].createdDate").type(STRING).description("createdDate"),
+                        fieldWithPath("[].modifiedDateTime").type(STRING).description("modifiedDateTime")
                 )
         ));
     }
@@ -267,9 +275,11 @@ class CouponControllerTest extends ControllerTest {
         Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
 
         List<CouponResponse> couponResponses = List.of(
-                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now())),
+                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now(),
+                        LocalDateTime.now())),
                 CouponResponse.of(
-                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now()))
+                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now(),
+                                LocalDateTime.now()))
         );
 
         given(couponQueryService.getSentCouponsByOrganization(anyLong(), anyLong()))
@@ -302,7 +312,8 @@ class CouponControllerTest extends ControllerTest {
                         fieldWithPath("[].content.title").type(STRING).description("title"),
                         fieldWithPath("[].content.message").type(STRING).description("message"),
                         fieldWithPath("[].status").type(STRING).description("status"),
-                        fieldWithPath("[].createdDate").type(STRING).description("createdDate")
+                        fieldWithPath("[].createdDate").type(STRING).description("createdDate"),
+                        fieldWithPath("[].modifiedDateTime").type(STRING).description("modifiedDateTime")
                 )
         ));
     }
@@ -318,7 +329,7 @@ class CouponControllerTest extends ControllerTest {
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);
         CouponDetailResponse couponDetailResponse = CouponDetailResponse.from(
                 new MemberCoupon(1L, 1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
-                        CouponStatus.RESERVING.name(), LocalDate.now()),
+                        CouponStatus.RESERVING.name(), LocalDate.now(), LocalDateTime.now()),
                 new ReservationResponse(1L, TimeResponse.from(localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
                         ReservationStatus.WAITING.name()));
 
@@ -353,6 +364,7 @@ class CouponControllerTest extends ControllerTest {
                         fieldWithPath("coupon.content.message").type(STRING).description("message"),
                         fieldWithPath("coupon.status").type(STRING).description("status"),
                         fieldWithPath("coupon.createdDate").type(STRING).description("createdDate"),
+                        fieldWithPath("coupon.modifiedDateTime").type(STRING).description("modifiedDateTime"),
                         fieldWithPath("reservation.reservationId").type(NUMBER).description("reservationId"),
                         fieldWithPath("reservation.time.meetingTime").type(STRING).description("date"),
                         fieldWithPath("reservation.time.timeZone").type(STRING).description("timeZone"),
@@ -373,7 +385,7 @@ class CouponControllerTest extends ControllerTest {
         LocalDateTime localDateTime = LocalDateTime.now().plusDays(1L);
         CouponDetailResponse couponDetailResponse = CouponDetailResponse.from(
                 new MemberCoupon(1L, 1L, huni, lala, CouponType.COFFEE.getValue(), TITLE, MESSAGE,
-                        CouponStatus.RESERVING.name(), LocalDate.now()),
+                        CouponStatus.RESERVING.name(), LocalDate.now(), LocalDateTime.now()),
                 MeetingResponse.of(new Meeting(1L, List.of(huni, lala),
                         new TimeUnit(localDateTime.toLocalDate(), localDateTime, TimeZoneType.ASIA_SEOUL.getId()),
                         MeetingStatus.ON_PROGRESS,
@@ -411,6 +423,7 @@ class CouponControllerTest extends ControllerTest {
                         fieldWithPath("coupon.content.message").type(STRING).description("message"),
                         fieldWithPath("coupon.status").type(STRING).description("status"),
                         fieldWithPath("coupon.createdDate").type(STRING).description("createdDate"),
+                        fieldWithPath("coupon.modifiedDateTime").type(STRING).description("modifiedDateTime"),
                         fieldWithPath("meeting.meetingId").type(NUMBER).description("meetingId"),
                         fieldWithPath("meeting.members.[].id").type(NUMBER).description("memberId"),
                         fieldWithPath("meeting.members.[].name").type(STRING).description("name"),
