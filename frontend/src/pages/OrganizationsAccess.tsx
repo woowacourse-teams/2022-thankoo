@@ -18,7 +18,9 @@ const OrganizationsAccess = () => {
   }
 
   const { mutate: updateLastAccessed } = usePutLastAccessedOrganization({
-    onSuccess: () => {},
+    onSuccess: () => {
+      window.location.reload();
+    },
     onError: error => {},
   });
 

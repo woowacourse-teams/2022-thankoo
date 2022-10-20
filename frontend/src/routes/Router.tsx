@@ -53,6 +53,11 @@ const Router = () => {
         <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
         <Route element={<AuthOnly />}>
           <Route path={ROUTE_PATH.JOIN_ORGANIZATION} element={<Organization />} />
+          <Route path={ROUTE_PATH.ORGANIZATIONS}>
+            <Route path={`:id`} element={<OrganizationsAccess />}>
+              <Route path={`:page`} element={<OrganizationsAccess />} />
+            </Route>
+          </Route>
           <Route element={<AccessController />}>
             <Route element={<HeaderAndNavLayout />}>
               <Route path={ROUTE_PATH.MAIN} element={<Main />} />
@@ -60,11 +65,6 @@ const Router = () => {
               <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
               <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
               <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
-              <Route path={`${ROUTE_PATH.ORGANIZATIONS}`}>
-                <Route path={`:id`} element={<OrganizationsAccess />}>
-                  <Route path={`:page`} element={<OrganizationsAccess />} />
-                </Route>
-              </Route>
             </Route>
             <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
             <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
