@@ -40,7 +40,7 @@ class CouponSerialControllerTest extends ControllerTest {
         given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         given(couponSerialQueryService.getCouponSerialByCode(any(CouponSerialRequest.class)))
-                .willReturn(new CouponSerialResponse(1L, 1L, 1L, NEO_NAME, CouponType.COFFEE.getValue()));
+                .willReturn(new CouponSerialResponse(1L, 1L, "우아한테크코스 4기", 1L, NEO_NAME, CouponType.COFFEE.getValue()));
 
         ResultActions resultActions = mockMvc.perform(get("/api/coupon-serials")
                         .param("code", SERIAL_1)
@@ -62,6 +62,7 @@ class CouponSerialControllerTest extends ControllerTest {
                 responseFields(
                         fieldWithPath("id").type(NUMBER).description("id"),
                         fieldWithPath("organizationId").type(NUMBER).description("organizationId"),
+                        fieldWithPath("organizationName").type(STRING).description("organizationName"),
                         fieldWithPath("senderId").type(NUMBER).description("sender id"),
                         fieldWithPath("senderName").type(STRING).description("sender name"),
                         fieldWithPath("couponType").type(STRING).description("coupon type")

@@ -30,7 +30,7 @@ public class CouponSerialQueryService {
         CouponSerialMember couponSerialMember = getCouponSerialMember(couponSerialRequest.getCode());
         Organization organization = getOrganization(couponSerialMember.getOrganizationId());
         validateMemberInOrganization(member, organization);
-        return CouponSerialResponse.from(couponSerialMember);
+        return CouponSerialResponse.of(couponSerialMember, organization.getName().getValue());
     }
 
     private Member getMember(final Long memberId) {

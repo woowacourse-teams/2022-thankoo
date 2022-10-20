@@ -4,6 +4,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_U
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.NEO_SOCIAL_ID;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.ORGANIZATION_WOOWACOURSE;
 import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_MESSAGE;
 import static com.woowacourse.thankoo.common.fixtures.SerialFixture.NEO_TITLE;
@@ -75,6 +76,7 @@ class CouponSerialQueryServiceTest {
 
             assertAll(
                     () -> assertThat(response.getOrganizationId()).isEqualTo(organization.getId()),
+                    () -> assertThat(response.getOrganizationName()).isEqualTo(ORGANIZATION_WOOWACOURSE),
                     () -> assertThat(response.getCouponType()).isEqualTo("coffee"),
                     () -> assertThat(response.getSenderName()).isEqualTo(NEO_NAME),
                     () -> assertThat(response.getSenderId()).isEqualTo(member.getId())
