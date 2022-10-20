@@ -34,7 +34,7 @@ public class CouponSerialService {
         Member receiver = getMemberById(memberId);
         CouponSerial couponSerial = getSerialByCode(serialCodeRequest.getSerialCode());
         Organization organization = getOrganization(couponSerial.getOrganizationId());
-        validateContainsMemberWithOrganization(receiver, organization);
+        validateMemberInOrganization(receiver, organization);
         couponSerial.use();
 
         couponRepository.save(coupon(organization.getId(), receiver, couponSerial));
@@ -50,7 +50,7 @@ public class CouponSerialService {
                 .orElseThrow(() -> new InvalidOrganizationException(ErrorType.NOT_FOUND_ORGANIZATION));
     }
 
-    private void validateContainsMemberWithOrganization(final Member member, final Organization organization) {
+    private void validateMemberInOrganization(final Member member, final Organization organization) {
         if (!organization.containsMember(member)) {
             throw new InvalidOrganizationException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
         }
