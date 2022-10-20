@@ -58,7 +58,8 @@ class HeartRepositoryTest {
         Member skrr = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
 
         heartRepository.save(Heart.start(organization.getId(), huni.getId(), skrr.getId()));
-        Heart heart = heartRepository.findBySenderIdAndReceiverId(huni.getId(), skrr.getId()).get();
+        Heart heart = heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(huni.getId(), skrr.getId(),
+                organization.getId()).orElseThrow();
         assertAll(
                 () -> assertThat(heart.getCount()).isEqualTo(1),
                 () -> assertThat(heart.isLast()).isTrue()

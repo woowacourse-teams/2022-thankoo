@@ -91,6 +91,7 @@ const S = {
     border-radius: 50%;
     background-color: #8e8e8e;
     transition: all ease-in-out 0.1s;
+    cursor: pointer;
 
     &.active {
       width: 22px;

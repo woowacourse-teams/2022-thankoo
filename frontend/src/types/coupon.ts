@@ -1,4 +1,5 @@
 import { YYYYMMDD } from 'thankoo-utils-type';
+import { ButtonColor } from '../components/@shared/Button';
 import { Meeting } from './meeting';
 import { Reservation } from './reservation';
 import { UserProfile } from './user';
@@ -18,6 +19,7 @@ export interface Coupon {
   content: CouponContent;
   status: CouponStatus;
   createdDate: YYYYMMDD;
+  modifiedDateTime: string;
 }
 export interface CouponDetail {
   coupon: Coupon;
@@ -26,7 +28,7 @@ export interface CouponDetail {
 }
 
 export interface CouponContent {
-  couponType: CouponType;
+  couponType: CouponTransmitableType;
   title: string;
   message: string;
 }
@@ -37,13 +39,12 @@ export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' 
 export const couponTypeValues = Object.values(couponTypes);
 export const couponTypeKeys = Object.keys(couponTypes);
 export type CouponType = keyof typeof couponTypes;
-
-type CouponDetailButtonBGColors = 'tomato' | '#838383' | '#5c5c5c';
+export type CouponTransmitableType = 'coffee' | 'meal';
 
 export type CouponDetailButtonProps = {
   text: string;
-  bg: CouponDetailButtonBGColors;
-  disabled: boolean;
+  color: ButtonColor;
+  isDisabled?: boolean;
   onClick?: () => void;
 };
 

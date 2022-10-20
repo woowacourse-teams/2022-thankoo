@@ -71,8 +71,7 @@ export const useCouponDetail = (couponId: number) => {
 
   const immediateUseButton: CouponDetailButtonProps = {
     text: '즉시 사용하기',
-    bg: 'tomato',
-    disabled: false,
+    color: 'primary',
     onClick: () => {
       if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료 하겠습니다.')) {
         completeCoupon();
@@ -85,8 +84,7 @@ export const useCouponDetail = (couponId: number) => {
       not_used: [
         {
           text: '예약 하기',
-          bg: '#5c5c5c',
-          disabled: false,
+          color: 'secondaryLight',
           onClick: () => {
             setTargetCouponId(couponId);
             close();
@@ -98,8 +96,7 @@ export const useCouponDetail = (couponId: number) => {
       reserving: [
         {
           text: '예약 취소',
-          bg: '#5c5c5c',
-          disabled: false,
+          color: 'secondaryLight',
           onClick: () => {
             if (confirm('예약을 취소하시겠습니까?')) {
               cancelReservation();
@@ -111,8 +108,7 @@ export const useCouponDetail = (couponId: number) => {
       reserved: [
         {
           text: '사용 완료',
-          bg: 'tomato',
-          disabled: false,
+          color: 'primary',
           onClick: () => {
             if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료 하겠습니다')) {
               completeMeeting();
@@ -120,17 +116,16 @@ export const useCouponDetail = (couponId: number) => {
           },
         },
       ],
-      used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
-      immediately_used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
-      expired: [{ text: '만료된 쿠폰입니다', disabled: true, bg: '#838383' }],
+      used: [{ text: '이미 사용된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
+      immediately_used: [{ text: '이미 사용된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
+      expired: [{ text: '만료된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
     },
     sent: {
       not_used: [immediateUseButton],
       reserving: [
         {
           text: '거절',
-          disabled: false,
-          bg: '#838383',
+          color: 'secondaryLight',
           onClick: () => {
             if (confirm('예약을 거절하시겠습니까?')) {
               handleReservation('deny');
@@ -139,8 +134,7 @@ export const useCouponDetail = (couponId: number) => {
         },
         {
           text: '승인',
-          disabled: false,
-          bg: 'tomato',
+          color: 'primary',
           onClick: () => {
             if (confirm('예약을 승인하시겠습니까?')) {
               handleReservation('accept');
@@ -151,8 +145,7 @@ export const useCouponDetail = (couponId: number) => {
       reserved: [
         {
           text: '사용 완료',
-          disabled: false,
-          bg: 'tomato',
+          color: 'primary',
           onClick: () => {
             if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료하겠습니다')) {
               completeMeeting();
@@ -160,9 +153,9 @@ export const useCouponDetail = (couponId: number) => {
           },
         },
       ],
-      used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
-      immediately_used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
-      expired: [{ text: '만료된 쿠폰입니다', disabled: true, bg: '#838383' }],
+      used: [{ text: '이미 사용된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
+      immediately_used: [{ text: '이미 사용된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
+      expired: [{ text: '만료된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
     },
   };
 

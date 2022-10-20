@@ -16,5 +16,5 @@ public interface AdminOrganizationRepository extends JpaRepository<Organization,
             + "WHERE o.id = :id")
     Optional<Organization> findWithMemberById(@Param("id") Long id);
 
-    List<Organization> findAllByCreatedAtBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
+    List<Organization> findAllByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 }

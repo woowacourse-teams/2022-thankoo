@@ -1,19 +1,22 @@
 import styled from '@emotion/styled';
 import { UserProfile } from '../../types/user';
+import useListViewUsers from './../../hooks/SelectReceiver/useListViewUsers';
 import ListViewUser from './ListViewUser';
 
 const ListViewUsers = ({
-  users,
   onClickUser,
   isCheckedUser,
+  searchKeyword,
 }: {
-  users: UserProfile[];
   onClickUser: (user: UserProfile) => void;
   isCheckedUser: (user: UserProfile) => boolean;
+  searchKeyword: string;
 }) => {
+  const { matchedUsers } = useListViewUsers(searchKeyword);
+
   return (
     <S.Container>
-      {users?.map(user => (
+      {matchedUsers.map(user => (
         <ListViewUser
           key={user.id}
           user={user}

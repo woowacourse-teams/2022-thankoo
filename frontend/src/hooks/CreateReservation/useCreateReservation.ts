@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { targetCouponAtom } from '../../recoil/atom';
-import { krLocaleDateFormatter } from '../../utils/date';
+import { getNowKrLocaleFullDateISOFormat } from '../../utils/date';
 import { useGetCouponDetail } from '../@queries/coupon';
 import { usePostReservationMutation } from '../@queries/reservation';
 import useModal from '../useModal';
 import useOnSuccess from '../useOnSuccess';
 import useToast from '../useToast';
 
-const { fullDate: today } = krLocaleDateFormatter(new Date().toLocaleDateString());
+const today = getNowKrLocaleFullDateISOFormat().split(' ')[0];
 
 const useCreateReservation = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const useCreateReservation = () => {
 
   const { data: couponDetail } = useGetCouponDetail(couponId, {
     onError: () => {
-      navigate(ROUTE_PATH.EXACT_MAIN);
+      window.location.href = ROUTE_PATH.EXACT_MAIN;
     },
   });
 

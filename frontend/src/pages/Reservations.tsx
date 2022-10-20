@@ -1,15 +1,18 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import HeaderText from '../layout/HeaderText';
-import Reservation from '../components/Reservations/Reservation';
+import { Suspense } from 'react';
 import useReservations from '../hooks/Reservations/useReservations';
-import NoReservation from '../components/@shared/noContent/NoReservation';
+import HeaderText from '../layout/HeaderText';
 import MainPageLayout from '../layout/MainPageLayout';
+import Spinner from './../components/@shared/Spinner';
+import ListViewReservations from './../components/Reservations/ListViewReservations';
+import CustomErrorBoundary from './../errors/CustomErrorBoundary';
+import ErrorFallBack from './../errors/ErrorFallBack';
 
 const ReservationNav = ['received', 'sent'];
 
 const Reservations = () => {
-  const { reservations, orderBy, setOrderBy } = useReservations();
+  const { orderBy, setOrderBy } = useReservations();
 
   return (
     <MainPageLayout>
@@ -33,19 +36,11 @@ const Reservations = () => {
         </S.CouponStatusNav>
       </S.CouponStatusNavWrapper>
       <S.Body>
-        <S.ListView>
-          {reservations?.length > 0 ? (
-            reservations.map(reservation => (
-              <Reservation
-                key={reservation.reservationId}
-                transmitStatus={orderBy}
-                {...reservation}
-              />
-            ))
-          ) : (
-            <NoReservation />
-          )}
-        </S.ListView>
+        <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
+          <Suspense fallback={<Spinner />}>
+            <ListViewReservations orderBy={orderBy} />
+          </Suspense>
+        </CustomErrorBoundary>
       </S.Body>
     </MainPageLayout>
   );
@@ -70,13 +65,6 @@ const S = {
     padding: 5px 0;
     color: white;
     gap: 15px;
-  `,
-  ListView: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    height: 70vh;
-    overflow: auto;
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;

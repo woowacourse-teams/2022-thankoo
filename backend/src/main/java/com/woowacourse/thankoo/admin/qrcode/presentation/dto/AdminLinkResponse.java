@@ -13,4 +13,11 @@ public class AdminLinkResponse {
     public AdminLinkResponse(final String link) {
         this.link = link;
     }
+
+    @Override
+    public String toString() {
+        return "AdminLinkResponse{" +
+                "link='" + link + '\'' +
+                '}';
+    }
 }

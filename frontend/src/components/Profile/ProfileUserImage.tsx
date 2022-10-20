@@ -3,13 +3,12 @@ import AddIcon from '@mui/icons-material/Add';
 import { useQueryClient } from 'react-query';
 
 import { PROFILE_QUERY_KEY, usePutEditUserProfileImage } from '../../hooks/@queries/profile';
-import useModal from './../../hooks/useModal';
+import ModalWrapper from '../@shared/Modal/ModalWrapper';
 import ProfileIcon from './../@shared/ProfileIcon';
 import SelectProfileImgModal from './SelectProfileImgModal';
 
 const ProfileUserImage = ({ src }: { src: string }) => {
   const queryClient = useQueryClient();
-  const { setModalContent, show } = useModal();
 
   const { mutate: editUserProfileImage } = usePutEditUserProfileImage({
     onSuccess: () => {
@@ -17,17 +16,14 @@ const ProfileUserImage = ({ src }: { src: string }) => {
     },
   });
 
-  const selectProfileImg = () => {
-    show();
-    setModalContent(<SelectProfileImgModal editUserProfileImage={editUserProfileImage} />);
-  };
-
   return (
     <S.ImageBox>
       <ProfileIcon src={src} size={'100px'} />
-      <S.ModifyButton onClick={selectProfileImg}>
-        <AddIcon />
-      </S.ModifyButton>
+      <ModalWrapper modal={<SelectProfileImgModal editUserProfileImage={editUserProfileImage} />}>
+        <S.ModifyButton>
+          <AddIcon />
+        </S.ModifyButton>
+      </ModalWrapper>
     </S.ImageBox>
   );
 };

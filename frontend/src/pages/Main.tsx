@@ -5,33 +5,29 @@ import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 
 import { css } from '@emotion/react';
+import { Suspense } from 'react';
 import { Link } from 'react-router-dom';
-import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
-import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
+import Spinner from '../components/@shared/Spinner';
+import CustomErrorBoundary from '../errors/CustomErrorBoundary';
+import ErrorFallBack from '../errors/ErrorFallBack';
 import useMain from '../hooks/Main/useMain';
+import useQRCoupon from '../hooks/useQRCoupon';
 import HeaderText from '../layout/HeaderText';
 import MainPageLayout from '../layout/MainPageLayout';
-import useQRCoupon from '../hooks/useQRCoupon';
-import Spinner from '../components/@shared/Spinner';
 import { couponTypeKeys, couponTypes } from '../types/coupon';
 
 const sentOrReceivedArray = ['received', 'sent'];
 
 const Main = () => {
   const {
-    setCurrentType,
-    coupons,
-    isLoading,
-    error,
     currentType,
     sentOrReceived,
-    setSentOrReceived,
     showUsedCouponsWith,
+    setCurrentType,
+    setSentOrReceived,
     setShowUsedCouponsWith,
   } = useMain();
   useQRCoupon();
-
-  if (error) return <div>에러뜸</div>;
 
   return (
     <MainPageLayout>
@@ -76,19 +72,20 @@ const Main = () => {
             </S.UsedCouponCheckboxLabel>
           </S.UsedCouponToggleForm>
         </S.TabsNavWrapper>
-        {isLoading ? (
-          <Spinner />
-        ) : coupons?.length ? (
-          <GridViewCoupons coupons={coupons} />
-        ) : sentOrReceived === 'sent' ? (
-          <NoSendCoupon />
-        ) : (
-          <NoReceivedCoupon />
-        )}
+        <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
+          <Suspense fallback={<Spinner />}>
+            <GridViewCoupons
+              currentType={currentType}
+              sentOrReceived={sentOrReceived}
+              showUsedCouponsWith={showUsedCouponsWith}
+            />
+          </Suspense>
+        </CustomErrorBoundary>
       </S.Body>
     </MainPageLayout>
   );
 };
+
 type SliderDivProps = {
   length: number;
   current: number;
@@ -159,6 +156,7 @@ const S = {
   `,
   UsedCouponCheckbox: styled.input`
     margin: 0 10px 0 0;
+    accent-color: tomato;
   `,
   UsedCouponCheckboxLabel: styled.label`
     font-size: 12px;

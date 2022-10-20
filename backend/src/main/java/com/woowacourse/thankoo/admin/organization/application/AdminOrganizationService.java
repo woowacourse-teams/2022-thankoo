@@ -8,6 +8,7 @@ import com.woowacourse.thankoo.organization.domain.Organization;
 import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import com.woowacourse.thankoo.organization.infrastructure.OrganizationCodeGenerator;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -33,10 +34,10 @@ public class AdminOrganizationService {
 
     public List<AdminGetOrganizationResponse> getOrganizations(
             final AdminGetOrganizationsRequest getOrganizationsRequest) {
-        LocalDateTime startDateTime = getOrganizationsRequest.getStartDateTime();
-        LocalDateTime endDateTime = getOrganizationsRequest.getEndDateTime();
-        List<Organization> organizations = adminOrganizationRepository.findAllByCreatedAtBetween(startDateTime,
-                endDateTime);
+        LocalDateTime startDate = getOrganizationsRequest.getStartDate().atStartOfDay();
+        LocalDateTime endDate = getOrganizationsRequest.getEndDate().atTime(LocalTime.MAX);
+        List<Organization> organizations = adminOrganizationRepository.findAllByCreatedAtBetween(startDate,
+                endDate);
         return organizations.stream()
                 .map(AdminGetOrganizationResponse::from)
                 .collect(Collectors.toList());

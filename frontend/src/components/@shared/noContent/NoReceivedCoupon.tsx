@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { FlexCenter } from '../../../styles/mixIn';
+import Button from '../Button';
 import IconEmptyList from '../LogoEmptyList';
 
 const NoReceivedCoupon = () => {
@@ -17,7 +18,7 @@ const NoReceivedCoupon = () => {
           기브 앤 테이크를 노려볼까요...!?
         </S.Comment>
         <Link to={ROUTE_PATH.SELECT_RECEIVER}>
-          <S.Button>쿠폰 보내기</S.Button>
+          <Button size='small'>쿠폰 보내기</Button>
         </Link>
       </S.Box>
     </S.Container>
@@ -46,14 +47,6 @@ const S = {
   Comment: styled.h3`
     font-size: 1.5rem;
     line-height: 30px;
-  `,
-  Button: styled.button`
-    background-color: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.button.abled};
-    padding: 1rem;
-    border: none;
-    border-radius: 6px;
-    margin-top: 20px;
   `,
 };
 export default NoReceivedCoupon;

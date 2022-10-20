@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useCouponDetail } from '../../hooks/Main/useCouponDetail';
 import { Coupon, CouponDetail } from '../../types/coupon';
+import Button from '../@shared/Button';
 import CloseButton from '../@shared/CloseButton';
 import PageSlider from '../@shared/PageSlider';
 import CouponDetailCoupon from './ConponDetail.coupon';
@@ -31,14 +32,9 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
             <S.Footer>
               <S.ButtonWrapper>
                 {buttonOptions.map((button, idx) => (
-                  <S.Button
-                    key={idx}
-                    bg={button.bg}
-                    disabled={button.disabled}
-                    onClick={button?.onClick}
-                  >
+                  <Button key={idx} {...button}>
                     {button.text}
-                  </S.Button>
+                  </Button>
                 ))}
               </S.ButtonWrapper>
             </S.Footer>
@@ -50,11 +46,6 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
 };
 
 export default CouponDetail;
-
-type ButtonProps = {
-  bg: string;
-  disabled: boolean;
-};
 
 const S = {
   Container: styled.section`
@@ -72,6 +63,19 @@ const S = {
     border-radius: 5px;
     background-color: #232323;
     padding: 2rem;
+
+    animation: subtle-pop-up 0.2s forwards;
+    @keyframes subtle-pop-up {
+      from {
+        transform: scale(0.9), translate(-50%, -50%);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1), translate(-50%, -50%);
+        opacity: 1;
+      }
+    }
   `,
   Header: styled.div`
     display: flex;
@@ -100,18 +104,7 @@ const S = {
     width: 100%;
     gap: 5px;
   `,
-  Button: styled.button<ButtonProps>`
-    border: none;
-    border-radius: 8px;
-    background-color: ${({ theme, disabled, bg }) =>
-      disabled ? theme.button.disbaled.background : bg};
-    color: ${({ theme, disabled }) =>
-      disabled ? theme.button.disbaled.color : theme.button.abled.color};
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.5rem;
-    height: fit-content;
-  `,
+
   UseCouponLink: styled(Link)`
     width: 100%;
   `,

@@ -14,4 +14,13 @@ public class CouponSelectCommand {
         this.memberId = memberId;
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "CouponSelectCommand{" +
+                "organizationId=" + organizationId +
+                ", memberId=" + memberId +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
