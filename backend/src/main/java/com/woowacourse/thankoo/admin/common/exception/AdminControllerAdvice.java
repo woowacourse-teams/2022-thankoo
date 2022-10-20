@@ -1,5 +1,7 @@
 package com.woowacourse.thankoo.admin.common.exception;
 
+import static com.woowacourse.thankoo.common.exception.ErrorType.UNHANDLED_EXCEPTION;
+
 import com.woowacourse.thankoo.admin.common.exception.dto.AdminErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,5 +24,11 @@ public class AdminControllerAdvice {
             final AdminUnAuthenticationException e) {
         log.warn("Admin UnAuthentication Exception", e);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AdminErrorResponse(e.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<AdminErrorResponse> unHandledExceptionHandler(final Exception e) {
+        log.error("Not Expected Exception is Occurred", e);
+        return ResponseEntity.internalServerError().body(new AdminErrorResponse(UNHANDLED_EXCEPTION.getMessage()));
     }
 }
