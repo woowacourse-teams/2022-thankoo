@@ -4,6 +4,7 @@ import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from './../constants/routes';
 import Organization from '../pages/Organization';
+import OrganizationsAccess from '../pages/OrganizationsAccess';
 
 const CreateReservation = lazy(() => import('./../pages/CreateReservation'));
 const EnterCouponContent = lazy(() => import('./../pages/EnterCouponContent'));
@@ -59,6 +60,11 @@ const Router = () => {
               <Route path={ROUTE_PATH.RESERVATIONS} element={<Reservations />} />
               <Route path={ROUTE_PATH.MEETINGS} element={<Meetings />} />
               <Route path={ROUTE_PATH.HEARTS} element={<Hearts />} />
+              <Route path={`${ROUTE_PATH.ORGANIZATIONS}`}>
+                <Route path={`:id`} element={<OrganizationsAccess />}>
+                  <Route path={`:page`} element={<OrganizationsAccess />} />
+                </Route>
+              </Route>
             </Route>
             <Route path={ROUTE_PATH.CREATE_RESERVATION} element={<CreateReservation />} />
             <Route path={ROUTE_PATH.ENTER_COUPON_CONTENT} element={<EnterCouponContent />} />
