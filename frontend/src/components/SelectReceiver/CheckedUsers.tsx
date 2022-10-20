@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { BASE_URL } from '../../constants/api';
-import { UserProfile } from '../../types';
+import { UserProfile } from '../../types/user';
 
 const CheckedUsers = ({
   checkedUsers,
@@ -32,7 +32,6 @@ const S = {
     height: 6rem;
     gap: 10px;
     padding-top: 3px;
-    overflow: scroll hidden;
 
     ::-webkit-scrollbar {
       display: none;

@@ -78,4 +78,14 @@ public class ReservationService {
         reservationRepository.updateReservationStatus(ReservationStatus.CANCELED, reservations.getIds());
         couponRepository.updateCouponStatus(CouponStatus.NOT_USED, reservations.getCouponIds());
     }
+
+    public void cancelReservation(final Long couponId) {
+        Reservation reservation = getReservation(couponId);
+        reservation.cancelByUsedCoupon();
+    }
+
+    private Reservation getReservation(final Long couponId) {
+        return reservationRepository.findTopByCouponIdAndReservationStatus(couponId, ReservationStatus.WAITING)
+                .orElseThrow(() -> new InvalidReservationException(ErrorType.NOT_FOUND_RESERVATION_STATUS));
+    }
 }

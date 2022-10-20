@@ -1,19 +1,18 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Link } from 'react-router-dom';
 import ArrowBackButton from '../components/@shared/ArrowBackButton';
 import TabsNav from '../components/@shared/TabsNav';
 import useEnterCouponContent from '../hooks/EnterCouponContent/useEnterCouponContent';
-import { couponTypeKeys } from '../types';
 
 import CouponLayout from '../components/@shared/CouponLayout';
-import Header from '../components/@shared/Layout/Header';
-import PageLayout from '../components/@shared/Layout/PageLayout';
+import LongButton from '../components/@shared/LongButton';
+import ModalWrapper from '../components/@shared/Modal/ModalWrapper';
 import ConfirmCouponContentModal from '../components/EnterCouponContent/ConfirmCouponContentModal';
-import useModal from '../hooks/useModal';
-import { couponTypes } from '../types/index';
-import HeaderText from '../components/@shared/Layout/HeaderText';
+import Header from '../layout/Header';
+import HeaderText from '../layout/HeaderText';
+import PageLayout from '../layout/PageLayout';
+import { couponTypeKeys, couponTypes } from '../types/coupon';
 
 const couponTypesWithoutEntire = couponTypeKeys.filter(type => type !== 'entire');
 
@@ -27,11 +26,9 @@ const EnterCouponContent = () => {
     checkedUsers,
     currentUserId,
     currentUserName,
-    sendCoupon,
     handleOnchangeMessage,
     handleOnchangeTitle,
   } = useEnterCouponContent();
-  const { setModalContent, show } = useModal();
 
   return (
     <PageLayout>
@@ -71,24 +68,24 @@ const EnterCouponContent = () => {
           />
         </S.Form>
       </S.Body>
-      <S.LongButton
-        onClick={() => {
-          show();
-          setModalContent(
+      <S.ButtonWrapper>
+        <ModalWrapper
+          isDisabled={!isFilled}
+          modal={
             <ConfirmCouponContentModal
               title={title}
               message={message}
               receivers={checkedUsers}
-              submit={sendCoupon}
               couponType={couponType}
             />
-          );
-        }}
-        disabled={!isFilled}
-      >
-        {checkedUsers.length}명에게 쿠폰 전송하기
-        <ArrowForwardIosIcon />
-      </S.LongButton>
+          }
+        >
+          <LongButton isDisabled={!isFilled}>
+            {checkedUsers.length}명에게 쿠폰 전송하기
+            <ArrowForwardIosIcon />
+          </LongButton>
+        </ModalWrapper>
+      </S.ButtonWrapper>
     </PageLayout>
   );
 };
@@ -145,29 +142,11 @@ const S = {
       outline: ${({ theme }) => `3px solid ${theme.primary}`};
     }
   `,
-  LongButton: styled.button`
-    border: none;
-    border-radius: 30px;
-    font-size: 18px;
-    margin: 0 3vw;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    ${({ disabled, theme }) =>
-      disabled
-        ? css`
-            background-color: ${theme.button.disbaled.background};
-            color: ${theme.button.disbaled.color};
-            cursor: not-allowed;
-          `
-        : css`
-            background-color: ${theme.button.active.background};
-            color: ${theme.button.active.color};
-          `}
-  `,
   CouponBox: styled.div`
     margin: 0 auto;
+  `,
+  ButtonWrapper: styled.div`
+    margin: 0 1rem;
   `,
 };
 

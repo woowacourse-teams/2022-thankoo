@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HeartRepository extends JpaRepository<Heart, Long> {
 
-    Optional<Heart> findBySenderIdAndReceiverId(Long senderId, Long receiverId);
+    Optional<Heart> findBySenderIdAndReceiverIdAndOrganizationId(Long senderId, Long receiverId, Long organizationId);
 
-    List<Heart> findBySenderIdAndLast(Long senderId, boolean last);
+    List<Heart> findByOrganizationIdAndSenderIdAndLast(Long organizationId, Long senderId, boolean last);
 
-    List<Heart> findByReceiverIdAndLast(Long receiverId, boolean last);
+    List<Heart> findByOrganizationIdAndReceiverIdAndLast(Long organizationId, Long receiverId, boolean last);
 }

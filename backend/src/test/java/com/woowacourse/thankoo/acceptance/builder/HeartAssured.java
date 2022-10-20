@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
-import com.woowacourse.thankoo.heart.application.dto.HeartRequest;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartRequest;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -23,13 +23,13 @@ public class HeartAssured {
 
     public static class HeartRequestBuilder extends RequestBuilder {
 
-        public HeartRequestBuilder 마음을_보낸다(final String accessToken, final Long receiverId) {
-            response = postWithToken("/api/hearts/send", accessToken, new HeartRequest(receiverId));
+        public HeartRequestBuilder 마음을_보낸다(final Long organizationId, final String accessToken, final Long receiverId) {
+            response = postWithToken("/api/hearts/send", accessToken, new HeartRequest(organizationId, receiverId));
             return this;
         }
 
-        public HeartRequestBuilder 응답_가능한_마음을_조회한다(final String accessToken) {
-            response = getWithToken("/api/hearts/me", accessToken);
+        public HeartRequestBuilder 응답_가능한_마음을_조회한다(final Long organizationId, final String accessToken) {
+            response = getWithToken("/api/hearts/me?organization=" + organizationId, accessToken);
             return this;
         }
 

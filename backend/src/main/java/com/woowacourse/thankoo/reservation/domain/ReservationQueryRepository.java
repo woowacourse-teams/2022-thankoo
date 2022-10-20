@@ -23,7 +23,9 @@ public class ReservationQueryRepository {
                 rs.getString("time_zone"));
     }
 
-    public List<ReservationCoupon> findReceivedReservations(final Long senderId, final LocalDateTime dateTime) {
+    public List<ReservationCoupon> findReceivedReservations(final Long senderId,
+                                                            final Long organizationId,
+                                                            final LocalDateTime dateTime) {
         String sql = "SELECT r.id as reservation_id, r.time, r.time_zone, "
                 + "c.coupon_type, mr.name "
                 + "FROM reservation as r "
@@ -33,15 +35,20 @@ public class ReservationQueryRepository {
                 + "WHERE r.status = :status "
                 + "AND r.time >= :dateTime "
                 + "AND c.sender_id = :senderId "
+                + "AND c.organization_id = :organizationId "
                 + "ORDER BY r.time ASC";
 
         SqlParameterSource parameters = new MapSqlParameterSource("senderId", senderId)
                 .addValue("status", "WAITING")
-                .addValue("dateTime", dateTime);
+                .addValue("dateTime", dateTime)
+                .addValue("organizationId", organizationId);
+
         return jdbcTemplate.query(sql, parameters, rowMapper());
     }
 
-    public List<ReservationCoupon> findSentReservations(final Long receiverId, final LocalDateTime dateTime) {
+    public List<ReservationCoupon> findSentReservations(final Long receiverId,
+                                                        final Long organizationId,
+                                                        final LocalDateTime dateTime) {
         String sql = "SELECT r.id as reservation_id, r.time, r.time_zone, "
                 + "c.coupon_type, ms.name "
                 + "FROM reservation as r "
@@ -51,11 +58,14 @@ public class ReservationQueryRepository {
                 + "WHERE r.status = :status "
                 + "AND r.time >= :dateTime "
                 + "AND c.receiver_id = :receiverId "
+                + "AND c.organization_id = :organizationId "
                 + "ORDER BY r.time ASC";
 
         SqlParameterSource parameters = new MapSqlParameterSource("receiverId", receiverId)
                 .addValue("status", "WAITING")
-                .addValue("dateTime", dateTime);
+                .addValue("dateTime", dateTime)
+                .addValue("organizationId", organizationId);
+
         return jdbcTemplate.query(sql, parameters, rowMapper());
     }
 }

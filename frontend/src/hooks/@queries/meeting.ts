@@ -1,15 +1,64 @@
 import { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
+import { YYYYMMDD } from 'thankoo-utils-type';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import { ErrorType, Meeting } from '../../types';
+import { ErrorType } from '../../types/api';
+import { CouponType } from '../../types/coupon';
+import { Meeting, MeetingTime } from '../../types/meeting';
+import { UserProfile } from '../../types/user';
+import { sorted } from '../../utils';
+import {
+  getDayDifference,
+  getNowKrLocaleFullDateISOFormat,
+  getTimeDifference,
+  isExpiredDate,
+  serverDateFormmater,
+} from '../../utils/date';
 
 export const MEETING_QUERY_KEYS = {
   meetings: 'meetings',
 };
 
+export type MeetingsResponse = {
+  meetingId: number;
+  couponType: CouponType;
+  time: MeetingTime;
+  members: UserProfile[];
+  memberName: string;
+  isMeetingToday: boolean;
+  dDay: number;
+  meetingDate: YYYYMMDD;
+  meetingTime: string;
+};
+
+const todayFullDate = getNowKrLocaleFullDateISOFormat();
+
 export const useGetMeetings = () =>
-  useQuery<Meeting[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest());
+  useQuery<MeetingsResponse[]>(MEETING_QUERY_KEYS.meetings, () => getMeetingsRequest(), {
+    select: (meetings: Meeting[]) => {
+      const validMeetings = meetings
+        .map(meeting => {
+          const { date, time } = serverDateFormmater(meeting.time.meetingTime);
+          const today = todayFullDate.split(' ')[0];
+
+          return {
+            ...meeting,
+            meetingDate: date,
+            meetingTime: time.slice(0, 5),
+            isMeetingToday: date === today,
+            dDay: getDayDifference(date, today),
+          };
+        })
+        .filter(meeting => isExpiredDate(meeting.time.meetingTime));
+
+      const sortedMeetings = sorted(validMeetings, (m1, m2) =>
+        getTimeDifference(m1.time.meetingTime, m2.time.meetingTime)
+      );
+
+      return sortedMeetings;
+    },
+  });
 
 export const usePutCompleteMeeting = (
   meetingId,

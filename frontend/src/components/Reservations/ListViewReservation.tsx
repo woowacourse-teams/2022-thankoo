@@ -1,19 +1,10 @@
 import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
-const dayKorean = {
-  Mon: '월',
-  Tue: '화',
-  Wed: '수',
-  Thu: '목',
-  Fri: '금',
-  Sat: '토',
-  Sun: '일',
-};
-const ListViewReservation = ({ memberName, reservationId, couponType, meetingTime }) => {
-  const day = dayKorean[new Date(meetingTime.split(' ')[0]).toString().slice(0, 3)];
-  const date = meetingTime.split(' ')[0];
-  const time = meetingTime.split(' ')[1].slice(0, 5);
+import { serverDateFormmater } from '../../utils/date';
+
+const ListViewReservationDetail = ({ memberName, reservationId, couponType, meetingTime }) => {
+  const { day, date, time } = serverDateFormmater(meetingTime);
 
   return (
     <S.Container
@@ -27,7 +18,7 @@ const ListViewReservation = ({ memberName, reservationId, couponType, meetingTim
   );
 };
 
-export default ListViewReservation;
+export default ListViewReservationDetail;
 
 type ContentProp = {
   backgroundColor: string;
@@ -39,12 +30,11 @@ const S = {
   Container: styled.div<ContentProp>`
     display: grid;
     grid-template-areas:
-      'ci un cb'
-      'ci ed cb';
-    grid-template-columns: 22% 58% 20%;
+      'ci un'
+      'ci ed';
+    grid-template-columns: 22% 78%;
     gap: 5px 0;
     padding: 1.5rem;
-    border-radius: 5px;
     background-color: ${({ backgroundColor }) => backgroundColor};
     color: ${({ color }) => color};
     align-items: center;

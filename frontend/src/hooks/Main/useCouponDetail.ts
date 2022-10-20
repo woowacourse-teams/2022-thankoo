@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../constants/routes';
 import { sentOrReceivedAtom, targetCouponAtom } from '../../recoil/atom';
-import { COUPON_QUERY_KEY, useGetCouponDetail } from '../@queries/coupon';
+import { CouponDetailButton, CouponDetailButtonProps } from '../../types/coupon';
+import { COUPON_QUERY_KEY, useGetCouponDetail, usePutCompleteCoupon } from '../@queries/coupon';
 import { usePutCompleteMeeting } from '../@queries/meeting';
 import { usePutCancelReseravation, usePutReservationStatus } from '../@queries/reservation';
 import useModal from '../useModal';
@@ -34,7 +35,6 @@ export const useCouponDetail = (couponId: number) => {
     },
     onError: error => {
       insertToastItem(error.response?.data.message);
-      close();
     },
   });
   const { mutate: completeMeeting } = usePutCompleteMeeting(meetingId, {
@@ -45,7 +45,6 @@ export const useCouponDetail = (couponId: number) => {
     },
     onError: error => {
       insertToastItem(error.response?.data.message);
-      close();
     },
   });
   const { mutate: handleReservation } = usePutReservationStatus(reservationId, {
@@ -56,41 +55,60 @@ export const useCouponDetail = (couponId: number) => {
     },
     onError: error => {
       insertToastItem(error.response?.data.message);
-      close();
     },
   });
 
-  const COUPON_STATUS_BUTTON = {
-    받은: {
+  const { mutate: completeCoupon } = usePutCompleteCoupon(couponId, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
+      insertToastItem('쿠폰 사용 완료했습니다.');
+      close();
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
+    },
+  });
+
+  const immediateUseButton: CouponDetailButtonProps = {
+    text: '즉시 사용하기',
+    color: 'primary',
+    onClick: () => {
+      if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료 하겠습니다.')) {
+        completeCoupon();
+      }
+    },
+  };
+
+  const COUPON_STATUS_BUTTON: CouponDetailButton = {
+    received: {
       not_used: [
         {
           text: '예약 하기',
-          bg: 'tomato',
-          disabled: false,
+          color: 'secondaryLight',
           onClick: () => {
             setTargetCouponId(couponId);
             close();
             navigate(ROUTE_PATH.CREATE_RESERVATION);
           },
         },
+        immediateUseButton,
       ],
       reserving: [
         {
           text: '예약 취소',
-          bg: 'tomato',
-          disabled: false,
+          color: 'secondaryLight',
           onClick: () => {
             if (confirm('예약을 취소하시겠습니까?')) {
               cancelReservation();
             }
           },
         },
+        immediateUseButton,
       ],
       reserved: [
         {
           text: '사용 완료',
-          bg: 'tomato',
-          disabled: false,
+          color: 'primary',
           onClick: () => {
             if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료 하겠습니다')) {
               completeMeeting();
@@ -98,35 +116,28 @@ export const useCouponDetail = (couponId: number) => {
           },
         },
       ],
-      used: [{ text: '이미 사용된 쿠폰입니다', disable: true, bg: '#838383' }],
-      expired: [{ text: '만료된 쿠폰입니다', disable: true, bg: '#838383' }],
+      used: [{ text: '이미 사용된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
+      immediately_used: [{ text: '이미 사용된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
+      expired: [{ text: '만료된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
     },
-    보낸: {
-      not_used: [
-        {
-          text: '상대가 아직 예약하지 않았습니다.',
-          disabled: true,
-          bg: '#838383',
-        },
-      ],
+    sent: {
+      not_used: [immediateUseButton],
       reserving: [
         {
-          text: '승인',
-          disabled: false,
-          bg: 'tomato',
+          text: '거절',
+          color: 'secondaryLight',
           onClick: () => {
-            if (confirm('예약을 승인하시겠습니까?')) {
-              handleReservation('accept');
+            if (confirm('예약을 거절하시겠습니까?')) {
+              handleReservation('deny');
             }
           },
         },
         {
-          text: '거절',
-          disabled: false,
-          bg: '#838383',
+          text: '승인',
+          color: 'primary',
           onClick: () => {
-            if (confirm('예약을 거절하시겠습니까?')) {
-              handleReservation('deny');
+            if (confirm('예약을 승인하시겠습니까?')) {
+              handleReservation('accept');
             }
           },
         },
@@ -134,8 +145,7 @@ export const useCouponDetail = (couponId: number) => {
       reserved: [
         {
           text: '사용 완료',
-          disabled: false,
-          bg: 'tomato',
+          color: 'primary',
           onClick: () => {
             if (confirm('만남은 즐거우셨나요? \n쿠폰을 사용 완료하겠습니다')) {
               completeMeeting();
@@ -143,8 +153,9 @@ export const useCouponDetail = (couponId: number) => {
           },
         },
       ],
-      used: [{ text: '이미 사용된 쿠폰입니다', disabled: true, bg: '#838383' }],
-      expired: [{ text: '만료된 쿠폰입니다', disabled: true, bg: '#838383' }],
+      used: [{ text: '이미 사용된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
+      immediately_used: [{ text: '이미 사용된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
+      expired: [{ text: '만료된 쿠폰입니다', isDisabled: true, color: 'secondary' }],
     },
   };
 

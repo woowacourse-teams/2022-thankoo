@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import { UserProfile } from '../../types';
+import { UserProfile } from '../../types/user';
 
 export const MEMBERS_QUERY_KEY = {
   members: 'members',

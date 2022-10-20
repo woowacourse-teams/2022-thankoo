@@ -3,6 +3,7 @@ package com.woowacourse.thankoo.common;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.thankoo.admin.authentication.presentation.TokenDecoder;
 import com.woowacourse.thankoo.authentication.application.AuthenticationService;
 import com.woowacourse.thankoo.authentication.infrastructure.JwtTokenProvider;
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationContext;
@@ -15,8 +16,12 @@ import com.woowacourse.thankoo.heart.presentation.HeartController;
 import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
 import com.woowacourse.thankoo.meeting.application.MeetingService;
 import com.woowacourse.thankoo.meeting.presentation.MeetingController;
+import com.woowacourse.thankoo.member.application.MemberQueryService;
 import com.woowacourse.thankoo.member.application.MemberService;
 import com.woowacourse.thankoo.member.presentation.MemberController;
+import com.woowacourse.thankoo.organization.application.OrganizationQueryService;
+import com.woowacourse.thankoo.organization.application.OrganizationService;
+import com.woowacourse.thankoo.organization.presentation.OrganizationController;
 import com.woowacourse.thankoo.reservation.application.ReservationQueryService;
 import com.woowacourse.thankoo.reservation.application.ReservationService;
 import com.woowacourse.thankoo.reservation.presentation.ReservationController;
@@ -42,7 +47,8 @@ import org.springframework.test.web.servlet.MockMvc;
         ReservationController.class,
         MeetingController.class,
         HeartController.class,
-        CouponSerialController.class
+        CouponSerialController.class,
+        OrganizationController.class
 })
 @Import(MockMvcConfig.class)
 @AutoConfigureRestDocs
@@ -59,6 +65,9 @@ public class ControllerTest {
     protected AuthenticationService authenticationService;
 
     @MockBean
+    protected TokenDecoder tokenDecoder;
+
+    @MockBean
     protected JwtTokenProvider jwtTokenProvider;
 
     @MockBean
@@ -72,6 +81,9 @@ public class ControllerTest {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected MemberQueryService memberQueryService;
 
     @MockBean
     protected ReservationService reservationService;
@@ -93,6 +105,12 @@ public class ControllerTest {
 
     @MockBean
     protected CouponSerialQueryService couponSerialQueryService;
+
+    @MockBean
+    protected OrganizationService organizationService;
+
+    @MockBean
+    protected OrganizationQueryService organizationQueryService;
 
     protected OperationResponsePreprocessor getResponsePreprocessor() {
         return Preprocessors.preprocessResponse(prettyPrint());

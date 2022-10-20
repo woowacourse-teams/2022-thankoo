@@ -1,23 +1,22 @@
 import styled from '@emotion/styled';
-import { useRecoilValue } from 'recoil';
-import { checkedUsersAtom } from '../../recoil/atom';
-import { UserProfile } from '../../types';
+import { UserProfile } from '../../types/user';
+import useListViewUsers from './../../hooks/SelectReceiver/useListViewUsers';
 import ListViewUser from './ListViewUser';
 
 const ListViewUsers = ({
-  users,
   onClickUser,
   isCheckedUser,
+  searchKeyword,
 }: {
-  users: UserProfile[];
   onClickUser: (user: UserProfile) => void;
   isCheckedUser: (user: UserProfile) => boolean;
+  searchKeyword: string;
 }) => {
-  const checkedUsers = useRecoilValue(checkedUsersAtom);
+  const { matchedUsers } = useListViewUsers(searchKeyword);
 
   return (
     <S.Container>
-      {users?.map(user => (
+      {matchedUsers.map(user => (
         <ListViewUser
           key={user.id}
           user={user}
@@ -25,13 +24,6 @@ const ListViewUsers = ({
           isCheckedUser={isCheckedUser}
         />
       ))}
-      {checkedUsers.length > 0 && (
-        <div>
-          <br />
-          <br />
-          <br />
-        </div>
-      )}
     </S.Container>
   );
 };
@@ -43,11 +35,9 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-top: 7px;
+    margin: 7px 0;
     overflow-y: auto;
     padding-left: 4px;
-    height: fit-content;
-    max-height: calc(100% - 7.8rem);
 
     &::-webkit-scrollbar {
       width: 2px;

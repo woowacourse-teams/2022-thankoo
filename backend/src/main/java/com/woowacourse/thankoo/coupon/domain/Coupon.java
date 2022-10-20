@@ -1,8 +1,11 @@
 package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.common.domain.BaseEntity;
+import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.exception.InvalidCouponException;
+import com.woowacourse.thankoo.member.exception.InvalidMemberException;
+import com.woowacourse.thankoo.organization.exception.InvalidOrganizationException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -27,6 +30,9 @@ public class Coupon extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "organization_id", nullable = false)
+    private Long organizationId;
+
     @Column(name = "sender_id", nullable = false)
     private Long senderId;
 
@@ -41,23 +47,26 @@ public class Coupon extends BaseEntity {
     private CouponStatus couponStatus;
 
     public Coupon(final Long id,
+                  final Long organizationId,
                   final Long senderId,
                   final Long receiverId,
                   final CouponContent couponContent,
                   final CouponStatus couponStatus) {
         validateSendBySenderSelf(senderId, receiverId);
         this.id = id;
+        this.organizationId = organizationId;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.couponContent = couponContent;
         this.couponStatus = couponStatus;
     }
 
-    public Coupon(final Long senderId,
+    public Coupon(final Long organizationId,
+                  final Long senderId,
                   final Long receiverId,
                   final CouponContent couponContent,
                   final CouponStatus couponStatus) {
-        this(null, senderId, receiverId, couponContent, couponStatus);
+        this(null, organizationId, senderId, receiverId, couponContent, couponStatus);
     }
 
     private void validateSendBySenderSelf(final Long senderId, final Long receiverId) {
@@ -111,6 +120,54 @@ public class Coupon extends BaseEntity {
 
     public boolean isSameCouponContent(final CouponContent couponContent) {
         return this.couponContent.equals(couponContent);
+    }
+
+    @Deprecated
+    public void useImmediately(final Long memberId) {
+        validateMemberCanUseCoupon(memberId);
+        validateStatus();
+        publishCouponUsedEvent();
+        couponStatus = CouponStatus.IMMEDIATELY_USED;
+    }
+
+    public void useImmediately(final Long memberId, final Long organizationId) {
+        validateMemberCanUseCoupon(memberId);
+        validateStatus();
+        validateOrganization(organizationId);
+        publishCouponUsedEvent();
+        couponStatus = CouponStatus.IMMEDIATELY_USED;
+    }
+
+    private void validateMemberCanUseCoupon(final Long memberId) {
+        if (!canUseCoupon(memberId)) {
+            throw new InvalidMemberException(ErrorType.CAN_NOT_USE_IMMEDIATELY_MISMATCH_MEMBER);
+        }
+    }
+
+    private boolean canUseCoupon(final Long memberId) {
+        return isSender(memberId) || isReceiver(memberId);
+    }
+
+    private void validateStatus() {
+        if (!couponStatus.canImmediatelyUse()) {
+            throw new InvalidCouponException(ErrorType.CAN_NOT_USE_IMMEDIATELY_COUPON);
+        }
+    }
+
+    private void validateOrganization(final Long organizationId) {
+        if (!this.organizationId.equals(organizationId)) {
+            throw new InvalidOrganizationException(ErrorType.CAN_NOT_USE_IMMEDIATELY_COUPON);
+        }
+    }
+
+    private void publishCouponUsedEvent() {
+        if (isReserving()) {
+            Events.publish(new CouponImmediatelyUsedEvent(id));
+        }
+    }
+
+    public boolean isReserving() {
+        return couponStatus.isReserving();
     }
 
     @Override

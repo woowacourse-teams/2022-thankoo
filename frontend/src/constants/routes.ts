@@ -1,7 +1,7 @@
 export const ROUTE_PATH = {
   ON_SUCCESS: '/success',
   ON_FAILURE: '/failure',
-  MAIN: '/*',
+  NOT_FOUND: '*',
   EXACT_MAIN: '/',
   SELECT_RECEIVER: '/select-receiver',
   ENTER_COUPON_CONTENT: '/enter-coupon-content',
@@ -13,4 +13,6 @@ export const ROUTE_PATH = {
   ENTER_NICKNAME: '/enter-nickname',
   MEETINGS: '/meetings',
   HEARTS: '/hearts',
+  JOIN_ORGANIZATION: '/join-organization',
+  ORGANIZATIONS: '/organizations',
 };

@@ -1,11 +1,16 @@
 package com.woowacourse.thankoo.admin.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.thankoo.admin.authentication.application.AdminAuthenticationService;
+import com.woowacourse.thankoo.admin.authentication.presentation.AdminAuthenticationController;
+import com.woowacourse.thankoo.admin.authentication.presentation.TokenDecoder;
 import com.woowacourse.thankoo.admin.coupon.application.AdminCouponQueryService;
 import com.woowacourse.thankoo.admin.coupon.application.AdminCouponService;
 import com.woowacourse.thankoo.admin.coupon.presentation.AdminCouponController;
 import com.woowacourse.thankoo.admin.member.application.AdminMemberService;
 import com.woowacourse.thankoo.admin.member.presentation.AdminMemberController;
+import com.woowacourse.thankoo.admin.organization.application.AdminOrganizationService;
+import com.woowacourse.thankoo.admin.organization.presentaion.AdminOrganizationController;
 import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialQueryService;
 import com.woowacourse.thankoo.admin.serial.application.AdminCouponSerialService;
 import com.woowacourse.thankoo.admin.serial.presentation.AdminCouponSerialController;
@@ -17,12 +22,17 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
+import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest({
         AdminMemberController.class,
         AdminCouponController.class,
-        AdminCouponSerialController.class
+        AdminCouponSerialController.class,
+        AdminAuthenticationController.class,
+        AdminOrganizationController.class
 })
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
@@ -38,6 +48,9 @@ public class AdminControllerTest {
     protected JwtTokenProvider jwtTokenProvider;
 
     @MockBean
+    protected TokenDecoder tokenDecoder;
+
+    @MockBean
     protected AuthenticationContext authenticationContext;
 
     @MockBean
@@ -50,8 +63,22 @@ public class AdminControllerTest {
     protected AdminCouponService adminCouponService;
 
     @MockBean
+    protected AdminCouponSerialQueryService adminCouponSerialQueryService;
+
+    @MockBean
     protected AdminCouponSerialService adminCouponSerialService;
 
     @MockBean
-    protected AdminCouponSerialQueryService adminCouponSerialQueryService;
+    protected AdminAuthenticationService adminAuthenticationService;
+
+    @MockBean
+    protected AdminOrganizationService adminOrganizationService;
+
+    protected OperationResponsePreprocessor getResponsePreprocessor() {
+        return Preprocessors.preprocessResponse(Preprocessors.prettyPrint());
+    }
+
+    protected OperationRequestPreprocessor getRequestPreprocessor() {
+        return Preprocessors.preprocessRequest(Preprocessors.prettyPrint());
+    }
 }

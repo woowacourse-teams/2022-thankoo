@@ -1,18 +1,25 @@
 import styled from '@emotion/styled';
 import { forwardRef, LegacyRef } from 'react';
 import { Link } from 'react-router-dom';
-import { CouponDetail } from '../../types';
+import { CouponDetail } from '../../types/coupon';
 import { BASE_URL } from './../../constants/api';
+import { getNowKrLocaleFullDateISOFormat, serverDateFormmater } from './../../utils/date';
+
+const defaultRawTime = getNowKrLocaleFullDateISOFormat();
 
 const CouponDetailReserve = (
   { couponDetail }: { couponDetail: CouponDetail },
   ref: LegacyRef<HTMLDivElement>
 ) => {
   const { coupon, reservation, meeting } = couponDetail;
-  const { time: RawTime } = reservation ||
-    meeting || { time: { meetingTime: new Date().toLocaleString() } };
-  const date = RawTime?.meetingTime.split(' ')[0];
-  const time = RawTime?.meetingTime.split(' ')[1].slice(0, 5);
+
+  const RawTime =
+    reservation?.time?.meetingTime ||
+    meeting?.time.meetingTime ||
+    coupon.modifiedDateTime ||
+    defaultRawTime;
+
+  const { date, time } = serverDateFormmater(RawTime);
 
   return (
     <S.Contents ref={ref}>
@@ -98,16 +105,6 @@ const S = {
     justify-content: center;
     /* height: 15%; */
     align-items: flex-end;
-  `,
-  Button: styled.button`
-    border: none;
-    border-radius: 4px;
-    background-color: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.button.abled.color};
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.5rem;
-    height: fit-content;
   `,
   UseCouponLink: styled(Link)`
     width: 100%;

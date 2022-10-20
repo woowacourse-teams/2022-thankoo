@@ -27,8 +27,22 @@ public class Coupons {
 
     public static Coupons distribute(final List<Coupon> values) {
         Coupons coupons = new Coupons(values);
+        validateOrganizationIds(values);
         Events.publish(CouponSentEvent.from(coupons));
         return coupons;
+    }
+
+    private static void validateOrganizationIds(final List<Coupon> values) {
+        if (countSameOrganizationIds(values) != 1) {
+            throw new InvalidCouponException(ErrorType.CAN_NOT_CREATE_COUPON_GROUP_UNMATCHED_ORGANIZATIONS);
+        }
+    }
+
+    private static long countSameOrganizationIds(final List<Coupon> values) {
+        return values.stream()
+                .map(Coupon::getOrganizationId)
+                .distinct()
+                .count();
     }
 
     public List<Long> getCouponIds() {
@@ -75,5 +89,12 @@ public class Coupons {
     private boolean isSameCouponContents(final CouponContent representativeCouponContent) {
         return values.stream()
                 .allMatch(value -> value.isSameCouponContent(representativeCouponContent));
+    }
+
+    public Long getRepresentingOrganizationId() {
+        if (countSameOrganizationIds(values) != 1) {
+            throw new InvalidCouponException(ErrorType.COUPON_GROUP_UNMATCHED_ORGANIZATIONS);
+        }
+        return values.iterator().next().getOrganizationId();
     }
 }

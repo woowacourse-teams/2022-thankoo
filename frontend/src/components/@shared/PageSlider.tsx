@@ -80,7 +80,7 @@ const S = {
   `,
   DotsWrapper: styled.div`
     width: 100%;
-    margin: 10px auto;
+    margin: 1.5rem auto;
     display: flex;
     gap: 7px;
     justify-content: center;
@@ -91,6 +91,7 @@ const S = {
     border-radius: 50%;
     background-color: #8e8e8e;
     transition: all ease-in-out 0.1s;
+    cursor: pointer;
 
     &.active {
       width: 22px;

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { BASE_URL } from '../../constants/api';
-import { UserProfile } from '../../types';
+import { UserProfile } from '../../types/user';
 
 const ListViewUser = ({
   user,

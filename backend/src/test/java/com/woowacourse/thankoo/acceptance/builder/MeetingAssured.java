@@ -22,8 +22,8 @@ public class MeetingAssured {
 
     public static class MeetingRequestBuilder extends RequestBuilder {
 
-        public MeetingRequestBuilder 미팅을_조회한다(final String token) {
-            response = getWithToken("/api/meetings", token);
+        public MeetingRequestBuilder 미팅을_조회한다(final String token, final Long organizationId) {
+            response = getWithToken("/api/meetings?organization=" + organizationId, token);
             return this;
         }
 

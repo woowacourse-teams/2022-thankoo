@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.member.presentation;
 
+import static com.woowacourse.thankoo.common.fixtures.AuthenticationFixture.ACCESS_TOKEN;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_IMAGE_URL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_NAME;
@@ -7,8 +8,8 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HUNI_SOCIAL_
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
-import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -24,6 +25,8 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,64 +36,35 @@ import com.woowacourse.thankoo.member.application.dto.MemberNameRequest;
 import com.woowacourse.thankoo.member.application.dto.MemberProfileImageRequest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.presentation.dto.MemberResponse;
+import com.woowacourse.thankoo.member.presentation.dto.OrganizationMemberResponse;
 import com.woowacourse.thankoo.member.presentation.dto.ProfileImageUrlResponse;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationMember;
+import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @DisplayName("MemberController 는 ")
 class MemberControllerTest extends ControllerTest {
 
-    @DisplayName("본인을 제외한 모든 회원을 조회힌다.")
-    @Test
-    void getMembersExcludeMe() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
-        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
-        List<MemberResponse> memberResponses = List.of(MemberResponse.of(lala), MemberResponse.of(huni));
-        given(memberService.getMembersExcludeMe(anyLong()))
-                .willReturn(memberResponses);
-
-        ResultActions resultActions = mockMvc.perform(get("/api/members")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpectAll(
-                        status().isOk(),
-                        content().string(objectMapper.writeValueAsString(memberResponses)));
-
-        resultActions.andDo(document("members/get-members",
-                getResponsePreprocessor(),
-                requestHeaders(
-                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
-                ),
-                responseFields(
-                        fieldWithPath("[].id").type(NUMBER).description("id"),
-                        fieldWithPath("[].name").type(STRING).description("name"),
-                        fieldWithPath("[].email").type(STRING).description("email"),
-                        fieldWithPath("[].imageUrl").type(STRING).description("imageUrl")
-                )));
-    }
-
     @DisplayName("내 정보를 조회한다.")
     @Test
     void getMember() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
-        MemberResponse memberResponse = MemberResponse.of(
-                new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
-        given(memberService.getMember(anyLong()))
-                .willReturn(memberResponse);
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        MemberResponse memberResponse = MemberResponse.of(huni);
+        given(memberService.getMember(anyLong())).willReturn(memberResponse);
 
         ResultActions resultActions = mockMvc.perform(get("/api/members/me")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .header(HttpHeaders.AUTHORIZATION, ACCESS_TOKEN)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
@@ -113,14 +87,13 @@ class MemberControllerTest extends ControllerTest {
     @DisplayName("회원 이름을 수정한다.")
     @Test
     void updateName() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         MemberNameRequest memberNameRequest = new MemberNameRequest(LALA_NAME);
         doNothing().when(memberService).updateMemberName(anyLong(), any(MemberNameRequest.class));
 
         ResultActions resultActions = mockMvc.perform(put("/api/members/me/name")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .header(HttpHeaders.AUTHORIZATION, ACCESS_TOKEN)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(memberNameRequest)))
@@ -129,7 +102,7 @@ class MemberControllerTest extends ControllerTest {
                         status().isNoContent());
 
         resultActions.andDo(document("members/update-member-name",
-                getResponsePreprocessor(),
+                getRequestPreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
@@ -141,14 +114,13 @@ class MemberControllerTest extends ControllerTest {
     @DisplayName("회원 프로필 이미지를 수정한다.")
     @Test
     void updateProfileImage() throws Exception {
-        given(jwtTokenProvider.getPayload(anyString()))
-                .willReturn("1");
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
 
         MemberProfileImageRequest memberProfileImageRequest = new MemberProfileImageRequest(SKRR_IMAGE_URL);
         doNothing().when(memberService).updateMemberProfileImage(anyLong(), any(MemberProfileImageRequest.class));
 
         ResultActions resultActions = mockMvc.perform(put("/api/members/me/profile-image")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .header(HttpHeaders.AUTHORIZATION, ACCESS_TOKEN)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(memberProfileImageRequest)))
@@ -157,7 +129,7 @@ class MemberControllerTest extends ControllerTest {
                         status().isNoContent());
 
         resultActions.andDo(document("members/update-member-profile-image",
-                getResponsePreprocessor(),
+                getRequestPreprocessor(),
                 requestHeaders(
                         headerWithName(HttpHeaders.AUTHORIZATION).description("token")
                 ),
@@ -172,8 +144,7 @@ class MemberControllerTest extends ControllerTest {
         List<ProfileImageUrlResponse> responses = Stream.of(SKRR_IMAGE_URL, HUNI_IMAGE_URL)
                 .map(ProfileImageUrlResponse::of)
                 .collect(Collectors.toList());
-        given(memberService.getProfileImages())
-                .willReturn(responses);
+        given(memberService.getProfileImages()).willReturn(responses);
 
         ResultActions resultActions = mockMvc.perform(get("/api/members/profile-images")
                         .accept(MediaType.APPLICATION_JSON)
@@ -188,4 +159,48 @@ class MemberControllerTest extends ControllerTest {
                         fieldWithPath("[].imageUrl").type(STRING).description("imageUrl")
                 )));
     }
+
+    @DisplayName("본인을 제외한 모든 회원을 조회힌다.")
+    @Test
+    void getMembersExcludeMe() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
+
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        Member lala = new Member(2L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+        OrganizationValidator organizationValidator = Mockito.mock(OrganizationValidator.class);
+        doNothing().when(organizationValidator).validate(any(Organization.class));
+        Organization organization = createDefaultOrganization(organizationValidator);
+
+        List<OrganizationMemberResponse> responses = List.of(
+                OrganizationMemberResponse.from(new OrganizationMember(huni, organization, 1, true)),
+                OrganizationMemberResponse.from(new OrganizationMember(lala, organization, 1, true))
+        );
+
+        given(memberQueryService.getOrganizationMembersExcludeMe(anyLong(), anyLong())).willReturn(responses);
+
+        ResultActions resultActions = mockMvc.perform(get("/api/members")
+                        .queryParam("organization", "1")
+                        .header(HttpHeaders.AUTHORIZATION, ACCESS_TOKEN)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(responses)));
+
+        resultActions.andDo(document("organizations/get-members",
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                requestParameters(
+                        parameterWithName("organization").description("organizationId")
+                ),
+                responseFields(
+                        fieldWithPath("[].id").type(NUMBER).description("id"),
+                        fieldWithPath("[].name").type(STRING).description("name"),
+                        fieldWithPath("[].email").type(STRING).description("email"),
+                        fieldWithPath("[].imageUrl").type(STRING).description("imageUrl")
+                )));
+    }
+
 }

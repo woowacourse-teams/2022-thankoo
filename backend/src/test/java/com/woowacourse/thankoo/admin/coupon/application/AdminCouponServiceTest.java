@@ -10,6 +10,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
+import static com.woowacourse.thankoo.common.fixtures.OrganizationFixture.createDefaultOrganization;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.EXPIRED;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.NOT_USED;
 import static com.woowacourse.thankoo.coupon.domain.CouponStatus.RESERVED;
@@ -24,10 +25,13 @@ import com.woowacourse.thankoo.admin.coupon.application.dto.AdminCouponExpireReq
 import com.woowacourse.thankoo.admin.coupon.domain.AdminCouponRepository;
 import com.woowacourse.thankoo.admin.coupon.exception.AdminInvalidCouponException;
 import com.woowacourse.thankoo.admin.member.domain.AdminMemberRepository;
+import com.woowacourse.thankoo.admin.organization.domain.AdminOrganizationRepository;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
 import com.woowacourse.thankoo.member.domain.Member;
+import com.woowacourse.thankoo.organization.domain.Organization;
+import com.woowacourse.thankoo.organization.domain.OrganizationValidator;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -47,6 +51,12 @@ class AdminCouponServiceTest {
     @Autowired
     private AdminCouponRepository adminCouponRepository;
 
+    @Autowired
+    private AdminOrganizationRepository adminOrganizationRepository;
+
+    @Autowired
+    private OrganizationValidator organizationValidator;
+
     @DisplayName("쿠폰을 만료시킬 때 ")
     @Nested
     class ExpireCoupon {
@@ -59,12 +69,17 @@ class AdminCouponServiceTest {
             Member receiver = adminMemberRepository.save(
                     new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            Coupon notUsedCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                    new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
-            Coupon reservedCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                    new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
-            Coupon reservingCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                    new CouponContent(MEAL, TITLE, MESSAGE), RESERVING));
+            Organization organization = adminOrganizationRepository.save(
+                    createDefaultOrganization(organizationValidator));
+            Coupon notUsedCoupon = adminCouponRepository.save(
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Coupon reservedCoupon = adminCouponRepository.save(
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(MEAL, TITLE, MESSAGE), RESERVED));
+            Coupon reservingCoupon = adminCouponRepository.save(
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(MEAL, TITLE, MESSAGE), RESERVING));
 
             List<Long> couponIds = List.of(notUsedCoupon.getId(), reservedCoupon.getId(), reservingCoupon.getId());
             adminCouponService.updateCouponStatusExpired(new AdminCouponExpireRequest(couponIds));
@@ -85,8 +100,11 @@ class AdminCouponServiceTest {
             Member receiver = adminMemberRepository.save(
                     new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, HUNI_IMAGE_URL));
 
-            Coupon notUsedCoupon = adminCouponRepository.save(new Coupon(sender.getId(), receiver.getId(),
-                    new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
+            Organization organization = adminOrganizationRepository.save(
+                    createDefaultOrganization(organizationValidator));
+            Coupon notUsedCoupon = adminCouponRepository.save(
+                    new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                            new CouponContent(COFFEE, TITLE, MESSAGE), NOT_USED));
 
             List<Long> couponIds = List.of(notUsedCoupon.getId(), notUsedCoupon.getId() + 1);
 

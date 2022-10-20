@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { QueryClient } from 'react-query';
+import { QueryClient, QueryClientConfig } from 'react-query';
 import { ROUTE_PATH } from '../constants/routes';
 import { clearAuth } from '../utils/auth';
 
@@ -17,17 +17,6 @@ const queryErrorHandler = error => {
 const mutateErrorHandler = error => {
   authErrorHandler(error);
 };
-const retryHandler = (failureCount, error) => {
-  if (
-    error.response?.status === INVALID_AUTH_STATUS ||
-    error.response?.data.errorCode === INVALID_MEMBER_ERROR_CODE ||
-    error.response?.data.errorCode === INVALID_AUTH_ERROR_CODE
-  ) {
-    return false;
-  }
-
-  return true;
-};
 
 const authErrorHandler = (error: AxiosError) => {
   const {
@@ -40,17 +29,21 @@ const authErrorHandler = (error: AxiosError) => {
   }
 };
 
-const defaultQueryClientOptions = {
-  queries: {
-    onError: queryErrorHandler,
-    retry: retryHandler,
-  },
-  mutations: {
-    onError: mutateErrorHandler,
-    retry: retryHandler,
+const defaultOptions: QueryClientConfig = {
+  defaultOptions: {
+    queries: {
+      onError: queryErrorHandler,
+      retry: 3,
+      refetchOnWindowFocus: false,
+      suspense: true,
+    },
+    mutations: {
+      onError: mutateErrorHandler,
+      retry: 3,
+    },
   },
 };
 
 export const queryClient = new QueryClient({
-  defaultOptions: defaultQueryClientOptions,
+  ...defaultOptions,
 });

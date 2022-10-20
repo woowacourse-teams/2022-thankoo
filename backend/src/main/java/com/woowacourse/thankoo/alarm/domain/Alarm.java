@@ -8,15 +8,16 @@ import lombok.Getter;
 public class Alarm {
 
     private final AlarmType alarmType;
+    private final Long organizationId;
     private final List<Long> targetIds;
     private final List<String> contents;
     private final AlarmStatus alarmStatus;
 
-    private Alarm(final AlarmType alarmType,
-                  final List<Long> targetIds,
-                  final List<String> contents,
-                  final AlarmStatus alarmStatus) {
+    public Alarm(final AlarmType alarmType, final Long organizationId, final List<Long> targetIds,
+                 final List<String> contents,
+                 final AlarmStatus alarmStatus) {
         this.alarmType = alarmType;
+        this.organizationId = organizationId;
         this.targetIds = targetIds;
         this.contents = contents;
         this.alarmStatus = alarmStatus;
@@ -24,6 +25,7 @@ public class Alarm {
 
     public static Alarm create(final AlarmSpecification alarmSpecification) {
         return new Alarm(AlarmType.from(alarmSpecification.getAlarmType()),
+                alarmSpecification.getOrganizationId(),
                 alarmSpecification.getTargetIds(),
                 alarmSpecification.getContents(),
                 AlarmStatus.CREATED);
@@ -41,6 +43,7 @@ public class Alarm {
     public String toString() {
         return "Alarm{" +
                 "alarmType=" + alarmType +
+                ", organizationId=" + organizationId +
                 ", targetIds=" + targetIds +
                 ", contents=" + contents +
                 ", alarmStatus=" + alarmStatus +

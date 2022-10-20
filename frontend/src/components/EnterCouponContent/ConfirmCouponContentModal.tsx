@@ -1,23 +1,51 @@
 import styled from '@emotion/styled';
+import { useRecoilValue } from 'recoil';
+import { usePostCouponMutation } from '../../hooks/@queries/coupon';
 import useModal from '../../hooks/useModal';
-import { CouponType, couponTypes, UserProfile } from '../../types';
+import { CouponType, couponTypes } from '../../types/coupon';
+import { UserProfile } from '../../types/user';
+import Button from '../@shared/Button';
 import BottomSheetLayout from '../@shared/Modal/BottomSheetLayout';
 import { BASE_URL } from './../../constants/api';
+import { ROUTE_PATH } from './../../constants/routes';
+import useOnSuccess from './../../hooks/useOnSuccess';
+import { checkedUsersAtom } from './../../recoil/atom';
 
 const ConfirmCouponContentModal = ({
-  submit,
   message,
   title,
   receivers,
   couponType,
 }: {
-  submit: () => void;
   message: string;
   title: string;
   receivers: UserProfile[];
   couponType: CouponType;
 }) => {
   const { close, modalContentRef } = useModal();
+  const { successNavigate } = useOnSuccess();
+  const checkedUsers = useRecoilValue<UserProfile[]>(checkedUsersAtom);
+
+  const { mutate: sendCoupon, isLoading } = usePostCouponMutation(
+    {
+      receiverIds: checkedUsers.map(user => user.id),
+      content: { couponType, title, message },
+    },
+    {
+      onSuccess: () => {
+        successNavigate({
+          page: ROUTE_PATH.ENTER_COUPON_CONTENT,
+          props: {
+            couponType,
+            message,
+            receivers: checkedUsers,
+            title,
+          },
+        });
+        close();
+      },
+    }
+  );
 
   return (
     <BottomSheetLayout ref={modalContentRef}>
@@ -46,20 +74,23 @@ const ConfirmCouponContentModal = ({
         <S.ConfirmContentText>{message}</S.ConfirmContentText>
       </S.ConfirmContentWrapper>
       <S.ButtonWrapper>
-        <S.Button onClick={submit} primary>
+        <Button color='secondaryLight' onClick={close}>
+          취소
+        </Button>
+        <Button
+          onClick={() => {
+            sendCoupon();
+          }}
+          isLoading={isLoading}
+        >
           전송
-        </S.Button>
-        <S.Button onClick={close}>취소</S.Button>
+        </Button>
       </S.ButtonWrapper>
     </BottomSheetLayout>
   );
 };
 
 export default ConfirmCouponContentModal;
-
-type ButtonProps = {
-  primary?: boolean;
-};
 
 const S = {
   ReceiversWrapper: styled.div`
@@ -110,15 +141,5 @@ const S = {
     width: 100%;
     display: flex;
     gap: 5px;
-  `,
-  Button: styled.button<ButtonProps>`
-    width: 100%;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    padding: 1rem 0;
-    font-size: 1.5rem;
-
-    background-color: ${({ theme, primary }) => (primary ? theme.primary : '#4a4a4a')};
   `,
 };

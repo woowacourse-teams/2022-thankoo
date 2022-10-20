@@ -14,13 +14,16 @@ public class AlarmSpecification {
     public static final String HEART_SENT = "heart_sent";
 
     private final String alarmType;
+    private final Long organizationId;
     private final List<Long> targetIds;
     private final List<String> contents;
 
     public AlarmSpecification(final String alarmType,
+                              final Long organizationId,
                               final List<Long> targetIds,
                               final List<String> contents) {
         this.alarmType = alarmType;
+        this.organizationId = organizationId;
         this.targetIds = targetIds;
         this.contents = contents;
     }
@@ -28,7 +31,8 @@ public class AlarmSpecification {
     @Override
     public String toString() {
         return "AlarmSpecification{" +
-                "alarmType=" + alarmType +
+                "alarmType='" + alarmType + '\'' +
+                ", organizationId=" + organizationId +
                 ", targetIds=" + targetIds +
                 ", contents=" + contents +
                 '}';

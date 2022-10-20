@@ -2,10 +2,12 @@ package com.woowacourse.thankoo.admin.common.qrcode.presentation;
 
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes.ARRAY;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
@@ -23,6 +25,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.ResultActions;
@@ -37,16 +40,18 @@ class AdminQrCodeControllerTest extends AdminControllerTest {
     @DisplayName("시리얼 코드로 QR 코드를 가져온다.")
     @Test
     void getCoupons() throws Exception {
-        given(adminQrCodeService.getLinks(any()))
+        given(tokenDecoder.decode(anyString())).willReturn("1");
+        given(adminQrCodeService.getLinks(any(AdminSerialRequest.class)))
                 .willReturn(List.of(
                         new AdminLinkResponse("http://test-qrserver/1"),
                         new AdminLinkResponse("http://test-qrserver/2"),
                         new AdminLinkResponse("http://test-qrserver/3")
                 ));
 
-        AdminSerialRequest requests = new AdminSerialRequest(List.of("1234", "1235", "1236"));
+        AdminSerialRequest requests = new AdminSerialRequest(List.of("1234", "1235", "1236"), 1L);
 
         ResultActions resultActions = mockMvc.perform(get("/admin/qrcode")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requests)))
                 .andDo(print())
@@ -56,7 +61,8 @@ class AdminQrCodeControllerTest extends AdminControllerTest {
                 Preprocessors.preprocessRequest(prettyPrint()),
                 Preprocessors.preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("serials").type(ARRAY).description("serials")),
+                        fieldWithPath("serials").type(ARRAY).description("serials"),
+                        fieldWithPath("organizationId").type(NUMBER).description("organizationId")),
                 responseFields(
                         fieldWithPath("[].link").type(STRING).description("link")
                 )));

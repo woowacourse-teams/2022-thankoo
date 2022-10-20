@@ -16,9 +16,7 @@ const ReservationPageButton = () => {
           <S.Icon />
         </S.IconWrapper>
         <p>예약</p>
-        {data && data.length !== 0 && (
-          <S.ReceivedReservationCount>{data.length}</S.ReceivedReservationCount>
-        )}
+        {data && data.length !== 0 && <S.Count>{data.length}</S.Count>}
       </S.ButtonWrapper>
     </S.Link>
   );
@@ -45,7 +43,6 @@ const S = {
       active &&
       css`
         opacity: 1;
-        transform: scale(1.15);
       `};
   `,
   Icon: styled(NotificationsActiveIcon)`
@@ -55,16 +52,12 @@ const S = {
     transition: all ease-in;
     transition-duration: 0.2s;
     -webkit-transition-duration: 0.2s;
-
-    &:active {
-      background-color: ${({ theme }) => theme.button.active.background};
-    }
   `,
   IconWrapper: styled.div`
     transform: scale(1.6);
     margin-bottom: 0.5rem;
   `,
-  ReceivedReservationCount: styled.span`
+  Count: styled.span`
     position: absolute;
     top: -7px;
     right: -7px;

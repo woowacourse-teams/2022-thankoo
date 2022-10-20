@@ -5,34 +5,29 @@ import TabsNav from '../components/@shared/TabsNav';
 import GridViewCoupons from '../components/Main/GridViewCoupons';
 
 import { css } from '@emotion/react';
+import { Suspense } from 'react';
 import { Link } from 'react-router-dom';
-import { ROUTE_PATH } from '../constants/routes';
-import { couponTypeKeys, couponTypes } from '../types';
-import NoReceivedCoupon from './../components/@shared/noContent/NoReceivedCoupon';
-import NoSendCoupon from './../components/@shared/noContent/NoSendCoupon';
-import useMain from '../hooks/Main/useMain';
-import HeaderText from '../components/@shared/Layout/HeaderText';
-import MainPageLayout from '../components/@shared/Layout/MainPageLayout';
-import useQRCoupon from '../hooks/useQRCoupon';
 import Spinner from '../components/@shared/Spinner';
+import CustomErrorBoundary from '../errors/CustomErrorBoundary';
+import ErrorFallBack from '../errors/ErrorFallBack';
+import useMain from '../hooks/Main/useMain';
+import useQRCoupon from '../hooks/useQRCoupon';
+import HeaderText from '../layout/HeaderText';
+import MainPageLayout from '../layout/MainPageLayout';
+import { couponTypeKeys, couponTypes } from '../types/coupon';
 
-const sentOrReceivedArray = ['받은', '보낸'];
+const sentOrReceivedArray = ['received', 'sent'];
 
 const Main = () => {
   const {
-    setCurrentType,
-    coupons,
-    isLoading,
-    error,
     currentType,
     sentOrReceived,
-    setSentOrReceived,
     showUsedCouponsWith,
+    setCurrentType,
+    setSentOrReceived,
     setShowUsedCouponsWith,
   } = useMain();
   useQRCoupon();
-
-  if (error) return <div>에러뜸</div>;
 
   return (
     <MainPageLayout>
@@ -40,17 +35,17 @@ const Main = () => {
         <S.SliderDiv length={2} current={sentOrReceivedArray.indexOf(sentOrReceived)} />
         <S.CouponStatusNav
           onClick={() => {
-            setSentOrReceived('받은');
+            setSentOrReceived('received');
           }}
-          selected={sentOrReceived === '받은'}
+          selected={sentOrReceived === 'received'}
         >
           <S.HeaderText>받은 쿠폰함</S.HeaderText>
         </S.CouponStatusNav>
         <S.CouponStatusNav
           onClick={() => {
-            setSentOrReceived('보낸');
+            setSentOrReceived('sent');
           }}
-          selected={sentOrReceived === '보낸'}
+          selected={sentOrReceived === 'sent'}
         >
           <S.HeaderText>보낸 쿠폰함</S.HeaderText>
         </S.CouponStatusNav>
@@ -77,23 +72,20 @@ const Main = () => {
             </S.UsedCouponCheckboxLabel>
           </S.UsedCouponToggleForm>
         </S.TabsNavWrapper>
-        {isLoading ? (
-          <Spinner />
-        ) : coupons?.length ? (
-          <GridViewCoupons coupons={coupons} />
-        ) : sentOrReceived === '보낸' ? (
-          <NoSendCoupon />
-        ) : (
-          <NoReceivedCoupon />
-        )}
-
-        <S.SelectReceiverButton to={ROUTE_PATH.SELECT_RECEIVER}>
-          <S.SendIcon />
-        </S.SelectReceiverButton>
+        <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
+          <Suspense fallback={<Spinner />}>
+            <GridViewCoupons
+              currentType={currentType}
+              sentOrReceived={sentOrReceived}
+              showUsedCouponsWith={showUsedCouponsWith}
+            />
+          </Suspense>
+        </CustomErrorBoundary>
       </S.Body>
     </MainPageLayout>
   );
 };
+
 type SliderDivProps = {
   length: number;
   current: number;
@@ -107,7 +99,8 @@ const S = {
   Body: styled.div`
     display: flex;
     flex-direction: column;
-    height: calc(79.5% - 5.5rem);
+    overflow: auto;
+    height: 100%;
   `,
   CouponStatusNavWrapper: styled.div`
     position: relative;
@@ -155,8 +148,7 @@ const S = {
   TabsNavWrapper: styled.div`
     display: flex;
     justify-content: space-between;
-    height: 3.2rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
   `,
   UsedCouponToggleForm: styled.form`
     display: flex;
@@ -164,6 +156,7 @@ const S = {
   `,
   UsedCouponCheckbox: styled.input`
     margin: 0 10px 0 0;
+    accent-color: tomato;
   `,
   UsedCouponCheckboxLabel: styled.label`
     font-size: 12px;

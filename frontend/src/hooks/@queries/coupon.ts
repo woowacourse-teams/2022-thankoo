@@ -1,12 +1,13 @@
-import { useEffect } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { AxiosError } from 'axios';
+import { useMutation, useQuery } from 'react-query';
 import { client } from '../../apis/axios';
 import { API_PATH } from '../../constants/api';
-import { Coupon, CouponDetail } from '../../types';
+import { ErrorType } from '../../types/api';
+import { Coupon, CouponDetail } from '../../types/coupon';
 
 const SENT_OR_RECEIVED_API_PATH = {
-  받은: API_PATH.RECEIVED_COUPONS_ALL,
-  보낸: API_PATH.SENT_COUPONS,
+  received: API_PATH.RECEIVED_COUPONS_ALL,
+  sent: API_PATH.SENT_COUPONS,
 };
 
 export const COUPON_QUERY_KEY = {
@@ -14,7 +15,10 @@ export const COUPON_QUERY_KEY = {
   couponDetail: 'couponDetail',
 };
 
-export const useGetCouponDetail = (couponId, { onSuccess = () => {}, onError = () => {} } = {}) =>
+export const useGetCouponDetail = (
+  couponId: number,
+  { onSuccess = () => {}, onError = () => {} } = {}
+) =>
   useQuery<CouponDetail>(
     [COUPON_QUERY_KEY.couponDetail, couponId],
     () => getCouponDetailRequest(couponId),
@@ -39,6 +43,20 @@ export const usePostCouponMutation = ({ receiverIds, content }, { onSuccess = ()
     onSuccess: () => {
       onSuccess();
     },
+  });
+
+export const usePutCompleteCoupon = (
+  couponId: number,
+  { onSuccess = () => {}, onError = (error: AxiosError<ErrorType>) => {} } = {}
+) =>
+  useMutation(() => putCompleteCoupon(couponId), {
+    onSuccess: () => {
+      onSuccess();
+    },
+    onError: (error: AxiosError<ErrorType>) => {
+      onError(error);
+    },
+    retry: false,
   });
 
 /** FETCHER */
@@ -67,6 +85,12 @@ const postCouponRequest = async ({ receiverIds, content }) => {
     url: API_PATH.SEND_COUPON,
     data: { receiverIds, content },
   });
+
+  return data;
+};
+
+const putCompleteCoupon = async couponId => {
+  const { data } = await client({ url: API_PATH.COMPLETE_COUPON(couponId), method: 'put' });
 
   return data;
 };

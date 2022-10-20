@@ -24,4 +24,7 @@ public class OAuthFixture {
         CACHED_OAUTH_PROFILE.put(CODE_LALA, LALA_TOKEN);
         CACHED_OAUTH_PROFILE.put(CODE_HUNI, HUNI_TOKEN);
     }
+
+    private OAuthFixture() {
+    }
 }

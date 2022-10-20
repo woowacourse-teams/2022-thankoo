@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.coupon.domain;
 
 import com.woowacourse.thankoo.member.domain.Member;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.Getter;
 
@@ -9,6 +10,7 @@ import lombok.Getter;
 public class MemberCoupon {
 
     private final Long couponId;
+    private final Long organizationId;
     private final Member sender;
     private final Member receiver;
     private final String couponType;
@@ -16,16 +18,20 @@ public class MemberCoupon {
     private final String message;
     private final String status;
     private final LocalDate createdDate;
+    private final LocalDateTime modifiedDateTime;
 
     public MemberCoupon(final Long couponId,
+                        final Long organizationId,
                         final Member sender,
                         final Member receiver,
                         final String couponType,
                         final String title,
                         final String message,
                         final String status,
-                        final LocalDate createdDate) {
+                        final LocalDate createdDate,
+                        final LocalDateTime modifiedDateTime) {
         this.couponId = couponId;
+        this.organizationId = organizationId;
         this.sender = sender;
         this.receiver = receiver;
         this.couponType = couponType;
@@ -33,10 +39,15 @@ public class MemberCoupon {
         this.message = message;
         this.status = status;
         this.createdDate = createdDate;
+        this.modifiedDateTime = modifiedDateTime;
     }
 
     public boolean isOwner(final Long memberId) {
         return sender.isSameId(memberId) || receiver.isSameId(memberId);
+    }
+
+    public boolean isInOrganization(final Long organizationId) {
+        return this.organizationId.equals(organizationId);
     }
 
     @Override
@@ -48,22 +59,26 @@ public class MemberCoupon {
             return false;
         }
         MemberCoupon that = (MemberCoupon) o;
-        return Objects.equals(couponId, that.couponId) && Objects.equals(sender, that.sender)
+        return Objects.equals(couponId, that.couponId) && Objects.equals(organizationId, that.organizationId)
+                && Objects.equals(sender, that.sender)
                 && Objects.equals(receiver, that.receiver) && Objects.equals(couponType,
                 that.couponType) && Objects.equals(title, that.title) && Objects.equals(message,
                 that.message) && Objects.equals(status, that.status) && Objects.equals(createdDate,
-                that.createdDate);
+                that.createdDate) && Objects.equals(modifiedDateTime, that.modifiedDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(couponId, sender, receiver, couponType, title, message, status, createdDate);
+        return Objects.hash(couponId, organizationId, sender, receiver, couponType, title, message, status,
+                createdDate, modifiedDateTime);
     }
+
 
     @Override
     public String toString() {
         return "MemberCoupon{" +
                 "couponId=" + couponId +
+                ", organizationId=" + organizationId +
                 ", sender=" + sender.getId() +
                 ", receiver=" + receiver.getId() +
                 ", couponType='" + couponType + '\'' +
@@ -71,6 +86,7 @@ public class MemberCoupon {
                 ", message='" + message + '\'' +
                 ", status='" + status + '\'' +
                 ", createdDate=" + createdDate +
+                ", modifiedDateTime=" + modifiedDateTime +
                 '}';
     }
 }

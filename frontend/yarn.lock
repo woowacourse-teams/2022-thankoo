@@ -7555,6 +7555,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"thankoo-utils-type@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "thankoo-utils-type@npm:0.1.1"
+  checksum: 2b94e560feb8b12344e83ce88f85e75b0bab4ed8b3c23686dfc217dffa8d1deac2fadfa2c013f22958a7cc0740452de1e03b918005aab3025c7a5ffcbd4824bc
+  languageName: node
+  linkType: hard
+
 "thankoo@workspace:.":
   version: 0.0.0-use.local
   resolution: "thankoo@workspace:."
@@ -7594,6 +7601,7 @@ __metadata:
     react-transition-group: ^4.4.5
     recoil: ^0.7.4
     style-loader: ^3.3.1
+    thankoo-utils-type: ^0.1.1
     ts-loader: ^9.3.1
     typescript: ^4.7.4
     webpack: ^5.73.0

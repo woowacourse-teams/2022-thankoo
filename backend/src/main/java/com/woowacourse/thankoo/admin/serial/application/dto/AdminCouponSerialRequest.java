@@ -14,17 +14,20 @@ import lombok.NoArgsConstructor;
 public class AdminCouponSerialRequest {
 
     private Long memberId;
+    private Long organizationId;
     private String couponType;
     private int quantity;
     private String title;
     private String message;
 
     public AdminCouponSerialRequest(final Long memberId,
+                                    final Long organizationId,
                                     final String couponType,
                                     final int quantity,
                                     final String title,
                                     final String message) {
         this.memberId = memberId;
+        this.organizationId = organizationId;
         this.couponType = couponType;
         this.quantity = quantity;
         this.title = title;
@@ -32,10 +35,23 @@ public class AdminCouponSerialRequest {
     }
 
     public CouponSerial from(final SerialCode serialCode, final Long senderId) {
-        return new CouponSerial(serialCode,
+        return new CouponSerial(organizationId,
+                serialCode,
                 senderId,
                 CouponSerialType.of(couponType),
                 CouponSerialStatus.NOT_USED,
                 new CouponSerialContent(title, message));
+    }
+
+    @Override
+    public String toString() {
+        return "AdminCouponSerialRequest{" +
+                "memberId=" + memberId +
+                ", organizationId=" + organizationId +
+                ", couponType='" + couponType + '\'' +
+                ", quantity=" + quantity +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

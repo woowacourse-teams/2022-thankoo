@@ -1,9 +1,5 @@
 server:
   port: 8180
-  tomcat:
-    max-connections: 100
-    threads:
-      max: 50
 
 spring:
   jpa:
@@ -20,9 +16,6 @@ spring:
     url: jdbc:h2:mem:thankoo-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
-    hikari:
-      maximumPoolSize: 51
-      idleTimeout: 10000
 
 security:
   jwt:
@@ -48,3 +41,13 @@ profile-image:
   image-path: classpath:static/profile-image/*.svg
 
 origin: https://thankoo.co.kr
+
+admin:
+  encryption:
+    pbkdf2:
+      salt: csclxnexia70000000
+      iteration-count: 65536
+      key-length: 128
+  token:
+    key: acwoFWrRtHoTpxczELrTOhfsQNewXLhviNzE
+    validity: 1000000

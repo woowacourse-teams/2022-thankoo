@@ -25,7 +25,7 @@ class HeartTest {
     void start() {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
-        Heart heart = Heart.start(huni.getId(), skrr.getId());
+        Heart heart = Heart.start(1L, huni.getId(), skrr.getId());
         assertAll(
                 () -> assertThat(heart.isLast()).isTrue(),
                 () -> assertThat(heart.getCount()).isEqualTo(1)
@@ -36,7 +36,7 @@ class HeartTest {
     @Test
     void startFailedSendSelf() {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
-        assertThatThrownBy(() -> Heart.start(huni.getId(), huni.getId()))
+        assertThatThrownBy(() -> Heart.start(1L, huni.getId(), huni.getId()))
                 .isInstanceOf(InvalidHeartException.class)
                 .hasMessage("마음을 보낼 수 없습니다.");
     }
@@ -46,8 +46,8 @@ class HeartTest {
     void firstReply() {
         Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
         Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
-        Heart heart = Heart.start(huni.getId(), skrr.getId());
-        Heart reply = Heart.firstReply(skrr.getId(), huni.getId(), heart);
+        Heart heart = Heart.start(1L, huni.getId(), skrr.getId());
+        Heart reply = Heart.firstReply(1L, skrr.getId(), huni.getId(), heart);
         assertAll(
                 () -> assertThat(heart.isLast()).isFalse(),
                 () -> assertThat(reply.isLast()).isTrue(),
@@ -65,8 +65,8 @@ class HeartTest {
         void sendFinalException() {
             Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
             Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
-            Heart heart = Heart.start(huni.getId(), skrr.getId());
-            Heart reply = Heart.firstReply(skrr.getId(), huni.getId(), heart);
+            Heart heart = Heart.start(1L, huni.getId(), skrr.getId());
+            Heart reply = Heart.firstReply(1L, skrr.getId(), huni.getId(), heart);
             assertThatThrownBy(() -> reply.send(heart))
                     .isInstanceOf(InvalidHeartException.class)
                     .hasMessage("마음을 보낼 수 없습니다.");
@@ -77,8 +77,8 @@ class HeartTest {
         void send() {
             Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
             Member skrr = new Member(2L, SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL);
-            Heart heart = Heart.start(huni.getId(), skrr.getId());
-            Heart reply = Heart.firstReply(skrr.getId(), huni.getId(), heart);
+            Heart heart = Heart.start(1L, huni.getId(), skrr.getId());
+            Heart reply = Heart.firstReply(1L, skrr.getId(), huni.getId(), heart);
             heart.send(reply);
 
             assertAll(

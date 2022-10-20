@@ -5,7 +5,7 @@ import { client } from '../apis/axios';
 import QRCouponRegisterModal from '../components/Main/QRCouponRegisterModal';
 import { API_PATH } from '../constants/api';
 import { ROUTE_PATH } from '../constants/routes';
-import { CouponType } from '../types';
+import { CouponType } from '../types/coupon';
 import useModal from './useModal';
 
 export type QRCouponResponse = {

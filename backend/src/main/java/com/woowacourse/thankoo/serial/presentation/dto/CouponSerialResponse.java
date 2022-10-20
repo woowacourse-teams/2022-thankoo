@@ -10,12 +10,18 @@ import lombok.NoArgsConstructor;
 public class CouponSerialResponse {
 
     private Long id;
+    private Long organizationId;
     private Long senderId;
     private String senderName;
     private String couponType;
 
-    public CouponSerialResponse(final Long id, final Long senderId, final String senderName, final String couponType) {
+    public CouponSerialResponse(final Long id,
+                                final Long organizationId,
+                                final Long senderId,
+                                final String senderName,
+                                final String couponType) {
         this.id = id;
+        this.organizationId = organizationId;
         this.senderId = senderId;
         this.senderName = senderName;
         this.couponType = couponType;
@@ -23,6 +29,7 @@ public class CouponSerialResponse {
 
     public static CouponSerialResponse from(final CouponSerialMember couponSerialMember) {
         return new CouponSerialResponse(couponSerialMember.getId(),
+                couponSerialMember.getOrganizationId(),
                 couponSerialMember.getSenderId(),
                 couponSerialMember.getSenderName(),
                 couponSerialMember.getCouponType().getValue().toLowerCase());
@@ -32,6 +39,7 @@ public class CouponSerialResponse {
     public String toString() {
         return "CouponSerialResponse{" +
                 "id=" + id +
+                ", organizationId=" + organizationId +
                 ", senderId=" + senderId +
                 ", senderName='" + senderName + '\'' +
                 ", couponType='" + couponType + '\'' +

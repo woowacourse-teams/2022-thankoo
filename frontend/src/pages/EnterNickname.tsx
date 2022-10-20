@@ -1,11 +1,11 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Header from '../components/@shared/Layout/Header';
+import Header from '../layout/Header';
 import Input from '../components/@shared/Input';
-import PageLayout from '../components/@shared/Layout/PageLayout';
+import PageLayout from '../layout/PageLayout';
 import useEnterNickname from '../hooks/EnterNickname/useEnterNickname';
 import { USER_NICKNAME_MAX_LENGTH } from './../constants/users';
-import HeaderText from '../components/@shared/Layout/HeaderText';
+import HeaderText from '../layout/HeaderText';
+import Button from '../components/@shared/Button';
 
 const EnterNickname = () => {
   const { email, nickname, setNickname, signUpWithNickname } = useEnterNickname();
@@ -32,9 +32,9 @@ const EnterNickname = () => {
               maxLength={USER_NICKNAME_MAX_LENGTH}
             />
           </S.FlexColumn>
-          <S.Button disabled={nickname.trim().length === 0} type='submit'>
+          <Button isDisabled={nickname.trim().length === 0} type='submit'>
             회원가입 완료
-          </S.Button>
+          </Button>
         </S.Form>
       </S.Body>
     </S.PageLayout>
@@ -68,24 +68,5 @@ const S = {
   `,
   Label: styled.label`
     font-size: 1.7rem;
-  `,
-  Button: styled.button`
-    color: white;
-    border-radius: 10px;
-    border: none;
-    padding: 8px;
-    font-size: 17px;
-    background-color: ${({ theme }) => theme.primary};
-    ${({ disabled, theme }) =>
-      disabled
-        ? css`
-            background-color: ${theme.button.disbaled.background};
-            color: ${theme.button.disbaled.color};
-            cursor: not-allowed;
-          `
-        : css`
-            background-color: ${theme.button.active.background};
-            color: ${theme.button.active.color};
-          `}
   `,
 };

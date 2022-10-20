@@ -6,6 +6,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -32,6 +33,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.web.servlet.ResultActions;
@@ -46,6 +48,8 @@ class AdminCouponControllerTest extends AdminControllerTest {
         @DisplayName("기간에 해당하는 모든 쿠폰을 조회한다.")
         @Test
         void getCoupons() throws Exception {
+            given(tokenDecoder.decode(anyString()))
+                    .willReturn("1");
             AdminMemberResponse lala = new AdminMemberResponse(1L, LALA_NAME, LALA_EMAIL);
             AdminMemberResponse hoho = new AdminMemberResponse(2L, HOHO_NAME, HOHO_EMAIL);
             given(adminCouponQueryService.getCoupons(any()))
@@ -57,6 +61,7 @@ class AdminCouponControllerTest extends AdminControllerTest {
                     );
 
             ResultActions resultActions = mockMvc.perform(get("/admin/coupons")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                             .queryParam("status", "all")
                             .queryParam("startDate", "2022-01-01")
                             .queryParam("endDate", "2022-12-01"))
@@ -74,10 +79,10 @@ class AdminCouponControllerTest extends AdminControllerTest {
                             fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
                             fieldWithPath("[].type").type(STRING).description("type"),
                             fieldWithPath("[].status").type(STRING).description("status"),
-                            fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
+                            fieldWithPath("[].sender.memberId").type(NUMBER).description("senderId"),
                             fieldWithPath("[].sender.name").type(STRING).description("senderName"),
                             fieldWithPath("[].sender.email").type(STRING).description("senderEmail"),
-                            fieldWithPath("[].receiver.id").type(NUMBER).description("receiverId"),
+                            fieldWithPath("[].receiver.memberId").type(NUMBER).description("receiverId"),
                             fieldWithPath("[].receiver.name").type(STRING).description("receiverName"),
                             fieldWithPath("[].receiver.email").type(STRING).description("receiverEmail"),
                             fieldWithPath("[].createdAt").type(STRING).description("createdAt"),
@@ -91,6 +96,8 @@ class AdminCouponControllerTest extends AdminControllerTest {
         void getCouponsByStatus() throws Exception {
             AdminMemberResponse lala = new AdminMemberResponse(1L, LALA_NAME, LALA_EMAIL);
             AdminMemberResponse hoho = new AdminMemberResponse(2L, HOHO_NAME, HOHO_EMAIL);
+            given(tokenDecoder.decode(anyString()))
+                    .willReturn("1");
             given(adminCouponQueryService.getCoupons(any()))
                     .willReturn(List.of(
                             new AdminCouponResponse(1L, TYPE, "RESERVING", lala, hoho,
@@ -100,6 +107,7 @@ class AdminCouponControllerTest extends AdminControllerTest {
                     );
 
             ResultActions resultActions = mockMvc.perform(get("/admin/coupons")
+                            .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                             .queryParam("status", "reserving")
                             .queryParam("startDate", "2022-01-01")
                             .queryParam("endDate", "2022-12-01"))
@@ -117,10 +125,10 @@ class AdminCouponControllerTest extends AdminControllerTest {
                             fieldWithPath("[].couponId").type(NUMBER).description("couponId"),
                             fieldWithPath("[].type").type(STRING).description("type"),
                             fieldWithPath("[].status").type(STRING).description("status"),
-                            fieldWithPath("[].sender.id").type(NUMBER).description("senderId"),
+                            fieldWithPath("[].sender.memberId").type(NUMBER).description("senderId"),
                             fieldWithPath("[].sender.name").type(STRING).description("senderName"),
                             fieldWithPath("[].sender.email").type(STRING).description("senderEmail"),
-                            fieldWithPath("[].receiver.id").type(NUMBER).description("receiverId"),
+                            fieldWithPath("[].receiver.memberId").type(NUMBER).description("receiverId"),
                             fieldWithPath("[].receiver.name").type(STRING).description("receiverName"),
                             fieldWithPath("[].receiver.email").type(STRING).description("receiverEmail"),
                             fieldWithPath("[].createdAt").type(STRING).description("createdAt"),
@@ -133,9 +141,12 @@ class AdminCouponControllerTest extends AdminControllerTest {
     @DisplayName("쿠폰 상태를 만료 처리한다.")
     @Test
     void updateCouponStatusExpired() throws Exception {
+        given(tokenDecoder.decode(anyString()))
+                .willReturn("1");
         doNothing().when(adminCouponService).updateCouponStatusExpired(any());
 
         ResultActions resultActions = mockMvc.perform(put("/admin/coupons/expire")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new AdminCouponExpireRequest(List.of(1L, 2L)))))
                 .andDo(print())

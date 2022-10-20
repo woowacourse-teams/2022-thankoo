@@ -1,22 +1,51 @@
 import styled from '@emotion/styled';
+import { Suspense } from 'react';
 import { COUPON_STATUS_STRAP_TEXT } from '../../constants/coupon';
-import { Coupon, CouponStatus } from '../../types';
+import { CouponStatus, CouponTransmitStatus, CouponType } from '../../types/coupon';
+import CustomErrorBoundary from './../../errors/CustomErrorBoundary';
+import ErrorFallBack from './../../errors/ErrorFallBack';
+import useGridViewCoupons from './../../hooks/Main/useGridViewCoupons';
+import ModalWrapper from './../@shared/Modal/ModalWrapper';
+import NoReceivedCoupon from './../@shared/noContent/NoReceivedCoupon';
+import NoSendCoupon from './../@shared/noContent/NoSendCoupon';
+import Spinner from './../@shared/Spinner';
 import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
-import ModalWrapper from './ModalWrapper';
 
 const strapStatus = ['reserving', 'reserved'];
 
-const GridViewCoupons = ({ coupons }: { coupons: Coupon[] }) => {
+const GridViewCoupons = ({
+  currentType,
+  sentOrReceived,
+  showUsedCouponsWith,
+}: {
+  currentType: CouponType;
+  sentOrReceived: CouponTransmitStatus;
+  showUsedCouponsWith: boolean;
+}) => {
+  const { coupons } = useGridViewCoupons(currentType, sentOrReceived, showUsedCouponsWith);
   const isOnReserve = status => strapStatus.includes(status);
-  const isCompleted = status => status === 'used';
+  const isCompleted = status => status === 'used' || status === 'immediately_used';
+
+  if (coupons.length === 0 && sentOrReceived === 'sent') {
+    return <NoSendCoupon />;
+  }
+  if (coupons.length === 0 && sentOrReceived === 'received') {
+    return <NoReceivedCoupon />;
+  }
 
   return (
     <S.Container>
       {coupons.map(coupon => (
         <ModalWrapper
           key={coupon.couponId}
-          modalContent={<CouponDetail couponId={coupon.couponId} />}
+          modal={
+            <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
+              <Suspense fallback={<Spinner />}>
+                <CouponDetail couponId={coupon.couponId} />
+              </Suspense>
+            </CustomErrorBoundary>
+          }
         >
           <S.Relative>
             {isCompleted(coupon.status) && <S.CompleteDeem>사용 완료</S.CompleteDeem>}
@@ -45,12 +74,10 @@ const S = {
     grid-template-columns: repeat(auto-fill, minmax(145px, 150px));
     gap: 30px 15px;
 
-    height: fit-content;
-    max-height: calc(100% - 4.7rem);
-
     place-items: center;
     justify-content: space-around;
     overflow-y: auto;
+    padding-bottom: 5rem;
 
     &::-webkit-scrollbar {
       width: 2px;
@@ -76,7 +103,7 @@ const S = {
     overflow: hidden;
     position: relative;
     transition: all ease-in-out 0.1s;
-
+    cursor: pointer;
     :hover,
     :active {
       opacity: 0.8;
