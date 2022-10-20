@@ -14,4 +14,5 @@ export const ROUTE_PATH = {
   MEETINGS: '/meetings',
   HEARTS: '/hearts',
   JOIN_ORGANIZATION: '/join-organization',
+  ORGANIZATIONS: '/organizations',
 };

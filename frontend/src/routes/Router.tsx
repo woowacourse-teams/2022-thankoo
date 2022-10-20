@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import Spinner from '../components/@shared/Spinner';
 import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Organization from '../pages/Organization';
+import OrganizationsAccess from '../pages/OrganizationsAccess';
 import { ROUTE_PATH } from './../constants/routes';
 import NotFound from './../pages/NotFound';
 
@@ -53,6 +54,11 @@ const Router = () => {
         <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
         <Route element={<AuthOnly />}>
           <Route path={ROUTE_PATH.JOIN_ORGANIZATION} element={<Organization />} />
+          <Route path={ROUTE_PATH.ORGANIZATIONS}>
+            <Route path={`:id`} element={<OrganizationsAccess />}>
+              <Route path={`:page`} element={<OrganizationsAccess />} />
+            </Route>
+          </Route>
           <Route element={<AccessController />}>
             <Route element={<HeaderAndNavLayout />}>
               <Route path={ROUTE_PATH.EXACT_MAIN} element={<Main />} />

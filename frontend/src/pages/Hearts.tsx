@@ -31,7 +31,6 @@ const Hearts = () => {
 const S = {
   Header: styled(HeaderText)`
     color: white;
-    line-height: 2.5rem;
   `,
   Body: styled.div`
     height: calc(80%);
