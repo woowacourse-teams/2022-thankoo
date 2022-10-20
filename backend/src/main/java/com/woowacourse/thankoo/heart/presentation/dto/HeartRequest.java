@@ -15,4 +15,12 @@ public class HeartRequest {
         this.organizationId = organizationId;
         this.receiverId = receiverId;
     }
+
+    @Override
+    public String toString() {
+        return "HeartRequest{" +
+                "organizationId=" + organizationId +
+                ", receiverId=" + receiverId +
+                '}';
+    }
 }

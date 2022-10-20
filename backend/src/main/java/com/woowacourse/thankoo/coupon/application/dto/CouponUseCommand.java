@@ -14,4 +14,13 @@ public class CouponUseCommand {
         this.organizationId = organizationId;
         this.couponId = couponId;
     }
+
+    @Override
+    public String toString() {
+        return "CouponUseCommand{" +
+                "memberId=" + memberId +
+                ", organizationId=" + organizationId +
+                ", couponId=" + couponId +
+                '}';
+    }
 }

@@ -34,4 +34,15 @@ public class OrganizationResponse {
                 memberOrganization.getOrderNumber(),
                 memberOrganization.isLastAccessed());
     }
+
+    @Override
+    public String toString() {
+        return "OrganizationResponse{" +
+                "organizationId=" + organizationId +
+                ", organizationName='" + organizationName + '\'' +
+                ", organizationCode='" + organizationCode + '\'' +
+                ", orderNumber=" + orderNumber +
+                ", lastAccessed=" + lastAccessed +
+                '}';
+    }
 }
