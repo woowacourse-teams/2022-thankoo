@@ -60,6 +60,10 @@ const QRCouponRegisterModal = ({
       <S.Modal>
         <S.HeaderText>쿠폰을 등록하시겠습니까?</S.HeaderText>
         <S.ContentWrapper>
+          <S.TitleText>그룹</S.TitleText>
+          <S.ContentText>{QRCode.organizationName}</S.ContentText>
+        </S.ContentWrapper>
+        <S.ContentWrapper>
           <S.TitleText>보낸 사람</S.TitleText>
           <S.ContentText>{QRCode.senderName}</S.ContentText>
         </S.ContentWrapper>

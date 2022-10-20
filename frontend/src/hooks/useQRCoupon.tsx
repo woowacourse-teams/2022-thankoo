@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { client } from '../apis/axios';
@@ -10,6 +10,8 @@ import useModal from './useModal';
 
 export type QRCouponResponse = {
   id: number;
+  organizationId: number;
+  organizationName: string;
   senderId: number;
   senderName: string;
   couponType: CouponType;
@@ -22,7 +24,6 @@ const useQRCoupon = () => {
 
   const query = localStorage.getItem('query') || search;
   const code = query.includes('?code=') ? query.replace('?code=', '') : '';
-  localStorage.removeItem('query');
 
   const { data: QRCoupon, refetch } = useQuery<QRCouponResponse>(
     ['QRCoupon'],
@@ -39,12 +40,12 @@ const useQRCoupon = () => {
         show();
         setModalContent(<QRCouponRegisterModal QRCode={res} serialCode={code} />);
       },
-      onError: () => {
-        alert('등록되지 않은 쿠폰입니다.');
+      onError: error => {
         navigate(ROUTE_PATH.EXACT_MAIN, { replace: true });
       },
       retry: false,
       enabled: !!code,
+      useErrorBoundary: false,
     }
   );
 
