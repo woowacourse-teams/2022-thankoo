@@ -1,5 +1,8 @@
+import { Axios, AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { API_PATH } from '../../constants/api';
+import { ErrorType } from '../../types/api';
+import { urlQueryHandler } from '../../utils/api';
 import { client } from './../../apis/axios';
 
 export const HEART_QUERY_KEY = {
@@ -44,15 +47,45 @@ const getUserHeartsRequest = async () => {
 type postHeartReqest = {
   receiverId: number;
 };
-export const usePostHeartMutation = () => {
+export const usePostHeartMutation = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess: () => void;
+  onError: (error: AxiosError<ErrorType>) => void;
+}) => {
   const queryClient = useQueryClient();
 
   return useMutation((receiverId: number) => postUserHeartRequest(receiverId), {
     onSuccess: () => {
       queryClient.invalidateQueries([HEART_QUERY_KEY.heart]);
+      onSuccess?.();
+    },
+    onError: (error: AxiosError<ErrorType>) => {
+      onError?.(error);
     },
   });
 };
+
+export const useGetHeart = (receiverId, { onSuccess }) =>
+  useQuery(
+    ['heart', receiverId],
+    async () => {
+      const { data } = await client({
+        method: 'get',
+        url: urlQueryHandler(API_PATH.GET_USER_HEART, `receiver=${receiverId}`),
+      });
+
+      return data;
+    },
+    {
+      onSuccess: res => {
+        onSuccess?.(res);
+      },
+      enabled: false,
+    }
+  );
+
 const postUserHeartRequest = async receiverId =>
   client({
     method: 'post',

@@ -1,59 +1,28 @@
 import styled from '@emotion/styled';
-import useHeartsMembers from '../../hooks/Hearts/useHeartsMembers';
+import { BASE_URL } from '../../constants/api';
 import { FlexCenter } from '../../styles/mixIn';
-import ListViewHeart from './ListViewHeart';
 
-const Members = ({ searchKeyword }: { searchKeyword: string }) => {
-  const { searchedUserWithState } = useHeartsMembers(searchKeyword);
-
+const ListViewHeartSkeleton = ({ user }) => {
   return (
-    <S.MembersContainer>
-      {searchedUserWithState?.map(hearts => (
-        <ListViewHeart key={hearts.user.id} {...hearts} />
-      ))}
-    </S.MembersContainer>
+    <S.UserWrappr key={user.id}>
+      <S.UserImageWrapper>
+        <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+      </S.UserImageWrapper>
+      <S.UserName>{user.name}</S.UserName>
+      <S.ModifiedAt>ㅤㅤㅤㅤ</S.ModifiedAt>
+
+      <S.CountWrapper>
+        <S.CountLabel>연속</S.CountLabel> <S.CountNum>ㅤ</S.CountNum>
+      </S.CountWrapper>
+      <S.SendButtonWrapper>
+        <S.SendButton>콕</S.SendButton>
+      </S.SendButtonWrapper>
+    </S.UserWrappr>
   );
 };
-
-export default Members;
-
-type CheckBoxProp = { canSend: boolean };
+export default ListViewHeartSkeleton;
 
 const S = {
-  MembersContainer: styled.div`
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-
-    overflow: auto;
-    height: calc(100% - 5rem);
-    padding-bottom: 17rem;
-
-    &::-webkit-scrollbar {
-      width: 2px;
-      background-color: transparent;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: transparent;
-      border-radius: 5px;
-    }
-
-    &:hover {
-      overflow-y: auto;
-
-      &::-webkit-scrollbar {
-        width: 2px;
-        background-color: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        background-color: ${({ theme }) => theme.page.color};
-        border-radius: 5px;
-      }
-    }
-  `,
   UserWrappr: styled.div`
     width: 99.5%;
     min-height: 5rem;
@@ -91,6 +60,7 @@ const S = {
     height: 100%;
     font-size: 1.3rem;
     color: ${({ theme }) => theme.page.subColor};
+    background-color: ${{}};
   `,
   CountWrapper: styled.div`
     grid-area: ct;
@@ -107,7 +77,8 @@ const S = {
     font-size: 1rem;
   `,
   CountNum: styled.div`
-    color: mediumspringgreen; //10회 미만 darksalmon 10회 이상 mediumspringgreen 30회 이상 fuchsia 100회 이상 gold
+    background-color: #666666;
+    border-radius: 5px;
     font-size: 1.5rem;
   `,
   SendButtonWrapper: styled.div`
@@ -118,7 +89,7 @@ const S = {
     width: 100%;
     height: 100%;
   `,
-  SendButton: styled.span<CheckBoxProp>`
+  SendButton: styled.span`
     display: grid;
     place-items: center;
 
@@ -127,11 +98,11 @@ const S = {
     border-radius: 8px;
 
     text-align: center;
-    background-color: ${({ canSend }) => (canSend ? `#ff7a62` : `#adadad`)};
+    background-color: #ff7e67;
     font-size: 1.3rem;
     line-height: 3rem;
 
-    color: ${({ canSend }) => (canSend ? 'white' : '#7a7a7a')};
-    cursor: ${({ canSend }) => (canSend ? 'pointer' : '')};
+    color: white;
+    cursor: default;
   `,
 };
