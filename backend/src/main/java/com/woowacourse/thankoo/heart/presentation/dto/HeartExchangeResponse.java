@@ -4,6 +4,7 @@ import com.woowacourse.thankoo.heart.domain.Heart;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -18,7 +19,7 @@ public class HeartExchangeResponse {
         this.received = received;
     }
 
-    public static HeartExchangeResponse of(final Heart sentHearts, final Heart receivedHearts) {
+    public static HeartExchangeResponse of(@Nullable final Heart sentHearts, @Nullable final Heart receivedHearts) {
         return new HeartExchangeResponse(HeartResponse.from(sentHearts), HeartResponse.from(receivedHearts));
     }
 

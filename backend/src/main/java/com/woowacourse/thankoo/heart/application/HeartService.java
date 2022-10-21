@@ -120,6 +120,6 @@ public class HeartService {
 
     private Heart getHeartByReceiverAndSender(final Long senderId, final Long receiverId, final Long orgaznizationId) {
         return heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(senderId, receiverId, orgaznizationId)
-                .orElseThrow(() -> new InvalidHeartException(ErrorType.NOT_FOUND_HEART));
+                .orElse(null);
     }
 }
