@@ -32,9 +32,9 @@ const OrganizationsDropdown = () => {
           </Dropdown.Item>
         ))}
         <SplitLine />
-        <Dropdown.Item selected={false}>
-          <Link to={ROUTE_PATH.JOIN_ORGANIZATION}>그룹 추가</Link>
-        </Dropdown.Item>
+        <Link to={ROUTE_PATH.JOIN_ORGANIZATION}>
+          <Dropdown.Item selected={false}>그룹 추가</Dropdown.Item>
+        </Link>
       </Dropdown.Menu>
     </Dropdown>
   );
