@@ -18,6 +18,7 @@ import com.woowacourse.thankoo.acceptance.builder.OrganizationAssured;
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
 import com.woowacourse.thankoo.organization.presentation.dto.OrganizationResponse;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -127,4 +128,70 @@ class HeartAcceptanceTest extends AcceptanceTest {
                 .status(HttpStatus.OK.value())
                 .조회_성공(1, 2);
     }
+
+    @DisplayName("마음을 단건으로 조회할 때 ")
+    @Nested
+    class HeartExchangeGetTest {
+
+        @DisplayName("주고 받은 내용이 있으면 모두 조회한다.")
+        @Test
+        void exchangeGet() {
+            TokenResponse receiverToken = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .token();
+
+            TokenResponse senderToken = AuthenticationAssured.request()
+                    .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                    .token();
+
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_THANKOO_CODE))
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_THANKOO_CODE))
+                    .내_조직을_조회한다(receiverToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            HeartAssured.request()
+                    .마음을_보낸다(organizationResponse.getOrganizationId(), senderToken.getAccessToken(),
+                            receiverToken.getMemberId())
+                    .마음을_보낸다(organizationResponse.getOrganizationId(), receiverToken.getAccessToken(),
+                            senderToken.getMemberId())
+                    .교환한_마음을_조회한다(organizationResponse.getOrganizationId(), receiverToken.getMemberId(),
+                            senderToken.getAccessToken())
+                    .response()
+                    .조회에_성공한다(senderToken.getMemberId(), receiverToken.getMemberId());
+        }
+
+        @DisplayName("받은 내용이 없으면 null을 반환한다.")
+        @Test
+        void exchangeReceivedNull() {
+            TokenResponse receiverToken = AuthenticationAssured.request()
+                    .회원가입_한다(SKRR_TOKEN, SKRR_NAME)
+                    .로그인_한다(CODE_SKRR)
+                    .token();
+
+            TokenResponse senderToken = AuthenticationAssured.request()
+                    .회원가입_한다(HOHO_TOKEN, HOHO_NAME)
+                    .token();
+
+            기본_조직이_생성됨();
+            OrganizationResponse organizationResponse = OrganizationAssured.request()
+                    .조직에_참여한다(receiverToken, 조직_번호(ORGANIZATION_THANKOO_CODE))
+                    .조직에_참여한다(senderToken, 조직_번호(ORGANIZATION_THANKOO_CODE))
+                    .내_조직을_조회한다(receiverToken)
+                    .response()
+                    .bodies(OrganizationResponse.class).get(0);
+
+            HeartAssured.request()
+                    .마음을_보낸다(organizationResponse.getOrganizationId(), senderToken.getAccessToken(),
+                            receiverToken.getMemberId())
+                    .교환한_마음을_조회한다(organizationResponse.getOrganizationId(), receiverToken.getMemberId(),
+                            senderToken.getAccessToken())
+                    .response()
+                    .받은_기록이_없으면_null_이다();
+        }
+    }
+
 }
