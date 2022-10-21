@@ -1,10 +1,12 @@
 package com.woowacourse.thankoo.heart.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
+import com.woowacourse.thankoo.heart.application.dto.HeartSelectCommand;
 import com.woowacourse.thankoo.heart.application.dto.HeartSendCommand;
 import com.woowacourse.thankoo.heart.domain.Heart;
 import com.woowacourse.thankoo.heart.domain.HeartRepository;
 import com.woowacourse.thankoo.heart.exception.InvalidHeartException;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartExchangeResponse;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
@@ -102,5 +104,22 @@ public class HeartService {
         if (!organization.containsMember(member)) {
             throw new InvalidOrganizationException(ErrorType.NOT_JOINED_MEMBER_OF_ORGANIZATION);
         }
+    }
+
+    public HeartExchangeResponse getSentReceivedHeart(final HeartSelectCommand heartSelectCommand) {
+        Heart sentHeart = getHeartByReceiverAndSender(heartSelectCommand.getSenderId(),
+                heartSelectCommand.getReceiverId(),
+                heartSelectCommand.getOrganizationId());
+
+        Heart receivedHeart = getHeartByReceiverAndSender(heartSelectCommand.getReceiverId(),
+                heartSelectCommand.getSenderId(),
+                heartSelectCommand.getOrganizationId());
+
+        return HeartExchangeResponse.of(sentHeart, receivedHeart);
+    }
+
+    private Heart getHeartByReceiverAndSender(final Long senderId, final Long receiverId, final Long orgaznizationId) {
+        return heartRepository.findBySenderIdAndReceiverIdAndOrganizationId(senderId, receiverId, orgaznizationId)
+                .orElse(null);
     }
 }

@@ -5,6 +5,7 @@ import com.woowacourse.thankoo.heart.domain.Heart;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 @NoArgsConstructor
 @Getter
@@ -33,7 +34,10 @@ public class HeartResponse {
         this.modifiedAt = modifiedAt;
     }
 
-    public static HeartResponse from(final Heart heart) {
+    public static HeartResponse from(@Nullable final Heart heart) {
+        if (heart == null) {
+            return null;
+        }
         return new HeartResponse(heart.getId(),
                 heart.getSenderId(),
                 heart.getReceiverId(),
