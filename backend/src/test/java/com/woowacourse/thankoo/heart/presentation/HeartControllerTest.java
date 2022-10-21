@@ -38,7 +38,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.thankoo.common.ControllerTest;
 import com.woowacourse.thankoo.heart.application.dto.HeartSendCommand;
 import com.woowacourse.thankoo.heart.domain.Heart;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartExchangeResponse;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartRequest;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartResponse;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import com.woowacourse.thankoo.member.domain.Member;
 import java.util.List;
@@ -123,6 +125,58 @@ class HeartControllerTest extends ControllerTest {
                         fieldWithPath("received.[].count").type(NUMBER).description("receivedCount"),
                         fieldWithPath("received.[].last").type(BOOLEAN).description("receivedLast"),
                         fieldWithPath("received.[].modifiedAt").type(NULL).description("receivedModifiedAt")
+                )
+        ));
+    }
+
+    @DisplayName("마음을 단건 조회한다.")
+    @Test
+    void getHeart() throws Exception {
+        given(jwtTokenProvider.getPayload(anyString())).willReturn("1");
+
+        Member huni = new Member(1L, HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL);
+        Member lala = new Member(5L, LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL);
+
+        HeartResponse send = HeartResponse.from(new Heart(1L, 1L, huni.getId(), lala.getId(), 1, false));
+        HeartResponse receive = HeartResponse.from(new Heart(2L, 1L, lala.getId(), huni.getId(), 1, true));
+
+        HeartExchangeResponse heartExchangeResponse = new HeartExchangeResponse(send, receive);
+        given(heartService.getSentReceivedHeart(any()))
+                .willReturn(heartExchangeResponse);
+
+        ResultActions resultActions = mockMvc.perform(get("/api/hearts")
+                        .queryParam("organization", "1")
+                        .queryParam("receiver", "5")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().string(objectMapper.writeValueAsString(heartExchangeResponse)));
+
+        resultActions.andDo(document("hearts/heart",
+                getRequestPreprocessor(),
+                getResponsePreprocessor(),
+                requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).description("token")
+                ),
+                requestParameters(
+                        parameterWithName("organization").description("organizationId"),
+                        parameterWithName("receiver").description("receiverId")
+                ),
+                responseFields(
+                        fieldWithPath("sent.heartId").type(NUMBER).description("sentHeartId"),
+                        fieldWithPath("sent.senderId").type(NUMBER).description("sentSenderId"),
+                        fieldWithPath("sent.receiverId").type(NUMBER).description("sentReceiverId"),
+                        fieldWithPath("sent.count").type(NUMBER).description("sentCount"),
+                        fieldWithPath("sent.last").type(BOOLEAN).description("sentLast"),
+                        fieldWithPath("sent.modifiedAt").type(NULL).description("sentModifiedAt"),
+                        fieldWithPath("received.heartId").type(NUMBER).description("receivedHeartId"),
+                        fieldWithPath("received.senderId").type(NUMBER).description("receivedSenderId"),
+                        fieldWithPath("received.receiverId").type(NUMBER).description("receivedReceiverId"),
+                        fieldWithPath("received.count").type(NUMBER).description("receivedCount"),
+                        fieldWithPath("received.last").type(BOOLEAN).description("receivedLast"),
+                        fieldWithPath("received.modifiedAt").type(NULL).description("receivedModifiedAt")
                 )
         ));
     }
