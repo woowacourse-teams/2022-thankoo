@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Portal from '../../Portal';
 import { modalContentAtom } from '../../recoil/atom';
@@ -7,6 +8,8 @@ import useModal from './../../hooks/useModal';
 import Dimmer from './Dimmer';
 
 const Modal = () => {
+  const { pathname } = useLocation();
+  const currentPathname = useRef<string>(pathname);
   const modalContent = useRecoilValue(modalContentAtom);
   const { close, show } = useModal();
   const ref = useRef<any>();
@@ -14,6 +17,12 @@ const Modal = () => {
   useEffect(() => {
     ref.current.focus();
   }, []);
+
+  useEffect(() => {
+    if (pathname !== currentPathname.current) {
+      close();
+    }
+  }, [pathname]);
 
   return (
     <Portal>
