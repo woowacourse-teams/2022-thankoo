@@ -57,7 +57,7 @@ const useHeartsMembers = (searchKeyword: string) => {
           return b?.last - a?.last;
         }
       }),
-    []
+    [searchKeyword]
   );
 
   return { searchedUserWithState: hearts };
