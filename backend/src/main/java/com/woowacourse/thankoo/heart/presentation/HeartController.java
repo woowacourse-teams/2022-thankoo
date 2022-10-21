@@ -2,7 +2,9 @@ package com.woowacourse.thankoo.heart.presentation;
 
 import com.woowacourse.thankoo.authentication.presentation.AuthenticationPrincipal;
 import com.woowacourse.thankoo.heart.application.HeartService;
+import com.woowacourse.thankoo.heart.application.dto.HeartSelectCommand;
 import com.woowacourse.thankoo.heart.application.dto.HeartSendCommand;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartExchangeResponse;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartRequest;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,14 @@ public class HeartController {
                                      @RequestBody final HeartRequest heartRequest) {
         heartService.send(HeartSendCommand.from(memberId, heartRequest));
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<HeartExchangeResponse> getHeart(@AuthenticationPrincipal final Long memberId,
+                                                          @RequestParam("receiver") final Long receiverId,
+                                                          @RequestParam("organization") final Long organizationId) {
+        return ResponseEntity.ok(
+                heartService.getSentReceivedHeart(new HeartSelectCommand(memberId, receiverId, organizationId)));
     }
 
     @GetMapping("/me")

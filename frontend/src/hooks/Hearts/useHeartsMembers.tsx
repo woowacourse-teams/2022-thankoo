@@ -1,11 +1,22 @@
+import { useMemo } from 'react';
+import { YYYYMMDD } from 'thankoo-utils-type';
+import { useGetHearts } from './../@queries/hearts';
+import { UserProfile } from '../../types/user';
+import { sorted } from '../../utils';
 import { useGetMembers } from '../@queries/members';
-import { useGetHearts, usePostHeartMutation } from './../@queries/hearts';
+
 import useFilterMatchedUser from './../useFilterMatchedUser';
+
+export interface Hearts {
+  canSend: boolean;
+  modifiedLastReceived: YYYYMMDD;
+  sentCount: number;
+  user: UserProfile;
+}
 
 const useHeartsMembers = (searchKeyword: string) => {
   const { data: members } = useGetMembers();
   const { data: heartHistory } = useGetHearts();
-  const { mutate: postHeart } = usePostHeartMutation();
 
   const searchedUsers = useFilterMatchedUser(searchKeyword, members);
   const sentMembers = heartHistory?.sent!;
@@ -16,30 +27,40 @@ const useHeartsMembers = (searchKeyword: string) => {
       !sentMembers?.some(sentHistory => sentHistory.receiverId === user.id) ||
       receivedMembers?.some(receivedHistory => receivedHistory.senderId === user.id);
 
-    const sentCount = sentMembers?.find(sentHistory => sentHistory.receiverId === user.id)?.count;
+    const sentCount =
+      sentMembers?.find(sentHistory => sentHistory.receiverId === user.id)?.count || 0;
+    const receivedUserCount =
+      receivedMembers?.find(receiveHistory => receiveHistory.senderId === user.id)?.count || 0;
+
     const lastReceived =
       sentMembers?.find(sentHistory => sentHistory.receiverId === user.id)?.modifiedAt ||
       receivedMembers?.find(receiveHistory => receiveHistory.senderId === user.id)?.modifiedAt;
     const modifiedLastReceived = lastReceived?.split(' ')[0];
-    const receivedUserCount = receivedMembers?.find(
-      receiveHistory => receiveHistory.senderId === user.id
-    )?.count;
 
-    const count = sentCount || receivedUserCount || 0;
+    const count = Math.max(sentCount, receivedUserCount);
 
     return {
       user,
-      sentCount,
+      sentCount: count,
       modifiedLastReceived,
       receivedUserCount,
       canSend,
-      count,
+      last: receivedUserCount - sentCount,
     };
   });
 
-  searchedUserWithState.sort((a, b) => b?.count - a?.count);
+  const hearts: Hearts[] = useMemo(
+    () =>
+      sorted(searchedUserWithState, (a, b) => {
+        if (b?.sentCount !== a?.sentCount) return b?.sentCount - a?.sentCount;
+        else if (b?.sentCount === a?.sentCount) {
+          return b?.last - a?.last;
+        }
+      }),
+    []
+  );
 
-  return { searchedUserWithState, postHeart };
+  return { searchedUserWithState: hearts };
 };
 
 export default useHeartsMembers;

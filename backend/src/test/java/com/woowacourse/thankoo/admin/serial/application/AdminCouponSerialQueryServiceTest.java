@@ -57,7 +57,6 @@ class AdminCouponSerialQueryServiceTest {
     @Autowired
     private OrganizationValidator organizationValidator;
 
-    @Disabled
     @DisplayName("회원의 id로 쿠폰 시리얼을 모두 조회한다.")
     @Test
     void getByMemberId() {

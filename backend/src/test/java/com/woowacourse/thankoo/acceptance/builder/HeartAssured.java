@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.acceptance.builder.common.RequestBuilder;
 import com.woowacourse.thankoo.acceptance.builder.common.ResponseBuilder;
+import com.woowacourse.thankoo.heart.presentation.dto.HeartExchangeResponse;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartRequest;
 import com.woowacourse.thankoo.heart.presentation.dto.HeartResponses;
 import io.restassured.response.ExtractableResponse;
@@ -33,6 +34,13 @@ public class HeartAssured {
             return this;
         }
 
+        public HeartRequestBuilder 교환한_마음을_조회한다(final Long organizationId, final Long receiverId,
+                                                final String accessToken) {
+            response = getWithToken("/api/hearts?organization=" + organizationId + "&receiver=" + receiverId,
+                    accessToken);
+            return this;
+        }
+
         public HeartResponseBuilder response() {
             return new HeartResponseBuilder(response);
         }
@@ -54,6 +62,26 @@ public class HeartAssured {
             assertAll(
                     () -> assertThat(response.getSent()).hasSize(sentSize),
                     () -> assertThat(response.getReceived()).hasSize(receivedSize)
+            );
+        }
+
+        public void 조회에_성공한다(final Long senderId, final Long receiverId) {
+            HeartExchangeResponse response = body(HeartExchangeResponse.class);
+
+            assertAll(
+                    () -> assertThat(response.getSent().getSenderId()).isEqualTo(senderId),
+                    () -> assertThat(response.getSent().getReceiverId()).isEqualTo(receiverId),
+                    () -> assertThat(response.getReceived().getSenderId()).isEqualTo(receiverId),
+                    () -> assertThat(response.getReceived().getReceiverId()).isEqualTo(senderId)
+            );
+        }
+
+        public void 받은_기록이_없으면_null_이다() {
+            HeartExchangeResponse response = body(HeartExchangeResponse.class);
+
+            assertAll(
+                    () -> assertThat(response.getSent()).isNotNull(),
+                    () -> assertThat(response.getReceived()).isNull()
             );
         }
     }

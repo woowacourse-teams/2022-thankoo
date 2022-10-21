@@ -22,6 +22,7 @@ export const API_PATH = {
   COMPLETE_MEETING: meetingId => `/meetings/${meetingId}`,
   GET_COUPONS_EXCHANGE_COUNT: `/coupons/count`,
   GET_USER_HEARTS: `/hearts/me`,
+  GET_USER_HEART: `/hearts`,
   POST_USER_HEART: `/hearts/send`,
   GET_QR_COUPON: code => `/coupon-serials?code=${code}`,
   POST_QR_SERIAL: '/coupon-serials',

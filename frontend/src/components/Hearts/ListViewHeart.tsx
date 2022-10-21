@@ -1,59 +1,65 @@
 import styled from '@emotion/styled';
-import useHeartsMembers from '../../hooks/Hearts/useHeartsMembers';
+import { useState } from 'react';
+import { BASE_URL } from '../../constants/api';
+import { useGetHeart, usePostHeartMutation } from '../../hooks/@queries/hearts';
+import { Hearts } from '../../hooks/Hearts/useHeartsMembers';
+import useToast from '../../hooks/useToast';
 import { FlexCenter } from '../../styles/mixIn';
-import ListViewHeart from './ListViewHeart';
 
-const Members = ({ searchKeyword }: { searchKeyword: string }) => {
-  const { searchedUserWithState } = useHeartsMembers(searchKeyword);
+const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Hearts) => {
+  const [count, setCount] = useState(sentCount);
+  const [heartCanSend, setHeartCanSend] = useState(canSend);
+  const { refetch } = useGetHeart(user.id, {
+    onSuccess: res => {
+      const { sent, received } = res;
+      const sentCount = sent?.count || 0;
+      const receivedCount = received?.count || 0;
+
+      setCount(Math.max(sentCount, receivedCount));
+    },
+  });
+  const { insertToastItem } = useToast();
+  const { mutate: postHeart } = usePostHeartMutation({
+    onSuccess: () => {
+      refetch();
+      setHeartCanSend(prev => !prev);
+    },
+    onError: error => {
+      insertToastItem(error.response?.data.message);
+    },
+  });
 
   return (
-    <S.MembersContainer>
-      {searchedUserWithState?.map(hearts => (
-        <ListViewHeart key={hearts.user.id} {...hearts} />
-      ))}
-    </S.MembersContainer>
+    <S.UserWrappr key={user.id}>
+      <S.UserImageWrapper>
+        <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+      </S.UserImageWrapper>
+      <S.UserName>{user.name}</S.UserName>
+      {modifiedLastReceived && <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>}
+
+      <S.CountWrapper>
+        <S.CountLabel>연속</S.CountLabel> <S.CountNum>{`${count}회`}</S.CountNum>
+      </S.CountWrapper>
+      <S.SendButtonWrapper>
+        <S.SendButton
+          canSend={heartCanSend}
+          onClick={() => {
+            if (canSend) {
+              postHeart(user.id);
+            }
+          }}
+        >
+          콕
+        </S.SendButton>
+      </S.SendButtonWrapper>
+    </S.UserWrappr>
   );
 };
-
-export default Members;
+export default ListViewHeart;
 
 type CheckBoxProp = { canSend: boolean };
 
 const S = {
-  MembersContainer: styled.div`
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-
-    overflow: auto;
-    height: calc(100% - 5rem);
-    padding-bottom: 17rem;
-
-    &::-webkit-scrollbar {
-      width: 2px;
-      background-color: transparent;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: transparent;
-      border-radius: 5px;
-    }
-
-    &:hover {
-      overflow-y: auto;
-
-      &::-webkit-scrollbar {
-        width: 2px;
-        background-color: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        background-color: ${({ theme }) => theme.page.color};
-        border-radius: 5px;
-      }
-    }
-  `,
   UserWrappr: styled.div`
     width: 99.5%;
     min-height: 5rem;
