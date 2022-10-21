@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Profile("local")
+@Profile("!local")
 public class InitData implements ApplicationRunner {
 
     private final OrganizationRepository organizationRepository;
