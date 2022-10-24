@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import CreateReservationSuccess from '../components/CreateReservation/CreateReservationSuccess';
-import EnterCouponContentSuccess from '../components/EnterCouponContent/EnterCouponContentSuccess';
 import { ROUTE_PATH } from '../constants/routes';
 import PageLayout from '../layout/PageLayout';
 import { onSuccessContentAtom } from '../recoil/atom';
+import CreateReservationSuccess from './CreateReservation/components/CreateReservationSuccess';
+import EnterCouponContentSuccess from './EnterCouponContent/components/EnterCouponContentSuccess';
 
 const OnSucessModalComponents = {
   [ROUTE_PATH.CREATE_RESERVATION]: props => <CreateReservationSuccess {...props} />,

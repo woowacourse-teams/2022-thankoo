@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { client } from '../apis/axios';
-import QRCouponRegisterModal from '../components/Main/QRCouponRegisterModal';
 import { API_PATH } from '../constants/api';
 import { ROUTE_PATH } from '../constants/routes';
+import QRCouponRegisterModal from '../pages/Main/components/QRCouponRegisterModal';
 import { CouponType } from '../types/coupon';
 import useModal from './useModal';
 
