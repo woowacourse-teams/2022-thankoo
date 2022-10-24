@@ -8,6 +8,7 @@ dotenv.config({ path: join(__dirname, '../env/.env.development') });
 
 module.exports = merge(common, {
   mode: 'production',
+  devtool: false,
   plugins: [
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
