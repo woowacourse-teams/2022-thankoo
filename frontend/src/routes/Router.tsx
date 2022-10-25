@@ -2,23 +2,23 @@ import { lazy, Suspense } from 'react';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import Spinner from '../components/@shared/Spinner';
 import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
-import Organization from '../pages/Organization';
+import Organization from '../pages/Organization/Organization';
 import OrganizationsAccess from '../pages/OrganizationsAccess';
 import { ROUTE_PATH } from './../constants/routes';
-import NotFound from './../pages/NotFound';
+import NotFound from '../pages/NotFound/NotFound';
 
-const CreateReservation = lazy(() => import('./../pages/CreateReservation'));
-const EnterCouponContent = lazy(() => import('./../pages/EnterCouponContent'));
-const EnterNickname = lazy(() => import('./../pages/EnterNickname'));
-const Hearts = lazy(() => import('./../pages/Hearts'));
-const Main = lazy(() => import('./../pages/Main'));
-const Meetings = lazy(() => import('./../pages/Meetings'));
-const OnFailurePage = lazy(() => import('./../pages/OnFailurePage'));
-const OnSuccessPage = lazy(() => import('./../pages/OnSuccessPage'));
-const Reservations = lazy(() => import('./../pages/Reservations'));
-const SelectReceiver = lazy(() => import('./../pages/SelectReceiver'));
-const SignIn = lazy(() => import('./../pages/SignIn'));
-const UserProfile = lazy(() => import('./../pages/UserProfile'));
+const CreateReservation = lazy(() => import('../pages/CreateReservation/CreateReservation'));
+const EnterCouponContent = lazy(() => import('../pages/EnterCouponContent/EnterCouponContent'));
+const EnterNickname = lazy(() => import('../pages/EnterNickname/EnterNickname'));
+const Hearts = lazy(() => import('../pages/Hearts/Hearts'));
+const Main = lazy(() => import('../pages/Main/Main'));
+const Meetings = lazy(() => import('../pages/Meetings/Meetings'));
+const OnFailurePage = lazy(() => import('../pages/OnFailure/OnFailurePage'));
+const OnSuccessPage = lazy(() => import('../pages/OnSuccess/OnSuccessPage'));
+const Reservations = lazy(() => import('../pages/Reservations/Reservations'));
+const SelectReceiver = lazy(() => import('../pages/SelectReceiver/SelectReceiver'));
+const SignIn = lazy(() => import('../pages/SignIn/SignIn'));
+const UserProfile = lazy(() => import('../pages/Profile/UserProfile'));
 const AccessController = lazy(() => import('./AccessController'));
 
 const AuthOnly = () => {

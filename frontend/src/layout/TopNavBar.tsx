@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import UserProfileButton from '../components/@shared/UserProfileButton';
-import OrganizationsDropdown from '../components/Organization/OrganizationsDropdown';
+import OrganizationsDropdown from '../pages/Organization/components/OrganizationsDropdown';
 
 const TopNavBar = () => {
   return (
