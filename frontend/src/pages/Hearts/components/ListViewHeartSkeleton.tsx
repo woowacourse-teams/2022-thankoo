@@ -1,12 +1,17 @@
 import styled from '@emotion/styled';
-import { BASE_URL } from '../../../constants/api';
+import Button from '../../../components/@shared/Button/Button';
 import { FlexCenter } from '../../../styles/mixIn';
+import { UserProfile } from '../../../types/user';
 
-const ListViewHeartSkeleton = ({ user }) => {
+interface ListViewHeartSkeletonProps {
+  user: UserProfile;
+}
+
+const ListViewHeartSkeleton = ({ user }: ListViewHeartSkeletonProps) => {
   return (
     <S.UserWrappr key={user.id}>
       <S.UserImageWrapper>
-        <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+        <S.UserImage />
       </S.UserImageWrapper>
       <S.UserName>{user.name}</S.UserName>
       <S.ModifiedAt>ㅤㅤㅤㅤ</S.ModifiedAt>
@@ -15,7 +20,7 @@ const ListViewHeartSkeleton = ({ user }) => {
         <S.CountLabel>연속</S.CountLabel> <S.CountNum>ㅤ</S.CountNum>
       </S.CountWrapper>
       <S.SendButtonWrapper>
-        <S.SendButton>콕</S.SendButton>
+        <Button isLoading={true}>콕</Button>
       </S.SendButtonWrapper>
     </S.UserWrappr>
   );
@@ -42,11 +47,12 @@ const S = {
     ${FlexCenter};
   `,
 
-  UserImage: styled.img`
+  UserImage: styled.div`
     width: 30px;
+    height: 30px;
 
     border-radius: 50%;
-    object-fit: cover;
+    background-color: #404040;
   `,
   UserName: styled.span`
     grid-area: un;
@@ -77,32 +83,15 @@ const S = {
     font-size: 1rem;
   `,
   CountNum: styled.div`
-    background-color: #666666;
     border-radius: 5px;
     font-size: 1.5rem;
   `,
   SendButtonWrapper: styled.div`
     grid-area: cb;
     ${FlexCenter}
-    margin-right: 5px;
     align-items: center;
-    width: 100%;
-    height: 100%;
-  `,
-  SendButton: styled.span`
-    display: grid;
-    place-items: center;
-
-    width: 80%;
-    height: 80%;
-    border-radius: 8px;
-
-    text-align: center;
-    background-color: #ff7e67;
-    font-size: 1.3rem;
-    line-height: 3rem;
-
-    color: white;
-    cursor: default;
+    padding-left: 3rem;
+    box-sizing: border-box;
+    margin-right: 5px;
   `,
 };

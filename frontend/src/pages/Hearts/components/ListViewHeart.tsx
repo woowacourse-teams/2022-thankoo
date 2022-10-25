@@ -59,8 +59,6 @@ const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Heart
 };
 export default ListViewHeart;
 
-type CheckBoxProp = { canSend: boolean };
-
 const S = {
   UserWrappr: styled.div`
     width: 99.5%;
