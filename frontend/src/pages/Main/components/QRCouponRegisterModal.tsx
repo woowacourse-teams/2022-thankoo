@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { client } from '../../../apis/axios';
-import Button from '../../../components/@shared/Button';
+import Button from '../../../components/@shared/Button/Button';
 import { API_PATH } from '../../../constants/api';
 import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
 import { ROUTE_PATH } from '../../../constants/routes';

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import Button from '../../../components/@shared/Button';
+import Button from '../../../components/@shared/Button/Button';
 import SuccessAnimation from '../../../components/@shared/SuccessAnimation';
 import { BASE_URL } from '../../../constants/api';
 import { ROUTE_PATH } from '../../../constants/routes';

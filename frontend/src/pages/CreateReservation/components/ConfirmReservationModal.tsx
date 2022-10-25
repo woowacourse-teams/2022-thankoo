@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import useModal from '../../../hooks/useModal';
-import Button from '../../../components/@shared/Button';
+import Button from '../../../components/@shared/Button/Button';
 import BottomSheetLayout from '../../../components/@shared/Modal/BottomSheetLayout';
 
 const ConfirmReservationModal = ({ submit, time, date, receiver }) => {

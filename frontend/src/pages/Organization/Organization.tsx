@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import PageLayout from '../../layout/PageLayout';
 import BirdLogoWhite from '../../components/@shared/LogoWhite';
-import Button from '../../components/@shared/Button';
+import Button from '../../components/@shared/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../components/@shared/Input';
 import { useState, FormEvent } from 'react';
