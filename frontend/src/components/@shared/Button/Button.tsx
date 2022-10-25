@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
-import ButtonSpinner from '../Spinner/ButtonSpinner';
+import SimpleSpinner from '../Spinner/SimpleSpinner';
 
 export type ButtonSize = 'medium' | 'small' | 'large';
 export type ButtonColor = 'primary' | 'secondary' | 'primaryLight' | 'secondaryLight';
@@ -23,7 +23,7 @@ const Button = ({
   return (
     <Container size={size} color={color} isDisabled={isDisabled} isLoading={isLoading} {...rest}>
       {isLoading && !isDisabled ? (
-        <ButtonSpinner
+        <SimpleSpinner
           width={ButtonStyleOptions.fontSize[size]}
           height={ButtonStyleOptions.fontSize[size]}
         />

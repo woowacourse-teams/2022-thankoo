@@ -15,12 +15,12 @@ const load8 = keyframes`
     }
 `;
 
-const ButtonSpinner = styled.div<SpinnerProps>`
+const SimpleSpinner = styled.div<SpinnerProps>`
   ${({ width, height }) => css`
     width: ${width};
     height: ${height};
   `}
-  border: 3px solid #fff;
+  border: 2px solid #fff;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -34,4 +34,4 @@ const ButtonSpinner = styled.div<SpinnerProps>`
   }
 `;
 
-export default ButtonSpinner;
+export default SimpleSpinner;

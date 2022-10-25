@@ -5,6 +5,7 @@ import { useGetHeart, usePostHeartMutation } from '../../../hooks/@queries/heart
 import { Hearts } from '../hooks/useHeartsMembers';
 import useToast from '../../../hooks/useToast';
 import { FlexCenter } from '../../../styles/mixIn';
+import Button from '../../../components/@shared/Button/Button';
 
 const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Hearts) => {
   const [count, setCount] = useState(sentCount);
@@ -19,7 +20,7 @@ const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Heart
     },
   });
   const { insertToastItem } = useToast();
-  const { mutate: postHeart } = usePostHeartMutation({
+  const { mutate: postHeart, isLoading } = usePostHeartMutation({
     onSuccess: () => {
       refetch();
       setHeartCanSend(prev => !prev);
@@ -41,8 +42,9 @@ const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Heart
         <S.CountLabel>연속</S.CountLabel> <S.CountNum>{`${count}회`}</S.CountNum>
       </S.CountWrapper>
       <S.SendButtonWrapper>
-        <S.SendButton
-          canSend={heartCanSend}
+        <Button
+          isDisabled={!heartCanSend}
+          isLoading={isLoading}
           onClick={() => {
             if (canSend) {
               postHeart(user.id);
@@ -50,7 +52,7 @@ const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Heart
           }}
         >
           콕
-        </S.SendButton>
+        </Button>
       </S.SendButtonWrapper>
     </S.UserWrappr>
   );
@@ -119,25 +121,9 @@ const S = {
   SendButtonWrapper: styled.div`
     grid-area: cb;
     ${FlexCenter}
-    margin-right: 5px;
     align-items: center;
-    width: 100%;
-    height: 100%;
-  `,
-  SendButton: styled.span<CheckBoxProp>`
-    display: grid;
-    place-items: center;
-
-    width: 80%;
-    height: 80%;
-    border-radius: 8px;
-
-    text-align: center;
-    background-color: ${({ canSend }) => (canSend ? `#ff7a62` : `#adadad`)};
-    font-size: 1.3rem;
-    line-height: 3rem;
-
-    color: ${({ canSend }) => (canSend ? 'white' : '#7a7a7a')};
-    cursor: ${({ canSend }) => (canSend ? 'pointer' : '')};
+    padding-left: 3rem;
+    box-sizing: border-box;
+    margin-right: 5px;
   `,
 };
