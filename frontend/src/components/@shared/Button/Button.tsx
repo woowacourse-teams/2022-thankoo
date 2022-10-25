@@ -1,15 +1,38 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
+import ButtonSpinner from '../Spinner/ButtonSpinner';
 
 export type ButtonSize = 'medium' | 'small' | 'large';
 export type ButtonColor = 'primary' | 'secondary' | 'primaryLight' | 'secondaryLight';
-export interface ButtonProps extends React.PropsWithChildren {
+export interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   size?: ButtonSize;
   color?: ButtonColor;
   isDisabled?: boolean;
   isLoading?: boolean;
 }
+
+const Button = ({
+  children,
+  size = 'medium',
+  color = 'primary',
+  isDisabled = false,
+  isLoading = false,
+  ...rest
+}: ButtonProps) => {
+  return (
+    <Container size={size} color={color} isDisabled={isDisabled} isLoading={isLoading} {...rest}>
+      {isLoading && !isDisabled ? (
+        <ButtonSpinner
+          width={ButtonStyleOptions.fontSize[size]}
+          height={ButtonStyleOptions.fontSize[size]}
+        />
+      ) : (
+        children
+      )}
+    </Container>
+  );
+};
 
 export const ButtonStyleOptions = {
   size: {
@@ -36,7 +59,7 @@ export const ButtonStyleOptions = {
   },
 };
 
-const Button = styled.button<ButtonProps>`
+const Container = styled.button<ButtonProps>`
   ${({ size = 'medium', color = 'primary', isDisabled = false, isLoading = false }) => css`
     width: 100%;
     font-size: ${ButtonStyleOptions.fontSize[size]};
@@ -54,14 +77,11 @@ const Button = styled.button<ButtonProps>`
       pointer-events: none;
     `}
     ${isLoading &&
+    !isDisabled &&
     css`
       background-color: ${ButtonStyleOptions.bg['primaryBright']};
       cursor: default;
       pointer-events: none;
-
-      ::after {
-        content: '중..';
-      }
     `}
   `}
 `;
