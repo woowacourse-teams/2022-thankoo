@@ -21,7 +21,14 @@ const Button = ({
   ...rest
 }: ButtonProps) => {
   return (
-    <Container size={size} color={color} isDisabled={isDisabled} isLoading={isLoading} {...rest}>
+    <Container
+      size={size}
+      color={color}
+      isDisabled={isDisabled}
+      aria-disabled={isDisabled}
+      isLoading={isLoading}
+      {...rest}
+    >
       {isLoading && !isDisabled ? (
         <SimpleSpinner
           width={ButtonStyleOptions.fontSize[size]}
