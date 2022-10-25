@@ -12,7 +12,7 @@ import MainPageLayout from '../../layout/MainPageLayout';
 import Spinner from '../../components/@shared/Spinner';
 import CustomErrorBoundary from '../../errors/CustomErrorBoundary';
 import ErrorFallBack from '../../errors/ErrorFallBack';
-import useSelectReceiver from './hook/useSelectReceiver';
+import useSelectReceiver from './hooks/useSelectReceiver';
 import UserSearchInput from './components/UserSearchInput';
 import ListViewUsers from './components/ListViewUsers';
 

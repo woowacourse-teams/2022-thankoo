@@ -5,7 +5,7 @@ import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import Organization from '../pages/Organization/Organization';
 import OrganizationsAccess from '../pages/OrganizationsAccess';
 import { ROUTE_PATH } from './../constants/routes';
-import NotFound from './../pages/NotFound';
+import NotFound from '../pages/NotFound/NotFound';
 
 const CreateReservation = lazy(() => import('../pages/CreateReservation/CreateReservation'));
 const EnterCouponContent = lazy(() => import('../pages/EnterCouponContent/EnterCouponContent'));
@@ -13,8 +13,8 @@ const EnterNickname = lazy(() => import('../pages/EnterNickname/EnterNickname'))
 const Hearts = lazy(() => import('../pages/Hearts/Hearts'));
 const Main = lazy(() => import('../pages/Main/Main'));
 const Meetings = lazy(() => import('../pages/Meetings/Meetings'));
-const OnFailurePage = lazy(() => import('./../pages/OnFailurePage'));
-const OnSuccessPage = lazy(() => import('./../pages/OnSuccessPage'));
+const OnFailurePage = lazy(() => import('../pages/OnFailure/OnFailurePage'));
+const OnSuccessPage = lazy(() => import('../pages/OnSuccess/OnSuccessPage'));
 const Reservations = lazy(() => import('../pages/Reservations/Reservations'));
 const SelectReceiver = lazy(() => import('../pages/SelectReceiver/SelectReceiver'));
 const SignIn = lazy(() => import('../pages/SignIn/SignIn'));

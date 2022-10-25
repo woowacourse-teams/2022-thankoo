@@ -1,4 +1,4 @@
-import useListReservationItem from '../hook/useListReservationItem';
+import useListReservationItem from '../hooks/useListReservationItem';
 import { CouponTransmitStatus, CouponType } from '../../../types/coupon';
 import { MeetingTime } from '../../../types/meeting';
 import Slider from '../../../components/@shared/ChoiceSlider';

@@ -3,7 +3,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import PageLayout from '../../layout/PageLayout';
 import { FlexCenter } from '../../styles/mixIn';
 import BirdLogoWhite from '../../components/@shared/LogoWhite';
-import useSignIn from './hook/useSignIn';
+import useSignIn from './hooks/useSignIn';
 import GoogleLogo from '../../assets/svg/google-color-icon.svg';
 
 const SignIn = () => {

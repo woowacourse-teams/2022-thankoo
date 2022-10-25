@@ -6,7 +6,7 @@ import MainPageLayout from '../../layout/MainPageLayout';
 import Spinner from '../../components/@shared/Spinner';
 import CustomErrorBoundary from '../../errors/CustomErrorBoundary';
 import ErrorFallBack from '../../errors/ErrorFallBack';
-import useReservations from './hook/useReservations';
+import useReservations from './hooks/useReservations';
 import ListViewReservations from './components/ListViewReservations';
 
 const ReservationNav = ['received', 'sent'];

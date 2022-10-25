@@ -1,34 +1,25 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { ROUTE_PATH } from '../constants/routes';
-import PageLayout from '../layout/PageLayout';
-import { onSuccessContentAtom } from '../recoil/atom';
-import CreateReservationSuccess from './CreateReservation/components/CreateReservationSuccess';
-import EnterCouponContentSuccess from './EnterCouponContent/components/EnterCouponContentSuccess';
+import PageLayout from '../../layout/PageLayout';
 
-const OnSucessModalComponents = {
-  [ROUTE_PATH.CREATE_RESERVATION]: props => <CreateReservationSuccess {...props} />,
-  [ROUTE_PATH.ENTER_COUPON_CONTENT]: props => <EnterCouponContentSuccess {...props} />,
-};
-
-const OnSuccessPage = () => {
-  const navigate = useNavigate();
-  const { page, props } = useRecoilValue(onSuccessContentAtom);
-
-  useEffect(() => {
-    if (!page) {
-      navigate(ROUTE_PATH.EXACT_MAIN);
-    }
-  }, []);
-
-  return <S.Layout>{OnSucessModalComponents[page]?.(props)}</S.Layout>;
+const OnFailurePage = () => {
+  return (
+    <S.Layout>
+      <S.SuccessCheckmark>
+        <S.CheckIcon>
+          <S.IconTip />
+          <S.IconLong />
+          <S.IconCircle />
+          <S.IconFix />
+        </S.CheckIcon>
+      </S.SuccessCheckmark>
+    </S.Layout>
+  );
 };
 
 const S = {
   Layout: styled(PageLayout)`
     position: absolute;
+    background-color: black;
     height: 100vh;
     top: 50%;
     left: 50%;
@@ -49,7 +40,7 @@ const S = {
     position: relative;
     border-radius: 50%;
     box-sizing: content-box;
-    border: 4px solid #4caf50;
+    border: 4px solid #ff0000;
 
     &::before {
       top: 3px;
@@ -94,51 +85,36 @@ const S = {
   IconTip: styled.div`
     //icon-line
     height: 5px;
-    background-color: #4caf50;
+    background-color: #ff0000;
     display: block;
     border-radius: 2px;
     position: absolute;
     z-index: 10;
 
     //line-tip
-    top: 46px;
-    left: 14px;
-    width: 25px;
+    top: 38px;
+    right: 17px;
+    width: 47px;
     transform: rotate(45deg);
     animation: icon-line-tip 0.75s;
 
     @keyframes icon-line-tip {
       0% {
-        width: 0;
-        left: 1px;
-        top: 19px;
+        top: 12px;
+        right: 24px;
+        width: 55px;
       }
       54% {
-        width: 0;
-        left: 1px;
-        top: 19px;
-      }
-      70% {
-        width: 50px;
-        left: -8px;
-        top: 37px;
-      }
-      84% {
-        width: 17px;
-        left: 21px;
-        top: 48px;
-      }
-      100% {
-        width: 25px;
-        left: 14px;
-        top: 45px;
+        top: 38px;
+        right: 17px;
+        width: 47px;
       }
     }
   `,
   IconLong: styled.div`
     //icon-line
     height: 5px;
-    background-color: #4caf50;
+    background-color: #ff0000;
     display: block;
     border-radius: 2px;
     position: absolute;
@@ -146,31 +122,21 @@ const S = {
 
     // line-long
     top: 38px;
-    right: 8px;
+    right: 17px;
     width: 47px;
     transform: rotate(-45deg);
     animation: icon-line-long 0.75s;
 
     @keyframes icon-line-long {
       0% {
-        width: 0;
-        right: 46px;
-        top: 54px;
-      }
-      65% {
-        width: 0;
-        right: 46px;
-        top: 54px;
-      }
-      84% {
+        top: 12px;
+        right: 10px;
         width: 55px;
-        right: 0px;
-        top: 35px;
       }
-      100% {
-        width: 47px;
-        right: 8px;
+      54% {
         top: 38px;
+        right: 17px;
+        width: 47px;
       }
     }
   `,
@@ -184,7 +150,7 @@ const S = {
     border-radius: 50%;
     position: absolute;
     box-sizing: content-box;
-    border: 4px solid rgba(76, 175, 80, 0.5);
+    border: 4px solid rgba(175, 76, 76, 0.5);
   `,
   IconFix: styled.div`
     //icon-Fix
@@ -198,4 +164,4 @@ const S = {
   `,
 };
 
-export default OnSuccessPage;
+export default OnFailurePage;

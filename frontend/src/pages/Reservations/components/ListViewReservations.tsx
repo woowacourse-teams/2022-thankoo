@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import NoReservation from '../../../components/@shared/noContent/NoReservation';
-import useListViewReservations from '../hook/useListViewReservations';
-import { ReservationOrderType } from '../hook/useReservations';
+import useListViewReservations from '../hooks/useListViewReservations';
+import { ReservationOrderType } from '../hooks/useReservations';
 import ListReservationItem from './ListReservationItem';
 
 const ListViewReservations = ({ orderBy }: { orderBy: ReservationOrderType }) => {
