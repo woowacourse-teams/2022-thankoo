@@ -9,8 +9,8 @@ export const useOrganizationsDropdown = () => {
   const { insertToastItem } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: organizations } = useGetOrganizations();
-  const lastAccessedOrganization = organizations?.find(
+  const { organizations } = useGetOrganizations();
+  const lastAccessedOrganization = organizations.find(
     organization => organization.lastAccessed
   )?.organizationName;
 
