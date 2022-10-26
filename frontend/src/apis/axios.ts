@@ -36,7 +36,7 @@ const axiosDefaultRequestHandler = (config: AxiosRequestConfig, organizationId) 
   return { ...config, data: { ...config.data, organizationId } };
 };
 
-export const interceptRequest = organizationId => {
+export const injectOrganizationToRequest = organizationId => {
   client.interceptors.request.use(config => axiosDefaultRequestHandler(config, organizationId));
 };
 
