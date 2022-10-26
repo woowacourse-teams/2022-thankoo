@@ -1,11 +1,9 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
-import Spinner from '../components/@shared/Spinner';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import Spinner from '../components/@shared/FallbackSpinner';
 import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
-import Organization from '../pages/Organization/Organization';
-import OrganizationsAccess from '../pages/OrganizationsAccess';
 import { ROUTE_PATH } from './../constants/routes';
-import NotFound from '../pages/NotFound/NotFound';
+import { AuthOnly, UnAuthOnly } from './AuthChecker';
 
 const CreateReservation = lazy(() => import('../pages/CreateReservation/CreateReservation'));
 const EnterCouponContent = lazy(() => import('../pages/EnterCouponContent/EnterCouponContent'));
@@ -19,47 +17,26 @@ const Reservations = lazy(() => import('../pages/Reservations/Reservations'));
 const SelectReceiver = lazy(() => import('../pages/SelectReceiver/SelectReceiver'));
 const SignIn = lazy(() => import('../pages/SignIn/SignIn'));
 const UserProfile = lazy(() => import('../pages/Profile/UserProfile'));
-const AccessController = lazy(() => import('./AccessController'));
+const Organization = lazy(() => import('../pages/Organization/Organization'));
+const NotFound = lazy(() => import('../pages/NotFound/NotFound'));
 
-const AuthOnly = () => {
-  const storageToken = localStorage.getItem('token');
-
-  const { search } = useLocation();
-  if (search) {
-    localStorage.setItem('query', search);
-  }
-
-  return storageToken ? <Outlet /> : <Navigate to={ROUTE_PATH.SIGN_IN} replace />;
-};
-
-const UnAuthOnly = () => {
-  const storageToken = localStorage.getItem('token');
-
-  return !storageToken ? <Outlet /> : <Navigate to={ROUTE_PATH.EXACT_MAIN} replace />;
-};
-
-const SpinnerSuspense = () => {
-  return (
-    <Suspense fallback={<Spinner />}>
-      <Outlet />
-    </Suspense>
-  );
-};
+const OrganizationInjector = lazy(() => import('./OrganizationInjector'));
+const OrganizationRedirector = lazy(() => import('./OrganizationRedirector'));
 
 const Router = () => {
   return (
     <Routes>
-      <Route element={<SpinnerSuspense />}>
+      <Route element={<SuspenseWrapper />}>
         <Route path={ROUTE_PATH.ON_SUCCESS} element={<OnSuccessPage />} />
         <Route path={ROUTE_PATH.ON_FAILURE} element={<OnFailurePage />} />
         <Route element={<AuthOnly />}>
           <Route path={ROUTE_PATH.JOIN_ORGANIZATION} element={<Organization />} />
           <Route path={ROUTE_PATH.ORGANIZATIONS}>
-            <Route path={`:id`} element={<OrganizationsAccess />}>
-              <Route path={`:page`} element={<OrganizationsAccess />} />
+            <Route path={`:id`} element={<OrganizationRedirector />}>
+              <Route path={`:page`} element={<OrganizationRedirector />} />
             </Route>
           </Route>
-          <Route element={<AccessController />}>
+          <Route element={<OrganizationInjector />}>
             <Route element={<HeaderAndNavLayout />}>
               <Route path={ROUTE_PATH.EXACT_MAIN} element={<Main />} />
               <Route path={ROUTE_PATH.SELECT_RECEIVER} element={<SelectReceiver />} />
@@ -83,3 +60,11 @@ const Router = () => {
 };
 
 export default Router;
+
+const SuspenseWrapper = () => {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Outlet />
+    </Suspense>
+  );
+};
