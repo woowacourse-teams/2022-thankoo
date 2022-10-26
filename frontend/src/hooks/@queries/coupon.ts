@@ -18,8 +18,8 @@ export const COUPON_QUERY_KEY = {
 export const useGetCouponDetail = (
   couponId: number,
   { onSuccess = () => {}, onError = () => {} } = {}
-) =>
-  useQuery<CouponDetail>(
+) => {
+  const { data, ...rest } = useQuery<CouponDetail>(
     [COUPON_QUERY_KEY.couponDetail, couponId],
     () => getCouponDetailRequest(couponId),
     {
@@ -33,6 +33,9 @@ export const useGetCouponDetail = (
       useErrorBoundary: false,
     }
   );
+
+  return { couponDetail: data ?? ({} as CouponDetail), ...rest };
+};
 
 export const useGetCoupons = sentOrReceived =>
   useQuery<Coupon[]>([COUPON_QUERY_KEY.coupon, sentOrReceived], () =>
@@ -71,7 +74,7 @@ const getCouponsRequest = async sendOrReceived => {
   return data;
 };
 
-const getCouponDetailRequest = async couponId => {
+const getCouponDetailRequest = async (couponId: number): Promise<CouponDetail> => {
   const { data } = await client({
     method: 'get',
     url: `${API_PATH.GET_COUPON_DETAIL(couponId)}`,
