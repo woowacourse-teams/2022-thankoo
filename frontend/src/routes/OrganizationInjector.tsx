@@ -11,10 +11,12 @@ const OrganizationInjector = () => {
       {(() => {
         const { organizations } = useGetOrganizations();
 
-        const organization = organizations.find(organization => organization.lastAccessed);
+        const lastAccessedOrganization = organizations.find(
+          organization => organization.lastAccessed
+        );
 
-        if (organization) {
-          injectOrganizationToRequest(String(organization.organizationId));
+        if (lastAccessedOrganization) {
+          injectOrganizationToRequest(String(lastAccessedOrganization.organizationId));
 
           return <Outlet />;
         }
