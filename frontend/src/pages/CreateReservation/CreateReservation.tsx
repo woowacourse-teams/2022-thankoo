@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import LongButton from '../../components/@shared/LongButton';
 import ModalWrapper from '../../components/@shared/Modal/ModalWrapper';
 import Time from '../../components/@shared/Time';
-import ConfirmReservationModal from './components/ConfirmReservationModal/ConfirmReservationModal';
+import ConfirmReservationModal from './components/ConfirmReservationModal';
 import Header from '../../layout/Header';
 import HeaderText from '../../layout/HeaderText';
 import PageLayout from '../../layout/PageLayout';
