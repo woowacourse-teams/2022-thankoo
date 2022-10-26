@@ -5,7 +5,7 @@ import PageLayout from '../../layout/PageLayout';
 import useEnterNickname from './hooks/useEnterNickname';
 import { USER_NICKNAME_MAX_LENGTH } from '../../constants/users';
 import HeaderText from '../../layout/HeaderText';
-import Button from '../../components/@shared/Button';
+import Button from '../../components/@shared/Button/Button';
 
 const EnterNickname = () => {
   const { email, nickname, setNickname, signUpWithNickname } = useEnterNickname();

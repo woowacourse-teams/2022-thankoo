@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { FlexCenter } from '../../../styles/mixIn';
-import Button from '../Button';
+import Button from '../Button/Button';
 import IconEmptyList from '../LogoEmptyList';
 
 const NoSendCoupon = () => {

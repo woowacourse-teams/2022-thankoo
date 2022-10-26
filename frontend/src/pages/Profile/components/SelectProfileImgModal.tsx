@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { useState } from 'react';
-import Button from '../../../components/@shared/Button';
+import Button from '../../../components/@shared/Button/Button';
 import ProfileIcon from '../../../components/@shared/ProfileIcon';
 import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
 import { ProfileIconList } from '../../../constants/profileIcon';

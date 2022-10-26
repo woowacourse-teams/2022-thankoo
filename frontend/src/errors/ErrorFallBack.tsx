@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Button from './../components/@shared/Button';
+import Button from '../components/@shared/Button/Button';
 import { ROUTE_PATH } from './../constants/routes';
 
 const ErrorFallBack = () => {

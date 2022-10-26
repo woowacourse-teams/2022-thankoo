@@ -1,5 +1,5 @@
 import { YYYYMMDD } from 'thankoo-utils-type';
-import { ButtonColor } from '../components/@shared/Button';
+import { ButtonColor } from '../components/@shared/Button/Button';
 import { Meeting } from './meeting';
 import { Reservation } from './reservation';
 import { UserProfile } from './user';

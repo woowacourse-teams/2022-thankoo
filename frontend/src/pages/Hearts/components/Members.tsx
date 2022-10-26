@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
+import { Suspense } from 'react';
 import { FlexCenter } from '../../../styles/mixIn';
 import useHeartsMembers from '../hooks/useHeartsMembers';
 import ListViewHeart from './ListViewHeart';
+import ListViewHeartSkeleton from './ListViewHeartSkeleton';
 
 const Members = ({ searchKeyword }: { searchKeyword: string }) => {
   const { searchedUserWithState } = useHeartsMembers(searchKeyword);
@@ -9,7 +11,9 @@ const Members = ({ searchKeyword }: { searchKeyword: string }) => {
   return (
     <S.MembersContainer>
       {searchedUserWithState?.map(hearts => (
-        <ListViewHeart key={hearts.user.id} {...hearts} />
+        <Suspense key={hearts.user.id} fallback={<ListViewHeartSkeleton user={hearts.user} />}>
+          <ListViewHeart {...hearts} />
+        </Suspense>
       ))}
     </S.MembersContainer>
   );

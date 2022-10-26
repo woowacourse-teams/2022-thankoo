@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import Button from '../../../components/@shared/Button';
+import Button from '../../../components/@shared/Button/Button';
 import SuccessAnimation from '../../../components/@shared/SuccessAnimation';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { onSuccessContentAtom, ReservationNavAtom } from '../../../recoil/atom';

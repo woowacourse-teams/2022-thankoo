@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Button, { ButtonProps, ButtonStyleOptions } from './Button';
+import Button, { ButtonProps, ButtonStyleOptions } from './Button/Button';
 
 interface LongButtonProps extends ButtonProps {}
 
