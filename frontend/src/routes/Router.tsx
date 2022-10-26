@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
-import Spinner from '../components/@shared/FallbackSpinner';
+import Spinner from '../components/@shared/Spinner';
 import HeaderAndNavLayout from '../layout/HeaderAndNavLayout';
 import { ROUTE_PATH } from './../constants/routes';
 import { AuthOnly, UnAuthOnly } from './AuthChecker';
