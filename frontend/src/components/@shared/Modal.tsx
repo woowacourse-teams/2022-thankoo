@@ -33,7 +33,7 @@ const Modal = () => {
           if (e.nativeEvent.key === 'Escape') close();
         }}
       >
-        <Dimmer show={show} onClick={close} />
+        <Dimmer show={!!show} onClick={close} />
         {modalContent}
       </section>
     </Portal>

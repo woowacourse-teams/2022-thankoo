@@ -1,16 +1,21 @@
 import styled from '@emotion/styled';
 
-const Dimmer = ({ show, onClick }) => {
+type DimmerProps = {
+  show: boolean;
+  onClick: () => void;
+};
+
+const Dimmer = ({ show, onClick }: DimmerProps) => {
   return <Container onClick={onClick} show={show} />;
 };
 
 export default Dimmer;
 
-type DimmerProps = {
+type DimmerStyleProps = {
   show: boolean;
 };
 
-const Container = styled.div<DimmerProps>`
+const Container = styled.div<DimmerStyleProps>`
   display: ${({ show }) => (show ? 'block' : 'none')};
   position: fixed;
   width: 100%;
