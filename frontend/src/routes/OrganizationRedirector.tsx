@@ -8,8 +8,8 @@ import {
 const OrganizationRedirector = () => {
   const { id, page } = useParams();
 
-  const { organizations: joinedOrganizations } = useGetOrganizations();
-  const isUserJoinedOrganization = joinedOrganizations.some(
+  const { data: joinedOrganizations } = useGetOrganizations();
+  const isUserJoinedOrganization = joinedOrganizations?.some(
     organization => String(organization.organizationId) === id
   );
 

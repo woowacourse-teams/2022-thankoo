@@ -56,7 +56,7 @@ const QRCouponRegisterModal = ({
         queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
         navigate(ROUTE_PATH.EXACT_MAIN, { replace: true });
 
-        if (lastAccessedOrganization.organizationId !== QRCode.organizationId) {
+        if (lastAccessedOrganization?.organizationId !== QRCode.organizationId) {
           updateLastAccessedOrganization(String(QRCode.organizationId));
         }
       },
