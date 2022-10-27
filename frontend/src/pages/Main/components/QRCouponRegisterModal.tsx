@@ -8,6 +8,10 @@ import { API_PATH } from '../../../constants/api';
 import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { COUPON_QUERY_KEY } from '../../../hooks/@queries/coupon';
+import {
+  useGetLastAccessedOrganizations,
+  usePutLastAccessedOrganization,
+} from '../../../hooks/@queries/organization';
 import useModal from '../../../hooks/useModal';
 import { QRCouponResponse } from '../../../hooks/useQRCoupon';
 import useToast from '../../../hooks/useToast';
@@ -28,6 +32,13 @@ const QRCouponRegisterModal = ({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const lastAccessedOrganization = useGetLastAccessedOrganizations();
+  const { mutate: updateLastAccessedOrganization } = usePutLastAccessedOrganization({
+    onSuccess: () => {
+      window.location.reload();
+    },
+  });
+
   const { mutate: postQRSerial } = useMutation(
     () =>
       client({
@@ -44,6 +55,10 @@ const QRCouponRegisterModal = ({
         insertToastItem('등록이 완료됐습니다!');
         queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
         navigate(ROUTE_PATH.EXACT_MAIN, { replace: true });
+
+        if (lastAccessedOrganization.organizationId !== QRCode.organizationId) {
+          updateLastAccessedOrganization(String(QRCode.organizationId));
+        }
       },
       onError: (error: AxiosError<ErrorType>) => {
         localStorage.removeItem('query');
