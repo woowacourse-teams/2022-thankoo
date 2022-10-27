@@ -9,7 +9,7 @@ import useModal from '../../../hooks/useModal';
 
 const SelectProfileImgModal = ({ editUserProfileImage }) => {
   const [selected, setSelected] = useState('');
-  const { visible, close, modalContentRef } = useModal();
+  const { visible, closeModal, modalContentRef } = useModal();
 
   return (
     <S.Container show={visible} ref={modalContentRef}>
@@ -28,13 +28,13 @@ const SelectProfileImgModal = ({ editUserProfileImage }) => {
           ))}
         </S.ProfileContainer>
         <S.ButtonWrapper>
-          <Button color='secondaryLight' onClick={close}>
+          <Button color='secondaryLight' onClick={closeModal}>
             취소
           </Button>
           <Button
             onClick={() => {
               editUserProfileImage(selected);
-              close();
+              closeModal();
             }}
           >
             변경하기

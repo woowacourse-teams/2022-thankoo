@@ -4,7 +4,7 @@ import BottomSheetLayout from '../../../components/@shared/Modal/BottomSheet';
 import useModal from '../../../hooks/useModal';
 
 const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
-  const { close, modalContentRef } = useModal();
+  const { closeModal, modalContentRef } = useModal();
 
   return (
     <BottomSheetLayout ref={modalContentRef}>
@@ -24,7 +24,7 @@ const ConfirmReservationModal = ({ submit, time, date, receiver }) => {
         </S.ConfirmContentWrapper>
       </S.SpaceBetween>
       <S.ButtonWrapper>
-        <Button onClick={close} color='secondaryLight'>
+        <Button onClick={closeModal} color='secondaryLight'>
           취소
         </Button>
         <Button onClick={submit}>예약</Button>

@@ -9,13 +9,13 @@ type ModalWrapperProps = {
 };
 
 const ModalWrapper = ({ children, modal, isDisabled = false }: ModalWrapperProps) => {
-  const { visible, show, setModalContent } = useModal();
+  const { showModal, setModalContent } = useModal();
 
   return (
     <Container
       onClick={() => {
         if (!isDisabled) {
-          show();
+          showModal();
           setModalContent(modal);
         }
       }}
