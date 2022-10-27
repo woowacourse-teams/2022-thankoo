@@ -22,8 +22,8 @@ export const injectOrganizationToRequest = (organizationId: string) => {
     const accessedDomain = config.url?.split('/')[1];
 
     if (
-      !ORGANIZATIONS_REQUIRED_DOMAINS.some(
-        organizaionRequiredDomain => accessedDomain === organizaionRequiredDomain
+      !ORGANIZATIONS_REQUIRED_DOMAINS.some(organizaionRequiredDomain =>
+        accessedDomain?.includes(organizaionRequiredDomain)
       )
     ) {
       return config;
