@@ -5,13 +5,13 @@ import { onMountFromBottomModal, unMountToBottomModal } from '../../../styles/An
 
 type BottomSheetModalSize = 'large' | 'medium' | 'small';
 
-interface IBottomSheetLayout {
+type BottomSheetProps = {
   children: ReactNode;
   size?: BottomSheetModalSize;
-}
+};
 
 export default forwardRef(
-  ({ children, size }: IBottomSheetLayout, ref: LegacyRef<HTMLDivElement>) => {
+  ({ children, size }: BottomSheetProps, ref: LegacyRef<HTMLDivElement>) => {
     return (
       <S.Layout ref={ref} size={size}>
         <S.Inner>{children}</S.Inner>
@@ -20,12 +20,12 @@ export default forwardRef(
   }
 );
 
-type BottomSheetLayoutProps = {
+type BottomSheetLayoutStyleProps = {
   size?: BottomSheetModalSize;
 };
 
 const S = {
-  Layout: styled.div<BottomSheetLayoutProps>`
+  Layout: styled.div<BottomSheetLayoutStyleProps>`
     position: fixed;
     bottom: 0;
     left: 50%;

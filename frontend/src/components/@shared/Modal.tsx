@@ -11,7 +11,7 @@ const Modal = () => {
   const { pathname } = useLocation();
   const currentPathname = useRef<string>(pathname);
   const modalContent = useRecoilValue(modalContentAtom);
-  const { close, show } = useModal();
+  const { closeModal, visible } = useModal();
   const ref = useRef<any>();
 
   useEffect(() => {
@@ -30,10 +30,10 @@ const Modal = () => {
         tabIndex={0}
         ref={ref}
         onKeyDown={e => {
-          if (e.nativeEvent.key === 'Escape') close();
+          if (e.nativeEvent.key === 'Escape') closeModal();
         }}
       >
-        <Dimmer show={show} onClick={close} />
+        <Dimmer show={!!visible} onClick={closeModal} />
         {modalContent}
       </section>
     </Portal>

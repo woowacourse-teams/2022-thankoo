@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from 'react-query';
-import { API_PATH } from '../../constants/api';
 import { client } from '../../apis/axios';
+import { API_PATH } from '../../constants/api';
 import { UserProfile } from '../../types/user';
 
-export interface exchangeCount {
+export type exchangeCount = {
   sentCount: number;
   receivedCount: number;
-}
+};
 
 export const PROFILE_QUERY_KEY = {
   profile: 'profile',

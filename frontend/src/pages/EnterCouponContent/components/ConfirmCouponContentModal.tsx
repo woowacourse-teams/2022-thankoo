@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 import { useRecoilValue } from 'recoil';
-import { usePostCouponMutation } from '../../../hooks/@queries/coupon';
-import useModal from '../../../hooks/useModal';
-import { CouponType, couponTypes } from '../../../types/coupon';
-import { UserProfile } from '../../../types/user';
 import Button from '../../../components/@shared/Button/Button';
-import BottomSheetLayout from '../../../components/@shared/Modal/BottomSheetLayout';
+import BottomSheetLayout from '../../../components/@shared/Modal/BottomSheet';
 import { BASE_URL } from '../../../constants/api';
 import { ROUTE_PATH } from '../../../constants/routes';
+import { usePostCouponMutation } from '../../../hooks/@queries/coupon';
+import useModal from '../../../hooks/useModal';
 import useOnSuccess from '../../../hooks/useOnSuccess';
 import { checkedUsersAtom } from '../../../recoil/atom';
+import { CouponType, couponTypes } from '../../../types/coupon';
+import { UserProfile } from '../../../types/user';
 
 const ConfirmCouponContentModal = ({
   message,
@@ -22,7 +22,7 @@ const ConfirmCouponContentModal = ({
   receivers: UserProfile[];
   couponType: CouponType;
 }) => {
-  const { close, modalContentRef } = useModal();
+  const { closeModal, modalContentRef } = useModal();
   const { successNavigate } = useOnSuccess();
   const checkedUsers = useRecoilValue<UserProfile[]>(checkedUsersAtom);
 
@@ -42,7 +42,7 @@ const ConfirmCouponContentModal = ({
             title,
           },
         });
-        close();
+        closeModal();
       },
     }
   );
@@ -74,7 +74,7 @@ const ConfirmCouponContentModal = ({
         <S.ConfirmContentText>{message}</S.ConfirmContentText>
       </S.ConfirmContentWrapper>
       <S.ButtonWrapper>
-        <Button color='secondaryLight' onClick={close}>
+        <Button color='secondaryLight' onClick={closeModal}>
           취소
         </Button>
         <Button

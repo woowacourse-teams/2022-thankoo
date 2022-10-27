@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../../constants/routes';
-import { targetCouponAtom } from '../../../recoil/atom';
-import { getNowKrLocaleFullDateISOFormat } from '../../../utils/date';
 import { useGetCouponDetail } from '../../../hooks/@queries/coupon';
 import { usePostReservationMutation } from '../../../hooks/@queries/reservation';
 import useModal from '../../../hooks/useModal';
 import useOnSuccess from '../../../hooks/useOnSuccess';
 import useToast from '../../../hooks/useToast';
+import { targetCouponAtom } from '../../../recoil/atom';
+import { getNowKrLocaleFullDateISOFormat } from '../../../utils/date';
 
 const today = getNowKrLocaleFullDateISOFormat().split(' ')[0];
 
@@ -20,7 +20,7 @@ const useCreateReservation = () => {
   const [date, setDate] = useState(today);
   const [time, setTime] = useState('');
   const isFilled = date && time.length;
-  const { close } = useModal();
+  const { closeModal } = useModal();
 
   const { data: couponDetail } = useGetCouponDetail(couponId, {
     onError: () => {
@@ -44,7 +44,7 @@ const useCreateReservation = () => {
             time,
           },
         });
-        close();
+        closeModal();
       },
       onError: () => {
         insertToastItem('예약이 불가능한 날짜입니다.');

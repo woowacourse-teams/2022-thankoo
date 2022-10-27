@@ -1,11 +1,11 @@
 import { AxiosError } from 'axios';
 
-export interface ErrorType {
+export type ErrorType = {
   errorCode: number;
   message: string;
-}
+};
 
-export interface QueryHandlers {
+export type QueryHandlers = {
   onSuccess: () => void;
   onError: (error: AxiosError<ErrorType>) => void;
-}
+};

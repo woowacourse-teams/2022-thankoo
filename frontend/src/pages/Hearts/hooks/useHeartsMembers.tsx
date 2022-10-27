@@ -1,18 +1,18 @@
 import { useMemo } from 'react';
 import { YYYYMMDD } from 'thankoo-utils-type';
 import { useGetHearts } from '../../../hooks/@queries/hearts';
+import { useGetMembers } from '../../../hooks/@queries/members';
 import { UserProfile } from '../../../types/user';
 import { sorted } from '../../../utils';
-import { useGetMembers } from '../../../hooks/@queries/members';
 
 import useFilterMatchedUser from '../../../hooks/useFilterMatchedUser';
 
-export interface Hearts {
+export type Hearts = {
   canSend: boolean;
   modifiedLastReceived: YYYYMMDD;
   sentCount: number;
   user: UserProfile;
-}
+};
 
 const useHeartsMembers = (searchKeyword: string) => {
   const { data: members } = useGetMembers();

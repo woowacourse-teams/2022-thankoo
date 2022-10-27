@@ -1,13 +1,12 @@
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { COUPON_MESSEGE_MAX_LENGTH, COUPON_TITLE_MAX_LENGTH } from '../../../constants/coupon';
 import { ROUTE_PATH } from '../../../constants/routes';
+import { useGetUserProfile } from '../../../hooks/@queries/profile';
 import { checkedUsersAtom } from '../../../recoil/atom';
 import { CouponTransmitableType } from '../../../types/coupon';
 import { UserProfile } from '../../../types/user';
-import { useGetUserProfile } from '../../../hooks/@queries/profile';
-import useModal from '../../../hooks/useModal';
-import { COUPON_MESSEGE_MAX_LENGTH, COUPON_TITLE_MAX_LENGTH } from '../../../constants/coupon';
 
 const useEnterCouponContent = () => {
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ const useEnterCouponContent = () => {
   const { data: userProfile, isLoading } = useGetUserProfile();
 
   const isFilled = !!title.trim() && !!message.trim();
-  const { close } = useModal();
 
   const handleOnchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     const targetValue = e.target.value;

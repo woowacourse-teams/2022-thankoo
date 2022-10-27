@@ -1,9 +1,15 @@
 import styled from '@emotion/styled';
-import { useMemo } from 'react';
+import { SetStateAction, useMemo } from 'react';
 
 type TimeTable = {
   time: string;
   isPassed: boolean;
+};
+
+type TimeProps = {
+  selectedTime: string;
+  setSelectedTime: React.Dispatch<SetStateAction<string>>;
+  selectedDate: string;
 };
 
 const getCurrentTimeFormatYYMMDDHM = () => {
@@ -18,7 +24,7 @@ const getCurrentTimeFormatYYMMDDHM = () => {
   return `${nowYear}/${nowMonth}/${nowDate} ${nowHour}:${nowMin}:${nowSec}`;
 };
 
-const timeTableGenerator = (startHour, endHour, selectedDate) => {
+const timeTableGenerator = (startHour: number, endHour: number, selectedDate: string) => {
   const timeTable: TimeTable[] = [];
 
   for (let i = startHour; i < endHour + 1; i += 1) {
@@ -41,7 +47,7 @@ const timeTableGenerator = (startHour, endHour, selectedDate) => {
   return timeTable;
 };
 
-const Time = ({ selectedTime, setSelectedTime, selectedDate }) => {
+const Time = ({ selectedTime, setSelectedTime, selectedDate }: TimeProps) => {
   const dayTimeTable = useMemo(() => timeTableGenerator(10, 12, selectedDate), [selectedDate]);
   const nightTimeTable = useMemo(() => timeTableGenerator(12, 20, selectedDate), [selectedDate]);
 
@@ -93,7 +99,7 @@ const Time = ({ selectedTime, setSelectedTime, selectedDate }) => {
 
 export default Time;
 
-type TimeProps = {
+type TimeStyleProps = {
   isPassed: boolean;
   isSelected: boolean;
 };
@@ -119,7 +125,7 @@ const S = {
     color: white;
     font-size: 18px;
   `,
-  Time: styled.button<TimeProps>`
+  Time: styled.button<TimeStyleProps>`
     border: none;
     display: flex;
     align-items: center;

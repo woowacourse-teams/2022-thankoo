@@ -2,8 +2,6 @@ import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ROUTE_PATH } from '../../../constants/routes';
-import { sentOrReceivedAtom, targetCouponAtom } from '../../../recoil/atom';
-import { CouponDetailButton, CouponDetailButtonProps } from '../../../types/coupon';
 import {
   COUPON_QUERY_KEY,
   useGetCouponDetail,
@@ -16,6 +14,8 @@ import {
 } from '../../../hooks/@queries/reservation';
 import useModal from '../../../hooks/useModal';
 import useToast from '../../../hooks/useToast';
+import { sentOrReceivedAtom, targetCouponAtom } from '../../../recoil/atom';
+import { CouponDetailButton, CouponDetailButtonProps } from '../../../types/coupon';
 
 export const 예약요청응답별코멘트 = {
   accept: '예약을 승인 했습니다.',
@@ -25,7 +25,7 @@ export const 예약요청응답별코멘트 = {
 export const useCouponDetail = (couponId: number) => {
   const queryClient = useQueryClient();
   const [_, setTargetCouponId] = useRecoilState(targetCouponAtom);
-  const { close } = useModal();
+  const { closeModal } = useModal();
   const { insertToastItem } = useToast();
 
   const { data: couponDetail, isError, isLoading } = useGetCouponDetail(couponId);
@@ -38,7 +38,7 @@ export const useCouponDetail = (couponId: number) => {
     onSuccess: () => {
       queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
       insertToastItem('예약을 취소했습니다.');
-      close();
+      closeModal();
     },
     onError: error => {
       insertToastItem(error.response?.data.message);
@@ -48,7 +48,7 @@ export const useCouponDetail = (couponId: number) => {
     onSuccess: () => {
       queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
       insertToastItem('✅ 쿠폰을 사용했습니다');
-      close();
+      closeModal();
     },
     onError: error => {
       insertToastItem(error.response?.data.message);
@@ -58,7 +58,7 @@ export const useCouponDetail = (couponId: number) => {
     onSuccess: status => {
       queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
       insertToastItem(예약요청응답별코멘트[status]);
-      close();
+      closeModal();
     },
     onError: error => {
       insertToastItem(error.response?.data.message);
@@ -69,7 +69,7 @@ export const useCouponDetail = (couponId: number) => {
     onSuccess: () => {
       queryClient.invalidateQueries([COUPON_QUERY_KEY.coupon]);
       insertToastItem('쿠폰 사용 완료했습니다.');
-      close();
+      closeModal();
     },
     onError: error => {
       insertToastItem(error.response?.data.message);
@@ -94,7 +94,7 @@ export const useCouponDetail = (couponId: number) => {
           color: 'secondaryLight',
           onClick: () => {
             setTargetCouponId(couponId);
-            close();
+            closeModal();
             navigate(ROUTE_PATH.CREATE_RESERVATION);
           },
         },
@@ -174,6 +174,6 @@ export const useCouponDetail = (couponId: number) => {
     isLoading,
     isError,
     buttonOptions,
-    close,
+    close: closeModal,
   };
 };
