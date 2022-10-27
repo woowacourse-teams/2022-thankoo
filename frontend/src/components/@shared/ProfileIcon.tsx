@@ -4,15 +4,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import { FlexCenter } from '../../styles/mixIn';
 import { BASE_URL } from './../../constants/api';
 
-const ProfileIcon = ({
-  src,
-  size,
-  isSelected,
-}: {
+type ProfileIconProps = {
   src: string;
   size: any;
   isSelected?: boolean;
-}) => {
+};
+
+const ProfileIcon = ({ src, size, isSelected }: ProfileIconProps) => {
   const ImageUrl = `${BASE_URL}${src}`;
 
   if (src.includes('corgi'))
@@ -70,20 +68,20 @@ const ProfileIcon = ({
   );
 };
 
-type IconProp = {
+type IconStyleProp = {
   size: string;
 };
 
-type BackgroundProp = {
+type BackgroundStyleProp = {
   color: string;
   size: string;
   isSelected?: boolean;
 };
 
-const StyledProfileIcon = styled.img<IconProp>`
+const StyledProfileIcon = styled.img<IconStyleProp>`
   width: ${({ size }) => size};
 `;
-const StyledIconBackGround = styled.div<BackgroundProp>`
+const StyledIconBackGround = styled.div<BackgroundStyleProp>`
   ${FlexCenter}
   width: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.3 + 'px'};
   height: ${({ size }) => Number(size.split(/[^0-9]/g)[0]) * 1.3 + 'px'};
@@ -95,7 +93,7 @@ const StyledIconBackGround = styled.div<BackgroundProp>`
   box-shadow: ${({ isSelected }) => (isSelected ? '0 0 0 7px inset tomato' : '')};
 `;
 
-const DefaultUserIcon = styled(PersonIcon)<IconProp>`
+const DefaultUserIcon = styled(PersonIcon)<IconStyleProp>`
   font-size: ${({ size }) => (size ? size : '1.5em')};
   fill: gray;
 `;

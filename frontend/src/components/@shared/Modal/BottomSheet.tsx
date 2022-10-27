@@ -20,12 +20,12 @@ export default forwardRef(
   }
 );
 
-type BottomSheetLayoutProps = {
+type BottomSheetLayoutStyleProps = {
   size?: BottomSheetModalSize;
 };
 
 const S = {
-  Layout: styled.div<BottomSheetLayoutProps>`
+  Layout: styled.div<BottomSheetLayoutStyleProps>`
     position: fixed;
     bottom: 0;
     left: 50%;

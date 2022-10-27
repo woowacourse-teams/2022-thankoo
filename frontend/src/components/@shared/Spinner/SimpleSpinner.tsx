@@ -1,7 +1,7 @@
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
-type SpinnerProps = {
+type SpinnerStyleProps = {
   width?: string;
   height?: string;
 };
@@ -15,7 +15,7 @@ const load8 = keyframes`
     }
 `;
 
-const SimpleSpinner = styled.div<SpinnerProps>`
+const SimpleSpinner = styled.div<SpinnerStyleProps>`
   ${({ width = '1.2rem', height = '1.2rem' }) => css`
     width: ${width};
     height: ${height};

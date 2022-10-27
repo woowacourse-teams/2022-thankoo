@@ -37,7 +37,7 @@ const TabsNav = ({
   );
 };
 
-type ButtonProp = { isActive: boolean };
+type ButtonStyleProp = { isActive: boolean };
 
 const S = {
   Container: styled.div`
@@ -48,7 +48,7 @@ const S = {
     display: flex;
     gap: 10px;
   `,
-  Button: styled.button<ButtonProp>`
+  Button: styled.button<ButtonStyleProp>`
     border: none;
     background-color: transparent;
     padding: 0;
