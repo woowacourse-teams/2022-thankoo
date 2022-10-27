@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 
-interface TabsNavProps {
+type TabsNavProps = {
   children?: JSX.Element | string;
   onChangeTab: (string) => void;
   currentTab: string;
   tabList: {};
   selectableTabs: any[];
   className?: string;
-}
+};
 
 const TabsNav = ({
   children,

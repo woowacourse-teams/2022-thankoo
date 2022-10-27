@@ -6,11 +6,11 @@ export type MeetingTime = {
   timeZone: string;
 };
 
-export interface Meeting {
+export type Meeting = {
   meetingId: number;
   couponType: CouponType;
   time: MeetingTime;
   members: UserProfile[];
   memberName: string;
   isMeetingToday: boolean;
-}
+};

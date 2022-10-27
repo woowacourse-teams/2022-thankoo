@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 import { useRecoilValue } from 'recoil';
-import { usePostCouponMutation } from '../../../hooks/@queries/coupon';
-import useModal from '../../../hooks/useModal';
-import { CouponType, couponTypes } from '../../../types/coupon';
-import { UserProfile } from '../../../types/user';
 import Button from '../../../components/@shared/Button/Button';
-import BottomSheetLayout from '../../../components/@shared/Modal/BottomSheetLayout';
+import BottomSheetLayout from '../../../components/@shared/Modal/BottomSheet';
 import { BASE_URL } from '../../../constants/api';
 import { ROUTE_PATH } from '../../../constants/routes';
+import { usePostCouponMutation } from '../../../hooks/@queries/coupon';
+import useModal from '../../../hooks/useModal';
 import useOnSuccess from '../../../hooks/useOnSuccess';
 import { checkedUsersAtom } from '../../../recoil/atom';
+import { CouponType, couponTypes } from '../../../types/coupon';
+import { UserProfile } from '../../../types/user';
 
 const ConfirmCouponContentModal = ({
   message,

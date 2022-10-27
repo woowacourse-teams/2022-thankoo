@@ -1,10 +1,10 @@
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
-interface SpinnerProps {
+type SpinnerProps = {
   width?: string;
   height?: string;
-}
+};
 
 const load8 = keyframes`
     0% {
