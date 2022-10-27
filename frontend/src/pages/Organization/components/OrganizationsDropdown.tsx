@@ -6,7 +6,7 @@ import { ROUTE_PATH } from '../../../constants/routes';
 import styled from '@emotion/styled';
 
 const OrganizationsDropdown = () => {
-  const { lastAccessedOrganization, organizations, updateLastAccessedOrganization } =
+  const { lastAccessedOrganizationName, organizations, updateLastAccessedOrganization } =
     useOrganizationsDropdown();
 
   const handleClickOrganization = id => {
@@ -16,14 +16,14 @@ const OrganizationsDropdown = () => {
   return (
     <Dropdown>
       <Dropdown.Toggle>
-        {lastAccessedOrganization}
+        {lastAccessedOrganizationName}
         <ArrowDropDownIcon />
       </Dropdown.Toggle>
       <Dropdown.Menu>
         {organizations?.map(organization => (
           <Dropdown.Item
             key={organization.organizationId}
-            selected={organization.organizationName === lastAccessedOrganization}
+            selected={organization.organizationName === lastAccessedOrganizationName}
             onClick={() => {
               handleClickOrganization(organization.organizationId);
             }}

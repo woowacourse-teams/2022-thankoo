@@ -9,8 +9,9 @@ export const useOrganizationsDropdown = () => {
   const { insertToastItem } = useToast();
   const queryClient = useQueryClient();
 
-  const { organizations } = useGetOrganizations();
-  const lastAccessedOrganization = organizations.find(
+  const { data: organizations } = useGetOrganizations();
+
+  const lastAccessedOrganizationName = organizations?.find(
     organization => organization.lastAccessed
   )?.organizationName;
 
@@ -29,7 +30,7 @@ export const useOrganizationsDropdown = () => {
 
   return {
     updateLastAccessedOrganization,
-    lastAccessedOrganization,
+    lastAccessedOrganizationName,
     organizations,
   };
 };
