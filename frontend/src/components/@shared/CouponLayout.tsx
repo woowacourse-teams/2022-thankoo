@@ -1,7 +1,20 @@
 import styled from '@emotion/styled';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
+import { CouponType } from '../../types/coupon';
 
-const CouponLayout = ({ id = 0, name = '', title = '', couponType = 'coffee' }) => {
+type CouponLayoutProps = {
+  id: number;
+  name: string;
+  title: string;
+  couponType: CouponType;
+};
+
+const CouponLayout = ({
+  id = 0,
+  name = '',
+  title = '',
+  couponType = 'coffee',
+}: CouponLayoutProps) => {
   return (
     <S.Layout>
       <S.Content
@@ -20,7 +33,7 @@ const CouponLayout = ({ id = 0, name = '', title = '', couponType = 'coffee' }) 
 
 export default CouponLayout;
 
-type ContentProp = {
+type ContentStyleProp = {
   backgroundColor: string;
   color: string;
 };
@@ -35,7 +48,7 @@ const S = {
     height: 14.5rem;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   `,
-  Content: styled.div<ContentProp>`
+  Content: styled.div<ContentStyleProp>`
     display: flex;
     align-items: center;
     flex-direction: column;

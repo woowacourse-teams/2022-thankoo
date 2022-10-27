@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
 import CloseIcon from '@mui/icons-material/Close';
 
-const Input = ({ setValue, maxLength, ...rest }) => {
+type InputProps = {
+  setValue: React.Dispatch<React.SetStateAction<any>>;
+  maxLength: number;
+  [x: string]: any;
+};
+
+const Input = ({ setValue, maxLength, ...rest }: InputProps) => {
   const isValidInput = value => {
     return value.length <= maxLength;
   };
