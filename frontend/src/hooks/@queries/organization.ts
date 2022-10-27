@@ -26,6 +26,13 @@ export const useGetOrganizations = () => {
   return { organizations: organizations || ([] as OrganizationResponse[]), ...rest };
 };
 
+export const useGetLastAccessedOrganizations = () => {
+  const { organizations } = useGetOrganizations();
+  const lastAccessedOrganization = organizations.find(organization => organization.lastAccessed);
+
+  return lastAccessedOrganization || ({} as OrganizationResponse);
+};
+
 export const usePutJoinOrganization = ({ onSuccess, onError }: QueryHandlers) =>
   useMutation(postJoinNewOrganization, {
     onSuccess: () => {
