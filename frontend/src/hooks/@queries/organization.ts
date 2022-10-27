@@ -26,7 +26,7 @@ export const useGetOrganizations = () => {
   return { organizations: organizations || ([] as OrganizationResponse[]), ...rest };
 };
 
-export const useGetLastAccessedOrganizations = () => {
+export const useGetLastAccessedOrganization = () => {
   const { organizations } = useGetOrganizations();
   const lastAccessedOrganization = organizations.find(organization => organization.lastAccessed);
 

@@ -3,15 +3,15 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { injectOrganizationToRequest } from '../apis/axios';
 import Spinner from '../components/@shared/Spinner';
 import { ROUTE_PATH } from '../constants/routes';
-import { useGetLastAccessedOrganizations } from '../hooks/@queries/organization';
+import { useGetLastAccessedOrganization } from '../hooks/@queries/organization';
 
 const OrganizationInjector = () => {
   return (
     <Suspense fallback={<Spinner />}>
       {(() => {
-        const lastAccessedOrganization = useGetLastAccessedOrganizations();
+        const lastAccessedOrganization = useGetLastAccessedOrganization();
 
-        if (lastAccessedOrganization) {
+        if (lastAccessedOrganization.organizationId) {
           injectOrganizationToRequest(String(lastAccessedOrganization.organizationId));
 
           return <Outlet />;

@@ -9,7 +9,7 @@ import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { COUPON_QUERY_KEY } from '../../../hooks/@queries/coupon';
 import {
-  useGetLastAccessedOrganizations,
+  useGetLastAccessedOrganization,
   usePutLastAccessedOrganization,
 } from '../../../hooks/@queries/organization';
 import useModal from '../../../hooks/useModal';
@@ -32,7 +32,7 @@ const QRCouponRegisterModal = ({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const lastAccessedOrganization = useGetLastAccessedOrganizations();
+  const lastAccessedOrganization = useGetLastAccessedOrganization();
   const { mutate: updateLastAccessedOrganization } = usePutLastAccessedOrganization({
     onSuccess: () => {
       window.location.reload();
