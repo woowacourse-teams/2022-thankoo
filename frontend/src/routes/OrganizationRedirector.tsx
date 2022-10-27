@@ -21,12 +21,9 @@ const OrganizationRedirector = () => {
     onSuccess: () => {
       window.location.reload();
     },
-    onError: error => {},
   });
 
-  if (isUserJoinedOrganization) {
-    updateLastAccessed(String(id));
-  }
+  updateLastAccessed(String(id));
 
   return <Navigate to={page ? `/${page}` : ROUTE_PATH.EXACT_MAIN} replace />;
 };

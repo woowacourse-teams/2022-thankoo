@@ -6,6 +6,6 @@ export interface ErrorType {
 }
 
 export interface QueryHandlers {
-  onSuccess: () => void;
-  onError: (error: AxiosError<ErrorType>) => void;
+  onSuccess?: () => void;
+  onError?: (error: AxiosError<ErrorType>) => void;
 }

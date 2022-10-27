@@ -17,27 +17,31 @@ export const client = axios.create({
 
 const ORGANIZATIONS_REQUIRED_DOMAINS = ['members', 'coupons', 'hearts', 'reservations', 'meetings'];
 
-const axiosDefaultRequestHandler = (config: AxiosRequestConfig, organizationId) => {
-  if (!ORGANIZATIONS_REQUIRED_DOMAINS.some(domain => config.url?.split('/')[1].includes(domain))) {
-    return config;
-  }
+export const injectOrganizationToRequest = (organizationId: string) => {
+  client.interceptors.request.use(config => {
+    const accessedDomain = config.url?.split('/')[1];
 
-  if (typeof config.url !== 'string') {
-    return config;
-  }
+    if (
+      !ORGANIZATIONS_REQUIRED_DOMAINS.some(
+        organizaionRequiredDomain => accessedDomain === organizaionRequiredDomain
+      )
+    ) {
+      return config;
+    }
 
-  if (config.method === 'get' || config.method === 'GET') {
-    return {
-      ...config,
-      url: urlQueryHandler(config.url, `organization=${organizationId}`),
-    };
-  }
+    if (typeof config.url !== 'string') {
+      return config;
+    }
 
-  return { ...config, data: { ...config.data, organizationId } };
-};
+    if (config.method === 'get' || config.method === 'GET') {
+      return {
+        ...config,
+        url: urlQueryHandler(config.url, `organization=${organizationId}`),
+      };
+    }
 
-export const injectOrganizationToRequest = organizationId => {
-  client.interceptors.request.use(config => axiosDefaultRequestHandler(config, organizationId));
+    return { ...config, data: { ...config.data, organizationId } };
+  });
 };
 
 const INVALID_MEMBER_ERROR_CODE = 2001;
