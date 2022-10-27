@@ -7,25 +7,13 @@ const ChoiceSlider = ({ children }) => {
 
 export default ChoiceSlider;
 
-type ContentProps = {
-  show: boolean;
-  totalLength: number;
-};
-type OptionsProps = {
-  show: boolean;
-};
-type OptionItemProps = {
-  isAccept: boolean;
-  totalIndex: number;
-  index: number;
-  show: boolean;
-};
 type ToggleContextState = {
   toggle: boolean;
   setToggle: Dispatch<SetStateAction<boolean>>;
   length: number;
   setLength: Dispatch<SetStateAction<number>>;
 };
+
 const ToggleContext = createContext<ToggleContextState>({
   toggle: false,
   setToggle: () => {},
@@ -97,13 +85,27 @@ ChoiceSlider.OptionItem = ({ children, onClick, index, isAccept, ...props }) => 
   );
 };
 
+type ContentStyleProps = {
+  show: boolean;
+  totalLength: number;
+};
+type OptionsStyleProps = {
+  show: boolean;
+};
+type OptionItemStyleProps = {
+  isAccept: boolean;
+  totalIndex: number;
+  index: number;
+  show: boolean;
+};
+
 const S = {
   Container: styled.div``,
   Inner: styled.div`
     display: flex;
     position: relative;
   `,
-  Content: styled.div<ContentProps>`
+  Content: styled.div<ContentStyleProps>`
     width: ${({ show, totalLength }) => (show ? `${100 - totalLength * 11}%` : '100%')};
     min-width: 55%;
     transition: all ease-in-out 0.1s;
@@ -112,7 +114,7 @@ const S = {
     border-radius: 11px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   `,
-  Options: styled.div<OptionsProps>`
+  Options: styled.div<OptionsStyleProps>`
     display: flex;
     position: absolute;
     right: 0;
@@ -121,7 +123,7 @@ const S = {
     border-radius: 0 3px 3px 0;
     overflow: hidden;
   `,
-  OptionItem: styled.button<OptionItemProps>`
+  OptionItem: styled.button<OptionItemStyleProps>`
     position: absolute;
     background-color: ${({ theme, isAccept }) => (isAccept ? `${theme.primary}` : '#8e8e8e')};
     color: white;

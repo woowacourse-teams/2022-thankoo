@@ -3,9 +3,9 @@ import Button from '../../../components/@shared/Button/Button';
 import { FlexCenter } from '../../../styles/mixIn';
 import { UserProfile } from '../../../types/user';
 
-interface ListViewHeartSkeletonProps {
+type ListViewHeartSkeletonProps = {
   user: UserProfile;
-}
+};
 
 const ListViewHeartSkeleton = ({ user }: ListViewHeartSkeletonProps) => {
   return (

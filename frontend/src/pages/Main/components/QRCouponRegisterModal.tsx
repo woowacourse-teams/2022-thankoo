@@ -27,7 +27,7 @@ const QRCouponRegisterModal = ({
   QRCode: QRCouponResponse;
   serialCode: string;
 }) => {
-  const { modalContentRef, close } = useModal();
+  const { modalContentRef, closeModal } = useModal();
   const { insertToastItem } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -48,7 +48,7 @@ const QRCouponRegisterModal = ({
       }),
     {
       onMutate: () => {
-        close();
+        closeModal();
       },
       onSuccess: () => {
         localStorage.removeItem('query');
@@ -90,7 +90,7 @@ const QRCouponRegisterModal = ({
           <Button
             color='secondaryLight'
             onClick={() => {
-              close();
+              closeModal();
               localStorage.removeItem('query');
               navigate(ROUTE_PATH.EXACT_MAIN, { replace: true });
             }}

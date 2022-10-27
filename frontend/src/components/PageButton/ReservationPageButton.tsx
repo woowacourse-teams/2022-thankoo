@@ -24,7 +24,7 @@ const ReservationPageButton = () => {
 
 export default ReservationPageButton;
 
-type ButtonProps = {
+type ButtonStyleProps = {
   active: boolean;
 };
 
@@ -36,7 +36,7 @@ const S = {
       font-size: 12px;
     }
   `,
-  ButtonWrapper: styled.div<ButtonProps>`
+  ButtonWrapper: styled.div<ButtonStyleProps>`
     position: relative;
     opacity: 0.5;
     ${({ active }) =>

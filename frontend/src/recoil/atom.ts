@@ -42,10 +42,10 @@ export const toastVisibleAtom = atom({
   default: false,
 });
 
-interface toastItem {
+type toastItem = {
   key: number;
   comment: string;
-}
+};
 
 export const toastStackAtom = atom<toastItem[]>({
   //modify
@@ -54,10 +54,10 @@ export const toastStackAtom = atom<toastItem[]>({
 });
 
 // SuccessPage 내부 컨텐츠
-export interface SuccessContentType {
+export type SuccessContentType = {
   page: string;
   props: any;
-}
+};
 
 export const onSuccessContentAtom = atom<SuccessContentType>({
   key: 'onSuccessContentAtom',

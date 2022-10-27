@@ -19,7 +19,7 @@ export type QRCouponResponse = {
 
 const useQRCoupon = () => {
   const { search } = useLocation();
-  const { show, setModalContent } = useModal();
+  const { showModal, setModalContent } = useModal();
   const navigate = useNavigate();
 
   const query = localStorage.getItem('query') || search;
@@ -37,7 +37,7 @@ const useQRCoupon = () => {
     },
     {
       onSuccess: res => {
-        show();
+        showModal();
         setModalContent(<QRCouponRegisterModal QRCode={res} serialCode={code} />);
       },
       onError: error => {

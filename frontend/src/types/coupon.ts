@@ -12,7 +12,7 @@ export type CouponStatus =
   | 'not_used'
   | 'immediately_used';
 
-export interface Coupon {
+export type Coupon = {
   couponId: number;
   sender: UserProfile;
   receiver: UserProfile;
@@ -20,18 +20,18 @@ export interface Coupon {
   status: CouponStatus;
   createdDate: YYYYMMDD;
   modifiedDateTime: string;
-}
-export interface CouponDetail {
+};
+export type CouponDetail = {
   coupon: Coupon;
   meeting: Meeting | null;
   reservation: Reservation | null;
-}
+};
 
-export interface CouponContent {
+export type CouponContent = {
   couponType: CouponTransmitableType;
   title: string;
   message: string;
-}
+};
 
 export type CouponTransmitStatus = 'received' | 'sent';
 

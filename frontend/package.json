@@ -1,6 +1,6 @@
 {
   "name": "thankoo",
-  "version": "1.14.5",
+  "version": "1.2.4",
   "main": "src/index.tsx",
   "license": "MIT",
   "scripts": {
@@ -10,6 +10,24 @@
     "dev-build": "webpack --progress --config webpack/webpack.dev.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@emotion/babel-plugin": "^11.9.2",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.7",
+    "axios": "^0.27.2",
+    "emotion-reset": "^3.0.1",
+    "hangul-js": "^0.2.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.1",
+    "react-router-dom": "^6.3.0",
+    "recoil": "^0.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
@@ -34,12 +52,9 @@
     "@yarnpkg/pnpify": "^4.0.0-rc.11",
     "@yarnpkg/sdks": "^3.0.0-rc.11",
     "babel-loader": "^8.2.5",
-    "css-loader": "^6.7.1",
     "dotenv": "^16.0.1",
-    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "msw": "^0.43.0",
-    "style-loader": "^3.3.1",
     "thankoo-utils-type": "^0.1.1",
     "ts-loader": "^9.3.1",
     "typescript": "^4.7.4",
@@ -47,25 +62,6 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3",
     "webpack-merge": "^5.8.0"
-  },
-  "dependencies": {
-    "@emotion/babel-plugin": "^11.9.2",
-    "@emotion/babel-preset-css-prop": "^11.2.0",
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/lab": "^4.0.0-alpha.61",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.8.7",
-    "axios": "^0.27.2",
-    "emotion-reset": "^3.0.1",
-    "hangul-js": "^0.2.6",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-query": "^3.39.1",
-    "react-router-dom": "^6.3.0",
-    "react-transition-group": "^4.4.5",
-    "recoil": "^0.7.4"
   },
   "packageManager": "yarn@3.2.1",
   "msw": {

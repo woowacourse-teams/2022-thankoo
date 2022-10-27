@@ -1,12 +1,12 @@
 import { Coupon } from '../types/coupon';
 
-interface User {
+type User = {
   id: number;
   name: string;
   imageUrl: string;
   email: string;
   accessToken?: number;
-}
+};
 
 export const users: User[] = [
   {

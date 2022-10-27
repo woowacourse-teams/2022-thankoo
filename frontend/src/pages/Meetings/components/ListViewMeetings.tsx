@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import { COUPON_IMAGE } from '../../../constants/coupon';
-import useMeetings from '../hooks/useMeetings';
-import HeaderText from '../../../layout/HeaderText';
 import ConditionalViewer from '../../../components/@shared/ConditionalViewer';
 import NoMeeting from '../../../components/@shared/noContent/NoMeeting';
+import { COUPON_IMAGE } from '../../../constants/coupon';
+import HeaderText from '../../../layout/HeaderText';
+import useMeetings from '../hooks/useMeetings';
 
 const ListViewMeetings = () => {
   const { meetings, meetingDateAnnouncement } = useMeetings();
@@ -12,7 +12,7 @@ const ListViewMeetings = () => {
     <>
       <S.HeaderText>{meetingDateAnnouncement}</S.HeaderText>
       <S.Body>
-        <ConditionalViewer condition={meetings?.length !== 0} replacement={<NoMeeting />}>
+        <ConditionalViewer showReplacement={meetings?.length === 0} replacement={<NoMeeting />}>
           {meetings?.map((meeting, idx) => (
             <S.Meeting isToday={meeting.isMeetingToday} key={idx}>
               {meeting.isMeetingToday && <S.TodayStrap>오늘</S.TodayStrap>}
@@ -45,7 +45,7 @@ const ListViewMeetings = () => {
 
 export default ListViewMeetings;
 
-type MeetingWrapperProps = {
+type MeetingWrapperStyleProps = {
   isToday: boolean;
 };
 
@@ -60,7 +60,7 @@ const S = {
     height: 100%;
     overflow: auto;
   `,
-  Meeting: styled.div<MeetingWrapperProps>`
+  Meeting: styled.div<MeetingWrapperStyleProps>`
     position: relative;
     width: 100%;
     color: white;

@@ -15,11 +15,11 @@ const useModal = () => {
     }
   }, []);
 
-  const show = () => {
+  const showModal = () => {
     setVisible(true);
   };
 
-  const close = () => {
+  const closeModal = () => {
     const target = document.getElementsByClassName('onMount modalContainer')[0];
     if (!target) {
       setVisible(false);
@@ -33,7 +33,7 @@ const useModal = () => {
     }, modalUnMountTime);
   };
 
-  return { show, close, visible, setModalContent, modalContentRef };
+  return { showModal, closeModal, visible, setModalContent, modalContentRef };
 };
 
 export default useModal;

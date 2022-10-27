@@ -1,9 +1,9 @@
 import { AxiosError } from 'axios';
 
-export interface ErrorType {
+export type ErrorType = {
   errorCode: number;
   message: string;
-}
+};
 
 export interface QueryHandlers {
   onSuccess?: () => void;

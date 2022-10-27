@@ -5,7 +5,12 @@ import useToast from './../../../hooks/useToast';
 import { onMountToast, unMountToast } from './../../../styles/Animation';
 import CloseButton from './../CloseButton';
 
-const ToastItem = ({ toastKey, comment }) => {
+type ToastItemProps = {
+  toastKey: number;
+  comment: string;
+};
+
+const ToastItem = ({ toastKey, comment }: ToastItemProps) => {
   const { toastRef, closeToastItem, duration } = useToast();
 
   useEffect(() => {
@@ -41,6 +46,10 @@ const ToastItem = ({ toastKey, comment }) => {
   );
 };
 
+type ProgressBarStyleProps = {
+  duration: number;
+};
+
 const S = {
   ToastItem: styled.div`
     position: relative;
@@ -62,7 +71,6 @@ const S = {
       animation: ${unMountToast} 2000ms;
     }
   `,
-
   Comment: styled.p`
     display: inline;
   `,
@@ -74,7 +82,7 @@ const S = {
     top: 7px;
     right: -2px;
   `,
-  ProgressBar: styled.div<ProgressBarProps>`
+  ProgressBar: styled.div<ProgressBarStyleProps>`
     width: 100%;
     height: 5px;
     position: absolute;
@@ -102,10 +110,6 @@ const S = {
       }
     }
   `,
-};
-
-type ProgressBarProps = {
-  duration: number;
 };
 
 export default ToastItem;

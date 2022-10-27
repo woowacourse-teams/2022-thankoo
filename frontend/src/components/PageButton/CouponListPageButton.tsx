@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import HomeIcon from '@mui/icons-material/Home';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTE_PATH } from '../../constants/routes';
-import HomeIcon from '@mui/icons-material/Home';
 
 const CouponsPageButton = () => {
   const location = useLocation();
@@ -21,7 +21,7 @@ const CouponsPageButton = () => {
 
 export default CouponsPageButton;
 
-type ButtonProps = {
+type ButtonStyleProps = {
   active: boolean;
 };
 
@@ -32,7 +32,7 @@ const S = {
       font-size: 12px;
     }
   `,
-  ButtonWrapper: styled.div<ButtonProps>`
+  ButtonWrapper: styled.div<ButtonStyleProps>`
     opacity: 0.5;
     ${({ active }) =>
       active &&
