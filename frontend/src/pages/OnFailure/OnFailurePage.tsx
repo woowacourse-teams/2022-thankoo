@@ -20,7 +20,7 @@ const OnFailurePage = () => {
 const S = {
   Layout: styled(PageLayout)`
     position: absolute;
-    background-color: black;
+    background-color: ${palette.BLACK};
     height: 100vh;
     top: 50%;
     left: 50%;

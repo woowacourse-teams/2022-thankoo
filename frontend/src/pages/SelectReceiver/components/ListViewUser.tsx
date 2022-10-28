@@ -71,7 +71,7 @@ const S = {
   CheckboxIcon: styled(CheckIcon)`
     border-radius: 50%;
     background-color: ${({ theme }) => theme.primary};
-    border: 1px solid black;
+    border: 1px solid ${palette.BLACK};
     fill: ${palette.WHITE};
     padding: 1px;
   `,

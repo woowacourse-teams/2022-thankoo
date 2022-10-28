@@ -121,7 +121,7 @@ const Item = styled.li<ItemProps>`
   ${({ selected }) =>
     selected
       ? css`
-          color: black;
+          color: ${palette.BLACK};
           font-weight: bold;
         `
       : css`

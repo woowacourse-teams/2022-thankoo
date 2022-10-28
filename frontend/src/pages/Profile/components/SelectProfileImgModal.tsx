@@ -153,7 +153,7 @@ const S = {
     bottom: 0rem;
     width: 5rem;
     height: 5rem;
-    background-color: black;
+    background-color: ${palette.BLACK};
     display: ${({ isSelected }) => (isSelected ? 'flex' : 'none')};
     border-radius: 50%;
 

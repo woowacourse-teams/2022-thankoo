@@ -5,6 +5,7 @@ import ModalWrapper from '../../../components/@shared/Modal/ModalWrapper';
 import ProfileIcon from '../../../components/@shared/ProfileIcon';
 import { PROFILE_QUERY_KEY, usePutEditUserProfileImage } from '../../../hooks/@queries/profile';
 
+import { palette } from './../../../styles/ThemeProvider';
 import SelectProfileImgModal from './SelectProfileImgModal';
 
 const ProfileUserImage = ({ src }: { src: string }) => {
@@ -50,7 +51,7 @@ const S = {
     bottom: -3%;
     right: -8%;
     border: ${({ theme }) => `0.5px solid ${theme.button.abled.color}`};
-    color: black;
+    color: ${palette.BLACK};
     border-radius: 50%;
     display: flex;
     align-items: center;
