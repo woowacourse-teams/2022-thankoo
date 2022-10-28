@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { forwardRef, LegacyRef, ReactNode } from 'react';
 import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
 import { onMountFromBottomModal, unMountToBottomModal } from '../../../styles/Animation';
+import { palette } from './../../../styles/ThemeProvider';
 
 type BottomSheetModalSize = 'large' | 'medium' | 'small';
 
@@ -36,7 +37,7 @@ const S = {
     border-radius: 7% 7% 0 0;
     display: flex;
     z-index: 10000;
-    color: white;
+    color: ${palette.WHITE};
 
     &.onMount {
       animation: ${onMountFromBottomModal} ${`${modalMountTime}ms`} ease-in-out;

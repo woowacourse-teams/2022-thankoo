@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
-import PageLayout from '../../layout/PageLayout';
-import BirdLogoWhite from '../../components/@shared/LogoWhite';
-import Button from '../../components/@shared/Button/Button';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '../../components/@shared/Button/Button';
 import Input from '../../components/@shared/Input';
-import { useState, FormEvent } from 'react';
+import BirdLogoWhite from '../../components/@shared/LogoWhite';
 import { ROUTE_PATH } from '../../constants/routes';
-import useToast from '../../hooks/useToast';
 import { usePutJoinOrganization } from '../../hooks/@queries/organization';
+import useToast from '../../hooks/useToast';
+import PageLayout from '../../layout/PageLayout';
+import { palette } from './../../styles/ThemeProvider';
 
 const INVITE_CODE_LENGTH = 8;
 
@@ -82,7 +83,7 @@ const S = {
   `,
   HeaderText: styled.h1`
     font-size: 2.8rem;
-    color: white;
+    color: ${palette.WHITE};
     font-weight: bold;
   `,
   Body: styled.main`

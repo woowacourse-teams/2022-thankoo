@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import CouponsPageButton from '../components/PageButton/CouponListPageButton';
 import HeartPageButton from '../components/PageButton/HeartPageButton';
-import ReservationPageButton from '../components/PageButton/ReservationPageButton';
 import ScheduledPageButton from '../components/PageButton/MeetingPageButton';
+import ReservationPageButton from '../components/PageButton/ReservationPageButton';
 import SendCouponPageButton from '../components/PageButton/SendCouponPageButton';
+import { palette } from './../styles/ThemeProvider';
 
 const buttons = [
   <CouponsPageButton />,
@@ -46,7 +47,7 @@ const S = {
 
     width: 4rem;
     height: 5rem;
-    color: white;
+    color: ${palette.WHITE};
     background-color: inherit;
     border: none;
   `,

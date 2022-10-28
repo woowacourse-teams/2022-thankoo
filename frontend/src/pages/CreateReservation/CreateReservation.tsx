@@ -3,15 +3,16 @@ import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Link } from 'react-router-dom';
+import ArrowBackButton from '../../components/@shared/ArrowBackButton';
 import LongButton from '../../components/@shared/LongButton';
 import ModalWrapper from '../../components/@shared/Modal/ModalWrapper';
 import Time from '../../components/@shared/Time';
-import ConfirmReservationModal from './components/ConfirmReservationModal';
+import { ROUTE_PATH } from '../../constants/routes';
 import Header from '../../layout/Header';
 import HeaderText from '../../layout/HeaderText';
 import PageLayout from '../../layout/PageLayout';
-import ArrowBackButton from '../../components/@shared/ArrowBackButton';
-import { ROUTE_PATH } from '../../constants/routes';
+import { palette } from './../../styles/ThemeProvider';
+import ConfirmReservationModal from './components/ConfirmReservationModal';
 import useCreateReservation from './hooks/useCreateReservation';
 
 const CreateReservation = () => {
@@ -135,7 +136,7 @@ const S = {
   `,
   Calander: styled.div`
     height: 21rem;
-    background-color: white;
+    background-color: ${palette.WHITE};
   `,
 };
 

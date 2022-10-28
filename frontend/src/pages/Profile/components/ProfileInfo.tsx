@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
+import Input from '../../../components/@shared/Input';
 import { USER_NICKNAME_MAX_LENGTH } from '../../../constants/users';
 import useUserProfile from '../hooks/useUserProfile';
-import Input from '../../../components/@shared/Input';
+import { palette } from './../../../styles/ThemeProvider';
 import ProfileUserImage from './ProfileUserImage';
 
 const ProfileInfo = () => {
@@ -78,7 +79,7 @@ const S = {
     display: grid;
     grid-template-columns: 30% 50% 20%;
     align-items: center;
-    color: white;
+    color: ${palette.WHITE};
     height: 40px;
   `,
   Bold: styled.span`
@@ -102,7 +103,7 @@ const S = {
   UserCouponInfoItem: styled.div`
     display: flex;
     justify-content: space-between;
-    color: white;
+    color: ${palette.WHITE};
   `,
   SubHeader: styled.div`
     display: flex;

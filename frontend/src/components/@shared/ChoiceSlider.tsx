@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import { palette } from './../../styles/ThemeProvider';
 
 const ChoiceSlider = ({ children }) => {
   return <S.Container>{children}</S.Container>;
@@ -126,7 +127,7 @@ const S = {
   OptionItem: styled.button<OptionItemStyleProps>`
     position: absolute;
     background-color: ${({ theme, isAccept }) => (isAccept ? `${theme.primary}` : '#8e8e8e')};
-    color: white;
+    color: ${palette.WHITE};
     font-weight: bold;
     word-break: keep-all;
     padding: 10px;

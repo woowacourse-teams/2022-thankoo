@@ -9,6 +9,7 @@ import CustomErrorBoundary from '../../../errors/CustomErrorBoundary';
 import ErrorFallBack from '../../../errors/ErrorFallBack';
 import { CouponStatus, CouponTransmitStatus, CouponType } from '../../../types/coupon';
 import useGridViewCoupons from '../hooks/useGridViewCoupons';
+import { palette } from './../../../styles/ThemeProvider';
 import CouponDetail from './CouponDetail';
 import GridViewCoupon from './GridViewCoupon';
 
@@ -113,7 +114,7 @@ const S = {
     position: absolute;
     bottom: 4%;
     right: -18%;
-    color: white;
+    color: ${palette.WHITE};
     font-size: 13px;
     z-index: 1;
     transform: rotate(-40deg);
@@ -131,7 +132,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: ${palette.WHITE};
     font-size: 1.5rem;
   `,
 };

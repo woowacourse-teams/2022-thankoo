@@ -13,8 +13,9 @@ import useQRCoupon from '../../hooks/useQRCoupon';
 import HeaderText from '../../layout/HeaderText';
 import MainPageLayout from '../../layout/MainPageLayout';
 import { couponTypeKeys, couponTypes } from '../../types/coupon';
-import useMain from './hooks/useMain';
+import { palette } from './../../styles/ThemeProvider';
 import GridViewCoupons from './components/GridViewCoupons';
+import useMain from './hooks/useMain';
 
 const sentOrReceivedArray = ['received', 'sent'];
 
@@ -111,7 +112,7 @@ const S = {
   SliderDiv: styled.div<SliderDivProps>`
     width: ${({ length }) => `${100 / length}%`};
     height: 103%;
-    border-bottom: white solid 2px;
+    border-bottom: ${palette.WHITE} solid 2px;
     position: absolute;
     left: 0;
     top: 0;
@@ -131,7 +132,7 @@ const S = {
             color: #8e8e8e;
           `
         : css`
-            color: white;
+            color: ${palette.WHITE};
           `};
   `,
   HeaderText: styled(HeaderText)`
@@ -160,7 +161,7 @@ const S = {
   `,
   UsedCouponCheckboxLabel: styled.label`
     font-size: 12px;
-    color: white;
+    color: ${palette.WHITE};
   `,
   SelectReceiverButton: styled(Link)``,
   SendIcon: styled(SendIcon)`

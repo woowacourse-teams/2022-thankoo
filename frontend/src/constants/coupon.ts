@@ -1,12 +1,13 @@
+import { palette } from './../styles/ThemeProvider';
 import { BASE_URL } from './api';
 
 export const RAND_COLORS = [
   { bg: '#FAC8BF', color: 'black' },
   { bg: '#C0E4D9', color: 'black' },
-  { bg: 'rgb(1, 160, 230)', color: 'white' },
-  { bg: 'rgb(240, 110, 200)', color: 'white' },
+  { bg: 'rgb(1, 160, 230)', color: palette.WHITE },
+  { bg: 'rgb(240, 110, 200)', color: palette.WHITE },
   { bg: '#FDE893', color: 'black' },
-  { bg: 'rgb(99, 51, 198)', color: 'white' },
+  { bg: 'rgb(99, 51, 198)', color: palette.WHITE },
   { bg: '#E3C2F1', color: 'black' },
   { bg: '#FFF970', color: 'black' },
 ];

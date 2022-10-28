@@ -6,15 +6,16 @@ import CheckedUsers from './components/CheckedUsers';
 
 import { Suspense } from 'react';
 import LongButton from '../../components/@shared/LongButton';
-import { ROUTE_PATH } from '../../constants/routes';
-import HeaderText from '../../layout/HeaderText';
-import MainPageLayout from '../../layout/MainPageLayout';
 import Spinner from '../../components/@shared/Spinner';
+import { ROUTE_PATH } from '../../constants/routes';
 import CustomErrorBoundary from '../../errors/CustomErrorBoundary';
 import ErrorFallBack from '../../errors/ErrorFallBack';
-import useSelectReceiver from './hooks/useSelectReceiver';
-import UserSearchInput from './components/UserSearchInput';
+import HeaderText from '../../layout/HeaderText';
+import MainPageLayout from '../../layout/MainPageLayout';
+import { palette } from './../../styles/ThemeProvider';
 import ListViewUsers from './components/ListViewUsers';
+import UserSearchInput from './components/UserSearchInput';
+import useSelectReceiver from './hooks/useSelectReceiver';
 
 const SelectReceiver = () => {
   const { checkedUsers, toggleUser, uncheckUser, isCheckedUser, keyword, setKeyword } =
@@ -60,7 +61,7 @@ type SectionProps = {
 
 const S = {
   Header: styled(HeaderText)`
-    color: white;
+    color: ${palette.WHITE};
   `,
   Body: styled.div`
     display: flex;

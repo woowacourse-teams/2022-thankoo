@@ -7,6 +7,7 @@ import PageLayout from '../../layout/PageLayout';
 import { onSuccessContentAtom } from '../../recoil/atom';
 import CreateReservationSuccess from '../CreateReservation/components/CreateReservationSuccess';
 import EnterCouponContentSuccess from '../EnterCouponContent/components/EnterCouponContentSuccess';
+import { palette } from './../../styles/ThemeProvider';
 
 const OnSucessModalComponents = {
   [ROUTE_PATH.CREATE_RESERVATION]: props => <CreateReservationSuccess {...props} />,
@@ -33,7 +34,7 @@ const S = {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: ${palette.WHITE};
   `,
   SuccessCheckmark: styled.div`
     position: relative;

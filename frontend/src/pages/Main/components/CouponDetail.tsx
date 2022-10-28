@@ -5,6 +5,7 @@ import CloseButton from '../../../components/@shared/CloseButton';
 import PageSlider from '../../../components/@shared/PageSlider';
 import { Coupon, CouponDetail } from '../../../types/coupon';
 import { useCouponDetail } from '../hooks/useCouponDetail';
+import { palette } from './../../../styles/ThemeProvider';
 import CouponDetailCoupon from './ConponDetail.coupon';
 import CouponDetailReservation from './CouponDetail.reservation';
 
@@ -15,7 +16,7 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
     <S.Container>
       <S.Modal>
         <S.Header>
-          <CloseButton onClick={close} color='white' />
+          <CloseButton onClick={close} color={palette.WHITE} />
         </S.Header>
         <PageSlider>
           <CouponDetailCoupon coupon={couponDetail?.coupon as Coupon} />
@@ -52,7 +53,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: ${palette.WHITE};
 
     border-radius: 5px;
     background-color: #232323;

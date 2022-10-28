@@ -15,6 +15,7 @@ import { onMountToCenterModal, unMountCenterToButtomModal } from '../../../style
 import { FlexColumn } from '../../../styles/mixIn';
 import { ErrorType } from '../../../types/api';
 import { couponTypes } from '../../../types/coupon';
+import { palette } from './../../../styles/ThemeProvider';
 
 const QRCouponRegisterModal = ({
   QRCode,
@@ -108,7 +109,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: ${palette.WHITE};
 
     border-radius: 5px;
     background-color: #232323;

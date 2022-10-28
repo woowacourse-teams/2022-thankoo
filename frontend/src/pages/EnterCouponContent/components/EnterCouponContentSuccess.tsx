@@ -10,6 +10,7 @@ import { ROUTE_PATH } from '../../../constants/routes';
 import { checkedUsersAtom, onSuccessContentAtom, sentOrReceivedAtom } from '../../../recoil/atom';
 import { FlexColumn, gap } from '../../../styles/mixIn';
 import { couponTypes } from '../../../types/coupon';
+import { palette } from './../../../styles/ThemeProvider';
 
 const EnterCouponContentSuccess = ({ receivers, title, message, couponType }) => {
   const resetCheckedUsers = useResetRecoilState(checkedUsersAtom);
@@ -98,7 +99,7 @@ const S = {
     flex-direction: column;
     width: 80vw;
     height: 70vh;
-    color: white;
+    color: ${palette.WHITE};
     margin: 5rem auto;
     justify-content: space-between;
   `,

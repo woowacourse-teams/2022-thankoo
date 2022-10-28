@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { FlexCenter } from '../../../styles/mixIn';
 import useToast from './../../../hooks/useToast';
 import { onMountToast, unMountToast } from './../../../styles/Animation';
+import { palette } from './../../../styles/ThemeProvider';
 import CloseButton from './../CloseButton';
 
 type ToastItemProps = {
@@ -38,7 +39,7 @@ const ToastItem = ({ toastKey, comment }: ToastItemProps) => {
           onClick={() => {
             closeToastItem(toastKey);
           }}
-          color={'white'}
+          color={palette.WHITE}
         />
       </S.Interact>
       <S.ProgressBar duration={duration} />
@@ -57,7 +58,7 @@ const S = {
     height: 20px;
     padding: 10px 10px;
     background: #4b4b4b;
-    color: white;
+    color: ${palette.WHITE};
     border-radius: 4px;
     font-size: 1.2rem;
     /* border: 3px green solid; */

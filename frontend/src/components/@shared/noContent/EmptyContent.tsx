@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import IconEmptyList from '../LogoEmptyList';
+import { palette } from './../../../styles/ThemeProvider';
 
 const EmptyContent = () => {
   return (
@@ -18,7 +19,7 @@ const S = {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: ${palette.WHITE};
     opacity: 0.8;
     gap: 15px;
     height: 60vh;

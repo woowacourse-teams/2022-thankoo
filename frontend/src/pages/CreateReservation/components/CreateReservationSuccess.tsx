@@ -6,6 +6,7 @@ import Button from '../../../components/@shared/Button/Button';
 import SuccessAnimation from '../../../components/@shared/SuccessAnimation';
 import { ROUTE_PATH } from '../../../constants/routes';
 import { onSuccessContentAtom, ReservationNavAtom } from '../../../recoil/atom';
+import { palette } from './../../../styles/ThemeProvider';
 
 const CreateReservationSuccess = ({ receiver, date, time }) => {
   const pageReset = useResetRecoilState(onSuccessContentAtom);
@@ -81,7 +82,7 @@ const S = {
     flex-direction: column;
     width: 80vw;
     height: 70vh;
-    color: white;
+    color: ${palette.WHITE};
     margin: 5rem auto;
     justify-content: space-between;
   `,

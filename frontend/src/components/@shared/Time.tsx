@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { SetStateAction, useMemo } from 'react';
+import { palette } from './../../styles/ThemeProvider';
 
 type TimeTable = {
   time: string;
@@ -122,7 +123,7 @@ const S = {
     grid-template-columns: repeat(4, 1fr);
   `,
   TimeLabel: styled.span`
-    color: white;
+    color: ${palette.WHITE};
     font-size: 18px;
   `,
   Time: styled.button<TimeStyleProps>`
@@ -134,7 +135,7 @@ const S = {
     background-color: ${({ isPassed, isSelected, theme }) =>
       isPassed ? '#4a4a4a3c' : isSelected ? theme.primary : '#4a4a4a'};
     border-radius: 4px;
-    color: ${({ isPassed }) => (isPassed ? '#8e8e8e' : 'white')};
+    color: ${({ isPassed }) => (isPassed ? '#8e8e8e' : palette.WHITE)};
     cursor: ${({ isPassed }) => (isPassed ? 'default' : 'pointer')};
     :hover {
       ${({ theme, isPassed, isSelected }) =>

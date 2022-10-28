@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 import SimpleSpinner from '../Spinner/SimpleSpinner';
+import { palette } from './../../../styles/ThemeProvider';
 
 export type ButtonSize = 'medium' | 'small' | 'large';
 export type ButtonColor = 'primary' | 'secondary' | 'primaryLight' | 'secondaryLight';
@@ -60,9 +61,9 @@ export const ButtonStyleOptions = {
     secondaryLight: '#4a4a4a',
   },
   fontColor: {
-    primary: 'white',
+    primary: palette.WHITE,
     secondary: '#b2b2b2',
-    secondaryLight: 'white',
+    secondaryLight: palette.WHITE,
   },
 };
 

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { BASE_URL } from '../../../constants/api';
 import { UserProfile } from '../../../types/user';
+import { palette } from './../../../styles/ThemeProvider';
 
 const ListViewUser = ({
   user,
@@ -71,7 +72,7 @@ const S = {
     border-radius: 50%;
     background-color: ${({ theme }) => theme.primary};
     border: 1px solid black;
-    fill: white;
+    fill: ${palette.WHITE};
     padding: 1px;
   `,
 };

@@ -6,6 +6,7 @@ import ProfileIcon from '../../../components/@shared/ProfileIcon';
 import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
 import { ProfileIconList } from '../../../constants/profileIcon';
 import useModal from '../../../hooks/useModal';
+import { palette } from './../../../styles/ThemeProvider';
 
 const SelectProfileImgModal = ({ editUserProfileImage }) => {
   const [selected, setSelected] = useState('');
@@ -67,7 +68,7 @@ const S = {
     border-radius: 7% 7% 0 0;
     display: flex;
     z-index: 10000;
-    color: white;
+    color: ${palette.WHITE};
 
     //onMount animation
     @keyframes myonmount {

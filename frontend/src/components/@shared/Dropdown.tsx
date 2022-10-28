@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
+import { palette } from './../../styles/ThemeProvider';
 import Dimmer from './Dimmer';
 
 type ToggleContextState = {
@@ -93,7 +94,7 @@ const Menu = styled.ul<MenuProps>`
   flex-flow: column;
 
   width: max-content;
-  background-color: white;
+  background-color: ${palette.WHITE};
   padding: 1rem;
   border-radius: 7px;
 
@@ -111,7 +112,7 @@ const Menu = styled.ul<MenuProps>`
 const Toggle = styled.span`
   display: flex;
   align-items: center;
-  color: white;
+  color: ${palette.WHITE};
   font-size: 1.7rem;
   letter-spacing: 0.1rem;
   cursor: pointer;

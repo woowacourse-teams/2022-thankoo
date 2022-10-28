@@ -4,6 +4,7 @@ import NoMeeting from '../../../components/@shared/noContent/NoMeeting';
 import { COUPON_IMAGE } from '../../../constants/coupon';
 import HeaderText from '../../../layout/HeaderText';
 import useMeetings from '../hooks/useMeetings';
+import { palette } from './../../../styles/ThemeProvider';
 
 const ListViewMeetings = () => {
   const { meetings, meetingDateAnnouncement } = useMeetings();
@@ -51,7 +52,7 @@ type MeetingWrapperStyleProps = {
 
 const S = {
   HeaderText: styled(HeaderText)`
-    color: white;
+    color: ${palette.WHITE};
   `,
   Body: styled.section`
     display: block;
@@ -63,7 +64,7 @@ const S = {
   Meeting: styled.div<MeetingWrapperStyleProps>`
     position: relative;
     width: 100%;
-    color: white;
+    color: ${palette.WHITE};
     border-radius: 4px;
     display: flex;
     gap: 20px;
@@ -83,7 +84,7 @@ const S = {
     right: -20px;
     padding: 5px 30px;
     background-color: ${({ theme }) => theme.primary};
-    color: white;
+    color: ${palette.WHITE};
     transform: rotate(40deg);
   `,
   MeetingDetail: styled.div`

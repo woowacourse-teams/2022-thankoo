@@ -2,7 +2,7 @@ import { ThemeProvider as BaseThemeProvider } from '@emotion/react';
 import { useRecoilState } from 'recoil';
 import { themeAtom } from '../recoil/atom';
 
-const palette = {
+export const palette = {
   //SUNSET ORANGE
   SUNSET_ORANGE_50: '#fff3f1',
   SUNSET_ORANGE_100: '#ffe4e1',

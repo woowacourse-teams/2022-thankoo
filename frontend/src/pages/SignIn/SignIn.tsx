@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import GoogleIcon from '@mui/icons-material/Google';
+import GoogleLogo from '../../assets/svg/google-color-icon.svg';
+import BirdLogoWhite from '../../components/@shared/LogoWhite';
 import PageLayout from '../../layout/PageLayout';
 import { FlexCenter } from '../../styles/mixIn';
-import BirdLogoWhite from '../../components/@shared/LogoWhite';
+import { palette } from './../../styles/ThemeProvider';
 import useSignIn from './hooks/useSignIn';
-import GoogleLogo from '../../assets/svg/google-color-icon.svg';
 
 const SignIn = () => {
   const { redirectGoogleAuth } = useSignIn();
@@ -51,7 +52,7 @@ const S = {
     color: lightgray;
   `,
   GoogleIcon: styled(GoogleIcon)`
-    fill: white;
+    fill: ${palette.WHITE};
   `,
   SignInButton: styled.div`
     ${FlexCenter};

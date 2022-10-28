@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { Suspense, useState } from 'react';
+import Spinner from '../../components/@shared/Spinner';
 import CustomErrorBoundary from '../../errors/CustomErrorBoundary';
 import ErrorFallBack from '../../errors/ErrorFallBack';
 import HeaderText from '../../layout/HeaderText';
 import MainPageLayout from '../../layout/MainPageLayout';
-import Spinner from '../../components/@shared/Spinner';
 import UserSearchInput from '../SelectReceiver/components/UserSearchInput';
+import { palette } from './../../styles/ThemeProvider';
 import Members from './components/Members';
 
 const Hearts = () => {
@@ -30,7 +31,7 @@ const Hearts = () => {
 
 const S = {
   Header: styled(HeaderText)`
-    color: white;
+    color: ${palette.WHITE};
   `,
   Body: styled.div`
     height: calc(80%);

@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
-import Header from '../../layout/Header';
-import Input from '../../components/@shared/Input';
-import PageLayout from '../../layout/PageLayout';
-import useEnterNickname from './hooks/useEnterNickname';
-import { USER_NICKNAME_MAX_LENGTH } from '../../constants/users';
-import HeaderText from '../../layout/HeaderText';
 import Button from '../../components/@shared/Button/Button';
+import Input from '../../components/@shared/Input';
+import { USER_NICKNAME_MAX_LENGTH } from '../../constants/users';
+import Header from '../../layout/Header';
+import HeaderText from '../../layout/HeaderText';
+import PageLayout from '../../layout/PageLayout';
+import { palette } from './../../styles/ThemeProvider';
+import useEnterNickname from './hooks/useEnterNickname';
 
 const EnterNickname = () => {
   const { email, nickname, setNickname, signUpWithNickname } = useEnterNickname();
@@ -50,7 +51,7 @@ const S = {
   `,
   Body: styled.section`
     padding: 1rem;
-    color: white;
+    color: ${palette.WHITE};
   `,
   Form: styled.form`
     display: flex;

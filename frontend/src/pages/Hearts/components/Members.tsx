@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Suspense } from 'react';
 import { FlexCenter } from '../../../styles/mixIn';
 import useHeartsMembers from '../hooks/useHeartsMembers';
+import { palette } from './../../../styles/ThemeProvider';
 import ListViewHeart from './ListViewHeart';
 import ListViewHeartSkeleton from './ListViewHeartSkeleton';
 
@@ -135,7 +136,7 @@ const S = {
     font-size: 1.3rem;
     line-height: 3rem;
 
-    color: ${({ canSend }) => (canSend ? 'white' : '#7a7a7a')};
+    color: ${({ canSend }) => (canSend ? palette.WHITE : '#7a7a7a')};
     cursor: ${({ canSend }) => (canSend ? 'pointer' : '')};
   `,
 };

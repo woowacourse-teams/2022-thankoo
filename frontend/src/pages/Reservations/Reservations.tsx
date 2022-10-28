@@ -1,13 +1,14 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Suspense } from 'react';
-import HeaderText from '../../layout/HeaderText';
-import MainPageLayout from '../../layout/MainPageLayout';
 import Spinner from '../../components/@shared/Spinner';
 import CustomErrorBoundary from '../../errors/CustomErrorBoundary';
 import ErrorFallBack from '../../errors/ErrorFallBack';
-import useReservations from './hooks/useReservations';
+import HeaderText from '../../layout/HeaderText';
+import MainPageLayout from '../../layout/MainPageLayout';
+import { palette } from './../../styles/ThemeProvider';
 import ListViewReservations from './components/ListViewReservations';
+import useReservations from './hooks/useReservations';
 
 const ReservationNav = ['received', 'sent'];
 
@@ -63,7 +64,7 @@ const S = {
     display: flex;
     flex-direction: column;
     padding: 5px 0;
-    color: white;
+    color: ${palette.WHITE};
     gap: 15px;
   `,
   CouponStatusNavWrapper: styled.div`
@@ -87,7 +88,7 @@ const S = {
   SliderDiv: styled.div<SliderDivProps>`
     width: ${({ length }) => `${100 / length}%`};
     height: 103%;
-    border-bottom: white solid 2px;
+    border-bottom: ${palette.WHITE} solid 2px;
     position: absolute;
     left: 0;
     top: 0;
@@ -107,7 +108,7 @@ const S = {
             color: #8e8e8e;
           `
         : css`
-            color: white;
+            color: ${palette.WHITE};
           `};
   `,
 };

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { COUPON_IMAGE, RAND_COLORS } from '../../../constants/coupon';
 import { serverDateFormmater } from '../../../utils/date';
+import { palette } from './../../../styles/ThemeProvider';
 
 const ListViewReservationDetail = ({ memberName, reservationId, couponType, meetingTime }) => {
   const { day, date, time } = serverDateFormmater(meetingTime);
@@ -59,7 +60,7 @@ const S = {
     margin-right: 5px;
     border-radius: 50%;
     background-color: ${({ theme }) => theme.primary};
-    fill: white;
+    fill: ${palette.WHITE};
     padding: 1px;
     display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
   `,

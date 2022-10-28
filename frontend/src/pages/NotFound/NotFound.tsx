@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { palette } from './../../styles/ThemeProvider';
 
 const NotFound = () => {
   return (
@@ -45,7 +46,7 @@ const S = {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: ${palette.WHITE};
 
     * {
       padding: 0;

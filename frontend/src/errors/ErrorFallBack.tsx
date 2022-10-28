@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Button from '../components/@shared/Button/Button';
 import { ROUTE_PATH } from './../constants/routes';
+import { palette } from './../styles/ThemeProvider';
 
 const ErrorFallBack = () => {
   const onClick = () => {
@@ -25,6 +26,6 @@ const S = {
     gap: 3rem;
     font-size: 2rem;
     text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
-    color: white;
+    color: ${palette.WHITE};
   `,
 };
