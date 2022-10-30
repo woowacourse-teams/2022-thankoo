@@ -3,8 +3,10 @@ package com.woowacourse.thankoo.authentication.infrastructure;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.thankoo.authentication.exception.GoogleClientException;
+import com.woowacourse.thankoo.authentication.exception.InvalidTokenException;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleProfileResponse;
 import com.woowacourse.thankoo.authentication.infrastructure.dto.GoogleTokenResponse;
+import com.woowacourse.thankoo.common.exception.ErrorType;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
@@ -26,6 +28,8 @@ public class GoogleClient {
     private static final String AUTHORIZATION_TYPE = "Bearer ";
     private static final String JWT_DELIMITER = "\\.";
     private static final int PAYLOAD = 1;
+    private static final String GOOGLE_ISS_1 = "https://accounts.google.com";
+    private static final String GOOGLE_ISS_2 = "accounts.google.com";
 
     private final String clientId;
     private final String clientSecret;
@@ -92,11 +96,27 @@ public class GoogleClient {
             Map<String, String> profile = objectMapper.readValue(getProfileFromToken(idToken), Map.class);
             String socialId = profile.get("sub");
             String email = profile.get("email");
+            String iss = profile.get("iss");
+            String aud = profile.get("aud");
+            validateTokenValue(iss, aud);
 
             return new GoogleProfileResponse(socialId, email);
         } catch (JsonProcessingException e) {
             throw new GoogleClientException(e);
         }
+    }
+
+    private void validateTokenValue(String iss, String aud) {
+        if (!isValidIss(iss)) {
+            throw new InvalidTokenException(ErrorType.INVALID_TOKEN);
+        }
+        if (!aud.equals(clientId)) {
+            throw new InvalidTokenException(ErrorType.INVALID_TOKEN);
+        }
+    }
+
+    private boolean isValidIss(String iss) {
+        return iss.equalsIgnoreCase(GOOGLE_ISS_1) || iss.equalsIgnoreCase(GOOGLE_ISS_2);
     }
 
     private String getProfileFromToken(final String token) {

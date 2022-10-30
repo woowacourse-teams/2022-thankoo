@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MockOAuthController {
+class MockOAuthController {
 
     @PostMapping(path = "/oauth/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<GoogleTokenResponse> getAccessToken(GoogleClientRequest googleClientRequest) {

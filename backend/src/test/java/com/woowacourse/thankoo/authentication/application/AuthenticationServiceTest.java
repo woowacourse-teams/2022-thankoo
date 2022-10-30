@@ -10,17 +10,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.authentication.presentation.dto.TokenResponse;
+import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.member.domain.Member;
 import com.woowacourse.thankoo.member.domain.MemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @DisplayName("AuthenticationService 는 ")
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@ApplicationTest
 class AuthenticationServiceTest {
 
     @Autowired
