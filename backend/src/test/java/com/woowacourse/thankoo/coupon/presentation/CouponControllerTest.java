@@ -222,10 +222,10 @@ class CouponControllerTest extends ControllerTest {
                 CouponResponse.of(
                         new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "RESERVED", LocalDate.now(),
                                 LocalDateTime.now())),
-                CouponResponse.of(new MemberCoupon(1L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now(),
+                CouponResponse.of(new MemberCoupon(3L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "USED", LocalDate.now(),
                         LocalDateTime.now())),
                 CouponResponse.of(
-                        new MemberCoupon(2L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now(),
+                        new MemberCoupon(4L, 1L, huni, lala, TYPE, TITLE, MESSAGE, "EXPIRED", LocalDate.now(),
                                 LocalDateTime.now()))
         );
 

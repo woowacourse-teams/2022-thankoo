@@ -13,11 +13,4 @@ public class CouponUseRequest {
     public CouponUseRequest(final Long organizationId) {
         this.organizationId = organizationId;
     }
-
-    @Override
-    public String toString() {
-        return "CouponUseRequest{" +
-                "organizationId=" + organizationId +
-                '}';
-    }
 }

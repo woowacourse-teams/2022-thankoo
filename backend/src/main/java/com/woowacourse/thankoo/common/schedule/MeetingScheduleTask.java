@@ -20,16 +20,24 @@ public class MeetingScheduleTask {
 
     @Scheduled(cron = "0 0/30 10-19 * * *")
     public void executeCompleteMeeting() {
-        log.debug("[Scheduling] 당일 만남 완료 처리");
-        LocalDateTime nowDateTime = LocalDateTime.now();
-        LocalTime nowTime = LocalTime.of(nowDateTime.getHour(), nowDateTime.getMinute());
-        LocalDateTime meetingTime = LocalDateTime.of(nowDateTime.toLocalDate(), nowTime);
-        meetingService.complete(meetingTime);
+        try {
+            LocalDateTime nowDateTime = LocalDateTime.now();
+            LocalTime nowTime = LocalTime.of(nowDateTime.getHour(), nowDateTime.getMinute());
+            LocalDateTime meetingTime = LocalDateTime.of(nowDateTime.toLocalDate(), nowTime);
+            meetingService.complete(meetingTime);
+            log.info("[Scheduling] 당일 만남 완료 처리");
+        } catch (RuntimeException e) {
+            log.error("[Scheduling] 당일 만남 완료 처리 실패 : {}", e.getMessage());
+        }
     }
 
     @Scheduled(cron = "0 0 9 * * *")
     public void executeSendMeetingMessage() {
-        log.debug("[Scheduling] 만남 일정 슬랙 메세지 전송");
-        meetingService.sendMessageTodayMeetingMembers(LocalDate.now());
+        try {
+            meetingService.sendMessageTodayMeetingMembers(LocalDate.now());
+            log.info("[Scheduling] 만남 일정 슬랙 메세지 전송");
+        } catch (RuntimeException e) {
+            log.error("[Scheduling] 만남 일정 슬랙 메세지 전송 실패 {}", e.getMessage());
+        }
     }
 }
