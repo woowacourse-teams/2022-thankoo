@@ -109,7 +109,7 @@ const S = {
     width: ${({ show, totalLength }) => (show ? `${100 - totalLength * 11}%` : '100%')};
     min-width: 55%;
     transition: all ease-in-out 0.1s;
-    z-index: 3;
+    z-index: ${({ totalLength }) => totalLength + 1};
     overflow: hidden;
     border-radius: 11px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
@@ -129,7 +129,7 @@ const S = {
     color: white;
     font-weight: bold;
     word-break: keep-all;
-    padding: 10px;
+    padding: 3%;
     border: none;
     border-radius: 11px;
     width: ${({ index, show, totalIndex }) =>
