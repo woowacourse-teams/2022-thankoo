@@ -136,7 +136,7 @@ const S = {
       show ? `${100 - (totalIndex - index) * 11}%` : '100%'};
     transition: all ease-in-out 0.1s;
     height: 100%;
-    z-index: ${({ index }) => 2 - index};
+    z-index: ${({ totalIndex, index }) => totalIndex - index};
     display: flex;
     justify-content: flex-end;
     align-items: center;
