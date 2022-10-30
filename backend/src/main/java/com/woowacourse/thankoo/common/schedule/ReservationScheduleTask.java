@@ -26,7 +26,7 @@ public class ReservationScheduleTask {
             reservationService.cancelExpiredReservation(reservationTime);
             log.info("[Scheduling] 만료된 예약 취소 처리");
         } catch (RuntimeException e) {
-            log.error("[Scheduling] 만료된 예약 취소 처리 실패");
+            log.error("[Scheduling] 만료된 예약 취소 처리 실패 {}", e.getMessage());
         }
     }
 }
