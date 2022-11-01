@@ -23,44 +23,31 @@ const ListReservationItem = ({
 
   return (
     <Slider>
-      <Slider.Inner>
-        <Slider.Content>
-          <ListViewReservationDetail
-            couponType={couponType}
-            meetingTime={time.meetingTime}
-            memberName={memberName}
-            reservationId={reservationId}
-          />
-        </Slider.Content>
+      <Slider.Toggle>
+        <ListViewReservationDetail
+          couponType={couponType}
+          meetingTime={time.meetingTime}
+          memberName={memberName}
+          reservationId={reservationId}
+        />
+      </Slider.Toggle>
+      {transmitStatus === 'received' ? (
         <Slider.Options>
-          {transmitStatus === 'received' ? (
-            <>
-              <Slider.OptionItem
-                index={1}
-                isAccept={false}
-                onClick={handleClickOption[transmitStatus][0]}
-              >
-                거절
-              </Slider.OptionItem>
-              <Slider.OptionItem
-                index={2}
-                isAccept={true}
-                onClick={handleClickOption[transmitStatus][1]}
-              >
-                승인
-              </Slider.OptionItem>
-            </>
-          ) : (
-            <Slider.OptionItem
-              index={1}
-              isAccept={false}
-              onClick={handleClickOption[transmitStatus][0]}
-            >
-              취소
-            </Slider.OptionItem>
-          )}
+          <Slider.OptionItem backgroundColor='#8e8e8e'>
+            <span onClick={handleClickOption[transmitStatus][0]}>거절</span>
+          </Slider.OptionItem>
+
+          <Slider.OptionItem backgroundColor='tomato'>
+            <span onClick={handleClickOption[transmitStatus][1]}>승인</span>
+          </Slider.OptionItem>
         </Slider.Options>
-      </Slider.Inner>
+      ) : (
+        <Slider.Options>
+          <Slider.OptionItem backgroundColor='#8e8e8e'>
+            <span onClick={handleClickOption[transmitStatus][0]}>취소</span>
+          </Slider.OptionItem>
+        </Slider.Options>
+      )}
     </Slider>
   );
 };
