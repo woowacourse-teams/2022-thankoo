@@ -20,10 +20,7 @@ const ListReservationItem = ({
   reservationId,
   transmitStatus,
 }: ListReservationItemProps) => {
-  const { acceptRequest, cancelRequest, denyRequest } = useListReservationItem({
-    reservationId,
-    time,
-  });
+  const { acceptRequest, cancelRequest, denyRequest } = useListReservationItem(reservationId);
 
   return (
     <Slider>

@@ -1,5 +1,4 @@
 import { useQueryClient } from 'react-query';
-import { MeetingTime } from '../../../types/meeting';
 import {
   RESERVATION_QUERY_KEYS,
   usePutCancelReseravation,
@@ -8,12 +7,7 @@ import {
 import { 예약요청응답별코멘트 } from '../../Main/hooks/useCouponDetail';
 import useToast from '../../../hooks/useToast';
 
-type useListReservationItemProps = {
-  reservationId: number;
-  time: MeetingTime;
-};
-
-const useListReservationItem = ({ reservationId, time }: useListReservationItemProps) => {
+const useListReservationItem = (reservationId: number) => {
   const queryClient = useQueryClient();
   const { insertToastItem } = useToast();
 
@@ -44,7 +38,7 @@ const useListReservationItem = ({ reservationId, time }: useListReservationItemP
       }
     },
     acceptRequest: () => {
-      if (confirm(`예약을 수락하시겠습니까? \n ${time?.meetingTime}`)) {
+      if (confirm(`예약을 수락하시겠습니까?`)) {
         handleReservation('accept');
       }
     },
