@@ -58,17 +58,22 @@ ChoiceSlider.Toggle = ({ children, ...props }: ToggleProps) => {
   );
 };
 
-ChoiceSlider.Options = ({ children, ...props }) => {
+const isMultipleChildren = (input): input is ReactElement[] => {
+  return Array.isArray(input);
+};
+type PropsWithReactElementChild = {
+  children: ReactElement | ReactElement[];
+};
+ChoiceSlider.Options = ({ children, ...props }: PropsWithReactElementChild) => {
   if (React.Children.count(children) > 3) {
     throw new Error('ChoiceSlider의 OptionsItem은 3개가 최대입니다.');
   }
 
-  const indexedChildren = React.Children.toArray(children).map((child, idx) => {
-    const reactElementChild = child as ReactElement;
-
+  const childList = isMultipleChildren(children) ? children : [children];
+  const indexedChildren = childList.map((child: ReactElement, idx) => {
     return {
-      ...reactElementChild,
-      props: { ...reactElementChild.props, index: idx + 1 },
+      ...child,
+      props: { ...child.props, index: idx + 1 },
     };
   });
 
@@ -86,16 +91,10 @@ ChoiceSlider.Options = ({ children, ...props }) => {
 };
 
 type OptionItemProps = {
-  backgroundColor: string;
   index?: number;
 } & PropsWithChildren;
 
-ChoiceSlider.OptionItem = ({
-  children,
-  backgroundColor = '#8e8e8e',
-  index,
-  ...props
-}: OptionItemProps) => {
+ChoiceSlider.OptionItem = ({ children, index, ...props }: OptionItemProps) => {
   const { setToggle, toggle, length } = useContext(ToggleContext);
 
   return (
@@ -106,7 +105,6 @@ ChoiceSlider.OptionItem = ({
       onClick={() => {
         setToggle(prev => !prev);
       }}
-      backgroundColor={backgroundColor}
       {...props}
     >
       {children}
@@ -125,7 +123,6 @@ type OptionItemStyleProps = {
   totalIndex: number;
   index: number;
   show: boolean;
-  backgroundColor: string;
 };
 
 const S = {
@@ -153,13 +150,8 @@ const S = {
   `,
   OptionItem: styled.button<OptionItemStyleProps>`
     position: absolute;
-    color: white;
-    font-weight: bold;
-    word-break: keep-all;
-    padding: 3%;
+    padding: 0;
     border: none;
-    background-color: ${({ backgroundColor }) => backgroundColor};
-    border-radius: 11px;
     width: ${({ index, show, totalIndex }) =>
       show ? `${100 - (totalIndex - index) * 11}%` : '100%'};
     transition: all ease-in-out 0.1s;
@@ -168,6 +160,8 @@ const S = {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    border-radius: 11px;
+    overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   `,
 };

@@ -3,6 +3,7 @@ import { CouponTransmitStatus, CouponType } from '../../../types/coupon';
 import { MeetingTime } from '../../../types/meeting';
 import Slider from '../../../components/@shared/ChoiceSlider';
 import ListViewReservationDetail from './ListViewReservation';
+import styled from '@emotion/styled';
 
 type ListReservationItemProps = {
   couponType: CouponType;
@@ -19,7 +20,10 @@ const ListReservationItem = ({
   reservationId,
   transmitStatus,
 }: ListReservationItemProps) => {
-  const { handleClickOption } = useListReservationItem({ reservationId, time });
+  const { acceptRequest, cancelRequest, denyRequest } = useListReservationItem({
+    reservationId,
+    time,
+  });
 
   return (
     <Slider>
@@ -33,18 +37,17 @@ const ListReservationItem = ({
       </Slider.Toggle>
       {transmitStatus === 'received' ? (
         <Slider.Options>
-          <Slider.OptionItem backgroundColor='#8e8e8e'>
-            <span onClick={handleClickOption[transmitStatus][0]}>거절</span>
+          <Slider.OptionItem>
+            <Reject onClick={denyRequest}>거절</Reject>
           </Slider.OptionItem>
-
-          <Slider.OptionItem backgroundColor='tomato'>
-            <span onClick={handleClickOption[transmitStatus][1]}>승인</span>
+          <Slider.OptionItem>
+            <Accept onClick={acceptRequest}>승낙</Accept>
           </Slider.OptionItem>
         </Slider.Options>
       ) : (
         <Slider.Options>
-          <Slider.OptionItem backgroundColor='#8e8e8e'>
-            <span onClick={handleClickOption[transmitStatus][0]}>취소</span>
+          <Slider.OptionItem>
+            <Reject onClick={cancelRequest}>취소</Reject>
           </Slider.OptionItem>
         </Slider.Options>
       )}
@@ -53,3 +56,19 @@ const ListReservationItem = ({
 };
 
 export default ListReservationItem;
+
+const OptionItem = styled.span`
+  color: white;
+  display: grid;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-align: right;
+  padding-right: 3%;
+`;
+const Reject = styled(OptionItem)`
+  background-color: #8e8e8e;
+`;
+const Accept = styled(OptionItem)`
+  background-color: tomato;
+`;
