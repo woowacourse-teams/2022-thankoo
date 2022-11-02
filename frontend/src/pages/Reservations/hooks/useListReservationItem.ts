@@ -1,5 +1,4 @@
 import { useQueryClient } from 'react-query';
-import { MeetingTime } from '../../../types/meeting';
 import {
   RESERVATION_QUERY_KEYS,
   usePutCancelReseravation,
@@ -8,12 +7,7 @@ import {
 import { 예약요청응답별코멘트 } from '../../Main/hooks/useCouponDetail';
 import useToast from '../../../hooks/useToast';
 
-type useListReservationItemProps = {
-  reservationId: number;
-  time: MeetingTime;
-};
-
-const useListReservationItem = ({ reservationId, time }: useListReservationItemProps) => {
+const useListReservationItem = (reservationId: number) => {
   const queryClient = useQueryClient();
   const { insertToastItem } = useToast();
 
@@ -37,28 +31,22 @@ const useListReservationItem = ({ reservationId, time }: useListReservationItemP
     },
   });
 
-  const handleClickOption = {
-    received: [
-      () => {
-        if (confirm('예약을 거절하시겠습니까?')) {
-          handleReservation('deny');
-        }
-      },
-      () => {
-        if (confirm(`예약을 수락하시겠습니까? \n ${time?.meetingTime}`)) {
-          handleReservation('accept');
-        }
-      },
-    ],
-    sent: [
-      () => {
-        if (confirm('예약을 취소하시겠습니까?')) {
-          cancelReservation();
-        }
-      },
-    ],
+  return {
+    denyRequest: () => {
+      if (confirm('예약을 거절하시겠습니까?')) {
+        handleReservation('deny');
+      }
+    },
+    acceptRequest: () => {
+      if (confirm(`예약을 수락하시겠습니까?`)) {
+        handleReservation('accept');
+      }
+    },
+    cancelRequest: () => {
+      if (confirm('예약을 취소하시겠습니까?')) {
+        cancelReservation();
+      }
+    },
   };
-
-  return { handleClickOption };
 };
 export default useListReservationItem;

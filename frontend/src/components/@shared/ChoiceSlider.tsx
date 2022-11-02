@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
-
-const ChoiceSlider = ({ children }) => {
-  return <S.Container>{children}</S.Container>;
-};
-
-export default ChoiceSlider;
+import React, {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  ReactChild,
+  ReactElement,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 type ToggleContextState = {
   toggle: boolean;
@@ -21,22 +25,27 @@ const ToggleContext = createContext<ToggleContextState>({
   setLength: () => {},
 });
 
-ChoiceSlider.Inner = ({ children, ...props }) => {
+const ChoiceSlider = ({ children, ...props }) => {
   const [toggle, setToggle] = useState<boolean>(false);
   const [length, setLength] = useState<number>(0);
 
   return (
     <ToggleContext.Provider {...props} value={{ toggle, setToggle, length, setLength }}>
-      <S.Inner>{children}</S.Inner>
+      <S.Container>{children}</S.Container>
     </ToggleContext.Provider>
   );
 };
 
-ChoiceSlider.Content = ({ children, ...props }) => {
+export default ChoiceSlider;
+
+type ToggleProps = {
+  children: ReactElement | string | number;
+};
+ChoiceSlider.Toggle = ({ children, ...props }: ToggleProps) => {
   const { toggle, setToggle, length } = useContext(ToggleContext);
 
   return (
-    <S.Content
+    <S.Toggle
       totalLength={length}
       show={toggle}
       onClick={() => {
@@ -45,39 +54,57 @@ ChoiceSlider.Content = ({ children, ...props }) => {
       {...props}
     >
       {children}
-    </S.Content>
+    </S.Toggle>
   );
 };
-ChoiceSlider.Options = ({ children, ...props }) => {
+
+const isMultipleChildren = (input): input is ReactElement[] => {
+  return Array.isArray(input);
+};
+type PropsWithReactElementChild = {
+  children: ReactElement | ReactElement[];
+};
+ChoiceSlider.Options = ({ children, ...props }: PropsWithReactElementChild) => {
+  if (React.Children.count(children) > 3) {
+    throw new Error('ChoiceSlider의 OptionsItem은 3개가 최대입니다.');
+  }
+
+  const childList = isMultipleChildren(children) ? children : [children];
+  const indexedChildren = childList.map((child: ReactElement, idx) => {
+    return {
+      ...child,
+      props: { ...child.props, index: idx + 1 },
+    };
+  });
+
   const { toggle, setLength } = useContext(ToggleContext);
-  const hasChildren = Array.isArray(children.props.children);
-  const length = hasChildren ? children.props.children.length : 1;
 
   useEffect(() => {
-    setLength(length);
-  }, [length]);
+    setLength(React.Children.count(children));
+  }, []);
 
   return (
     <S.Options show={toggle} {...props}>
-      {children}
+      {indexedChildren}
     </S.Options>
   );
 };
 
-ChoiceSlider.OptionItem = ({ children, onClick, index, isAccept, ...props }) => {
+type OptionItemProps = {
+  index?: number;
+} & PropsWithChildren;
+
+ChoiceSlider.OptionItem = ({ children, index, ...props }: OptionItemProps) => {
   const { setToggle, toggle, length } = useContext(ToggleContext);
-  const onClickItem = () => {
-    onClick();
-    setToggle(prev => !prev);
-  };
 
   return (
     <S.OptionItem
       show={toggle}
-      index={index}
+      index={index!}
       totalIndex={length}
-      isAccept={isAccept}
-      onClick={onClickItem}
+      onClick={() => {
+        setToggle(prev => !prev);
+      }}
       {...props}
     >
       {children}
@@ -85,7 +112,7 @@ ChoiceSlider.OptionItem = ({ children, onClick, index, isAccept, ...props }) => 
   );
 };
 
-type ContentStyleProps = {
+type ToggleStyleProps = {
   show: boolean;
   totalLength: number;
 };
@@ -93,23 +120,21 @@ type OptionsStyleProps = {
   show: boolean;
 };
 type OptionItemStyleProps = {
-  isAccept: boolean;
   totalIndex: number;
   index: number;
   show: boolean;
 };
 
 const S = {
-  Container: styled.div``,
-  Inner: styled.div`
+  Container: styled.div`
     display: flex;
     position: relative;
   `,
-  Content: styled.div<ContentStyleProps>`
+  Toggle: styled.div<ToggleStyleProps>`
     width: ${({ show, totalLength }) => (show ? `${100 - totalLength * 11}%` : '100%')};
     min-width: 55%;
     transition: all ease-in-out 0.1s;
-    z-index: 3;
+    z-index: ${({ totalLength }) => totalLength + 1};
     overflow: hidden;
     border-radius: 11px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
@@ -125,21 +150,18 @@ const S = {
   `,
   OptionItem: styled.button<OptionItemStyleProps>`
     position: absolute;
-    background-color: ${({ theme, isAccept }) => (isAccept ? `${theme.primary}` : '#8e8e8e')};
-    color: white;
-    font-weight: bold;
-    word-break: keep-all;
-    padding: 10px;
+    padding: 0;
     border: none;
-    border-radius: 11px;
     width: ${({ index, show, totalIndex }) =>
       show ? `${100 - (totalIndex - index) * 11}%` : '100%'};
     transition: all ease-in-out 0.1s;
     height: 100%;
-    z-index: ${({ index }) => 2 - index};
+    z-index: ${({ totalIndex, index }) => totalIndex - index};
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    border-radius: 11px;
+    overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
   `,
 };
