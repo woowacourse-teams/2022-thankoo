@@ -12,6 +12,7 @@ public class AlarmSpecification {
     public static final String RESERVATION_REPLIED = "reservation_replied";
     public static final String RESERVATION_CANCELED = "reservation_canceled";
     public static final String HEART_SENT = "heart_sent";
+    public static final String MEETING_NOTICE = "meeting_notice";
 
     private final String alarmType;
     private final Long organizationId;

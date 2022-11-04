@@ -40,4 +40,18 @@ public class Meetings {
     public boolean haveMeeting() {
         return !values.isEmpty();
     }
+
+    public Long getRepresentativeOrganizationId() {
+        return values.stream()
+                .map(meeting -> meeting.getCoupon().getOrganizationId())
+                .distinct()
+                .collect(Collectors.toList())
+                .get(0);
+    }
+
+    public List<Long> getDistinctMemberIds() {
+        return getDistinctMembers().stream()
+                .map(Member::getId)
+                .collect(Collectors.toList());
+    }
 }

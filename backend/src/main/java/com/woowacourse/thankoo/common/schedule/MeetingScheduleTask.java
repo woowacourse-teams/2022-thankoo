@@ -34,7 +34,7 @@ public class MeetingScheduleTask {
     @Scheduled(cron = "0 0 9 * * *")
     public void executeSendMeetingMessage() {
         try {
-            meetingService.sendMessageTodayMeetingMembers(LocalDate.now());
+            meetingService.noticeTodayMeetingMembers(LocalDate.now());
             log.info("[Scheduling] 만남 일정 슬랙 메세지 전송");
         } catch (RuntimeException e) {
             log.error("[Scheduling] 만남 일정 슬랙 메세지 전송 실패 {}", e.getMessage());

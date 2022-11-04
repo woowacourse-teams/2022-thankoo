@@ -102,7 +102,7 @@ class MeetingServiceTest {
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            Meeting meeting = meetingRepository.findTopByCouponId(coupon.getId()).get();
+            Meeting meeting = meetingRepository.findTopByCouponId(coupon.getId()).orElseThrow();
 
             assertThatThrownBy(() -> meetingService.complete(other.getId(), meeting.getId()))
                     .isInstanceOf(ForbiddenException.class)
@@ -125,12 +125,12 @@ class MeetingServiceTest {
                     new ReservationRequest(coupon.getId(), LocalDateTime.now().plusDays(1L)));
             reservationService.updateStatus(sender.getId(), reservationId, new ReservationStatusRequest("accept"));
 
-            Meeting meeting = meetingRepository.findTopByCouponId(coupon.getId()).get();
+            Meeting meeting = meetingRepository.findTopByCouponId(coupon.getId()).orElseThrow();
 
             meetingService.complete(sender.getId(), meeting.getId());
 
-            Meeting foundMeeting = meetingRepository.findById(meeting.getId()).get();
-            Coupon foundCoupon = couponRepository.findById(coupon.getId()).get();
+            Meeting foundMeeting = meetingRepository.findById(meeting.getId()).orElseThrow();
+            Coupon foundCoupon = couponRepository.findById(coupon.getId()).orElseThrow();
 
             assertAll(
                     () -> assertThat(foundMeeting.getMeetingStatus()).isEqualTo(MeetingStatus.FINISHED),
@@ -214,7 +214,7 @@ class MeetingServiceTest {
         reservationService.updateStatus(sender.getId(), reservationId3, new ReservationStatusRequest("accept"));
 
         LocalDate date = LocalDate.now().plusDays(1L);
-        assertDoesNotThrow(() -> meetingService.sendMessageTodayMeetingMembers(date));
+        assertDoesNotThrow(() -> meetingService.noticeTodayMeetingMembers(date));
     }
 
     private void join(final String code, final Long... memberIds) {
