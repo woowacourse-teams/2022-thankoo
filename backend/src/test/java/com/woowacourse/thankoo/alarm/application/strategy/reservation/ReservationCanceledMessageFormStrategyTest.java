@@ -1,6 +1,6 @@
 package com.woowacourse.thankoo.alarm.application.strategy.reservation;
 
-import static com.woowacourse.thankoo.common.domain.AlarmSpecification.*;
+import static com.woowacourse.thankoo.common.domain.AlarmSpecification.RESERVATION_CANCELED;
 import static com.woowacourse.thankoo.common.fixtures.AlarmFixture.ROOT_LINK;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_EMAIL;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.HOHO_NAME;
@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 class ReservationCanceledMessageFormStrategyTest {
 
     private static final String PRETEXT = "\uD83D\uDE05 예약이 취소되었어요ㅜ";
-    private static final String COUPON_TITLE = "널 좋아해 (커피 쿠폰)";
+    private static final String COUPON_TITLE = "널 좋아해";
     private static final Long ORGANIZATION_ID = 1L;
 
     @Autowired

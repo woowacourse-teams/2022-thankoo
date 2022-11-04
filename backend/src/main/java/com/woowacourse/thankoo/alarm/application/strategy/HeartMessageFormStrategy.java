@@ -4,12 +4,12 @@ import com.woowacourse.thankoo.alarm.application.MessageFormStrategy;
 import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
+import com.woowacourse.thankoo.alarm.domain.Emails;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.alarm.infrastructure.AlarmLinkGenerator;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import java.text.MessageFormat;
 import java.util.Collections;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -30,11 +30,11 @@ public class HeartMessageFormStrategy implements MessageFormStrategy {
     @Override
     public Message createFormat(final Alarm alarm) {
         validateContentSize(alarm);
-        List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
+        Emails emails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
         String senderName = alarmMemberProvider.getSenderName(alarm.getContentAt(SENDER_ID_INDEX));
 
         return Message.builder()
-                .email(receiverEmails)
+                .email(emails.getEmails())
                 .title(MessageFormat.format(TITLE, senderName, String.valueOf(alarm.getContentAt(COUNT_INDEX))))
                 .titleLink(createLink(alarm.getOrganizationId()))
                 .contents(Collections.emptyList())
