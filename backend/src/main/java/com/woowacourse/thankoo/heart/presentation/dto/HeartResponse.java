@@ -48,13 +48,6 @@ public class HeartResponse {
 
     @Override
     public String toString() {
-        return "HeartResponse{" +
-                "heartId=" + heartId +
-                ", senderId=" + senderId +
-                ", receiverId=" + receiverId +
-                ", count=" + count +
-                ", last=" + last +
-                ", modifiedAt=" + modifiedAt +
-                '}';
+        return "heartId=" + heartId;
     }
 }

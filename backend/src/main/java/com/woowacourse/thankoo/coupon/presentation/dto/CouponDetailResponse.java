@@ -38,10 +38,6 @@ public class CouponDetailResponse {
 
     @Override
     public String toString() {
-        return "CouponDetailResponse{" +
-                "coupon=" + coupon +
-                ", reservation=" + reservation +
-                ", meeting=" + meeting +
-                '}';
+        return "couponId=" + coupon.getCouponId();
     }
 }

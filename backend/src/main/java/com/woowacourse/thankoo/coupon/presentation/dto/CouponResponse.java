@@ -56,14 +56,6 @@ public class CouponResponse {
 
     @Override
     public String toString() {
-        return "CouponResponse{" +
-                "couponId=" + couponId +
-                ", sender=" + sender +
-                ", receiver=" + receiver +
-                ", content=" + content +
-                ", status='" + status + '\'' +
-                ", createdDate=" + createdDate +
-                ", modifiedDateTime=" + modifiedDateTime +
-                '}';
+        return "couponId=" + couponId;
     }
 }
