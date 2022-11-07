@@ -1,4 +1,4 @@
-import { Axios, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { API_PATH } from '../../constants/api';
 import { ErrorType } from '../../types/api';

@@ -22,7 +22,7 @@ const useCreateReservation = () => {
   const isFilled = date && time.length;
   const { closeModal } = useModal();
 
-  const { data: couponDetail } = useGetCouponDetail(couponId, {
+  const { couponDetail } = useGetCouponDetail(couponId, {
     onError: () => {
       window.location.href = ROUTE_PATH.EXACT_MAIN;
     },
@@ -64,7 +64,7 @@ const useCreateReservation = () => {
     today,
     time,
     setTime,
-    couponDetail,
+    receiver: couponDetail.coupon.sender.name,
   };
 };
 

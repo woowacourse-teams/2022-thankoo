@@ -15,16 +15,8 @@ import { ROUTE_PATH } from '../../constants/routes';
 import useCreateReservation from './hooks/useCreateReservation';
 
 const CreateReservation = () => {
-  const {
-    isFilled,
-    setReservationDate,
-    date,
-    time,
-    setTime,
-    today,
-    couponDetail,
-    createReservation,
-  } = useCreateReservation();
+  const { isFilled, setReservationDate, date, time, setTime, today, receiver, createReservation } =
+    useCreateReservation();
 
   return (
     <S.PageLayout>
@@ -60,7 +52,7 @@ const CreateReservation = () => {
         isDisabled={!time || !date}
         modal={
           <ConfirmReservationModal
-            receiver={couponDetail?.coupon.sender.name}
+            receiver={receiver}
             date={date}
             time={time}
             submit={createReservation}

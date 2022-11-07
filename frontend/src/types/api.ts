@@ -5,7 +5,7 @@ export type ErrorType = {
   message: string;
 };
 
-export type QueryHandlers = {
-  onSuccess: () => void;
-  onError: (error: AxiosError<ErrorType>) => void;
-};
+export interface QueryHandlers {
+  onSuccess?: () => void;
+  onError?: (error: AxiosError<ErrorType>) => void;
+}

@@ -5,7 +5,7 @@ import {
   usePutLastAccessedOrganization,
 } from '../hooks/@queries/organization';
 
-const OrganizationsAccess = () => {
+const OrganizationRedirector = () => {
   const { id, page } = useParams();
 
   const { data: joinedOrganizations } = useGetOrganizations();
@@ -21,14 +21,11 @@ const OrganizationsAccess = () => {
     onSuccess: () => {
       window.location.reload();
     },
-    onError: error => {},
   });
 
-  if (isUserJoinedOrganization) {
-    updateLastAccessed(String(id));
-  }
+  updateLastAccessed(String(id));
 
   return <Navigate to={page ? `/${page}` : ROUTE_PATH.EXACT_MAIN} replace />;
 };
 
-export default OrganizationsAccess;
+export default OrganizationRedirector;

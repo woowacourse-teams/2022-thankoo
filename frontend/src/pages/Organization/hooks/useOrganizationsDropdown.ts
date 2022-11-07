@@ -10,7 +10,8 @@ export const useOrganizationsDropdown = () => {
   const queryClient = useQueryClient();
 
   const { data: organizations } = useGetOrganizations();
-  const lastAccessedOrganization = organizations?.find(
+
+  const lastAccessedOrganizationName = organizations?.find(
     organization => organization.lastAccessed
   )?.organizationName;
 
@@ -29,7 +30,7 @@ export const useOrganizationsDropdown = () => {
 
   return {
     updateLastAccessedOrganization,
-    lastAccessedOrganization,
+    lastAccessedOrganizationName,
     organizations,
   };
 };

@@ -16,12 +16,21 @@ type OrganizationResponse = {
   lastAccessed: boolean;
 };
 
-export const useGetOrganizations = () =>
-  useQuery<OrganizationResponse[]>(
+export const useGetOrganizations = () => {
+  const { data, ...rest } = useQuery<OrganizationResponse[]>(
     [ORGANIZATION_QUERY_KEY.organizations],
     () => getOrganizations(),
     { staleTime: 0, cacheTime: 0 }
   );
+  return { data: data || [], ...rest };
+};
+
+export const useGetLastAccessedOrganization = (): OrganizationResponse | undefined => {
+  const { data: organizations } = useGetOrganizations();
+  const lastAccessedOrganization = organizations?.find(organization => organization.lastAccessed);
+
+  return lastAccessedOrganization;
+};
 
 export const usePutJoinOrganization = ({ onSuccess, onError }: QueryHandlers) =>
   useMutation(postJoinNewOrganization, {

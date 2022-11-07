@@ -7,12 +7,12 @@ import TopNavBar from './TopNavBar';
 
 export default () => {
   return (
-    <PageLayout>
-      <TopNavBar />
-      <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<Spinner />}>
+      <PageLayout>
+        <TopNavBar />
         <Outlet />
-      </Suspense>
-      <BottomNavBar />
-    </PageLayout>
+        <BottomNavBar />
+      </PageLayout>
+    </Suspense>
   );
 };

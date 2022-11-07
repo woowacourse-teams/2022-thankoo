@@ -28,7 +28,7 @@ export const useCouponDetail = (couponId: number) => {
   const { closeModal } = useModal();
   const { insertToastItem } = useToast();
 
-  const { data: couponDetail, isError, isLoading } = useGetCouponDetail(couponId);
+  const { couponDetail } = useGetCouponDetail(couponId);
   const sentOrReceived = useRecoilValue(sentOrReceivedAtom);
   const navigate = useNavigate();
   const reservationId = couponDetail?.reservation?.reservationId;
@@ -171,8 +171,6 @@ export const useCouponDetail = (couponId: number) => {
   return {
     sentOrReceived,
     couponDetail,
-    isLoading,
-    isError,
     buttonOptions,
     close: closeModal,
   };
