@@ -1,8 +1,9 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { useState } from 'react';
 import Button from '../../../components/@shared/Button/Button';
-import ProfileIcon from '../../../components/@shared/ProfileIcon';
+import Avatar from '../../../components/Avatar';
 import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
 import { ProfileIconList } from '../../../constants/profileIcon';
 import useModal from '../../../hooks/useModal';
@@ -17,14 +18,15 @@ const SelectProfileImgModal = ({ editUserProfileImage }) => {
         <S.ConfirmHeaderText>원하는 프로필 이미지를 선택해 주세요</S.ConfirmHeaderText>
         <S.ProfileContainer>
           {ProfileIconList.map((imageUrl, idx) => (
-            <S.IconWrapper
+            <S.AvatarWrapper
               key={idx}
+              isSelected={imageUrl === selected}
               onClick={() => {
                 setSelected(imageUrl);
               }}
             >
-              <S.ProfileIcon src={imageUrl} size={'80px'} isSelected={imageUrl === selected} />
-            </S.IconWrapper>
+              <Avatar src={imageUrl} size={80} alt={`프로필 선택-${idx}`} />
+            </S.AvatarWrapper>
           ))}
         </S.ProfileContainer>
         <S.ButtonWrapper>
@@ -50,9 +52,10 @@ type ConfirmCouponContentModalProps = {
   show: boolean;
 };
 
-type IconWrapperProp = {
+type AvatarWrapperProp = {
   isSelected: boolean;
 };
+
 const S = {
   Container: styled.div<ConfirmCouponContentModalProps>`
     position: fixed;
@@ -111,28 +114,21 @@ const S = {
     text-align: center;
     font-size: 2rem;
   `,
-  ProfileContainer: styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 10rem);
-
-    justify-content: center;
-    align-items: center;
-
-    @media screen and (max-width: 440px) {
-      padding: 1rem 0;
-    }
-    @media screen and (min-width: 440px) {
-      padding: 2rem 0;
-    }
-    @media screen and (min-width: 670px) {
-      padding: 4rem 0;
-      row-gap: 2rem;
-    }
-  `,
-  IconWrapper: styled.div`
+  AvatarWrapper: styled.div<AvatarWrapperProp>`
+    border-radius: 50%;
+    cursor: pointer;
+    width: 105px;
+    height: 105px;
     display: flex;
+    align-items: center;
     justify-content: center;
+    ${({ isSelected }) =>
+      isSelected &&
+      css`
+        background-color: #ff6347bd;
+      `}
+
+    transition:all ease-in-out 0.1s;
 
     @media screen and (max-width: 440px) {
       transform: scale(0.4);
@@ -147,20 +143,23 @@ const S = {
       margin: 20px 0;
     }
   `,
-  SelectIndicator: styled.div<IconWrapperProp>`
-    position: absolute;
-    bottom: 0rem;
-    width: 5rem;
-    height: 5rem;
-    background-color: black;
-    display: ${({ isSelected }) => (isSelected ? 'flex' : 'none')};
-    border-radius: 50%;
+  ProfileContainer: styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 10rem);
 
-    justify-content: center;
-    align-items: center;
-  `,
-  ProfileIcon: styled(ProfileIcon)`
-    border: 2px solid tomato;
+    place-items: center;
+
+    @media screen and (max-width: 440px) {
+      padding: 1rem 0;
+    }
+    @media screen and (min-width: 440px) {
+      padding: 2rem 0;
+    }
+    @media screen and (min-width: 670px) {
+      padding: 4rem 0;
+      row-gap: 2rem;
+    }
   `,
   CheckIcon: styled(CheckIcon)`
     width: 4rem;

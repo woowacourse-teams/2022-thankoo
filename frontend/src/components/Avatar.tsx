@@ -2,25 +2,23 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { BASE_URL } from '../constants/api';
 
-type AvatarSize = 30 | 50 | 100;
-type AvatarRole = '프로필';
+type AvatarSize = 30 | 50 | 80 | 100;
 
 type AvatarProps = {
   src: string | undefined;
-  userName: string | undefined;
-  role?: AvatarRole;
+  alt: string;
 };
 type AvatarStyleProps = {
   size?: AvatarSize;
 };
 
-const Avatar = ({ src, size = 30, userName = '', role }: AvatarProps & AvatarStyleProps) => {
+const Avatar = ({ src, size = 30, alt }: AvatarProps & AvatarStyleProps) => {
   return (
     <>
       {src ? (
-        <Image src={`${BASE_URL}${src}`} size={size} alt={`${userName} ${role ? role : ''}`} />
+        <Image src={`${BASE_URL}${src}`} size={size} alt={alt} />
       ) : (
-        <AvatarSkeleton aria-label={userName} />
+        <AvatarSkeleton aria-label={alt} />
       )}
     </>
   );

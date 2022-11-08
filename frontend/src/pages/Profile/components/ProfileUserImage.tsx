@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import AddIcon from '@mui/icons-material/Add';
 import { useQueryClient } from 'react-query';
 import ModalWrapper from '../../../components/@shared/Modal/ModalWrapper';
-import ProfileIcon from '../../../components/@shared/ProfileIcon';
+import Avatar from '../../../components/Avatar';
 import { PROFILE_QUERY_KEY, usePutEditUserProfileImage } from '../../../hooks/@queries/profile';
 
 import SelectProfileImgModal from './SelectProfileImgModal';
@@ -18,7 +18,7 @@ const ProfileUserImage = ({ src }: { src: string }) => {
 
   return (
     <S.ImageBox>
-      <ProfileIcon src={src} size={'100px'} />
+      <Avatar src={src} size={100} alt={'프로필'} />
       <ModalWrapper modal={<SelectProfileImgModal editUserProfileImage={editUserProfileImage} />}>
         <S.ModifyButton>
           <AddIcon />
