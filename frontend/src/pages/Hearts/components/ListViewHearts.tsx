@@ -5,26 +5,26 @@ import useHeartsMembers from '../hooks/useHeartsMembers';
 import ListViewHeart from './ListViewHeart';
 import ListViewHeartSkeleton from './ListViewHeartSkeleton';
 
-const Members = ({ searchKeyword }: { searchKeyword: string }) => {
+const ListViewHearts = ({ searchKeyword }: { searchKeyword: string }) => {
   const { searchedUserWithState } = useHeartsMembers(searchKeyword);
 
   return (
-    <S.MembersContainer>
+    <S.Container>
       {searchedUserWithState?.map(hearts => (
         <Suspense key={hearts.user.id} fallback={<ListViewHeartSkeleton user={hearts.user} />}>
           <ListViewHeart {...hearts} />
         </Suspense>
       ))}
-    </S.MembersContainer>
+    </S.Container>
   );
 };
 
-export default Members;
+export default ListViewHearts;
 
 type CheckBoxProp = { canSend: boolean };
 
 const S = {
-  MembersContainer: styled.div`
+  Container: styled.div`
     width: 100%;
 
     display: flex;

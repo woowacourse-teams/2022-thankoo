@@ -6,7 +6,7 @@ import HeaderText from '../../layout/HeaderText';
 import MainPageLayout from '../../layout/MainPageLayout';
 import Spinner from '../../components/@shared/Spinner';
 import UserSearchInput from '../SelectReceiver/components/UserSearchInput';
-import Members from './components/Members';
+import ListViewHearts from './components/ListViewHearts';
 
 const Hearts = () => {
   const [keyword, setKeyword] = useState('');
@@ -20,7 +20,7 @@ const Hearts = () => {
         </S.InputWrapper>
         <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
           <Suspense fallback={<Spinner />}>
-            <Members searchKeyword={keyword} />
+            <ListViewHearts searchKeyword={keyword} />
           </Suspense>
         </CustomErrorBoundary>
       </S.Body>
