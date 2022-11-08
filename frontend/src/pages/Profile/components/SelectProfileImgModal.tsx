@@ -2,30 +2,50 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import CheckIcon from '@mui/icons-material/Check';
 import { useState } from 'react';
+import { useQueryClient } from 'react-query';
 import Button from '../../../components/@shared/Button/Button';
 import Avatar from '../../../components/Avatar';
 import { modalMountTime, modalUnMountTime } from '../../../constants/modal';
-import { ProfileIconList } from '../../../constants/profileIcon';
+import { PROFILE_QUERY_KEY, usePutEditUserProfileImage } from '../../../hooks/@queries/profile';
 import useModal from '../../../hooks/useModal';
 
-const SelectProfileImgModal = ({ editUserProfileImage }) => {
+export const AvatarImages = [
+  { name: '웰시코기', src: '/profile-image/user_corgi.svg' },
+  { name: '호랑이', src: '/profile-image/user_tiger.svg' },
+  { name: '공룡', src: '/profile-image/user_dino.svg' },
+  { name: '민트', src: '/profile-image/user_mint.svg' },
+  { name: '수달', src: '/profile-image/user_otter.svg' },
+  { name: '판다', src: '/profile-image/user_panda.svg' },
+  { name: '스컬', src: '/profile-image/user_skull.svg' },
+  { name: '돼지', src: '/profile-image/user_pig.svg' },
+];
+
+const SelectProfileImgModal = () => {
   const [selected, setSelected] = useState('');
   const { visible, closeModal, modalContentRef } = useModal();
+  const queryClient = useQueryClient();
+
+  const { mutate: editUserProfileImage } = usePutEditUserProfileImage({
+    onSuccess: () => {
+      queryClient.invalidateQueries([PROFILE_QUERY_KEY.profile]);
+      closeModal();
+    },
+  });
 
   return (
     <S.Container show={visible} ref={modalContentRef}>
       <S.Wrapper>
         <S.ConfirmHeaderText>원하는 프로필 이미지를 선택해 주세요</S.ConfirmHeaderText>
         <S.ProfileContainer>
-          {ProfileIconList.map((imageUrl, idx) => (
+          {AvatarImages.map((avatar, idx) => (
             <S.AvatarWrapper
               key={idx}
-              isSelected={imageUrl === selected}
+              isSelected={avatar.src === selected}
               onClick={() => {
-                setSelected(imageUrl);
+                setSelected(avatar.src);
               }}
             >
-              <Avatar src={imageUrl} size={80} alt={`프로필 선택-${idx}`} />
+              <Avatar src={avatar.src} size={80} alt={avatar.name} />
             </S.AvatarWrapper>
           ))}
         </S.ProfileContainer>
@@ -36,7 +56,6 @@ const SelectProfileImgModal = ({ editUserProfileImage }) => {
           <Button
             onClick={() => {
               editUserProfileImage(selected);
-              closeModal();
             }}
           >
             변경하기
