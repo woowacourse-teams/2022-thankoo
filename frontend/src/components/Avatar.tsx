@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { BASE_URL } from '../constants/api';
 
 type AvatarSize = 30 | 50 | 100;
 
@@ -11,13 +12,13 @@ type AvatarStyleProps = {
   size?: AvatarSize;
 };
 
-const Avatar = ({ src, size = 50, userName = '' }: AvatarProps & AvatarStyleProps) => {
+const Avatar = ({ src, size = 30, userName = '' }: AvatarProps & AvatarStyleProps) => {
   return (
     <>
       {src ? (
-        <Container src={src} size={size} alt={`${userName} 프로필`} />
+        <Container src={`${BASE_URL}${src}`} size={size} alt={userName} />
       ) : (
-        <AvatarPlaceholder aria-label={`${userName} 프로필`} />
+        <AvatarPlaceholder aria-label={userName} />
       )}
     </>
   );

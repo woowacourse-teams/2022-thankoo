@@ -1,12 +1,19 @@
 import styled from '@emotion/styled';
-import UserProfileButton from '../components/@shared/UserProfileButton';
+import { Link } from 'react-router-dom';
+import Avatar from '../components/Avatar';
+import { ROUTE_PATH } from '../constants/routes';
+import { useGetUserProfile } from '../hooks/@queries/profile';
 import OrganizationsDropdown from '../pages/Organization/components/OrganizationsDropdown';
 
 const TopNavBar = () => {
+  const { data: profile } = useGetUserProfile();
+
   return (
     <Container>
       <OrganizationsDropdown />
-      <UserProfileButton />
+      <Link to={ROUTE_PATH.PROFILE}>
+        <Avatar src={profile?.imageUrl} userName={profile?.name} />
+      </Link>
     </Container>
   );
 };
