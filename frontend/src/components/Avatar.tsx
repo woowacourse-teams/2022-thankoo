@@ -16,7 +16,7 @@ const Avatar = ({ src, size = 30, userName = '' }: AvatarProps & AvatarStyleProp
   return (
     <>
       {src ? (
-        <Container src={`${BASE_URL}${src}`} size={size} alt={userName} />
+        <Image src={`${BASE_URL}${src}`} size={size} alt={userName} />
       ) : (
         <AvatarPlaceholder aria-label={userName} />
       )}
@@ -26,19 +26,17 @@ const Avatar = ({ src, size = 30, userName = '' }: AvatarProps & AvatarStyleProp
 
 export default Avatar;
 
-const Container = styled.img<AvatarStyleProps>`
-  ${({ size = 'sm' }) => css`
+const Image = styled.img<AvatarStyleProps>`
+  ${({ size = 30 }) => css`
     width: ${size}px;
     height: ${size}px;
-    border-radius: 50%;
   `}
 `;
 
 const AvatarPlaceholder = styled.div<AvatarStyleProps>`
-  ${({ size = 'sm' }) => css`
+  ${({ size = 30 }) => css`
     width: ${size}px;
     height: ${size}px;
-    border-radius: 50%;
     background-color: #8e8e8e;
   `}
 `;
