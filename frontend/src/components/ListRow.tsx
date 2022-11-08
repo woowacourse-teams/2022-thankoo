@@ -2,9 +2,9 @@ import { ComponentProps, ComponentPropsWithoutRef, ReactElement, ReactNode } fro
 import { css } from '@emotion/react';
 
 type ListProps = {
-  left: ReactNode;
-  center: Text1RowsElement | Text2RowsElement;
-  right: ReactNode;
+  left?: ReactNode;
+  center?: Text1RowsElement | Text2RowsElement;
+  right?: ReactNode;
 } & ComponentPropsWithoutRef<'div'>;
 
 type Text1RowsElement = ReactElement<ComponentProps<typeof ListRow.Text2Rows>>;
