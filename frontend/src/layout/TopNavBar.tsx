@@ -12,7 +12,18 @@ const TopNavBar = () => {
     <Container>
       <OrganizationsDropdown />
       <Link to={ROUTE_PATH.PROFILE}>
-        <Avatar src={profile?.imageUrl} alt={`${profile?.name} 프로필`} />
+        <div
+          css={{
+            display: 'grid',
+            placeItems: 'center',
+            width: '45px',
+            height: '45px',
+            backgroundColor: '#4a4a4a',
+            borderRadius: '50%',
+          }}
+        >
+          <Avatar src={profile?.imageUrl} alt={`${profile?.name} 프로필`} />
+        </div>
       </Link>
     </Container>
   );
