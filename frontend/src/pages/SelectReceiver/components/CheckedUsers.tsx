@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { BASE_URL } from '../../../constants/api';
+import Avatar from '../../../components/Avatar';
 import { UserProfile } from '../../../types/user';
 
 const CheckedUsers = ({
@@ -18,7 +18,7 @@ const CheckedUsers = ({
             onClickDelete(user);
           }}
         >
-          <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+          <Avatar src={user.imageUrl} alt={user.name} />
           <S.UserName>{user.name}</S.UserName>
         </S.User>
       ))}
@@ -30,8 +30,9 @@ const S = {
   Container: styled.div`
     display: flex;
     height: 6rem;
-    gap: 10px;
+    gap: 15px;
     padding-top: 3px;
+    overflow: scroll;
 
     ::-webkit-scrollbar {
       display: none;
