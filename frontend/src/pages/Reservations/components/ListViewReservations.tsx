@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import NoReservation from '../../../components/@shared/noContent/NoReservation';
 import useListViewReservations from '../hooks/useListViewReservations';
 import { ReservationOrderType } from '../hooks/useReservations';
-import ListViewReservationToggle from './ListViewReservation';
+import ListViewReservation from './ListViewReservation';
 
 type ListViewReservationsProps = {
   orderBy: ReservationOrderType;
@@ -15,7 +15,7 @@ const ListViewReservations = ({ orderBy }: ListViewReservationsProps) => {
     <S.ListView>
       {reservations.length > 0 ? (
         reservations.map(reservation => (
-          <ListViewReservationToggle
+          <ListViewReservation
             key={reservation.reservationId}
             transmitStatus={orderBy}
             {...reservation}
