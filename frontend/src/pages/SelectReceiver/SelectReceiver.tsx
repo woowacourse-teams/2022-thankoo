@@ -21,7 +21,7 @@ const SelectReceiver = () => {
     useSelectReceiver();
 
   return (
-    <S.Layout>
+    <MainPageLayout>
       <S.Header>누구한테 보낼까요?</S.Header>
       <S.Body>
         {checkedUsers.length !== 0 && (
@@ -50,7 +50,7 @@ const SelectReceiver = () => {
           </S.SendButtonBox>
         </S.Section>
       </S.Body>
-    </S.Layout>
+    </MainPageLayout>
   );
 };
 
@@ -59,9 +59,6 @@ type SectionProps = {
 };
 
 const S = {
-  Layout: styled(MainPageLayout)`
-    gap: 1.5rem;
-  `,
   Header: styled(HeaderText)`
     color: white;
   `,
