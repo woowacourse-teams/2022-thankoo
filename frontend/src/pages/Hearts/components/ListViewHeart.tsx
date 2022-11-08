@@ -6,6 +6,7 @@ import { Hearts } from '../hooks/useHeartsMembers';
 import useToast from '../../../hooks/useToast';
 import { FlexCenter } from '../../../styles/mixIn';
 import Button from '../../../components/@shared/Button/Button';
+import Avatar from '../../../components/Avatar';
 
 const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Hearts) => {
   const [count, setCount] = useState(sentCount);
@@ -33,7 +34,7 @@ const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Heart
   return (
     <S.UserWrappr key={user.id}>
       <S.UserImageWrapper>
-        <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+        <Avatar src={user.imageUrl} userName={user.name} />
       </S.UserImageWrapper>
       <S.UserName>{user.name}</S.UserName>
       {modifiedLastReceived && <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>}
@@ -77,13 +78,6 @@ const S = {
     width: 100%;
     height: 100%;
     ${FlexCenter};
-  `,
-
-  UserImage: styled.img`
-    width: 30px;
-
-    border-radius: 50%;
-    object-fit: cover;
   `,
   UserName: styled.span`
     grid-area: un;
