@@ -34,7 +34,7 @@ const ListViewHeart = ({ user, canSend, modifiedLastReceived, sentCount }: Heart
   return (
     <S.UserWrappr key={user.id}>
       <S.UserImageWrapper>
-        <Avatar src={user.imageUrl} userName={user.name} role={'이미지'} />
+        <Avatar src={user.imageUrl} userName={user.name} />
       </S.UserImageWrapper>
       <S.UserName>{user.name}</S.UserName>
       {modifiedLastReceived && <S.ModifiedAt>{`${modifiedLastReceived}에 콕!`}</S.ModifiedAt>}

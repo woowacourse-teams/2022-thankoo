@@ -3,27 +3,22 @@ import styled from '@emotion/styled';
 import { BASE_URL } from '../constants/api';
 
 type AvatarSize = 30 | 50 | 100;
-type AvatarRole = '프로필' | '이미지';
+type AvatarRole = '프로필';
 
 type AvatarProps = {
   src: string | undefined;
   userName: string | undefined;
-  role: AvatarRole;
+  role?: AvatarRole;
 };
 type AvatarStyleProps = {
   size?: AvatarSize;
 };
 
-const Avatar = ({
-  src,
-  size = 30,
-  userName = '',
-  role = '프로필',
-}: AvatarProps & AvatarStyleProps) => {
+const Avatar = ({ src, size = 30, userName = '', role }: AvatarProps & AvatarStyleProps) => {
   return (
     <>
       {src ? (
-        <Image src={`${BASE_URL}${src}`} size={size} alt={`${userName} ${role}`} />
+        <Image src={`${BASE_URL}${src}`} size={size} alt={`${userName} ${role ? role : ''}`} />
       ) : (
         <AvatarSkeleton aria-label={userName} />
       )}
