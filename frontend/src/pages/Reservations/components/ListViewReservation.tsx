@@ -1,4 +1,4 @@
-import useListReservationItem from '../hooks/useListReservationItem';
+import useListReservation from '../hooks/useListReservation';
 import { CouponTransmitableType, CouponTransmitStatus } from '../../../types/coupon';
 import { MeetingTime } from '../../../types/meeting';
 import Slider from '../../../components/@shared/ChoiceSlider';
@@ -20,7 +20,7 @@ const ListReservationItem = ({
   reservationId,
   transmitStatus,
 }: ListReservationItemProps) => {
-  const { acceptRequest, cancelRequest, denyRequest } = useListReservationItem(reservationId);
+  const { acceptRequest, cancelRequest, denyRequest } = useListReservation(reservationId);
 
   return (
     <Slider>
