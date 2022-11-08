@@ -5,7 +5,7 @@ import { BASE_URL } from '../constants/api';
 type AvatarSize = 30 | 50 | 80 | 100;
 
 type AvatarProps = {
-  src: string | undefined;
+  src?: string;
   alt: string;
 };
 type AvatarStyleProps = {
