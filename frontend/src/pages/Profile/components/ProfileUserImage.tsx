@@ -6,7 +6,10 @@ import SelectProfileImgModal from './SelectProfileImgModal';
 
 const ProfileUserImage = ({ src }: { src: string }) => {
   return (
-    <ModalWrapper modal={<SelectProfileImgModal />}>
+    <ModalWrapper
+      modal={<SelectProfileImgModal />}
+      style={{ width: 'fit-content', margin: '0 auto' }}
+    >
       <S.ImageBox>
         <Avatar src={src} size={100} alt={'프로필 이미지 바꾸기'} />
         <S.ModifyButton />
@@ -19,6 +22,8 @@ export default ProfileUserImage;
 
 const S = {
   ImageBox: styled.div`
+    display: grid;
+    place-items: center;
     position: relative;
     width: 12.5rem;
     height: 12.5rem;
@@ -27,8 +32,8 @@ const S = {
   `,
   ModifyButton: styled(AddIcon)`
     position: absolute;
-    bottom: 8%;
-    right: 3%;
+    bottom: 0;
+    right: 0;
 
     border: ${({ theme }) => `0.5px solid ${theme.button.abled.color}`};
     background-color: white;
