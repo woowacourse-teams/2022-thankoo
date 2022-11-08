@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { BASE_URL } from '../constants/api';
 
 type AvatarSize = 30 | 50 | 100;
-type AvatarRole = '프로필';
+type AvatarRole = '프로필' | '이미지';
 
 type AvatarProps = {
   src: string | undefined;

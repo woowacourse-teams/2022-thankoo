@@ -8,7 +8,7 @@ const UserProfileButton = () => {
 
   return (
     <Link to={ROUTE_PATH.PROFILE}>
-      <Avatar src={profile?.imageUrl} userName={profile?.name} />
+      <Avatar src={profile?.imageUrl} userName={profile?.name} role='프로필' />
     </Link>
   );
 };
