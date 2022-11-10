@@ -1,5 +1,4 @@
-import { css, Interpolation, Theme } from '@emotion/react';
-import { ComponentProps, ComponentPropsWithoutRef, ReactElement, ReactNode } from 'react';
+import { ComponentProps, ReactElement, ReactNode } from 'react';
 
 type ListProps = {
   left?: ReactNode;
