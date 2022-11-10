@@ -8,7 +8,7 @@ import { useCouponDetail } from '../hooks/useCouponDetail';
 import CouponDetailCoupon from './ConponDetail.coupon';
 import CouponDetailReservation from './CouponDetail.reservation';
 
-const CouponDetail = ({ couponId }: { couponId: number }) => {
+const CouponDetailContents = ({ couponId }: { couponId: number }) => {
   const { couponDetail, buttonOptions, close } = useCouponDetail(couponId);
 
   return (
@@ -39,7 +39,7 @@ const CouponDetail = ({ couponId }: { couponId: number }) => {
   );
 };
 
-export default CouponDetail;
+export default CouponDetailContents;
 
 const S = {
   Container: styled.section`

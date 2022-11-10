@@ -25,12 +25,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
         test: /\.tsx?$/,
-        use: ['babel-loader', 'ts-loader'],
+        include: path.resolve(__dirname, '../src'),
+        use: ['ts-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg|ico|webp)$/i,
@@ -48,6 +45,5 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    new webpack.HotModuleReplacementPlugin(),
   ],
 };
