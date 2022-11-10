@@ -4,7 +4,7 @@ import { UserProfile } from '../types/user';
 
 type NameParsedUserProfile = {
   name: string[];
-} & Pick<UserProfile, 'email' | 'id' | 'imageUrl'>;
+} & Omit<UserProfile, 'name'>;
 const findMatches = (keyword: string, users: NameParsedUserProfile[]) =>
   users
     ?.filter(user => {
