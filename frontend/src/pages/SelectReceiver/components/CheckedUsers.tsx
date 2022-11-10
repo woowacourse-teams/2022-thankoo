@@ -35,7 +35,6 @@ const S = {
     display: flex;
     height: ${({ hasCheckedUser }) => (hasCheckedUser ? '6rem' : 0)};
     gap: 15px;
-    padding-top: 3px;
     overflow: scroll;
     transition: all ease-in-out 0.1s;
 
