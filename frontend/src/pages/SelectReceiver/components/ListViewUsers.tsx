@@ -6,7 +6,7 @@ import useListViewUsers from '../hooks/useListViewUsers';
 import CheckIcon from '@mui/icons-material/Check';
 
 const ListViewUsers = ({
-  onClickUser,
+  onClickUser: toggleCheckedUser,
   isCheckedUser,
   searchKeyword,
 }: {
@@ -35,7 +35,7 @@ const ListViewUsers = ({
             </S.CheckBox>
           }
           css={{ color: 'white', cursor: 'pointer' }}
-          onClick={() => onClickUser(user)}
+          onClick={() => toggleCheckedUser(user)}
         />
       ))}
     </S.Container>
