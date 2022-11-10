@@ -27,7 +27,7 @@ module.exports = {
       {
         test: /\.tsx?$/,
         include: path.resolve(__dirname, '../src'),
-        use: ['babel-loader'],
+        use: ['ts-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg|ico|webp)$/i,
