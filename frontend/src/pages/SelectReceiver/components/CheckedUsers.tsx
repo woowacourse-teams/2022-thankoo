@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { BASE_URL } from '../../../constants/api';
+import Avatar from '../../../components/Avatar';
 import { UserProfile } from '../../../types/user';
 
 const CheckedUsers = ({
@@ -10,7 +10,7 @@ const CheckedUsers = ({
   onClickDelete: (user: UserProfile) => void;
 }) => {
   return (
-    <S.Container>
+    <S.Container hasCheckedUser={!!checkedUsers.length}>
       {checkedUsers?.map(user => (
         <S.User
           key={user.id}
@@ -18,7 +18,7 @@ const CheckedUsers = ({
             onClickDelete(user);
           }}
         >
-          <S.UserImage src={`${BASE_URL}${user.imageUrl}`} />
+          <Avatar src={user.imageUrl} alt={user.name} />
           <S.UserName>{user.name}</S.UserName>
         </S.User>
       ))}
@@ -26,12 +26,17 @@ const CheckedUsers = ({
   );
 };
 
+type ContainerStyleProp = {
+  hasCheckedUser: boolean;
+};
+
 const S = {
-  Container: styled.div`
+  Container: styled.div<ContainerStyleProp>`
     display: flex;
-    height: 6rem;
-    gap: 10px;
-    padding-top: 3px;
+    height: ${({ hasCheckedUser }) => (hasCheckedUser ? '6rem' : 0)};
+    gap: 15px;
+    overflow: scroll;
+    transition: all ease-in-out 0.1s;
 
     ::-webkit-scrollbar {
       display: none;

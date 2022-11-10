@@ -1,5 +1,4 @@
 import { YYYYMMDD } from 'thankoo-utils-type';
-import { ButtonColor } from '../components/@shared/Button/Button';
 import { Meeting } from './meeting';
 import { Reservation } from './reservation';
 import { UserProfile } from './user';
@@ -35,26 +34,12 @@ export type CouponContent = {
 
 export type CouponTransmitStatus = 'received' | 'sent';
 
-export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' };
+export const couponTypes = { entire: '전체', coffee: '커피', meal: '식사' } as const;
 export const couponTypeValues = Object.values(couponTypes);
 export const couponTypeKeys = Object.keys(couponTypes);
 export type CouponType = keyof typeof couponTypes;
-export type CouponTransmitableType = 'coffee' | 'meal';
-
-export type CouponDetailButtonProps = {
-  text: string;
-  color: ButtonColor;
-  isDisabled?: boolean;
-  onClick?: () => void;
-};
-
-type CouponDetailButtonPropsByCouponStatus = {
-  [T in CouponStatus]: CouponDetailButtonProps[];
-};
-
-export type CouponDetailButton = {
-  [T in CouponTransmitStatus]: CouponDetailButtonPropsByCouponStatus;
-};
+export type CouponTypeValue = typeof couponTypes[CouponType];
+export type CouponTransmitableType = Exclude<CouponType, 'entire'>;
 
 export type UserCanSeeCoupons = 'reserving' | 'reserved' | 'not_used';
 export type UserCantSeeCoupons = Exclude<CouponStatus, UserCanSeeCoupons>;

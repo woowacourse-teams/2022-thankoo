@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { forwardRef, LegacyRef, PropsWithChildren } from 'react';
+import { forwardRef, LegacyRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BASE_URL } from '../../../constants/api';
 import { CouponDetail } from '../../../types/coupon';
@@ -7,10 +7,12 @@ import { getNowKrLocaleFullDateISOFormat, serverDateFormmater } from '../../../u
 
 const defaultRawTime = getNowKrLocaleFullDateISOFormat();
 
-type CouponDetailReservedProps = PropsWithChildren<{}>;
+type CouponDetailReservedProps = {
+  couponDetail: CouponDetail;
+};
 
 const CouponDetailReserve = (
-  { couponDetail }: { couponDetail: CouponDetail },
+  { couponDetail }: CouponDetailReservedProps,
   ref: LegacyRef<HTMLDivElement>
 ) => {
   const { coupon, reservation, meeting } = couponDetail;

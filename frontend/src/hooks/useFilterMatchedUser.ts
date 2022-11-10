@@ -1,21 +1,25 @@
 import { assemble, disassemble } from 'hangul-js';
 import { useMemo } from 'react';
+import { UserProfile } from '../types/user';
 
-const findMatches = (keyword, users) =>
+type NameParsedUserProfile = {
+  name: string[];
+} & Omit<UserProfile, 'name'>;
+const findMatches = (keyword: string, users: NameParsedUserProfile[]) =>
   users
-    ?.filter(word => {
+    ?.filter(user => {
       const regex = new RegExp(keyword, 'gi');
-      return word.name.match(regex);
+      return user.name.join('').match(regex);
     })
     .map(user => ({ ...user, name: assemble(user.name) }));
 
-const useFilterMatchedUser = (keyword, users) => {
+const useFilterMatchedUser = (keyword: string, users: UserProfile[]): UserProfile[] => {
   const parsedKeyword = disassemble(keyword).join('');
   const parsedNameUsers = useMemo(
     () =>
       users?.map(user => ({
         ...user,
-        name: disassemble(user.name as string).join(''),
+        name: disassemble(user.name),
       })),
     [users?.length]
   );

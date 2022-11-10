@@ -2,16 +2,20 @@ import styled from '@emotion/styled';
 import NoReservation from '../../../components/@shared/noContent/NoReservation';
 import useListViewReservations from '../hooks/useListViewReservations';
 import { ReservationOrderType } from '../hooks/useReservations';
-import ListReservationItem from './ListReservationItem';
+import ListViewReservation from './ListViewReservation';
 
-const ListViewReservations = ({ orderBy }: { orderBy: ReservationOrderType }) => {
+type ListViewReservationsProps = {
+  orderBy: ReservationOrderType;
+};
+
+const ListViewReservations = ({ orderBy }: ListViewReservationsProps) => {
   const { reservations } = useListViewReservations(orderBy);
 
   return (
     <S.ListView>
       {reservations.length > 0 ? (
         reservations.map(reservation => (
-          <ListReservationItem
+          <ListViewReservation
             key={reservation.reservationId}
             transmitStatus={orderBy}
             {...reservation}

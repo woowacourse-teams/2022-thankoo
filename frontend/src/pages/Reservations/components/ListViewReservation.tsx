@@ -1,66 +1,71 @@
+import useListReservation from '../hooks/useListReservation';
+import { CouponTransmitableType, CouponTransmitStatus } from '../../../types/coupon';
+import { MeetingTime } from '../../../types/meeting';
+import Slider from '../../../components/@shared/ChoiceSlider';
+import ListViewReservationInfo from './ListViewReservationInfo';
 import styled from '@emotion/styled';
-import CheckIcon from '@mui/icons-material/Check';
-import { COUPON_IMAGE, RAND_COLORS } from '../../../constants/coupon';
-import { serverDateFormmater } from '../../../utils/date';
 
-const ListViewReservationDetail = ({ memberName, reservationId, couponType, meetingTime }) => {
-  const { day, date, time } = serverDateFormmater(meetingTime);
+type ListReservationItemProps = {
+  couponType: CouponTransmitableType;
+  time: MeetingTime;
+  memberName: string;
+  reservationId: number;
+  transmitStatus: CouponTransmitStatus;
+};
+
+const ListReservationItem = ({
+  couponType,
+  time,
+  memberName,
+  reservationId,
+  transmitStatus,
+}: ListReservationItemProps) => {
+  const { acceptRequest, cancelRequest, denyRequest } = useListReservation(reservationId);
 
   return (
-    <S.Container
-      backgroundColor={RAND_COLORS[reservationId % RAND_COLORS.length].bg}
-      color={RAND_COLORS[reservationId % RAND_COLORS.length].color}
-    >
-      <S.CouponImage src={COUPON_IMAGE[couponType]} />
-      <S.UserName>{memberName}</S.UserName>
-      <S.RequestedDate>{`${date} (${day}) ${time}`}</S.RequestedDate>
-    </S.Container>
+    <Slider>
+      <Slider.Toggle>
+        <ListViewReservationInfo
+          couponType={couponType}
+          meetingTime={time.meetingTime}
+          memberName={memberName}
+          reservationId={reservationId}
+        />
+      </Slider.Toggle>
+      {transmitStatus === 'received' ? (
+        <Slider.Options>
+          <Slider.OptionItem>
+            <Reject onClick={denyRequest}>거절</Reject>
+          </Slider.OptionItem>
+          <Slider.OptionItem>
+            <Accept onClick={acceptRequest}>승낙</Accept>
+          </Slider.OptionItem>
+        </Slider.Options>
+      ) : (
+        <Slider.Options>
+          <Slider.OptionItem>
+            <Reject onClick={cancelRequest}>취소</Reject>
+          </Slider.OptionItem>
+        </Slider.Options>
+      )}
+    </Slider>
   );
 };
 
-export default ListViewReservationDetail;
+export default ListReservationItem;
 
-type ContentProp = {
-  backgroundColor: string;
-  color: string;
-};
-type CheckBoxProp = { isChecked: boolean };
-
-const S = {
-  Container: styled.div<ContentProp>`
-    display: grid;
-    grid-template-areas:
-      'ci un'
-      'ci ed';
-    grid-template-columns: 22% 78%;
-    gap: 5px 0;
-    padding: 1.5rem;
-    background-color: ${({ backgroundColor }) => backgroundColor};
-    color: ${({ color }) => color};
-    align-items: center;
-    font-size: 1.5rem;
-    cursor: pointer;
-  `,
-  CouponImage: styled.img`
-    grid-area: ci;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-  `,
-  UserName: styled.span`
-    grid-area: un;
-  `,
-  RequestedDate: styled.span`
-    grid-area: ed;
-  `,
-  Checkbox: styled(CheckIcon)<CheckBoxProp>`
-    grid-area: cb;
-    justify-self: end;
-    margin-right: 5px;
-    border-radius: 50%;
-    background-color: ${({ theme }) => theme.primary};
-    fill: white;
-    padding: 1px;
-    display: ${({ isChecked }) => (isChecked ? 'inline-block' : 'none')};
-  `,
-};
+const OptionItem = styled.span`
+  color: white;
+  display: grid;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-align: right;
+  padding-right: 3%;
+`;
+const Reject = styled(OptionItem)`
+  background-color: #8e8e8e;
+`;
+const Accept = styled(OptionItem)`
+  background-color: tomato;
+`;

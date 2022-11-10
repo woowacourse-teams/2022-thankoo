@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { COUPON_IMAGE, RAND_COLORS } from '../../constants/coupon';
-import { CouponType } from '../../types/coupon';
+import { CouponTransmitableType } from '../../types/coupon';
 
 type CouponLayoutProps = {
   id: number;
   name: string;
   title: string;
-  couponType: CouponType;
+  couponType: CouponTransmitableType;
 };
 
 const CouponLayout = ({
@@ -24,7 +24,7 @@ const CouponLayout = ({
         <S.Title>{title}</S.Title>
         <S.Name>{name}</S.Name>
         <S.Coupon>
-          <S.CouponImage src={COUPON_IMAGE[couponType]} />
+          <S.CouponImage src={COUPON_IMAGE[couponType]} alt={couponType} />
         </S.Coupon>
       </S.Content>
     </S.Layout>
@@ -79,8 +79,8 @@ const S = {
     margin: 0 auto;
   `,
   CouponImage: styled.img`
-    /* width: 100%; */
-    height: 100%;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
   `,
   Name: styled.div`

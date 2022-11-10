@@ -1,30 +1,28 @@
-import styled from '@emotion/styled';
-import { ReactNode } from 'react';
+import { ComponentPropsWithoutRef, ReactNode } from 'react';
 import useModal from '../../../hooks/useModal';
 
 type ModalWrapperProps = {
   children: JSX.Element;
   modal: ReactNode;
   isDisabled?: boolean;
-};
+} & ComponentPropsWithoutRef<'div'>;
 
-const ModalWrapper = ({ children, modal, isDisabled = false }: ModalWrapperProps) => {
+const ModalWrapper = ({ children, modal, isDisabled = false, ...props }: ModalWrapperProps) => {
   const { showModal, setModalContent } = useModal();
 
   return (
-    <Container
+    <div
       onClick={() => {
         if (!isDisabled) {
           showModal();
           setModalContent(modal);
         }
       }}
+      {...props}
     >
       {children}
-    </Container>
+    </div>
   );
 };
 
 export default ModalWrapper;
-
-const Container = styled.div``;

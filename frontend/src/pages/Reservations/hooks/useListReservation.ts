@@ -7,7 +7,7 @@ import {
 import { 예약요청응답별코멘트 } from '../../Main/hooks/useCouponDetail';
 import useToast from '../../../hooks/useToast';
 
-const useListReservationItem = (reservationId: number) => {
+const useListReservation = (reservationId: number) => {
   const queryClient = useQueryClient();
   const { insertToastItem } = useToast();
 
@@ -49,4 +49,4 @@ const useListReservationItem = (reservationId: number) => {
     },
   };
 };
-export default useListReservationItem;
+export default useListReservation;

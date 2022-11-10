@@ -18,7 +18,7 @@ const useHeartsMembers = (searchKeyword: string) => {
   const { data: members } = useGetMembers();
   const { data: heartHistory } = useGetHearts();
 
-  const searchedUsers = useFilterMatchedUser(searchKeyword, members);
+  const searchedUsers = useFilterMatchedUser(searchKeyword, members || []);
   const sentMembers = heartHistory?.sent!;
   const receivedMembers = heartHistory?.received!;
 

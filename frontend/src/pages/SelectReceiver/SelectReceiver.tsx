@@ -24,9 +24,7 @@ const SelectReceiver = () => {
     <MainPageLayout>
       <S.Header>누구한테 보낼까요?</S.Header>
       <S.Body>
-        {checkedUsers.length !== 0 && (
-          <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
-        )}
+        <CheckedUsers checkedUsers={checkedUsers} onClickDelete={uncheckUser} />
         <S.InputWrapper>
           <UserSearchInput value={keyword} setKeyword={setKeyword} />
         </S.InputWrapper>

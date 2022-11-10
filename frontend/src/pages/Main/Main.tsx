@@ -67,9 +67,7 @@ const Main = () => {
                 setShowUsedCouponsWith(prev => !prev);
               }}
             />
-            <S.UsedCouponCheckboxLabel htmlFor='used_coupon' id='used_coupon'>
-              모든 쿠폰
-            </S.UsedCouponCheckboxLabel>
+            <S.UsedCouponCheckboxLabel htmlFor='used_coupon'>모든 쿠폰</S.UsedCouponCheckboxLabel>
           </S.UsedCouponToggleForm>
         </S.TabsNavWrapper>
         <CustomErrorBoundary fallbackComponent={ErrorFallBack}>

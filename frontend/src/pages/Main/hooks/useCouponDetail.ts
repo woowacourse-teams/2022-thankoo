@@ -1,6 +1,7 @@
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { ButtonColor } from '../../../components/@shared/Button/Button';
 import { ROUTE_PATH } from '../../../constants/routes';
 import {
   COUPON_QUERY_KEY,
@@ -15,7 +16,22 @@ import {
 import useModal from '../../../hooks/useModal';
 import useToast from '../../../hooks/useToast';
 import { sentOrReceivedAtom, targetCouponAtom } from '../../../recoil/atom';
-import { CouponDetailButton, CouponDetailButtonProps } from '../../../types/coupon';
+import { CouponStatus, CouponTransmitStatus } from '../../../types/coupon';
+
+export type CouponDetailButtonProps = {
+  text: string;
+  color: ButtonColor;
+  isDisabled?: boolean;
+  onClick?: () => void;
+};
+
+type CouponDetailButtonPropsByCouponStatus = {
+  [T in CouponStatus]: CouponDetailButtonProps[];
+};
+
+export type CouponDetailButton = {
+  [T in CouponTransmitStatus]: CouponDetailButtonPropsByCouponStatus;
+};
 
 export const 예약요청응답별코멘트 = {
   accept: '예약을 승인 했습니다.',
