@@ -10,7 +10,7 @@ const CheckedUsers = ({
   onClickDelete: (user: UserProfile) => void;
 }) => {
   return (
-    <S.Container>
+    <S.Container hasCheckedUser={!!checkedUsers.length}>
       {checkedUsers?.map(user => (
         <S.User
           key={user.id}
@@ -26,13 +26,18 @@ const CheckedUsers = ({
   );
 };
 
+type ContainerStyleProp = {
+  hasCheckedUser: boolean;
+};
+
 const S = {
-  Container: styled.div`
+  Container: styled.div<ContainerStyleProp>`
     display: flex;
-    height: 6rem;
+    height: ${({ hasCheckedUser }) => (hasCheckedUser ? '6rem' : 0)};
     gap: 15px;
     padding-top: 3px;
     overflow: scroll;
+    transition: all ease-in-out 0.1s;
 
     ::-webkit-scrollbar {
       display: none;
