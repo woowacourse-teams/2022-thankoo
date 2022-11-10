@@ -1,23 +1,26 @@
+import { css, Interpolation, Theme } from '@emotion/react';
 import { ComponentProps, ComponentPropsWithoutRef, ReactElement, ReactNode } from 'react';
-import { css } from '@emotion/react';
 
 type ListProps = {
   left?: ReactNode;
   center?: Text1RowsElement | Text2RowsElement;
   right?: ReactNode;
-} & ComponentPropsWithoutRef<'div'>;
+  className?: string;
+  onClick?: () => void;
+};
 
 type Text1RowsElement = ReactElement<ComponentProps<typeof ListRow.Text2Rows>>;
 type Text2RowsElement = ReactElement<ComponentProps<typeof ListRow.Text2Rows>>;
 
-export const ListRow = ({ left, center, right, ...props }: ListProps) => {
+export const ListRow = ({ left, center, right, onClick, className, ...props }: ListProps) => {
   return (
     <div
+      className={className}
       css={{
         display: 'grid',
         gridTemplateColumns: '1fr 3fr 1fr',
       }}
-      {...props}
+      onClick={onClick}
     >
       {left}
       {center}
