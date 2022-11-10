@@ -9,7 +9,7 @@ import CustomErrorBoundary from '../../../errors/CustomErrorBoundary';
 import ErrorFallBack from '../../../errors/ErrorFallBack';
 import { CouponStatus, CouponTransmitStatus, CouponType } from '../../../types/coupon';
 import useGridViewCoupons from '../hooks/useGridViewCoupons';
-import CouponDetail from './CouponDetail';
+import CouponDetailContents from './CouponDetailContents';
 import GridViewCoupon from './GridViewCoupon';
 
 const strapStatus = ['reserving', 'reserved'];
@@ -42,7 +42,7 @@ const GridViewCoupons = ({
           modal={
             <CustomErrorBoundary fallbackComponent={ErrorFallBack}>
               <Suspense fallback={<Spinner />}>
-                <CouponDetail couponId={coupon.couponId} />
+                <CouponDetailContents couponId={coupon.couponId} />
               </Suspense>
             </CustomErrorBoundary>
           }
