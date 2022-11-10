@@ -1,5 +1,6 @@
 import { assemble, disassemble } from 'hangul-js';
 import { useMemo } from 'react';
+import { UserProfile } from '../types/user';
 
 const findMatches = (keyword, users) =>
   users
@@ -9,7 +10,7 @@ const findMatches = (keyword, users) =>
     })
     .map(user => ({ ...user, name: assemble(user.name) }));
 
-const useFilterMatchedUser = (keyword, users) => {
+const useFilterMatchedUser = (keyword, users: UserProfile[]): UserProfile[] => {
   const parsedKeyword = disassemble(keyword).join('');
   const parsedNameUsers = useMemo(
     () =>

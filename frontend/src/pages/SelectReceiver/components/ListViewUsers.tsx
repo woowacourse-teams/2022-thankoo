@@ -20,6 +20,7 @@ const ListViewUsers = ({
     <S.Container>
       {matchedUsers.map(user => (
         <ListRow
+          key={user.id}
           left={<Avatar src={user.imageUrl} alt={user.name} />}
           center={
             <ListRow.Text2Rows
