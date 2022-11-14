@@ -1,5 +1,6 @@
 package com.woowacourse.thankoo.coupon.presentation.dto;
 
+import com.woowacourse.thankoo.coupon.domain.CouponCount;
 import com.woowacourse.thankoo.coupon.domain.CouponTotal;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,5 +20,9 @@ public class CouponTotalResponse {
 
     public static CouponTotalResponse from(final CouponTotal couponTotal) {
         return new CouponTotalResponse(couponTotal.getSentCount(), couponTotal.getReceivedCount());
+    }
+
+    public static CouponTotalResponse from(final CouponCount sentCouponCount, final CouponCount receivedCouponCount) {
+        return new CouponTotalResponse(sentCouponCount.getCount(), receivedCouponCount.getCount());
     }
 }

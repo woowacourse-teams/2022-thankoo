@@ -193,9 +193,9 @@ class CouponQueryRepositoryTest {
         );
     }
 
-    @DisplayName("보낸, 받은 쿠폰 개수를 조회한다.")
+    @DisplayName("보낸 쿠폰 개수를 조회한다.")
     @Test
-    void getCouponCount() {
+    void getSentCouponCount() {
         Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
         Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
 
@@ -219,10 +219,39 @@ class CouponQueryRepositoryTest {
                         CouponStatus.USED)
         ));
 
-        CouponTotal couponTotal = couponQueryRepository.getCouponCount(sender.getId());
-        assertAll(
-                () -> assertThat(couponTotal.getSentCount()).isEqualTo(3),
-                () -> assertThat(couponTotal.getReceivedCount()).isEqualTo(2)
-        );
+        CouponCount sentCouponCount = couponQueryRepository.getSentCouponCount(sender.getId());
+
+        assertThat(sentCouponCount.getCount()).isEqualTo(3);
+    }
+
+    @DisplayName("받은 쿠폰 개수를 조회한다.")
+    @Test
+    void getReceivedCouponCount() {
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+
+        couponRepository.saveAll(List.of(
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED),
+                new Coupon(organization.getId(), receiver.getId(), sender.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(organization.getId(), receiver.getId(), sender.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.USED)
+        ));
+
+        CouponCount receivedCouponCount = couponQueryRepository.getReceivedCouponCount(sender.getId());
+
+        assertThat(receivedCouponCount.getCount()).isEqualTo(2);
     }
 }

@@ -25,9 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.dto.TimeResponse;
 import com.woowacourse.thankoo.coupon.application.dto.ContentCommand;
-import com.woowacourse.thankoo.coupon.application.dto.ContentRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponCommand;
-import com.woowacourse.thankoo.coupon.application.dto.CouponRequest;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
 import com.woowacourse.thankoo.coupon.domain.Coupon;
 import com.woowacourse.thankoo.coupon.domain.CouponContent;
@@ -35,6 +33,7 @@ import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponDetailResponse;
 import com.woowacourse.thankoo.coupon.presentation.dto.CouponResponse;
+import com.woowacourse.thankoo.coupon.presentation.dto.CouponTotalResponse;
 import com.woowacourse.thankoo.meeting.application.MeetingQueryService;
 import com.woowacourse.thankoo.meeting.application.MeetingService;
 import com.woowacourse.thankoo.meeting.presentation.dto.SimpleMeetingResponse;
@@ -408,6 +407,53 @@ class CouponQueryServiceTest {
                     () -> assertThat(couponDetailResponse.getMeeting()).isNull()
             );
         }
+    }
+
+    @DisplayName("보낸, 받은 쿠폰 갯수를 조회한다.")
+    @Test
+    void getCouponTotalCount() {
+        Member sender = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member receiver = memberRepository.save(new Member(SKRR_NAME, SKRR_EMAIL, SKRR_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Organization organization = organizationRepository.save(createDefaultOrganization(organizationValidator));
+        join(organization.getCode().getValue(), sender.getId(), receiver.getId());
+
+        couponRepository.saveAll(List.of(
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.EXPIRED),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(organization.getId(), sender.getId(), receiver.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.IMMEDIATELY_USED)
+        ));
+
+        couponRepository.saveAll(List.of(
+                new Coupon(organization.getId(), receiver.getId(), sender.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.EXPIRED),
+                new Coupon(organization.getId(), receiver.getId(), sender.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.RESERVED),
+                new Coupon(organization.getId(), receiver.getId(), sender.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.NOT_USED),
+                new Coupon(organization.getId(), receiver.getId(), sender.getId(),
+                        new CouponContent(TYPE, TITLE, MESSAGE),
+                        CouponStatus.IMMEDIATELY_USED)
+        ));
+
+        CouponTotalResponse couponTotalCount = couponQueryService.getCouponTotalCount(sender.getId());
+
+        assertAll(
+                () -> assertThat(couponTotalCount.getReceivedCount()).isEqualTo(4),
+                () -> assertThat(couponTotalCount.getSentCount()).isEqualTo(4)
+        );
     }
 
     private void join(final String code, final Long... memberIds) {

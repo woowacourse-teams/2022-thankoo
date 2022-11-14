@@ -2,6 +2,7 @@ package com.woowacourse.thankoo.coupon.application;
 
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.application.dto.CouponSelectCommand;
+import com.woowacourse.thankoo.coupon.domain.CouponCount;
 import com.woowacourse.thankoo.coupon.domain.CouponQueryRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.CouponStatusGroup;
@@ -86,6 +87,8 @@ public class CouponQueryService {
     }
 
     public CouponTotalResponse getCouponTotalCount(final Long memberId) {
-        return CouponTotalResponse.from(couponQueryRepository.getCouponCount(memberId));
+        CouponCount sentCouponCount = couponQueryRepository.getSentCouponCount(memberId);
+        CouponCount receivedCouponCount = couponQueryRepository.getReceivedCouponCount(memberId);
+        return CouponTotalResponse.from(sentCouponCount, receivedCouponCount);
     }
 }
