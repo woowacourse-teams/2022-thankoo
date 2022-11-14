@@ -11,7 +11,8 @@ public enum AlarmType {
     RESERVATION_SENT,
     RESERVATION_REPLIED,
     RESERVATION_CANCELED,
-    HEART_SENT;
+    HEART_SENT,
+    MEETING_NOTICE;
 
     public static AlarmType from(final String type) {
         return Arrays.stream(values())

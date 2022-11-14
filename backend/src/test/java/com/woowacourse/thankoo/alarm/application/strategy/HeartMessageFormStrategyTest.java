@@ -9,10 +9,12 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_NAME;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.LALA_SOCIAL_ID;
 import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
+import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.common.domain.AlarmSpecification;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -50,5 +52,20 @@ class HeartMessageFormStrategyTest {
                 () -> assertThat(message.getTitle()).isEqualTo("lala님이 당신에게 마음을 2번 보냈어요 ❤️"),
                 () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + ORGANIZATION_ID + "/hearts")
         );
+    }
+
+    @DisplayName("Heart 메시지 형태가 맞지 않을 경우 예외가 발생한다.")
+    @Test
+    void createFormatException() {
+        Member lala = memberRepository.save(new Member(LALA_NAME, LALA_EMAIL, LALA_SOCIAL_ID, SKRR_IMAGE_URL));
+        Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
+
+        Alarm alarm = Alarm.create(
+                new AlarmSpecification(AlarmSpecification.RESERVATION_CANCELED, ORGANIZATION_ID, List.of(hoho.getId()),
+                        List.of(String.valueOf(lala.getId()), String.valueOf(2), "이 내용은 있으면 안됨")));
+
+        assertThatThrownBy(() -> heartMessageFormStrategy.createFormat(alarm))
+                .isInstanceOf(InvalidAlarmException.class)
+                .hasMessage("잘못된 알람 형식입니다.");
     }
 }

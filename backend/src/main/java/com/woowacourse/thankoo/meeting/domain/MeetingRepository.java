@@ -29,6 +29,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     @Query("SELECT DISTINCT mt FROM Meeting mt "
             + "LEFT JOIN FETCH mt.meetingMembers.values mtm "
             + "LEFT JOIN FETCH mtm.member m "
+            + "LEFT JOIN FETCH mt.coupon c "
             + "WHERE mt.timeUnit.date = :date")
     List<Meeting> findAllByTimeUnitDate(@Param("date") LocalDate date);
 }

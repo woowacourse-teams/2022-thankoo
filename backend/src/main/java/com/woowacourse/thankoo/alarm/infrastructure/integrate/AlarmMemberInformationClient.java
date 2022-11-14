@@ -1,6 +1,7 @@
 package com.woowacourse.thankoo.alarm.infrastructure.integrate;
 
 import com.woowacourse.thankoo.alarm.application.strategy.AlarmMemberProvider;
+import com.woowacourse.thankoo.alarm.domain.Emails;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -18,8 +19,9 @@ public class AlarmMemberInformationClient implements AlarmMemberProvider {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<String> getReceiverEmails(final List<Long> receiverIds) {
-        return new Members(memberRepository.findByIdIn(receiverIds)).getEmails();
+    public Emails getReceiverEmails(final List<Long> receiverIds) {
+        Members members = new Members(memberRepository.findByIdIn(receiverIds));
+        return Emails.from(members.getEmails());
     }
 
     @Override

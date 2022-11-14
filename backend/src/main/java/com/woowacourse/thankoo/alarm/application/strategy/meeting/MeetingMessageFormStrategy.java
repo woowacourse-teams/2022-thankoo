@@ -1,8 +1,8 @@
-package com.woowacourse.thankoo.alarm.application.strategy.reservation;
+package com.woowacourse.thankoo.alarm.application.strategy.meeting;
 
+import com.woowacourse.thankoo.alarm.application.MessageFormStrategy;
 import com.woowacourse.thankoo.alarm.application.dto.Message;
 import com.woowacourse.thankoo.alarm.application.strategy.AlarmMemberProvider;
-import com.woowacourse.thankoo.alarm.application.strategy.ReservationMessageFormStrategy;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
 import com.woowacourse.thankoo.alarm.domain.Emails;
@@ -13,27 +13,22 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ReservationCanceledMessageFormStrategy extends ReservationMessageFormStrategy {
+public class MeetingMessageFormStrategy implements MessageFormStrategy {
 
-    private static final int CONTENT_SIZE = 2;
+    private static final String PRETEXT = "\uD83E\uDD70 오늘은 미팅이 있는 날이에요!!";
     private static final String ACCEPT_TITLE_LINK = "/organizations/{0}";
-    private static final String PRETEXT_CANCEL = "\uD83D\uDE05 예약이 취소되었어요ㅜ";
 
     private final AlarmMemberProvider alarmMemberProvider;
     private final AlarmLinkGenerator alarmLinkGenerator;
 
     @Override
     public Message createFormat(final Alarm alarm) {
-        validateContentSize(alarm, CONTENT_SIZE);
         Emails receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
-        String senderName = alarmMemberProvider.getSenderName(alarm.getContentAt(SENDER_ID_INDEX));
 
         return Message.builder()
                 .email(receiverEmails.getEmails())
-                .title(PRETEXT_CANCEL)
+                .title(PRETEXT)
                 .titleLink(createLink(alarm.getOrganizationId()))
-                .content(MessageFormat.format(SENDER, senderName))
-                .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
                 .build();
     }
 
@@ -43,6 +38,6 @@ public class ReservationCanceledMessageFormStrategy extends ReservationMessageFo
 
     @Override
     public AlarmType getAlarmType() {
-        return AlarmType.RESERVATION_CANCELED;
+        return AlarmType.MEETING_NOTICE;
     }
 }

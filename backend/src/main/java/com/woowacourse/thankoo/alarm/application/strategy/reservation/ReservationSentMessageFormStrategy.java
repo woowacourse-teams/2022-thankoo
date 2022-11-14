@@ -5,9 +5,9 @@ import com.woowacourse.thankoo.alarm.application.strategy.AlarmMemberProvider;
 import com.woowacourse.thankoo.alarm.application.strategy.ReservationMessageFormStrategy;
 import com.woowacourse.thankoo.alarm.domain.Alarm;
 import com.woowacourse.thankoo.alarm.domain.AlarmType;
+import com.woowacourse.thankoo.alarm.domain.Emails;
 import com.woowacourse.thankoo.alarm.infrastructure.AlarmLinkGenerator;
 import java.text.MessageFormat;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -29,13 +29,13 @@ public class ReservationSentMessageFormStrategy extends ReservationMessageFormSt
     @Override
     public Message createFormat(final Alarm alarm) {
         validateContentSize(alarm, CONTENT_SIZE);
-        List<String> receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
+        Emails receiverEmails = alarmMemberProvider.getReceiverEmails(alarm.getTargetIds());
         String senderName = alarmMemberProvider.getSenderName(alarm.getContentAt(SENDER_ID_INDEX));
 
         return Message.builder()
                 .title(PRETEXT)
                 .titleLink(createLink(alarm.getOrganizationId()))
-                .email(receiverEmails)
+                .email(receiverEmails.getEmails())
                 .content(MessageFormat.format(SENDER, senderName))
                 .content(MessageFormat.format(COUPON, alarm.getContentAt(COUPON_INDEX)))
                 .content(MessageFormat.format(DATE, alarm.getContentAt(DATE_INDEX)))

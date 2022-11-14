@@ -55,8 +55,8 @@ class CouponCoffeeMessageFormStrategyTest {
         Message message = couponCoffeeMessageFormStrategy.createFormat(alarm);
 
         assertAll(
-                () -> assertThat(message.getEmails()).containsExactly(hoho.getEmail().getValue(),
-                        huni.getEmail().getValue()),
+                () -> assertThat(message.getEmails())
+                        .containsExactly(hoho.getEmail().getValue(), huni.getEmail().getValue()),
                 () -> assertThat(message.getTitle()).isEqualTo(COFFEE_PRETEXT),
                 () -> assertThat(message.getTitleLink()).isEqualTo(ROOT_LINK + ORGANIZATION_ID),
                 () -> assertThat(message.getContents()).containsExactly(

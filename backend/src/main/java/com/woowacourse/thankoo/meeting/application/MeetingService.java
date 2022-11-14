@@ -2,13 +2,13 @@ package com.woowacourse.thankoo.meeting.application;
 
 import static com.woowacourse.thankoo.meeting.domain.MeetingStatus.ON_PROGRESS;
 
-import com.woowacourse.thankoo.alarm.application.AlarmSender;
+import com.woowacourse.thankoo.common.event.Events;
 import com.woowacourse.thankoo.common.exception.ErrorType;
 import com.woowacourse.thankoo.coupon.domain.CouponRepository;
 import com.woowacourse.thankoo.coupon.domain.CouponStatus;
 import com.woowacourse.thankoo.coupon.domain.Coupons;
-import com.woowacourse.thankoo.meeting.application.dto.MeetingMessage;
 import com.woowacourse.thankoo.meeting.domain.Meeting;
+import com.woowacourse.thankoo.meeting.domain.MeetingNoticeEvent;
 import com.woowacourse.thankoo.meeting.domain.MeetingRepository;
 import com.woowacourse.thankoo.meeting.domain.MeetingStatus;
 import com.woowacourse.thankoo.meeting.domain.Meetings;
@@ -31,7 +31,6 @@ public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
-    private final AlarmSender alarmSender;
 
     public void complete(final Long memberId, final Long meetingId) {
         Meeting meeting = getMeetingById(meetingId);
@@ -60,11 +59,11 @@ public class MeetingService {
         }
     }
 
-    public void sendMessageTodayMeetingMembers(final LocalDate date) {
+    public void noticeTodayMeetingMembers(final LocalDate date) {
         Meetings meetings = new Meetings(meetingRepository.findAllByTimeUnitDate(date));
         Members members = new Members(meetings.getDistinctMembers());
         if (!members.isEmpty()) {
-            alarmSender.send(MeetingMessage.of(members.getEmails()));
+            Events.publish(MeetingNoticeEvent.from(meetings));
         }
     }
 }

@@ -12,6 +12,7 @@ import static com.woowacourse.thankoo.common.fixtures.MemberFixture.SKRR_IMAGE_U
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.thankoo.alarm.domain.Emails;
 import com.woowacourse.thankoo.alarm.exception.InvalidAlarmException;
 import com.woowacourse.thankoo.common.annotations.ApplicationTest;
 import com.woowacourse.thankoo.member.domain.Member;
@@ -39,7 +40,10 @@ class AlarmMemberInformationClientTest {
         Member hoho = memberRepository.save(new Member(HOHO_NAME, HOHO_EMAIL, HOHO_SOCIAL_ID, SKRR_IMAGE_URL));
         Member huni = memberRepository.save(new Member(HUNI_NAME, HUNI_EMAIL, HUNI_EMAIL, SKRR_IMAGE_URL));
 
-        assertThat(alarmMemberInformationClient.getReceiverEmails(List.of(lala.getId(), hoho.getId(), huni.getId())))
+        Emails emails = alarmMemberInformationClient.getReceiverEmails(
+                List.of(lala.getId(), hoho.getId(), huni.getId()));
+
+        assertThat(emails.getEmails())
                 .containsExactly(LALA_EMAIL, HOHO_EMAIL, HUNI_EMAIL);
     }
 
